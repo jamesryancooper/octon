@@ -1,0 +1,30 @@
+    Blocking waiting for file lock on artifact directory
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/pipeline.rs:1870:38
+     |
+1870 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+     |
+     = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated function `time::format_description::parse`: use `parse_borrowed` with the appropriate version for clarity
+    --> kernel/src/workflow.rs:9856:38
+     |
+9856 |     let format = format_description::parse("[year]-[month]-[day]")?;
+     |                                      ^^^^^
+
+warning: `octon_kernel` (bin "octon") generated 2 warnings
+warning: `octon_kernel` (bin "octon" test) generated 2 warnings (2 duplicates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.28s
+     Running unittests src/main.rs (../../../../../.octon/generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon-7d992ddc91b2020f)
+
+running 1 test
+test tests::cli_parses_lifecycle_commands ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 430 filtered out; finished in 0.01s
+
+     Running tests/proposal_program_cli.rs (../../../../../.octon/generated/.tmp/engine/build/runtime-crates-target/debug/deps/proposal_program_cli-e3d0e532cb06585a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s

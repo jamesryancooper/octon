@@ -90,6 +90,12 @@ commands:
     summary: "Alias for the canonical proposal-program-delivery wrapper; it adds no independent lifecycle authority."
     access: agent
     argument_hint: "target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>"
+  - id: octon-proposal-run-program-clean-delivery
+    display_name: "Program - Run Clean Delivery"
+    path: octon-proposal-run-program-clean-delivery.md
+    summary: "Alias for the canonical proposal-program-clean-delivery wrapper; previews the route graph and requests cleaned delivery through the existing proposal-program lifecycle runner."
+    access: agent
+    argument_hint: "<program-packet-path> --run-id <id> [--max-steps <n>] [--max-child-concurrency <n>] [--executor auto|codex|mock]"
   - id: octon-proposal-create-program
     display_name: "Program - Create"
     path: octon-proposal-create-program.md

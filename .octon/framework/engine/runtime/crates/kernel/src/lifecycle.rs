@@ -1100,6 +1100,26 @@ pub(crate) fn cmd_lifecycle(cmd: LifecycleCmd) -> Result<()> {
                 println!("{}", serde_yaml::to_string(&plan)?);
             }
         },
+        LifecycleCmd::RouteGraph {
+            lifecycle_id,
+            target,
+            set,
+            set_file,
+        } => match lifecycle_execution_strategy_from_octon_dir(&octon_dir, &lifecycle_id)? {
+            LifecycleExecutionStrategy::RouteProgression => {
+                bail!("route graph preview is only supported for program lifecycles")
+            }
+            LifecycleExecutionStrategy::OrchestratedReplanLoop => {
+                let run_inputs = normalize_lifecycle_run_inputs(&octon_dir, &set, &set_file)?;
+                let graph = lifecycle_program::program_route_graph_preview_from_octon_dir(
+                    &octon_dir,
+                    &lifecycle_id,
+                    &target,
+                    &run_inputs,
+                )?;
+                println!("{}", serde_yaml::to_string(&graph)?);
+            }
+        },
         LifecycleCmd::Run {
             lifecycle_id,
             target,

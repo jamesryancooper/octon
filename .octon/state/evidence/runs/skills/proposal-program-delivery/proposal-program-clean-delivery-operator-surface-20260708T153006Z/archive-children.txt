@@ -1,0 +1,7 @@
+.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview
+.octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility
+.octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification
+.octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface
+.octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-host-projection-normalization
+.octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment
+.octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures

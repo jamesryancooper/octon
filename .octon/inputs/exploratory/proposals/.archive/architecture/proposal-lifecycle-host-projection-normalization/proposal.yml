@@ -1,0 +1,86 @@
+schema_version: proposal-v1
+proposal_id: proposal-lifecycle-host-projection-normalization
+title: Lifecycle Host Projection Normalization
+summary: Normalize proposal lifecycle, delivery, closeout, and cleanup command and skill projections across Codex, Claude, and Cursor through source manifests, host adapter declarations, aliases, and parity validation.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/capabilities/runtime/commands/"
+  - ".octon/framework/capabilities/runtime/skills/"
+  - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
+  - ".octon/framework/assurance/governance/suites/host-projection-parity.yml"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+status: archived
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only source-owned projection normalization after explicit implementation authorization.
+related_proposals:
+  - proposal-program-clean-delivery-operator-surface
+  - proposal-clean-delivery-command-surface
+  - proposal-lifecycle-route-naming-and-doc-alignment
+  - proposal-clean-delivery-regression-fixtures
+selected_implementation_target: Proposal lifecycle host command and skill projection normalization.
+scope_statement: This child owns the naming matrix, host adapter exposure policy, alias/deprecation posture, source manifest alignment, and projection parity validation for proposal lifecycle, delivery, closeout, and cleanup surfaces. It does not directly edit host projections as authored authority.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route updates durable source manifests, validators, or docs and republishes generated projections through the canonical publisher.
+generated_input_authority_impact: Codex, Claude, Cursor, and generated/effective projections are derived or host-projection surfaces. They may be inspected for drift and parity but cannot become runtime, policy, support, or closeout authority.
+authority_class_impact:
+  framework: May update capability command and skill manifests, host adapter declarations, projection publishing checks, projection validators, and product catalog entries.
+  instance: No direct instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: Future implementation may retain publication and validation evidence only.
+  generated: Generated/effective and host projections may be republished as derived outputs; they remain non-authoritative.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - Complete inventory of proposal lifecycle, delivery, terminal closeout, Change closeout, worktree closeout, repo hygiene cleanup, and lifecycle-residue cleanup command and skill surfaces across Codex, Claude, Cursor, runtime capability manifests, extension manifests, effective routing, and product catalog entries.
+  - Machine-readable or validator-consumable naming matrix mapping route id, workflow id, command id, skill id, prompt-set id, host adapters, canonical operator alias, compatibility aliases, and deprecation posture.
+  - Host adapter support rationale for every non-universal projection, including why a command or skill is Codex-only, Cursor-supported, Claude-supported, or intentionally omitted.
+  - Negative controls proving host projections and aliases do not create authority or replace workflow, lifecycle, delivery, Change closeout, cleanup, archive, or terminal-proof receipts.
+  - Publication evidence showing generated/effective and host projections are refreshed from source, not hand-edited.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "validate-host-projections.sh"
+  - "host-projection-parity suite"
+  - "extension publication state validation"
+  - "route id to command/skill mapping validation"
+  - "grep sweeps for retired or compatibility aliases"
+acceptance_criteria_summary: Host projection normalization is acceptable when operators see consistent proposal lifecycle, delivery, closeout, and cleanup surfaces across supported hosts, every intentional host difference has manifest-backed rationale, compatibility aliases are explicit, and validators prove projected files match source declarations.
+risk_posture: Medium. Projection renaming can disrupt operators and automation if compatibility aliases, host support limits, or generated-output freshness are mishandled.
+rollback_summary: Revert or supersede source manifest, validator, catalog, and docs changes owned by this child, then republish projections from the restored source state. Do not roll back by editing host projection files directly.
+owner:
+  role: Octon lifecycle host projection architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-06
+source_lineage:
+  - ".codex/commands/"
+  - ".codex/skills/"
+  - ".claude/commands/"
+  - ".claude/skills/"
+  - ".cursor/commands/"
+  - ".cursor/skills/"
+  - ".octon/framework/capabilities/runtime/commands/manifest.yml"
+  - ".octon/framework/capabilities/runtime/skills/manifest.yml"
+  - ".octon/framework/capabilities/runtime/skills/registry.yml"
+  - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
+  - ".octon/generated/effective/capabilities/routing.effective.yml"
+  - ".octon/generated/effective/capabilities/artifact-map.yml"
+  - ".octon/generated/effective/extensions/catalog.effective.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/manifest.fragment.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/manifest.fragment.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md"
+archive:
+  archived_at: 2026-07-08T15:45:00Z
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization
+  promotion_evidence:
+    - .octon/framework/product/features/catalog.yml
+    - .octon/state/evidence/validation/publication/extensions/2026-07-08T14-50-29Z-extensions-e539e7c8b239.yml
+    - .octon/state/evidence/validation/publication/capabilities/2026-07-08T14-53-15Z-capabilities-16890c924380.yml

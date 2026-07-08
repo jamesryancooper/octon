@@ -1,0 +1,38 @@
+schema_version: closeout-change-residue-classification-v1
+change_id: proposal-program-clean-delivery-operator-surface
+created_at: "2026-07-08T16:00:00Z"
+selected_route: branch-no-pr
+target_lifecycle_outcome: cleaned
+source_branch: chore/proposal-program-clean-delivery-operator-surface
+baseline_head: 232b27fa6428d11fc641329ead68c1058e4b13b4
+classification_result: single_in_scope_candidate
+candidate_summary: >-
+  Dirty tracked and untracked paths belong to the proposal program lifecycle
+  delivery for clean delivery operator surface: durable runtime command
+  support, generated host projections, proposal archive relocation, proposal
+  registry/artifact refreshes, publication evidence, archive evidence, cleanup
+  evidence, and route-owned closeout validation logs.
+unrelated_or_user_owned_paths: []
+excluded_paths: []
+stage_intent:
+  include_all_current_dirty_paths: true
+  rationale: >-
+    Scope reconciliation found one coherent lifecycle change candidate and no
+    unrelated/user-owned residue. The branch-no-pr route owns staging,
+    committing, pushing, and attempting hosted no-PR landing for that candidate.
+evidence_refs:
+  initial_scope_reconciliation: .octon/state/evidence/runs/skills/proposal-program-delivery/proposal-program-clean-delivery-operator-surface-20260708T153006Z/scope-reconciliation.yml
+  before_stage_status: .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/git-status-short-before-stage.log
+  before_stage_diff_stat: .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/git-diff-stat-before-stage.log
+  before_stage_name_status: .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/git-diff-name-status-before-stage.log
+validation_floor:
+  git_diff_check: .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/git-diff-check.log
+  cargo_fmt_check: .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/cargo-fmt-check.log
+  cargo_test_cli_parses_lifecycle_commands: .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/cargo-test-cli-parses-lifecycle-commands.log
+  cargo_test_program_route_graph_preview: .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/cargo-test-program-route-graph-preview.log
+  host_projection_validation: .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/validate-host-projections.log
+  product_feature_catalog_validation: .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/validate-product-feature-catalog.log
+authority_notes:
+  - Proposal-local files remain lifecycle evidence and do not authorize runtime behavior.
+  - Generated outputs are included only because canonical publishers refreshed them.
+  - Branch-no-pr landing and cleanup require governed helper authorization after commit and push.

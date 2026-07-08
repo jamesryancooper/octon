@@ -1,0 +1,215 @@
+ M .claude/commands/octon-proposal-run-program-lifecycle.md
+ M .claude/commands/octon-proposal.md
+ M .claude/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+ M .codex/commands/octon-proposal-run-program-lifecycle.md
+ M .codex/commands/octon-proposal.md
+ M .codex/commands/proposal-program-delivery.md
+ M .codex/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+ M .cursor/commands/octon-proposal-run-program-lifecycle.md
+ M .cursor/commands/octon-proposal.md
+ M .cursor/commands/proposal-program-delivery.md
+ M .cursor/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+ M .octon/framework/capabilities/runtime/commands/manifest.yml
+ M .octon/framework/capabilities/runtime/commands/proposal-program-delivery.md
+ M .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+ M .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+ M .octon/framework/engine/runtime/crates/kernel/src/main.rs
+ M .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
+ M .octon/framework/product/features/catalog.yml
+ M .octon/generated/effective/capabilities/artifact-map.yml
+ M .octon/generated/effective/capabilities/generation.lock.yml
+ M .octon/generated/effective/capabilities/routing.effective.yml
+ M .octon/generated/effective/extensions/artifact-map.yml
+ M .octon/generated/effective/extensions/catalog.effective.yml
+ M .octon/generated/effective/extensions/generation.lock.yml
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/commands/octon-proposal-run-program-lifecycle.md
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/commands/octon-proposal.md
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/bundle-matrix.md
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+ M .octon/generated/proposals/registry.yml
+ M .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/manifest.fragment.yml
+ M .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-lifecycle.md
+ M .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal.md
+ M .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md
+ M .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-architecture-review-route-visibility/README.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility/README.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-architecture-review-route-visibility/architecture-proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility/architecture-proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-architecture-review-route-visibility/architecture/acceptance-criteria.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility/architecture/acceptance-criteria.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-architecture-review-route-visibility/architecture/implementation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility/architecture/implementation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-architecture-review-route-visibility/architecture/target-architecture.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility/architecture/target-architecture.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-architecture-review-route-visibility/navigation/artifact-catalog.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility/navigation/artifact-catalog.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-architecture-review-route-visibility/navigation/source-of-truth-map.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility/navigation/source-of-truth-map.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-architecture-review-route-visibility/proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility/proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-architecture-review-route-visibility/resources/source-lineage.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility/resources/source-lineage.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-architecture-review-route-visibility/support/implementation-grade-completeness-review.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility/support/implementation-grade-completeness-review.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-architecture-review-route-visibility/validation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility/validation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-command-surface/README.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface/README.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-command-surface/architecture-proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface/architecture-proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-command-surface/architecture/acceptance-criteria.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface/architecture/acceptance-criteria.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-command-surface/architecture/implementation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface/architecture/implementation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-command-surface/architecture/target-architecture.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface/architecture/target-architecture.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-command-surface/navigation/artifact-catalog.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface/navigation/artifact-catalog.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-command-surface/navigation/source-of-truth-map.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface/navigation/source-of-truth-map.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-command-surface/proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface/proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-command-surface/resources/source-lineage.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface/resources/source-lineage.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-command-surface/support/implementation-grade-completeness-review.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface/support/implementation-grade-completeness-review.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-command-surface/validation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface/validation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures/README.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/README.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures/architecture-proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/architecture-proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures/architecture/acceptance-criteria.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/architecture/acceptance-criteria.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures/architecture/implementation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/architecture/implementation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures/architecture/target-architecture.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/architecture/target-architecture.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures/navigation/artifact-catalog.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/navigation/artifact-catalog.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures/navigation/source-of-truth-map.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/navigation/source-of-truth-map.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures/proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures/resources/source-lineage.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/resources/source-lineage.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures/support/implementation-grade-completeness-review.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/implementation-grade-completeness-review.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures/validation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/validation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-delivery-admission-input-simplification/README.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification/README.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-delivery-admission-input-simplification/architecture-proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification/architecture-proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-delivery-admission-input-simplification/architecture/acceptance-criteria.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification/architecture/acceptance-criteria.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-delivery-admission-input-simplification/architecture/implementation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification/architecture/implementation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-delivery-admission-input-simplification/architecture/target-architecture.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification/architecture/target-architecture.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-delivery-admission-input-simplification/navigation/artifact-catalog.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification/navigation/artifact-catalog.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-delivery-admission-input-simplification/navigation/source-of-truth-map.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification/navigation/source-of-truth-map.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-delivery-admission-input-simplification/proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification/proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-delivery-admission-input-simplification/resources/source-lineage.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification/resources/source-lineage.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-delivery-admission-input-simplification/support/implementation-grade-completeness-review.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification/support/implementation-grade-completeness-review.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-delivery-admission-input-simplification/validation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification/validation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization/README.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-host-projection-normalization/README.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization/architecture-proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-host-projection-normalization/architecture-proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization/architecture/acceptance-criteria.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-host-projection-normalization/architecture/acceptance-criteria.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization/architecture/implementation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-host-projection-normalization/architecture/implementation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization/architecture/target-architecture.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-host-projection-normalization/architecture/target-architecture.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization/navigation/artifact-catalog.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-host-projection-normalization/navigation/artifact-catalog.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization/navigation/source-of-truth-map.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-host-projection-normalization/navigation/source-of-truth-map.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization/proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-host-projection-normalization/proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization/resources/source-lineage.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-host-projection-normalization/resources/source-lineage.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization/support/implementation-grade-completeness-review.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-host-projection-normalization/support/implementation-grade-completeness-review.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-host-projection-normalization/validation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-host-projection-normalization/validation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-route-naming-and-doc-alignment/README.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment/README.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-route-naming-and-doc-alignment/architecture-proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment/architecture-proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-route-naming-and-doc-alignment/architecture/acceptance-criteria.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment/architecture/acceptance-criteria.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-route-naming-and-doc-alignment/architecture/implementation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment/architecture/implementation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-route-naming-and-doc-alignment/architecture/target-architecture.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment/architecture/target-architecture.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-route-naming-and-doc-alignment/navigation/artifact-catalog.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment/navigation/artifact-catalog.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-route-naming-and-doc-alignment/navigation/source-of-truth-map.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment/navigation/source-of-truth-map.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-route-naming-and-doc-alignment/proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment/proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-route-naming-and-doc-alignment/resources/source-lineage.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment/resources/source-lineage.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-route-naming-and-doc-alignment/support/implementation-grade-completeness-review.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment/support/implementation-grade-completeness-review.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-lifecycle-route-naming-and-doc-alignment/validation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment/validation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/README.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/README.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/architecture-proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/architecture-proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/architecture/acceptance-criteria.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/architecture/acceptance-criteria.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/architecture/child-packet-contract.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/architecture/child-packet-contract.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/architecture/implementation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/architecture/implementation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/architecture/packet-sequence.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/architecture/packet-sequence.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/architecture/program-closeout-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/architecture/program-closeout-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/architecture/target-architecture.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/architecture/target-architecture.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/navigation/artifact-catalog.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/navigation/artifact-catalog.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/navigation/source-of-truth-map.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/navigation/source-of-truth-map.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/resources/child-packet-index.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/resources/child-packet-index.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/resources/child-packet-index.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/resources/child-packet-index.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/resources/repository-reconnaissance.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/resources/repository-reconnaissance.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/resources/source-lineage.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/resources/source-lineage.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/support/implementation-grade-completeness-review.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/support/implementation-grade-completeness-review.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/support/program-creation.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/support/program-creation.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/validation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/validation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview/README.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview/README.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview/architecture-proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview/architecture-proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview/architecture/acceptance-criteria.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview/architecture/acceptance-criteria.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview/architecture/implementation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview/architecture/implementation-plan.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview/architecture/target-architecture.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview/architecture/target-architecture.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview/navigation/artifact-catalog.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview/navigation/artifact-catalog.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview/navigation/source-of-truth-map.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview/navigation/source-of-truth-map.md
+RM .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview/proposal.yml -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview/proposal.yml
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview/resources/source-lineage.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview/resources/source-lineage.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview/support/implementation-grade-completeness-review.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview/support/implementation-grade-completeness-review.md
+R  .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview/validation-plan.md -> .octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview/validation-plan.md
+ M .octon/state/control/extensions/active.yml
+ M .octon/state/control/extensions/quarantine.yml
+ M .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+?? .claude/commands/octon-proposal-run-program-clean-delivery.md
+?? .codex/commands/octon-proposal-run-program-clean-delivery.md
+?? .codex/commands/proposal-program-clean-delivery.md
+?? .cursor/commands/octon-proposal-run-program-clean-delivery.md
+?? .cursor/commands/proposal-program-clean-delivery.md
+?? .octon/framework/capabilities/runtime/commands/proposal-program-clean-delivery.md
+?? .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/commands/octon-proposal-run-program-clean-delivery.md
+?? .octon/generated/proposals/artifacts/architecture/proposal-architecture-review-route-visibility/proposal-artifact-index.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-architecture-review-route-visibility/proposal-program-spine.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-clean-delivery-command-surface/proposal-artifact-index.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-clean-delivery-command-surface/proposal-program-spine.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-clean-delivery-regression-fixtures/proposal-artifact-index.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-clean-delivery-regression-fixtures/proposal-program-spine.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-delivery-admission-input-simplification/proposal-artifact-index.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-delivery-admission-input-simplification/proposal-program-spine.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-lifecycle-host-projection-normalization/proposal-artifact-index.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-lifecycle-host-projection-normalization/proposal-program-spine.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-lifecycle-route-naming-and-doc-alignment/proposal-artifact-index.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-lifecycle-route-naming-and-doc-alignment/proposal-program-spine.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-program-clean-delivery-operator-surface/proposal-artifact-index.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-program-clean-delivery-operator-surface/proposal-program-spine.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-program-route-graph-preview/proposal-artifact-index.yml
+?? .octon/generated/proposals/artifacts/architecture/proposal-program-route-graph-preview/proposal-program-spine.yml
+?? .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-clean-delivery.md
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/cargo-fmt-check.log
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/cargo-test-cli-parses-lifecycle-commands.log
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/cargo-test-program-route-graph-preview.log
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/git-diff-check.log
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/git-diff-name-status-before-stage.log
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/git-diff-stat-before-stage.log
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/git-status-short-before-stage.log
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/validate-host-projections.log
+?? .octon/state/evidence/runs/skills/closeout-change/proposal-program-clean-delivery-operator-surface-20260708T160000Z/validate-product-feature-catalog.log
+?? .octon/state/evidence/runs/skills/proposal-program-delivery/proposal-program-clean-delivery-operator-surface-20260708T153006Z/archive-child-readiness.log
+?? .octon/state/evidence/runs/skills/proposal-program-delivery/proposal-program-clean-delivery-operator-surface-20260708T153006Z/archive-children.txt
+?? .octon/state/evidence/runs/skills/proposal-program-delivery/proposal-program-clean-delivery-operator-surface-20260708T153006Z/archive-terminal-freshness.log
+?? .octon/state/evidence/runs/skills/proposal-program-delivery/proposal-program-clean-delivery-operator-surface-20260708T153006Z/scope-reconciliation.yml
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/repo-hygiene-cleanup-clean-delivery-20260708T153500Z/cleanup-authorization.json
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/repo-hygiene-cleanup-clean-delivery-20260708T153500Z/receipt.yml
+?? .octon/state/evidence/validation/compatibility/extensions/2026-07-08T14-50-29Z-extensions-e539e7c8b239.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-drift-triage-octon-drift-triage-remediation-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-cleanup-lifecycle-residue.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-closeout-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-correction-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-implementation-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-verification-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-closeout-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-correction-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-implementation-orchestration-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-verification-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-implementation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-verification-and-correction-loop.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-07-08T14-50-29Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-program-verification-and-correction-loop.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-07-08T14-53-15Z-capabilities-16890c924380.yml
+?? .octon/state/evidence/validation/publication/extensions/2026-07-08T14-50-29Z-extensions-e539e7c8b239.yml

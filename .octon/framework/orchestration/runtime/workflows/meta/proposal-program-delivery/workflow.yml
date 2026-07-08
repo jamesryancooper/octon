@@ -210,6 +210,7 @@ artifacts:
 done_gate:
   checks:
     - "profile validates with validate-proposal-program-delivery-profile.sh before any delivery claim"
+    - "admission diagnostics distinguish required delivery inputs from forbidden substitutes before expensive continuation or mutation"
     - "profile and workflow evidence record target_outcome, release state, order policy, PR policy, stash policy, runner handoff refs when supplied, include-path classification state, and retained preflight refs"
     - "execution_order_policy enforces child-before-parent-delivery unless a valid target-bound order override receipt is retained"
     - "delivery-readiness-preflight passes before expensive child lifecycle continuation or parent delivery"
@@ -238,6 +239,7 @@ constraints:
   child_receipts_remain_target_owned: true
   generated_outputs_are_non_authority: true
   runner_handoff_evidence_is_delivery_input_only: true
+  admission_diagnostics_are_non_authority: true
   compact_blocker_remediation_evidence_only: true
   no_dispatch_attempt_ledger_evidence_only: true
   canonical_execution_order_ref: child-before-parent-delivery

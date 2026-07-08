@@ -1403,6 +1403,97 @@ struct ProgramContextRouteDecision {
 }
 
 #[derive(Clone, Debug, Serialize)]
+pub(crate) struct ProgramRouteGraphPreview {
+    schema_version: String,
+    lifecycle_id: String,
+    target: String,
+    producer: String,
+    non_authority_classification: String,
+    authority_boundary: String,
+    route_execution_mode: String,
+    parent_route: Option<String>,
+    scheduler_phase: Option<String>,
+    selected_children: Vec<String>,
+    child_nodes: Vec<ProgramRouteGraphChildNode>,
+    dependency_edges: Vec<ProgramRouteGraphDependencyEdge>,
+    program_gates: Vec<ProgramRouteGraphGate>,
+    blockers: Vec<ProgramRouteGraphBlocker>,
+    delivery_admission: ProgramRouteGraphDeliveryAdmission,
+    resume_hint: ProgramRouteGraphResumeHint,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRouteGraphChildNode {
+    child_id: String,
+    target: String,
+    required: bool,
+    deferred: bool,
+    phase_id: Option<String>,
+    group_id: Option<String>,
+    selected_route: Option<String>,
+    terminal_outcome: Option<String>,
+    final_verdict: String,
+    review_loop_state: String,
+    architecture_review: ProgramRouteGraphArchitectureReview,
+    blockers: Vec<ProgramRouteGraphBlocker>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRouteGraphArchitectureReview {
+    status: String,
+    receipt_ref: Option<String>,
+    owning_workflow: Option<String>,
+    validator: String,
+    diagnostic_only: bool,
+    satisfies_gate: bool,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRouteGraphDependencyEdge {
+    child_id: String,
+    depends_on: String,
+    required_gate: String,
+    satisfied: bool,
+    observed_gate: String,
+    reason: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRouteGraphGate {
+    scope: String,
+    child_id: Option<String>,
+    gate_id: String,
+    validator_id: String,
+    passed: bool,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRouteGraphBlocker {
+    scope: String,
+    child_id: Option<String>,
+    blocker_class: String,
+    message: String,
+    recovery_route: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRouteGraphDeliveryAdmission {
+    requested_target_outcome: String,
+    target_outcome_is_request_only: bool,
+    readiness_state: String,
+    required_inputs: Vec<String>,
+    forbidden_substitutes: Vec<String>,
+    delivery_owner: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRouteGraphResumeHint {
+    run_id_required_for_resume: bool,
+    resume_command: String,
+    route_graph_command: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
 struct ProgramSelectedChildRoute {
     child_id: String,
     route_id: String,
@@ -2617,6 +2708,310 @@ pub(crate) fn plan_program_lifecycle_from_octon_dir(
         None,
         "unattended",
     )
+}
+
+pub(crate) fn program_route_graph_preview_from_octon_dir(
+    octon_dir: &Path,
+    lifecycle_id: &str,
+    target: &Path,
+    run_inputs: &BTreeMap<String, String>,
+) -> Result<ProgramRouteGraphPreview> {
+    let plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_and_run_inputs(
+        octon_dir,
+        lifecycle_id,
+        target,
+        None,
+        "unattended",
+        run_inputs,
+    )?;
+    program_route_graph_preview(octon_dir, &plan, run_inputs)
+}
+
+fn program_route_graph_preview(
+    octon_dir: &Path,
+    plan: &ProgramLifecyclePlanResult,
+    run_inputs: &BTreeMap<String, String>,
+) -> Result<ProgramRouteGraphPreview> {
+    let repo_root = repo_root_for_octon(octon_dir)?;
+    let selected_children = plan.runnable_batch.clone();
+    let child_nodes = plan
+        .child_states
+        .values()
+        .map(|state| program_route_graph_child_node(&repo_root, state))
+        .collect::<Result<Vec<_>>>()?;
+    let dependency_edges = plan
+        .child_states
+        .values()
+        .flat_map(|state| {
+            state
+                .dependency_gate_status
+                .values()
+                .map(|status| ProgramRouteGraphDependencyEdge {
+                    child_id: state.child_id.clone(),
+                    depends_on: status.dependency_id.clone(),
+                    required_gate: status.required_gate.clone(),
+                    satisfied: status.satisfied,
+                    observed_gate: status.observed_gate.clone(),
+                    reason: status.reason.clone(),
+                })
+                .collect::<Vec<_>>()
+        })
+        .collect();
+    let mut program_gates = plan
+        .program_gate_results
+        .iter()
+        .map(|gate| ProgramRouteGraphGate {
+            scope: "program".to_string(),
+            child_id: None,
+            gate_id: gate.gate_id.clone(),
+            validator_id: gate.validator_id.clone(),
+            passed: gate.passed,
+        })
+        .collect::<Vec<_>>();
+    for state in plan.child_states.values() {
+        program_gates.extend(
+            state
+                .route_gate_results
+                .iter()
+                .map(|gate| ProgramRouteGraphGate {
+                    scope: "child".to_string(),
+                    child_id: Some(state.child_id.clone()),
+                    gate_id: gate.gate_id.clone(),
+                    validator_id: gate.validator_id.clone(),
+                    passed: gate.passed,
+                }),
+        );
+    }
+    let blockers = program_route_graph_blockers(plan);
+    Ok(ProgramRouteGraphPreview {
+        schema_version: "octon-program-route-graph-preview-v1".to_string(),
+        lifecycle_id: plan.lifecycle_id.clone(),
+        target: plan.target.clone(),
+        producer: "lifecycle-program-controller".to_string(),
+        non_authority_classification: "diagnostic-read-model-only".to_string(),
+        authority_boundary: "Route graph output explains current route planning state. It is not a receipt, grant, delivery admission input, Change closeout proof, cleanup authorization, archive authorization, terminal proof, or cleaned claim.".to_string(),
+        route_execution_mode: "preview-no-dispatch".to_string(),
+        parent_route: plan.program_route.as_ref().map(|route| route.route_id.clone()),
+        scheduler_phase: plan.scheduler_phase.clone(),
+        selected_children,
+        child_nodes,
+        dependency_edges,
+        program_gates,
+        blockers,
+        delivery_admission: program_route_graph_delivery_admission(plan, run_inputs),
+        resume_hint: ProgramRouteGraphResumeHint {
+            run_id_required_for_resume: true,
+            resume_command: "octon lifecycle resume --run-id <program-run-id>".to_string(),
+            route_graph_command: format!(
+                "octon lifecycle route-graph --lifecycle {} --target {}",
+                plan.lifecycle_id, plan.target
+            ),
+        },
+    })
+}
+
+fn program_route_graph_child_node(
+    repo_root: &Path,
+    state: &ProgramChildPlanState,
+) -> Result<ProgramRouteGraphChildNode> {
+    Ok(ProgramRouteGraphChildNode {
+        child_id: state.child_id.clone(),
+        target: state.target.clone(),
+        required: state.required,
+        deferred: state.deferred,
+        phase_id: state.phase_id.clone(),
+        group_id: state.group_id.clone(),
+        selected_route: state
+            .selected_route
+            .as_ref()
+            .map(|route| route.route_id.clone()),
+        terminal_outcome: state.terminal_outcome.clone(),
+        final_verdict: state.final_verdict.clone(),
+        review_loop_state: program_route_graph_review_loop_state(state),
+        architecture_review: program_route_graph_architecture_review(repo_root, state)?,
+        blockers: state
+            .blockers
+            .iter()
+            .map(|blocker| ProgramRouteGraphBlocker {
+                scope: "child".to_string(),
+                child_id: Some(state.child_id.clone()),
+                blocker_class: blocker.blocker_class.clone(),
+                message: blocker.message.clone(),
+                recovery_route: blocker.recovery_route.clone(),
+            })
+            .collect(),
+    })
+}
+
+fn program_route_graph_review_loop_state(state: &ProgramChildPlanState) -> String {
+    match state
+        .selected_route
+        .as_ref()
+        .map(|route| route.route_id.as_str())
+    {
+        Some(ROUTE_ID_REVIEW_PACKET) => "review-route-selected".to_string(),
+        Some("revise-packet") => "revision-route-selected".to_string(),
+        _ if state
+            .receipt_digests
+            .contains_key(RECEIPT_ID_PROPOSAL_REVIEW) =>
+        {
+            "accepted-review-evidence-present".to_string()
+        }
+        _ if state.terminal_outcome.is_some() => "terminal".to_string(),
+        _ => "review-state-not-terminal".to_string(),
+    }
+}
+
+fn program_route_graph_architecture_review(
+    repo_root: &Path,
+    state: &ProgramChildPlanState,
+) -> Result<ProgramRouteGraphArchitectureReview> {
+    let target_abs = resolve_lifecycle_target_path(repo_root, Path::new(&state.target))?;
+    let proposal_manifest = target_abs.join("proposal.yml");
+    let architecture_manifest = target_abs.join("architecture-proposal.yml");
+    let receipt = target_abs.join("support/pre-integration-architecture-review.yml");
+    let receipt_ref = receipt.is_file().then(|| rel_display(repo_root, &receipt));
+    let proposal_kind = fs::read(&proposal_manifest)
+        .ok()
+        .and_then(|bytes| serde_yaml::from_slice::<serde_yaml::Value>(&bytes).ok())
+        .and_then(|value| {
+            value
+                .get("proposal_kind")
+                .and_then(serde_yaml::Value::as_str)
+                .map(str::to_string)
+        });
+    let applies =
+        proposal_kind.as_deref() == Some("architecture") || architecture_manifest.is_file();
+    if !applies {
+        return Ok(ProgramRouteGraphArchitectureReview {
+            status: "not-applicable".to_string(),
+            receipt_ref,
+            owning_workflow: None,
+            validator: "validate-architectural-review-receipts.sh".to_string(),
+            diagnostic_only: true,
+            satisfies_gate: false,
+        });
+    }
+    if !receipt.is_file() {
+        return Ok(ProgramRouteGraphArchitectureReview {
+            status: "missing-required-receipt".to_string(),
+            receipt_ref,
+            owning_workflow: Some("audit/pre-integration-architecture-review".to_string()),
+            validator: "validate-architectural-review-receipts.sh".to_string(),
+            diagnostic_only: true,
+            satisfies_gate: false,
+        });
+    }
+    let fields = parse_receipt_fields(&receipt)?;
+    let mode_ok = fields.get("review_mode").map(|value| value.trim())
+        == Some("pre-integration-architecture-review");
+    let verdict_ok = fields.get("verdict").map(|value| value.trim()) == Some("pass");
+    let stale = strict_pre_integration_architecture_review_receipt_requires_refresh(&target_abs)?;
+    let status = if !mode_ok || !verdict_ok {
+        "failing-receipt"
+    } else if stale {
+        "stale-receipt"
+    } else {
+        "passing-fresh-receipt"
+    };
+    Ok(ProgramRouteGraphArchitectureReview {
+        status: status.to_string(),
+        receipt_ref,
+        owning_workflow: Some("audit/pre-integration-architecture-review".to_string()),
+        validator: "validate-architectural-review-receipts.sh".to_string(),
+        diagnostic_only: true,
+        satisfies_gate: false,
+    })
+}
+
+fn program_route_graph_blockers(
+    plan: &ProgramLifecyclePlanResult,
+) -> Vec<ProgramRouteGraphBlocker> {
+    let mut blockers = plan
+        .program_blockers
+        .iter()
+        .map(|blocker| ProgramRouteGraphBlocker {
+            scope: "program".to_string(),
+            child_id: None,
+            blocker_class: blocker.blocker_class.clone(),
+            message: blocker.message.clone(),
+            recovery_route: blocker.recovery_route.clone(),
+        })
+        .collect::<Vec<_>>();
+    for state in plan.child_states.values() {
+        blockers.extend(
+            state
+                .blockers
+                .iter()
+                .map(|blocker| ProgramRouteGraphBlocker {
+                    scope: "child".to_string(),
+                    child_id: Some(state.child_id.clone()),
+                    blocker_class: blocker.blocker_class.clone(),
+                    message: blocker.message.clone(),
+                    recovery_route: blocker.recovery_route.clone(),
+                }),
+        );
+    }
+    blockers
+}
+
+fn program_route_graph_delivery_admission(
+    plan: &ProgramLifecyclePlanResult,
+    run_inputs: &BTreeMap<String, String>,
+) -> ProgramRouteGraphDeliveryAdmission {
+    let requested_target_outcome = run_inputs
+        .get(INPUT_TARGET_OUTCOME)
+        .cloned()
+        .unwrap_or_else(|| "not-requested".to_string());
+    let no_blockers = plan.program_blockers.is_empty()
+        && plan
+            .child_states
+            .values()
+            .all(|state| state.blockers.is_empty());
+    let all_required_terminal = plan
+        .child_states
+        .values()
+        .filter(|state| state.required && !state.deferred)
+        .all(|state| state.terminal_outcome.is_some());
+    let readiness_state = if requested_target_outcome == "cleaned"
+        && all_required_terminal
+        && no_blockers
+        && plan.program_route.is_none()
+        && plan.runnable_batch.is_empty()
+    {
+        "handoff-input-ready"
+    } else if requested_target_outcome == "cleaned" {
+        "blocked-until-child-parent-delivery-gates-pass"
+    } else {
+        "not-requested"
+    };
+    ProgramRouteGraphDeliveryAdmission {
+        requested_target_outcome,
+        target_outcome_is_request_only: true,
+        readiness_state: readiness_state.to_string(),
+        required_inputs: vec![
+            "target program path".to_string(),
+            "target outcome".to_string(),
+            "delivery run id".to_string(),
+            "delivery profile path".to_string(),
+            "release state".to_string(),
+            "execution order policy".to_string(),
+            "PR policy".to_string(),
+            "stash policy".to_string(),
+            "readiness preflight ref".to_string(),
+            "include-path classification state".to_string(),
+            "source freshness state".to_string(),
+        ],
+        forbidden_substitutes: vec![
+            "route graph output".to_string(),
+            "proposal-local summaries".to_string(),
+            "generated outputs".to_string(),
+            "chat history".to_string(),
+            "model memory".to_string(),
+            "host UI state".to_string(),
+        ],
+        delivery_owner: "proposal-program-delivery".to_string(),
+    }
 }
 
 fn plan_program_lifecycle_from_octon_dir_with_checkpoint(
@@ -42567,6 +42962,99 @@ routes:
             .unwrap()
             .iter()
             .any(|value| value.as_str() == Some("cleaned-claim")));
+    }
+
+    #[test]
+    fn program_route_graph_preview_is_non_authoritative_and_exposes_review_gates() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("route-graph-preview", true);
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/proposal.yml",
+            "status: accepted\nproposal_kind: architecture\npromotion_targets:\n  - \"framework/a.md\"\n",
+        );
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+    required: true
+    deferred: false
+"#,
+        );
+        let architecture_status = |fixture: &ProgramFixture| -> String {
+            program_route_graph_preview_from_octon_dir(
+                &fixture.octon_dir,
+                "proposal-program",
+                Path::new("parent"),
+                &cleaned_target_inputs(),
+            )
+            .unwrap()
+            .child_nodes[0]
+                .architecture_review
+                .status
+                .clone()
+        };
+        let graph = program_route_graph_preview_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            &cleaned_target_inputs(),
+        )
+        .unwrap();
+
+        assert_eq!(graph.schema_version, "octon-program-route-graph-preview-v1");
+        assert_eq!(graph.route_execution_mode, "preview-no-dispatch");
+        assert_eq!(
+            graph.non_authority_classification,
+            "diagnostic-read-model-only"
+        );
+        assert!(graph.authority_boundary.contains("not a receipt"));
+        assert_eq!(graph.selected_children, vec!["a".to_string()]);
+        assert_eq!(graph.delivery_admission.requested_target_outcome, "cleaned");
+        assert!(graph
+            .delivery_admission
+            .forbidden_substitutes
+            .iter()
+            .any(|substitute| substitute == "route graph output"));
+        assert!(graph.delivery_admission.target_outcome_is_request_only);
+        assert_eq!(graph.child_nodes.len(), 1);
+        let child = &graph.child_nodes[0];
+        assert_eq!(child.child_id, "a");
+        assert_eq!(child.architecture_review.status, "missing-required-receipt");
+        assert_eq!(
+            child.architecture_review.owning_workflow.as_deref(),
+            Some("audit/pre-integration-architecture-review")
+        );
+        assert!(child.architecture_review.diagnostic_only);
+        assert!(!child.architecture_review.satisfies_gate);
+
+        fixture.write(
+            "children/a/support/pre-integration-architecture-review.yml",
+            "schema_version: architectural-review-support-receipt-v1\nreceipt_id: arch-review\nproposal_path: children/a\npacket_digest: sha256:fresh\nreview_mode: pre-integration-architecture-review\nverdict: fail\nunresolved_count: 1\nblockers:\n  - unresolved\n",
+        );
+        assert_eq!(architecture_status(&fixture), "failing-receipt");
+
+        fixture.write(
+            "children/a/support/proposal-review.md",
+            "review_id: current-review\nreviewed_at: 2026-05-12T00:00:00Z\nreviewer: tester\nverdict: accepted\nimplementation_prompt_authorized: yes\nreviewed_packet_digest: sha256:fresh\nopen_blocking_findings_count: 0\n",
+        );
+        fixture.write(
+            "children/a/support/pre-integration-architecture-review.yml",
+            "schema_version: architectural-review-support-receipt-v1\nreceipt_id: arch-review\nproposal_path: children/a\npacket_digest: sha256:old\nreview_mode: pre-integration-architecture-review\nverdict: pass\nunresolved_count: 0\nblockers: []\n",
+        );
+        assert_eq!(architecture_status(&fixture), "stale-receipt");
+
+        fixture.write(
+            "children/a/support/pre-integration-architecture-review.yml",
+            "schema_version: architectural-review-support-receipt-v1\nreceipt_id: arch-review\nproposal_path: children/a\npacket_digest: sha256:fresh\nreview_mode: pre-integration-architecture-review\nverdict: pass\nunresolved_count: 0\nblockers: []\n",
+        );
+        assert_eq!(architecture_status(&fixture), "passing-fresh-receipt");
+
+        fixture.write(
+            "children/a/proposal.yml",
+            "status: accepted\npromotion_targets:\n  - \"framework/a.md\"\n",
+        );
+        assert_eq!(architecture_status(&fixture), "not-applicable");
     }
 
     #[test]

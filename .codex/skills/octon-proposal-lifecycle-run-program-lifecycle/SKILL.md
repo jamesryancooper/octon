@@ -45,6 +45,27 @@ and delivery handoff posture in `route-decision-receipt.yml`; it does not turn
 the requested target outcome into landing, sync, cleanup, branch cleanup,
 terminal proof, or a final `cleaned` claim.
 
+Before mutating, inspect the route graph with:
+
+```sh
+octon lifecycle route-graph --lifecycle proposal-program --target <program-packet-path> --set target_outcome=cleaned
+```
+
+The route graph is diagnostic-only. It can expose selected parent routes, child
+batches, review and architecture-review status, delivery handoff posture,
+blockers, and resume hints, but it never satisfies child receipts, delivery
+admission, Change closeout, cleanup authorization, archive authorization,
+terminal proof, or a cleaned claim.
+
+The explicit clean-delivery request wrapper is:
+
+```text
+/proposal-program-clean-delivery target=<program-packet-path> run-id=<id> [max-steps=<n>] [max-child-concurrency=<n>] [executor=auto|codex|mock]
+```
+
+It expands to the route graph preview followed by the same lifecycle runner
+with `--execute-routes` and `--set target_outcome=cleaned`.
+
 Executor behavior:
 
 - Without `--execute-routes`, the runner stops at a planned
@@ -100,6 +121,12 @@ Executor behavior:
   approve --run-id <program-run> --child <child> --route <route> --reason
   <reason>`, followed by program retry or lifecycle resume. Approval remains
   enforced by the adapter.
+- `octon lifecycle program retry --run-id <program-run>` continues an existing
+  checkpoint with execute-routes enabled. It accepts `--max-steps`,
+  `--timeout-seconds`, and `--max-child-concurrency` for one bounded retry
+  attempt. Supplied values override checkpointed execution limits for that
+  attempt; omitted values inherit retained checkpoint limits when present, then
+  fall back to the safe one-step/single-child retry defaults.
 - `octon lifecycle cancel --run-id <run> --reason <text>` is the shared durable
   cancellation control. `octon lifecycle program cancel` remains a compatibility
   alias. Cancelled runs must not dispatch selected parent or child routes.

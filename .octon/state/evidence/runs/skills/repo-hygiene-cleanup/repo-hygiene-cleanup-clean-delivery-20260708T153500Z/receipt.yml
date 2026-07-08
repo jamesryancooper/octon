@@ -1,0 +1,30 @@
+schema_version: repo-hygiene-cleanup-run-receipt-v1
+run_id: repo-hygiene-cleanup-clean-delivery-20260708T153500Z
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface
+route: receipt-backed-cleanup
+verdict: pass
+cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/repo-hygiene-cleanup-clean-delivery-20260708T153500Z/cleanup-authorization.json
+cleanup_authorization_id: repo-hygiene-cleanup-f9849be4a552a6b1
+cleanup_actions_performed: true
+deleted_count: 81
+retained_protected_count: 44
+retained_manual_review_count_before_cleanup: 0
+cleanup_candidates_before_cleanup: 81
+eligible_cleanup_candidates_before_cleanup: 81
+cleanup_candidates_after_cleanup: 0
+reference_scan_status_before_cleanup: complete
+reference_scan_pattern_count_before_cleanup: 125
+git_status_digest_before_cleanup: sha256:31efbe8cb619eee60f66350aacd74b8967217a50a14a4c3d8c48722703a88f11
+classification_digest_before_cleanup: sha256:8734aa887347f3504d313a446c4b20b9916b156228681760a169c88ba09c2f81
+cleanup_path_set_digest_before_cleanup: sha256:43cd05816f6bb586069c525a596ccc1899152c319a47a9394c86996fb5548ddd
+protected_paths_digest_before_cleanup: sha256:81b7484b14d534235e96cbb4992ce92ea1628d4d2bfb4c454c304aac7d736f2c
+manual_review_paths_digest_before_cleanup: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+post_cleanup_git_status_digest: sha256:dfbb8c74b0a6ecae915d649bb1df9ce9550639c6b4f3b63421423e8bdceaa21c
+post_cleanup_classification_digest: sha256:9793a6cc09575eeba3a1bd09dfedf00c38a552647a7f229461ed7800f5e69f84
+non_authority_classification: retained-evidence-only
+does_not_authorize_archive: true
+does_not_authorize_git_mutation: true
+does_not_authorize_child_receipts: true
+notes: >
+  Cleanup removed only helper-classified untracked local run residue through a
+  validating authorization receipt. Protected validation evidence was retained.

@@ -119,6 +119,23 @@ commands:
   host_adapters:
   - cursor
   - codex
+- id: proposal-program-clean-delivery
+  display_name: Proposal Program Clean Delivery
+  path: proposal-program-clean-delivery.md
+  summary: Request proposal-program clean-delivery continuation by previewing the route graph and invoking the existing lifecycle runner with route execution enabled.
+  access: agent
+  argument_hint: target=<proposal-program-path> run-id=<id> [executor=auto|codex|mock] [max-steps=<n>] [max-child-concurrency=<n>]
+  routing:
+    selectors:
+      include:
+      - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+  host_adapters:
+  - cursor
+  - codex
 - id: current-state-mechanism-architecture-review
   display_name: Current-State Mechanism Architecture Review
   path: current-state-mechanism-architecture-review.md

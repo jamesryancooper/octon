@@ -1,0 +1,237 @@
+{
+  "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
+    "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface/proposal.yml",
+      "manifest_sha256": "sha256:a09f99c319750e63237c22be81c11dc848be4d65dc4155ddabf827230db66a6b",
+      "proposal_id": "proposal-program-clean-delivery-operator-surface",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-clean-delivery-operator-surface",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface/proposal.yml",
+      "manifest_sha256": "sha256:9cada32f806c8442568e467591e5df9336a3243ebf12720bf2b61186695e9906",
+      "proposal_id": "proposal-clean-delivery-command-surface",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-command-surface",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview/proposal.yml",
+      "manifest_sha256": "sha256:de9d7e20c8b1e96ca3cbac995592b962df90c9bb8f1f6fdcfc90bfb53ad4fff4",
+      "proposal_id": "proposal-program-route-graph-preview",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-route-graph-preview",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility/proposal.yml",
+      "manifest_sha256": "sha256:7d6c4dfc762a30d10db5847bd26f72b555589cae2b4bffe97ce7a890ba06b751",
+      "proposal_id": "proposal-architecture-review-route-visibility",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-architecture-review-route-visibility",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification/proposal.yml",
+      "manifest_sha256": "sha256:4f8126ba4aa26d1fb65a2ae577a1181ecf0e6b001c0844949b174186ead837b7",
+      "proposal_id": "proposal-delivery-admission-input-simplification",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-delivery-admission-input-simplification",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment/proposal.yml",
+      "manifest_sha256": "sha256:8b52bc402d6660cffc71772de85dfa228fdcd16ec153a59d8767e2bc6d5b0f9e",
+      "proposal_id": "proposal-lifecycle-route-naming-and-doc-alignment",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-lifecycle-route-naming-and-doc-alignment",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:e6233155c69001fc7778e9dc17aca1a9500a01f6e6fea8c85bb2020dc587ef80",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Review this child independently, then implement only regression fixtures after explicit implementation authorization.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/proposal-clean-delivery-regression-fixtures/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/engine/runtime/crates/kernel/",
+    ".octon/framework/engine/runtime/crates/lifecycle_executor/",
+    ".octon/framework/assurance/runtime/_ops/tests/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  ],
+  "proposal_id": "proposal-clean-delivery-regression-fixtures",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 3081,
+      "estimated_tokens": 771,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/executable-implementation-prompt.md",
+      "sha256": "sha256:8a34fa622f429e345ada6874a54738afd1228c8b2ddc704d1b6344516bea39f3"
+    },
+    {
+      "byte_size": 2387,
+      "estimated_tokens": 597,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/implementation-conformance-review.md",
+      "sha256": "sha256:3866bbd14fea0ba6d270d2be3542a289b11ab81a044c4cb4a89da28a7034f752"
+    },
+    {
+      "byte_size": 1666,
+      "estimated_tokens": 417,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:d00bf5afed9359e230ef315402e5c1e2bdf69e6e1035cd9d32e8e8654766d826"
+    },
+    {
+      "byte_size": 1677,
+      "estimated_tokens": 420,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/implementation-run.md",
+      "sha256": "sha256:756184a5ad02c04ec1e76053803f5d711d7afd6b8fca940d948c6f471cfbb745"
+    },
+    {
+      "byte_size": 2184,
+      "estimated_tokens": 546,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:93ab86a512bdf1592fa4ca6cd3d88c857778a603961f7e7bec16af0c1f1e12b3"
+    },
+    {
+      "byte_size": 859,
+      "estimated_tokens": 215,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/proposal-closeout.md",
+      "sha256": "sha256:07f5cccdb5c98937e8299cdcbd3da006ec3c455395fcf768251a2e76b81f8a65"
+    },
+    {
+      "byte_size": 1727,
+      "estimated_tokens": 432,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/proposal-review.md",
+      "sha256": "sha256:e7e59f7e147c7cf857bd65b9c19dab284316af4c14ebd642a426c492b718da20"
+    },
+    {
+      "byte_size": 1877,
+      "estimated_tokens": 470,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/validation.md",
+      "sha256": "sha256:cf4fccb48d32269d518d6ab4930e9c850d78c0e28ac4c13dbd3dcadf4c23b79e"
+    }
+  ],
+  "related_proposals": [
+    "proposal-program-clean-delivery-operator-surface",
+    "proposal-clean-delivery-command-surface",
+    "proposal-program-route-graph-preview",
+    "proposal-architecture-review-route-visibility",
+    "proposal-delivery-admission-input-simplification",
+    "proposal-lifecycle-route-naming-and-doc-alignment"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/architecture-proposal.yml": "sha256:a5d276fa7b9c2c319766b503f242692ce84eb4d951914abd8c4d8a9812f4d507",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/architecture/acceptance-criteria.md": "sha256:ac21e6ab37b1a3de67d39a641c81b656df986b3f453c61a6bb323b1009f817ba",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/architecture/implementation-plan.md": "sha256:94ed392340fab0939627107bcab9ff298bb59e6a6d04d919b7b8286b323e4d24",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/navigation/artifact-catalog.md": "sha256:c4ec0550a160235f7a1be7fdfbdc85bb9992b66d843ec68a4cff5892bc8918fa",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/navigation/source-of-truth-map.md": "sha256:5425f559d02d26b09481a3274c66a3fa2146e9c4056fc6236d79e333ca79556f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/proposal.yml": "sha256:af9d1e4a835a439890a7b5caf1433867d69050bedb768315fe386b2268bd4b62",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/executable-implementation-prompt.md": "sha256:8a34fa622f429e345ada6874a54738afd1228c8b2ddc704d1b6344516bea39f3",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/implementation-grade-completeness-review.md": "sha256:d00bf5afed9359e230ef315402e5c1e2bdf69e6e1035cd9d32e8e8654766d826",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/proposal-review.md": "sha256:e7e59f7e147c7cf857bd65b9c19dab284316af4c14ebd642a426c492b718da20"
+  },
+  "source_lineage": [
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/framework/engine/runtime/crates/lifecycle_executor/",
+    ".octon/framework/assurance/runtime/_ops/tests/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-clean-delivery-regression-fixtures/support/proposal-review.md"
+  ],
+  "status": "archived"
+}

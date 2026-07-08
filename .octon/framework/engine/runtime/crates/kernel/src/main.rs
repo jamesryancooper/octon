@@ -1212,6 +1212,21 @@ pub(crate) enum LifecycleCmd {
         #[arg(long = "target")]
         target: PathBuf,
     },
+    /// Emit a non-authoritative proposal-program route graph preview.
+    RouteGraph {
+        /// Lifecycle id declared by an effective extension lifecycle contract.
+        #[arg(long = "lifecycle")]
+        lifecycle_id: String,
+        /// Target proposal-program packet path.
+        #[arg(long = "target")]
+        target: PathBuf,
+        /// Generic lifecycle route-graph input as key=value. May be repeated.
+        #[arg(long = "set", value_name = "KEY=VALUE")]
+        set: Vec<String>,
+        /// Generic lifecycle route-graph input loaded from a file as key=path. May be repeated.
+        #[arg(long = "set-file", value_name = "KEY=PATH")]
+        set_file: Vec<String>,
+    },
     /// Run one bounded lifecycle orchestration step and write workflow evidence.
     Run {
         /// Lifecycle id declared by an effective extension lifecycle contract.
@@ -2374,6 +2389,43 @@ mod tests {
                 );
             }
             _ => panic!("parsed command should be lifecycle plan"),
+        }
+
+        let route_graph = Cli::try_parse_from([
+            "octon",
+            "lifecycle",
+            "route-graph",
+            "--lifecycle",
+            "proposal-program",
+            "--target",
+            ".octon/inputs/exploratory/proposals/architecture/example-program",
+            "--set",
+            "target_outcome=cleaned",
+            "--set-file",
+            "delivery_profile=profile.yml",
+        ])
+        .expect("lifecycle route-graph should parse successfully");
+        match route_graph.cmd {
+            Command::Lifecycle {
+                cmd:
+                    LifecycleCmd::RouteGraph {
+                        lifecycle_id,
+                        target,
+                        set,
+                        set_file,
+                    },
+            } => {
+                assert_eq!(lifecycle_id, "proposal-program");
+                assert_eq!(
+                    target,
+                    PathBuf::from(
+                        ".octon/inputs/exploratory/proposals/architecture/example-program"
+                    )
+                );
+                assert_eq!(set, vec!["target_outcome=cleaned"]);
+                assert_eq!(set_file, vec!["delivery_profile=profile.yml"]);
+            }
+            _ => panic!("parsed command should be lifecycle route-graph"),
         }
 
         let run = Cli::try_parse_from([

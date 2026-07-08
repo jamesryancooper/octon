@@ -1,0 +1,123 @@
+[OK] program child registry parses
+[OK] program child registry declares children
+[OK] child id valid: proposal-program-route-graph-preview
+[OK] child id unique: proposal-program-route-graph-preview
+[OK] child proposal-program-route-graph-preview path is repo-relative
+[OK] child id valid: proposal-architecture-review-route-visibility
+[OK] child id unique: proposal-architecture-review-route-visibility
+[OK] child proposal-architecture-review-route-visibility path is repo-relative
+[OK] child id valid: proposal-delivery-admission-input-simplification
+[OK] child id unique: proposal-delivery-admission-input-simplification
+[OK] child proposal-delivery-admission-input-simplification path is repo-relative
+[OK] child id valid: proposal-clean-delivery-command-surface
+[OK] child id unique: proposal-clean-delivery-command-surface
+[OK] child proposal-clean-delivery-command-surface path is repo-relative
+[OK] child id valid: proposal-lifecycle-host-projection-normalization
+[OK] child id unique: proposal-lifecycle-host-projection-normalization
+[OK] child proposal-lifecycle-host-projection-normalization path is repo-relative
+[OK] child id valid: proposal-lifecycle-route-naming-and-doc-alignment
+[OK] child id unique: proposal-lifecycle-route-naming-and-doc-alignment
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment path is repo-relative
+[OK] child id valid: proposal-clean-delivery-regression-fixtures
+[OK] child id unique: proposal-clean-delivery-regression-fixtures
+[OK] child proposal-clean-delivery-regression-fixtures path is repo-relative
+[OK] child proposal-program-route-graph-preview proposal standard passes
+[OK] child proposal-program-route-graph-preview declares change_profile
+[OK] child proposal-program-route-graph-preview implementation-grade completeness review passes
+[OK] child proposal-program-route-graph-preview archive metadata records implemented disposition
+[OK] child proposal-program-route-graph-preview archive metadata records promotion evidence
+[OK] child proposal-program-route-graph-preview archived implementation-run receipt passes
+[OK] child proposal-program-route-graph-preview archived implementation conformance receipt passes
+[OK] child proposal-program-route-graph-preview archived post-implementation drift receipt passes
+[OK] child proposal-program-route-graph-preview archived closeout receipt passes
+[OK] child proposal-program-route-graph-preview archived closeout authorizes archive
+[OK] child proposal-program-route-graph-preview archived terminal closeout records archive-ready verdict
+[OK] child proposal-program-route-graph-preview archived terminal closeout records archive_ready
+[OK] child proposal-program-route-graph-preview archived validation receipt passes
+[WARN] child proposal-program-route-graph-preview archived terminal evidence has no registry evidence_index_refs
+[OK] child proposal-architecture-review-route-visibility proposal standard passes
+[OK] child proposal-architecture-review-route-visibility declares change_profile
+[OK] child proposal-architecture-review-route-visibility implementation-grade completeness review passes
+[OK] child proposal-architecture-review-route-visibility archive metadata records implemented disposition
+[OK] child proposal-architecture-review-route-visibility archive metadata records promotion evidence
+[OK] child proposal-architecture-review-route-visibility archived implementation-run receipt passes
+[OK] child proposal-architecture-review-route-visibility archived implementation conformance receipt passes
+[OK] child proposal-architecture-review-route-visibility archived post-implementation drift receipt passes
+[OK] child proposal-architecture-review-route-visibility archived closeout receipt passes
+[OK] child proposal-architecture-review-route-visibility archived closeout authorizes archive
+[OK] child proposal-architecture-review-route-visibility archived terminal closeout records archive-ready verdict
+[OK] child proposal-architecture-review-route-visibility archived terminal closeout records archive_ready
+[OK] child proposal-architecture-review-route-visibility archived validation receipt passes
+[WARN] child proposal-architecture-review-route-visibility archived terminal evidence has no registry evidence_index_refs
+[OK] child proposal-delivery-admission-input-simplification proposal standard passes
+[OK] child proposal-delivery-admission-input-simplification declares change_profile
+[OK] child proposal-delivery-admission-input-simplification implementation-grade completeness review passes
+[OK] child proposal-delivery-admission-input-simplification archive metadata records implemented disposition
+[OK] child proposal-delivery-admission-input-simplification archive metadata records promotion evidence
+[OK] child proposal-delivery-admission-input-simplification archived implementation-run receipt passes
+[OK] child proposal-delivery-admission-input-simplification archived implementation conformance receipt passes
+[OK] child proposal-delivery-admission-input-simplification archived post-implementation drift receipt passes
+[OK] child proposal-delivery-admission-input-simplification archived closeout receipt passes
+[OK] child proposal-delivery-admission-input-simplification archived closeout authorizes archive
+[OK] child proposal-delivery-admission-input-simplification archived terminal closeout records archive-ready verdict
+[OK] child proposal-delivery-admission-input-simplification archived terminal closeout records archive_ready
+[OK] child proposal-delivery-admission-input-simplification archived validation receipt passes
+[WARN] child proposal-delivery-admission-input-simplification archived terminal evidence has no registry evidence_index_refs
+[OK] child proposal-clean-delivery-command-surface proposal standard passes
+[OK] child proposal-clean-delivery-command-surface declares change_profile
+[OK] child proposal-clean-delivery-command-surface implementation-grade completeness review passes
+[OK] child proposal-clean-delivery-command-surface archive metadata records implemented disposition
+[OK] child proposal-clean-delivery-command-surface archive metadata records promotion evidence
+[OK] child proposal-clean-delivery-command-surface archived implementation-run receipt passes
+[OK] child proposal-clean-delivery-command-surface archived implementation conformance receipt passes
+[OK] child proposal-clean-delivery-command-surface archived post-implementation drift receipt passes
+[OK] child proposal-clean-delivery-command-surface archived closeout receipt passes
+[OK] child proposal-clean-delivery-command-surface archived closeout authorizes archive
+[OK] child proposal-clean-delivery-command-surface archived terminal closeout records archive-ready verdict
+[OK] child proposal-clean-delivery-command-surface archived terminal closeout records archive_ready
+[OK] child proposal-clean-delivery-command-surface archived validation receipt passes
+[WARN] child proposal-clean-delivery-command-surface archived terminal evidence has no registry evidence_index_refs
+[OK] child proposal-lifecycle-host-projection-normalization proposal standard passes
+[OK] child proposal-lifecycle-host-projection-normalization declares change_profile
+[OK] child proposal-lifecycle-host-projection-normalization implementation-grade completeness review passes
+[OK] child proposal-lifecycle-host-projection-normalization archive metadata records implemented disposition
+[OK] child proposal-lifecycle-host-projection-normalization archive metadata records promotion evidence
+[OK] child proposal-lifecycle-host-projection-normalization archived implementation-run receipt passes
+[OK] child proposal-lifecycle-host-projection-normalization archived implementation conformance receipt passes
+[OK] child proposal-lifecycle-host-projection-normalization archived post-implementation drift receipt passes
+[OK] child proposal-lifecycle-host-projection-normalization archived closeout receipt passes
+[OK] child proposal-lifecycle-host-projection-normalization archived closeout authorizes archive
+[OK] child proposal-lifecycle-host-projection-normalization archived terminal closeout records archive-ready verdict
+[OK] child proposal-lifecycle-host-projection-normalization archived terminal closeout records archive_ready
+[OK] child proposal-lifecycle-host-projection-normalization archived validation receipt passes
+[WARN] child proposal-lifecycle-host-projection-normalization archived terminal evidence has no registry evidence_index_refs
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment proposal standard passes
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment declares change_profile
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment implementation-grade completeness review passes
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment archive metadata records implemented disposition
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment archive metadata records promotion evidence
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment archived implementation-run receipt passes
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment archived implementation conformance receipt passes
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment archived post-implementation drift receipt passes
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment archived closeout receipt passes
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment archived closeout authorizes archive
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment archived terminal closeout records archive-ready verdict
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment archived terminal closeout records archive_ready
+[OK] child proposal-lifecycle-route-naming-and-doc-alignment archived validation receipt passes
+[WARN] child proposal-lifecycle-route-naming-and-doc-alignment archived terminal evidence has no registry evidence_index_refs
+[OK] child proposal-clean-delivery-regression-fixtures proposal standard passes
+[OK] child proposal-clean-delivery-regression-fixtures declares change_profile
+[OK] child proposal-clean-delivery-regression-fixtures implementation-grade completeness review passes
+[OK] child proposal-clean-delivery-regression-fixtures archive metadata records implemented disposition
+[OK] child proposal-clean-delivery-regression-fixtures archive metadata records promotion evidence
+[OK] child proposal-clean-delivery-regression-fixtures archived implementation-run receipt passes
+[OK] child proposal-clean-delivery-regression-fixtures archived implementation conformance receipt passes
+[OK] child proposal-clean-delivery-regression-fixtures archived post-implementation drift receipt passes
+[OK] child proposal-clean-delivery-regression-fixtures archived closeout receipt passes
+[OK] child proposal-clean-delivery-regression-fixtures archived closeout authorizes archive
+[OK] child proposal-clean-delivery-regression-fixtures archived terminal closeout records archive-ready verdict
+[OK] child proposal-clean-delivery-regression-fixtures archived terminal closeout records archive_ready
+[OK] child proposal-clean-delivery-regression-fixtures archived validation receipt passes
+[WARN] child proposal-clean-delivery-regression-fixtures archived terminal evidence has no registry evidence_index_refs
+[OK] proposal readiness check does not require implementation receipts
+Validation summary: errors=0 warnings=7

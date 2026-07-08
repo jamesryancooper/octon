@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-8899696931b5
-published_at: 2026-07-08T02:18:37Z
+generation_id: capabilities-16890c924380
+published_at: 2026-07-08T14:53:15Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-07-08T02-18-37Z-capabilities-8899696931b5.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-07-08T14-53-15Z-capabilities-16890c924380.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -15,7 +15,7 @@ source:
   root_manifest_path: .octon/octon.yml
   root_manifest_sha256: 821d6dddce0e641f23bf524c8206f584f2d2420664c5f8a39ac713194cfe18c2
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-  framework_commands_manifest_sha256: b825a47caeda08bec621ff2ae719e6ae94af22773915b6339a0610ad0807ecc6
+  framework_commands_manifest_sha256: a75171aff480b0742092742a8d39fab678a417379a14e198cc153e4dd45095b5
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
   framework_skills_manifest_sha256: 6dba3d948069d17722b64f5f0120e98bcd2fea1e48af4912c2de471525820c32
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: ac17b1575e7ad10b664e990b4fa3eef7a77bd7cbcc7904f347bb69630c240eba
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: 1da9754f9708110433b6cb5edbc29cbc42612b308686d69448a9ef953f6cb6d8
+  extensions_catalog_sha256: 01ffa76fd4ff74526b641e99586d86db34ccc32e0a4ff2a0301612ee9b0bfb6d
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: cc40c93bcc86d0497794727d938448881a80521ff186cf978f80b83d869cd0e8
+  extensions_generation_lock_sha256: 31d62539d4927fe0a0e790c9de5bf547b86db65a915af4b0ecf93340ed18c49e
   extensions_generation_id: extensions-e539e7c8b239
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
@@ -962,6 +962,36 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-command-framework.command.proposal-packet-terminal-closeout
     projection_name: proposal-packet-terminal-closeout
+  - effective_id: framework.command.proposal-program-clean-delivery
+    artifact_map_id: framework-command-proposal-program-clean-delivery
+    origin_class: framework
+    capability_kind: command
+    capability_id: proposal-program-clean-delivery
+    display_name: Proposal Program Clean Delivery
+    summary: Request proposal-program clean-delivery continuation by previewing the route graph and invoking the existing lifecycle runner with route execution enabled.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/commands/manifest.yml
+    capability_domain: command
+    host_adapters:
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-command-framework.command.proposal-program-clean-delivery
+    projection_name: proposal-program-clean-delivery
   - effective_id: framework.command.proposal-program-delivery
     artifact_map_id: framework-command-proposal-program-delivery
     origin_class: framework
@@ -5461,6 +5491,37 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-lifecycle.octon-proposal-run-packet-verification-and-correction-loop
     projection_name: octon-proposal-run-packet-verification-and-correction-loop
+  - effective_id: extension.command.octon-proposal-lifecycle.octon-proposal-run-program-clean-delivery
+    artifact_map_id: extension-command-octon-proposal-lifecycle-octon-proposal-run-program-clean-delivery
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-run-program-clean-delivery
+    display_name: Program - Run Clean Delivery
+    summary: Alias for the canonical proposal-program-clean-delivery wrapper; previews the route graph and requests cleaned delivery through the existing proposal-program lifecycle runner.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-lifecycle.octon-proposal-run-program-clean-delivery
+    projection_name: octon-proposal-run-program-clean-delivery
   - effective_id: extension.command.octon-proposal-lifecycle.octon-proposal-run-program-delivery
     artifact_map_id: extension-command-octon-proposal-lifecycle-octon-proposal-run-program-delivery
     origin_class: extension
@@ -7040,6 +7101,7 @@ resolution_order:
   - framework.command.process-incoming-intake
   - framework.command.proposal-packet-delivery
   - framework.command.proposal-packet-terminal-closeout
+  - framework.command.proposal-program-clean-delivery
   - framework.command.proposal-program-delivery
   - framework.command.provision-host-tools
   - framework.command.query-ask
@@ -7191,6 +7253,7 @@ resolution_order:
   - extension.command.octon-proposal-lifecycle.octon-proposal-run-packet-implementation
   - extension.command.octon-proposal-lifecycle.octon-proposal-run-packet-lifecycle
   - extension.command.octon-proposal-lifecycle.octon-proposal-run-packet-verification-and-correction-loop
+  - extension.command.octon-proposal-lifecycle.octon-proposal-run-program-clean-delivery
   - extension.command.octon-proposal-lifecycle.octon-proposal-run-program-delivery
   - extension.command.octon-proposal-lifecycle.octon-proposal-run-program-lifecycle
   - extension.command.octon-proposal-lifecycle.octon-proposal-run-program-verification-and-correction-loop

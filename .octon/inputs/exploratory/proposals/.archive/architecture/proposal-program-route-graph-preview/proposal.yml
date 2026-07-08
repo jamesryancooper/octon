@@ -1,0 +1,55 @@
+schema_version: proposal-v1
+proposal_id: proposal-program-route-graph-preview
+title: Proposal Program Route Graph Preview
+summary: Add proposal-program route graph preview output that makes selected routes, review loops, child batches, architecture-review gates, delivery handoff, and cleanup proof requirements visible before execution.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - ".octon/framework/engine/runtime/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+status: archived
+change_profile: atomic
+lifecycle:
+  temporary: true
+  exit_expectation: Review this child independently, then implement only route graph preview behavior after explicit implementation authorization.
+related_proposals:
+  - proposal-program-clean-delivery-operator-surface
+selected_implementation_target: Proposal-program lifecycle route graph preview.
+scope_statement: This child owns route graph preview output only. It does not add the clean-delivery command, delivery admission simplification, architecture-review workflow changes, or regression fixture matrix.
+explicit_runtime_non_implementation_statement: This proposal does not change runtime behavior until a later accepted implementation route promotes durable runtime and test changes.
+generated_input_authority_impact: Route graph output is explanatory and non-authoritative. It cannot satisfy review, validation, delivery, closeout, archive, cleanup, branch mutation, or terminal proof.
+authority_class_impact:
+  framework: May update lifecycle runner planning output and tests.
+  instance: No instance authority change.
+  state_control: No state-control mutation.
+  state_evidence: Future route graph evidence may be retained as diagnostic output only.
+  generated: No generated output authority change.
+  inputs: Temporary proposal lineage only.
+evidence_requirements:
+  - Fixtures proving route graph output names selected routes and blocked alternatives.
+  - Negative controls proving route graph output cannot satisfy child receipts or delivery receipts.
+  - Resume-output examples that cite owning evidence refs without substituting for them.
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "route graph fixture tests"
+acceptance_criteria_summary: Route graph preview is acceptable when operators can see route shape before mutation and the output remains non-authoritative.
+risk_posture: Medium. Misleading route graph output could cause operator misuse, so fixtures and authority notices are required.
+rollback_summary: Revert or supersede route graph output changes owned by this child.
+owner:
+  role: Octon proposal-program route graph architect
+  accountable_role: human operator / repository owner
+created_date: 2026-07-06
+source_lineage:
+  - ".octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/lifecycles/proposal-program.contract.yml"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+  - ".codex/commands/octon-proposal-run-program-lifecycle.md"
+archive:
+  archived_at: 2026-07-08T15:45:00Z
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview
+  promotion_evidence:
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs

@@ -1,0 +1,91 @@
+schema_version: proposal-program-delivery-scope-reconciliation-v1
+run_id: proposal-program-clean-delivery-operator-surface-20260708T153006Z
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface
+evaluated_at: 2026-07-08T15:30:06Z
+release_state: pre-1.0
+change_profile: atomic
+profile_selection_receipt_ref: .octon/instance/cognition/context/shared/migrations/2026-04-18-octon-frontier-governance-target-state/plan.md
+branch:
+  current: main
+  upstream: origin/main
+  staged_changes: none
+  worktree_status: dirty
+scope_reconciliation:
+  verdict: in-scope-partial-lifecycle-work
+  unrelated_or_user_owned_paths_identified: none
+  stale_or_incomplete_items_identified:
+    - item: parent_program_creation_child_count
+      prior_value: 6
+      current_value: 7
+      disposition: reconciled
+      evidence_ref: .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/support/program-creation.md
+  in_scope_path_families:
+    - family: runtime_route_graph_preview
+      disposition: valid_candidate
+      examples:
+        - .octon/framework/engine/runtime/crates/kernel/src/main.rs
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - family: delivery_admission_diagnostics
+      disposition: valid_candidate
+      examples:
+        - .octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml
+    - family: command_skill_and_host_projection_surfaces
+      disposition: valid_candidate
+      examples:
+        - .octon/framework/capabilities/runtime/commands/proposal-program-clean-delivery.md
+        - .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-clean-delivery.md
+        - .codex/commands/octon-proposal-run-program-clean-delivery.md
+    - family: generated_and_publication_outputs
+      disposition: valid_candidate_derived_outputs
+      examples:
+        - .octon/generated/effective/extensions/catalog.effective.yml
+        - .octon/generated/effective/capabilities/routing.effective.yml
+        - .octon/state/control/extensions/active.yml
+    - family: parent_and_child_lifecycle_packets
+      disposition: valid_candidate
+      examples:
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/proposal.yml
+        - .octon/inputs/exploratory/proposals/architecture/proposal-program-route-graph-preview/proposal.yml
+        - .octon/inputs/exploratory/proposals/architecture/proposal-clean-delivery-regression-fixtures/proposal.yml
+    - family: retained_validation_and_cleanup_evidence
+      disposition: valid_candidate
+      examples:
+        - .octon/state/evidence/validation/publication/extensions/2026-07-08T14-50-29Z-extensions-e539e7c8b239.yml
+        - .octon/state/evidence/validation/publication/capabilities/2026-07-08T14-53-15Z-capabilities-16890c924380.yml
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/repo-hygiene-cleanup-clean-delivery-20260708T153500Z/receipt.yml
+child_registry:
+  path: .octon/inputs/exploratory/proposals/architecture/proposal-program-clean-delivery-operator-surface/resources/child-packet-index.yml
+  execution_mode: sequential
+  required_child_count: 7
+  required_children:
+    - proposal-program-route-graph-preview
+    - proposal-architecture-review-route-visibility
+    - proposal-delivery-admission-input-simplification
+    - proposal-clean-delivery-command-surface
+    - proposal-lifecycle-host-projection-normalization
+    - proposal-lifecycle-route-naming-and-doc-alignment
+    - proposal-clean-delivery-regression-fixtures
+child_support_inventory:
+  required_support_files_present_for_each_child:
+    - proposal-review.md
+    - pre-integration-architecture-review.yml
+    - executable-implementation-prompt.md
+    - implementation-run.md
+    - implementation-conformance-review.md
+    - post-implementation-drift-churn-review.md
+    - proposal-closeout.md
+    - proposal-terminal-closeout.yml
+    - validation.md
+  child_authority_preserved: yes
+current_boundaries:
+  parent_summaries_replace_child_receipts: false
+  generated_outputs_are_authority: false
+  route_graph_output_authorizes_delivery_or_cleanup: false
+  cleanup_receipt_authorizes_archive_or_git_mutation: false
+next_required_gates:
+  - rerun child proposal validators after closeout receipt additions
+  - rerun parent proposal and program validators
+  - refresh proposal artifact indexes and terminal freshness after receipt changes
+  - archive only after archive-ready validation remains fresh
+  - route git mutation and branch cleanup through closeout-change

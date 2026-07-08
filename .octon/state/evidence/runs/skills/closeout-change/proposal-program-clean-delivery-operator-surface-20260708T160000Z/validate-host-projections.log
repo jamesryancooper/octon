@@ -1,0 +1,1160 @@
+[OK] host projection directory exists: .claude/commands
+[OK] host projection directory contains no symlinks: .claude/commands
+[OK] projected command exists: .claude/commands/octon-concept-integration.md
+[OK] projected command hash matches source: .claude/commands/octon-concept-integration.md
+[OK] projected command title is concise: .claude/commands/octon-concept-integration.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-concept-integration.md
+[OK] projected command exists: .claude/commands/octon-concept-integration-architecture-revision-packet.md
+[OK] projected command hash matches source: .claude/commands/octon-concept-integration-architecture-revision-packet.md
+[OK] projected command title is concise: .claude/commands/octon-concept-integration-architecture-revision-packet.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-concept-integration-architecture-revision-packet.md
+[OK] projected command exists: .claude/commands/octon-concept-integration-constitutional-challenge-packet.md
+[OK] projected command hash matches source: .claude/commands/octon-concept-integration-constitutional-challenge-packet.md
+[OK] projected command title is concise: .claude/commands/octon-concept-integration-constitutional-challenge-packet.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-concept-integration-constitutional-challenge-packet.md
+[OK] projected command exists: .claude/commands/octon-concept-integration-multi-source-synthesis-packet.md
+[OK] projected command hash matches source: .claude/commands/octon-concept-integration-multi-source-synthesis-packet.md
+[OK] projected command title is concise: .claude/commands/octon-concept-integration-multi-source-synthesis-packet.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-concept-integration-multi-source-synthesis-packet.md
+[OK] projected command exists: .claude/commands/octon-concept-integration-packet-refresh-and-supersession.md
+[OK] projected command hash matches source: .claude/commands/octon-concept-integration-packet-refresh-and-supersession.md
+[OK] projected command title is concise: .claude/commands/octon-concept-integration-packet-refresh-and-supersession.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-concept-integration-packet-refresh-and-supersession.md
+[OK] projected command exists: .claude/commands/octon-concept-integration-packet-to-implementation.md
+[OK] projected command hash matches source: .claude/commands/octon-concept-integration-packet-to-implementation.md
+[OK] projected command title is concise: .claude/commands/octon-concept-integration-packet-to-implementation.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-concept-integration-packet-to-implementation.md
+[OK] projected command exists: .claude/commands/octon-concept-integration-repo-internal-concept-mining.md
+[OK] projected command hash matches source: .claude/commands/octon-concept-integration-repo-internal-concept-mining.md
+[OK] projected command title is concise: .claude/commands/octon-concept-integration-repo-internal-concept-mining.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-concept-integration-repo-internal-concept-mining.md
+[OK] projected command exists: .claude/commands/octon-concept-integration-source-to-architecture-packet.md
+[OK] projected command hash matches source: .claude/commands/octon-concept-integration-source-to-architecture-packet.md
+[OK] projected command title is concise: .claude/commands/octon-concept-integration-source-to-architecture-packet.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-concept-integration-source-to-architecture-packet.md
+[OK] projected command exists: .claude/commands/octon-concept-integration-source-to-migration-packet.md
+[OK] projected command hash matches source: .claude/commands/octon-concept-integration-source-to-migration-packet.md
+[OK] projected command title is concise: .claude/commands/octon-concept-integration-source-to-migration-packet.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-concept-integration-source-to-migration-packet.md
+[OK] projected command exists: .claude/commands/octon-concept-integration-source-to-policy-packet.md
+[OK] projected command hash matches source: .claude/commands/octon-concept-integration-source-to-policy-packet.md
+[OK] projected command title is concise: .claude/commands/octon-concept-integration-source-to-policy-packet.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-concept-integration-source-to-policy-packet.md
+[OK] projected command exists: .claude/commands/octon-concept-integration-subsystem-targeted-integration.md
+[OK] projected command hash matches source: .claude/commands/octon-concept-integration-subsystem-targeted-integration.md
+[OK] projected command title is concise: .claude/commands/octon-concept-integration-subsystem-targeted-integration.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-concept-integration-subsystem-targeted-integration.md
+[OK] projected command exists: .claude/commands/octon-decision-drafter.md
+[OK] projected command hash matches source: .claude/commands/octon-decision-drafter.md
+[OK] projected command title is concise: .claude/commands/octon-decision-drafter.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-decision-drafter.md
+[OK] projected command exists: .claude/commands/octon-decision-drafter-adr-update.md
+[OK] projected command hash matches source: .claude/commands/octon-decision-drafter-adr-update.md
+[OK] projected command title is concise: .claude/commands/octon-decision-drafter-adr-update.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-decision-drafter-adr-update.md
+[OK] projected command exists: .claude/commands/octon-decision-drafter-change-receipt.md
+[OK] projected command hash matches source: .claude/commands/octon-decision-drafter-change-receipt.md
+[OK] projected command title is concise: .claude/commands/octon-decision-drafter-change-receipt.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-decision-drafter-change-receipt.md
+[OK] projected command exists: .claude/commands/octon-decision-drafter-migration-rationale.md
+[OK] projected command hash matches source: .claude/commands/octon-decision-drafter-migration-rationale.md
+[OK] projected command title is concise: .claude/commands/octon-decision-drafter-migration-rationale.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-decision-drafter-migration-rationale.md
+[OK] projected command exists: .claude/commands/octon-decision-drafter-rollback-notes.md
+[OK] projected command hash matches source: .claude/commands/octon-decision-drafter-rollback-notes.md
+[OK] projected command title is concise: .claude/commands/octon-decision-drafter-rollback-notes.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-decision-drafter-rollback-notes.md
+[OK] projected command exists: .claude/commands/octon-drift-triage.md
+[OK] projected command hash matches source: .claude/commands/octon-drift-triage.md
+[OK] projected command title is concise: .claude/commands/octon-drift-triage.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-drift-triage.md
+[OK] projected command exists: .claude/commands/octon-impact-map-and-validation-selector.md
+[OK] projected command hash matches source: .claude/commands/octon-impact-map-and-validation-selector.md
+[OK] projected command title is concise: .claude/commands/octon-impact-map-and-validation-selector.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-impact-map-and-validation-selector.md
+[OK] projected command exists: .claude/commands/octon-impact-map-and-validation-selector-mixed-inputs.md
+[OK] projected command hash matches source: .claude/commands/octon-impact-map-and-validation-selector-mixed-inputs.md
+[OK] projected command title is concise: .claude/commands/octon-impact-map-and-validation-selector-mixed-inputs.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-impact-map-and-validation-selector-mixed-inputs.md
+[OK] projected command exists: .claude/commands/octon-impact-map-and-validation-selector-proposal-packet.md
+[OK] projected command hash matches source: .claude/commands/octon-impact-map-and-validation-selector-proposal-packet.md
+[OK] projected command title is concise: .claude/commands/octon-impact-map-and-validation-selector-proposal-packet.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-impact-map-and-validation-selector-proposal-packet.md
+[OK] projected command exists: .claude/commands/octon-impact-map-and-validation-selector-refactor-target.md
+[OK] projected command hash matches source: .claude/commands/octon-impact-map-and-validation-selector-refactor-target.md
+[OK] projected command title is concise: .claude/commands/octon-impact-map-and-validation-selector-refactor-target.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-impact-map-and-validation-selector-refactor-target.md
+[OK] projected command exists: .claude/commands/octon-impact-map-and-validation-selector-touched-paths.md
+[OK] projected command hash matches source: .claude/commands/octon-impact-map-and-validation-selector-touched-paths.md
+[OK] projected command title is concise: .claude/commands/octon-impact-map-and-validation-selector-touched-paths.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-impact-map-and-validation-selector-touched-paths.md
+[OK] projected command exists: .claude/commands/octon-proposal.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal.md
+[OK] projected command title is concise: .claude/commands/octon-proposal.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal.md
+[OK] projected command exists: .claude/commands/octon-proposal-cleanup-lifecycle-residue.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-cleanup-lifecycle-residue.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-cleanup-lifecycle-residue.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-cleanup-lifecycle-residue.md
+[OK] projected command exists: .claude/commands/octon-proposal-closeout-packet.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-closeout-packet.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-closeout-packet.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-closeout-packet.md
+[OK] projected command exists: .claude/commands/octon-proposal-closeout-program.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-closeout-program.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-closeout-program.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-closeout-program.md
+[OK] projected command exists: .claude/commands/octon-proposal-create-packet.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-create-packet.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-create-packet.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-create-packet.md
+[OK] projected command exists: .claude/commands/octon-proposal-create-program.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-create-program.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-create-program.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-create-program.md
+[OK] projected command exists: .claude/commands/octon-proposal-explain-packet.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-explain-packet.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-explain-packet.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-explain-packet.md
+[OK] projected command exists: .claude/commands/octon-proposal-explain-program.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-explain-program.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-explain-program.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-explain-program.md
+[OK] projected command exists: .claude/commands/octon-proposal-generate-packet-closeout-prompt.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-generate-packet-closeout-prompt.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-generate-packet-closeout-prompt.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-generate-packet-closeout-prompt.md
+[OK] projected command exists: .claude/commands/octon-proposal-generate-packet-correction-prompt.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-generate-packet-correction-prompt.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-generate-packet-correction-prompt.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-generate-packet-correction-prompt.md
+[OK] projected command exists: .claude/commands/octon-proposal-generate-packet-implementation-prompt.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-generate-packet-implementation-prompt.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-generate-packet-implementation-prompt.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-generate-packet-implementation-prompt.md
+[OK] projected command exists: .claude/commands/octon-proposal-generate-packet-verification-prompt.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-generate-packet-verification-prompt.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-generate-packet-verification-prompt.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-generate-packet-verification-prompt.md
+[OK] projected command exists: .claude/commands/octon-proposal-generate-program-closeout-prompt.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-generate-program-closeout-prompt.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-generate-program-closeout-prompt.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-generate-program-closeout-prompt.md
+[OK] projected command exists: .claude/commands/octon-proposal-generate-program-correction-prompt.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-generate-program-correction-prompt.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-generate-program-correction-prompt.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-generate-program-correction-prompt.md
+[OK] projected command exists: .claude/commands/octon-proposal-generate-program-orchestration-prompt.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-generate-program-orchestration-prompt.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-generate-program-orchestration-prompt.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-generate-program-orchestration-prompt.md
+[OK] projected command exists: .claude/commands/octon-proposal-generate-program-verification-prompt.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-generate-program-verification-prompt.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-generate-program-verification-prompt.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-generate-program-verification-prompt.md
+[OK] projected command exists: .claude/commands/octon-proposal-review-packet.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-review-packet.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-review-packet.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-review-packet.md
+[OK] projected command exists: .claude/commands/octon-proposal-review-program.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-review-program.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-review-program.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-review-program.md
+[OK] projected command exists: .claude/commands/octon-proposal-revise-packet.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-revise-packet.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-revise-packet.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-revise-packet.md
+[OK] projected command exists: .claude/commands/octon-proposal-revise-program.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-revise-program.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-revise-program.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-revise-program.md
+[OK] projected command exists: .claude/commands/octon-proposal-run-packet-delivery.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-run-packet-delivery.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-run-packet-delivery.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-run-packet-delivery.md
+[OK] projected command exists: .claude/commands/octon-proposal-run-packet-implementation.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-run-packet-implementation.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-run-packet-implementation.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-run-packet-implementation.md
+[OK] projected command exists: .claude/commands/octon-proposal-run-packet-lifecycle.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-run-packet-lifecycle.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-run-packet-lifecycle.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-run-packet-lifecycle.md
+[OK] projected command exists: .claude/commands/octon-proposal-run-packet-verification-and-correction-loop.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-run-packet-verification-and-correction-loop.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-run-packet-verification-and-correction-loop.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-run-packet-verification-and-correction-loop.md
+[OK] projected command exists: .claude/commands/octon-proposal-run-program-clean-delivery.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-run-program-clean-delivery.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-run-program-clean-delivery.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-run-program-clean-delivery.md
+[OK] projected command exists: .claude/commands/octon-proposal-run-program-delivery.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-run-program-delivery.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-run-program-delivery.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-run-program-delivery.md
+[OK] projected command exists: .claude/commands/octon-proposal-run-program-lifecycle.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-run-program-lifecycle.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-run-program-lifecycle.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-run-program-lifecycle.md
+[OK] projected command exists: .claude/commands/octon-proposal-run-program-verification-and-correction-loop.md
+[OK] projected command hash matches source: .claude/commands/octon-proposal-run-program-verification-and-correction-loop.md
+[OK] projected command title is concise: .claude/commands/octon-proposal-run-program-verification-and-correction-loop.md
+[OK] projected command title namespace usage is allowed: .claude/commands/octon-proposal-run-program-verification-and-correction-loop.md
+[OK] projected command exists: .claude/commands/audit-skills-system-expansion.md
+[OK] projected command hash matches source: .claude/commands/audit-skills-system-expansion.md
+[OK] projected command title is concise: .claude/commands/audit-skills-system-expansion.md
+[OK] projected command title namespace usage is allowed: .claude/commands/audit-skills-system-expansion.md
+[OK] projected command exists: .claude/commands/create-workflow.md
+[OK] projected command hash matches source: .claude/commands/create-workflow.md
+[OK] projected command title is concise: .claude/commands/create-workflow.md
+[OK] projected command title namespace usage is allowed: .claude/commands/create-workflow.md
+[OK] projected command exists: .claude/commands/evaluate-workflow.md
+[OK] projected command hash matches source: .claude/commands/evaluate-workflow.md
+[OK] projected command title is concise: .claude/commands/evaluate-workflow.md
+[OK] projected command title namespace usage is allowed: .claude/commands/evaluate-workflow.md
+[OK] projected command exists: .claude/commands/process-incoming-intake.md
+[OK] projected command hash matches source: .claude/commands/process-incoming-intake.md
+[OK] projected command title is concise: .claude/commands/process-incoming-intake.md
+[OK] projected command title namespace usage is allowed: .claude/commands/process-incoming-intake.md
+[OK] projected command exists: .claude/commands/provision-host-tools.md
+[OK] projected command hash matches source: .claude/commands/provision-host-tools.md
+[OK] projected command title is concise: .claude/commands/provision-host-tools.md
+[OK] projected command title namespace usage is allowed: .claude/commands/provision-host-tools.md
+[OK] projected command exists: .claude/commands/refactor.md
+[OK] projected command hash matches source: .claude/commands/refactor.md
+[OK] projected command title is concise: .claude/commands/refactor.md
+[OK] projected command title namespace usage is allowed: .claude/commands/refactor.md
+[OK] projected command exists: .claude/commands/update-workflow.md
+[OK] projected command hash matches source: .claude/commands/update-workflow.md
+[OK] projected command title is concise: .claude/commands/update-workflow.md
+[OK] projected command title namespace usage is allowed: .claude/commands/update-workflow.md
+[OK] host projection set matches routing for .claude/commands
+[OK] host projection directory exists: .claude/skills
+[OK] host projection directory contains no symlinks: .claude/skills
+[OK] projected skill directory exists: .claude/skills/octon-concept-integration
+[OK] projected skill includes SKILL.md: .claude/skills/octon-concept-integration/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-concept-integration
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration/SKILL.md
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration/references/decisions.md
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration/references/io-contract.md
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration/references/phases.md
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration/references/validation.md
+[OK] projected skill directory exists: .claude/skills/octon-concept-integration-architecture-revision-packet
+[OK] projected skill includes SKILL.md: .claude/skills/octon-concept-integration-architecture-revision-packet/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-concept-integration-architecture-revision-packet
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration-architecture-revision-packet/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-concept-integration-constitutional-challenge-packet
+[OK] projected skill includes SKILL.md: .claude/skills/octon-concept-integration-constitutional-challenge-packet/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-concept-integration-constitutional-challenge-packet
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration-constitutional-challenge-packet/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-concept-integration-multi-source-synthesis-packet
+[OK] projected skill includes SKILL.md: .claude/skills/octon-concept-integration-multi-source-synthesis-packet/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-concept-integration-multi-source-synthesis-packet
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration-multi-source-synthesis-packet/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-concept-integration-packet-refresh-and-supersession
+[OK] projected skill includes SKILL.md: .claude/skills/octon-concept-integration-packet-refresh-and-supersession/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-concept-integration-packet-refresh-and-supersession
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration-packet-refresh-and-supersession/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-concept-integration-packet-to-implementation
+[OK] projected skill includes SKILL.md: .claude/skills/octon-concept-integration-packet-to-implementation/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-concept-integration-packet-to-implementation
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration-packet-to-implementation/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-concept-integration-repo-internal-concept-mining
+[OK] projected skill includes SKILL.md: .claude/skills/octon-concept-integration-repo-internal-concept-mining/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-concept-integration-repo-internal-concept-mining
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration-repo-internal-concept-mining/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-concept-integration-source-to-architecture-packet
+[OK] projected skill includes SKILL.md: .claude/skills/octon-concept-integration-source-to-architecture-packet/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-concept-integration-source-to-architecture-packet
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration-source-to-architecture-packet/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-concept-integration-source-to-migration-packet
+[OK] projected skill includes SKILL.md: .claude/skills/octon-concept-integration-source-to-migration-packet/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-concept-integration-source-to-migration-packet
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration-source-to-migration-packet/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-concept-integration-source-to-policy-packet
+[OK] projected skill includes SKILL.md: .claude/skills/octon-concept-integration-source-to-policy-packet/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-concept-integration-source-to-policy-packet
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration-source-to-policy-packet/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-concept-integration-subsystem-targeted-integration
+[OK] projected skill includes SKILL.md: .claude/skills/octon-concept-integration-subsystem-targeted-integration/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-concept-integration-subsystem-targeted-integration
+[OK] projected skill file hash matches source: .claude/skills/octon-concept-integration-subsystem-targeted-integration/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-decision-drafter
+[OK] projected skill includes SKILL.md: .claude/skills/octon-decision-drafter/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-decision-drafter
+[OK] projected skill file hash matches source: .claude/skills/octon-decision-drafter/SKILL.md
+[OK] projected skill file hash matches source: .claude/skills/octon-decision-drafter/references/decisions.md
+[OK] projected skill file hash matches source: .claude/skills/octon-decision-drafter/references/io-contract.md
+[OK] projected skill file hash matches source: .claude/skills/octon-decision-drafter/references/phases.md
+[OK] projected skill file hash matches source: .claude/skills/octon-decision-drafter/references/validation.md
+[OK] projected skill directory exists: .claude/skills/octon-decision-drafter-adr-update
+[OK] projected skill includes SKILL.md: .claude/skills/octon-decision-drafter-adr-update/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-decision-drafter-adr-update
+[OK] projected skill file hash matches source: .claude/skills/octon-decision-drafter-adr-update/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-decision-drafter-change-receipt
+[OK] projected skill includes SKILL.md: .claude/skills/octon-decision-drafter-change-receipt/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-decision-drafter-change-receipt
+[OK] projected skill file hash matches source: .claude/skills/octon-decision-drafter-change-receipt/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-decision-drafter-migration-rationale
+[OK] projected skill includes SKILL.md: .claude/skills/octon-decision-drafter-migration-rationale/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-decision-drafter-migration-rationale
+[OK] projected skill file hash matches source: .claude/skills/octon-decision-drafter-migration-rationale/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-decision-drafter-rollback-notes
+[OK] projected skill includes SKILL.md: .claude/skills/octon-decision-drafter-rollback-notes/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-decision-drafter-rollback-notes
+[OK] projected skill file hash matches source: .claude/skills/octon-decision-drafter-rollback-notes/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-drift-triage
+[OK] projected skill includes SKILL.md: .claude/skills/octon-drift-triage/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-drift-triage
+[OK] projected skill file hash matches source: .claude/skills/octon-drift-triage/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-impact-map-and-validation-selector
+[OK] projected skill includes SKILL.md: .claude/skills/octon-impact-map-and-validation-selector/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-impact-map-and-validation-selector
+[OK] projected skill file hash matches source: .claude/skills/octon-impact-map-and-validation-selector/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-impact-map-and-validation-selector-mixed-inputs
+[OK] projected skill includes SKILL.md: .claude/skills/octon-impact-map-and-validation-selector-mixed-inputs/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-impact-map-and-validation-selector-mixed-inputs
+[OK] projected skill file hash matches source: .claude/skills/octon-impact-map-and-validation-selector-mixed-inputs/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-impact-map-and-validation-selector-proposal-packet
+[OK] projected skill includes SKILL.md: .claude/skills/octon-impact-map-and-validation-selector-proposal-packet/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-impact-map-and-validation-selector-proposal-packet
+[OK] projected skill file hash matches source: .claude/skills/octon-impact-map-and-validation-selector-proposal-packet/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-impact-map-and-validation-selector-refactor-target
+[OK] projected skill includes SKILL.md: .claude/skills/octon-impact-map-and-validation-selector-refactor-target/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-impact-map-and-validation-selector-refactor-target
+[OK] projected skill file hash matches source: .claude/skills/octon-impact-map-and-validation-selector-refactor-target/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-impact-map-and-validation-selector-touched-paths
+[OK] projected skill includes SKILL.md: .claude/skills/octon-impact-map-and-validation-selector-touched-paths/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-impact-map-and-validation-selector-touched-paths
+[OK] projected skill file hash matches source: .claude/skills/octon-impact-map-and-validation-selector-touched-paths/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-closeout-packet
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-closeout-packet
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-closeout-program
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-closeout-program/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-closeout-program
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-closeout-program/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-create-packet
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-create-packet/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-create-packet
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-create-packet/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-create-program
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-create-program/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-create-program
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-create-program/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-explain-packet
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-explain-packet/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-explain-packet
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-explain-packet/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-explain-program
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-explain-program/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-explain-program
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-explain-program/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-generate-packet-closeout-prompt
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-generate-packet-closeout-prompt/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-generate-packet-closeout-prompt
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-generate-packet-closeout-prompt/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-generate-packet-correction-prompt
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-generate-packet-correction-prompt/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-generate-packet-correction-prompt
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-generate-packet-correction-prompt/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-generate-packet-implementation-prompt
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-generate-packet-implementation-prompt/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-generate-packet-implementation-prompt
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-generate-packet-implementation-prompt/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-generate-packet-verification-prompt
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-generate-packet-verification-prompt/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-generate-packet-verification-prompt
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-generate-packet-verification-prompt/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-generate-program-closeout-prompt
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-generate-program-closeout-prompt/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-generate-program-closeout-prompt
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-generate-program-closeout-prompt/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-generate-program-correction-prompt
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-generate-program-correction-prompt/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-generate-program-correction-prompt
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-generate-program-correction-prompt/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-generate-program-orchestration-prompt
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-generate-program-orchestration-prompt/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-generate-program-orchestration-prompt
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-generate-program-orchestration-prompt/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-generate-program-verification-prompt
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-generate-program-verification-prompt/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-generate-program-verification-prompt
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-generate-program-verification-prompt/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-review-packet
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-review-packet/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-review-packet
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-review-packet/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-review-program
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-review-program/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-review-program
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-review-program/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-revise-packet
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-revise-packet/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-revise-packet
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-revise-packet/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-revise-program
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-revise-program/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-revise-program
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-revise-program/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-run-packet-implementation
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-run-packet-implementation/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-run-packet-implementation
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-run-packet-implementation/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-run-packet-lifecycle
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-run-packet-lifecycle/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-run-packet-lifecycle
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-run-packet-lifecycle/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-run-packet-verification-and-correction-loop
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-run-packet-verification-and-correction-loop/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-run-packet-verification-and-correction-loop
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-run-packet-verification-and-correction-loop/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-run-program-lifecycle
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-run-program-lifecycle
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+[OK] projected skill directory exists: .claude/skills/octon-proposal-lifecycle-run-program-verification-and-correction-loop
+[OK] projected skill includes SKILL.md: .claude/skills/octon-proposal-lifecycle-run-program-verification-and-correction-loop/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/octon-proposal-lifecycle-run-program-verification-and-correction-loop
+[OK] projected skill file hash matches source: .claude/skills/octon-proposal-lifecycle-run-program-verification-and-correction-loop/SKILL.md
+[OK] projected skill directory exists: .claude/skills/audit-charter
+[OK] projected skill includes SKILL.md: .claude/skills/audit-charter/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/audit-charter
+[OK] projected skill file hash matches source: .claude/skills/audit-charter/SKILL.md
+[OK] projected skill file hash matches source: .claude/skills/audit-charter/references/checkpoints.md
+[OK] projected skill file hash matches source: .claude/skills/audit-charter/references/decisions.md
+[OK] projected skill file hash matches source: .claude/skills/audit-charter/references/examples.md
+[OK] projected skill file hash matches source: .claude/skills/audit-charter/references/glossary.md
+[OK] projected skill file hash matches source: .claude/skills/audit-charter/references/io-contract.md
+[OK] projected skill file hash matches source: .claude/skills/audit-charter/references/phases.md
+[OK] projected skill file hash matches source: .claude/skills/audit-charter/references/safety.md
+[OK] projected skill file hash matches source: .claude/skills/audit-charter/references/validation.md
+[OK] projected skill directory exists: .claude/skills/audit-domain-architecture
+[OK] projected skill includes SKILL.md: .claude/skills/audit-domain-architecture/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/audit-domain-architecture
+[OK] projected skill file hash matches source: .claude/skills/audit-domain-architecture/SKILL.md
+[OK] projected skill file hash matches source: .claude/skills/audit-domain-architecture/references/checkpoints.md
+[OK] projected skill file hash matches source: .claude/skills/audit-domain-architecture/references/decisions.md
+[OK] projected skill file hash matches source: .claude/skills/audit-domain-architecture/references/examples.md
+[OK] projected skill file hash matches source: .claude/skills/audit-domain-architecture/references/glossary.md
+[OK] projected skill file hash matches source: .claude/skills/audit-domain-architecture/references/io-contract.md
+[OK] projected skill file hash matches source: .claude/skills/audit-domain-architecture/references/phases.md
+[OK] projected skill file hash matches source: .claude/skills/audit-domain-architecture/references/safety.md
+[OK] projected skill file hash matches source: .claude/skills/audit-domain-architecture/references/validation.md
+[OK] projected skill directory exists: .claude/skills/audit-migration
+[OK] projected skill includes SKILL.md: .claude/skills/audit-migration/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/audit-migration
+[OK] projected skill file hash matches source: .claude/skills/audit-migration/SKILL.md
+[OK] projected skill file hash matches source: .claude/skills/audit-migration/references/checkpoints.md
+[OK] projected skill file hash matches source: .claude/skills/audit-migration/references/decisions.md
+[OK] projected skill file hash matches source: .claude/skills/audit-migration/references/examples.md
+[OK] projected skill file hash matches source: .claude/skills/audit-migration/references/glossary.md
+[OK] projected skill file hash matches source: .claude/skills/audit-migration/references/io-contract.md
+[OK] projected skill file hash matches source: .claude/skills/audit-migration/references/phases.md
+[OK] projected skill file hash matches source: .claude/skills/audit-migration/references/safety.md
+[OK] projected skill file hash matches source: .claude/skills/audit-migration/references/validation.md
+[OK] projected skill directory exists: .claude/skills/audit-rust-tool-architecture
+[OK] projected skill includes SKILL.md: .claude/skills/audit-rust-tool-architecture/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/audit-rust-tool-architecture
+[OK] projected skill file hash matches source: .claude/skills/audit-rust-tool-architecture/SKILL.md
+[OK] projected skill file hash matches source: .claude/skills/audit-rust-tool-architecture/references/checkpoints.md
+[OK] projected skill file hash matches source: .claude/skills/audit-rust-tool-architecture/references/decisions.md
+[OK] projected skill file hash matches source: .claude/skills/audit-rust-tool-architecture/references/glossary.md
+[OK] projected skill file hash matches source: .claude/skills/audit-rust-tool-architecture/references/io-contract.md
+[OK] projected skill file hash matches source: .claude/skills/audit-rust-tool-architecture/references/output-schema.yml
+[OK] projected skill file hash matches source: .claude/skills/audit-rust-tool-architecture/references/phases.md
+[OK] projected skill file hash matches source: .claude/skills/audit-rust-tool-architecture/references/rubric.md
+[OK] projected skill file hash matches source: .claude/skills/audit-rust-tool-architecture/references/safety.md
+[OK] projected skill file hash matches source: .claude/skills/audit-rust-tool-architecture/references/validation.md
+[OK] projected skill directory exists: .claude/skills/audit-subsystem-health
+[OK] projected skill includes SKILL.md: .claude/skills/audit-subsystem-health/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/audit-subsystem-health
+[OK] projected skill file hash matches source: .claude/skills/audit-subsystem-health/SKILL.md
+[OK] projected skill file hash matches source: .claude/skills/audit-subsystem-health/alignment-notes.md
+[OK] projected skill file hash matches source: .claude/skills/audit-subsystem-health/references/alignment-contract.md
+[OK] projected skill file hash matches source: .claude/skills/audit-subsystem-health/references/examples.md
+[OK] projected skill file hash matches source: .claude/skills/audit-subsystem-health/references/glossary.md
+[OK] projected skill file hash matches source: .claude/skills/audit-subsystem-health/references/io-contract.md
+[OK] projected skill file hash matches source: .claude/skills/audit-subsystem-health/references/phases.md
+[OK] projected skill file hash matches source: .claude/skills/audit-subsystem-health/references/safety.md
+[OK] projected skill file hash matches source: .claude/skills/audit-subsystem-health/references/validation.md
+[OK] projected skill directory exists: .claude/skills/create-skill
+[OK] projected skill includes SKILL.md: .claude/skills/create-skill/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/create-skill
+[OK] projected skill file hash matches source: .claude/skills/create-skill/SKILL.md
+[OK] projected skill file hash matches source: .claude/skills/create-skill/references/checkpoints.md
+[OK] projected skill file hash matches source: .claude/skills/create-skill/references/decisions.md
+[OK] projected skill file hash matches source: .claude/skills/create-skill/references/examples.md
+[OK] projected skill file hash matches source: .claude/skills/create-skill/references/io-contract.md
+[OK] projected skill file hash matches source: .claude/skills/create-skill/references/phases.md
+[OK] projected skill file hash matches source: .claude/skills/create-skill/references/safety.md
+[OK] projected skill file hash matches source: .claude/skills/create-skill/references/validation.md
+[OK] projected skill directory exists: .claude/skills/plan-charter-alignment
+[OK] projected skill includes SKILL.md: .claude/skills/plan-charter-alignment/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/plan-charter-alignment
+[OK] projected skill file hash matches source: .claude/skills/plan-charter-alignment/SKILL.md
+[OK] projected skill file hash matches source: .claude/skills/plan-charter-alignment/references/checkpoints.md
+[OK] projected skill file hash matches source: .claude/skills/plan-charter-alignment/references/decisions.md
+[OK] projected skill file hash matches source: .claude/skills/plan-charter-alignment/references/examples.md
+[OK] projected skill file hash matches source: .claude/skills/plan-charter-alignment/references/interaction.md
+[OK] projected skill file hash matches source: .claude/skills/plan-charter-alignment/references/io-contract.md
+[OK] projected skill file hash matches source: .claude/skills/plan-charter-alignment/references/phases.md
+[OK] projected skill file hash matches source: .claude/skills/plan-charter-alignment/references/safety.md
+[OK] projected skill file hash matches source: .claude/skills/plan-charter-alignment/references/validation.md
+[OK] projected skill directory exists: .claude/skills/plan-rust-tool-migration
+[OK] projected skill includes SKILL.md: .claude/skills/plan-rust-tool-migration/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/plan-rust-tool-migration
+[OK] projected skill file hash matches source: .claude/skills/plan-rust-tool-migration/SKILL.md
+[OK] projected skill file hash matches source: .claude/skills/plan-rust-tool-migration/references/checkpoints.md
+[OK] projected skill file hash matches source: .claude/skills/plan-rust-tool-migration/references/decisions.md
+[OK] projected skill file hash matches source: .claude/skills/plan-rust-tool-migration/references/glossary.md
+[OK] projected skill file hash matches source: .claude/skills/plan-rust-tool-migration/references/io-contract.md
+[OK] projected skill file hash matches source: .claude/skills/plan-rust-tool-migration/references/output-schema.yml
+[OK] projected skill file hash matches source: .claude/skills/plan-rust-tool-migration/references/phases.md
+[OK] projected skill file hash matches source: .claude/skills/plan-rust-tool-migration/references/safety.md
+[OK] projected skill file hash matches source: .claude/skills/plan-rust-tool-migration/references/validation.md
+[OK] projected skill directory exists: .claude/skills/refine-prompt
+[OK] projected skill includes SKILL.md: .claude/skills/refine-prompt/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/refine-prompt
+[OK] projected skill file hash matches source: .claude/skills/refine-prompt/SKILL.md
+[OK] projected skill file hash matches source: .claude/skills/refine-prompt/references/checkpoints.md
+[OK] projected skill file hash matches source: .claude/skills/refine-prompt/references/decisions.md
+[OK] projected skill file hash matches source: .claude/skills/refine-prompt/references/errors.md
+[OK] projected skill file hash matches source: .claude/skills/refine-prompt/references/examples.md
+[OK] projected skill file hash matches source: .claude/skills/refine-prompt/references/interaction.md
+[OK] projected skill file hash matches source: .claude/skills/refine-prompt/references/io-contract.md
+[OK] projected skill file hash matches source: .claude/skills/refine-prompt/references/phases.md
+[OK] projected skill file hash matches source: .claude/skills/refine-prompt/references/safety.md
+[OK] projected skill file hash matches source: .claude/skills/refine-prompt/references/validation.md
+[OK] projected skill directory exists: .claude/skills/synthesize-research
+[OK] projected skill includes SKILL.md: .claude/skills/synthesize-research/SKILL.md
+[OK] projected skill file list matches source: .claude/skills/synthesize-research
+[OK] projected skill file hash matches source: .claude/skills/synthesize-research/SKILL.md
+[OK] projected skill file hash matches source: .claude/skills/synthesize-research/references/checkpoints.md
+[OK] projected skill file hash matches source: .claude/skills/synthesize-research/references/decisions.md
+[OK] projected skill file hash matches source: .claude/skills/synthesize-research/references/errors.md
+[OK] projected skill file hash matches source: .claude/skills/synthesize-research/references/examples.md
+[OK] projected skill file hash matches source: .claude/skills/synthesize-research/references/glossary.md
+[OK] projected skill file hash matches source: .claude/skills/synthesize-research/references/io-contract.md
+[OK] projected skill file hash matches source: .claude/skills/synthesize-research/references/phases.md
+[OK] projected skill file hash matches source: .claude/skills/synthesize-research/references/safety.md
+[OK] projected skill file hash matches source: .claude/skills/synthesize-research/references/validation.md
+[OK] projected skill file hash matches source: .claude/skills/synthesize-research/scripts/.gitkeep
+[OK] host projection set matches routing for .claude/skills
+[OK] host projection directory exists: .cursor/commands
+[OK] host projection directory contains no symlinks: .cursor/commands
+[OK] projected command exists: .cursor/commands/octon-concept-integration.md
+[OK] projected command hash matches source: .cursor/commands/octon-concept-integration.md
+[OK] projected command title is concise: .cursor/commands/octon-concept-integration.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-concept-integration.md
+[OK] projected command exists: .cursor/commands/octon-concept-integration-architecture-revision-packet.md
+[OK] projected command hash matches source: .cursor/commands/octon-concept-integration-architecture-revision-packet.md
+[OK] projected command title is concise: .cursor/commands/octon-concept-integration-architecture-revision-packet.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-concept-integration-architecture-revision-packet.md
+[OK] projected command exists: .cursor/commands/octon-concept-integration-constitutional-challenge-packet.md
+[OK] projected command hash matches source: .cursor/commands/octon-concept-integration-constitutional-challenge-packet.md
+[OK] projected command title is concise: .cursor/commands/octon-concept-integration-constitutional-challenge-packet.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-concept-integration-constitutional-challenge-packet.md
+[OK] projected command exists: .cursor/commands/octon-concept-integration-multi-source-synthesis-packet.md
+[OK] projected command hash matches source: .cursor/commands/octon-concept-integration-multi-source-synthesis-packet.md
+[OK] projected command title is concise: .cursor/commands/octon-concept-integration-multi-source-synthesis-packet.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-concept-integration-multi-source-synthesis-packet.md
+[OK] projected command exists: .cursor/commands/octon-concept-integration-packet-refresh-and-supersession.md
+[OK] projected command hash matches source: .cursor/commands/octon-concept-integration-packet-refresh-and-supersession.md
+[OK] projected command title is concise: .cursor/commands/octon-concept-integration-packet-refresh-and-supersession.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-concept-integration-packet-refresh-and-supersession.md
+[OK] projected command exists: .cursor/commands/octon-concept-integration-packet-to-implementation.md
+[OK] projected command hash matches source: .cursor/commands/octon-concept-integration-packet-to-implementation.md
+[OK] projected command title is concise: .cursor/commands/octon-concept-integration-packet-to-implementation.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-concept-integration-packet-to-implementation.md
+[OK] projected command exists: .cursor/commands/octon-concept-integration-repo-internal-concept-mining.md
+[OK] projected command hash matches source: .cursor/commands/octon-concept-integration-repo-internal-concept-mining.md
+[OK] projected command title is concise: .cursor/commands/octon-concept-integration-repo-internal-concept-mining.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-concept-integration-repo-internal-concept-mining.md
+[OK] projected command exists: .cursor/commands/octon-concept-integration-source-to-architecture-packet.md
+[OK] projected command hash matches source: .cursor/commands/octon-concept-integration-source-to-architecture-packet.md
+[OK] projected command title is concise: .cursor/commands/octon-concept-integration-source-to-architecture-packet.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-concept-integration-source-to-architecture-packet.md
+[OK] projected command exists: .cursor/commands/octon-concept-integration-source-to-migration-packet.md
+[OK] projected command hash matches source: .cursor/commands/octon-concept-integration-source-to-migration-packet.md
+[OK] projected command title is concise: .cursor/commands/octon-concept-integration-source-to-migration-packet.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-concept-integration-source-to-migration-packet.md
+[OK] projected command exists: .cursor/commands/octon-concept-integration-source-to-policy-packet.md
+[OK] projected command hash matches source: .cursor/commands/octon-concept-integration-source-to-policy-packet.md
+[OK] projected command title is concise: .cursor/commands/octon-concept-integration-source-to-policy-packet.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-concept-integration-source-to-policy-packet.md
+[OK] projected command exists: .cursor/commands/octon-concept-integration-subsystem-targeted-integration.md
+[OK] projected command hash matches source: .cursor/commands/octon-concept-integration-subsystem-targeted-integration.md
+[OK] projected command title is concise: .cursor/commands/octon-concept-integration-subsystem-targeted-integration.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-concept-integration-subsystem-targeted-integration.md
+[OK] projected command exists: .cursor/commands/octon-decision-drafter.md
+[OK] projected command hash matches source: .cursor/commands/octon-decision-drafter.md
+[OK] projected command title is concise: .cursor/commands/octon-decision-drafter.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-decision-drafter.md
+[OK] projected command exists: .cursor/commands/octon-decision-drafter-adr-update.md
+[OK] projected command hash matches source: .cursor/commands/octon-decision-drafter-adr-update.md
+[OK] projected command title is concise: .cursor/commands/octon-decision-drafter-adr-update.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-decision-drafter-adr-update.md
+[OK] projected command exists: .cursor/commands/octon-decision-drafter-change-receipt.md
+[OK] projected command hash matches source: .cursor/commands/octon-decision-drafter-change-receipt.md
+[OK] projected command title is concise: .cursor/commands/octon-decision-drafter-change-receipt.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-decision-drafter-change-receipt.md
+[OK] projected command exists: .cursor/commands/octon-decision-drafter-migration-rationale.md
+[OK] projected command hash matches source: .cursor/commands/octon-decision-drafter-migration-rationale.md
+[OK] projected command title is concise: .cursor/commands/octon-decision-drafter-migration-rationale.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-decision-drafter-migration-rationale.md
+[OK] projected command exists: .cursor/commands/octon-decision-drafter-rollback-notes.md
+[OK] projected command hash matches source: .cursor/commands/octon-decision-drafter-rollback-notes.md
+[OK] projected command title is concise: .cursor/commands/octon-decision-drafter-rollback-notes.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-decision-drafter-rollback-notes.md
+[OK] projected command exists: .cursor/commands/octon-drift-triage.md
+[OK] projected command hash matches source: .cursor/commands/octon-drift-triage.md
+[OK] projected command title is concise: .cursor/commands/octon-drift-triage.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-drift-triage.md
+[OK] projected command exists: .cursor/commands/octon-impact-map-and-validation-selector.md
+[OK] projected command hash matches source: .cursor/commands/octon-impact-map-and-validation-selector.md
+[OK] projected command title is concise: .cursor/commands/octon-impact-map-and-validation-selector.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-impact-map-and-validation-selector.md
+[OK] projected command exists: .cursor/commands/octon-impact-map-and-validation-selector-mixed-inputs.md
+[OK] projected command hash matches source: .cursor/commands/octon-impact-map-and-validation-selector-mixed-inputs.md
+[OK] projected command title is concise: .cursor/commands/octon-impact-map-and-validation-selector-mixed-inputs.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-impact-map-and-validation-selector-mixed-inputs.md
+[OK] projected command exists: .cursor/commands/octon-impact-map-and-validation-selector-proposal-packet.md
+[OK] projected command hash matches source: .cursor/commands/octon-impact-map-and-validation-selector-proposal-packet.md
+[OK] projected command title is concise: .cursor/commands/octon-impact-map-and-validation-selector-proposal-packet.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-impact-map-and-validation-selector-proposal-packet.md
+[OK] projected command exists: .cursor/commands/octon-impact-map-and-validation-selector-refactor-target.md
+[OK] projected command hash matches source: .cursor/commands/octon-impact-map-and-validation-selector-refactor-target.md
+[OK] projected command title is concise: .cursor/commands/octon-impact-map-and-validation-selector-refactor-target.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-impact-map-and-validation-selector-refactor-target.md
+[OK] projected command exists: .cursor/commands/octon-impact-map-and-validation-selector-touched-paths.md
+[OK] projected command hash matches source: .cursor/commands/octon-impact-map-and-validation-selector-touched-paths.md
+[OK] projected command title is concise: .cursor/commands/octon-impact-map-and-validation-selector-touched-paths.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-impact-map-and-validation-selector-touched-paths.md
+[OK] projected command exists: .cursor/commands/octon-proposal.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal.md
+[OK] projected command exists: .cursor/commands/octon-proposal-cleanup-lifecycle-residue.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-cleanup-lifecycle-residue.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-cleanup-lifecycle-residue.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-cleanup-lifecycle-residue.md
+[OK] projected command exists: .cursor/commands/octon-proposal-closeout-packet.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-closeout-packet.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-closeout-packet.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-closeout-packet.md
+[OK] projected command exists: .cursor/commands/octon-proposal-closeout-program.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-closeout-program.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-closeout-program.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-closeout-program.md
+[OK] projected command exists: .cursor/commands/octon-proposal-create-packet.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-create-packet.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-create-packet.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-create-packet.md
+[OK] projected command exists: .cursor/commands/octon-proposal-create-program.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-create-program.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-create-program.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-create-program.md
+[OK] projected command exists: .cursor/commands/octon-proposal-explain-packet.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-explain-packet.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-explain-packet.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-explain-packet.md
+[OK] projected command exists: .cursor/commands/octon-proposal-explain-program.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-explain-program.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-explain-program.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-explain-program.md
+[OK] projected command exists: .cursor/commands/octon-proposal-generate-packet-closeout-prompt.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-generate-packet-closeout-prompt.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-generate-packet-closeout-prompt.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-generate-packet-closeout-prompt.md
+[OK] projected command exists: .cursor/commands/octon-proposal-generate-packet-correction-prompt.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-generate-packet-correction-prompt.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-generate-packet-correction-prompt.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-generate-packet-correction-prompt.md
+[OK] projected command exists: .cursor/commands/octon-proposal-generate-packet-implementation-prompt.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-generate-packet-implementation-prompt.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-generate-packet-implementation-prompt.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-generate-packet-implementation-prompt.md
+[OK] projected command exists: .cursor/commands/octon-proposal-generate-packet-verification-prompt.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-generate-packet-verification-prompt.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-generate-packet-verification-prompt.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-generate-packet-verification-prompt.md
+[OK] projected command exists: .cursor/commands/octon-proposal-generate-program-closeout-prompt.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-generate-program-closeout-prompt.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-generate-program-closeout-prompt.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-generate-program-closeout-prompt.md
+[OK] projected command exists: .cursor/commands/octon-proposal-generate-program-correction-prompt.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-generate-program-correction-prompt.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-generate-program-correction-prompt.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-generate-program-correction-prompt.md
+[OK] projected command exists: .cursor/commands/octon-proposal-generate-program-orchestration-prompt.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-generate-program-orchestration-prompt.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-generate-program-orchestration-prompt.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-generate-program-orchestration-prompt.md
+[OK] projected command exists: .cursor/commands/octon-proposal-generate-program-verification-prompt.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-generate-program-verification-prompt.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-generate-program-verification-prompt.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-generate-program-verification-prompt.md
+[OK] projected command exists: .cursor/commands/octon-proposal-review-packet.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-review-packet.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-review-packet.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-review-packet.md
+[OK] projected command exists: .cursor/commands/octon-proposal-review-program.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-review-program.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-review-program.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-review-program.md
+[OK] projected command exists: .cursor/commands/octon-proposal-revise-packet.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-revise-packet.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-revise-packet.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-revise-packet.md
+[OK] projected command exists: .cursor/commands/octon-proposal-revise-program.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-revise-program.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-revise-program.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-revise-program.md
+[OK] projected command exists: .cursor/commands/octon-proposal-run-packet-delivery.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-run-packet-delivery.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-run-packet-delivery.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-run-packet-delivery.md
+[OK] projected command exists: .cursor/commands/octon-proposal-run-packet-implementation.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-run-packet-implementation.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-run-packet-implementation.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-run-packet-implementation.md
+[OK] projected command exists: .cursor/commands/octon-proposal-run-packet-lifecycle.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-run-packet-lifecycle.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-run-packet-lifecycle.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-run-packet-lifecycle.md
+[OK] projected command exists: .cursor/commands/octon-proposal-run-packet-verification-and-correction-loop.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-run-packet-verification-and-correction-loop.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-run-packet-verification-and-correction-loop.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-run-packet-verification-and-correction-loop.md
+[OK] projected command exists: .cursor/commands/octon-proposal-run-program-clean-delivery.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-run-program-clean-delivery.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-run-program-clean-delivery.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-run-program-clean-delivery.md
+[OK] projected command exists: .cursor/commands/octon-proposal-run-program-delivery.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-run-program-delivery.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-run-program-delivery.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-run-program-delivery.md
+[OK] projected command exists: .cursor/commands/octon-proposal-run-program-lifecycle.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-run-program-lifecycle.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-run-program-lifecycle.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-run-program-lifecycle.md
+[OK] projected command exists: .cursor/commands/octon-proposal-run-program-verification-and-correction-loop.md
+[OK] projected command hash matches source: .cursor/commands/octon-proposal-run-program-verification-and-correction-loop.md
+[OK] projected command title is concise: .cursor/commands/octon-proposal-run-program-verification-and-correction-loop.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/octon-proposal-run-program-verification-and-correction-loop.md
+[OK] projected command exists: .cursor/commands/alignment-check.md
+[OK] projected command hash matches source: .cursor/commands/alignment-check.md
+[OK] projected command title is concise: .cursor/commands/alignment-check.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/alignment-check.md
+[OK] projected command exists: .cursor/commands/architecture-readiness-audit.md
+[OK] projected command hash matches source: .cursor/commands/architecture-readiness-audit.md
+[OK] projected command title is concise: .cursor/commands/architecture-readiness-audit.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/architecture-readiness-audit.md
+[OK] projected command exists: .cursor/commands/audit-domain-architecture.md
+[OK] projected command hash matches source: .cursor/commands/audit-domain-architecture.md
+[OK] projected command title is concise: .cursor/commands/audit-domain-architecture.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/audit-domain-architecture.md
+[OK] projected command exists: .cursor/commands/audit-skills-system-expansion.md
+[OK] projected command hash matches source: .cursor/commands/audit-skills-system-expansion.md
+[OK] projected command title is concise: .cursor/commands/audit-skills-system-expansion.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/audit-skills-system-expansion.md
+[OK] projected command exists: .cursor/commands/audit-surface-architecture.md
+[OK] projected command hash matches source: .cursor/commands/audit-surface-architecture.md
+[OK] projected command title is concise: .cursor/commands/audit-surface-architecture.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/audit-surface-architecture.md
+[OK] projected command exists: .cursor/commands/create-workflow.md
+[OK] projected command hash matches source: .cursor/commands/create-workflow.md
+[OK] projected command title is concise: .cursor/commands/create-workflow.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/create-workflow.md
+[OK] projected command exists: .cursor/commands/current-state-mechanism-architecture-review.md
+[OK] projected command hash matches source: .cursor/commands/current-state-mechanism-architecture-review.md
+[OK] projected command title is concise: .cursor/commands/current-state-mechanism-architecture-review.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/current-state-mechanism-architecture-review.md
+[OK] projected command exists: .cursor/commands/evaluate-workflow.md
+[OK] projected command hash matches source: .cursor/commands/evaluate-workflow.md
+[OK] projected command title is concise: .cursor/commands/evaluate-workflow.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/evaluate-workflow.md
+[OK] projected command exists: .cursor/commands/fixture-retention-closeout.md
+[OK] projected command hash matches source: .cursor/commands/fixture-retention-closeout.md
+[OK] projected command title is concise: .cursor/commands/fixture-retention-closeout.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/fixture-retention-closeout.md
+[OK] projected command exists: .cursor/commands/post-integration-architecture-review.md
+[OK] projected command hash matches source: .cursor/commands/post-integration-architecture-review.md
+[OK] projected command title is concise: .cursor/commands/post-integration-architecture-review.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/post-integration-architecture-review.md
+[OK] projected command exists: .cursor/commands/pre-integration-architecture-review.md
+[OK] projected command hash matches source: .cursor/commands/pre-integration-architecture-review.md
+[OK] projected command title is concise: .cursor/commands/pre-integration-architecture-review.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/pre-integration-architecture-review.md
+[OK] projected command exists: .cursor/commands/process-incoming-intake.md
+[OK] projected command hash matches source: .cursor/commands/process-incoming-intake.md
+[OK] projected command title is concise: .cursor/commands/process-incoming-intake.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/process-incoming-intake.md
+[OK] projected command exists: .cursor/commands/proposal-packet-terminal-closeout.md
+[OK] projected command hash matches source: .cursor/commands/proposal-packet-terminal-closeout.md
+[OK] projected command title is concise: .cursor/commands/proposal-packet-terminal-closeout.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/proposal-packet-terminal-closeout.md
+[OK] projected command exists: .cursor/commands/proposal-program-clean-delivery.md
+[OK] projected command hash matches source: .cursor/commands/proposal-program-clean-delivery.md
+[OK] projected command title is concise: .cursor/commands/proposal-program-clean-delivery.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/proposal-program-clean-delivery.md
+[OK] projected command exists: .cursor/commands/proposal-program-delivery.md
+[OK] projected command hash matches source: .cursor/commands/proposal-program-delivery.md
+[OK] projected command title is concise: .cursor/commands/proposal-program-delivery.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/proposal-program-delivery.md
+[OK] projected command exists: .cursor/commands/provision-host-tools.md
+[OK] projected command hash matches source: .cursor/commands/provision-host-tools.md
+[OK] projected command title is concise: .cursor/commands/provision-host-tools.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/provision-host-tools.md
+[OK] projected command exists: .cursor/commands/recover.md
+[OK] projected command hash matches source: .cursor/commands/recover.md
+[OK] projected command title is concise: .cursor/commands/recover.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/recover.md
+[OK] projected command exists: .cursor/commands/refactor.md
+[OK] projected command hash matches source: .cursor/commands/refactor.md
+[OK] projected command title is concise: .cursor/commands/refactor.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/refactor.md
+[OK] projected command exists: .cursor/commands/update-workflow.md
+[OK] projected command hash matches source: .cursor/commands/update-workflow.md
+[OK] projected command title is concise: .cursor/commands/update-workflow.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/update-workflow.md
+[OK] projected command exists: .cursor/commands/validate-frontmatter.md
+[OK] projected command hash matches source: .cursor/commands/validate-frontmatter.md
+[OK] projected command title is concise: .cursor/commands/validate-frontmatter.md
+[OK] projected command title namespace usage is allowed: .cursor/commands/validate-frontmatter.md
+[OK] host projection set matches routing for .cursor/commands
+[OK] host projection directory exists: .cursor/skills
+[OK] host projection directory contains no symlinks: .cursor/skills
+[OK] projected skill directory exists: .cursor/skills/octon-concept-integration
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-concept-integration/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-concept-integration
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration/SKILL.md
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration/references/decisions.md
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration/references/io-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration/references/phases.md
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration/references/validation.md
+[OK] projected skill directory exists: .cursor/skills/octon-concept-integration-architecture-revision-packet
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-concept-integration-architecture-revision-packet/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-concept-integration-architecture-revision-packet
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration-architecture-revision-packet/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-concept-integration-constitutional-challenge-packet
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-concept-integration-constitutional-challenge-packet/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-concept-integration-constitutional-challenge-packet
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration-constitutional-challenge-packet/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-concept-integration-multi-source-synthesis-packet
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-concept-integration-multi-source-synthesis-packet/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-concept-integration-multi-source-synthesis-packet
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration-multi-source-synthesis-packet/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-concept-integration-packet-refresh-and-supersession
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-concept-integration-packet-refresh-and-supersession/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-concept-integration-packet-refresh-and-supersession
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration-packet-refresh-and-supersession/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-concept-integration-packet-to-implementation
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-concept-integration-packet-to-implementation/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-concept-integration-packet-to-implementation
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration-packet-to-implementation/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-concept-integration-repo-internal-concept-mining
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-concept-integration-repo-internal-concept-mining/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-concept-integration-repo-internal-concept-mining
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration-repo-internal-concept-mining/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-concept-integration-source-to-architecture-packet
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-concept-integration-source-to-architecture-packet/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-concept-integration-source-to-architecture-packet
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration-source-to-architecture-packet/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-concept-integration-source-to-migration-packet
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-concept-integration-source-to-migration-packet/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-concept-integration-source-to-migration-packet
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration-source-to-migration-packet/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-concept-integration-source-to-policy-packet
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-concept-integration-source-to-policy-packet/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-concept-integration-source-to-policy-packet
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration-source-to-policy-packet/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-concept-integration-subsystem-targeted-integration
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-concept-integration-subsystem-targeted-integration/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-concept-integration-subsystem-targeted-integration
+[OK] projected skill file hash matches source: .cursor/skills/octon-concept-integration-subsystem-targeted-integration/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-decision-drafter
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-decision-drafter/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-decision-drafter
+[OK] projected skill file hash matches source: .cursor/skills/octon-decision-drafter/SKILL.md
+[OK] projected skill file hash matches source: .cursor/skills/octon-decision-drafter/references/decisions.md
+[OK] projected skill file hash matches source: .cursor/skills/octon-decision-drafter/references/io-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/octon-decision-drafter/references/phases.md
+[OK] projected skill file hash matches source: .cursor/skills/octon-decision-drafter/references/validation.md
+[OK] projected skill directory exists: .cursor/skills/octon-decision-drafter-adr-update
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-decision-drafter-adr-update/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-decision-drafter-adr-update
+[OK] projected skill file hash matches source: .cursor/skills/octon-decision-drafter-adr-update/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-decision-drafter-change-receipt
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-decision-drafter-change-receipt/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-decision-drafter-change-receipt
+[OK] projected skill file hash matches source: .cursor/skills/octon-decision-drafter-change-receipt/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-decision-drafter-migration-rationale
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-decision-drafter-migration-rationale/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-decision-drafter-migration-rationale
+[OK] projected skill file hash matches source: .cursor/skills/octon-decision-drafter-migration-rationale/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-decision-drafter-rollback-notes
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-decision-drafter-rollback-notes/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-decision-drafter-rollback-notes
+[OK] projected skill file hash matches source: .cursor/skills/octon-decision-drafter-rollback-notes/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-drift-triage
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-drift-triage/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-drift-triage
+[OK] projected skill file hash matches source: .cursor/skills/octon-drift-triage/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-impact-map-and-validation-selector
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-impact-map-and-validation-selector/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-impact-map-and-validation-selector
+[OK] projected skill file hash matches source: .cursor/skills/octon-impact-map-and-validation-selector/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-impact-map-and-validation-selector-mixed-inputs
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-impact-map-and-validation-selector-mixed-inputs/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-impact-map-and-validation-selector-mixed-inputs
+[OK] projected skill file hash matches source: .cursor/skills/octon-impact-map-and-validation-selector-mixed-inputs/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-impact-map-and-validation-selector-proposal-packet
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-impact-map-and-validation-selector-proposal-packet/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-impact-map-and-validation-selector-proposal-packet
+[OK] projected skill file hash matches source: .cursor/skills/octon-impact-map-and-validation-selector-proposal-packet/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-impact-map-and-validation-selector-refactor-target
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-impact-map-and-validation-selector-refactor-target/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-impact-map-and-validation-selector-refactor-target
+[OK] projected skill file hash matches source: .cursor/skills/octon-impact-map-and-validation-selector-refactor-target/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-impact-map-and-validation-selector-touched-paths
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-impact-map-and-validation-selector-touched-paths/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-impact-map-and-validation-selector-touched-paths
+[OK] projected skill file hash matches source: .cursor/skills/octon-impact-map-and-validation-selector-touched-paths/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-closeout-packet
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-closeout-packet
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-closeout-program
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-closeout-program/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-closeout-program
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-closeout-program/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-create-packet
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-create-packet/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-create-packet
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-create-packet/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-create-program
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-create-program/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-create-program
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-create-program/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-explain-packet
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-explain-packet/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-explain-packet
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-explain-packet/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-explain-program
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-explain-program/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-explain-program
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-explain-program/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-generate-packet-closeout-prompt
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-generate-packet-closeout-prompt/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-generate-packet-closeout-prompt
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-generate-packet-closeout-prompt/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-generate-packet-correction-prompt
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-generate-packet-correction-prompt/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-generate-packet-correction-prompt
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-generate-packet-correction-prompt/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-generate-packet-implementation-prompt
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-generate-packet-implementation-prompt/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-generate-packet-implementation-prompt
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-generate-packet-implementation-prompt/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-generate-packet-verification-prompt
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-generate-packet-verification-prompt/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-generate-packet-verification-prompt
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-generate-packet-verification-prompt/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-generate-program-closeout-prompt
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-generate-program-closeout-prompt/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-generate-program-closeout-prompt
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-generate-program-closeout-prompt/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-generate-program-correction-prompt
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-generate-program-correction-prompt/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-generate-program-correction-prompt
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-generate-program-correction-prompt/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-generate-program-orchestration-prompt
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-generate-program-orchestration-prompt/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-generate-program-orchestration-prompt
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-generate-program-orchestration-prompt/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-generate-program-verification-prompt
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-generate-program-verification-prompt/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-generate-program-verification-prompt
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-generate-program-verification-prompt/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-review-packet
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-review-packet/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-review-packet
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-review-packet/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-review-program
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-review-program/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-review-program
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-review-program/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-revise-packet
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-revise-packet/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-revise-packet
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-revise-packet/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-revise-program
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-revise-program/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-revise-program
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-revise-program/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-run-packet-implementation
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-run-packet-implementation/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-run-packet-implementation
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-run-packet-implementation/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-run-packet-lifecycle
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-run-packet-lifecycle/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-run-packet-lifecycle
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-run-packet-lifecycle/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-run-packet-verification-and-correction-loop
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-run-packet-verification-and-correction-loop/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-run-packet-verification-and-correction-loop
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-run-packet-verification-and-correction-loop/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-run-program-lifecycle
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-run-program-lifecycle
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/octon-proposal-lifecycle-run-program-verification-and-correction-loop
+[OK] projected skill includes SKILL.md: .cursor/skills/octon-proposal-lifecycle-run-program-verification-and-correction-loop/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/octon-proposal-lifecycle-run-program-verification-and-correction-loop
+[OK] projected skill file hash matches source: .cursor/skills/octon-proposal-lifecycle-run-program-verification-and-correction-loop/SKILL.md
+[OK] projected skill directory exists: .cursor/skills/audit-charter
+[OK] projected skill includes SKILL.md: .cursor/skills/audit-charter/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/audit-charter
+[OK] projected skill file hash matches source: .cursor/skills/audit-charter/SKILL.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-charter/references/checkpoints.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-charter/references/decisions.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-charter/references/examples.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-charter/references/glossary.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-charter/references/io-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-charter/references/phases.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-charter/references/safety.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-charter/references/validation.md
+[OK] projected skill directory exists: .cursor/skills/audit-domain-architecture
+[OK] projected skill includes SKILL.md: .cursor/skills/audit-domain-architecture/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/audit-domain-architecture
+[OK] projected skill file hash matches source: .cursor/skills/audit-domain-architecture/SKILL.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-domain-architecture/references/checkpoints.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-domain-architecture/references/decisions.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-domain-architecture/references/examples.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-domain-architecture/references/glossary.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-domain-architecture/references/io-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-domain-architecture/references/phases.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-domain-architecture/references/safety.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-domain-architecture/references/validation.md
+[OK] projected skill directory exists: .cursor/skills/audit-migration
+[OK] projected skill includes SKILL.md: .cursor/skills/audit-migration/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/audit-migration
+[OK] projected skill file hash matches source: .cursor/skills/audit-migration/SKILL.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-migration/references/checkpoints.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-migration/references/decisions.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-migration/references/examples.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-migration/references/glossary.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-migration/references/io-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-migration/references/phases.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-migration/references/safety.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-migration/references/validation.md
+[OK] projected skill directory exists: .cursor/skills/audit-rust-tool-architecture
+[OK] projected skill includes SKILL.md: .cursor/skills/audit-rust-tool-architecture/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/audit-rust-tool-architecture
+[OK] projected skill file hash matches source: .cursor/skills/audit-rust-tool-architecture/SKILL.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-rust-tool-architecture/references/checkpoints.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-rust-tool-architecture/references/decisions.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-rust-tool-architecture/references/glossary.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-rust-tool-architecture/references/io-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-rust-tool-architecture/references/output-schema.yml
+[OK] projected skill file hash matches source: .cursor/skills/audit-rust-tool-architecture/references/phases.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-rust-tool-architecture/references/rubric.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-rust-tool-architecture/references/safety.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-rust-tool-architecture/references/validation.md
+[OK] projected skill directory exists: .cursor/skills/audit-subsystem-health
+[OK] projected skill includes SKILL.md: .cursor/skills/audit-subsystem-health/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/audit-subsystem-health
+[OK] projected skill file hash matches source: .cursor/skills/audit-subsystem-health/SKILL.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-subsystem-health/alignment-notes.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-subsystem-health/references/alignment-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-subsystem-health/references/examples.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-subsystem-health/references/glossary.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-subsystem-health/references/io-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-subsystem-health/references/phases.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-subsystem-health/references/safety.md
+[OK] projected skill file hash matches source: .cursor/skills/audit-subsystem-health/references/validation.md
+[OK] projected skill directory exists: .cursor/skills/create-skill
+[OK] projected skill includes SKILL.md: .cursor/skills/create-skill/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/create-skill
+[OK] projected skill file hash matches source: .cursor/skills/create-skill/SKILL.md
+[OK] projected skill file hash matches source: .cursor/skills/create-skill/references/checkpoints.md
+[OK] projected skill file hash matches source: .cursor/skills/create-skill/references/decisions.md
+[OK] projected skill file hash matches source: .cursor/skills/create-skill/references/examples.md
+[OK] projected skill file hash matches source: .cursor/skills/create-skill/references/io-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/create-skill/references/phases.md
+[OK] projected skill file hash matches source: .cursor/skills/create-skill/references/safety.md
+[OK] projected skill file hash matches source: .cursor/skills/create-skill/references/validation.md
+[OK] projected skill directory exists: .cursor/skills/plan-charter-alignment
+[OK] projected skill includes SKILL.md: .cursor/skills/plan-charter-alignment/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/plan-charter-alignment
+[OK] projected skill file hash matches source: .cursor/skills/plan-charter-alignment/SKILL.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-charter-alignment/references/checkpoints.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-charter-alignment/references/decisions.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-charter-alignment/references/examples.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-charter-alignment/references/interaction.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-charter-alignment/references/io-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-charter-alignment/references/phases.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-charter-alignment/references/safety.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-charter-alignment/references/validation.md
+[OK] projected skill directory exists: .cursor/skills/plan-rust-tool-migration
+[OK] projected skill includes SKILL.md: .cursor/skills/plan-rust-tool-migration/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/plan-rust-tool-migration
+[OK] projected skill file hash matches source: .cursor/skills/plan-rust-tool-migration/SKILL.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-rust-tool-migration/references/checkpoints.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-rust-tool-migration/references/decisions.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-rust-tool-migration/references/glossary.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-rust-tool-migration/references/io-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-rust-tool-migration/references/output-schema.yml
+[OK] projected skill file hash matches source: .cursor/skills/plan-rust-tool-migration/references/phases.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-rust-tool-migration/references/safety.md
+[OK] projected skill file hash matches source: .cursor/skills/plan-rust-tool-migration/references/validation.md
+[OK] projected skill directory exists: .cursor/skills/refine-prompt
+[OK] projected skill includes SKILL.md: .cursor/skills/refine-prompt/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/refine-prompt
+[OK] projected skill file hash matches source: .cursor/skills/refine-prompt/SKILL.md
+[OK] projected skill file hash matches source: .cursor/skills/refine-prompt/references/checkpoints.md
+[OK] projected skill file hash matches source: .cursor/skills/refine-prompt/references/decisions.md
+[OK] projected skill file hash matches source: .cursor/skills/refine-prompt/references/errors.md
+[OK] projected skill file hash matches source: .cursor/skills/refine-prompt/references/examples.md
+[OK] projected skill file hash matches source: .cursor/skills/refine-prompt/references/interaction.md
+[OK] projected skill file hash matches source: .cursor/skills/refine-prompt/references/io-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/refine-prompt/references/phases.md
+[OK] projected skill file hash matches source: .cursor/skills/refine-prompt/references/safety.md
+[OK] projected skill file hash matches source: .cursor/skills/refine-prompt/references/validation.md
+[OK] projected skill directory exists: .cursor/skills/synthesize-research
+[OK] projected skill includes SKILL.md: .cursor/skills/synthesize-research/SKILL.md
+[OK] projected skill file list matches source: .cursor/skills/synthesize-research
+[OK] projected skill file hash matches source: .cursor/skills/synthesize-research/SKILL.md
+[OK] projected skill file hash matches source: .cursor/skills/synthesize-research/references/checkpoints.md
+[OK] projected skill file hash matches source: .cursor/skills/synthesize-research/references/decisions.md
+[OK] projected skill file hash matches source: .cursor/skills/synthesize-research/references/errors.md
+[OK] projected skill file hash matches source: .cursor/skills/synthesize-research/references/examples.md
+[OK] projected skill file hash matches source: .cursor/skills/synthesize-research/references/glossary.md
+[OK] projected skill file hash matches source: .cursor/skills/synthesize-research/references/io-contract.md
+[OK] projected skill file hash matches source: .cursor/skills/synthesize-research/references/phases.md
+[OK] projected skill file hash matches source: .cursor/skills/synthesize-research/references/safety.md
+[OK] projected skill file hash matches source: .cursor/skills/synthesize-research/references/validation.md
+[OK] projected skill file hash matches source: .cursor/skills/synthesize-research/scripts/.gitkeep
+[OK] host projection set matches routing for .cursor/skills
+[OK] read-only host projection skipped as non-controlling: .codex
+Validation summary: errors=0

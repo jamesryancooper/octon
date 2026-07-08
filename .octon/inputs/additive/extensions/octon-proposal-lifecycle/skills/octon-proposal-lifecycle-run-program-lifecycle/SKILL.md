@@ -45,6 +45,27 @@ and delivery handoff posture in `route-decision-receipt.yml`; it does not turn
 the requested target outcome into landing, sync, cleanup, branch cleanup,
 terminal proof, or a final `cleaned` claim.
 
+Before mutating, inspect the route graph with:
+
+```sh
+octon lifecycle route-graph --lifecycle proposal-program --target <program-packet-path> --set target_outcome=cleaned
+```
+
+The route graph is diagnostic-only. It can expose selected parent routes, child
+batches, review and architecture-review status, delivery handoff posture,
+blockers, and resume hints, but it never satisfies child receipts, delivery
+admission, Change closeout, cleanup authorization, archive authorization,
+terminal proof, or a cleaned claim.
+
+The explicit clean-delivery request wrapper is:
+
+```text
+/proposal-program-clean-delivery target=<program-packet-path> run-id=<id> [max-steps=<n>] [max-child-concurrency=<n>] [executor=auto|codex|mock]
+```
+
+It expands to the route graph preview followed by the same lifecycle runner
+with `--execute-routes` and `--set target_outcome=cleaned`.
+
 Executor behavior:
 
 - Without `--execute-routes`, the runner stops at a planned

@@ -34,6 +34,26 @@ input rather than as a completion claim:
 .octon/framework/engine/runtime/run lifecycle run --lifecycle proposal-program --target <program-packet-path> --set target_outcome=cleaned
 ```
 
+Inspect the route graph before mutation with:
+
+```sh
+.octon/framework/engine/runtime/run lifecycle route-graph --lifecycle proposal-program --target <program-packet-path> --set target_outcome=cleaned
+```
+
+The route graph is a diagnostic read model. It exposes parent route selection,
+child batches, review and architecture-review status, delivery handoff posture,
+blockers, and resume hints without consuming an execute-routes step and without
+satisfying any child receipt or delivery proof.
+
+The explicit clean-delivery request wrapper is:
+
+```text
+/proposal-program-clean-delivery target=<program-packet-path> run-id=<id> [max-steps=<n>] [max-child-concurrency=<n>] [executor=auto|codex|mock]
+```
+
+It expands to the route graph preview followed by the same lifecycle runner
+with `--execute-routes` and `--set target_outcome=cleaned`.
+
 The runner records route-selection inputs, selected route ownership, blocked
 alternatives, retry fingerprint fields, resume source refs, and delivery
 handoff posture in `route-decision-receipt.yml`. A `target_outcome=cleaned`

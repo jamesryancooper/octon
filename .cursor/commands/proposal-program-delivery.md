@@ -32,6 +32,13 @@ authority.
 /proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>
 ```
 
+Use `/proposal-program-clean-delivery` when the operator needs to start or
+resume the proposal-program lifecycle runner with route execution enabled and
+`target_outcome=cleaned` bound as a request. That wrapper can produce the
+delivery handoff input, but it does not satisfy this workflow's profile,
+readiness preflight, child receipt validation, Change closeout, cleanup, sync,
+or terminal-proof requirements.
+
 ## Required Inputs
 
 - `target`: repo-relative path to the accepted proposal program.
