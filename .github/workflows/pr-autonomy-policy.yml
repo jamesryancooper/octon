@@ -30,7 +30,6 @@ jobs:
     env:
       AUTONOMY_POLICY_ENFORCE: ${{ vars.AUTONOMY_POLICY_ENFORCE || 'true' }}
       CANONICAL_CONTROL_ROOT: .octon/state/control/execution
-      CANONICAL_CONTROL_EVIDENCE_ROOT: .octon/state/evidence/control/execution
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4

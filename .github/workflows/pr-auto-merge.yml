@@ -338,6 +338,5 @@ jobs:
           name: pr-auto-merge-projection-artifacts-${{ matrix.pr_number }}
           path: |
             .octon/generated/.tmp/pr-auto-merge/projection-${{ matrix.pr_number }}.json
-            .octon/state/evidence/runs
           if-no-files-found: warn
           retention-days: 7
