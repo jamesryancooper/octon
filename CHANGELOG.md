@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.103](https://github.com/jamesryancooper/octon/compare/octon-v0.6.102...octon-v0.6.103) (2026-07-09)
+
+
+### Features
+
+* add retained run evidence efficiency controls ([debff29](https://github.com/jamesryancooper/octon/commit/debff291c13892ebba5b4ad7d4079e9a7bfd98de))
+
+
+### Bug Fixes
+
+* **ci:** narrow projection artifact uploads ([3edc31e](https://github.com/jamesryancooper/octon/commit/3edc31e388b8782711349a6246756fc8a2082ec1))
+* **runtime:** refresh health projections and leases ([4694e95](https://github.com/jamesryancooper/octon/commit/4694e95886f25390fc1ff519f59a57d18ca31a74))
+* **runtime:** refresh route bundle digests ([bf86f0f](https://github.com/jamesryancooper/octon/commit/bf86f0fa8294c43d1f57ec48894192579e2b7d29))
+
 ## [0.6.102](https://github.com/jamesryancooper/octon/compare/octon-v0.6.101...octon-v0.6.102) (2026-07-08)
 
 
