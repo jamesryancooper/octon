@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "child-terminal-blocked-delivery-receipt-semantics-20260619t215500z-workflow-verify-post-implementation-drift",
-  "generated_at": "2026-07-08T23:50:23Z",
+  "generated_at": "2026-07-09T01:03:39Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.2.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:c7e5ab0cd12e512ce05a39b6c7794ff335a2be148e952ab27f455ffdd797c937",
-    "checked_at": "2026-07-08T23:50:23Z",
+    "combined_source_digest": "sha256:e49aed3f58d11956fecb664e268e5baf2835a358f86e157b3b66a593bcd950f4",
+    "checked_at": "2026-07-09T01:03:39Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/child-terminal-blocked-delivery-receipt-semantics-20260619t215500z-workflow-verify-post-implementation-drift/events.manifest.yml"
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:7cdcebaa078930317cc0d2fabaf4b8ca809b5f76f099db71476b4bcb503ae328",
+      "digest": "sha256:2d2db723cced39ab0902433ec997d1a42fcaa6f96326e4b5a77262614caa965f",
       "status": "present"
     },
     "run_continuity": {
@@ -166,12 +166,12 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:ad7170d14d63e451ce26e0c3ca4c3411bc3fdaee0fad8df6337284af783ca689",
+      "digest": "sha256:8ca57d45bfd912050cbf0b8458aea26c7c34ee1fc800d161d35f0e5c3e5cebef",
       "status": "present"
     },
     "pack_routes": {
       "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:3ef29d3383e96eee8fee21b91d2d2b2abef16600f392acc5b1be8855edda5723",
+      "digest": "sha256:f3d83b1eafb852494b785ef9a3e2554efa80d24f023300ffe5806e580aa3c902",
       "status": "present"
     },
     "schema": {
