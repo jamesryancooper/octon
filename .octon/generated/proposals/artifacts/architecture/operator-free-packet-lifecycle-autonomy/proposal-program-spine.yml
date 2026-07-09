@@ -1,11 +1,21 @@
 {
   "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
     "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
     "generated_output_authority": "derived-only",
     "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
     "proposal_input_authority": "non-authoritative",
     "raw_evidence_retained": true,
-    "replaces_source_evidence": false
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
   },
   "blockers": {
     "known_blockers": "see-readiness-receipt",
@@ -16,6 +26,78 @@
     "registry_ref": null,
     "sha256": null
   },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy/proposal.yml",
+      "manifest_sha256": "sha256:5fb2c4f0e4294085fb65fda2e0803049973e3f79285e7a8af0747551dabb8d98",
+      "proposal_id": "packet-delivery-wrapper-orchestration-autonomy",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-delivery-wrapper-orchestration-autonomy",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/blocked-delivery-receipt-semantics/proposal.yml",
+      "manifest_sha256": "sha256:473e112d9806605ec2fa91ea597ad3eafe72e867edf27b5a28206a6336224492",
+      "proposal_id": "blocked-delivery-receipt-semantics",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/blocked-delivery-receipt-semantics",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy/proposal.yml",
+      "manifest_sha256": "sha256:513ec582d44f2ddc88f908612f0e843d2e9df544a889e6f6680d8087444ffbff",
+      "proposal_id": "branch-no-pr-closeout-state-machine-autonomy",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/branch-no-pr-closeout-state-machine-autonomy",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/generated-freshness-scope-detection/proposal.yml",
+      "manifest_sha256": "sha256:369b6b3f7fb581bcec8ca85723f374549779b68510ecfef896b744c0902374bd",
+      "proposal_id": "generated-freshness-scope-detection",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/generated-freshness-scope-detection",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation/proposal.yml",
+      "manifest_sha256": "sha256:28fa70d47d63ce31e0d52336cac969053e6187478533a7e4fc2c0deac4f773b5",
+      "proposal_id": "packet-worktree-partitioning-automation",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/packet-worktree-partitioning-automation",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy/proposal.yml",
+      "manifest_sha256": "sha256:8af58f2bf58108dfb66b2b708346ead8fdd7e3659cb74c8f555549a3430ec3cb",
+      "proposal_id": "terminal-evidence-sink-autonomy",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/terminal-evidence-sink-autonomy",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight/proposal.yml",
+      "manifest_sha256": "sha256:19be00cba3a09bd42ccdd23f91d09253b8315b4d66ae816eacd63c118dedbbc5",
+      "proposal_id": "git-mutation-sandbox-preflight",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/git-mutation-sandbox-preflight",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
   "failure_behavior": [
     "fail-closed-on-source-missing",
     "fail-closed-on-source-digest-mismatch",

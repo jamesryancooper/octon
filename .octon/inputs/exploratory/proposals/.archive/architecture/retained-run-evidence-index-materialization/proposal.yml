@@ -12,7 +12,15 @@ change_profile: "atomic"
 promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/scripts/generate-retained-run-evidence-index.sh"
   - ".octon/framework/assurance/runtime/_ops/tests/test-generate-retained-run-evidence-index.sh"
-status: "implemented"
+status: "archived"
+archive:
+  archived_at: "2026-07-09"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization"
+  promotion_evidence:
+    - ".octon/framework/assurance/runtime/_ops/scripts/generate-retained-run-evidence-index.sh"
+    - ".octon/framework/assurance/runtime/_ops/tests/test-generate-retained-run-evidence-index.sh"
 lifecycle:
   temporary: true
   exit_expectation: >-
@@ -22,8 +30,6 @@ lifecycle:
     evidence.
 related_proposals:
   - "operator-free-packet-lifecycle-autonomy"
-  - "proposal-program-freshness-readiness-projection"
-  - "lifecycle-run-evidence-index-contract"
 selected_implementation_target: "retained-run evidence index materialization for implemented proposal children"
 scope_statement: >-
   This packet owns a narrow assurance materializer that writes valid

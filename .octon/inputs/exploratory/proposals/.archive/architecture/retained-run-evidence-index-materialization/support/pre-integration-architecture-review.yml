@@ -1,7 +1,7 @@
 schema_version: "architectural-review-support-receipt-v1"
 receipt_id: "retained-run-evidence-index-materialization-pre-integration-architecture-review-20260618T190500Z"
 proposal_path: ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization"
-packet_digest: "sha256:8e83f9a93af3bcaa2e76b8e0e538775e8f631f03a5c622ea78b9b6ede76515fb"
+packet_digest: "sha256:c4068589f6bd2dcd4653cf6da0607b8f4666020b8ce8f2199a44c42bbf47301b"
 review_mode: "pre-integration-architecture-review"
 verdict: "pass"
 unresolved_count: 0
@@ -13,7 +13,7 @@ evidence_refs:
   - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/architecture/implementation-plan.md"
   - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/architecture/acceptance-criteria.md"
   - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-grade-completeness-review.md"
-  - ".octon/inputs/exploratory/proposals/architecture/operator-free-packet-lifecycle-autonomy/support/program-correction-prompts/20260618T182200Z-readiness-projection-evidence-index-refs.md"
+  - ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/support/program-correction-prompts/20260618T182200Z-readiness-projection-evidence-index-refs.md"
   - ".octon/framework/engine/runtime/spec/retained-run-evidence-index-v1.md"
   - ".octon/framework/constitution/contracts/assurance/retained-run-evidence-index-v1.schema.json"
   - ".octon/framework/assurance/runtime/_ops/scripts/validate-retained-run-evidence-index.sh"

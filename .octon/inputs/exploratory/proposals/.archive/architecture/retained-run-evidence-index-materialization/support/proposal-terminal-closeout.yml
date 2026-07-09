@@ -1,0 +1,285 @@
+schema_version: proposal-packet-terminal-closeout-receipt-v1
+terminal_run_id: "proposal-packet-terminal-closeout-retained-run-evidence-index-materialization-20260709T021335Z"
+terminalized_at: "2026-07-09T02:13:35Z"
+packet:
+  proposal_id: "retained-run-evidence-index-materialization"
+  path: ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization"
+  proposal_kind: "architecture"
+  status: "implemented"
+target_outcome: "archive-ready"
+terminal_verdict: "archive-ready"
+archive_ready: "yes"
+profile:
+  profile_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/profile.yml"
+  profile_digest: "sha256:825a5fcaaf6e5f6b03d2fd585a66aed344e68a7ac9ac5b2d1d8de31b468167d5"
+  profile_validation_evidence_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/terminal-closeout-summary.yml"
+state_ledger:
+  - state_id: bind-profile
+    input_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/proposal.yml"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/profile.yml"
+    validator_command_refs:
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-profile.sh --profile .octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/profile.yml"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/reports/bind-profile-report.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/stages/bind-profile/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: verify-durable-implementation-state
+    input_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-run.md"
+    validator_command_refs:
+      - "deterministic promotion target existence check"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/reports/verify-durable-implementation-state-report.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/stages/verify-durable-implementation-state/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: verify-implementation-conformance
+    input_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-conformance-review.md"
+    validator_command_refs:
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/reports/verify-implementation-conformance-report.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/stages/verify-implementation-conformance/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: verify-post-implementation-drift
+    input_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/post-implementation-drift-churn-review.md"
+    validator_command_refs:
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/reports/verify-post-implementation-drift-report.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/stages/verify-post-implementation-drift/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: validate-feature-catalog-drift
+    input_refs:
+      - ".octon/framework/product/features/catalog.yml"
+      - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-conformance-review.md"
+      - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/post-implementation-drift-churn-review.md"
+    validator_command_refs:
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/feature-catalog-drift-report.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/reports/validate-feature-catalog-drift-report.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/stages/validate-feature-catalog-drift/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: validate-publication-freshness
+    input_refs:
+      - ".octon/generated/proposals/artifacts/architecture/retained-run-evidence-index-materialization/proposal-artifact-index.yml"
+    validator_command_refs:
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh --proposal .octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization --run-registry-check"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/reports/validate-publication-freshness-report.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/stages/validate-publication-freshness/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: classify-repo-hygiene
+    input_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/terminal-closeout-summary.yml"
+    validator_command_refs:
+      - "deterministic repo hygiene classification"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/reports/classify-repo-hygiene-report.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/stages/classify-repo-hygiene/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: classify-worktree-hygiene
+    input_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/worktree-hygiene-classifier.yml"
+    validator_command_refs:
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh --target .octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization --lifecycle proposal-packet --format yaml"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/reports/classify-worktree-hygiene-report.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/stages/classify-worktree-hygiene/outcome.json"
+    state_verdict: blocked
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: run-evidence-only-reviews
+    input_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/post-integration-architecture-review.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/packet-terminal-evaluator.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/lifecycle-postmortem.md"
+    validator_command_refs:
+      - "deterministic evidence-only review classification"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/reports/run-evidence-only-reviews-report.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/stages/run-evidence-only-reviews/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: resolve-git-github-route
+    input_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-delivery-retained-run-evidence-index-materialization/delivery-profile.yml"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-delivery-retained-run-evidence-index-materialization/proposal-packet-delivery-order-override-receipt.yml"
+    validator_command_refs:
+      - "deterministic Git/GitHub route classification"
+    output_evidence_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/reports/resolve-git-github-route-report.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/stages/resolve-git-github-route/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+  - state_id: emit-terminal-receipt
+    input_refs:
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/profile.yml"
+    validator_command_refs:
+      - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-packet-terminal-closeout-receipt.sh --receipt .octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/proposal-terminal-closeout.yml"
+    output_evidence_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/proposal-terminal-closeout.yml"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/reports/emit-terminal-receipt-report.md"
+      - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/stages/emit-terminal-receipt/outcome.json"
+    state_verdict: pass
+    retry_count: 0
+    resume_cursor: complete
+durable_implementation_state_evidence_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-retained-run-evidence-index.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-generate-retained-run-evidence-index.sh"
+  - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-run.md"
+  - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/proposal-closeout.md"
+implementation:
+  conformance_receipt_ref: ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-conformance-review.md"
+  conformance_validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh"
+  conformance_fresh: true
+  post_implementation_drift_receipt_ref: ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/post-implementation-drift-churn-review.md"
+  post_implementation_drift_validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh"
+  post_implementation_drift_fresh: true
+feature_catalog_drift:
+  receipt_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/feature-catalog-drift-report.md"
+  validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-feature-catalog-drift-closeout.sh"
+  fresh: true
+  verdict: "pass"
+  outcome: "no-change"
+  unresolved_count: 0
+  affected_feature_ids: []
+  required_documentation_actions: []
+  authority_notes:
+    - "feature catalog drift receipts are retained evidence only"
+    - "unresolved drift blocks terminal closeout claims but does not authorize catalog mutation"
+publication_freshness:
+  direct_generated_output_edit_used: false
+  validators:
+    - validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-lifecycle-terminal-freshness.sh"
+      evidence_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/terminal-closeout-summary.yml"
+      verdict: pass
+      fresh: true
+    - validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
+      evidence_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/terminal-closeout-summary.yml"
+      verdict: pass
+      fresh: true
+    - validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
+      evidence_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/terminal-closeout-summary.yml"
+      verdict: pass
+      fresh: true
+    - validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+      evidence_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/terminal-closeout-summary.yml"
+      verdict: pass
+      fresh: true
+  publisher_refresh_receipts:
+    - ".octon/generated/proposals/artifacts/architecture/retained-run-evidence-index-materialization/proposal-artifact-index.yml"
+  rerun_evidence_refs:
+    - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/terminal-closeout-summary.yml"
+generated_input_non_authority:
+  validation_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/terminal-closeout-summary.yml"
+  proposal_inputs_non_authority: true
+  generated_outputs_non_authority: true
+  generated_prompts_non_authority: true
+  host_state_non_authority: true
+  chat_state_non_authority: true
+  tool_state_non_authority: true
+  model_memory_non_authority: true
+run_health:
+  validation_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
+  verdict: pass
+capability_publication:
+  validation_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
+  verdict: pass
+extension_publication:
+  validation_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+  verdict: pass
+repo_hygiene:
+  classification_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/worktree-hygiene-classifier.yml"
+  cleanup_performed: false
+  cleanup_authorization_refs: []
+  unauthorized_deletion_performed: false
+worktree_hygiene:
+  classification_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/worktree-hygiene-classifier.yml"
+  verdict: blocked
+  foreign_or_ambiguous_count: 4
+  retained_fixture_path_count: 0
+  fixture_retention_refs: []
+  closeout_worktree_report_refs:
+    - ".octon/state/evidence/validation/analysis/2026-07-09T02-13-35Z-closeout-worktree-retained-run-evidence-index-materialization-archive-readiness.yml"
+  dirty_worktree: true
+partition_clean_archive_readiness:
+  enabled: true
+  mode: partition-clean-for-archive-readiness
+  order_override_receipt_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-delivery-retained-run-evidence-index-materialization/proposal-packet-delivery-order-override-receipt.yml"
+  order_override_receipt_digest: "sha256:6fadc8d6b843b8c720b6dc97f2199cc7c0fbcce4dbc4f5637b39bbb71f691522"
+  closeout_worktree_report_ref: ".octon/state/evidence/validation/analysis/2026-07-09T02-13-35Z-closeout-worktree-retained-run-evidence-index-materialization-archive-readiness.yml"
+  lifecycle_interaction_return_ref: ".octon/state/evidence/runs/skills/closeout-worktree/retained-run-evidence-index-materialization-archive-readiness-20260709T021335Z/lifecycle-interaction-return.json"
+  does_not_authorize_archive: true
+  does_not_authorize_git_mutation: true
+  does_not_authorize_cleaned_claim: true
+evidence_only_reviews:
+  post_integration_architecture_review_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/post-integration-architecture-review.md"
+  post_integration_architecture_review_authority: evidence-only
+  packet_terminal_evaluator_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/packet-terminal-evaluator.md"
+  packet_terminal_evaluator_authority: evidence-only
+  lifecycle_postmortem_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/lifecycle-postmortem.md"
+  lifecycle_postmortem_authority: evidence-only
+git_github_route:
+  route_ref: ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-delivery-retained-run-evidence-index-materialization/delivery-profile.yml"
+  branch_no_pr: false
+  mutation_delegated: true
+  exact_sha_checks_ref: not-applicable
+  landing_authorization_ref: not-applicable
+  branch_cleanup_required: false
+  branch_cleanup_authorization_ref: not-applicable
+archive_boundary:
+  archive_owner_ref: ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/workflow.yml"
+  relocation_performed: false
+blocker:
+  class: "none"
+  detail: "no blocker"
+  failing_evidence_ref: "not-applicable"
+  next_canonical_route: "archive-proposal"
+retained_evidence_inventory:
+  - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-conformance-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/post-implementation-drift-churn-review.md"
+  - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/proposal-closeout.md"
+  - ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/proposal-terminal-closeout.yml"
+  - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/feature-catalog-drift-report.md"
+  - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/profile.yml"
+  - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/terminal-closeout-summary.yml"
+  - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/post-integration-architecture-review.md"
+  - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/packet-terminal-evaluator.md"
+  - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/lifecycle-postmortem.md"
+  - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-terminal-closeout-retained-run-evidence-index-materialization/worktree-hygiene-classifier.yml"
+  - ".octon/state/evidence/validation/analysis/2026-07-09T02-13-35Z-closeout-worktree-retained-run-evidence-index-materialization-archive-readiness.yml"
+  - ".octon/state/evidence/runs/skills/closeout-worktree/retained-run-evidence-index-materialization-archive-readiness-20260709T021335Z/lifecycle-interaction-return.json"
+  - ".octon/state/evidence/runs/workflows/20260709T021335Z-proposal-packet-delivery-retained-run-evidence-index-materialization/proposal-packet-delivery-order-override-receipt.yml"
+expected_no_new_evidence_loop: true
+non_authority_declarations:
+  proposal_inputs: non-authority
+  generated_outputs: derived-only-non-authority
+  generated_prompts: non-authority
+  host_state: non-authority
+  dashboards: non-authority
+  chat: non-authority
+  tool_state: non-authority
+  model_memory: non-authority
+target_owned_evidence_policy:
+  cites_target_owned_evidence: true
+  aggregate_receipt_replaces_target_owned_receipts: false

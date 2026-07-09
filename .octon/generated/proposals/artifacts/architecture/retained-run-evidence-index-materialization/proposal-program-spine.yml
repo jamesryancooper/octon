@@ -1,11 +1,21 @@
 {
   "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
     "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
     "generated_output_authority": "derived-only",
     "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
     "proposal_input_authority": "non-authoritative",
     "raw_evidence_retained": true,
-    "replaces_source_evidence": false
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
   },
   "blockers": {
     "known_blockers": "see-readiness-receipt",
@@ -16,6 +26,18 @@
     "registry_ref": null,
     "sha256": null
   },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy/proposal.yml",
+      "manifest_sha256": "sha256:eb0f543316ab260db8eb974381a0f892c30993bb1b9d93a3d61dfba1c8de2d27",
+      "proposal_id": "operator-free-packet-lifecycle-autonomy",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/operator-free-packet-lifecycle-autonomy",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
   "failure_behavior": [
     "fail-closed-on-source-missing",
     "fail-closed-on-source-digest-mismatch",
@@ -30,14 +52,14 @@
   "gate_states": {
     "implementation_readiness": {
       "clarification_required": "no",
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-grade-completeness-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/implementation-grade-completeness-review.md",
       "unresolved_questions_count": "0",
       "verdict": "pass"
     },
     "proposal_review": {
       "implementation_prompt_authorized": "yes",
       "open_blocking_findings_count": "0",
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/proposal-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/proposal-review.md",
       "reviewed_packet_digest": "sha256:8e83f9a93af3bcaa2e76b8e0e538775e8f631f03a5c622ea78b9b6ede76515fb",
       "verdict": "accepted"
     },
@@ -51,7 +73,7 @@
   },
   "lifecycle": {
     "exit_expectation": "Implement only after proposal-local acceptance, implementation authorization, and strict architecture review. Generated outputs must not be edited by hand, and materialized indexes remain discovery-only retained evidence.",
-    "status": "implemented",
+    "status": "archived",
     "temporary": true
   },
   "output_ref": ".octon/generated/proposals/artifacts/architecture/retained-run-evidence-index-materialization/proposal-program-spine.yml",
@@ -63,7 +85,7 @@
   ],
   "proposal_id": "retained-run-evidence-index-materialization",
   "proposal_kind": "architecture",
-  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization",
   "reader_preferences": {
     "closeout": "verify compact digests before dereferencing raw packet evidence",
     "executor": "read current-stage slices first; use raw packet refs only for disputes",
@@ -74,82 +96,92 @@
   },
   "receipt_digests": [
     {
+      "byte_size": 18351,
+      "estimated_tokens": 4588,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/custom-closeout-prompt.md",
+      "sha256": "sha256:ba69f4700e77f2a896cb3fe1e73d0f640ce1ec9a8e904a2b9686d0dc1f6c5fc1"
+    },
+    {
       "byte_size": 4801,
       "estimated_tokens": 1201,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/executable-implementation-prompt.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/executable-implementation-prompt.md",
       "sha256": "sha256:2ef819dcaf7c254663cf126b53d62654a37f5893c1151309f822a7dbc4c9b5bc"
     },
     {
       "byte_size": 2692,
       "estimated_tokens": 673,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-conformance-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/implementation-conformance-review.md",
       "sha256": "sha256:92588d2369a0879ef7915f2bfe0ed0bcd0315bbc76697fea5c69f7f2c065cf76"
     },
     {
       "byte_size": 2250,
       "estimated_tokens": 563,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-grade-completeness-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/implementation-grade-completeness-review.md",
       "sha256": "sha256:2360e8f64c3425c5f46d5984508874f9b944637f5c1e658b4cd9d6f5e361362e"
     },
     {
       "byte_size": 2812,
       "estimated_tokens": 703,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-run.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/implementation-run.md",
       "sha256": "sha256:177fef39853f33fe764f6edcf52ba736d69ea5bfc66ae86a961cabb1a05356de"
     },
     {
       "byte_size": 2763,
       "estimated_tokens": 691,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/post-implementation-drift-churn-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/post-implementation-drift-churn-review.md",
       "sha256": "sha256:c55ed12f4fd4de50ecddf3292d6203f087ec333549379eb68fdb3277c9c45125"
+    },
+    {
+      "byte_size": 2762,
+      "estimated_tokens": 691,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/proposal-closeout.md",
+      "sha256": "sha256:b5c8df7144e419bdd928283a959fd70850237d3e7fbddd36c300f1429e8fb921"
     },
     {
       "byte_size": 631,
       "estimated_tokens": 158,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/proposal-creation.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/proposal-creation.md",
       "sha256": "sha256:07f70a1dc27af0c38ed75db7d39bd2dd20e1dfcf7489551bf120d3e32019808d"
     },
     {
       "byte_size": 1563,
       "estimated_tokens": 391,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/proposal-review.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/proposal-review.md",
       "sha256": "sha256:3dc6713bc42de816563b4a7d1c4c5f2b3ec9aa532a7f7f51a383260ab2c33e01"
     },
     {
       "byte_size": 1502,
       "estimated_tokens": 376,
-      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/validation.md",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/validation.md",
       "sha256": "sha256:2ea263feb5d073669f4cf6e60504ef11c5221d67ad3633b2dc954f750c08f3e7"
     }
   ],
   "related_proposals": [
-    "operator-free-packet-lifecycle-autonomy",
-    "proposal-program-freshness-readiness-projection",
-    "lifecycle-run-evidence-index-contract"
+    "operator-free-packet-lifecycle-autonomy"
   ],
   "schema_version": "octon-proposal-program-spine-v1",
   "source_digests": {
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/architecture-proposal.yml": "sha256:3b886543d5aad284ca9dc26a6a255517d873a2d7b8f7c37a73df09d31c8f5b9f",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/architecture/acceptance-criteria.md": "sha256:44e35ea1d2b8a78c2c7ec1ebcb762cc4bf2f68f4682e1f12ffc7bcd31222d4c1",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/architecture/implementation-plan.md": "sha256:f10827b47ec5a8e1df2ad39c065199719c8a765202cb43b4fd0c4304d9c3d7a4",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/navigation/artifact-catalog.md": "sha256:f70a097a43e870cd26b7601d95dc7b06e600a79f067c97518e8b084fe6c01c7c",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/navigation/source-of-truth-map.md": "sha256:55bb3e53a0fa60220958b5b8dc4bdfebbffea18fd7f7349055860dd17cf0b5aa",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/proposal.yml": "sha256:6f294ef20885b0b821713d60f30cf946ebb71dc52020cf2cf046c326feac78e2",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/executable-implementation-prompt.md": "sha256:2ef819dcaf7c254663cf126b53d62654a37f5893c1151309f822a7dbc4c9b5bc",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-grade-completeness-review.md": "sha256:2360e8f64c3425c5f46d5984508874f9b944637f5c1e658b4cd9d6f5e361362e",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/proposal-review.md": "sha256:3dc6713bc42de816563b4a7d1c4c5f2b3ec9aa532a7f7f51a383260ab2c33e01"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/architecture-proposal.yml": "sha256:ccae6ce6129bb54c520fc917cf1c481a6242951e9a91d5c11569c7b2233e199f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/architecture/acceptance-criteria.md": "sha256:44e35ea1d2b8a78c2c7ec1ebcb762cc4bf2f68f4682e1f12ffc7bcd31222d4c1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/architecture/implementation-plan.md": "sha256:f10827b47ec5a8e1df2ad39c065199719c8a765202cb43b4fd0c4304d9c3d7a4",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/navigation/artifact-catalog.md": "sha256:4a1e88c1274411e4ae6620c38c0a417114235921c5f35e14c787f311cf0d5af0",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/navigation/source-of-truth-map.md": "sha256:55bb3e53a0fa60220958b5b8dc4bdfebbffea18fd7f7349055860dd17cf0b5aa",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/proposal.yml": "sha256:aed6500e9d5501f8901d9092f2ec2ab090abb956fcff60df6e7cba1c711b07ce",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/executable-implementation-prompt.md": "sha256:2ef819dcaf7c254663cf126b53d62654a37f5893c1151309f822a7dbc4c9b5bc",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/implementation-grade-completeness-review.md": "sha256:2360e8f64c3425c5f46d5984508874f9b944637f5c1e658b4cd9d6f5e361362e",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/proposal-review.md": "sha256:3dc6713bc42de816563b4a7d1c4c5f2b3ec9aa532a7f7f51a383260ab2c33e01"
   },
   "source_lineage": [],
   "source_refs": [
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/architecture-proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/architecture/acceptance-criteria.md",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/architecture/implementation-plan.md",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/navigation/artifact-catalog.md",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/navigation/source-of-truth-map.md",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/proposal.yml",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/executable-implementation-prompt.md",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/implementation-grade-completeness-review.md",
-    ".octon/inputs/exploratory/proposals/architecture/retained-run-evidence-index-materialization/support/proposal-review.md"
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/retained-run-evidence-index-materialization/support/proposal-review.md"
   ],
-  "status": "implemented"
+  "status": "archived"
 }
