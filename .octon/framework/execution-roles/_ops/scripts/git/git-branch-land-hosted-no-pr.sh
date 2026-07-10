@@ -7,6 +7,7 @@ RECEIPT_PATH=""
 RULESET_JSON=""
 AUTHORIZATION_PATH=""
 CONFIRM=0
+EXECUTE_AUTHORIZED_LANDING=0
 DRY_RUN=0
 ALLOW_EMPTY_CHECK_SET=0
 declare -a REQUIRED_CHECKS=()
@@ -14,7 +15,7 @@ declare -a REQUIRED_CHECKS=()
 usage() {
   cat <<'USAGE'
 Usage:
-  git-branch-land-hosted-no-pr.sh [--target <branch>] [--remote <name>] [--receipt <path>] [--ruleset-json <path>] [--authorization <path>] [--require-check <name>]... [--allow-empty-check-set] [--confirm] [--dry-run]
+  git-branch-land-hosted-no-pr.sh [--target <branch>] [--remote <name>] [--receipt <path>] [--ruleset-json <path>] [--authorization <path>] [--require-check <name>]... [--allow-empty-check-set] [--confirm] [--execute-authorized-landing] [--dry-run]
 
 Fast-forward-only hosted no-PR branch landing helper.
 Route guard: call only after Change routing selects branch-no-pr.
@@ -162,6 +163,9 @@ while [[ $# -gt 0 ]]; do
     --confirm)
       CONFIRM=1
       ;;
+    --execute-authorized-landing)
+      EXECUTE_AUTHORIZED_LANDING=1
+      ;;
     --dry-run)
       DRY_RUN=1
       ;;
@@ -217,6 +221,9 @@ fi
 if [[ "$DRY_RUN" -eq 0 && "$CONFIRM" -ne 1 ]]; then
   error "Mutating hosted no-PR branch landing requires --confirm."
 fi
+if [[ "$DRY_RUN" -eq 0 && "$EXECUTE_AUTHORIZED_LANDING" -ne 1 ]]; then
+  error "Mutating hosted no-PR branch landing requires --execute-authorized-landing."
+fi
 
 run_cmd git -C "$REPO_ROOT" push "$REMOTE" "$SOURCE_REF:refs/heads/$TARGET_BRANCH"
 
@@ -238,3 +245,5 @@ echo "[OK] Target post-ref: $TARGET_POST_REF"
 echo "[OK] Landed ref: $SOURCE_REF"
 echo "[OK] origin/main equals landed_ref after push when target is main."
 echo "[OK] Integration method: fast-forward"
+echo "[OK] Hosted landing execution signal: --execute-authorized-landing"
+echo "[OK] Landing authorization consumed: true"
