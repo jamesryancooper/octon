@@ -359,6 +359,16 @@ artifacts:
   determinism: unique
   description: Authoritative bounded-audit bundle for architecture-readiness recommendation
     and done-gate evidence
+- name: architecture_readiness_audit_method_selection_record
+  path: "/.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/architecture-readiness-audit/routing-decision.yml"
+  kind: file
+  format: yaml
+  determinism: unique
+  description: Records the selected review method id (field method bound to naming.yml
+    methods.catalog) and the applied lens profile (field lenses_applied bound to lens-bank.yml)
+    through the architectural-review-routing-decision-v2 artifact in the existing architectural-review
+    run-evidence root; descriptive run evidence only, granting the readiness output no lifecycle,
+    acceptance, promotion, or closeout authority, and leaving the readiness verdict semantics unchanged.
 done_gate:
   checks:
   - Primary audit executes and classifies the target explicitly

@@ -1,0 +1,48 @@
+schema_version: proposal-v1
+proposal_id: architectural-review-suite-integration
+title: Architectural Review Suite Integration
+summary: Phase-3 integration child of the Architecture Review Method Suite Program. Records the selected review method id in existing architectural-review workflow run evidence through the v2 routing-decision/report artifacts (support receipt v1 unchanged), extends the product feature note and the governed cross-surface mechanism entry and index with navigation-only method-layer descriptions and per-occasion method advisory text, refreshes affected generated projections only through canonical publishers, and runs the full architectural-review validator suite plus proposal and feature-catalog validators as the closing sweep. No new mechanism, workflow mode, lifecycle gate, evidence root, or review-output authority is created.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/
+- .octon/framework/orchestration/runtime/workflows/audit/post-integration-architecture-review/
+- .octon/framework/orchestration/runtime/workflows/audit/current-state-mechanism-architecture-review/
+- .octon/framework/orchestration/runtime/workflows/audit/architecture-readiness-audit/
+- .octon/framework/product/features/architectural-review-mechanism.md
+- .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/mechanisms/architectural-review-mechanism.md
+- .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/index.yml
+- .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-workflows.sh
+- .octon/state/evidence/validation/proposals/architectural-review-suite-integration/
+status: archived
+archive:
+  archived_at: 2026-07-10
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architectural-review-suite-integration
+  promotion_evidence:
+  - .octon/framework/assurance/runtime/_ops/scripts
+  - .octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms
+  - .octon/framework/orchestration/runtime/workflows/audit
+  - .octon/framework/product/features
+lifecycle:
+  temporary: true
+  exit_expectation: Review, accept, implement, verify, promote, close out, and archive this packet through the canonical proposal lifecycle after its three phase-2 dependencies pass verification, or reject or supersede it with explicit evidence. Durable authority arises only from the declared promotion targets after governed promotion; parent program evidence never satisfies this child's receipts.
+related_proposals:
+- architecture-review-method-suite-program
+- greenfield-reference-architecture-review-method
+- companion-architecture-review-methods
+- architectural-review-schema-extensions
+authority_class_impact:
+  framework: Extends existing architectural-review workflow contracts (method-id recording in run evidence), the product feature note, the governed cross-surface mechanism entry and index, and one assurance validator under framework/**. No new mechanism, workflow mode, lifecycle gate, evidence root, or review-output authority.
+  instance: No instance surface changes.
+  state_control: No control-truth mutation. Method selection is recorded as run evidence, not control state.
+  state_evidence: Review runs record the selected method id in existing run-evidence artifacts (architectural-review-routing-decision-v2 / architectural-review-report-v2) under the existing architectural-review run-evidence root; the pre-integration support receipt (v1) is unchanged and never carries the method field. Child lifecycle evidence lands under the declared child evidence root.
+  generated: Affected generated projections are refreshed only through canonical publication scripts after the change lands; no generated path is a direct write target and no generated output becomes authority.
+  inputs: This packet is non-authoritative proposal lineage until separately accepted, implemented, validated, and promoted. The intake unit and parent program docs are cited as lineage only.
+change_profile: atomic
+created_date: 2026-07-10
+explicit_runtime_non_implementation_statement: Creating this packet changes no runtime, workflow, evidence-recording, publication, validator, or review behavior. Durable behavior arises only from separately reviewed implementation in the declared promotion targets.
+program_group: integration
+program_parent: architecture-review-method-suite-program
+program_phase: phase-3

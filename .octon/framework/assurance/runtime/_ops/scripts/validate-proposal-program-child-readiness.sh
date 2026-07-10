@@ -534,7 +534,8 @@ fi
 for ((index=0; index<child_count; index++)); do
   child_id="$(yq -r ".children[$index].child_id // \"\"" "$REGISTRY" 2>/dev/null || true)"
   child_path="$(yq -r ".children[$index].path // \"\"" "$REGISTRY" 2>/dev/null || true)"
-  required="$(yq -r ".children[$index].required // true" "$REGISTRY" 2>/dev/null || true)"
+  required="$(yq -r ".children[$index].required" "$REGISTRY" 2>/dev/null || true)"
+  [[ -n "$required" && "$required" != "null" ]] || required=true
   deferred="$(yq -r ".children[$index].deferred // false" "$REGISTRY" 2>/dev/null || true)"
   dependencies="$(yq -r ".children[$index].dependencies[]? // \"\"" "$REGISTRY" 2>/dev/null | awk 'NF' || true)"
 

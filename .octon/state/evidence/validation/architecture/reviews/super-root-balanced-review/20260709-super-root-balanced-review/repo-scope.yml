@@ -1,0 +1,21 @@
+schema_version: architecture-review-repo-scope-v1
+review_id: 20260709-super-root-balanced-review
+repository_path: /Users/jamesryancooper/Projects/octon
+branch: main
+commit_sha: eff350fcfec641e59665e74544f104f2e5bc6a4d
+worktree_state: clean for git-tracked files at run start
+intentional_local_context:
+  - description: >-
+      The prompt library intake unit under
+      .octon/inputs/additive/.incoming/octon-architecture-review-prompt-library/
+      is deliberately gitignored (.gitignore line 15) and therefore not
+      anchored by the commit SHA. The exact Prompt 1 artifact was copied into
+      this bundle as source-prompt.md (sha256
+      66cab1d98e62cd5b1fadbb513ac001020915783a9c2c7657128f5ea879953ace) to
+      preserve prompt provenance.
+  - description: >-
+      Intake-processing run evidence under
+      .octon/state/evidence/runs/workflows/ is gitignored (.gitignore line 64)
+      and remains operator-local.
+scope: whole authoritative super-root architecture under .octon/ at the
+  recorded commit; review is read-only outside this evidence folder

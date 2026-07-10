@@ -1,0 +1,17 @@
+authority-boundary
+clean-sheet-reference
+complexity-separation
+contracts-compatibility
+current-reality-map
+data-truth-lineage
+domain-model
+evolution-fitness
+failure-and-recovery
+non-goals-deletion
+operability-observability-evidence
+quality-attribute-scenarios
+security-threat-model
+sequencing-mvp-migration
+system-job-framing
+tradeoff-adr
+validation-strategy

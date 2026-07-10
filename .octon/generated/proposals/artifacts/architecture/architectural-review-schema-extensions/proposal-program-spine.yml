@@ -1,0 +1,256 @@
+{
+  "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
+    "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": true,
+    "registry_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml",
+    "sha256": "sha256:e6c9edc603793b25afec62032f5ea3c831ad489fc0931cf19745d00145ec08f4"
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/proposal.yml",
+      "manifest_sha256": "sha256:fbb59f4291fc9a41d3881e80412edbf42611e2daf47f2cfa06f031692ed73075",
+      "proposal_id": "architecture-review-method-suite-program",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program",
+      "ref_type": "parent_program",
+      "required": true,
+      "source_field": "proposal.yml#parent_program"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/proposal.yml",
+      "manifest_sha256": "sha256:fbb59f4291fc9a41d3881e80412edbf42611e2daf47f2cfa06f031692ed73075",
+      "proposal_id": "architecture-review-method-suite-program",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/proposal.yml",
+      "manifest_sha256": "sha256:85401a2a802f510774ebcf32e8b3efbe32aef127bf98b77f488a69578b36a379",
+      "proposal_id": "architecture-lens-bank-foundation",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-review-method-taxonomy-and-routing/proposal.yml",
+      "manifest_sha256": "sha256:fb656230f66c9fb023500ef996040e216328a6f1247790a6c72221b9781ea55f",
+      "proposal_id": "architecture-review-method-taxonomy-and-routing",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-review-method-taxonomy-and-routing",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/greenfield-reference-architecture-review-method/proposal.yml",
+      "manifest_sha256": "sha256:3110910c0c25cedb9fede0ea624b55c56521ed69505a0c01cb42d603eb952ec9",
+      "proposal_id": "greenfield-reference-architecture-review-method",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/greenfield-reference-architecture-review-method",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": null,
+      "manifest_sha256": null,
+      "planned": true,
+      "proposal_id": "companion-architecture-review-methods",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods",
+      "ref_type": "related_proposal",
+      "registry_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml",
+      "registry_sha256": "sha256:e6c9edc603793b25afec62032f5ea3c831ad489fc0931cf19745d00145ec08f4",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": null,
+      "manifest_sha256": null,
+      "planned": true,
+      "proposal_id": "architectural-review-suite-integration",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-suite-integration",
+      "ref_type": "related_proposal",
+      "registry_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml",
+      "registry_sha256": "sha256:e6c9edc603793b25afec62032f5ea3c831ad489fc0931cf19745d00145ec08f4",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:2bb52b693dd2ca1f27bd370a41dc917b7670646f2f95252fdeea42d586604585",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Advance this child through review, implementation, and verification until architectural-review-report-v2.schema.json and architectural-review-routing-decision-v2.schema.json exist as strict additive supersets of their v1 schemas carrying the required method and lenses_applied fields, the v1 report and routing-decision schemas remain retained and valid, architectural-review-support-receipt-v1.schema.json is unchanged, the contracts/assurance README lists the two v2 schemas, and validate-architectural-review-receipts.sh validates the v2 fields with all three negative controls demonstrably failing closed. The v1 to v2 coexistence posture is recorded; existing evidence roots and the pre-integration gate remain unchanged; child lifecycle evidence is retained outside the proposal path; then close out and archive this packet. Parent program evidence never satisfies this child's receipts.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architectural-review-schema-extensions/proposal-program-spine.yml",
+  "parent_program": "architecture-review-method-suite-program",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/constitution/contracts/assurance/architectural-review-report-v2.schema.json",
+    ".octon/framework/constitution/contracts/assurance/architectural-review-routing-decision-v2.schema.json",
+    ".octon/framework/constitution/contracts/assurance/README.md",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh",
+    ".octon/state/evidence/validation/proposals/architectural-review-schema-extensions/"
+  ],
+  "proposal_id": "architectural-review-schema-extensions",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 28509,
+      "estimated_tokens": 7128,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/executable-implementation-prompt.md",
+      "sha256": "sha256:77737b4bd7902681dae9a46a7e0908cbfa6a6a7605e27289e49d463a3da8389f"
+    },
+    {
+      "byte_size": 3310,
+      "estimated_tokens": 828,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/implementation-conformance-review.md",
+      "sha256": "sha256:0905c08fe10b0280fadce8c7a0ff23165b75464b4d31c17a0a629c341209d26d"
+    },
+    {
+      "byte_size": 2941,
+      "estimated_tokens": 736,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:bec0e7f10acc8fde4988ab96838da86ef24822bf1dd723f22365dc48ce999b42"
+    },
+    {
+      "byte_size": 4743,
+      "estimated_tokens": 1186,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/implementation-run.md",
+      "sha256": "sha256:1c6e243c52920111d6e4ca44c9e3f9bedc40b308cd02112f13165dce4c37ff4a"
+    },
+    {
+      "byte_size": 3155,
+      "estimated_tokens": 789,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:893b0ab4cf4af38531b649295f78abbca78d1781e6da0b4bfa4cdfcb3845b9c4"
+    },
+    {
+      "byte_size": 8677,
+      "estimated_tokens": 2170,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/proposal-closeout.md",
+      "sha256": "sha256:3c7052d83d1372af0404398bf3dd8f6318d6f4b9735c5fa30134170ecfa51cd6"
+    },
+    {
+      "byte_size": 4254,
+      "estimated_tokens": 1064,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/proposal-creation.md",
+      "sha256": "sha256:06f282a056f84b419a30dd0af982d3f0ba7c4739965ee9ec33c91db65dab1b57"
+    },
+    {
+      "byte_size": 5793,
+      "estimated_tokens": 1449,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/proposal-review.md",
+      "sha256": "sha256:534747af1c6ababab32ac4189f1780090ae81f91c4c685b15439ed6c2373b549"
+    }
+  ],
+  "related_proposals": [
+    "architecture-review-method-suite-program",
+    "architecture-lens-bank-foundation",
+    "architecture-review-method-taxonomy-and-routing",
+    "greenfield-reference-architecture-review-method",
+    "companion-architecture-review-methods",
+    "architectural-review-suite-integration"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/architecture-proposal.yml": "sha256:0baa89e69ece861047729d5b5488deaec6b0a6ec55fea8346a8f32ec9dadbf19",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/architecture/acceptance-criteria.md": "sha256:f3cae13ec2c40a1ad5dfc9b3a28a5760d280bb5118788d4d9f17bca7cb902f03",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/architecture/implementation-plan.md": "sha256:3253020761d7398321a39f325b5ad714a70c4e746e55f26783c6b33e74158949",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/navigation/artifact-catalog.md": "sha256:ddc35512b74799cf79d2c981038bc2fca2dc4d8a7259c2b9d335786f4ce4ef3f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/navigation/source-of-truth-map.md": "sha256:77bd5049b9bc3fba83dd1f05cfa15ca99f3a0534e926f5a1da26272518a05bce",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/proposal.yml": "sha256:ac64a8dc1ebfd00c0bbb86e7b62475e3ffa318a1c9e4611b1e43e253771d9bf1",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/executable-implementation-prompt.md": "sha256:77737b4bd7902681dae9a46a7e0908cbfa6a6a7605e27289e49d463a3da8389f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/implementation-grade-completeness-review.md": "sha256:bec0e7f10acc8fde4988ab96838da86ef24822bf1dd723f22365dc48ce999b42",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/proposal-review.md": "sha256:534747af1c6ababab32ac4189f1780090ae81f91c4c685b15439ed6c2373b549",
+    ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml": "sha256:e6c9edc603793b25afec62032f5ea3c831ad489fc0931cf19745d00145ec08f4"
+  },
+  "source_lineage": [
+    ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/method-taxonomy.md",
+    ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/child-packet-contract.md",
+    ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/target-architecture.md",
+    ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml"
+  ],
+  "status": "archived"
+}

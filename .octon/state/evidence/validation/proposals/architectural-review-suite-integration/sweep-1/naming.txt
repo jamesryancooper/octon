@@ -1,0 +1,37 @@
+[OK] architectural review naming model exists
+[OK] architectural review naming model parses
+[OK] canonical slug declared: pre-integration-architecture-review
+[OK] canonical slug declared: post-integration-architecture-review
+[OK] canonical slug declared: current-state-mechanism-architecture-review
+[OK] canonical slug declared: architecture-readiness-audit
+[OK] canonical slug declared: domain-architecture-audit
+[OK] canonical slug declared: surface-architecture-audit
+[OK] canonical slug declared: architecture-revision-packet
+[OK] canonical slug declared: lifecycle-postmortem-evaluator
+[OK] command facade declared: architecture-readiness-audit -> architecture-readiness-audit
+[OK] active invocation alias declared: domain-architecture-audit -> audit-domain-architecture
+[OK] command facade declared: domain-architecture-audit -> audit-domain-architecture
+[OK] active invocation alias declared: surface-architecture-audit -> audit-surface-architecture
+[OK] command facade declared: surface-architecture-audit -> audit-surface-architecture
+[OK] legacy audit-architecture-readiness alias remains retired
+[OK] canonical architecture-readiness-audit workflow directory exists
+[OK] legacy audit-architecture-readiness workflow directory absent
+[OK] canonical architecture-readiness-audit skill directory exists
+[OK] legacy audit-architecture-readiness skill directory absent
+[OK] legacy audit-architecture-readiness alias absent from runtime and extension invocation surfaces
+[OK] naming schema_version is architectural-review-naming-v2
+[OK] methods.default is balanced-architecture-review-method
+[OK] methods.catalog declares canonical method: balanced-architecture-review-method
+[OK] methods.catalog declares canonical method: greenfield-reference-architecture-review-method
+[OK] methods.catalog declares canonical method: tradeoff-review-method
+[OK] methods.catalog declares canonical method: failure-mode-review-method
+[OK] methods.catalog declares canonical method: evolution-fitness-review-method
+[OK] methods.catalog declares canonical method: boundary-authority-review-method
+[OK] lens bank available for method binding: /Users/jamesryancooper/Projects/octon/.octon/framework/cognition/practices/methodology/architectural-review/lens-bank.yml
+[OK] method slug binds to lens-bank suite_methods: balanced-architecture-review-method
+[OK] method slug binds to lens-bank suite_methods: greenfield-reference-architecture-review-method
+[OK] method slug binds to lens-bank suite_methods: tradeoff-review-method
+[OK] method slug binds to lens-bank suite_methods: failure-mode-review-method
+[OK] method slug binds to lens-bank suite_methods: evolution-fitness-review-method
+[OK] method slug binds to lens-bank suite_methods: boundary-authority-review-method
+Validation summary: errors=0

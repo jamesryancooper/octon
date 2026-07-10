@@ -1,0 +1,67 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "greenfield-reference-architecture-review-method"
+decision_type: "new-surface"
+title: "Greenfield Reference Architecture Review Method"
+target_state: >-
+  The Architectural Review Mechanism directory
+  .octon/framework/cognition/practices/methodology/architectural-review/ carries an
+  authored Greenfield Reference Architecture Review method doc,
+  greenfield-reference-architecture-review-method.md, that answers "if this system
+  or subsystem did not exist, what should we build first?" The doc specifies the
+  five required output sections named in method-taxonomy.md section 2 - (1) domain
+  and job model, (2) reference architecture, (3) quality/security/ops model, (4)
+  authority/evidence model, and (5) evolution plan - plus initial-build
+  sequencing, a minimum viable architecture, and an explicit what-not-to-build-yet
+  list. It records the method's required inputs (system job/mission statement;
+  known hard constraints - governance posture, evidence obligations, support-claim
+  boundaries; explicit statement of what is being replaced, if anything), its
+  non-goals (deciding what to change in an existing system - that is Balanced;
+  fantasy architecture that ignores Octon governance, support claims, validation,
+  or operability; absorbing companion methods' output contracts), the clean-sheet
+  complementarity with Balanced (Greenfield produces the reference design as the
+  deliverable rather than as a comparison tool and issues no what-to-change
+  verdict), the escalation rules (option choice inside the reference design ->
+  Tradeoff; runtime-critical subsystem in the design -> Failure-Mode; before any
+  implementation proposal -> Balanced Review or proposal drafting against current
+  reality when replacing an existing system; constitutional conflicts ->
+  Constitutional Challenge), and the reference-architecture-only output boundary
+  stated fail-closed (Greenfield output is evidence or proposal input, never
+  implementation authority; the pre-integration support receipt remains the only
+  lifecycle-gating review artifact). The doc cites its lenses by id from the
+  verified lens-bank.yml
+  method_profiles.greenfield-reference-architecture-review-method (14 required, 3
+  optional) and defines no private lens catalog. The naming.yml greenfield catalog
+  entry gains an additive doc reference wiring the doc into the method catalog
+  (matching Balanced's doc field), and the README references section links the
+  doc; both edits are additive and navigation only.
+boundary_change: >-
+  No authority-class boundary moves. This is additive native methodology authoring
+  inside the existing mechanism: one new authored doc plus two additive navigation
+  edits (a doc reference on the existing naming.yml greenfield catalog entry and a
+  README references link). No new mechanism, lifecycle gate, routed workflow mode,
+  evidence root, command facade, or schema is created; no companion doc and no
+  Balanced doctrine text is changed. Upstream dependencies
+  architecture-lens-bank-foundation (phase-0, the verified greenfield lens profile)
+  and architecture-review-method-taxonomy-and-routing (phase-1, the naming methods
+  list and routing method_selection that name and route this method) are consumed
+  as verified dependencies; this child binds to them and does not modify them
+  beyond the additive naming.yml doc reference on the already-declared greenfield
+  entry. Downstream, architectural-review-suite-integration (phase-3) records the
+  selected method id in run evidence and refreshes any generated projections
+  through canonical publishers; this child neither depends on nor modifies that
+  work. Greenfield output remains reference-architecture-only and grants no
+  authority; the method is routable today via routing v2 method_selection and this
+  child only supplies its output contract.
+authoritative_targets_after_promotion:
+  - ".octon/framework/cognition/practices/methodology/architectural-review/greenfield-reference-architecture-review-method.md"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/naming.yml"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/README.md"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "resources/**"
+  - "support/**"

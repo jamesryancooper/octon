@@ -1,0 +1,155 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "companion-architecture-review-methods-pre-integration-architecture-review-20260710T070001Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods"
+packet_digest: "sha256:1d94a604aac97c73c5355e081bd4bcfaaa90a448072e61ac41558f91aaf5148a"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-10T07:00:01Z"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/architecture/current-state-gap-map.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/architecture/implementation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/architecture/file-change-map.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/architecture/validation-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/architecture/cutover-checklist.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/architecture/rollback-plan.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/architecture/operator-disclosure.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/navigation/source-of-truth-map.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/navigation/artifact-catalog.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/resources/method-taxonomy-companions.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/resources/traceability-map.md"
+  - ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods/support/implementation-grade-completeness-review.md"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/naming.yml"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/lens-bank.yml"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/review-routing.yml"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/README.md"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/greenfield-reference-architecture-review-method.md"
+  - ".octon/framework/cognition/practices/methodology/architecture-readiness/framework.md"
+  - ".octon/framework/cognition/practices/methodology/audits/surface-architecture.md"
+  - ".octon/framework/constitution/contracts/assurance/architectural-review-support-receipt-v1.schema.json"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods --skip-registry-check (errors=0 warnings=4; warnings are expected pre-implementation absent-target notices)"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods (errors=0 warnings=0)"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods (errors=0 warnings=0)"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-naming.sh (errors=0)"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-lens-references.sh (errors=0)"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-routing.sh (errors=0)"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods --print-digest (stamped packet_digest)"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh --receipt <this receipt> --package <packet> --mode pre-integration-architecture-review --require-pass (self-check green)"
+blockers: []
+mode_specific_coverage:
+  review_charter: >-
+    Pre-integration architecture review of program child
+    companion-architecture-review-methods before acceptance and implementation
+    authorization. Decision under review: author the four remaining companion
+    architecture-review method docs (Tradeoff, Failure-Mode, Evolution/Fitness,
+    Boundary/Authority) as first-class methodology surfaces in the existing
+    Architectural Review Mechanism method layer, plus additive naming.yml doc
+    pointers and README reference links. Scope is this child's doctrine and
+    additive discoverability wiring only; no new mechanism, routed workflow mode,
+    lifecycle gate, evidence root, schema, validator, or command facade.
+  system_job: >-
+    The child's job is to close the half-integrated state where four companion
+    methods are already declared in naming.yml v2 (role companion, lens profile
+    bound) and profiled in lens-bank.yml but carry no human-readable doctrine.
+    Authoring the four docs and wiring them into the catalog/README makes each
+    selectable method describable: question, use cases, non-goals, required
+    inputs, lens profile, output contract, escalation, and non-authority output
+    boundary.
+  current_reality: >-
+    Verified at the working tree on 2026-07-10. naming.yml is
+    architectural-review-naming-v2; its methods.catalog carries all six methods,
+    and the four companion entries have role companion and a lens_profile_ref but
+    lack a doc pointer, while Balanced and Greenfield carry doc pointers.
+    lens-bank.yml is architectural-review-lens-bank-v1 with complete
+    method_profiles for each companion (required counts 2/6/5/2). review-routing.yml
+    is architectural-review-routing-v2 with constitutional_conflict_routes_to
+    constitutional-challenge and unknown_method/missing_method_record fail-closed
+    conditions. Both cited composition boundaries exist at their live paths:
+    architecture-readiness/framework.md carries the heading Mandatory Failure-Mode
+    Analysis and audits/surface-architecture.md carries Authority Model
+    Classification with the contract-first/mixed/markdown-first/human-led
+    vocabulary.
+  steelman_and_chestertons_fence: >-
+    The single shared-contract-shape mirroring the delivered Greenfield doc is a
+    deliberate low-variance choice, not under-design: it keeps six method docs
+    isomorphic and machine-checkable against one lens bank. The lens-admission
+    rule (no private lens catalog; every cited lens id resolves to lens-bank.yml)
+    is the fence against methodology sprawl. Readiness and surface-audit doctrine
+    are fenced as compose-only: cited by heading, never modified or duplicated.
+    Boundary/Authority ships Octon-only in v1 by deliberate program-level
+    deferral of the generic mode.
+  clean_sheet_comparison: >-
+    A clean-sheet method layer would still separate reusable lenses from
+    method-owned question/output contracts and would still document each selectable
+    method. The packet matches that shape and adds nothing a clean-sheet design
+    would omit: it introduces no second lens catalog, no parallel routing surface,
+    and no new gate. The only divergence from the parent design docs is slug and
+    path canonicalization already settled by phase-0/phase-1 children, where the
+    live repository is taken as authoritative and the divergence is recorded.
+  target_architecture_fit: >-
+    The target extends the existing mechanism in place. The four docs' cited
+    required-lens sets match lens-bank.yml method_profiles verbatim: Tradeoff
+    {quality-attribute-scenarios, tradeoff-adr}; Failure-Mode {current-reality-map,
+    failure-and-recovery, authority-boundary, validation-strategy,
+    security-threat-model, operability-observability-evidence}; Evolution/Fitness
+    {current-reality-map, validation-strategy, contracts-compatibility,
+    operability-observability-evidence, evolution-fitness}; Boundary/Authority
+    {current-reality-map, authority-boundary}. The additive naming.yml doc pointers
+    mirror the existing Greenfield entry and change no slug, role, default, or
+    lens_profile_ref; the README edit appends four reference links only.
+  authority_boundaries: >-
+    No authority-class boundary moves and no new authority is created. Every
+    method's output stays retained evidence or proposal input; the pre-integration
+    support receipt remains the only lifecycle-gating review artifact. Balanced
+    remains the declared default. The change stays inside the child's
+    registry-declared write scope
+    .octon/framework/cognition/practices/methodology/architectural-review/.
+    Parent program evidence, the child contract, and this receipt never satisfy a
+    downstream child receipt or promotion target, and the proposal packet itself
+    remains non-authoritative lineage.
+  failure_modes_and_second_order_effects: >-
+    Reviewed: (1) doc/registry drift, bounded by the deterministic nine-assertion
+    doc-consistency check plus the three architectural-review regression validators
+    the validation plan binds; (2) boundary-statement erosion, bounded by mandated
+    citations of the readiness Mandatory Failure-Mode Analysis and the surface
+    audit Authority Model Classification with escalation rather than duplication;
+    (3) concurrent naming.yml/README edits by a sibling phase-2 child, addressed by
+    the completeness review's disjoint-write-scope assumption and parent
+    coordination; (4) generic-mode scope creep on Boundary/Authority, closed by the
+    explicit Octon-only v1 note. No second-order effect widens support claims or
+    creates a new runtime dependency.
+  evidence_and_validation_plan: >-
+    The validation floor is credible and executable: a deterministic nine-assertion
+    doc/registry consistency check across all four docs, three architectural-review
+    regression validators required at errors=0, and validate-proposal-standard.sh
+    in registry-skip mode. The three regression validators and the structural,
+    subtype, and readiness validators execute green at this digest. Child-owned
+    validator evidence is retained under
+    .octon/state/evidence/validation/proposals/companion-architecture-review-methods/
+    and never under generated/**. No new enforcement surface is introduced, so
+    negative controls remain owned by the taxonomy/routing and schema-extension
+    children.
+  rollback_and_closeout: >-
+    change_profile atomic, release_state pre-1.0. Rollback posture is manual and
+    additive-reversible: the four new docs are deletable and the two additive edits
+    (naming.yml doc pointers, README links) revert to their prior in-place text
+    with no semantic dependency. Closeout is gated on AC-1..AC-12 plus the
+    post-implementation conformance and drift/churn receipts and a strict
+    pre-integration receipt; implemented/closed is forbidden until those pass, with
+    a blocked/deferred or superseded/rejected disposition otherwise.
+  verdict_basis: >-
+    Structural, subtype, and readiness validators pass at this digest
+    (proposal-standard errors=0 with expected absent-target warnings;
+    architecture-proposal errors=0; implementation-readiness errors=0). The three
+    architectural-review regression validators pass errors=0 and the packet's
+    cited companion lens sets match lens-bank.yml verbatim. Every cited durable
+    authority and composition boundary resolves in the live repository. No
+    unresolved item and no blocker remain at review time; the additive, in-scope,
+    fenced design fits the target architecture, so the pre-integration verdict is
+    pass.

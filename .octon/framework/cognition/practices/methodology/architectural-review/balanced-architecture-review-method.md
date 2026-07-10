@@ -53,3 +53,14 @@ Every native architectural review should produce:
 - option comparison and recommendation;
 - authority, evidence, validation, publication, and rollback plan;
 - final verdict and unresolved blocker count.
+
+## Related
+
+Balanced is the default method in the Architecture Review Method Suite.
+Navigation only — this section changes no doctrine above.
+
+- Method taxonomy and default: [`naming.yml`](./naming.yml) `methods`.
+- Shared lens catalog Balanced draws from:
+  [Architecture Lens Bank](./architecture-lens-bank.md) (`lens-bank.yml`).
+- Where Balanced escalates to a companion method:
+  [`review-routing.yml`](./review-routing.yml) `method_selection.escalation_map`.

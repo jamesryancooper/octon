@@ -28,6 +28,10 @@ machine-checkable bounded-audit artifacts.
    - `inventory.md`
 4. Evaluate and record done-gate expression.
 5. Record recommendation rationale tied to merged findings and coverage status.
+6. Confirm the selected review method id record (`routing-decision.yml`) is
+   retained under
+   `.octon/state/evidence/runs/workflows/{run_id}/architectural-review/architecture-readiness-audit/`;
+   it is descriptive run evidence only and does not change the done-gate.
 
 ## Done-Gate Expression
 

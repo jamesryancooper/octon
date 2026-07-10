@@ -1,0 +1,12 @@
+[OK] lens bank exists: /Users/jamesryancooper/Projects/octon/.octon/framework/cognition/practices/methodology/architectural-review/lens-bank.yml
+[OK] lens bank parses as YAML
+[OK] lens catalog declares 18 lens ids
+[OK] all method-profile lens references resolve to defined lens ids
+[OK] bank declares 6 suite methods
+[OK] suite method 'balanced-architecture-review-method' has a complete profile (required=10)
+[OK] suite method 'greenfield-reference-architecture-review-method' has a complete profile (required=14)
+[OK] suite method 'tradeoff-review-method' has a complete profile (required=2)
+[OK] suite method 'failure-mode-review-method' has a complete profile (required=6)
+[OK] suite method 'evolution-fitness-review-method' has a complete profile (required=5)
+[OK] suite method 'boundary-authority-review-method' has a complete profile (required=2)
+Validation summary: errors=0

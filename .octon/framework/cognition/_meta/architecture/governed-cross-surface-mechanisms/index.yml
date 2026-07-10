@@ -121,6 +121,11 @@ mechanisms:
       - ".octon/framework/constitution/contracts/assurance/architectural-review-report-v1.schema.json"
       - ".octon/framework/constitution/contracts/assurance/architectural-review-routing-decision-v1.schema.json"
       - ".octon/framework/constitution/contracts/assurance/architectural-review-support-receipt-v1.schema.json"
+      - ".octon/framework/constitution/contracts/assurance/architectural-review-report-v2.schema.json"
+      - ".octon/framework/constitution/contracts/assurance/architectural-review-routing-decision-v2.schema.json"
+      - ".octon/framework/cognition/practices/methodology/architectural-review/naming.yml"
+      - ".octon/framework/cognition/practices/methodology/architectural-review/review-routing.yml"
+      - ".octon/framework/cognition/practices/methodology/architectural-review/lens-bank.yml"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
     product_contract_refs:
       - ".octon/framework/constitution/contracts/assurance/review-finding-v1.schema.json"
@@ -128,6 +133,8 @@ mechanisms:
       - ".octon/framework/constitution/contracts/assurance/architectural-review-report-v1.schema.json"
       - ".octon/framework/constitution/contracts/assurance/architectural-review-routing-decision-v1.schema.json"
       - ".octon/framework/constitution/contracts/assurance/architectural-review-support-receipt-v1.schema.json"
+      - ".octon/framework/constitution/contracts/assurance/architectural-review-report-v2.schema.json"
+      - ".octon/framework/constitution/contracts/assurance/architectural-review-routing-decision-v2.schema.json"
     runtime_spec_refs:
       - ".octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/workflow.yml"
       - ".octon/framework/orchestration/runtime/workflows/audit/post-integration-architecture-review/workflow.yml"
@@ -188,6 +195,8 @@ mechanisms:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-workflows.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-lifecycle-gates.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-skills-commands.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-extension-split.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-lens-references.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-cross-surface-mechanisms.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
     ownership_boundaries:

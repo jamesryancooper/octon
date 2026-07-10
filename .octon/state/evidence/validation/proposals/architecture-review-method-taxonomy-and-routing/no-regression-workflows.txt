@@ -1,0 +1,30 @@
+[OK] workflow directory exists: pre-integration-architecture-review
+[OK] workflow contract exists: pre-integration-architecture-review
+[OK] workflow contract parses: pre-integration-architecture-review
+[OK] workflow contract name matches directory: pre-integration-architecture-review
+[OK] workflow schema current: pre-integration-architecture-review
+[OK] workflow manifest registers pre-integration-architecture-review
+[OK] workflow registry registers pre-integration-architecture-review
+[OK] workflow directory exists: post-integration-architecture-review
+[OK] workflow contract exists: post-integration-architecture-review
+[OK] workflow contract parses: post-integration-architecture-review
+[OK] workflow contract name matches directory: post-integration-architecture-review
+[OK] workflow schema current: post-integration-architecture-review
+[OK] workflow manifest registers post-integration-architecture-review
+[OK] workflow registry registers post-integration-architecture-review
+[OK] workflow directory exists: current-state-mechanism-architecture-review
+[OK] workflow contract exists: current-state-mechanism-architecture-review
+[OK] workflow contract parses: current-state-mechanism-architecture-review
+[OK] workflow contract name matches directory: current-state-mechanism-architecture-review
+[OK] workflow schema current: current-state-mechanism-architecture-review
+[OK] workflow manifest registers current-state-mechanism-architecture-review
+[OK] workflow registry registers current-state-mechanism-architecture-review
+[OK] workflow directory exists: architecture-readiness-audit
+[OK] workflow contract exists: architecture-readiness-audit
+[OK] workflow contract parses: architecture-readiness-audit
+[OK] workflow contract name matches directory: architecture-readiness-audit
+[OK] workflow schema current: architecture-readiness-audit
+[OK] workflow manifest registers architecture-readiness-audit
+[OK] workflow registry registers architecture-readiness-audit
+[OK] legacy audit-architecture-readiness workflow route absent
+Validation summary: errors=0

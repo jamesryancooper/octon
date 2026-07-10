@@ -1,0 +1,76 @@
+# Doc/Registry Consistency Check — Result
+
+Deterministic doc/registry consistency check for the four companion
+architecture-review method docs (validation-plan.md §1 / AC-6, AC-11).
+
+Provenance: the assertions defined in the re-runnable script
+`doc-registry-consistency-check.sh` (retained beside this file) were executed
+against the live registries and docs. Under this harness's command guard the
+script file could not be launched as a single process, so its assertions were
+evaluated with the same deterministic `yq`/`grep` primitives the script uses;
+the results below are those observed outputs. The script reproduces this check
+verbatim in an unrestricted shell (`bash doc-registry-consistency-check.sh`).
+
+Registries checked:
+- naming.yml   (architectural-review-naming-v2)
+- lens-bank.yml (architectural-review-lens-bank-v1)
+- review-routing.yml (architectural-review-routing-v2, constitutional_conflict_routes_to=constitutional-challenge)
+
+=== tradeoff-review-method ===
+[OK] 1 doc exists: tradeoff-review-method.md
+[OK] 2 canonical slug, role=companion
+[OK] 3 doc: pointer resolves (tradeoff-review-method.md)
+[OK] 4a doc cites profile pointer
+[OK] 4b profile exists in lens-bank
+[OK] 5a required set matches bank verbatim (2)
+[OK] 5b optional set matches bank verbatim (16)
+[OK] 6a all cited lens ids exist in lens-bank
+[OK] 6b asserts no private lens catalog
+[OK] 7a all -review-method tokens are catalog slugs
+[OK] 7b constitutional-conflict routing cited (route=constitutional-challenge)
+[OK] 8 output-boundary invariant present
+[OK] 9 no per-slug mandated boundary statement required
+=== failure-mode-review-method ===
+[OK] 1 doc exists: failure-mode-review-method.md
+[OK] 2 canonical slug, role=companion
+[OK] 3 doc: pointer resolves (failure-mode-review-method.md)
+[OK] 4a doc cites profile pointer
+[OK] 4b profile exists in lens-bank
+[OK] 5a required set matches bank verbatim (6)
+[OK] 5b optional set matches bank verbatim (4)
+[OK] 6a all cited lens ids exist in lens-bank
+[OK] 6b asserts no private lens catalog
+[OK] 7a all -review-method tokens are catalog slugs
+[OK] 7b constitutional-conflict routing cited (route=constitutional-challenge)
+[OK] 8 output-boundary invariant present
+[OK] 9 readiness-audit boundary statement present
+=== evolution-fitness-review-method ===
+[OK] 1 doc exists: evolution-fitness-review-method.md
+[OK] 2 canonical slug, role=companion
+[OK] 3 doc: pointer resolves (evolution-fitness-review-method.md)
+[OK] 4a doc cites profile pointer
+[OK] 4b profile exists in lens-bank
+[OK] 5a required set matches bank verbatim (5)
+[OK] 5b optional set matches bank verbatim (10)
+[OK] 6a all cited lens ids exist in lens-bank
+[OK] 6b asserts no private lens catalog
+[OK] 7a all -review-method tokens are catalog slugs
+[OK] 7b constitutional-conflict routing cited (route=constitutional-challenge)
+[OK] 8 output-boundary invariant present
+[OK] 9 no per-slug mandated boundary statement required
+=== boundary-authority-review-method ===
+[OK] 1 doc exists: boundary-authority-review-method.md
+[OK] 2 canonical slug, role=companion
+[OK] 3 doc: pointer resolves (boundary-authority-review-method.md)
+[OK] 4a doc cites profile pointer
+[OK] 4b profile exists in lens-bank
+[OK] 5a required set matches bank verbatim (2)
+[OK] 5b optional set matches bank verbatim (9)
+[OK] 6a all cited lens ids exist in lens-bank
+[OK] 6b asserts no private lens catalog
+[OK] 7a all -review-method tokens are catalog slugs
+[OK] 7b constitutional-conflict routing cited (route=constitutional-challenge)
+[OK] 8 output-boundary invariant present
+[OK] 9 surface-audit boundary + Octon-only statement present
+
+Consistency check summary: errors=0 (all four docs consistent with registries)

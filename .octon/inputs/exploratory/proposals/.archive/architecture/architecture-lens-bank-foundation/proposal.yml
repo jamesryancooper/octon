@@ -1,0 +1,55 @@
+schema_version: proposal-v1
+proposal_id: architecture-lens-bank-foundation
+title: Architecture Lens Bank Foundation
+summary: Phase-0 seed-reference child of the Architecture Review Method Suite Program. Authors the shared architecture lens bank as two durable methodology artifacts — architecture-lens-bank.md (lens doctrine) and lens-bank.yml (machine-readable lens ids plus per-method lens profiles for all six suite methods) — under the existing Architectural Review Mechanism, plus a lens-reference validator and fixtures that fail closed when a method doc references an undefined lens id or a defined method lacks a profile. The bank expresses Balanced Architecture Review's existing required sequence as lens ids without changing Balanced doctrine. It creates no new mechanism, gate, routed workflow mode, or command facade, and grants no review output any authority.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/cognition/practices/methodology/architectural-review/architecture-lens-bank.md
+- .octon/framework/cognition/practices/methodology/architectural-review/lens-bank.yml
+- .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-lens-references.sh
+- .octon/state/evidence/validation/proposals/architecture-lens-bank-foundation/
+status: archived
+archive:
+  archived_at: 2026-07-09
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architecture-lens-bank-foundation
+  promotion_evidence:
+  - .octon/framework/assurance/runtime/_ops/scripts
+  - .octon/framework/cognition/practices/methodology/architectural-review
+lifecycle:
+  temporary: true
+  exit_expectation: Advance this child through review, implementation, and verification until architecture-lens-bank.md, lens-bank.yml, and the lens-reference validator with fixtures exist and pass under .octon/framework/**, the validator's negative controls demonstrably fail closed, Balanced doctrine is unchanged, child lifecycle evidence is retained outside the proposal path, then close out and archive this packet. Parent program evidence never satisfies this child's receipts.
+related_proposals:
+- architecture-review-method-suite-program
+- architecture-review-method-taxonomy-and-routing
+authority_class_impact:
+  framework: Adds two authored methodology artifacts and one validator plus fixtures under framework/**. Balanced doctrine is cross-referenced, not rewritten.
+  instance: No instance surface changes.
+  state_control: No control-truth mutation.
+  state_evidence: Child lifecycle evidence is retained under this child's own promotion evidence root; validator negative-control runs are retained as evidence only.
+  generated: No generated/effective publication by this child; any projection refresh occurs only through canonical publication scripts at implementation.
+  inputs: The intake unit and program design docs remain non-authoritative lineage; this packet is proposal-local candidate lineage only.
+change_profile: atomic
+evidence_requirements:
+- Cited non-authoritative intake unit architecture-review-method-suite and the parent program design docs (lineage only, never authority).
+- Lens-reference validator evidence including at least one negative control per fail-closed rule (undefined lens id in a method reference; defined method missing a lens profile).
+- Doc/registry consistency evidence that architecture-lens-bank.md and lens-bank.yml agree on the 18 lens ids and the six method profiles.
+- Proof that Balanced's required lens set equals its existing required sequence expressed as lens ids, with Balanced doctrine text unchanged.
+- Child lifecycle evidence retained under .octon/state/evidence/validation/proposals/architecture-lens-bank-foundation/ before closeout.
+generated_input_authority_impact: No generated, input, host, chat, dashboard, or model-memory surface gains authority. The lens bank is analysis tooling selected by methods; it grants no review output authority and widens no support claim.
+owner: octon-maintainers
+parent_program: architecture-review-method-suite-program
+program_child_id: architecture-lens-bank-foundation
+program_phase_id: phase-0
+release_state: pre-1.0
+runtime_behavior_impact: None at packet time. At implementation, the new lens-reference validator fails closed when a method doc cites an undefined lens id or a defined method lacks a lens profile; no existing runtime routing or gate behavior changes.
+scope_statement: Author exactly the lens-bank foundation surface — one lens doctrine doc, one machine-readable lens/profile registry, one lens-reference validator, and its fixtures (including at least one negative control). Express Balanced's existing required sequence as lens ids without altering Balanced doctrine. Encode the 18-lens catalog (12 core, 6 extended) and the six per-method lens profiles exactly as fixed by the parent program's lens-bank-design.md, re-grounded against the live mechanism. Out of scope and left untouched — naming.yml method-list refactor, review-routing.yml method-selection semantics, method docs (Greenfield and companions), contract schemas, review workflow contracts, command/skill facades, and architecture-readiness or surface-architecture audit doctrine. This child owns only the lens bank the later children depend on.
+seed_role: seed-reference
+selected_implementation_target: Author the shared architecture lens bank and its reference validator inside the existing Architectural Review Mechanism at .octon/framework/cognition/practices/methodology/architectural-review/ and .octon/framework/assurance/runtime/_ops/scripts/.
+source_lineage:
+- .octon/inputs/additive/.incoming/architecture-review-method-suite/
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/lens-bank-design.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/child-packet-contract.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml

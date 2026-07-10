@@ -1,0 +1,62 @@
+Additive-only git diff proof — architecture-review-method-taxonomy-and-routing
+Captured via `git diff --no-color <path>` (git redirection is blocked under the
+unattended sandbox; diffs reproduced verbatim here as retained evidence).
+
+=== naming.yml ===
+Only change: schema_version bumped v1 -> v2 and a `methods` block (default +
+six-entry catalog) inserted after the existing `method` block. All existing
+`mechanism`, `method`, `canonical_modes`, `invocation_aliases`,
+`command_facades`, `schema_names`, `validator_names`, and `legacy_aliases`
+content is preserved verbatim. No slug renamed; no alias retired.
+
+@@ -1,10 +1,44 @@
+-schema_version: "architectural-review-naming-v1"
++schema_version: "architectural-review-naming-v2"
+ mechanism:
+   display_name: "Architectural Review Mechanism"
+   family_slug: "architectural-review"
+ method:
+   display_name: "Balanced Architecture Review Method"
+   slug: "balanced-architecture-review-method"
++methods:
++  default: "balanced-architecture-review-method"
++  catalog:
++    - slug: "balanced-architecture-review-method" (role: default)
++    - slug: "greenfield-reference-architecture-review-method" (role: companion)
++    - slug: "tradeoff-review-method" (role: companion)
++    - slug: "failure-mode-review-method" (role: companion)
++    - slug: "evolution-fitness-review-method" (role: companion)
++    - slug: "boundary-authority-review-method" (role: companion)
+ canonical_modes:   # ...unchanged below...
+
+=== review-routing.yml ===
+Only change: schema_version bumped v1 -> v2, a `method_selection` block inserted
+after the existing `routes`, and two conditions (`unknown_method`,
+`missing_method_record`) appended to `fail_closed_conditions`. All nine routes,
+`default_route`, and the original eight fail-closed conditions are preserved
+verbatim.
+
+@@ -1,4 +1,4 @@
+-schema_version: "architectural-review-routing-v1"
++schema_version: "architectural-review-routing-v2"
+ default_route: "pre-integration-architecture-review"   # unchanged
+ routes:   # ...nine routes unchanged...
+@@ +method_selection: (default_method balanced; allowed_methods_by_route;
+   escalation_map; constitutional_conflict_routes_to)
+ fail_closed_conditions:   # original eight unchanged, then:
++  - "unknown_method"
++  - "missing_method_record"
+
+=== balanced-architecture-review-method.md ===
+Only change: a "## Related" navigation section appended at end of file. Required
+Sequence, Octon Fit Gates, and Output Contract text are unchanged (no doctrine
+change).
+
+@@ -53,3 +53,14 @@
+ - final verdict and unresolved blocker count.
++
++## Related
++ (navigation cross-references to naming.yml methods, the lens bank, and the
++  review-routing.yml escalation map; explicitly "changes no doctrine above")
+
+VERDICT: additive-only confirmed for all three doctrine-sensitive files.

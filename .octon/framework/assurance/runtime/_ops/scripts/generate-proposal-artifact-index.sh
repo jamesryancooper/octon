@@ -160,6 +160,47 @@ def resolve_dependency_proposal(dependency_id, ref_type, source_field):
             matches.append((kind, candidate_dir, manifest))
 
     if not matches:
+        # A program child may name a downstream sibling before that sibling's
+        # create-packet route has materialized its manifest. Preserve that
+        # relationship as planned only when the parent child registry declares
+        # the exact id and path; undeclared missing dependencies still fail.
+        if ref_type == "related_proposal" and parent_program:
+            proposal_root = root / ".octon/inputs/exploratory/proposals"
+            registry_candidates = []
+            for archive_prefix in ["", ".archive"]:
+                for kind in proposal_kind_dirs:
+                    parent_dir = proposal_root / kind / parent_program
+                    if archive_prefix:
+                        parent_dir = proposal_root / archive_prefix / kind / parent_program
+                    registry = parent_dir / "resources/child-packet-index.yml"
+                    if registry.is_file():
+                        registry_candidates.append(registry)
+            if len(registry_candidates) == 1:
+                registry = registry_candidates[0]
+                registry_data = load_yaml(registry)
+                planned_matches = [
+                    child for child in (registry_data.get("children") or [])
+                    if isinstance(child, dict) and child.get("child_id") == dependency_id
+                ]
+                if len(planned_matches) == 1:
+                    planned = planned_matches[0]
+                    declared_path = planned.get("path")
+                    if isinstance(declared_path, str) and declared_path.rstrip("/").endswith("/" + dependency_id):
+                        path_parts = pathlib.PurePosixPath(declared_path).parts
+                        declared_kind = path_parts[-2] if len(path_parts) >= 2 else "unknown"
+                        return {
+                            "ref_type": ref_type,
+                            "proposal_id": dependency_id,
+                            "proposal_kind": declared_kind,
+                            "proposal_path": declared_path,
+                            "manifest_ref": None,
+                            "manifest_sha256": None,
+                            "source_field": source_field,
+                            "required": bool(planned.get("required", True)),
+                            "planned": True,
+                            "registry_ref": rel(registry),
+                            "registry_sha256": sha256(registry),
+                        }
         fail(f"dependency proposal exists for {source_field}: {dependency_id}")
         return None
     if len(matches) > 1:
@@ -189,9 +230,17 @@ proposal_id = proposal.get("proposal_id") or proposal_dir.name
 proposal_kind = proposal.get("proposal_kind") or "unknown"
 status = proposal.get("status") or "unknown"
 promotion_targets = proposal.get("promotion_targets") or []
-parent_program = proposal.get("parent_program") or ""
+parent_program = proposal.get("parent_program") or proposal.get("program_parent") or ""
 related_proposals = proposal.get("related_proposals") or []
 source_lineage = proposal.get("source_lineage") or []
+# Compact generated projections must not republish raw additive intake paths.
+# The packet manifest retains the complete lineage; generated consumers receive
+# only lineage references that are legal outside the raw-input boundary.
+compact_source_lineage = [
+    entry for entry in source_lineage
+    if not re.search(r"(?:^|/)inputs/additive/(?:\.incoming|\.archive)(?:/|$)", str(entry))
+    and not re.search(r"(?:^|/)inputs/additive/extensions/\.(?:incoming|archive)(?:/|$)", str(entry))
+]
 evidence_requirements = proposal.get("evidence_requirements") or []
 validation_gates = proposal.get("validation_gates") or []
 dependency_refs = []
@@ -445,7 +494,7 @@ program_spine = {
     "parent_program": parent_program or None,
     "related_proposals": related_proposals,
     "dependency_refs": dependency_refs,
-    "source_lineage": source_lineage,
+    "source_lineage": compact_source_lineage,
     "lifecycle": {
         "status": status,
         "temporary": (proposal.get("lifecycle") or {}).get("temporary"),
@@ -535,7 +584,7 @@ try:
             "parent_program": parent_program or None,
             "related_proposals": related_proposals,
             "dependency_refs": dependency_refs,
-            "source_lineage": source_lineage,
+            "source_lineage": compact_source_lineage,
         },
         "write_scope_map": [
             {

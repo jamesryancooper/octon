@@ -1,0 +1,37 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "architectural-review-method-layer"
+decision_type: "boundary-change"
+title: "Architecture Review Method Suite Program"
+target_state: >-
+  The Architectural Review Mechanism carries an explicit method layer: the
+  Architecture Review Method Suite. Balanced Architecture Review remains the
+  default general method. Greenfield Reference, Tradeoff, Failure-Mode,
+  Evolution/Fitness, and Boundary/Authority reviews exist as first-class
+  companion methodology surfaces with distinct questions, scopes, output
+  contracts, and escalation rules. One shared architecture lens bank with
+  per-method lens profiles is the only lens catalog; methods select lenses
+  rather than inventing checklists. Naming and routing models describe methods
+  and method selection with fail-closed behavior on unknown methods. Review
+  report and routing-decision schemas record the method and lens profile used.
+  Architecture-readiness and surface-architecture audit doctrine remain
+  unchanged and are composed with, not duplicated.
+boundary_change: >-
+  No authority-class boundary moves. The change is a method-layer extension
+  inside the existing mechanism: naming.yml moves from a single-method model
+  to a methods list, review-routing.yml gains method-selection semantics, and
+  contract schemas gain additive method/lens fields. Review outputs remain
+  evidence or proposal input; the pre-integration support receipt remains the
+  only lifecycle-gating review artifact; no new mechanism, gate, workflow
+  mode, or command facade is created by the required children.
+authoritative_targets_after_promotion:
+  - ".octon/state/evidence/validation/proposals/architecture-review-method-suite-program/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "resources/child-packet-index.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "resources/child-packet-index.md"
+  - "support/**"

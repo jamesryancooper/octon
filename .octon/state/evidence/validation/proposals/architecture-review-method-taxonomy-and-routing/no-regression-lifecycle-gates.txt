@@ -1,0 +1,4 @@
+[OK] proposal review gate checks pre-integration architecture review
+[OK] proposal review gate invokes strict receipt validator
+[OK] architecture proposal standard declares mandatory pre-integration review
+Validation summary: errors=0

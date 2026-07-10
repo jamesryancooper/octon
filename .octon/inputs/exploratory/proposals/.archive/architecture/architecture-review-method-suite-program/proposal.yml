@@ -1,0 +1,55 @@
+schema_version: proposal-v1
+proposal_id: architecture-review-method-suite-program
+title: Architecture Review Method Suite Program
+summary: Parent proposal program that finalizes the Architecture Review Method Suite as the method layer of the existing Architectural Review Mechanism. Balanced Architecture Review remains the default general method; five focused companion methods (Greenfield Reference, Tradeoff, Failure-Mode, Evolution/Fitness, Boundary/Authority) are added as first-class methodology surfaces; a single shared architecture lens bank with per-method lens profiles prevents duplicated or unbounded review logic. The parent coordinates seven child-owned work units with gated-parallel sequencing; children own their work, receipts, and promotion targets.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/state/evidence/validation/proposals/architecture-review-method-suite-program/
+status: archived
+archive:
+  archived_at: 2026-07-10
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program
+  promotion_evidence:
+  - .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/support/program-implementation-orchestration-run.md
+lifecycle:
+  temporary: true
+  exit_expectation: Coordinate child packet creation, review, implementation, and verification until every registry child reaches an allowed terminal outcome (closed, superseded, rejected, or recorded no-action for the conditional command-facade child), retain aggregate program evidence outside proposal paths, record the boundary-authority generic-mode deferral decision, then close out and archive this parent packet.
+related_proposals:
+- architecture-lens-bank-foundation
+- architecture-review-method-taxonomy-and-routing
+- greenfield-reference-architecture-review-method
+- companion-architecture-review-methods
+- architectural-review-schema-extensions
+- architectural-review-suite-integration
+authority_class_impact:
+  framework: Children (not the parent) would extend methodology docs, naming and routing models, contract schemas, workflow contract fields, product feature notes, and validators under framework/**; the parent changes nothing.
+  instance: No instance surface changes are planned by parent or children.
+  state_control: No control-truth mutation by the parent or by any planned child.
+  state_evidence: Child lifecycles retain their own evidence; review runs using the suite retain reports as evidence only; aggregate program evidence lands under the declared program evidence root at closeout.
+  generated: No generated/effective publication by the parent; children refresh projections only through canonical publication scripts.
+  inputs: The intake unit remains non-authoritative raw input; parent and children are proposal-local candidate lineage only.
+change_profile: atomic
+evidence_requirements:
+- Cited non-authoritative intake unit architecture-review-method-suite (source lineage only, never authority).
+- Per-child packet receipts at child creation, review, implementation, and verification (child-owned; never satisfied by parent evidence).
+- Validator evidence for every child that touches naming, routing, schemas, or validators, including negative controls for fail-closed behavior.
+- Aggregate program lifecycle evidence under .octon/state/evidence/validation/proposals/architecture-review-method-suite-program/ before closeout.
+generated_input_authority_impact: No generated, input, host, chat, dashboard, or model-memory surface gains authority. Review outputs remain evidence or proposal input; the pre-integration support receipt remains the only lifecycle-gating review artifact.
+owner: octon-maintainers
+program_execution_mode: gated-parallel
+readiness_projection:
+  publication_freshness_refs:
+  - .octon/state/evidence/validation/proposals/architecture-review-method-suite-program/README.md
+release_state: pre-1.0
+runtime_behavior_impact: None from the parent. Planned child impacts are method-selection semantics in review routing (fail-closed on unknown method) and additive method/lens fields in review report and routing-decision schemas; declared per child at child creation.
+scope_statement: Proposal-program coordination only. The parent packet finalizes the suite taxonomy, lens bank design, and integration disposition, and sequences seven planned sibling child packets that would implement them under later, child-scoped authorization. The suite extends the existing Architectural Review Mechanism method layer; it creates no new mechanism, no new lifecycle gate, no new routed workflow mode, and no new command facade in the required children. Architecture-readiness and surface-architecture audit doctrine are explicitly out of scope and remain unchanged. The parent does not implement changes, does not own child authority surfaces, and its evidence never satisfies child receipts.
+seed_reference_child: architecture-lens-bank-foundation
+selected_implementation_target: Method-layer extension of the Architectural Review Mechanism under .octon/framework/cognition/practices/methodology/architectural-review/
+source_lineage:
+- .octon/inputs/additive/.incoming/architecture-review-method-suite/intake.yml
+- .octon/inputs/additive/.incoming/architecture-review-method-suite/README.md
+- .octon/inputs/additive/.incoming/architecture-review-method-suite/payload/README.md
+- .octon/inputs/additive/.incoming/architecture-review-method-suite/payload/conversation-source-notes.md

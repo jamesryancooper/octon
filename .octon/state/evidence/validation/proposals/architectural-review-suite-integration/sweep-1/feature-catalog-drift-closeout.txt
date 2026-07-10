@@ -1,0 +1,13 @@
+== Feature Catalog Drift Closeout Validation ==
+[OK] feature catalog drift receipt schema exists
+[OK] feature catalog drift receipt schema parses
+[OK] schema token present: "feature-catalog-drift-receipt-v1"
+[OK] schema token present: "missing-catalog-entry"
+[OK] schema token present: "stale-ref"
+[OK] schema token present: "status-mismatch"
+[OK] schema token present: "probably-not-a-product-feature"
+[OK] schema token present: "blocked-unresolved-drift"
+[OK] schema token present: "catalog_navigation_only"
+[OK] product feature catalog exists
+[OK] product feature catalog validator exists
+Validation summary: errors=0

@@ -1,0 +1,45 @@
+schema_version: proposal-v1
+proposal_id: companion-architecture-review-methods
+title: Companion Architecture Review Methods
+summary: 'Author the four remaining companion architecture-review method docs of the Architecture Review Method Suite as first-class methodology surfaces under the existing Architectural Review Mechanism method layer: Architecture Tradeoff Review (tradeoff-review-method), Failure-Mode Architecture Review (failure-mode-review-method), Evolution/Fitness Architecture Review (evolution-fitness-review-method), and Boundary/Authority Architecture Review (boundary-authority-review-method). Each doc follows one shared contract shape (method question, use cases, non-goals, required inputs, outputs, shared-lens profile reference, escalation rules, non-authority output boundary) and draws every lens from the shared lens bank; no method invents a private lens catalog. The packet also wires each new doc into naming.yml (additive `doc:` pointer) and the mechanism README references, and adds the two mandated boundary statements: Failure-Mode Review versus the readiness audit''s failure-mode assessment, and Boundary/Authority Review versus the surface-architecture audit''s single-unit classification. Boundary/Authority ships Octon-only in v1 (generic mode deferred). Balanced Architecture Review remains the default method; no new mechanism, routed workflow mode, lifecycle gate, evidence root, schema, or command facade is created.'
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/cognition/practices/methodology/architectural-review/tradeoff-review-method.md
+- .octon/framework/cognition/practices/methodology/architectural-review/failure-mode-review-method.md
+- .octon/framework/cognition/practices/methodology/architectural-review/evolution-fitness-review-method.md
+- .octon/framework/cognition/practices/methodology/architectural-review/boundary-authority-review-method.md
+status: archived
+archive:
+  archived_at: 2026-07-10
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods
+  promotion_evidence:
+  - .octon/framework/cognition/practices/methodology/architectural-review/tradeoff-review-method.md
+  - .octon/framework/cognition/practices/methodology/architectural-review/failure-mode-review-method.md
+  - .octon/framework/cognition/practices/methodology/architectural-review/evolution-fitness-review-method.md
+  - .octon/framework/cognition/practices/methodology/architectural-review/boundary-authority-review-method.md
+  - .octon/framework/cognition/practices/methodology/architectural-review/naming.yml
+  - .octon/framework/cognition/practices/methodology/architectural-review/README.md
+  - .octon/state/evidence/validation/proposals/companion-architecture-review-methods/
+lifecycle:
+  temporary: true
+  exit_expectation: Author the four companion architecture-review method docs and their additive naming/README wiring under .octon/framework/cognition/practices/methodology/architectural-review/, prove doc/registry consistency against naming.yml and lens-bank.yml (each doc's slug, lens profile reference, and required/optional lens sets match the canonical registries exactly, with no undefined or private lenses), retain child-owned creation, review, implementation, and verification evidence outside this proposal path, then reach a governed terminal outcome (closed on implemented-and-verified, or superseded/rejected with recorded rationale). Parent program evidence, the program registry, and the child-packet contract never satisfy this child's receipts, promotion targets, validation verdicts, or archive metadata.
+related_proposals:
+- architecture-review-method-suite-program
+- architecture-review-method-taxonomy-and-routing
+- architecture-lens-bank-foundation
+- greenfield-reference-architecture-review-method
+- architectural-review-schema-extensions
+- architectural-review-suite-integration
+change_profile: atomic
+owner: octon-maintainers
+program_child_id: companion-architecture-review-methods
+program_parent: architecture-review-method-suite-program
+release_state: pre-1.0
+source_lineage:
+- .octon/inputs/additive/.incoming/architecture-review-method-suite/
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/method-taxonomy.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/child-packet-contract.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml

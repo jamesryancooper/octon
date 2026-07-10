@@ -1,0 +1,12 @@
+usage:
+  validate-architectural-review-receipts.sh --receipt <path> [--package <proposal-path>] [--mode <mode>] [--require-pass]
+
+--receipt accepts any architectural-review contract artifact. Validation is routed
+by the artifact's schema_version:
+  * architectural-review-support-receipt-v1   -> support-receipt path (with
+                                                 receipt_schema_drift guard)
+  * architectural-review-report-v2 /
+    architectural-review-routing-decision-v2  -> v2 path (unknown_method,
+                                                 undefined_lens fail closed)
+  * architectural-review-report-v1 /
+    architectural-review-routing-decision-v1  -> v1 coexistence path

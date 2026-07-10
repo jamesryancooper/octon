@@ -387,7 +387,7 @@ def validate_program():
     for child in children:
         child_id = child.get("child_id") or ""
         child_path_ref = child.get("path") or ""
-        required = not bool(child.get("deferred", False))
+        required = bool(child.get("required", True)) and not bool(child.get("deferred", False))
         child_required[child_id] = required
         deps = []
         for pred in child.get("predecessor_constraints") or []:
@@ -403,6 +403,9 @@ def validate_program():
             continue
         child_dir, child_package_ref = resolve_packet_ref(child_path_ref)
         manifest = child_dir / "proposal.yml"
+        if not manifest.is_file() and not required:
+            ok(f"optional child {child_id} is absent and remains eligible for its recorded no-action disposition")
+            continue
         if not manifest.is_file():
             fail(f"child manifest missing for {child_id}: {child_path_ref}/proposal.yml")
             continue

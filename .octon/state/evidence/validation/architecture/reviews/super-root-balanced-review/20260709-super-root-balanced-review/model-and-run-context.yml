@@ -1,0 +1,20 @@
+schema_version: architecture-review-run-context-v1
+review_id: 20260709-super-root-balanced-review
+review_type: super-root-balanced-review
+repository_path: /Users/jamesryancooper/Projects/octon
+branch: main
+commit_sha: eff350fcfec641e59665e74544f104f2e5bc6a4d
+operator: Ryan Cooper <ryan@cooperonlineenterprises.com>
+model_actually_used: claude-fable-5 (Claude Fable 5)
+model_pinned_by_library: none (library is model-agnostic)
+review_persona: Octon Architect
+prompt_source_path: .octon/inputs/additive/.incoming/octon-architecture-review-prompt-library/payload/prompts/01-octon-authoritative-super-root-balanced-architecture-review.md
+prompt_copy_sha256: 66cab1d98e62cd5b1fadbb513ac001020915783a9c2c7657128f5ea879953ace
+pilot_protocol_path: .octon/inputs/additive/.incoming/octon-architecture-review-prompt-library/payload/pilot-run-protocol.md
+placement_amendment_path: .octon/inputs/additive/.incoming/octon-architecture-review-prompt-library/payload/review-result-output-and-artifact-placement-amendment.md
+run_mode: single whole-architecture review
+item_budget: not applicable
+continuation_remainder: not applicable
+run_date: "2026-07-09"
+method_reference: .octon/framework/cognition/practices/methodology/architectural-review/balanced-architecture-review-method.md
+authority_status: retained review evidence only; not authority

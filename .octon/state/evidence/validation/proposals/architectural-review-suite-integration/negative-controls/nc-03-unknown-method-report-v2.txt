@@ -1,0 +1,6 @@
+[OK] architectural review receipt exists
+[OK] architectural review receipt parses as YAML
+[OK] artifact recognized as v2 architectural-review contract: architectural-review-report-v2
+[ERROR] unknown_method: v2 method not in live naming.yml methods.catalog: nonexistent-review-method
+[OK] v2 lenses_applied ids all bind to live lens-bank.yml (count=2)
+Validation summary: errors=1

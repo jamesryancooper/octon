@@ -1,0 +1,61 @@
+schema_version: proposal-v1
+proposal_id: greenfield-reference-architecture-review-method
+title: Greenfield Reference Architecture Review Method
+summary: Phase-2 child of the Architecture Review Method Suite Program. Authors the Greenfield Reference Architecture Review method doc (greenfield-reference-architecture-review-method.md) inside the existing Architectural Review Mechanism, per method-taxonomy.md section 2. The doc answers one question - "if this system or subsystem did not exist, what should we build first?" - and specifies five required output sections (domain/job model; reference architecture; quality/security/ops model; authority/evidence model; evolution plan), plus initial-build sequencing, a minimum viable architecture, and an explicit what-not-to-build-yet list. It records the method's required inputs, non-goals, the clean-sheet complementarity with the Balanced method, its escalation rules, its binding to the verified lens-bank.yml greenfield profile, and the reference-architecture-only output boundary stated fail-closed. It wires the doc into naming.yml by adding the doc reference to the existing greenfield catalog entry and adds a README references link, both additive and navigation only. It creates no new mechanism, gate, routed workflow mode, evidence root, or command facade, changes no companion or Balanced doctrine, and grants no review output any authority.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/cognition/practices/methodology/architectural-review/greenfield-reference-architecture-review-method.md
+- .octon/framework/cognition/practices/methodology/architectural-review/naming.yml
+- .octon/framework/cognition/practices/methodology/architectural-review/README.md
+- .octon/state/evidence/validation/proposals/greenfield-reference-architecture-review-method/
+status: archived
+archive:
+  archived_at: 2026-07-10
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/greenfield-reference-architecture-review-method
+  promotion_evidence:
+  - .octon/framework/cognition/practices/methodology/architectural-review/greenfield-reference-architecture-review-method.md
+  - .octon/framework/cognition/practices/methodology/architectural-review/naming.yml
+  - .octon/framework/cognition/practices/methodology/architectural-review/README.md
+  - .octon/state/evidence/validation/proposals/greenfield-reference-architecture-review-method/
+lifecycle:
+  temporary: true
+  exit_expectation: Advance this child through review, implementation, and verification until greenfield-reference-architecture-review-method.md exists in the mechanism directory with the five required output sections, initial-build sequencing, minimum viable architecture, what-not-to-build-yet list, clean-sheet complementarity statement, required inputs, non-goals, escalation rules, the lens-profile binding to lens-bank.yml method_profiles.greenfield-reference-architecture-review-method, and the reference-architecture-only output boundary stated fail-closed; the naming.yml greenfield catalog entry carries the doc reference; the README references section links the doc; the doc-consistency check passes (doc slug equals the naming.yml and lens-bank.yml slug and the cited lens ids match the lens-bank profile exactly); companion and Balanced doctrine and every enforcement surface are unchanged; child lifecycle evidence is retained outside the proposal path; then close out and archive this packet. Parent program evidence never satisfies this child's receipts.
+related_proposals:
+- architecture-review-method-suite-program
+- architecture-lens-bank-foundation
+- architecture-review-method-taxonomy-and-routing
+- companion-architecture-review-methods
+- architectural-review-schema-extensions
+- architectural-review-suite-integration
+authority_class_impact:
+  framework: Adds one authored methodology doc under the existing mechanism directory and makes two additive navigation edits (a doc reference on the existing naming.yml greenfield catalog entry and a README references link). No new mechanism, gate, routed workflow mode, evidence root, command facade, or schema. Companion and Balanced doctrine are unchanged; the lens bank, naming methods list, and routing method_selection are consumed as verified dependencies, not modified beyond the additive doc reference.
+  instance: No instance surface changes.
+  state_control: No control-truth mutation.
+  state_evidence: Child lifecycle evidence is retained under this child's own promotion evidence root; the doc-consistency check run is retained as evidence only. Existing evidence roots are unchanged.
+  generated: No generated/effective publication by this child; any projection refresh occurs only through canonical publication scripts and is owned by the phase-3 suite-integration child, not this child.
+  inputs: The intake unit and parent program design docs remain non-authoritative lineage; this packet is proposal-local candidate lineage only.
+change_profile: atomic
+evidence_requirements:
+- Cited non-authoritative intake unit architecture-review-method-suite and the parent program design docs (lineage only, never authority).
+- Doc-consistency check evidence proving the method doc's declared slug equals the naming.yml catalog slug and the lens-bank.yml suite_methods slug, and that the lens ids the doc cites match lens-bank.yml method_profiles.greenfield-reference-architecture-review-method (required and optional sets) exactly.
+- Structural evidence that the doc contains all five required output sections, initial-build sequencing, minimum viable architecture, the what-not-to-build-yet list, required inputs, non-goals, escalation rules, and the reference-architecture-only output boundary stated fail-closed.
+- Regression evidence that the naming methods list, routing method_selection, the lens bank, Balanced doctrine, and every architectural-review validator are unchanged except for the additive naming.yml doc reference and README link, and that the full validate-architectural-review-*.sh suite still passes.
+- Child lifecycle evidence retained under .octon/state/evidence/validation/proposals/greenfield-reference-architecture-review-method/ before closeout.
+generated_input_authority_impact: No generated, input, host, chat, dashboard, or model-memory surface gains authority. The method doc is native methodology doctrine; review outputs produced under it remain evidence or proposal input, and the pre-integration support receipt remains the only lifecycle-gating review artifact.
+owner: octon-maintainers
+parent_program: architecture-review-method-suite-program
+program_child_id: greenfield-reference-architecture-review-method
+program_phase_id: phase-2
+release_state: pre-1.0
+runtime_behavior_impact: At implementation, a reviewer who selects the greenfield-reference-architecture-review-method (already routable via routing v2 method_selection) gains an authored output contract to conduct the review against. Balanced remains the default method; no route, gate, or evidence root changes; selecting the greenfield method still grants its outputs no authority - they remain reference architecture that is evidence or proposal input only.
+scope_statement: Author exactly the Greenfield Reference Architecture Review method doc and wire it into the existing mechanism. In scope - the new method doc with the five required output sections, initial-build sequencing, minimum viable architecture, what-not-to-build-yet list, required inputs, non-goals, clean-sheet complementarity with Balanced, escalation rules, the lens-profile reference bound to lens-bank.yml, and the reference-architecture-only output boundary stated fail-closed; the additive doc reference on the existing naming.yml greenfield catalog entry; and a README references link. Out of scope and left untouched - the four companion method docs (companion-methods child, phase-2); the report and routing-decision schema v2 additions (schema-extensions child, phase-2); the naming methods list, routing method_selection, and mechanism README canonical-names table authored by phase-1 (consumed as verified dependencies, only the greenfield catalog entry gains a doc reference); the phase-0 lens bank (consumed as a verified dependency, not modified); Balanced doctrine; review workflow method-recording and generated projection refresh (suite-integration child, phase-3); and architecture-readiness and surface-architecture audit doctrine.
+selected_implementation_target: Author the Greenfield Reference Architecture Review method doc at .octon/framework/cognition/practices/methodology/architectural-review/greenfield-reference-architecture-review-method.md and make the two additive navigation edits (naming.yml doc reference, README references link) inside the same mechanism directory.
+source_lineage:
+- .octon/inputs/additive/.incoming/architecture-review-method-suite/
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/method-taxonomy.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/child-packet-contract.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/target-architecture.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml

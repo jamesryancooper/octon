@@ -1,0 +1,42 @@
+schema_version: architecture-review-route-decision-v1
+review_id: 20260709-super-root-balanced-review
+review_type: super-root-balanced-review
+final_verdict: preserve-with-refinements
+primary_classification: architecture-change-candidate
+routing_verdict: retain-as-evidence-and-recommend-single-architecture-proposal-packet
+proposal_packet:
+  recommended: true
+  created_by_this_review: false
+  suggested_scope: >-
+    Runtime environment-override governance: declare OCTON_* authority-affecting
+    overrides as contracted break-glass with mandatory retained receipts and
+    protected-mode prohibition, or remove ambient overrides; document
+    stage_only_behavior; add env-override invariance negative control.
+    Attachable: immutable:// store operational contract (F-03), spec index
+    (F-05).
+  suggested_destination: ".octon/inputs/exploratory/proposals/architecture/<proposal-slug>/"
+  must_cite: ".octon/state/evidence/validation/architecture/reviews/super-root-balanced-review/20260709-super-root-balanced-review/"
+proposal_program:
+  recommended: false
+  reason: findings do not require multi-packet staged decisioning
+constitutional_challenge:
+  recommended: false
+  reason: >-
+    F-01 tension with FCR-025 is resolvable within existing constitutional
+    constraints (break-glass slot exists at normative precedence rank 1);
+    disposition is declaration/gating or removal, not amendment.
+follow_up_reviews:
+  - route: surface-architecture-audit
+    target: policy-interface spec + runtime configuration surface
+    priority: optional
+  - route: domain-architecture-audit
+    target: evidence retention domain (F-03/F-06/F-09)
+    priority: optional, only if not folded into the packet
+  - route: clean-sheet-delta-review
+    needed: false
+    reason: no unresolved foundational doubts
+non_authority_statement: >-
+  This route decision is retained review evidence only. It does not create a
+  proposal packet or program, does not modify authority, and does not
+  authorize implementation. Any later action proceeds through the proper
+  governed Octon route.

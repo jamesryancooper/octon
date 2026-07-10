@@ -1,4 +1,4 @@
-schema_version: "architectural-review-routing-v1"
+schema_version: "architectural-review-routing-v2"
 default_route: "pre-integration-architecture-review"
 routes:
   - route_id: "pre-integration-architecture-review"
@@ -68,6 +68,54 @@ routes:
       - "A proposed architecture conflicts with constitutional, precedence, authority, fail-closed, or evidence obligations."
     lifecycle_authority: "separate-governance-route"
     closeout_authority: "none"
+# Method-selection layer (v2). Every review run selects exactly one method;
+# Balanced is the default when no selection is made. Methods are HOW a review is
+# conducted; routes above are the review OCCASION. Allowed-methods lists are
+# advisory options (Balanced is in every list), the escalation map records how
+# Balanced escalates, and method selection creates no lifecycle gate and grants
+# no review output any authority.
+method_selection:
+  default_method: "balanced-architecture-review-method"
+  allowed_methods_by_route:
+    pre-integration-architecture-review:
+      - "balanced-architecture-review-method"
+      - "greenfield-reference-architecture-review-method"
+      - "tradeoff-review-method"
+      - "failure-mode-review-method"
+      - "evolution-fitness-review-method"
+      - "boundary-authority-review-method"
+    post-integration-architecture-review:
+      - "balanced-architecture-review-method"
+      - "failure-mode-review-method"
+      - "evolution-fitness-review-method"
+      - "boundary-authority-review-method"
+    current-state-mechanism-architecture-review:
+      - "balanced-architecture-review-method"
+      - "evolution-fitness-review-method"
+      - "boundary-authority-review-method"
+      - "failure-mode-review-method"
+    domain-architecture-audit:
+      - "balanced-architecture-review-method"
+      - "boundary-authority-review-method"
+    surface-architecture-audit:
+      - "balanced-architecture-review-method"
+      - "boundary-authority-review-method"
+    architecture-readiness-audit:
+      - "balanced-architecture-review-method"
+      - "failure-mode-review-method"
+  escalation_map:
+    balanced-architecture-review-method:
+      - trigger: "two-or-more-viable-target-designs"
+        to: "tradeoff-review-method"
+      - trigger: "runtime-or-governance-failure-behavior-in-doubt"
+        to: "failure-mode-review-method"
+      - trigger: "long-lived-mechanism-health-in-doubt"
+        to: "evolution-fitness-review-method"
+      - trigger: "authority-location-in-doubt"
+        to: "boundary-authority-review-method"
+      - trigger: "target-does-not-exist-yet"
+        to: "greenfield-reference-architecture-review-method"
+  constitutional_conflict_routes_to: "constitutional-challenge"
 fail_closed_conditions:
   - "unknown_review_mode"
   - "missing_pre_integration_receipt_for_architecture_proposal_acceptance"
@@ -77,3 +125,5 @@ fail_closed_conditions:
   - "placeholder_receipt_text"
   - "omitted_validator_refs"
   - "passing_receipt_with_unresolved_blockers"
+  - "unknown_method"
+  - "missing_method_record"

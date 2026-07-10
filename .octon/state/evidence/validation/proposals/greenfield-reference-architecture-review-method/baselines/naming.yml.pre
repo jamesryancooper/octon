@@ -1,0 +1,106 @@
+schema_version: "architectural-review-naming-v2"
+mechanism:
+  display_name: "Architectural Review Mechanism"
+  family_slug: "architectural-review"
+method:
+  display_name: "Balanced Architecture Review Method"
+  slug: "balanced-architecture-review-method"
+# Explicit method layer (v2). Methods are HOW a review is conducted; the
+# canonical_modes below are the review OCCASION (routes). Balanced is the
+# declared default and is cross-listed here from the existing `method` block
+# above. Every catalog slug MUST equal a `lens-bank.yml` `suite_methods[].slug`
+# (dependency binding to the phase-0 lens bank; enforced by the naming
+# validator). Method selection grants no lifecycle or closeout authority.
+methods:
+  default: "balanced-architecture-review-method"
+  catalog:
+    - display_name: "Balanced Architecture Review Method"
+      slug: "balanced-architecture-review-method"
+      role: "default"
+      doc: "balanced-architecture-review-method.md"
+      lens_profile_ref: "lens-bank.yml#method_profiles.balanced-architecture-review-method"
+    - display_name: "Greenfield Reference Architecture Review"
+      slug: "greenfield-reference-architecture-review-method"
+      role: "companion"
+      lens_profile_ref: "lens-bank.yml#method_profiles.greenfield-reference-architecture-review-method"
+    - display_name: "Architecture Tradeoff Review"
+      slug: "tradeoff-review-method"
+      role: "companion"
+      lens_profile_ref: "lens-bank.yml#method_profiles.tradeoff-review-method"
+    - display_name: "Failure-Mode Architecture Review"
+      slug: "failure-mode-review-method"
+      role: "companion"
+      lens_profile_ref: "lens-bank.yml#method_profiles.failure-mode-review-method"
+    - display_name: "Evolution/Fitness Architecture Review"
+      slug: "evolution-fitness-review-method"
+      role: "companion"
+      lens_profile_ref: "lens-bank.yml#method_profiles.evolution-fitness-review-method"
+    - display_name: "Boundary/Authority Architecture Review"
+      slug: "boundary-authority-review-method"
+      role: "companion"
+      lens_profile_ref: "lens-bank.yml#method_profiles.boundary-authority-review-method"
+canonical_modes:
+  - display_name: "Pre-Integration Architecture Review"
+    slug: "pre-integration-architecture-review"
+    kind: "review"
+    workflow_dir: ".octon/framework/orchestration/runtime/workflows/audit/pre-integration-architecture-review/"
+    evidence_root: ".octon/state/evidence/runs/workflows/<run-id>/architectural-review/pre-integration-architecture-review/"
+  - display_name: "Post-Integration Architecture Review"
+    slug: "post-integration-architecture-review"
+    kind: "review"
+    workflow_dir: ".octon/framework/orchestration/runtime/workflows/audit/post-integration-architecture-review/"
+    evidence_root: ".octon/state/evidence/runs/workflows/<run-id>/architectural-review/post-integration-architecture-review/"
+  - display_name: "Current-State Mechanism Architecture Review"
+    slug: "current-state-mechanism-architecture-review"
+    kind: "review"
+    workflow_dir: ".octon/framework/orchestration/runtime/workflows/audit/current-state-mechanism-architecture-review/"
+    evidence_root: ".octon/state/evidence/runs/workflows/<run-id>/architectural-review/current-state-mechanism-architecture-review/"
+  - display_name: "Architecture Readiness Audit"
+    slug: "architecture-readiness-audit"
+    kind: "audit"
+    workflow_dir: ".octon/framework/orchestration/runtime/workflows/audit/architecture-readiness-audit/"
+    command_facades:
+      - "architecture-readiness-audit"
+    evidence_root: ".octon/state/evidence/runs/workflows/<run-id>/architectural-review/architecture-readiness-audit/"
+  - display_name: "Domain Architecture Audit"
+    slug: "domain-architecture-audit"
+    kind: "audit"
+    invocation_aliases:
+      - alias: "audit-domain-architecture"
+        status: "active"
+        surface: "skill-and-command"
+    command_facades:
+      - "audit-domain-architecture"
+    evidence_root: ".octon/state/evidence/runs/skills/audit-domain-architecture/<run-id>.md"
+  - display_name: "Surface Architecture Audit"
+    slug: "surface-architecture-audit"
+    kind: "audit"
+    invocation_aliases:
+      - alias: "audit-surface-architecture"
+        status: "active"
+        surface: "skill-and-command"
+    command_facades:
+      - "audit-surface-architecture"
+    evidence_root: ".octon/state/evidence/runs/skills/audit-surface-architecture/<run-id>.md"
+  - display_name: "Architecture Revision Packet"
+    slug: "architecture-revision-packet"
+    kind: "extension-packet-helper"
+  - display_name: "Lifecycle Postmortem Evaluator"
+    slug: "lifecycle-postmortem-evaluator"
+    kind: "evaluator"
+schema_names:
+  report: "architectural-review-report-v1.schema.json"
+  routing_decision: "architectural-review-routing-decision-v1.schema.json"
+  support_receipt: "architectural-review-support-receipt-v1.schema.json"
+validator_names:
+  naming: "validate-architectural-review-naming.sh"
+  routing: "validate-architectural-review-routing.sh"
+  receipts: "validate-architectural-review-receipts.sh"
+  workflows: "validate-architectural-review-workflows.sh"
+  lifecycle_gates: "validate-architectural-review-lifecycle-gates.sh"
+  extension_split: "validate-architectural-review-extension-split.sh"
+legacy_aliases:
+  - alias: "audit-architecture-readiness"
+    canonical: "architecture-readiness-audit"
+    status: "retired"
+    permanent_compatibility: false

@@ -1,0 +1,16 @@
+[OK] architectural review routing file exists
+[OK] architectural review routing parses
+[OK] default route is pre-integration review
+[OK] route declared: pre-integration-architecture-review
+[OK] route declared: architecture-revision-packet
+[OK] route declared: post-integration-architecture-review
+[OK] route declared: current-state-mechanism-architecture-review
+[OK] route declared: architecture-readiness-audit
+[OK] route declared: domain-architecture-audit
+[OK] route declared: surface-architecture-audit
+[OK] route declared: lifecycle-postmortem-evaluator
+[OK] route declared: constitutional-challenge
+[OK] pre-integration review is required proposal gate
+[OK] post-integration review is evidence-only
+[OK] lifecycle postmortem cannot authorize closeout
+Validation summary: errors=0

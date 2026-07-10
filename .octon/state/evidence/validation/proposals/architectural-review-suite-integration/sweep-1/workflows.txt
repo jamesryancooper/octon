@@ -1,0 +1,54 @@
+[OK] workflow directory exists: pre-integration-architecture-review
+[OK] workflow contract exists: pre-integration-architecture-review
+[OK] workflow contract parses: pre-integration-architecture-review
+[OK] workflow contract name matches directory: pre-integration-architecture-review
+[OK] workflow schema current: pre-integration-architecture-review
+[OK] workflow manifest registers pre-integration-architecture-review
+[OK] workflow registry registers pre-integration-architecture-review
+[OK] method-id recording artifact present in run evidence: pre-integration-architecture-review
+[OK] method record binds v2 method evidence ('-v2'): pre-integration-architecture-review
+[OK] method record binds v2 method evidence ('method'): pre-integration-architecture-review
+[OK] method record binds v2 method evidence ('lenses_applied'): pre-integration-architecture-review
+[OK] configure stage records selected method with advisory: pre-integration-architecture-review
+[OK] support receipt artifact stays method-free: pre-integration-architecture-review
+[OK] workflow directory exists: post-integration-architecture-review
+[OK] workflow contract exists: post-integration-architecture-review
+[OK] workflow contract parses: post-integration-architecture-review
+[OK] workflow contract name matches directory: post-integration-architecture-review
+[OK] workflow schema current: post-integration-architecture-review
+[OK] workflow manifest registers post-integration-architecture-review
+[OK] workflow registry registers post-integration-architecture-review
+[OK] method-id recording artifact present in run evidence: post-integration-architecture-review
+[OK] method record binds v2 method evidence ('-v2'): post-integration-architecture-review
+[OK] method record binds v2 method evidence ('method'): post-integration-architecture-review
+[OK] method record binds v2 method evidence ('lenses_applied'): post-integration-architecture-review
+[OK] configure stage records selected method with advisory: post-integration-architecture-review
+[OK] support receipt artifact stays method-free: post-integration-architecture-review
+[OK] workflow directory exists: current-state-mechanism-architecture-review
+[OK] workflow contract exists: current-state-mechanism-architecture-review
+[OK] workflow contract parses: current-state-mechanism-architecture-review
+[OK] workflow contract name matches directory: current-state-mechanism-architecture-review
+[OK] workflow schema current: current-state-mechanism-architecture-review
+[OK] workflow manifest registers current-state-mechanism-architecture-review
+[OK] workflow registry registers current-state-mechanism-architecture-review
+[OK] method-id recording artifact present in run evidence: current-state-mechanism-architecture-review
+[OK] method record binds v2 method evidence ('-v2'): current-state-mechanism-architecture-review
+[OK] method record binds v2 method evidence ('method'): current-state-mechanism-architecture-review
+[OK] method record binds v2 method evidence ('lenses_applied'): current-state-mechanism-architecture-review
+[OK] configure stage records selected method with advisory: current-state-mechanism-architecture-review
+[OK] support receipt artifact stays method-free: current-state-mechanism-architecture-review
+[OK] workflow directory exists: architecture-readiness-audit
+[OK] workflow contract exists: architecture-readiness-audit
+[OK] workflow contract parses: architecture-readiness-audit
+[OK] workflow contract name matches directory: architecture-readiness-audit
+[OK] workflow schema current: architecture-readiness-audit
+[OK] workflow manifest registers architecture-readiness-audit
+[OK] workflow registry registers architecture-readiness-audit
+[OK] method-id recording artifact present in run evidence: architecture-readiness-audit
+[OK] method record binds v2 method evidence ('-v2'): architecture-readiness-audit
+[OK] method record binds v2 method evidence ('method'): architecture-readiness-audit
+[OK] method record binds v2 method evidence ('lenses_applied'): architecture-readiness-audit
+[OK] configure stage records selected method with advisory: architecture-readiness-audit
+[OK] support receipt artifact stays method-free: architecture-readiness-audit
+[OK] legacy audit-architecture-readiness workflow route absent
+Validation summary: errors=0

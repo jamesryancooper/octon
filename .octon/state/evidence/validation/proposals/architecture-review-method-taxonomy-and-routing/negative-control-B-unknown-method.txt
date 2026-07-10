@@ -1,0 +1,10 @@
+[OK] architectural review routing file exists
+[OK] architectural review routing parses
+[OK] routing schema_version is architectural-review-routing-v2
+[OK] method_selection.default_method is balanced-architecture-review-method
+[OK] fail_closed_conditions declares: unknown_method
+[OK] fail_closed_conditions declares: missing_method_record
+[OK] naming catalog available for method binding: /Users/jamesryancooper/Projects/octon/.octon/framework/assurance/runtime/_ops/fixtures/architectural-review/method-taxonomy-routing/fail-unknown-method/naming.yml
+[OK] method_selection references declared method: balanced-architecture-review-method
+[ERROR] method_selection references unknown method (not in naming catalog): nonexistent-review-method
+Validation summary: errors=1

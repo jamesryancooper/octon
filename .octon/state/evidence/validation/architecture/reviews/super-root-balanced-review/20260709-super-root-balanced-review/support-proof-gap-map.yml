@@ -1,0 +1,54 @@
+schema_version: architecture-review-support-proof-gap-map-v1
+review_id: 20260709-super-root-balanced-review
+universe:
+  default_route: deny (".octon/instance/governance/support-targets.yml:3")
+  tuples_total: 6
+  live: 4
+  stage_only: 2
+  retired: 1
+live_tuples:
+  - tuple: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell"
+    proof_bundle: ".octon/state/evidence/validation/support-targets/repo-shell-observe-read-en.yml"
+    result: pass
+    freshness: current
+    proof_planes_required: [structural, functional, governance, maintainability]
+    gaps: none
+  - tuple: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell"
+    proof_bundle: ".octon/state/evidence/validation/support-targets/repo-shell-repo-consequential-en.yml"
+    result: pass
+    freshness: current
+    proof_planes_required: [structural, functional, behavioral, governance, maintainability, recovery]
+    runtime_evidence_required: [valid-run-journal-conformance, deterministic-state-reconstruction, journal-closeout-snapshot-match]
+    gaps: none
+  - tuple: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane"
+    proof_bundle: ".octon/state/evidence/validation/support-targets/ci-observe-read-en.yml"
+    result: pass
+    freshness: current
+    gaps: none
+  - tuple: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane"
+    proof_bundle: ".octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml"
+    result: pass
+    freshness: current
+    runtime_evidence_required: [valid-run-journal-conformance, deterministic-state-reconstruction, journal-closeout-snapshot-match, authorized-effect-token-proof]
+    gaps: none
+proofing_contract:
+  execution_mode: runnable-or-replayable
+  summary_only_proof: insufficient for live claims (contract line 60; FCR-034)
+  negative_controls: required (contract line 15)
+reconciliation:
+  status: reconciled, zero diagnostics
+  evidence: ".octon/generated/effective/governance/support-envelope-reconciliation.yml:2,124-184"
+  widening_detection: fail-closed (validate-support-envelope-reconciliation.sh:211-230)
+gaps_found:
+  - id: F-08
+    description: historical RunCard support-tuple references not retroactively audited after support-target changes
+    severity: low
+  - id: none-blocking
+    description: no admitted-live tuple lacks a current passing executable proof bundle
+adapter_posture:
+  narrowing_only: confirmed ("may narrow, never widen" in every adapter contract; validate-phase5-adapter-support-target-hardening.sh)
+  browser_api_packs: unadmitted, escalate-only, stage-only tuples only
+overall_assessment: >-
+  No support-proof gaps block current live claims. Support laundering is
+  structurally prevented at admission, matrix, reconciliation, and disclosure
+  layers.

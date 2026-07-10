@@ -1,0 +1,28 @@
+Lens-bank dependency binding proof — architecture-review-method-taxonomy-and-routing
+Captured 2026-07-10T00:18:38Z.
+
+Assertion: every naming.yml methods.catalog slug equals a live lens-bank.yml
+suite_methods slug (no unknown method; no method without a lens profile). This
+binds the naming v2 method catalog to the phase-0 verified lens bank with zero
+edits to lens-bank.yml.
+
+naming.yml `.methods.catalog[].slug`:
+  balanced-architecture-review-method
+  greenfield-reference-architecture-review-method
+  tradeoff-review-method
+  failure-mode-review-method
+  evolution-fitness-review-method
+  boundary-authority-review-method
+
+lens-bank.yml `.suite_methods[].slug`:
+  balanced-architecture-review-method
+  greenfield-reference-architecture-review-method
+  tradeoff-review-method
+  failure-mode-review-method
+  evolution-fitness-review-method
+  boundary-authority-review-method
+
+Result: set equality holds (6 == 6, identical members). The six canonical slugs
+also match architecture/slug-reconciliation-decision.md verbatim, and the
+phase-0 lens-reference validator continues to pass unchanged
+(no-regression-lens-references.txt, errors=0). Dependency binding CONFIRMED.

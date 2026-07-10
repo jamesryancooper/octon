@@ -1,0 +1,1 @@
+INTERPRETATION: v1 support-receipt schema absent from changeset (unchanged); no support-receipt artifact in the four workflows references method/lenses_applied; v1 schema declares no method/lenses_applied property. AC-02 holds.

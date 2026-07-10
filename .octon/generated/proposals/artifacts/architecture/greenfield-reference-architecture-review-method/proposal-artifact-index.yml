@@ -1,0 +1,686 @@
+{
+  "artifact_count": 26,
+  "artifacts": [
+    {
+      "byte_size": 6828,
+      "estimated_tokens": 1707,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "README.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/README.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "overview",
+      "sha256": "sha256:2448e1adb20adeb3c2b4548eb9875189a1380459c137f5ad8454d1e9dc98571e",
+      "stage_relevance": [
+        "orientation"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 3280,
+      "estimated_tokens": 820,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/acceptance-criteria.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/acceptance-criteria.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "acceptance-criteria",
+      "sha256": "sha256:f099f80aeeef2ee82e0e2f7b9cc401c2421a2c0cf703d9b7cd579f393da85ed0",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 5436,
+      "estimated_tokens": 1359,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/current-state-gap-map.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/current-state-gap-map.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "current-state-gap-map",
+      "sha256": "sha256:059671c0fff28ab5ee987546474c4e090dd5e58a3d3f336c37bd612f38263fcd",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 2818,
+      "estimated_tokens": 705,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/cutover-checklist.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/cutover-checklist.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "cutover-checklist",
+      "sha256": "sha256:dd892ad256ace1e921983d4e44f2b109f700b812e3d404402fc0af6c75a3a4b6",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 3647,
+      "estimated_tokens": 912,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/file-change-map.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/file-change-map.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "file-change-map",
+      "sha256": "sha256:2aff00bf426fcc40b6e566049f228c369505b5fd0c8768af9285fd6b09a6290a",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 5182,
+      "estimated_tokens": 1296,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/implementation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/implementation-plan.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-plan",
+      "sha256": "sha256:541c113690940579312d7baca38aea47668837b21f2fc09d9612515f095d7d2f",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 8555,
+      "estimated_tokens": 2139,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/method-doc-authoring-spec.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/method-doc-authoring-spec.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "method-doc-authoring-spec",
+      "sha256": "sha256:d270782e6e57a6545075072512aa6352ff8b6121d8988f5fb374165c407f8477",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 3044,
+      "estimated_tokens": 761,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/operator-disclosure.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/operator-disclosure.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "operator-disclosure",
+      "sha256": "sha256:5f6f9a5023bedf11edda959ebe3ea6283889ec8b7d473b60df568c49db42f04c",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 2354,
+      "estimated_tokens": 589,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/rollback-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/rollback-plan.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "rollback-plan",
+      "sha256": "sha256:0b4a840f6db7c6807cd3a8747872c139f712b35dc885d84ef26b5c47742916de",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 4869,
+      "estimated_tokens": 1218,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/target-architecture.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/target-architecture.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "target-architecture",
+      "sha256": "sha256:2ddc9a436950fb9c1bbec404dc619a91dd26c157d34eec3de9cfba56f3f52120",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 4227,
+      "estimated_tokens": 1057,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/validation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/validation-plan.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "validation-plan",
+      "sha256": "sha256:aeeb636fb64c924242890a324360f4d71b0a5662e5db89228bb4148eb3fd459e",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 4455,
+      "estimated_tokens": 1114,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "architecture-proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture-proposal.yml",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "subtype-manifest",
+      "sha256": "sha256:8146efd5f178661f18f1f7a9de3e34cb886529d2905ec56a4cf7791d311692a8",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 2205,
+      "estimated_tokens": 552,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "navigation/artifact-catalog.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/navigation/artifact-catalog.md",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "artifact-catalog",
+      "sha256": "sha256:f0195c8c6ca839865c95a8670a5c33c56b70bdc92e9d41e627c7ce45348ba480",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 3527,
+      "estimated_tokens": 882,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "navigation/source-of-truth-map.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/navigation/source-of-truth-map.md",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "source-of-truth-map",
+      "sha256": "sha256:fd0013e9b572b1f03bbe788785620834813434112a3af5c157ffd6feacd8ad07",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 9472,
+      "estimated_tokens": 2368,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/proposal.yml",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "proposal-manifest",
+      "sha256": "sha256:5df81e91feb347464e6967e6ce383d9b0b322e3cecffc489ec7520e97ccc0ff2",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 7914,
+      "estimated_tokens": 1979,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "resources/source-context.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/resources/source-context.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "resource",
+      "sha256": "sha256:0a37841d870e121e4a0f2bf206df0bb903457efd3a27d2487bf1c342a65a85d5",
+      "stage_relevance": [
+        "lineage-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 15904,
+      "estimated_tokens": 3976,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/executable-implementation-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/executable-implementation-prompt.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "executable-implementation-prompt",
+      "sha256": "sha256:d560307fa6b8ac334e6c125b9c6974112232277836a3875d7f9228ca93c31a90",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 3574,
+      "estimated_tokens": 894,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/implementation-conformance-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/implementation-conformance-review.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-conformance-review",
+      "sha256": "sha256:a2273d8d920f8b5a7cbd6f3ad852524e38a33ce7a6b3c513b96dfe656676dbfc",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 4464,
+      "estimated_tokens": 1116,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/implementation-grade-completeness-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/implementation-grade-completeness-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "implementation-grade-completeness-review",
+      "sha256": "sha256:a33078b5412f0caf55d3996fd46a1435309b0e4d3b3b75b2d4dfda8927d53516",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 4666,
+      "estimated_tokens": 1167,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/implementation-run.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/implementation-run.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-run",
+      "sha256": "sha256:b43acb3f549d5c785747806a86016d96c0684e328b56619ce56fefdd9b7f44a7",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 3594,
+      "estimated_tokens": 899,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/post-implementation-drift-churn-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/post-implementation-drift-churn-review.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "post-implementation-drift-churn-review",
+      "sha256": "sha256:1147e2db3c1444da10418ac315b8033650225320ef95c4fd330b12d0a44fd578",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 6872,
+      "estimated_tokens": 1718,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/pre-integration-architecture-review.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/pre-integration-architecture-review.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "pre-integration-architecture-review",
+      "sha256": "sha256:e474ba93ebd6bc7412201411a2cd501f4e7fcaf36dd697e980a867cfc12deaba",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 7432,
+      "estimated_tokens": 1858,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/proposal-closeout.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-closeout",
+      "sha256": "sha256:02528eda39b2ac5c0c3b4f6d5b89c5ea490b135d54953d0eea2125d90697f535",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 4102,
+      "estimated_tokens": 1026,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-creation.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/proposal-creation.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-creation",
+      "sha256": "sha256:8e39b2b97e1dab017c8c3acb93fa901d73d7123e51dbd5243100a9d734e3cc64",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 4183,
+      "estimated_tokens": 1046,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/proposal-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-review",
+      "sha256": "sha256:5b01d324e82530b3b878054088bdc7485e714e5a77b0d05de270463d99132984",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 35137,
+      "estimated_tokens": 8785,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/proposal-terminal-closeout.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-terminal-closeout",
+      "sha256": "sha256:2d6677f634820686189cdda73b462bc1d12141e3e7823dead3dac82fd93095bd",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    }
+  ],
+  "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
+    "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
+  },
+  "compact_outputs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/greenfield-reference-architecture-review-method/proposal-artifact-index.yml",
+      "artifact_role": "proposal-artifact-index",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/greenfield-reference-architecture-review-method/proposal-program-spine.yml",
+      "artifact_role": "proposal-program-spine",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/greenfield-reference-architecture-review-method/child-handoff-capsule.yml",
+      "artifact_role": "child-handoff-capsule",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-child-handoff-capsule-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/greenfield-reference-architecture-review-method/proposal-artifact-index.yml",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_id": "greenfield-reference-architecture-review-method",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "schema_version": "octon-proposal-artifact-index-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture-proposal.yml": "sha256:8146efd5f178661f18f1f7a9de3e34cb886529d2905ec56a4cf7791d311692a8",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/acceptance-criteria.md": "sha256:f099f80aeeef2ee82e0e2f7b9cc401c2421a2c0cf703d9b7cd579f393da85ed0",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/implementation-plan.md": "sha256:541c113690940579312d7baca38aea47668837b21f2fc09d9612515f095d7d2f",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/navigation/artifact-catalog.md": "sha256:f0195c8c6ca839865c95a8670a5c33c56b70bdc92e9d41e627c7ce45348ba480",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/navigation/source-of-truth-map.md": "sha256:fd0013e9b572b1f03bbe788785620834813434112a3af5c157ffd6feacd8ad07",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/proposal.yml": "sha256:5df81e91feb347464e6967e6ce383d9b0b322e3cecffc489ec7520e97ccc0ff2",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/executable-implementation-prompt.md": "sha256:d560307fa6b8ac334e6c125b9c6974112232277836a3875d7f9228ca93c31a90",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/implementation-grade-completeness-review.md": "sha256:a33078b5412f0caf55d3996fd46a1435309b0e4d3b3b75b2d4dfda8927d53516",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/proposal-review.md": "sha256:5b01d324e82530b3b878054088bdc7485e714e5a77b0d05de270463d99132984"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/greenfield-reference-architecture-review-method/support/proposal-review.md"
+  ],
+  "targeted_dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/proposal.yml",
+      "manifest_sha256": "sha256:fbb59f4291fc9a41d3881e80412edbf42611e2daf47f2cfa06f031692ed73075",
+      "proposal_id": "architecture-review-method-suite-program",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program",
+      "ref_type": "parent_program",
+      "required": true,
+      "source_field": "proposal.yml#parent_program"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/proposal.yml",
+      "manifest_sha256": "sha256:fbb59f4291fc9a41d3881e80412edbf42611e2daf47f2cfa06f031692ed73075",
+      "proposal_id": "architecture-review-method-suite-program",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/proposal.yml",
+      "manifest_sha256": "sha256:85401a2a802f510774ebcf32e8b3efbe32aef127bf98b77f488a69578b36a379",
+      "proposal_id": "architecture-lens-bank-foundation",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-review-method-taxonomy-and-routing/proposal.yml",
+      "manifest_sha256": "sha256:fb656230f66c9fb023500ef996040e216328a6f1247790a6c72221b9781ea55f",
+      "proposal_id": "architecture-review-method-taxonomy-and-routing",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-review-method-taxonomy-and-routing",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": null,
+      "manifest_sha256": null,
+      "planned": true,
+      "proposal_id": "companion-architecture-review-methods",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods",
+      "ref_type": "related_proposal",
+      "registry_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml",
+      "registry_sha256": "sha256:e6c9edc603793b25afec62032f5ea3c831ad489fc0931cf19745d00145ec08f4",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions/proposal.yml",
+      "manifest_sha256": "sha256:ac64a8dc1ebfd00c0bbb86e7b62475e3ffa318a1c9e4611b1e43e253771d9bf1",
+      "proposal_id": "architectural-review-schema-extensions",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architectural-review-schema-extensions",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": null,
+      "manifest_sha256": null,
+      "planned": true,
+      "proposal_id": "architectural-review-suite-integration",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architectural-review-suite-integration",
+      "ref_type": "related_proposal",
+      "registry_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml",
+      "registry_sha256": "sha256:e6c9edc603793b25afec62032f5ea3c831ad489fc0931cf19745d00145ec08f4",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "validation": {
+    "negative_controls": [
+      "generated-registry-cannot-replace-manifest",
+      "source-digest-mismatch-fails-closed",
+      "missing-child-handoff-fails-when-parent-program-present"
+    ],
+    "validator": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+  }
+}

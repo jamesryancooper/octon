@@ -1,0 +1,63 @@
+schema_version: proposal-v1
+proposal_id: architecture-review-method-taxonomy-and-routing
+title: Architecture Review Method Taxonomy And Routing
+summary: Phase-1 child of the Architecture Review Method Suite Program. Refactors the Architectural Review Mechanism naming model to architectural-review-naming-v2 by adding an explicit methods list (Balanced plus the five companion methods) with Balanced Architecture Review as the declared default, and extends review-routing.yml to architectural-review-routing-v2 with a method_selection block (default method, per-route allowed methods, escalation map) and fail-closed conditions unknown_method and missing_method_record. It extends the mechanism README canonical-names table with the method rows, adds minimal cross-references to the Balanced method doc, and updates the naming and routing validators with negative controls. Existing canonical modes, routes, evidence roots, aliases, and the pre-integration gate are untouched; no slug renames and no alias retirements. This child also fixes the canonical companion method slugs and reconciles them with the provisional slugs seeded in lens-bank.yml by architecture-lens-bank-foundation. It creates no new mechanism, gate, routed workflow mode, or command facade, and grants no review output any authority.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/cognition/practices/methodology/architectural-review/naming.yml
+- .octon/framework/cognition/practices/methodology/architectural-review/review-routing.yml
+- .octon/framework/cognition/practices/methodology/architectural-review/README.md
+- .octon/framework/cognition/practices/methodology/architectural-review/balanced-architecture-review-method.md
+- .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-naming.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-routing.sh
+- .octon/state/evidence/validation/proposals/architecture-review-method-taxonomy-and-routing/
+status: archived
+archive:
+  archived_at: 2026-07-10
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architecture-review-method-taxonomy-and-routing
+  promotion_evidence:
+  - .octon/state/evidence/validation/proposals/architecture-review-method-taxonomy-and-routing/
+  - .octon/state/evidence/runs/workflows/20260709-arms-program-clean-delivery-04/lifecycle-interactions/program-child-batch-handoff-20260709-arms-program-clean-delivery-04-architecture-review-method-taxonomy-and-routing-closeout-packet-452972ba9833fdd4-return.json
+  - .octon/state/evidence/runs/workflows/20260709-arms-program-clean-delivery-04/lifecycle-interactions/program-child-batch-handoff-20260709-arms-program-clean-delivery-04-architecture-review-method-taxonomy-and-routing-closeout-packet-452972ba9833fdd4-closeout-worktree-report.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Advance this child through review, implementation, and verification until naming.yml is at architectural-review-naming-v2 with the six-method methods list and Balanced default, review-routing.yml is at architectural-review-routing-v2 with the method_selection block and fail-closed unknown_method and missing_method_record conditions, the mechanism README canonical-names table and Balanced doc cross-references are extended, and the naming and routing validators pass with their negative controls demonstrably failing closed. Existing routes, evidence roots, aliases, and the pre-integration gate remain unchanged; canonical companion method slugs are fixed and reconciled with the lens-bank.yml provisional slugs; child lifecycle evidence is retained outside the proposal path; then close out and archive this packet. Parent program evidence never satisfies this child's receipts.
+related_proposals:
+- architecture-review-method-suite-program
+- architecture-lens-bank-foundation
+- greenfield-reference-architecture-review-method
+- companion-architecture-review-methods
+- architectural-review-schema-extensions
+authority_class_impact:
+  framework: Refactors naming.yml (v1 to v2) and review-routing.yml (v1 to v2), extends the mechanism README and the Balanced doc with cross-references only, and extends two existing validators under framework/**. No new mechanism, gate, routed workflow mode, evidence root, or command facade.
+  instance: No instance surface changes.
+  state_control: No control-truth mutation.
+  state_evidence: Child lifecycle evidence is retained under this child's own promotion evidence root; validator negative-control runs are retained as evidence only. Existing evidence roots are unchanged.
+  generated: No generated/effective publication by this child; any projection refresh occurs only through canonical publication scripts at implementation.
+  inputs: The intake unit and parent program design docs remain non-authoritative lineage; this packet is proposal-local candidate lineage only.
+change_profile: atomic
+evidence_requirements:
+- Cited non-authoritative intake unit architecture-review-method-suite and the parent program design docs (lineage only, never authority).
+- Naming validator evidence proving the six-method methods list, Balanced default, no slug renames, and no alias retirements, including a negative control (method declared without a lens-bank profile fails closed).
+- Routing validator evidence proving the method_selection block, per-route allowed methods, escalation map, and both fail-closed conditions (unknown_method; missing_method_record), each with a negative control.
+- Dependency-binding evidence that the naming v2 method slugs equal the lens-bank.yml suite_methods slugs verified by architecture-lens-bank-foundation (no unknown method; no method without a lens profile).
+- Regression evidence that existing canonical modes, routes, aliases, evidence roots, and the pre-integration gate are unchanged.
+- Child lifecycle evidence retained under .octon/state/evidence/validation/proposals/architecture-review-method-taxonomy-and-routing/ before closeout.
+generated_input_authority_impact: No generated, input, host, chat, dashboard, or model-memory surface gains authority. Method selection is routing semantics; review outputs remain evidence or proposal input, and the pre-integration support receipt remains the only lifecycle-gating review artifact.
+owner: octon-maintainers
+parent_program: architecture-review-method-suite-program
+program_child_id: architecture-review-method-taxonomy-and-routing
+program_phase_id: phase-1
+release_state: pre-1.0
+runtime_behavior_impact: At implementation, review routing gains method-selection semantics that fail closed on an unknown method (unknown_method) and on a routing decision that omits a required method record (missing_method_record). Balanced Architecture Review remains the default method when no selection is made, so existing default behavior is preserved. No existing route, gate, or evidence root changes.
+scope_statement: Author exactly the naming-and-routing method layer for the Architecture Review Method Suite. In scope - naming.yml v2 methods list with the six canonical method slugs and Balanced default; review-routing.yml v2 method_selection block (default method, per-route allowed methods, escalation map) and fail-closed unknown_method and missing_method_record; mechanism README canonical-names table extension; minimal navigation cross-references in the Balanced doc; naming and routing validator updates with at least one negative control per new fail-closed rule; and the canonical companion method slug decision reconciled with the lens-bank.yml provisional slugs. Out of scope and left untouched - the Greenfield and companion method docs (phase-2), the report and routing-decision schema v2 additions (phase-2), review workflow method-recording and generated projection refresh (phase-3), the lens bank authored by phase-0 (consumed as a verified dependency, not modified beyond binding to its slugs), the existing canonical modes, routes, aliases, evidence roots, and the pre-integration gate, and architecture-readiness and surface-architecture audit doctrine.
+selected_implementation_target: Extend the naming model and review routing of the existing Architectural Review Mechanism at .octon/framework/cognition/practices/methodology/architectural-review/ and its validators at .octon/framework/assurance/runtime/_ops/scripts/.
+source_lineage:
+- .octon/inputs/additive/.incoming/architecture-review-method-suite/
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/method-taxonomy.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/child-packet-contract.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/target-architecture.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml

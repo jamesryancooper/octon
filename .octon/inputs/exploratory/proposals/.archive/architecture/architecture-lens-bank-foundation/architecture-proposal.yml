@@ -1,0 +1,42 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "architectural-review-lens-bank-foundation"
+decision_type: "new-surface"
+title: "Architecture Lens Bank Foundation"
+target_state: >-
+  The Architectural Review Mechanism carries one shared, machine-readable
+  architecture lens bank. Two authored artifacts live beside the existing
+  Balanced method doc, naming.yml, and review-routing.yml:
+  architecture-lens-bank.md states lens doctrine (what each of the 18 lenses
+  asks, what evidence it produces, when it is worth applying, plus sprawl
+  controls), and lens-bank.yml declares the 18 lens ids in two tiers (12 core,
+  6 extended) with a required/optional lens profile for each of the six suite
+  methods (Balanced, Greenfield, Tradeoff, Failure-Mode, Evolution/Fitness,
+  Boundary/Authority). A new lens-reference validator with fixtures fails closed
+  when a method doc references an undefined lens id or a defined method lacks a
+  profile. Balanced Architecture Review's existing required sequence is expressed
+  exactly as lens ids; Balanced doctrine text is unchanged. Methods own the
+  question, scope, routing, and output contract; lenses are reusable analysis
+  tools selected from the bank; no method defines a private lens catalog.
+boundary_change: >-
+  No authority-class boundary moves. This is a purely additive new surface
+  inside the existing mechanism: two new methodology artifacts and one new
+  validator plus fixtures. No new mechanism, lifecycle gate, routed workflow
+  mode, evidence root, or command facade is created. The lens bank is analysis
+  tooling only; review outputs remain evidence or proposal input, and the
+  pre-integration support receipt remains the only lifecycle-gating review
+  artifact. Later suite children (taxonomy-and-routing, method docs,
+  schema-extensions, integration) consume this bank as a dependency; this child
+  neither depends on nor modifies them.
+authoritative_targets_after_promotion:
+  - ".octon/framework/cognition/practices/methodology/architectural-review/architecture-lens-bank.md"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/lens-bank.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-lens-references.sh"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "resources/**"
+  - "support/**"

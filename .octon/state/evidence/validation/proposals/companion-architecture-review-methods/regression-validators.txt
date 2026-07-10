@@ -1,0 +1,26 @@
+# Regression Validators — Result (run from repo root, post-implementation)
+
+Each must report `Validation summary: errors=0`. Tails shown; full runs green.
+
+########## validate-architectural-review-naming.sh ##########
+[OK] method slug binds to lens-bank suite_methods: failure-mode-review-method
+[OK] method slug binds to lens-bank suite_methods: evolution-fitness-review-method
+[OK] method slug binds to lens-bank suite_methods: boundary-authority-review-method
+Validation summary: errors=0
+
+########## validate-architectural-review-lens-references.sh ##########
+[OK] suite method 'tradeoff-review-method' has a complete profile (required=2)
+[OK] suite method 'failure-mode-review-method' has a complete profile (required=6)
+[OK] suite method 'evolution-fitness-review-method' has a complete profile (required=5)
+[OK] suite method 'boundary-authority-review-method' has a complete profile (required=2)
+Validation summary: errors=0
+
+########## validate-architectural-review-routing.sh ##########
+[OK] method_selection references declared method: failure-mode-review-method
+[OK] method_selection references declared method: greenfield-reference-architecture-review-method
+[OK] method_selection references declared method: tradeoff-review-method
+Validation summary: errors=0
+
+Interpretation: the additive naming.yml `doc:` pointers and README links did not
+perturb any of the three architectural-review registry validators. lens-bank.yml,
+review-routing.yml, and the naming schema/default/legacy-aliases are unchanged.

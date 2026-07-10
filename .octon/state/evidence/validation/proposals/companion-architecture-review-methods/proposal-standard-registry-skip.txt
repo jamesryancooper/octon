@@ -1,0 +1,44 @@
+# Proposal-Standard Validation (registry-skip) — Result
+
+Command:
+  bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh \
+    --package .octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods \
+    --skip-registry-check
+
+[OK] proposal manifest exists
+[OK] proposal manifest parses as YAML
+[OK] proposal schema_version is proposal-v1
+[OK] proposal proposal_id matches format
+[OK] proposal kind valid
+[OK] proposal scope valid
+[OK] proposal status valid
+[OK] proposal README exists
+[OK] proposal artifact catalog exists
+[OK] proposal source-of-truth map exists
+[OK] proposal has exactly one subtype manifest
+[OK] proposal artifact catalog references only on-disk files
+[WARN] proposal artifact catalog omits some visible files; regenerate inventory for full coverage
+[OK] proposal lifecycle.temporary remains true
+[OK] proposal lifecycle.exit_expectation present
+[OK] proposal top-level exit_expectation is absent
+[OK] proposal id matches directory name
+[OK] proposal active path matches kind/id
+[OK] proposal promotion_targets present
+[OK] proposal active proposals stay in active paths
+[OK] proposal non-archived proposal omits archive block
+[OK] proposal octon-internal targets stay under .octon/
+[OK] proposal avoids mixed target families
+[OK] promotion target avoids proposal-path backreferences: tradeoff-review-method.md
+[OK] promotion target avoids proposal-path backreferences: failure-mode-review-method.md
+[OK] promotion target avoids proposal-path backreferences: evolution-fitness-review-method.md
+[OK] promotion target avoids proposal-path backreferences: boundary-authority-review-method.md
+Validation summary: errors=0 warnings=1
+
+Interpretation:
+- errors=0. The previously-observed absent-promotion-target warnings are gone now
+  that all four docs exist (each promotion target validates OK above).
+- The single remaining warning is advisory: the packet's artifact-catalog
+  inventory omits later-generated support artifacts (e.g.
+  executable-implementation-prompt.md and the post-implementation receipts).
+  This is discovery-only and deferred to the coordinated inventory/registry
+  refresh, consistent with registry-skip mode. It is not an error.

@@ -1,0 +1,42 @@
+[OK] skill exists: pre-integration-architecture-review
+[OK] skill manifest registers pre-integration-architecture-review
+[OK] skill registry registers pre-integration-architecture-review
+[OK] command exists: pre-integration-architecture-review
+[OK] command manifest registers pre-integration-architecture-review
+[OK] skill points to workflow: pre-integration-architecture-review
+[OK] skill keeps workflow authority boundary: pre-integration-architecture-review
+[OK] skill exists: post-integration-architecture-review
+[OK] skill manifest registers post-integration-architecture-review
+[OK] skill registry registers post-integration-architecture-review
+[OK] command exists: post-integration-architecture-review
+[OK] command manifest registers post-integration-architecture-review
+[OK] skill points to workflow: post-integration-architecture-review
+[OK] skill keeps workflow authority boundary: post-integration-architecture-review
+[OK] skill exists: current-state-mechanism-architecture-review
+[OK] skill manifest registers current-state-mechanism-architecture-review
+[OK] skill registry registers current-state-mechanism-architecture-review
+[OK] command exists: current-state-mechanism-architecture-review
+[OK] command manifest registers current-state-mechanism-architecture-review
+[OK] skill points to workflow: current-state-mechanism-architecture-review
+[OK] skill keeps workflow authority boundary: current-state-mechanism-architecture-review
+[OK] skill exists: architecture-readiness-audit
+[OK] skill manifest registers architecture-readiness-audit
+[OK] skill registry registers architecture-readiness-audit
+[OK] command exists: architecture-readiness-audit
+[OK] command manifest registers architecture-readiness-audit
+[OK] skill exists: audit-domain-architecture
+[OK] skill manifest registers audit-domain-architecture
+[OK] skill registry registers audit-domain-architecture
+[OK] command exists: audit-domain-architecture
+[OK] command manifest registers audit-domain-architecture
+[OK] canonical mode alias mapped: domain-architecture-audit -> audit-domain-architecture
+[OK] domain command documents canonical alias
+[OK] skill exists: audit-surface-architecture
+[OK] skill manifest registers audit-surface-architecture
+[OK] skill registry registers audit-surface-architecture
+[OK] command exists: audit-surface-architecture
+[OK] command manifest registers audit-surface-architecture
+[OK] canonical mode alias mapped: surface-architecture-audit -> audit-surface-architecture
+[OK] surface command documents canonical alias
+[OK] readiness command documents retired alias boundary
+Validation summary: errors=0

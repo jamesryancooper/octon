@@ -1,0 +1,34 @@
+schema_version: architecture-review-evidence-index-v1
+review_id: 20260709-super-root-balanced-review
+review_type: super-root-balanced-review
+verdict: preserve-with-refinements
+routing_verdict: retain-as-evidence-and-recommend-single-architecture-proposal-packet
+bundle_files:
+  - path: review.md
+    role: full 13-section Balanced Architecture Review plus routing/placement section
+  - path: source-prompt.md
+    role: exact copy of the controlling Prompt 1 artifact (sha256 66cab1d98e62cd5b1fadbb513ac001020915783a9c2c7657128f5ea879953ace)
+  - path: model-and-run-context.yml
+    role: run identity, model actually used, persona, mode, budget fields
+  - path: repo-scope.yml
+    role: substrate record (branch, commit, intentional local context)
+  - path: repository-citations.yml
+    role: citation map for every major claim
+  - path: findings.yml
+    role: 10 findings with severity, confidence, evidence, disposition, owner
+  - path: authority-boundary-map.yml
+    role: per-boundary posture, enforcement, and status including the ambient-environment gap
+  - path: generated-effective-risk-register.yml
+    role: per-handle-family risk assessment
+  - path: support-proof-gap-map.yml
+    role: live-tuple proof status and gaps
+  - path: validator-depth-matrix.yml
+    role: claimed vs achieved validation depth per dimension
+  - path: route-decision.yml
+    role: machine-readable routing outcome
+  - path: open-questions.md
+    role: unresolved questions for operator and follow-up routes
+  - path: validation.md
+    role: post-run validation record
+severity_summary: {high: 1, medium: 3, low: 5, info: 1}
+non_authority_statement: retained review evidence only; not authority

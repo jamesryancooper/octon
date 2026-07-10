@@ -1,0 +1,193 @@
+# Architecture Lens Bank — machine-readable registry
+#
+# One shared lens catalog for the whole Architecture Review Method Suite. Methods
+# select lenses from this bank; lenses never own a method's question, scope,
+# routing, or output contract. This YAML is the machine-checked contract; the
+# human-readable doctrine lives beside it in `architecture-lens-bank.md` and the
+# two MUST agree (checked by
+# `validate-architectural-review-lens-references.sh` plus the doc/registry
+# consistency check).
+#
+# Non-authority: this bank is analysis tooling only. It creates no method, no
+# routing, no lifecycle gate, and no schema, and it grants no review output any
+# authority.
+schema_version: "architectural-review-lens-bank-v1"
+mechanism_family_slug: "architectural-review"
+
+lens_tiers:
+  - "core"
+  - "extended"
+
+# Six suite methods the bank must profile. Balanced uses its canonical slug from
+# `naming.yml`; the five companion slugs are PROVISIONAL and are owned canonically
+# by the phase-1 `architecture-review-method-taxonomy-and-routing` child
+# (naming.yml v2). The lens-reference validator checks profile completeness
+# against this list without hard-coupling to any companion slug in code — the
+# slugs live here in data, not in the validator.
+suite_methods:
+  - slug: "balanced-architecture-review-method"
+    slug_status: "canonical"
+  - slug: "greenfield-reference-architecture-review-method"
+    slug_status: "provisional"
+  - slug: "tradeoff-review-method"
+    slug_status: "provisional"
+  - slug: "failure-mode-review-method"
+    slug_status: "provisional"
+  - slug: "evolution-fitness-review-method"
+    slug_status: "provisional"
+  - slug: "boundary-authority-review-method"
+    slug_status: "provisional"
+
+# 18 lenses in two tiers: 12 core (broadly reusable) + 6 extended (applied when
+# review risk or domain demands them).
+lenses:
+  - id: "system-job-framing"
+    tier: "core"
+  - id: "domain-model"
+    tier: "core"
+  - id: "current-reality-map"
+    tier: "core"
+  - id: "steelman-chestertons-fence"
+    tier: "core"
+  - id: "complexity-separation"
+    tier: "core"
+  - id: "clean-sheet-reference"
+    tier: "core"
+  - id: "quality-attribute-scenarios"
+    tier: "core"
+  - id: "tradeoff-adr"
+    tier: "core"
+  - id: "failure-and-recovery"
+    tier: "core"
+  - id: "authority-boundary"
+    tier: "core"
+  - id: "validation-strategy"
+    tier: "core"
+  - id: "non-goals-deletion"
+    tier: "core"
+  - id: "security-threat-model"
+    tier: "extended"
+  - id: "data-truth-lineage"
+    tier: "extended"
+  - id: "contracts-compatibility"
+    tier: "extended"
+  - id: "operability-observability-evidence"
+    tier: "extended"
+  - id: "evolution-fitness"
+    tier: "extended"
+  - id: "sequencing-mvp-migration"
+    tier: "extended"
+
+# Per-method lens profiles. required/optional map from the source profile table
+# (R -> required, O -> optional, — -> omitted). Balanced's required set is exactly
+# its existing 11-step required sequence expressed as lens ids (10 lens ids); the
+# Balanced doctrine doc is unchanged. See the Balanced appendix in
+# `architecture-lens-bank.md` for the sequence->lens-id mapping proof.
+method_profiles:
+  balanced-architecture-review-method:
+    required:
+      - "system-job-framing"
+      - "current-reality-map"
+      - "steelman-chestertons-fence"
+      - "complexity-separation"
+      - "clean-sheet-reference"
+      - "tradeoff-adr"
+      - "failure-and-recovery"
+      - "authority-boundary"
+      - "validation-strategy"
+      - "non-goals-deletion"
+    optional:
+      - "domain-model"
+      - "quality-attribute-scenarios"
+      - "security-threat-model"
+      - "data-truth-lineage"
+      - "contracts-compatibility"
+      - "operability-observability-evidence"
+      - "evolution-fitness"
+      - "sequencing-mvp-migration"
+  greenfield-reference-architecture-review-method:
+    required:
+      - "system-job-framing"
+      - "domain-model"
+      - "clean-sheet-reference"
+      - "quality-attribute-scenarios"
+      - "failure-and-recovery"
+      - "authority-boundary"
+      - "validation-strategy"
+      - "non-goals-deletion"
+      - "security-threat-model"
+      - "data-truth-lineage"
+      - "contracts-compatibility"
+      - "operability-observability-evidence"
+      - "evolution-fitness"
+      - "sequencing-mvp-migration"
+    optional:
+      - "current-reality-map"
+      - "complexity-separation"
+      - "tradeoff-adr"
+  tradeoff-review-method:
+    required:
+      - "quality-attribute-scenarios"
+      - "tradeoff-adr"
+    optional:
+      - "system-job-framing"
+      - "domain-model"
+      - "current-reality-map"
+      - "steelman-chestertons-fence"
+      - "complexity-separation"
+      - "clean-sheet-reference"
+      - "failure-and-recovery"
+      - "authority-boundary"
+      - "validation-strategy"
+      - "non-goals-deletion"
+      - "security-threat-model"
+      - "data-truth-lineage"
+      - "contracts-compatibility"
+      - "operability-observability-evidence"
+      - "evolution-fitness"
+      - "sequencing-mvp-migration"
+  failure-mode-review-method:
+    required:
+      - "current-reality-map"
+      - "failure-and-recovery"
+      - "authority-boundary"
+      - "validation-strategy"
+      - "security-threat-model"
+      - "operability-observability-evidence"
+    optional:
+      - "system-job-framing"
+      - "quality-attribute-scenarios"
+      - "data-truth-lineage"
+      - "contracts-compatibility"
+  evolution-fitness-review-method:
+    required:
+      - "current-reality-map"
+      - "validation-strategy"
+      - "contracts-compatibility"
+      - "operability-observability-evidence"
+      - "evolution-fitness"
+    optional:
+      - "system-job-framing"
+      - "domain-model"
+      - "steelman-chestertons-fence"
+      - "complexity-separation"
+      - "quality-attribute-scenarios"
+      - "failure-and-recovery"
+      - "authority-boundary"
+      - "non-goals-deletion"
+      - "data-truth-lineage"
+      - "sequencing-mvp-migration"
+  boundary-authority-review-method:
+    required:
+      - "current-reality-map"
+      - "authority-boundary"
+    optional:
+      - "system-job-framing"
+      - "domain-model"
+      - "steelman-chestertons-fence"
+      - "failure-and-recovery"
+      - "validation-strategy"
+      - "non-goals-deletion"
+      - "security-threat-model"
+      - "data-truth-lineage"
+      - "contracts-compatibility"

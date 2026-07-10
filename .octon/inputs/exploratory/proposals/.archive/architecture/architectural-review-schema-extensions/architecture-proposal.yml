@@ -1,0 +1,63 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "architectural-review-schema-extensions"
+decision_type: "surface-refactor"
+title: "Architectural Review Schema Extensions"
+target_state: >-
+  The Architectural Review Mechanism carries a method-aware contract layer.
+  Two new JSON schemas land under
+  .octon/framework/constitution/contracts/assurance/:
+  architectural-review-report-v2.schema.json and
+  architectural-review-routing-decision-v2.schema.json. Each is a strict additive
+  superset of its v1 schema - it keeps every v1 required field and constraint and
+  adds two new required fields: method (an enum of the six canonical suite method
+  slugs - balanced-architecture-review-method (default),
+  greenfield-reference-architecture-review-method, tradeoff-review-method,
+  failure-mode-review-method, evolution-fitness-review-method, and
+  boundary-authority-review-method) and lenses_applied (a non-empty array of lens
+  ids recording the lens profile actually applied). The v1 report and
+  routing-decision schemas are retained unchanged so method-agnostic producers
+  remain valid (Balanced default applies when no method is recorded), and
+  architectural-review-support-receipt-v1.schema.json is left untouched - the
+  support receipt never gains method or lens fields. The contracts/assurance
+  README lists the two v2 schemas beside their v1 counterparts. The receipts
+  validator validate-architectural-review-receipts.sh gains v2 awareness: it
+  validates the additive method field against the live naming.yml method catalog
+  and the lenses_applied ids against lens-bank.yml, asserts the support receipt
+  stays at schema v1, and fails closed on unknown_method, undefined_lens, and
+  receipt_schema_drift, each covered by a negative control. The six method slugs
+  equal the naming.yml methods catalog slugs verified by
+  architecture-review-method-taxonomy-and-routing, so the phase-1 taxonomy binds
+  cleanly with no change to it.
+boundary_change: >-
+  No authority-class boundary moves. This is an additive contract-surface
+  refactor inside the existing mechanism: two new v2 schemas that are supersets
+  of retained v1 schemas, one README extension, and one validator extension. No
+  v1 schema field is removed or changed; the support-receipt schema is unchanged.
+  No new mechanism, lifecycle gate, routed workflow mode, evidence root, or
+  command facade is created. The method and lenses_applied fields record which
+  method and lenses were used; review outputs remain evidence or proposal input,
+  and the pre-integration support receipt remains the only lifecycle-gating review
+  artifact. Upstream dependency
+  architecture-review-method-taxonomy-and-routing (phase-1) is consumed as a
+  verified naming/routing taxonomy; this child binds the v2 method enum to its
+  methods catalog and completes the schema-level enforcement that its
+  missing_method_record fail-closed condition anticipated. Upstream dependency
+  architecture-lens-bank-foundation (phase-0) is consumed as a verified lens bank;
+  this child binds lenses_applied to its lens ids. Downstream child
+  architectural-review-suite-integration (phase-3) consumes these v2 schemas when
+  it records the selected method id in review workflow run evidence; this child
+  neither depends on nor modifies it.
+authoritative_targets_after_promotion:
+  - ".octon/framework/constitution/contracts/assurance/architectural-review-report-v2.schema.json"
+  - ".octon/framework/constitution/contracts/assurance/architectural-review-routing-decision-v2.schema.json"
+  - ".octon/framework/constitution/contracts/assurance/README.md"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "resources/**"
+  - "support/**"

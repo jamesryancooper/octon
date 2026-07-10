@@ -1,0 +1,83 @@
+# Doc-Consistency Check Result — greenfield-reference-architecture-review-method
+
+verdict: pass
+errors: 0
+checked_at: 2026-07-09
+method: reproducible check retained at ./doc-consistency-check.sh
+sandbox_note: The composite check script and arbitrary `bash -c` wrappers are gated
+  by this environment's command-permission layer, so each constituent read-only
+  assertion below was executed as an individually permitted `yq`/`grep`/`diff`
+  command against the LIVE framework surfaces. All assertions passed. The retained
+  `doc-consistency-check.sh` is the byte-for-byte reproducible form for a
+  permissive environment.
+
+## (1) Slug Match — PASS
+
+Command: yq over live naming.yml and lens-bank.yml; doc filename basename.
+
+    naming.slug=greenfield-reference-architecture-review-method naming.doc=greenfield-reference-architecture-review-method.md
+    bank.slug=greenfield-reference-architecture-review-method
+    doc.filename.slug=greenfield-reference-architecture-review-method
+
+All four equal `greenfield-reference-architecture-review-method`; the naming.yml
+greenfield catalog entry `doc:` field points at the authored doc.
+
+## (2) Lens-Profile Exact Match — PASS
+
+lens-bank.yml `method_profiles.greenfield-reference-architecture-review-method`
+declares required=14 optional=3 (total 17). Sorted profile lens ids:
+
+    authority-boundary
+    clean-sheet-reference
+    complexity-separation
+    contracts-compatibility
+    current-reality-map
+    data-truth-lineage
+    domain-model
+    evolution-fitness
+    failure-and-recovery
+    non-goals-deletion
+    operability-observability-evidence
+    quality-attribute-scenarios
+    security-threat-model
+    sequencing-mvp-migration
+    system-job-framing
+    tradeoff-adr
+    validation-strategy
+
+Distinct backtick-wrapped lens tokens cited in the doc (via
+`grep -oE '` + "`[a-z-]`" + `+' `), filtered to the 18-lens catalog vocabulary,
+equal exactly the 17 profile ids above:
+- no missing id (all 17 profile ids are cited in the doc), and
+- no extra id: the only catalog lens NOT in the greenfield profile is
+  `steelman-chestertons-fence`, and `grep -c steelman-chestertons-fence <doc>` = 0.
+- no private catalog: the doc states it draws lenses from the shared Architecture
+  Lens Bank and cites ids only.
+
+(The three non-lens backtick tokens the doc also contains — `methods`,
+`tradeoff-review-method`, `failure-mode-review-method` — are naming/routing
+references, not lens ids, and are correctly ignored by catalog-membership checks.)
+
+## (3) Structural Presence — PASS
+
+Five required output sections and three build-discipline subsections present
+(line anchors in the live doc):
+
+    82:### 1. Domain / Job Model
+    89:### 2. Reference Architecture — The Deliverable
+    98:### 3. Quality / Security / Ops Model
+    107:### 4. Authority / Evidence Model
+    115:### 5. Evolution Plan
+    126:- **Initial-build sequencing.**
+    129:- **Minimum viable architecture.**
+    133:- **What-not-to-build-yet list.**
+
+## (4) Fail-Closed Output Boundary — PASS
+
+    173:## Output Boundary (Fail-Closed)
+    181:  **pre-integration architecture review support receipt remains the only ...
+
+The boundary states Greenfield output is reference architecture — retained
+evidence or proposal input, never implementation authority, never a lifecycle
+gate, never a what-to-change verdict — and that the pre-integration architecture
+review support receipt remains the only lifecycle-gating review artifact.

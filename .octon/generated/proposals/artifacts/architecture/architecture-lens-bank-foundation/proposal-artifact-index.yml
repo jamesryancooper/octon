@@ -1,0 +1,640 @@
+{
+  "artifact_count": 26,
+  "artifacts": [
+    {
+      "byte_size": 4220,
+      "estimated_tokens": 1055,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "README.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/README.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "overview",
+      "sha256": "sha256:31abc528feeb243ebf07816803f8a7f87d6921ceaaaea905634f2e5f393f7b37",
+      "stage_relevance": [
+        "orientation"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 2520,
+      "estimated_tokens": 630,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/acceptance-criteria.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/acceptance-criteria.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "acceptance-criteria",
+      "sha256": "sha256:aa100bd8bbade2cfb626a5fce24fe6c60cf65de046941d18a7c05b6692454601",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 2851,
+      "estimated_tokens": 713,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/current-state-gap-map.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/current-state-gap-map.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "current-state-gap-map",
+      "sha256": "sha256:02bad73d0edac3396375252b75195b33f6d2b99ee43c6aabb660036e73ec1aea",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 1798,
+      "estimated_tokens": 450,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/cutover-checklist.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/cutover-checklist.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "cutover-checklist",
+      "sha256": "sha256:0b75e394754cdd9d7eb650eab97b8d3d4f9fe8ab2237326e753c67c6d9773afa",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 2139,
+      "estimated_tokens": 535,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/file-change-map.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/file-change-map.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "file-change-map",
+      "sha256": "sha256:106e1683edf558f01a8c7f9dd98a8b0fee0e23049715cb2f4b4781a53e2816b8",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 3679,
+      "estimated_tokens": 920,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/implementation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/implementation-plan.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-plan",
+      "sha256": "sha256:2b08054330c886ea7eb4170e426002d35e158e255bc802a0c1ba8b88c44fd123",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 1766,
+      "estimated_tokens": 442,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/operator-disclosure.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/operator-disclosure.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "operator-disclosure",
+      "sha256": "sha256:a126c119d791e6aad0a5a2ec1ed778c610549de333e764d0ec1e68da1afd37a8",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 1929,
+      "estimated_tokens": 483,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/rollback-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/rollback-plan.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "rollback-plan",
+      "sha256": "sha256:d4e25eb8b25249567c10027c49502a88a98937cd92126557ed63a91759c39a13",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 3410,
+      "estimated_tokens": 853,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "architecture/target-architecture.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/target-architecture.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "target-architecture",
+      "sha256": "sha256:1c5e4fd2295c0994364ad1597e7abc5287d8d0a911454781a9deafff0463725e",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 2524,
+      "estimated_tokens": 631,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "architecture/validation-plan.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/validation-plan.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "validation-plan",
+      "sha256": "sha256:f11da2a4fbd7dee9196e94e6976e34392f3a6f0fda86b13673931fbfc10ec64d",
+      "stage_relevance": [
+        "architecture-review"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 2467,
+      "estimated_tokens": 617,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "architecture-proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture-proposal.yml",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "subtype-manifest",
+      "sha256": "sha256:9e4f474ce953165cea10337c9406797f5fcfe42cad7fb4c808b4a294f7f89efe",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 2173,
+      "estimated_tokens": 544,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "navigation/artifact-catalog.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/navigation/artifact-catalog.md",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "artifact-catalog",
+      "sha256": "sha256:451a4c6b5c2d3000460dddb40b99a6b9a2a3ec0b79aeaf9abcc4af9e05084ba6",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 2396,
+      "estimated_tokens": 599,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "navigation/source-of-truth-map.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/navigation/source-of-truth-map.md",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "source-of-truth-map",
+      "sha256": "sha256:9567b598d68ab75106c7ddf152118ac0700f52437ff23fffcb09eb73517dbced",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 6128,
+      "estimated_tokens": 1532,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "compact-default",
+      "packet_relative_path": "proposal.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/proposal.yml",
+      "read_raw_only_if": [
+        "manifest-digest-mismatch",
+        "status-or-target-dispute",
+        "validator-dispute"
+      ],
+      "role": "proposal-manifest",
+      "sha256": "sha256:85401a2a802f510774ebcf32e8b3efbe32aef127bf98b77f488a69578b36a379",
+      "stage_relevance": [
+        "all-routes"
+      ],
+      "stage_role": "spine"
+    },
+    {
+      "byte_size": 10534,
+      "estimated_tokens": 2634,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "resources/lens-bank-authoring-spec.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/resources/lens-bank-authoring-spec.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "resource",
+      "sha256": "sha256:28120ecbd1b926c447ad3586c3b97a4a9501c084a8f77ef13661754b0fc3cbbf",
+      "stage_relevance": [
+        "lineage-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 12898,
+      "estimated_tokens": 3225,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "handle-only",
+      "packet_relative_path": "resources/source-context.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/resources/source-context.md",
+      "read_raw_only_if": [
+        "operator-audit-request",
+        "context-gap",
+        "validator-dispute"
+      ],
+      "role": "resource",
+      "sha256": "sha256:40729b8db917c62a4f343ea17eee1b2b05db8ce82865deff6c4b5d7e79982633",
+      "stage_relevance": [
+        "lineage-audit"
+      ],
+      "stage_role": "optional-reference"
+    },
+    {
+      "byte_size": 16579,
+      "estimated_tokens": 4145,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/executable-implementation-prompt.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/executable-implementation-prompt.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "executable-implementation-prompt",
+      "sha256": "sha256:70d7fa7a2a557fd28920f6401ecde00df96edc1d27f801b5ab0490ea27683c7c",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 6500,
+      "estimated_tokens": 1625,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/implementation-conformance-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/implementation-conformance-review.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-conformance-review",
+      "sha256": "sha256:7d1e569d82ad5ea60412124ada9f42fb81698f9887680115531b75e15651f8b9",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 5677,
+      "estimated_tokens": 1420,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/implementation-grade-completeness-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/implementation-grade-completeness-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "implementation-grade-completeness-review",
+      "sha256": "sha256:06ea90e805d4d8018f5cd03e93e7715b48461c7fb1f66e43d00500ec9b3c9796",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 3210,
+      "estimated_tokens": 803,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/implementation-run.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/implementation-run.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "implementation-run",
+      "sha256": "sha256:4db3a871b0a39b295724cc00cf218ac631c2424a6c20b6fdd312328c404a2bd7",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 5854,
+      "estimated_tokens": 1464,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "current-stage",
+      "packet_relative_path": "support/post-implementation-drift-churn-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/post-implementation-drift-churn-review.md",
+      "read_raw_only_if": [
+        "current-route-needs-full-context",
+        "slice-digest-mismatch",
+        "validator-dispute"
+      ],
+      "role": "post-implementation-drift-churn-review",
+      "sha256": "sha256:895ea79785be3b260563463d29263a7271b22efa6fe2722d94671ed3868ae63c",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "verify",
+        "closeout"
+      ],
+      "stage_role": "current-stage-slice"
+    },
+    {
+      "byte_size": 6440,
+      "estimated_tokens": 1610,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/pre-integration-architecture-review.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/pre-integration-architecture-review.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "pre-integration-architecture-review",
+      "sha256": "sha256:b2db37284de499b7438a714f753d9c9b00dac86febaede445d4b663c0b35d035",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 7178,
+      "estimated_tokens": 1795,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-closeout.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/proposal-closeout.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-closeout",
+      "sha256": "sha256:a5c97aa759f42fd1d7f166cda65333f29e4f9660b4b95280978f0497bb84ea5f",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 2526,
+      "estimated_tokens": 632,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-creation.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/proposal-creation.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-creation",
+      "sha256": "sha256:dab97685746d2960d4292848fe7a409795867dc167a0862945612336f77b23d7",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 5953,
+      "estimated_tokens": 1489,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-review.md",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/proposal-review.md",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-review",
+      "sha256": "sha256:068e6c392d6bf0abb1b4e61a4d4000bc1a440f1637ddc345595a212bddf3d3ad",
+      "stage_relevance": [
+        "run-packet-implementation",
+        "promote-proposal"
+      ],
+      "stage_role": "evidence-annex"
+    },
+    {
+      "byte_size": 33970,
+      "estimated_tokens": 8493,
+      "freshness_state": "digest-bound",
+      "inclusion_mode": "annex-ref",
+      "packet_relative_path": "support/proposal-terminal-closeout.yml",
+      "path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/proposal-terminal-closeout.yml",
+      "read_raw_only_if": [
+        "receipt-freshness-dispute",
+        "evidence-audit-request",
+        "validator-dispute"
+      ],
+      "role": "proposal-terminal-closeout",
+      "sha256": "sha256:07329d71d1a6226e979719bc173b5c515ea6664fa26fe7c7f7f02784bd274627",
+      "stage_relevance": [
+        "support-review"
+      ],
+      "stage_role": "evidence-annex"
+    }
+  ],
+  "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
+    "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
+  },
+  "compact_outputs": [
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architecture-lens-bank-foundation/proposal-artifact-index.yml",
+      "artifact_role": "proposal-artifact-index",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-proposal-artifact-index-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architecture-lens-bank-foundation/proposal-program-spine.yml",
+      "artifact_role": "proposal-program-spine",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-proposal-program-spine-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    },
+    {
+      "artifact_ref": ".octon/generated/proposals/artifacts/architecture/architecture-lens-bank-foundation/child-handoff-capsule.yml",
+      "artifact_role": "child-handoff-capsule",
+      "authority_status": "derived-read-model-only",
+      "schema_version": "octon-child-handoff-capsule-v1",
+      "validation": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architecture-lens-bank-foundation/proposal-artifact-index.yml",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "proposal_id": "architecture-lens-bank-foundation",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "schema_version": "octon-proposal-artifact-index-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture-proposal.yml": "sha256:9e4f474ce953165cea10337c9406797f5fcfe42cad7fb4c808b4a294f7f89efe",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/acceptance-criteria.md": "sha256:aa100bd8bbade2cfb626a5fce24fe6c60cf65de046941d18a7c05b6692454601",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/implementation-plan.md": "sha256:2b08054330c886ea7eb4170e426002d35e158e255bc802a0c1ba8b88c44fd123",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/navigation/artifact-catalog.md": "sha256:451a4c6b5c2d3000460dddb40b99a6b9a2a3ec0b79aeaf9abcc4af9e05084ba6",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/navigation/source-of-truth-map.md": "sha256:9567b598d68ab75106c7ddf152118ac0700f52437ff23fffcb09eb73517dbced",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/proposal.yml": "sha256:85401a2a802f510774ebcf32e8b3efbe32aef127bf98b77f488a69578b36a379",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/executable-implementation-prompt.md": "sha256:70d7fa7a2a557fd28920f6401ecde00df96edc1d27f801b5ab0490ea27683c7c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/implementation-grade-completeness-review.md": "sha256:06ea90e805d4d8018f5cd03e93e7715b48461c7fb1f66e43d00500ec9b3c9796",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/proposal-review.md": "sha256:068e6c392d6bf0abb1b4e61a4d4000bc1a440f1637ddc345595a212bddf3d3ad"
+  },
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/proposal-review.md"
+  ],
+  "targeted_dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/proposal.yml",
+      "manifest_sha256": "sha256:fbb59f4291fc9a41d3881e80412edbf42611e2daf47f2cfa06f031692ed73075",
+      "proposal_id": "architecture-review-method-suite-program",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program",
+      "ref_type": "parent_program",
+      "required": true,
+      "source_field": "proposal.yml#parent_program"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/proposal.yml",
+      "manifest_sha256": "sha256:fbb59f4291fc9a41d3881e80412edbf42611e2daf47f2cfa06f031692ed73075",
+      "proposal_id": "architecture-review-method-suite-program",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-taxonomy-and-routing/proposal.yml",
+      "manifest_sha256": "sha256:19e3a04883cfb904dc57e2ada26bd47fbe91113413c5d218986908b01cdbddbb",
+      "proposal_id": "architecture-review-method-taxonomy-and-routing",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-taxonomy-and-routing",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "validation": {
+    "negative_controls": [
+      "generated-registry-cannot-replace-manifest",
+      "source-digest-mismatch-fails-closed",
+      "missing-child-handoff-fails-when-parent-program-present"
+    ],
+    "validator": ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+  }
+}

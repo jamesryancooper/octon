@@ -1,0 +1,8 @@
+[OK] lens bank exists: .octon/framework/assurance/runtime/_ops/fixtures/architectural-review/lens-references/fail-missing-profile/lens-bank.yml
+[OK] lens bank parses as YAML
+[OK] lens catalog declares 3 lens ids
+[OK] all method-profile lens references resolve to defined lens ids
+[OK] bank declares 2 suite methods
+[OK] suite method 'balanced-architecture-review-method' has a complete profile (required=3)
+[ERROR] suite method 'tradeoff-review-method' has no method_profiles entry
+Validation summary: errors=1

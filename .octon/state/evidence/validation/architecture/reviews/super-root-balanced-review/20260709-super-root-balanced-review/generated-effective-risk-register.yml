@@ -1,0 +1,49 @@
+schema_version: architecture-review-generated-effective-risk-register-v1
+review_id: 20260709-super-root-balanced-review
+handle_families:
+  - family: runtime_route_bundle
+    paths: [".octon/generated/effective/runtime/route-bundle.yml", ".octon/generated/effective/runtime/route-bundle.lock.yml"]
+    freshness_mode: digest_bound
+    consumers: {allowed: [runtime_resolver, validators], forbidden: [direct_runtime_raw_path_read, generated_cognition_as_authority]}
+    risk: "F-01 bypass env var can skip freshness verification (records publication-bypass metadata)"
+    residual: medium (pending F-01 disposition)
+  - family: pack_routes
+    paths: [".octon/generated/effective/capabilities/pack-routes.effective.yml", "pack-routes.lock.yml"]
+    freshness_mode: digest_bound
+    risk: "widening blocked by FCR-028 + no-widening proof (EVI-020)"
+    residual: low
+  - family: support_matrix
+    paths: [".octon/generated/effective/governance/support-target-matrix.yml"]
+    freshness_mode: digest_bound (via reconciliation)
+    risk: "widening forbidden (support-targets.yml:21); reconciliation fail-closed; matrix matches 4 live admissions exactly"
+    residual: low
+  - family: extension_catalog
+    paths: [".octon/generated/effective/extensions/catalog.effective.yml", "generation.lock.yml"]
+    freshness_mode: digest_bound
+    risk: "FCR-029 denies unpublished/quarantined/stale extensions"
+    residual: low
+  - family: capability_routing
+    paths: [".octon/generated/effective/capabilities/routing.effective.yml"]
+    freshness_mode: digest_bound
+    residual: low
+read_model_families:
+  - family: generated_cognition
+    risk: "informal operator trust in summaries over canonical ADRs (human-factors residual); structural barriers intact (FCR-021/032, non-authority register)"
+    residual: low
+  - family: generated_proposals
+    risk: "discovery-only posture holds (specification.md:279-283)"
+    residual: low
+publication:
+  script_only: true
+  scripts: [publish-runtime-route-bundle.sh, publish-pack-routes.sh, publish-support-target-matrix.sh]
+  receipts_retained: "1,160 under .octon/state/evidence/validation/publication/"
+  negative_control: validate-no-raw-generated-effective-runtime-reads.sh
+compatibility_projections:
+  - surface: ".octon/instance/capabilities/runtime/packs/**"
+    status: "frozen-compatibility-only; forbidden to runtime/policy/support; future_widening_blocker: true"
+    evidence: ".octon/instance/governance/retirement-register.yml:101-127"
+    note: "review overdue (F-04)"
+overall_assessment: >-
+  The generated/effective trust model is the strongest-verified subsystem in
+  this review: digest-bound, receipt-linked, consumer-classified, negative-
+  control-tested. Sole material risk is the ambient bypass (F-01).

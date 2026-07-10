@@ -1,0 +1,11 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "architectural-review method-layer integration: method-id recording in existing review workflow run evidence, navigation-only product-feature and governed-mechanism method-layer descriptions, per-occasion method advisory text, and canonical-publisher projection refresh"
+decision_type: "surface-refactor"
+decision_summary: "Integrate the landed Architecture Review Method Suite (shared lens bank, five companion method docs plus Greenfield, naming v2, routing v2, and the report/routing-decision v2 schemas) into the operating surfaces of the existing Architectural Review Mechanism without creating new authority. Existing review workflow contracts record the selected method id in run evidence through the v2 routing-decision/report artifacts inside the existing run-evidence root; the support receipt v1 is untouched. The product feature note and the governed cross-surface mechanism entry and index gain navigation-only method-layer sections and per-occasion method advisory text. Affected generated projections are refreshed only through canonical publishers. The full architectural-review validator suite plus proposal and feature-catalog validators run as the closing sweep."
+affected_surfaces:
+  - "review workflow contracts (pre-integration, post-integration, current-state-mechanism, architecture-readiness-audit)"
+  - "product feature note (architectural-review-mechanism.md)"
+  - "governed cross-surface mechanism entry and index"
+  - "architectural-review workflows validator"
+  - "affected generated projections (derived-only refresh via canonical publishers)"
+non_authority_statement: "This packet defines a proposed integration boundary only. It authorizes no implementation and creates no new mechanism, workflow mode, lifecycle gate, evidence root, or review-output authority. Generated projections, run evidence, raw inputs, and parent-program design docs are treated as non-authority; durable authority arises only from the declared promotion targets after governed promotion."

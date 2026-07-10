@@ -1,0 +1,112 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "gated-parallel"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "architecture-lens-bank-foundation"
+    path: ".octon/inputs/exploratory/proposals/architecture/architecture-lens-bank-foundation"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-0"
+    group_id: "suite-foundation"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/cognition/practices/methodology/architectural-review/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+    seed_role: "seed-reference"
+  - child_id: "architecture-review-method-taxonomy-and-routing"
+    path: ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-taxonomy-and-routing"
+    required: true
+    deferred: false
+    dependencies:
+      - "architecture-lens-bank-foundation"
+    dependency_gate: "verification"
+    phase_id: "phase-1"
+    group_id: "suite-foundation"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/cognition/practices/methodology/architectural-review/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+    dependency_input_note: >-
+      Method lens profiles reference lens ids defined by
+      architecture-lens-bank-foundation; the naming v2 methods list and
+      routing v2 method_selection block must cite the verified lens bank
+      before this child's implementation planning.
+  - child_id: "greenfield-reference-architecture-review-method"
+    path: ".octon/inputs/exploratory/proposals/architecture/greenfield-reference-architecture-review-method"
+    required: true
+    deferred: false
+    dependencies:
+      - "architecture-review-method-taxonomy-and-routing"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "method-docs"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/cognition/practices/methodology/architectural-review/"
+  - child_id: "companion-architecture-review-methods"
+    path: ".octon/inputs/exploratory/proposals/architecture/companion-architecture-review-methods"
+    required: true
+    deferred: false
+    dependencies:
+      - "architecture-review-method-taxonomy-and-routing"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "method-docs"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/cognition/practices/methodology/architectural-review/"
+  - child_id: "architectural-review-schema-extensions"
+    path: ".octon/inputs/exploratory/proposals/architecture/architectural-review-schema-extensions"
+    required: true
+    deferred: false
+    dependencies:
+      - "architecture-review-method-taxonomy-and-routing"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "contracts-and-assurance"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/constitution/contracts/assurance/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - child_id: "architectural-review-suite-integration"
+    path: ".octon/inputs/exploratory/proposals/architecture/architectural-review-suite-integration"
+    required: true
+    deferred: false
+    dependencies:
+      - "greenfield-reference-architecture-review-method"
+      - "companion-architecture-review-methods"
+      - "architectural-review-schema-extensions"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "integration"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/orchestration/runtime/workflows/audit/"
+      - ".octon/framework/product/features/"
+      - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+    generated_refresh_note: >-
+      Generated projections touched by this child are refreshed only through
+      canonical publication scripts; generated paths are never direct write
+      scopes.
+  - child_id: "architecture-review-command-facades"
+    path: ".octon/inputs/exploratory/proposals/architecture/architecture-review-command-facades"
+    required: false
+    deferred: false
+    dependencies:
+      - "architectural-review-suite-integration"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "integration"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".claude/commands/"
+      - ".claude/skills/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+    conditional_note: >-
+      Create this child packet only if operator demand for direct method
+      invocation facades is demonstrated during program execution; otherwise
+      record a program-local no-action rationale at program closeout and
+      leave invocation to existing review occasions and lifecycle prompts.

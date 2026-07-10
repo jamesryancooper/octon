@@ -129,6 +129,12 @@ artifacts:
     format: yaml
     determinism: unique
     description: Evidence-only current-state mechanism architecture review receipt
+  - name: current_state_mechanism_architecture_review_method_selection_record
+    path: "/.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/current-state-mechanism-architecture-review/report.yml"
+    kind: file
+    format: yaml
+    determinism: unique
+    description: Records the selected review method id (field method bound to naming.yml methods.catalog) and the applied lens profile (field lenses_applied bound to lens-bank.yml) through the architectural-review-report-v2 artifact in the existing architectural-review run-evidence root; descriptive run evidence only, granting the review output no lifecycle, acceptance, promotion, or closeout authority while the v1 support receipt stays method-free.
 done_gate:
   checks:
     - "Mechanism index entry is present and validates"

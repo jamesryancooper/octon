@@ -1,0 +1,36 @@
+# No-Regression Validator Sweep — architectural-review mechanism
+
+run_at: 2026-07-09
+overall: pass (every validator reports errors=0)
+context: run from repo root against the LIVE mechanism directory after the two
+  additive edits (naming.yml `doc:` reference, README References link) and the new
+  method doc landed.
+
+| # | Validator | Invocation | Result |
+| - | --- | --- | --- |
+| 1 | validate-architectural-review-naming.sh | (default live tree) | errors=0 |
+| 2 | validate-architectural-review-routing.sh | (default live tree) | errors=0 |
+| 3 | validate-architectural-review-lens-references.sh | (default live lens-bank.yml) | errors=0 |
+| 4 | validate-architectural-review-receipts.sh | --receipt <packet>/support/pre-integration-architecture-review.yml --package <packet> --require-pass | errors=0 |
+| 5 | validate-architectural-review-workflows.sh | (default live tree) | errors=0 |
+| 6 | validate-architectural-review-lifecycle-gates.sh | (default live tree) | errors=0 |
+| 7 | validate-architectural-review-extension-split.sh | (default live tree) | errors=0 |
+| 8 | validate-architectural-review-skills-commands.sh | (default live tree) | errors=0 |
+
+## Notes
+
+- Validator (4) `validate-architectural-review-receipts.sh` is a per-receipt
+  validator with no live default target; it was run against this packet's own
+  `support/pre-integration-architecture-review.yml` to demonstrate no-regression
+  of the receipt schema and freshness path (errors=0).
+- The naming validator confirmed the greenfield catalog slug still binds to
+  `lens-bank.yml` `suite_methods` (NC-A) after the additive `doc:` field:
+  `[OK] method slug binds to lens-bank suite_methods: greenfield-reference-architecture-review-method`.
+- The routing validator confirmed `method_selection` still references the
+  greenfield method and that `unknown_method` / `missing_method_record` fail-closed
+  conditions remain declared.
+- The lens-references validator confirmed the greenfield profile still declares
+  required=14 (and 18 total lens ids, 6 suite methods) — the profile is unchanged
+  by this child.
+- No validator was modified by this child (validators are run-only for
+  no-regression; see additive-only-diff.out).

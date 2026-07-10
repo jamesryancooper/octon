@@ -1,0 +1,63 @@
+# Additive-Only / Doctrine-Unchanged Diff Proof
+
+run_at: 2026-07-09
+verdict: additive-only confirmed; no doctrine change by this child.
+
+## Program-clean-delivery context
+
+This child runs inside program `20260709-arms-program-clean-delivery-04`, whose
+phase-0 and phase-1 siblings have already landed their durable changes into the
+same uncommitted working tree. Therefore a raw `git diff` against HEAD for the
+mechanism directory shows sibling deltas as well. To isolate THIS child's change,
+the two files this child edits were snapshotted to `baselines/*.pre` immediately
+before editing, and the additive proof below is `diff <baseline.pre> <live>`.
+
+## Isolated additive diff — this child's edits only
+
+### naming.yml (baselines/naming.yml.pre vs live) — exactly one added line
+
+    @@ -22,6 +22,7 @@
+         - display_name: "Greenfield Reference Architecture Review"
+           slug: "greenfield-reference-architecture-review-method"
+           role: "companion"
+    +      doc: "greenfield-reference-architecture-review-method.md"
+           lens_profile_ref: "lens-bank.yml#method_profiles.greenfield-reference-architecture-review-method"
+
+Only the `doc:` field is added, on the existing greenfield catalog entry. No
+slug, schema_version, canonical_modes, alias, facade, or any other entry changed.
+
+### README.md (baselines/README.md.pre vs live) — exactly one added line
+
+    @@ -110,6 +110,7 @@
+     ## References
+
+     - [Balanced Architecture Review Method](./balanced-architecture-review-method.md)
+    +- [Greenfield Reference Architecture Review Method](./greenfield-reference-architecture-review-method.md)
+     - [Review Routing](./review-routing.yml)
+     - [Naming Model](./naming.yml)
+     - [Architecture Lens Bank](./architecture-lens-bank.md)
+
+Only a References-section link is added. The Canonical Names table (which already
+carries the Greenfield row from phase-1) is untouched.
+
+## Doctrine-unchanged proof (this child touched nothing else)
+
+`git status --short` for the mechanism directory:
+
+    M  README.md                                  <- phase-1 sibling + this child's +1 References link
+    M  balanced-architecture-review-method.md     <- phase-1 sibling ONLY (this child made no edit)
+    M  naming.yml                                 <- phase-1 sibling + this child's +1 doc: field
+    M  review-routing.yml                         <- phase-1 sibling ONLY (this child made no edit)
+    ?? architecture-lens-bank.md                  <- phase-0 sibling new file (not this child)
+    ?? greenfield-reference-architecture-review-method.md  <- THIS CHILD's only new file
+    ?? lens-bank.yml                              <- phase-0 sibling new file (not this child)
+
+- The ONLY new file authored by this child is
+  `greenfield-reference-architecture-review-method.md`.
+- `balanced-architecture-review-method.md` and `review-routing.yml` carry only
+  phase-1 sibling deltas; this child issued no edit against them (the child's
+  entire edit footprint is: naming.yml +1 line, README.md +1 line, one new doc).
+- `lens-bank.yml` and `architecture-lens-bank.md` are phase-0 verified
+  dependencies consumed unchanged; this child cites them and does not modify them.
+- Routing/lens/naming semantics are proven intact by the no-regression validator
+  sweep (all errors=0).

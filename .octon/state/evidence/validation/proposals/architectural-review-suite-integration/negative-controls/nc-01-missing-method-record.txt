@@ -1,0 +1,5 @@
+[ERROR] missing_method_record: pre-integration-architecture-review does not declare a *_method_selection_record artifact under architectural-review/pre-integration-architecture-review/
+[OK] configure stage records selected method with advisory: pre-integration-architecture-review
+[OK] support receipt artifact stays method-free: pre-integration-architecture-review
+[OK] fixture root exposes at least one review occasion
+Validation summary: errors=1

@@ -1,0 +1,58 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "architectural-review-method-taxonomy-and-routing"
+decision_type: "surface-refactor"
+title: "Architecture Review Method Taxonomy And Routing"
+target_state: >-
+  The Architectural Review Mechanism carries an explicit method layer in its
+  naming and routing models. naming.yml advances to
+  architectural-review-naming-v2 and adds a methods list declaring all six suite
+  methods by canonical slug - balanced-architecture-review-method (default),
+  greenfield-reference-architecture-review-method, tradeoff-review-method,
+  failure-mode-review-method, evolution-fitness-review-method, and
+  boundary-authority-review-method - with Balanced marked as the default method.
+  Existing canonical_modes, invocation_aliases, command_facades, legacy_aliases,
+  schema_names, and validator_names are preserved verbatim (no slug renames, no
+  alias retirements). review-routing.yml advances to
+  architectural-review-routing-v2 and adds a method_selection block declaring the
+  default method, the allowed methods per existing route, and an escalation map
+  (Balanced to Tradeoff, Failure-Mode, Evolution/Fitness, Boundary/Authority, or
+  Greenfield), plus two new fail-closed conditions - unknown_method and
+  missing_method_record. The mechanism README canonical-names table gains method
+  rows, the Balanced doc gains minimal navigation cross-references to the method
+  taxonomy and lens bank (no doctrine change), and the naming and routing
+  validators gain checks with at least one negative control per new fail-closed
+  rule. The six canonical method slugs equal the suite_methods slugs already
+  seeded (provisionally) in lens-bank.yml by architecture-lens-bank-foundation,
+  so the verified lens bank binds cleanly with no change to the phase-0 artifact.
+boundary_change: >-
+  No authority-class boundary moves. This is an additive surface refactor inside
+  the existing mechanism: two data-model version bumps (naming v1 to v2, routing
+  v1 to v2) that only add fields, two documentation extensions (README table,
+  Balanced cross-references), and two validator extensions. No new mechanism,
+  lifecycle gate, routed workflow mode, evidence root, or command facade is
+  created. Method selection is routing semantics; review outputs remain evidence
+  or proposal input, and the pre-integration support receipt remains the only
+  lifecycle-gating review artifact. Upstream dependency
+  architecture-lens-bank-foundation (phase-0) is consumed as a verified lens
+  bank; this child binds naming v2 method slugs to its suite_methods list and
+  does not otherwise modify it. Downstream children
+  (greenfield-reference-architecture-review-method,
+  companion-architecture-review-methods, architectural-review-schema-extensions)
+  consume this taxonomy and routing as a dependency; this child neither depends
+  on nor modifies them.
+authoritative_targets_after_promotion:
+  - ".octon/framework/cognition/practices/methodology/architectural-review/naming.yml"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/review-routing.yml"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/README.md"
+  - ".octon/framework/cognition/practices/methodology/architectural-review/balanced-architecture-review-method.md"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-naming.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-routing.sh"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "resources/**"
+  - "support/**"

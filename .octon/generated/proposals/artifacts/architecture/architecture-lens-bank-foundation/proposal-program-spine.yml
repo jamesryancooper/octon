@@ -1,0 +1,204 @@
+{
+  "authority_boundary": {
+    "authorizes_archive": false,
+    "authorizes_closeout": false,
+    "authorizes_correction": false,
+    "authorizes_dispatch": false,
+    "authorizes_execution": false,
+    "authorizes_generated_publication": false,
+    "authorizes_implementation": false,
+    "diagnostic_only": true,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "parent_summary_satisfies_child_receipts": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false,
+    "retained_evidence_authorizes_execution": false,
+    "satisfies_child_gates": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": true,
+    "registry_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml",
+    "sha256": "sha256:e6c9edc603793b25afec62032f5ea3c831ad489fc0931cf19745d00145ec08f4"
+  },
+  "dependency_refs": [
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/proposal.yml",
+      "manifest_sha256": "sha256:fbb59f4291fc9a41d3881e80412edbf42611e2daf47f2cfa06f031692ed73075",
+      "proposal_id": "architecture-review-method-suite-program",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program",
+      "ref_type": "parent_program",
+      "required": true,
+      "source_field": "proposal.yml#parent_program"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/proposal.yml",
+      "manifest_sha256": "sha256:fbb59f4291fc9a41d3881e80412edbf42611e2daf47f2cfa06f031692ed73075",
+      "proposal_id": "architecture-review-method-suite-program",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    },
+    {
+      "manifest_ref": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-taxonomy-and-routing/proposal.yml",
+      "manifest_sha256": "sha256:19e3a04883cfb904dc57e2ada26bd47fbe91113413c5d218986908b01cdbddbb",
+      "proposal_id": "architecture-review-method-taxonomy-and-routing",
+      "proposal_kind": "architecture",
+      "proposal_path": ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-taxonomy-and-routing",
+      "ref_type": "related_proposal",
+      "required": true,
+      "source_field": "proposal.yml#related_proposals"
+    }
+  ],
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:b4e4c12df504229c2a5f630a5815a251349b129db7ecc3dc3869a91c4235e916",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Advance this child through review, implementation, and verification until architecture-lens-bank.md, lens-bank.yml, and the lens-reference validator with fixtures exist and pass under .octon/framework/**, the validator's negative controls demonstrably fail closed, Balanced doctrine is unchanged, child lifecycle evidence is retained outside the proposal path, then close out and archive this packet. Parent program evidence never satisfies this child's receipts.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/architecture-lens-bank-foundation/proposal-program-spine.yml",
+  "parent_program": "architecture-review-method-suite-program",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/cognition/practices/methodology/architectural-review/architecture-lens-bank.md",
+    ".octon/framework/cognition/practices/methodology/architectural-review/lens-bank.yml",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-lens-references.sh",
+    ".octon/state/evidence/validation/proposals/architecture-lens-bank-foundation/"
+  ],
+  "proposal_id": "architecture-lens-bank-foundation",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 16579,
+      "estimated_tokens": 4145,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/executable-implementation-prompt.md",
+      "sha256": "sha256:70d7fa7a2a557fd28920f6401ecde00df96edc1d27f801b5ab0490ea27683c7c"
+    },
+    {
+      "byte_size": 6500,
+      "estimated_tokens": 1625,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/implementation-conformance-review.md",
+      "sha256": "sha256:7d1e569d82ad5ea60412124ada9f42fb81698f9887680115531b75e15651f8b9"
+    },
+    {
+      "byte_size": 5677,
+      "estimated_tokens": 1420,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:06ea90e805d4d8018f5cd03e93e7715b48461c7fb1f66e43d00500ec9b3c9796"
+    },
+    {
+      "byte_size": 3210,
+      "estimated_tokens": 803,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/implementation-run.md",
+      "sha256": "sha256:4db3a871b0a39b295724cc00cf218ac631c2424a6c20b6fdd312328c404a2bd7"
+    },
+    {
+      "byte_size": 5854,
+      "estimated_tokens": 1464,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/post-implementation-drift-churn-review.md",
+      "sha256": "sha256:895ea79785be3b260563463d29263a7271b22efa6fe2722d94671ed3868ae63c"
+    },
+    {
+      "byte_size": 7178,
+      "estimated_tokens": 1795,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/proposal-closeout.md",
+      "sha256": "sha256:a5c97aa759f42fd1d7f166cda65333f29e4f9660b4b95280978f0497bb84ea5f"
+    },
+    {
+      "byte_size": 2526,
+      "estimated_tokens": 632,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/proposal-creation.md",
+      "sha256": "sha256:dab97685746d2960d4292848fe7a409795867dc167a0862945612336f77b23d7"
+    },
+    {
+      "byte_size": 5953,
+      "estimated_tokens": 1489,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/proposal-review.md",
+      "sha256": "sha256:068e6c392d6bf0abb1b4e61a4d4000bc1a440f1637ddc345595a212bddf3d3ad"
+    }
+  ],
+  "related_proposals": [
+    "architecture-review-method-suite-program",
+    "architecture-review-method-taxonomy-and-routing"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture-proposal.yml": "sha256:9e4f474ce953165cea10337c9406797f5fcfe42cad7fb4c808b4a294f7f89efe",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/acceptance-criteria.md": "sha256:aa100bd8bbade2cfb626a5fce24fe6c60cf65de046941d18a7c05b6692454601",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/implementation-plan.md": "sha256:2b08054330c886ea7eb4170e426002d35e158e255bc802a0c1ba8b88c44fd123",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/navigation/artifact-catalog.md": "sha256:451a4c6b5c2d3000460dddb40b99a6b9a2a3ec0b79aeaf9abcc4af9e05084ba6",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/navigation/source-of-truth-map.md": "sha256:9567b598d68ab75106c7ddf152118ac0700f52437ff23fffcb09eb73517dbced",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/proposal.yml": "sha256:85401a2a802f510774ebcf32e8b3efbe32aef127bf98b77f488a69578b36a379",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/executable-implementation-prompt.md": "sha256:70d7fa7a2a557fd28920f6401ecde00df96edc1d27f801b5ab0490ea27683c7c",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/implementation-grade-completeness-review.md": "sha256:06ea90e805d4d8018f5cd03e93e7715b48461c7fb1f66e43d00500ec9b3c9796",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/proposal-review.md": "sha256:068e6c392d6bf0abb1b4e61a4d4000bc1a440f1637ddc345595a212bddf3d3ad",
+    ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml": "sha256:e6c9edc603793b25afec62032f5ea3c831ad489fc0931cf19745d00145ec08f4"
+  },
+  "source_lineage": [
+    ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/lens-bank-design.md",
+    ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/child-packet-contract.md",
+    ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-lens-bank-foundation/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml"
+  ],
+  "status": "archived"
+}

@@ -1,10 +1,49 @@
-schema_version: "architectural-review-naming-v1"
+schema_version: "architectural-review-naming-v2"
 mechanism:
   display_name: "Architectural Review Mechanism"
   family_slug: "architectural-review"
 method:
   display_name: "Balanced Architecture Review Method"
   slug: "balanced-architecture-review-method"
+# Explicit method layer (v2). Methods are HOW a review is conducted; the
+# canonical_modes below are the review OCCASION (routes). Balanced is the
+# declared default and is cross-listed here from the existing `method` block
+# above. Every catalog slug MUST equal a `lens-bank.yml` `suite_methods[].slug`
+# (dependency binding to the phase-0 lens bank; enforced by the naming
+# validator). Method selection grants no lifecycle or closeout authority.
+methods:
+  default: "balanced-architecture-review-method"
+  catalog:
+    - display_name: "Balanced Architecture Review Method"
+      slug: "balanced-architecture-review-method"
+      role: "default"
+      doc: "balanced-architecture-review-method.md"
+      lens_profile_ref: "lens-bank.yml#method_profiles.balanced-architecture-review-method"
+    - display_name: "Greenfield Reference Architecture Review"
+      slug: "greenfield-reference-architecture-review-method"
+      role: "companion"
+      doc: "greenfield-reference-architecture-review-method.md"
+      lens_profile_ref: "lens-bank.yml#method_profiles.greenfield-reference-architecture-review-method"
+    - display_name: "Architecture Tradeoff Review"
+      slug: "tradeoff-review-method"
+      role: "companion"
+      doc: "tradeoff-review-method.md"
+      lens_profile_ref: "lens-bank.yml#method_profiles.tradeoff-review-method"
+    - display_name: "Failure-Mode Architecture Review"
+      slug: "failure-mode-review-method"
+      role: "companion"
+      doc: "failure-mode-review-method.md"
+      lens_profile_ref: "lens-bank.yml#method_profiles.failure-mode-review-method"
+    - display_name: "Evolution/Fitness Architecture Review"
+      slug: "evolution-fitness-review-method"
+      role: "companion"
+      doc: "evolution-fitness-review-method.md"
+      lens_profile_ref: "lens-bank.yml#method_profiles.evolution-fitness-review-method"
+    - display_name: "Boundary/Authority Architecture Review"
+      slug: "boundary-authority-review-method"
+      role: "companion"
+      doc: "boundary-authority-review-method.md"
+      lens_profile_ref: "lens-bank.yml#method_profiles.boundary-authority-review-method"
 canonical_modes:
   - display_name: "Pre-Integration Architecture Review"
     slug: "pre-integration-architecture-review"

@@ -1,0 +1,10 @@
+# Additive-only proof for naming.yml (pass-2, 2026-07-10T03:49:11Z)
+# diff baselines/naming.yml.pre  ->  live .../architectural-review/naming.yml
+# Exactly one line added on the greenfield catalog entry; nothing removed or altered.
+
+24a25
+>       doc: "greenfield-reference-architecture-review-method.md"
+
+# The added line is the `doc:` reference wiring the doc into the greenfield catalog
+# entry (matching Balanced's doc field). No slug, schema_version, route,
+# canonical-names-table row, default method, or lens_profile_ref changed.

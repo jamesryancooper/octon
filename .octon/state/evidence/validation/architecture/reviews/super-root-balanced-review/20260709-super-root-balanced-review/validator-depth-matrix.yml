@@ -1,0 +1,51 @@
+schema_version: architecture-review-validator-depth-matrix-v1
+review_id: 20260709-super-root-balanced-review
+validator_plane_size: 331 scripts (.octon/framework/assurance/runtime/_ops/scripts/)
+depth_scale: [spec-only, existence, schema, semantic, runtime-enforced, negative-controlled]
+dimensions:
+  - dimension: execution-authorization / effect tokens
+    claimed: runtime-enforced
+    achieved: runtime-enforced + negative-controlled
+    evidence: "effects.rs:210-306 typed verification; all mismatch paths reject; receipts mandatory"
+  - dimension: run journal single-writer + lifecycle legality
+    claimed: runtime-enforced
+    achieved: runtime-enforced
+    evidence: "runtime_bus lib.rs:329-400; generated/inputs refs rejected as lifecycle authority"
+  - dimension: generated/effective freshness + raw-read denial
+    claimed: runtime-enforced + negative-controlled
+    achieved: runtime-enforced + negative-controlled
+    evidence: "validate-no-raw-generated-effective-runtime-reads.sh; validate-runtime-effective-artifact-handles.sh embedded negative controls; EVI-025"
+    exception: "F-01 ambient bypass lacks its own negative control"
+  - dimension: support-target admission/proofing/reconciliation
+    claimed: runtime-enforced + negative-controlled
+    achieved: runtime-enforced + negative-controlled
+    evidence: "validate-support-target-proofing.sh (executable receipts required); validate-support-envelope-reconciliation.sh fail-closed widening detection"
+  - dimension: self-evolution promotion gates
+    claimed: runtime-enforced
+    achieved: runtime-enforced
+    evidence: "kernel/src/commands/evolution.rs:197-633 — six explicit self-approval blockers"
+  - dimension: evidence classification + disclosure tiers
+    claimed: runtime-enforced
+    achieved: schema+semantic enforced
+    evidence: "validate-evidence-classification-schema.sh, validate-evidence-disclosure-tiers.sh"
+    gap: "v1 records lack proof-plane arrays (F-09)"
+  - dimension: retention durations
+    claimed: policy-documented
+    achieved: spec-only
+    gap: "no lifecycle enforcement (F-06)"
+  - dimension: continuity resumption coherence
+    claimed: contract-documented
+    achieved: spec-only
+    gap: "no named pre-resumption validator (F-07)"
+  - dimension: ambient environment override governance
+    claimed: none (undeclared surface)
+    achieved: none
+    gap: "F-01 — no inventory, no fail-closed rule, no invariance negative control"
+  - dimension: mission autonomy bounds / circuit breakers
+    claimed: policy + control-state enforced
+    achieved: semantic + control-state enforced
+    evidence: "mission-autonomy.yml burn states; mode-state tracking; operator-only authorize-updates"
+overall_assessment: >-
+  Claimed depth matches achieved depth on every authority-critical dimension
+  except the ambient-override surface (F-01), retention durations (F-06), and
+  continuity coherence (F-07).

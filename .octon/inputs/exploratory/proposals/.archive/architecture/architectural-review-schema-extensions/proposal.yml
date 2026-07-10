@@ -1,0 +1,62 @@
+schema_version: proposal-v1
+proposal_id: architectural-review-schema-extensions
+title: Architectural Review Schema Extensions
+summary: Phase-2 child of the Architecture Review Method Suite Program. Adds the method-aware v2 contract schemas for architectural review artifacts - architectural-review-report-v2.schema.json and architectural-review-routing-decision-v2.schema.json, each a strict additive superset of its v1 schema that also carries the two new required fields method (one of the six canonical suite method slugs) and lenses_applied (the lens profile actually applied, drawn from lens-bank.yml). The v1 report and routing-decision schemas are retained unchanged for method-agnostic producers, and architectural-review-support-receipt-v1.schema.json is left untouched (the support receipt never gains method or lens fields). The receipts validator validate-architectural-review-receipts.sh gains v2 awareness - it validates the additive method and lenses_applied fields fail-closed against the live naming.yml method catalog and lens-bank.yml lens ids - with negative controls for an unknown method, an undefined lens id, and support-receipt schema drift. The v1 to v2 coexistence posture is declared explicitly. This child completes the schema-level enforcement that the phase-1 missing_method_record fail-closed condition anticipated. It creates no new mechanism, gate, routed workflow mode, evidence root, or command facade, and grants no review output any authority.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/constitution/contracts/assurance/architectural-review-report-v2.schema.json
+- .octon/framework/constitution/contracts/assurance/architectural-review-routing-decision-v2.schema.json
+- .octon/framework/constitution/contracts/assurance/README.md
+- .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh
+- .octon/state/evidence/validation/proposals/architectural-review-schema-extensions/
+status: archived
+archive:
+  archived_at: 2026-07-10
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/architectural-review-schema-extensions
+  promotion_evidence:
+  - .octon/framework/assurance/runtime/_ops/scripts
+  - .octon/framework/constitution/contracts/assurance
+lifecycle:
+  temporary: true
+  exit_expectation: Advance this child through review, implementation, and verification until architectural-review-report-v2.schema.json and architectural-review-routing-decision-v2.schema.json exist as strict additive supersets of their v1 schemas carrying the required method and lenses_applied fields, the v1 report and routing-decision schemas remain retained and valid, architectural-review-support-receipt-v1.schema.json is unchanged, the contracts/assurance README lists the two v2 schemas, and validate-architectural-review-receipts.sh validates the v2 fields with all three negative controls demonstrably failing closed. The v1 to v2 coexistence posture is recorded; existing evidence roots and the pre-integration gate remain unchanged; child lifecycle evidence is retained outside the proposal path; then close out and archive this packet. Parent program evidence never satisfies this child's receipts.
+related_proposals:
+- architecture-review-method-suite-program
+- architecture-lens-bank-foundation
+- architecture-review-method-taxonomy-and-routing
+- greenfield-reference-architecture-review-method
+- companion-architecture-review-methods
+- architectural-review-suite-integration
+authority_class_impact:
+  framework: Adds two v2 contract schemas under framework/constitution/contracts/assurance/, extends that directory's README, and extends one validator under framework/assurance/runtime/_ops/scripts/. No new mechanism, gate, routed workflow mode, evidence root, or command facade. The v1 schemas and the support-receipt schema are unchanged.
+  instance: No instance surface changes.
+  state_control: No control-truth mutation.
+  state_evidence: Child lifecycle evidence is retained under this child's own promotion evidence root; validator positive and negative-control runs are retained as evidence only. Existing evidence roots are unchanged.
+  generated: No generated/effective publication by this child; any projection refresh occurs only through canonical publication scripts at implementation.
+  inputs: The intake unit and parent program design docs remain non-authoritative lineage; this packet is proposal-local candidate lineage only.
+change_profile: atomic
+evidence_requirements:
+- Cited non-authoritative intake unit architecture-review-method-suite and the parent program design docs (lineage only, never authority).
+- Schema validity evidence proving both v2 schemas are well-formed JSON Schema, are strict additive supersets of their v1 schemas (same required v1 fields plus the two new required fields), and pin method to the six canonical suite method slugs.
+- Receipts validator evidence proving v2 report and routing-decision artifacts validate, including a negative control for an unknown method (unknown_method), an undefined lens id (undefined_lens), and a support receipt that drifts from schema v1 (receipt_schema_drift), each failing closed.
+- Dependency-binding evidence that the v2 method enum equals the naming.yml methods catalog slugs verified by architecture-review-method-taxonomy-and-routing and that every lens id referenced in the pass fixture is declared in lens-bank.yml (phase-0).
+- Coexistence evidence that v1 report and routing-decision artifacts still validate against the retained v1 schemas and that architectural-review-support-receipt-v1.schema.json is byte-for-byte unchanged.
+- Regression evidence that the remaining validate-architectural-review-*.sh suite still passes and no existing evidence root or the pre-integration gate changed.
+- Child lifecycle evidence retained under .octon/state/evidence/validation/proposals/architectural-review-schema-extensions/ before closeout.
+generated_input_authority_impact: No generated, input, host, chat, dashboard, or model-memory surface gains authority. The method and lenses_applied fields record which method and lenses were used; review outputs remain evidence or proposal input, and the pre-integration support receipt remains the only lifecycle-gating review artifact.
+owner: octon-maintainers
+parent_program: architecture-review-method-suite-program
+program_child_id: architectural-review-schema-extensions
+program_phase_id: phase-2
+release_state: pre-1.0
+runtime_behavior_impact: At implementation, architectural review report and routing-decision artifacts may be emitted at v2, which requires a recorded method (one of the six canonical suite method slugs) and a non-empty lenses_applied list of declared lens ids; the receipts validator fails closed on an unknown method (unknown_method), an undefined lens id (undefined_lens), and a support receipt that drifts from schema v1 (receipt_schema_drift). v1 report and routing-decision artifacts remain valid and method-agnostic (Balanced default applies), so existing producers are unaffected. No existing route, gate, or evidence root changes.
+scope_statement: Author exactly the method-aware schema layer for the Architectural Review Mechanism. In scope - architectural-review-report-v2 and architectural-review-routing-decision-v2 JSON schemas as strict additive supersets of v1 with required additive method (enum of the six canonical suite method slugs) and lenses_applied (array of lens ids) fields; retention of the v1 report and routing-decision schemas for method-agnostic producers; the contracts/assurance README extension listing the two v2 schemas; validate-architectural-review-receipts.sh v2 awareness that binds method to the live naming.yml method catalog and lenses_applied to lens-bank.yml lens ids and asserts the support receipt stays v1, with at least one negative control per new fail-closed rule; and an explicit v1 to v2 coexistence posture. Out of scope and left untouched - the naming.yml methods list and review-routing.yml method_selection block (phase-1, consumed as a verified dependency), the lens bank (phase-0, consumed as a verified dependency), architectural-review-support-receipt-v1.schema.json (never gains method or lens fields), the Greenfield and companion method docs (phase-2 siblings), review workflow method-id recording and generated projection refresh (phase-3), the existing v1 schemas' fields, the existing evidence roots, and the pre-integration gate; and architecture-readiness and surface-architecture audit doctrine.
+selected_implementation_target: Add the v2 report and routing-decision contract schemas of the existing Architectural Review Mechanism under .octon/framework/constitution/contracts/assurance/ and extend the receipts validator at .octon/framework/assurance/runtime/_ops/scripts/.
+source_lineage:
+- .octon/inputs/additive/.incoming/architecture-review-method-suite/
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/method-taxonomy.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/child-packet-contract.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/architecture/target-architecture.md
+- .octon/inputs/exploratory/proposals/architecture/architecture-review-method-suite-program/resources/child-packet-index.yml

@@ -1,0 +1,25 @@
+[OK] proposal manifest parses
+[OK] proposal kind supports implementation-conformance gate
+[OK] implementation conformance review exists
+[OK] conformance verdict is explicit
+[OK] unresolved item count is numeric
+[OK] conformance review includes section: Blockers
+[OK] conformance review includes section: Checked Evidence
+[OK] conformance review includes section: Promotion Target Coverage
+[OK] conformance review includes section: Implementation Map Coverage
+[OK] conformance review includes section: Validator Coverage
+[OK] conformance review includes section: Generated Output Coverage
+[OK] conformance review includes section: Governed Mechanism Integration Coverage
+[OK] conformance review includes section: Rollback Coverage
+[OK] conformance review includes section: Downstream Reference Coverage
+[OK] conformance review includes section: Exclusions
+[OK] conformance review includes section: Final Closeout Recommendation
+[OK] promotion targets are present
+[OK] promotion target exists: .octon/framework/cognition/practices/methodology/architectural-review/naming.yml
+[OK] promotion target exists: .octon/framework/cognition/practices/methodology/architectural-review/review-routing.yml
+[OK] promotion target exists: .octon/framework/cognition/practices/methodology/architectural-review/README.md
+[OK] promotion target exists: .octon/framework/cognition/practices/methodology/architectural-review/balanced-architecture-review-method.md
+[OK] promotion target exists: .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-naming.sh
+[OK] promotion target exists: .octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-routing.sh
+[OK] promotion target exists: .octon/state/evidence/validation/proposals/architecture-review-method-taxonomy-and-routing/
+Validation summary: errors=0 warnings=0

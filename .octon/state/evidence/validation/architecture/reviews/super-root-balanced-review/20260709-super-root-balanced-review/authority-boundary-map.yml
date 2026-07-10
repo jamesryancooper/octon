@@ -1,0 +1,82 @@
+schema_version: architecture-review-authority-boundary-map-v1
+review_id: 20260709-super-root-balanced-review
+boundaries:
+  - boundary: authored-authority
+    roots: [".octon/framework/**", ".octon/instance/**"]
+    posture: durable authored authority only
+    enforcement:
+      - ".octon/framework/constitution/CHARTER.md:50-53 (non-negotiable)"
+      - ".octon/framework/cognition/_meta/architecture/specification.md:142-143 (structural invariant 3)"
+    status: intact
+  - boundary: mutable-control-truth
+    roots: [".octon/state/control/**"]
+    posture: current operational truth; normative ranks 4-9 for run-specific artifacts
+    enforcement:
+      - ".octon/framework/constitution/precedence/normative.yml:47-102"
+      - "runtime_bus single-writer journal (crates/runtime_bus/src/lib.rs:384-400)"
+    status: intact
+  - boundary: retained-evidence
+    roots: [".octon/state/evidence/**"]
+    posture: retained proof; epistemic rank 1; never live control truth
+    enforcement:
+      - ".octon/framework/constitution/precedence/epistemic.yml:5-10"
+      - ".octon/framework/engine/runtime/spec/evidence-store-v1.md:33-48 (role separation)"
+      - "34 EVI obligations (.octon/framework/constitution/obligations/evidence.yml)"
+    status: intact
+  - boundary: continuity
+    roots: [".octon/state/continuity/**"]
+    posture: resumption context only; cannot authorize execution
+    enforcement:
+      - ".octon/framework/engine/runtime/spec/mission-continuation-v1.md:21-27"
+      - "every run requires GrantBundle (spec/execution-authorization-v1.md)"
+    status: "intact (F-07: pre-resumption coherence validator missing; authority impact nil)"
+  - boundary: generated-effective
+    roots: [".octon/generated/effective/**"]
+    posture: derived runtime handle; resolver-verified, digest-bound, non-authority classified
+    enforcement:
+      - "FCR-025/026/030/031 (.octon/framework/constitution/obligations/fail-closed.yml:122-149)"
+      - "validate-no-raw-generated-effective-runtime-reads.sh (negative control)"
+      - "lock files: allowed/forbidden consumers + non_authority_classification (generated/effective/runtime/route-bundle.lock.yml:29-35)"
+    status: "intact with exception (F-01: OCTON_ALLOW_STALE_RUNTIME_ROUTE_BUNDLE bypass at authority_engine/src/implementation/execution.rs:68)"
+  - boundary: generated-read-models
+    roots: [".octon/generated/cognition/**", ".octon/generated/proposals/**"]
+    posture: operator navigation only; forbidden as runtime/policy/support/authority input
+    enforcement:
+      - "FCR-021/032"
+      - ".octon/instance/governance/non-authority-register.yml:66-94"
+      - ".octon/instance/governance/runtime-resolution.yml:32-35 (forbidden_runtime_authority_roots)"
+    status: intact
+  - boundary: inputs
+    roots: [".octon/inputs/**"]
+    posture: non-authoritative; envelope-bounded intake; ideation human-led
+    enforcement:
+      - "FCR-001"
+      - ".octon/octon.yml:61 (raw_input_dependency: fail-closed) and :70-72 (human_led zone)"
+      - "run journal rejects inputs/** lifecycle refs (spec/run-journal-v1.md:34-36)"
+    status: intact
+  - boundary: host-and-provider-state
+    surfaces: ["GitHub rulesets/actions/labels/checks", "CI state", "chat transcripts", "host UI", "provider sessions", "model memory"]
+    posture: projections only; never authority
+    enforcement:
+      - "FCR-003, FCR-038"
+      - ".octon/framework/constitution/precedence/normative.yml:53-57 (rank-4 decision rule ignores host affordances)"
+      - ".octon/framework/execution-roles/governance/MEMORY.md (no role-owned canonical memory)"
+      - "github projection alignment validators"
+    status: intact
+  - boundary: external-trust
+    surfaces: ["trust domains", "federation compacts", "imported proof", "delegated leases"]
+    posture: federate proof, not authority; deny on stale/unregistered
+    enforcement:
+      - "FCR-037/038"
+      - ".octon/instance/governance/trust/policies/delegated-authority.yml:14-22 (all authorization flags false)"
+      - "90-day staleness denial (.octon/instance/governance/trust/registry.yml:33-41)"
+    status: intact (largely stage-only; untested by live federation)
+  - boundary: ambient-process-environment
+    surfaces: ["OCTON_ALLOW_STALE_RUNTIME_ROUTE_BUNDLE", "OCTON_POLICY_MODE_OVERRIDE", "OCTON_EFFECTIVE_POLICY_MODE", "OCTON_EXECUTION_ROLE_KIND", "OCTON_EXECUTION_ROLE_ID", "OCTON_EXECUTION_INTENT_ID", "OCTON_EXECUTION_INTENT_VERSION"]
+    posture: UNDECLARED — reads by authority-affecting code paths without a governing contract
+    enforcement: none (no FCR rule, no validator inventory, no negative control)
+    status: gap — see findings F-01; recommended packet scope
+second_control_plane_assessment: >-
+  No designed second control plane exists. All material paths converge on
+  authorize_execution() and runtime_bus. The single residual vector is ambient
+  process environment (F-01).

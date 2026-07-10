@@ -1,0 +1,55 @@
+schema_version: architecture-proposal-v1
+architecture_scope: domain-architecture
+decision_type: new-surface
+title: Companion Architecture Review Methods
+target_state: >-
+  The Architectural Review Mechanism method layer carries four authored
+  companion method docs beside the existing Balanced and Greenfield docs:
+  tradeoff-review-method.md, failure-mode-review-method.md,
+  evolution-fitness-review-method.md, and boundary-authority-review-method.md.
+  Each doc states its method question, use cases, non-goals, required inputs,
+  output contract, shared-lens profile reference, escalation rules, and a
+  fail-closed non-authority output boundary, and draws every lens from the
+  shared Architecture Lens Bank (lens-bank.yml) — no method owns a private lens
+  catalog. naming.yml carries an additive `doc:` pointer for each of the four
+  companion catalog entries (mirroring the existing Greenfield pointer) and the
+  mechanism README references section links the four docs; neither edit changes
+  naming semantics, method slugs, defaults, or routing. Failure-Mode Review
+  states its boundary against the Architecture Readiness Audit's mandatory
+  failure-mode assessment, and Boundary/Authority Review states its boundary
+  against the Surface Architecture Audit's single-unit authority-model
+  classification. Boundary/Authority ships Octon-only in v1. Balanced remains
+  the default method; method output is retained evidence or proposal input and
+  never lifecycle-gate authority; the pre-integration architecture review
+  support receipt remains the only lifecycle-gating review artifact.
+boundary_change: >-
+  No authority-class boundary moves and no new authority is created. The change
+  is purely additive methodology doctrine inside the existing mechanism: four
+  new method docs plus additive discoverability wiring (naming.yml `doc:`
+  pointers and README reference links) within the same methodology directory.
+  No new mechanism, routed workflow mode, lifecycle gate, evidence root, report
+  or routing-decision schema, validator, or command facade is created by this
+  child. The four companion method slugs and their lens profiles already exist
+  in the canonical naming.yml (v2) and lens-bank.yml delivered by prior program
+  children; this child only authors the human-readable doctrine the naming
+  catalog already names.
+authoritative_targets_after_promotion:
+  - .octon/framework/cognition/practices/methodology/architectural-review/tradeoff-review-method.md
+  - .octon/framework/cognition/practices/methodology/architectural-review/failure-mode-review-method.md
+  - .octon/framework/cognition/practices/methodology/architectural-review/evolution-fitness-review-method.md
+  - .octon/framework/cognition/practices/methodology/architectural-review/boundary-authority-review-method.md
+authoritative_targets_modified_in_place:
+  - .octon/framework/cognition/practices/methodology/architectural-review/naming.yml
+  - .octon/framework/cognition/practices/methodology/architectural-review/README.md
+proposal_local_authority:
+  - proposal.yml
+  - architecture-proposal.yml
+non_authoritative_supporting_artifacts:
+  - README.md
+  - navigation/**
+  - architecture/**
+  - resources/**
+  - support/**
+composition_boundaries_cited_never_modified:
+  - .octon/framework/cognition/practices/methodology/architecture-readiness/framework.md
+  - .octon/framework/cognition/practices/methodology/audits/surface-architecture.md

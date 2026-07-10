@@ -1,0 +1,18 @@
+[OK] architectural review receipt exists
+[OK] architectural review receipt parses as YAML
+[OK] schema_version is architectural-review-support-receipt-v1
+[OK] receipt_id present
+[OK] proposal_path present
+[OK] packet_digest explicit
+[OK] review_mode canonical
+[OK] review_mode matches requested mode
+[OK] verdict explicit
+[OK] unresolved_count numeric
+[OK] non-authority classification retained-evidence-only
+[OK] evidence_refs non-empty
+[OK] validator_refs non-empty
+[OK] blockers is a list
+[OK] mode_specific_coverage non-empty
+[ERROR] receipt_schema_drift: support receipt must not carry method or lenses_applied fields
+[OK] receipt contains no placeholder or stale-evidence text
+Validation summary: errors=1

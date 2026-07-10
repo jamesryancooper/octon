@@ -1,0 +1,7 @@
+[OK] lens bank exists: .octon/framework/assurance/runtime/_ops/fixtures/architectural-review/lens-references/fail-undefined-lens/lens-bank.yml
+[OK] lens bank parses as YAML
+[OK] lens catalog declares 3 lens ids
+[ERROR] method profile 'balanced-architecture-review-method' references undefined lens id: nonexistent-lens
+[OK] bank declares 1 suite methods
+[OK] suite method 'balanced-architecture-review-method' has a complete profile (required=3)
+Validation summary: errors=1

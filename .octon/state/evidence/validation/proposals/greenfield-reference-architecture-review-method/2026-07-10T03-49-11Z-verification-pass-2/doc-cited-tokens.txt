@@ -1,0 +1,27 @@
+# Backtick-wrapped lowercase-dashed tokens cited in greenfield-reference-architecture-review-method.md
+# (sorted, unique). Extracted live at pass-2 via:
+#   grep -oE '`[a-z][a-z0-9-]+`' <doc> | tr -d '`' | sort -u
+# The 17 profile lens ids all appear here; steelman-chestertons-fence (the sole
+# non-profile catalog lens) does not (grep count = 0). The three non-lens tokens
+# (failure-mode-review-method, methods, tradeoff-review-method) are review-routing
+# method ids and a naming.yml key, not lens-catalog ids.
+authority-boundary
+clean-sheet-reference
+complexity-separation
+contracts-compatibility
+current-reality-map
+data-truth-lineage
+domain-model
+evolution-fitness
+failure-and-recovery
+failure-mode-review-method
+methods
+non-goals-deletion
+operability-observability-evidence
+quality-attribute-scenarios
+security-threat-model
+sequencing-mvp-migration
+system-job-framing
+tradeoff-adr
+tradeoff-review-method
+validation-strategy

@@ -1,0 +1,19 @@
+[OK] architectural review naming model exists
+[OK] architectural review naming model parses
+[OK] naming schema_version is architectural-review-naming-v2
+[OK] methods.default is balanced-architecture-review-method
+[OK] methods.catalog declares canonical method: balanced-architecture-review-method
+[OK] methods.catalog declares canonical method: greenfield-reference-architecture-review-method
+[OK] methods.catalog declares canonical method: tradeoff-review-method
+[OK] methods.catalog declares canonical method: failure-mode-review-method
+[OK] methods.catalog declares canonical method: evolution-fitness-review-method
+[OK] methods.catalog declares canonical method: boundary-authority-review-method
+[OK] lens bank available for method binding: /Users/jamesryancooper/Projects/octon/.octon/framework/assurance/runtime/_ops/fixtures/architectural-review/method-taxonomy-routing/fail-method-without-profile/lens-bank.yml
+[OK] method slug binds to lens-bank suite_methods: balanced-architecture-review-method
+[OK] method slug binds to lens-bank suite_methods: greenfield-reference-architecture-review-method
+[OK] method slug binds to lens-bank suite_methods: tradeoff-review-method
+[OK] method slug binds to lens-bank suite_methods: failure-mode-review-method
+[OK] method slug binds to lens-bank suite_methods: evolution-fitness-review-method
+[OK] method slug binds to lens-bank suite_methods: boundary-authority-review-method
+[ERROR] method slug has no lens-bank suite_methods profile: orphan-review-method
+Validation summary: errors=1
