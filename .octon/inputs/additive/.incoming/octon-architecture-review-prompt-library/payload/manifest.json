@@ -1,0 +1,31 @@
+{
+  "archive_name": "octon-architecture-review-prompt-library-with-routing-amendment.zip",
+  "description": "Octon Architect prompt library for Octon architecture reviews, with Review Result Output and Artifact Placement Amendment appended to every prompt.",
+  "review_persona": "Octon Architect",
+  "source_thread": "source/conversation-thread.md",
+  "source_thread_normalization": "legacy source-model prose, filename references, and response turn headers normalized; only the origin URL on line 1 retains a source-platform name, deliberately, as provenance",
+  "completeness_review": "completeness-review.md",
+  "coverage_map": "coverage-map.md",
+  "pilot_run_protocol": "pilot-run-protocol.md",
+  "normalization": {
+    "legacy_source_model_replaced_with": "Octon Architect",
+    "model_agnostic": true
+  },
+  "prompt_count": 7,
+  "files": [
+    "README.md",
+    "manifest.json",
+    "completeness-review.md",
+    "coverage-map.md",
+    "pilot-run-protocol.md",
+    "source/conversation-thread.md",
+    "review-result-output-and-artifact-placement-amendment.md",
+    "prompts/01-octon-authoritative-super-root-balanced-architecture-review.md",
+    "prompts/02-bounded-clean-sheet-delta-review.md",
+    "prompts/03-current-state-mechanism-architecture-review.md",
+    "prompts/04-architecture-readiness-audit.md",
+    "prompts/05-domain-architecture-audit.md",
+    "prompts/06-surface-architecture-audit.md",
+    "prompts/07-constitutional-challenge-review.md"
+  ]
+}
