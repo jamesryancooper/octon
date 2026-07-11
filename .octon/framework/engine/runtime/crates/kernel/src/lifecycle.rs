@@ -1137,7 +1137,7 @@ pub(crate) fn cmd_lifecycle(cmd: LifecycleCmd) -> Result<()> {
     match cmd {
         LifecycleCmd::Plan {
             lifecycle_id,
-            target: target.strip_prefix(&repo_root)?.to_path_buf(),
+            target,
         } => match lifecycle_execution_strategy_from_octon_dir(&octon_dir, &lifecycle_id)? {
             LifecycleExecutionStrategy::RouteProgression => {
                 let plan = plan_lifecycle_from_octon_dir(&octon_dir, &lifecycle_id, &target)?;
