@@ -1,0 +1,15 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "public, private, and offline pilots; Tier 1 matrix; fault injection; rollback; public-tree and release readiness"
+decision_type: "boundary-change"
+decision_summary: "Provide an integrated, repeatable pilot harness and final readiness receipt covering public-style, private, and local-artifact/offline projects, Tier 1 fault injection, public-tree parity, release assets, and rollback without authorizing publication."
+affected_surfaces:
+  - "pilot project fixtures"
+  - "Tier 1 CI matrix"
+  - "release-target tier metadata (additive change to the existing shared release-targets.yml)"
+  - "installation and update fault injection"
+  - "offline local-artifact path"
+  - "project-owned hash proof"
+  - "public-tree and release-candidate verification"
+  - "aggregate release-readiness receipt"
+non_authority_statement: "This packet defines a proposed implementation boundary only. It does not authorize implementation, external effects, publication, legal conclusions, or risk acceptance."
+
