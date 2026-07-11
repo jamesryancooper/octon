@@ -1,0 +1,31 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-follow-up-program"
+decision_type: "boundary-change"
+title: "Post-Architecture-Review Follow-Up Program"
+target_state: >-
+  All actionable non-environment-override findings from the 2026-07-09
+  super-root balanced architecture review (F-03 through F-10) reach governed
+  terminal outcomes through seven independently valid child packets: the
+  external evidence store and retention lifecycle carry an operational
+  contract; overdue compatibility reviews are current; the runtime spec
+  directory is indexed; continuity resumption is coherence-checked;
+  historical RunCard references are audited or declared frozen;
+  evidence classification is on the v2 schema; and the quorum revisit
+  trigger is decided or recorded no-action.
+boundary_change: >-
+  No direct boundary change by the parent. The program coordinates children
+  whose accepted outcomes close the review's documented evidence-operability,
+  governance-cadence, and assurance-depth gaps without creating any new
+  authority surface.
+authoritative_targets_after_promotion:
+  - ".octon/state/evidence/validation/proposals/post-architecture-review-follow-up-program/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "resources/child-packet-index.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "resources/child-packet-index.md"
+  - "support/**"

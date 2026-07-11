@@ -1,0 +1,147 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "gated-parallel"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "retirement-register-compatibility-refresh"
+    path: ".octon/inputs/exploratory/proposals/architecture/retirement-register-compatibility-refresh"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-0"
+    group_id: "governance-maintenance"
+    rollback_posture: "manual"
+    findings: ["F-04"]
+    write_scopes:
+      - ".octon/instance/governance/retirement-register.yml"
+      - ".octon/state/evidence/validation/"
+    seed_role: "seed-reference"
+  - child_id: "runtime-spec-directory-index"
+    path: ".octon/inputs/exploratory/proposals/architecture/runtime-spec-directory-index"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-0"
+    group_id: "navigability"
+    rollback_posture: "manual"
+    findings: ["F-05"]
+    write_scopes:
+      - ".octon/framework/engine/runtime/spec/"
+    seed_role: "none"
+  - child_id: "retained-evidence-operability-contract"
+    path: ".octon/inputs/exploratory/proposals/architecture/retained-evidence-operability-contract"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-0"
+    group_id: "evidence-operability"
+    rollback_posture: "manual"
+    findings: ["F-03", "F-06"]
+    write_scopes:
+      - ".octon/framework/constitution/contracts/retention/"
+      - ".octon/framework/engine/runtime/spec/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+    seed_role: "none"
+    pre_acceptance_evidence_gate:
+      gate_id: "targeted-prompt-5-domain-audit"
+      status: "not-yet-run"
+      prompt_ref: ".octon/inputs/additive/.incoming/octon-architecture-review-prompt-library/payload/prompts/05-domain-architecture-audit.md"
+      run_mode: "targeted (supply the evidence-retention / retained-evidence operability domain; do not sweep)"
+      required_coverage: "F-03 immutable:// store operational reality; F-06 retention-duration enforcement seams; F-09 dependency implications for classification migration"
+      required_evidence_destination: ".octon/state/evidence/validation/architecture/reviews/domain-architecture-audit/<review-id>/"
+      run_time_note: "copy the exact prompt artifact into the gate evidence bundle and record the model actually used, per the pilot protocol conventions"
+      rule: >-
+        This child packet may be created before the gate runs, but it must not
+        be accepted until the targeted Prompt 5 retained evidence exists and
+        the child cites it by path. Parent program evidence never satisfies
+        this gate.
+      result_handling:
+        disposition_required_before_acceptance: true
+        outcomes:
+          pass_no_material_gaps: "child may cite the retained evidence and proceed toward acceptance through its governed lifecycle"
+          material_domain_gaps: "child must be revised before acceptance — incorporated at creation if the child does not exist yet, or through its governed packet revision route if it does"
+          dependency_assumptions_changed: "update evidence-classification-v2-migration's planned scope, dependency notes, or acceptance gates before that child is accepted"
+          out_of_scope_concern: "route as exactly one of: a new child packet (registry revision at the parent), an explicit deferral with owner and trigger, or a no-action record with rationale"
+        disposition_record_must_name:
+          - "retained evidence path"
+          - "prompt number/title (Prompt 5, Domain Architecture Audit)"
+          - "target domain"
+          - "actual model used"
+          - "verdict"
+          - "blocking findings, if any"
+          - "packet/program/child changes made in response"
+          - "explicit decision: proceed, revise, defer, escalate, or no-action"
+        non_checkbox_rule: >-
+          When the gate runs, its retained evidence must be dispositioned, not
+          merely produced: blocking findings stop the child lifecycle at the
+          gate; non-blocking findings must be explicitly routed; material
+          revisions require updated child/program text; the evidence remains
+          evidence, not authority.
+  - child_id: "continuity-coherence-validator"
+    path: ".octon/inputs/exploratory/proposals/architecture/continuity-coherence-validator"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-1"
+    group_id: "runtime-assurance"
+    rollback_posture: "manual"
+    findings: ["F-07"]
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/engine/runtime/spec/"
+    seed_role: "none"
+  - child_id: "evidence-classification-v2-migration"
+    path: ".octon/inputs/exploratory/proposals/architecture/evidence-classification-v2-migration"
+    required: true
+    deferred: false
+    dependencies:
+      - "retained-evidence-operability-contract"
+    dependency_gate: "verification"
+    phase_id: "phase-1"
+    group_id: "evidence-operability"
+    rollback_posture: "manual"
+    findings: ["F-09"]
+    write_scopes:
+      - ".octon/state/evidence/runs/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+    seed_role: "none"
+    dependency_input_note: >-
+      Because this child depends on retained-evidence-operability-contract, it
+      must treat that child's targeted Prompt 5 gate evidence (domain audit of
+      the evidence-retention domain, including F-09 dependency implications)
+      as dependency input and cite it before implementation planning.
+  - child_id: "historical-runcard-support-audit"
+    path: ".octon/inputs/exploratory/proposals/architecture/historical-runcard-support-audit"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "disclosure-audit"
+    rollback_posture: "manual"
+    findings: ["F-08"]
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/state/evidence/validation/"
+    seed_role: "none"
+  - child_id: "governance-quorum-revisit-trigger"
+    path: ".octon/inputs/exploratory/proposals/architecture/governance-quorum-revisit-trigger"
+    required: false
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "governance-maintenance"
+    rollback_posture: "manual"
+    findings: ["F-10"]
+    write_scopes:
+      - ".octon/instance/governance/quorum-policies/"
+    seed_role: "none"
+    conditional_note: >-
+      Create this child packet only if durable action is justified (a concrete
+      revisit trigger worth encoding, or multi-operator adoption becomes
+      concrete); otherwise record a program-local no-action rationale at
+      program closeout and leave quorum policy untouched.

@@ -1,0 +1,60 @@
+schema_version: proposal-v1
+proposal_id: post-architecture-review-follow-up-program
+title: Post-Architecture-Review Follow-Up Program
+summary: Lightweight parent proposal program coordinating the actionable
+  non-environment-override follow-up findings (F-03 through F-10) from the
+  2026-07-09 super-root balanced architecture review into seven child-owned
+  work units with gated-parallel sequencing, explicit dependencies, validation
+  floors, and closeout gates. The parent coordinates; children own their work,
+  receipts, and promotion targets.
+proposal_kind: architecture
+promotion_scope: octon-internal
+change_profile: atomic
+release_state: pre-1.0
+status: draft
+owner: octon-maintainers
+program_execution_mode: gated-parallel
+seed_reference_child: retirement-register-compatibility-refresh
+related_proposals:
+- retained-evidence-operability-contract
+- retirement-register-compatibility-refresh
+- runtime-spec-directory-index
+- continuity-coherence-validator
+- historical-runcard-support-audit
+- evidence-classification-v2-migration
+- governance-quorum-revisit-trigger
+promotion_targets:
+- .octon/state/evidence/validation/proposals/post-architecture-review-follow-up-program/
+lifecycle:
+  temporary: true
+  exit_expectation: Coordinate child packet creation, review, implementation,
+    and verification until every registry child reaches an allowed terminal
+    outcome (closed, superseded, rejected, or recorded no-action), retain
+    aggregate program evidence outside proposal paths, then close out and
+    archive this parent packet.
+source_lineage:
+- .octon/state/evidence/validation/architecture/reviews/super-root-balanced-review/20260709-super-root-balanced-review/
+- .octon/state/evidence/validation/architecture/reviews/super-root-balanced-review/20260709-super-root-balanced-review/findings.yml
+- .octon/state/evidence/validation/architecture/reviews/super-root-balanced-review/20260709-super-root-balanced-review/route-decision.yml
+- .octon/state/evidence/validation/architecture/reviews/super-root-balanced-review/20260709-super-root-balanced-review/open-questions.md
+selected_implementation_target: Program coordination of review follow-up findings F-03 through F-10
+scope_statement: Proposal-program coordination only. The parent packet
+  sequences and gates seven planned sibling child packets covering findings
+  F-03 through F-10 from the retained super-root review. It excludes the
+  runtime environment-override work, which is owned by the existing sibling
+  packet runtime-environment-override-governance and is not a child of this
+  program. The parent does not implement changes, does not own child authority
+  surfaces, and its evidence never satisfies child receipts.
+authority_class_impact:
+  framework: May coordinate future child packets that propose framework spec, contract, index, and validator changes; the parent changes nothing.
+  instance: May coordinate future child packets touching retirement-register and quorum-policy surfaces; the parent changes nothing.
+  state_control: No control-truth mutation by the parent.
+  state_evidence: Child reviews and audits will retain their own evidence; aggregate program evidence lands under the declared program evidence root at closeout.
+  generated: No generated/effective publication by the parent; registry regeneration deliberately deferred to the governed publication step.
+  inputs: Parent and children are proposal-local candidate lineage only.
+runtime_behavior_impact: None from the parent; child impacts are declared per child at child creation.
+generated_input_authority_impact: No generated, input, host, or program surface gains authority.
+evidence_requirements:
+- Retained review evidence bundle 20260709-super-root-balanced-review (cited source).
+- Per-child packet receipts at child creation, review, implementation, and verification (child-owned; never satisfied by parent evidence).
+- Aggregate program lifecycle evidence under .octon/state/evidence/validation/proposals/post-architecture-review-follow-up-program/ before closeout.
