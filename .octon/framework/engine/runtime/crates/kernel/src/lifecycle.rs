@@ -1116,7 +1116,7 @@ pub(crate) fn append_lifecycle_run_started_if_needed(
             run_id,
             lifecycle_id,
             execution_strategy,
-            target,
+            target: target.strip_prefix(&repo_root)?.to_path_buf(),
             "run-started",
             "lifecycle",
             "runtime",
