@@ -82,7 +82,7 @@ pub(crate) fn bind_existing_lifecycle_run(
     let live_plan = crate::lifecycle::plan_lifecycle_from_octon_dir(
         &repo_root.join(".octon"),
         "proposal-packet",
-        &target,
+        target.strip_prefix(repo_root)?,
     )?;
     if live_plan
         .next_route
