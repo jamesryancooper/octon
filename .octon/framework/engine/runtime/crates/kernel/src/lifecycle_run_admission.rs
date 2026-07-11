@@ -312,10 +312,23 @@ fn authorized_scope(
         let raw = item
             .as_str()
             .ok_or_else(|| anyhow!("promotion target must be a string"))?;
-        let path = resolve_repo_ref(repo_root, raw, "promotion target")?;
+        let path = resolve_delegated_scope(repo_root, raw)?;
         result.insert(repo_ref(repo_root, &path)?);
     }
     Ok(result.into_iter().collect())
+}
+
+fn resolve_delegated_scope(repo_root: &Path, raw: &str) -> Result<PathBuf> {
+    let path = Path::new(raw);
+    if !path.is_absolute() {
+        return resolve_repo_ref(repo_root, raw, "promotion target");
+    }
+    let canonical_root = fs::canonicalize(repo_root)?;
+    let canonical = fs::canonicalize(path)?;
+    if !canonical.starts_with(&canonical_root) {
+        bail!("delegated write scope escapes repository root: {raw}");
+    }
+    Ok(canonical)
 }
 
 fn reject_post_mutation(target: &Path, events: &[u8]) -> Result<()> {
