@@ -1,0 +1,7 @@
+schema_version: "octon-input-archive-retention-v1"
+archive_id: "architecture-review-method-suite"
+authority_mode: "non_authoritative"
+retention_justification: >-
+  Retain the superseded incoming conversation synthesis for provenance and
+  audit traceability after its governed proposal program landed, without
+  granting the archived input runtime, policy, or implementation authority.
