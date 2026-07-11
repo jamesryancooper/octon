@@ -12,4 +12,4 @@ commands:
     path: "repo-hygiene/evidence-localization.md"
     summary: "Copy, verify, retrieve, and separately authorize exact cleanup of inactive operational evidence in the canonical external archive."
     access: "agent"
-    argument_hint: "localize|verify|authorize-cleanup|cleanup|retrieve"
+    argument_hint: "prepare-request|localize|verify|authorize-cleanup|cleanup|retrieve"

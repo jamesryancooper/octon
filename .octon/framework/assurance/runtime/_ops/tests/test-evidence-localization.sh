@@ -15,6 +15,7 @@ JSON
 }
 REQ="$TMP/request.json"; request "$REQ"; AUTH=""
 CMD=(env HOME="$H" python3 "$SRC_ROOT/.octon/framework/assurance/runtime/_ops/scripts/evidence-localization.py" --root "$R")
+"${CMD[@]}" prepare-request --draft "$REQ" --output "$TMP/prepared.json" | jq -e '.path_count == 1' >/dev/null; REQ="$TMP/prepared.json"
 OUT="$("${CMD[@]}" localize --request "$REQ")"; AID="$(jq -r .archive_id <<<"$OUT")"; AUTH=".octon/state/evidence/local/evidence-localization/$AID/cleanup.json"; "${CMD[@]}" verify --archive-id "$AID" >/dev/null
 # deterministic idempotent replay
 "${CMD[@]}" localize --request "$REQ" | jq -e '.reused == true' >/dev/null

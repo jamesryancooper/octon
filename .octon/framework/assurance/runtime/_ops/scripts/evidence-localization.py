@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Copy-before-remove external evidence localization with fail-closed receipts."""
-import argparse, datetime as dt, hashlib, json, os, platform, shutil, subprocess, sys
+import argparse, collections, datetime as dt, hashlib, json, os, platform, shutil, subprocess, sys
 from pathlib import Path
 
 VERSION = "1.0.0"
@@ -49,10 +49,39 @@ def local_receipt_path(root,text,archive_id=None):
     if base not in full.parents: die("compact receipt must use the protected local evidence sink")
     if archive_id and archive_id not in full.parts: die("compact receipt path must bind archive id")
     return full
-def tracked_references(root,rel):
-    result=subprocess.run(["git","-C",str(root),"grep","-l","-F","--",rel,"HEAD"],text=True,capture_output=True)
-    if result.returncode not in (0,1): die(f"tracked reference scan failed: {rel}")
-    return sorted(line.split(":",1)[-1] for line in result.stdout.splitlines() if line)
+def tracked_reference_map(root,paths):
+    wanted=set(paths); result={path:[] for path in wanted}; goto=[{}]; fail=[0]; out=[[]]
+    for pattern in sorted(wanted):
+        state=0
+        for byte in pattern.encode():
+            state=goto[state].setdefault(byte,len(goto))
+            if state==len(goto): goto.append({}); fail.append(0); out.append([])
+        out[state].append(pattern)
+    queue=collections.deque()
+    for state in goto[0].values(): queue.append(state)
+    while queue:
+        r=queue.popleft()
+        for byte,s in goto[r].items():
+            queue.append(s); f=fail[r]
+            while f and byte not in goto[f]: f=fail[f]
+            fail[s]=goto[f].get(byte,0); out[s].extend(out[fail[s]])
+    listed=subprocess.run(["git","-C",str(root),"ls-files","-z"],capture_output=True)
+    if listed.returncode!=0: die("tracked file inventory failed")
+    for raw in listed.stdout.split(b"\0"):
+        if not raw: continue
+        rel=raw.decode(errors="surrogateescape"); path=root/rel
+        try: data=path.read_bytes()
+        except (OSError,ValueError):
+            shown=subprocess.run(["git","-C",str(root),"show",f"HEAD:{rel}"],capture_output=True)
+            if shown.returncode!=0: die(f"tracked reference source unreadable: {rel}")
+            data=shown.stdout
+        state=0; matches=set()
+        for byte in data:
+            while state and byte not in goto[state]: state=fail[state]
+            state=goto[state].get(byte,0)
+            matches.update(out[state])
+        for pattern in matches: result[pattern].append(rel)
+    return {path:sorted(set(refs)) for path,refs in result.items()}
 def file_fingerprints(root,paths):
     rows=[]
     for rel in sorted(set(paths)):
@@ -61,8 +90,9 @@ def file_fingerprints(root,paths):
 def inventory(root,request):
     if request.get("repository_identity") != repo_identity(root): die("unknown or forged repository identity")
     if not request.get("rollback_posture"): die("rollback posture is required")
-    rows=[]; seen=set()
-    for item in request.get("entries",[]):
+    rows=[]; seen=set(); entries=request.get("entries",[])
+    reference_map=tracked_reference_map(root,[item.get("source_path","") for item in entries])
+    for item in entries:
         rel=item.get("source_path","")
         if rel in seen: die(f"duplicate source path: {rel}")
         seen.add(rel); src=safe_source(root,rel)
@@ -75,7 +105,7 @@ def inventory(root,request):
             state_text.append(safe_source(root,ref).read_text(errors="ignore").lower())
         if not any(any(token in text for token in ["closed","terminal","cancelled","superseded","rolled-back","explicitly-inactive"]) for text in state_text): die(f"inactivity evidence does not prove terminal state: {rel}")
         if item.get("evidence_class") == "manual-review" and item.get("manual_review_disposition") not in MANUAL: die(f"manual-review disposition required: {rel}")
-        if sorted(item.get("reference_relationships",[])) != tracked_references(root,rel): die(f"reference relationship map is incomplete or stale: {rel}")
+        if sorted(item.get("reference_relationships",[])) != reference_map[rel]: die(f"reference relationship map is incomplete or stale: {rel}")
         run=item.get("owning_run_id","")
         for lockroot in [root/".octon/state/control/execution/locks",root/".octon/state/control/execution/leases"]:
             if run and lockroot.exists() and any(run in p.read_text(errors="ignore") for p in lockroot.rglob("*") if p.is_file()): die(f"unresolved lock or lease for {run}")
@@ -123,6 +153,14 @@ def cmd_localize(a,root,policy):
     write(adir/"manifest.json",manifest); manifest,digest=validate_archive(adir)
     receipt={"schema_version":"evidence-localization-receipt-v1","archive_id":aid,"localization_run_id":lid,"repository_identity":repo_identity(root),"manifest_digest":digest,"inventory_digest":inv,"archive_path":str(adir),"retrieval_command":f"evidence-localization.py retrieve --archive-id {aid} --output <directory>","verification_command":f"evidence-localization.py verify --archive-id {aid}","non_authority_classification":"retained-external-evidence-only","verified_at":now()}
     receipt_path=(root/".octon/state/evidence/local/evidence-localization"/aid/"receipt.json").resolve(); write(receipt_path,receipt); receipt["receipt_path"]=str(receipt_path.relative_to(root)); print(json.dumps(receipt))
+def cmd_prepare(a,root,policy):
+    draft=load(a.draft)
+    if draft.get("repository_identity")!=repo_identity(root): die("unknown or forged repository identity")
+    entries=draft.get("entries",[]); refs=tracked_reference_map(root,[item.get("source_path","") for item in entries])
+    prepared=dict(draft); prepared["entries"]=[]
+    for item in entries:
+        row=dict(item); row["reference_relationships"]=refs[row["source_path"]]; prepared["entries"].append(row)
+    write(Path(a.output),prepared); print(json.dumps({"prepared_request":a.output,"path_count":len(entries),"referenced_path_count":sum(bool(v) for v in refs.values()),"reference_edge_count":sum(len(v) for v in refs.values())}))
 def find_archive(root,policy,aid):
     if not aid.startswith("archive-") or "/" in aid: die("invalid archive id")
     return archive_root(policy)/repo_identity(root).split(":",1)[1]/aid
@@ -146,11 +184,12 @@ def cmd_cleanup(a,root,policy):
     if dt.datetime.now(dt.timezone.utc)>expiry: die("cleanup authorization expired")
     expected={x["path"]:x for x in auth["source_fingerprints"]}
     if expected.keys()!={e["source_path"] for e in m["entries"]}: die("cleanup path set mismatch")
+    current_refs=tracked_reference_map(root,list(expected))
     for rel,fp in expected.items():
         src=safe_source(root,rel)
         if sha_file(src)!=fp["digest"] or src.stat().st_size!=fp["size"]: die("source drift before cleanup")
         entry=next(e for e in m["entries"] if e["source_path"]==rel)
-        if tracked_references(root,rel)!=sorted(entry["reference_relationships"]): die("new or changed source reference before cleanup")
+        if current_refs[rel]!=sorted(entry["reference_relationships"]): die("new or changed source reference before cleanup")
     if file_fingerprints(root,[x["path"] for x in auth["inactivity_evidence_fingerprints"]])!=auth["inactivity_evidence_fingerprints"]: die("inactivity evidence drift before cleanup")
     if file_fingerprints(root,[x["path"] for x in auth["exclusion_fingerprints"]])!=auth["exclusion_fingerprints"]: die("excluded path drift before cleanup")
     for rel in sorted(expected,reverse=True): (root/rel).unlink()
@@ -167,6 +206,7 @@ def cmd_retrieve(a,root,policy):
     print(json.dumps({"archive_id":m["archive_id"],"retrieved":len(m["entries"]),"output":str(out)}))
 def main():
     p=argparse.ArgumentParser(); p.add_argument("--root",default="."); sub=p.add_subparsers(dest="cmd",required=True)
+    q=sub.add_parser("prepare-request"); q.add_argument("--draft",required=True); q.add_argument("--output",required=True)
     q=sub.add_parser("localize"); q.add_argument("--request",required=True)
     q=sub.add_parser("verify"); q.add_argument("--archive-id",required=True)
     q=sub.add_parser("authorize-cleanup"); q.add_argument("--archive-id",required=True); q.add_argument("--request",required=True); q.add_argument("--authorization",required=True)
@@ -177,5 +217,5 @@ def main():
     try:
         policy=json.loads(subprocess.check_output(["yq","-o=json",str(policy_path)],text=True))
     except (FileNotFoundError, subprocess.CalledProcessError, json.JSONDecodeError): die("canonical policy cannot be parsed with yq")
-    {"localize":cmd_localize,"verify":cmd_verify,"authorize-cleanup":cmd_authorize,"cleanup":cmd_cleanup,"retrieve":cmd_retrieve}[a.cmd](a,root,policy)
+    {"prepare-request":cmd_prepare,"localize":cmd_localize,"verify":cmd_verify,"authorize-cleanup":cmd_authorize,"cleanup":cmd_cleanup,"retrieve":cmd_retrieve}[a.cmd](a,root,policy)
 if __name__=="__main__": main()
