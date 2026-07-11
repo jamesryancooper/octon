@@ -1,0 +1,33 @@
+schema_version: "proposal-v1"
+proposal_id: "public-distribution-repository-role-contracts"
+title: "Public Distribution Repository Role Contracts"
+summary: "Define four repository and storage roles, path ownership, update authority, and first-release distribution boundaries."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/README.md"
+  - ".octon/framework/cognition/_meta/architecture/public-distribution-topology.md"
+  - ".octon/framework/engine/runtime/spec/core-path-ownership-v1.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-repository-role-contracts.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-repository-role-contracts.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/repository-role-contracts/"
+  - ".octon/state/evidence/validation/proposals/public-distribution-repository-role-contracts/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: "Review, accept, implement, validate, promote, close out, and archive this packet through the canonical proposal lifecycle, or reject or supersede it with explicit evidence."
+related_proposals:
+  - "octon-public-distribution-model"
+change_profile: "atomic"
+created_date: "2026-07-09"
+program_parent: "octon-public-distribution-model"
+program_phase: "phase-1"
+program_group: "role-contracts"
+authority_class_impact:
+  framework: "May define repository-role, path-ownership, and update-authority invariant contracts; it does not admit profiles or implement downstream adoption or update behavior."
+  instance: "Defines preservation requirements but does not mutate instance authority."
+  state_control: "Defines locality and ownership only; no control state changes."
+  state_evidence: "Defines hosted-versus-local evidence posture without moving evidence."
+  generated: "Defines regeneration and non-authority requirements."
+  inputs: "This packet is non-authoritative proposal lineage until separately accepted, implemented, validated, and promoted."
+explicit_runtime_non_implementation_statement: "Creating this packet changes no runtime, repository, GitHub, publication, credential, evidence-retention, or release behavior."
