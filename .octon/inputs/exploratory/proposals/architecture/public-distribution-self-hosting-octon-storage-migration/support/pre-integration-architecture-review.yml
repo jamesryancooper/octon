@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "public-distribution-self-hosting-octon-storage-migration-pre-integration-architecture-re-review-20260710T002107Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-self-hosting-octon-storage-migration"
+packet_digest: "sha256:70b66b704c414db02d4ae3cf3b773ebcacaa8875db32dfa9d3c78d5fae46a5d9"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-10T00:21:07Z"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-self-hosting-octon-storage-migration/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-self-hosting-octon-storage-migration/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-self-hosting-octon-storage-migration/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-self-hosting-octon-storage-migration/architecture/implementation-plan.md"
+validator_refs:
+  - "validate-proposal-standard.sh --package <packet>"
+  - "validate-architecture-proposal.sh --package <packet>"
+  - "validate-proposal-review-gate.sh --package <packet>"
+blockers: []
+mode_specific_coverage:
+  system_job: "Classify and forward-untrack high-churn `.octon/state/**` and `.octon/generated/**` while preserving local bytes, required receipts, and canonical source."
+  authority_boundaries: "Broad state and generated registry locks cover index migration only; durable promotion targets remain exact validator, fixture, allowlist, and evidence deliverables."
+  failure_modes: "Unclassified removal, working-byte deletion, framework or instance drift, missing backup, sensitive receipt leakage, and history rewrite are blocked."
+  evidence_and_validation: "Maintainer-approved keep-set, real backup restore, leak fixtures, regeneration proof, and index-only rollback cover every storage class."
+  rollback_and_recovery: "Batches resume from journals or restore the last complete index snapshot without deleting local material."
+  verdict_basis: "The prior backreference defect remains resolved; subtype-aware inputs, the exact instance-policy exception, and re-tracking tests now share the storage migration rollback domain."
