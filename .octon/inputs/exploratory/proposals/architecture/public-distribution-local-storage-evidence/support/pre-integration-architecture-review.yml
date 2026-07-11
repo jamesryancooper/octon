@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "public-distribution-local-storage-evidence-pre-integration-architecture-re-review-20260710T002107Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-local-storage-evidence"
+packet_digest: "sha256:62d8a0e2ed434ccad34a0e143d08af783b99aa01577ea81adeb7cfc0c5b6f19d"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-10T00:21:07Z"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-local-storage-evidence/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-local-storage-evidence/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-local-storage-evidence/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-local-storage-evidence/architecture/implementation-plan.md"
+validator_refs:
+  - "validate-proposal-standard.sh --package <packet>"
+  - "validate-architecture-proposal.sh --package <packet>"
+  - "validate-proposal-review-gate.sh --package <packet>"
+blockers: []
+mode_specific_coverage:
+  system_job: "Define local-first Git posture, truthful local evidence semantics, retention, backup, and compact hosted receipts."
+  authority_boundaries: "Raw evidence stays under maintainer custody; compact receipts support claims without converting generated or non-authoritative material into policy."
+  failure_modes: "Synthetic external locators, fake digests, raw payload leakage, destructive compaction, and unclassified input subtypes are rejected."
+  evidence_and_validation: "Actual-byte SHA-256, per-subtype posture fixtures, disconnected restore tests, and non-destructive retention selection provide proof."
+  rollback_and_recovery: "Original bytes remain until classification and verified backup; failed transitions restore from digest-verified backup."
+  verdict_basis: "The dependency-closed contracts, producers, consumers, validators, and tests preserve auditability while eliminating fabricated external custody and retaining deletion as a maintainer-only action."
