@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.6.104](https://github.com/jamesryancooper/octon/compare/octon-v0.6.103...octon-v0.6.104) (2026-07-11)
+
+
+### Features
+
+* **architecture:** deliver architecture review method suite ([ccb12d3](https://github.com/jamesryancooper/octon/commit/ccb12d3ed32ca7412ff8378252443eb2fe06a2f9))
+* **runtime:** add external evidence localization ([a5f8eb2](https://github.com/jamesryancooper/octon/commit/a5f8eb24a9616c7b38afd5b997deafdf16367601))
+
+
+### Bug Fixes
+
+* **closeout:** require authorized landing signal ([eb2657f](https://github.com/jamesryancooper/octon/commit/eb2657fbea3fc81e21a1216806fd1d85cc737532))
+* **runtime:** accept embedded rollback plans ([dd0ca43](https://github.com/jamesryancooper/octon/commit/dd0ca43ef0869b41f4c031269669811ecf3f57ad))
+* **runtime:** add lifecycle rollback retry route ([7be22f1](https://github.com/jamesryancooper/octon/commit/7be22f101268e5adf719c72dbc9df643a84c5ecd))
+* **runtime:** admit canonical legacy checkpoint targets ([dfeb028](https://github.com/jamesryancooper/octon/commit/dfeb028c4b9e2d127d139c79e56c34c4d23182bf))
+* **runtime:** admit existing lifecycle run ids ([e9f328c](https://github.com/jamesryancooper/octon/commit/e9f328c3b9560e0379a76404d88690840428238e))
+* **runtime:** compile localization references at scale ([ecf60c0](https://github.com/jamesryancooper/octon/commit/ecf60c01b2c6d13dc76750c57b61736817083d01))
+* **runtime:** filter unsupported child closeout handoffs ([ec7211a](https://github.com/jamesryancooper/octon/commit/ec7211af8e4f36c104db18dd1f15900a1f1b6dd0))
+* **runtime:** gate lifecycle dispatch on admission ([7614757](https://github.com/jamesryancooper/octon/commit/761475770be82e0cdd07d07532a61882b8d27383))
+* **runtime:** refresh effective route bundle ([#606](https://github.com/jamesryancooper/octon/issues/606)) ([ce92442](https://github.com/jamesryancooper/octon/commit/ce9244205e1f6d39f810b739b02267e91a8bd99b))
+* **runtime:** replan admission with relative target ([2a70e2c](https://github.com/jamesryancooper/octon/commit/2a70e2cd373f1cc16201243a9f17d28cb7196c87))
+* **runtime:** replan recovery with relative target ([aef6132](https://github.com/jamesryancooper/octon/commit/aef6132f3738db9eaa3ed79eebf87641199732cf))
+* **runtime:** replan recovery with relative target ([d29ddab](https://github.com/jamesryancooper/octon/commit/d29ddab52913d228d8b1e392ff3763adb1075fc2))
+* **runtime:** replan recovery with relative target ([4ba4c47](https://github.com/jamesryancooper/octon/commit/4ba4c476147f568202c6d4cd455b35958717fb4e))
+* **runtime:** retain opaque classifier fingerprints ([cab68cb](https://github.com/jamesryancooper/octon/commit/cab68cb12ddd6aca72f3494d1561c41b8c9cc915))
+* **runtime:** validate canonical delegated scopes ([672746a](https://github.com/jamesryancooper/octon/commit/672746ae760a40e306f6808e8def4546f4fd8575))
+* **runtime:** validate canonical recovery targets ([ce4bf1c](https://github.com/jamesryancooper/octon/commit/ce4bf1c26521bdf00649184992de1606d477a97f))
+* **runtime:** validate canonical rollback scopes ([eddf87e](https://github.com/jamesryancooper/octon/commit/eddf87e59455c102e92415707f8e04cd08ee39fa))
+
 ## [0.6.103](https://github.com/jamesryancooper/octon/compare/octon-v0.6.102...octon-v0.6.103) (2026-07-09)
 
 
