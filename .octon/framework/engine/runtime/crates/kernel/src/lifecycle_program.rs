@@ -23567,7 +23567,9 @@ fn program_handoff_request_spec(
         && result
             .worktree_hygiene_foreign_fingerprint
             .as_deref()
-            .is_some_and(valid_sha256_digest)
+            .is_some_and(|fingerprint| {
+                !fingerprint.trim().is_empty() && fingerprint.trim() != "none"
+            })
         && matches!(
             result.route_id.as_str(),
             "closeout-packet" | "archive-proposal" | ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT
