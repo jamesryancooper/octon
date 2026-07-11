@@ -1,0 +1,35 @@
+schema_version: octon-additive-incoming-intake-unit-v1
+intake_id: architecture-review-method-suite
+authority_mode: non_authoritative
+status: superseded-archived
+staged_at: "2026-07-09T17:18:18Z"
+submitted_by:
+  type: agent-assisted
+  name: codex
+reason: "Retain the Architecture Review Method Suite conversation synthesis as non-authoritative source material for an Octon architect to create a coordinated proposal program."
+next_step: "Create a proposal program around the Architecture Review Method Suite; classify through governed incoming intake before any proposal, methodology, routing, workflow, validator, generated projection, or runtime change."
+route_hint: blocked-proposal-required
+final_disposition:
+  route: blocked-rejected-deferred
+  reason: superseded
+  applied_at: "2026-07-10T00:00:00Z"
+  superseding_target: ".octon/inputs/exploratory/proposals/.archive/architecture/architecture-review-method-suite-program"
+  superseding_landed_ref: "eb2657fbea3fc81e21a1216806fd1d85cc737532"
+  decision_ref: ".octon/state/evidence/runs/workflows/20260710-process-incoming-intake-architecture-review-method-suite/decision.md"
+  validation_ref: ".octon/state/evidence/runs/workflows/20260710-process-incoming-intake-architecture-review-method-suite/validation.md"
+payload:
+  root: payload/
+  form: directory
+provenance:
+  status: partial
+  origin_class: unknown
+  imported_from: "Conversation thread on extending Octon's Balanced Architecture Review into an Architecture Review Method Suite with Greenfield, Tradeoff, Failure-Mode, Evolution/Fitness, Boundary/Authority, and shared lens-bank concepts."
+  origin_uri: null
+  source_digest_sha256: null
+  attestation_refs: []
+risk:
+  contains_executable: no
+  contains_binary: no
+  contains_secret_or_private_data: no
+  redistribution_risk: no
+  size_class: small
