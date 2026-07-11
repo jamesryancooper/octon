@@ -1381,7 +1381,16 @@ fn rollback_retry_lifecycle_run(
         if scope.starts_with("receipt:") {
             continue;
         }
-        let path = resolve_lifecycle_target_path(&repo_root, Path::new(scope))?;
+        let raw_scope = Path::new(scope);
+        let path = if raw_scope.is_absolute() {
+            let canonical = fs::canonicalize(raw_scope)?;
+            if !canonical.starts_with(&repo_root) {
+                bail!("delegated rollback scope escapes repository root: {scope}");
+            }
+            canonical
+        } else {
+            resolve_lifecycle_target_path(&repo_root, raw_scope)?
+        };
         if path != target && path.exists() {
             candidates.insert(path);
         }
