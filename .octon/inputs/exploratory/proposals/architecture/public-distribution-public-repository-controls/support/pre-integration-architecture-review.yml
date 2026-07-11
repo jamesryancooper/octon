@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "public-distribution-public-repository-controls-pre-integration-architecture-re-review-20260710T002107Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-public-repository-controls"
+packet_digest: "sha256:97412c9ce3dd8a932883e4085f5df08e8d6d116dab29b9f25c51062ba57efa6c"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-10T00:21:07Z"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-public-repository-controls/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-public-repository-controls/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-public-repository-controls/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-public-repository-controls/architecture/implementation-plan.md"
+validator_refs:
+  - "validate-proposal-standard.sh --package <packet>"
+  - "validate-architecture-proposal.sh --package <packet>"
+  - "validate-proposal-review-gate.sh --package <packet>"
+blockers: []
+mode_specific_coverage:
+  system_job: "Create public-repository-only scaffolding, dry-run desired state, secure CI, verified release candidates, and deliberate publication."
+  authority_boundaries: "The packet consumes exporter labels without redefining them; API apply, first push, and final publication remain separate maintainer actions."
+  failure_modes: "Merge publication, untrusted secret access, unpinned actions, manifest mismatch, mutable releases, and workspace PAT use are rejected."
+  evidence_and_validation: "Mocked API plans, exact parity, checksums, SBOM, attestations, and immutable-release verification provide objective gates."
+  rollback_and_recovery: "Settings use recorded compensating actions; draft candidates are disposable; immutable releases are withdrawn and superseded rather than rewritten."
+  verdict_basis: "Immutable repository-ID and name-reuse gates remain proportionate for one maintainer and preserve deliberate irreversible transitions."
