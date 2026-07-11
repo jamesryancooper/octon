@@ -1287,6 +1287,13 @@ pub(crate) enum LifecycleCmd {
         #[arg(long = "run-id")]
         run_id: String,
     },
+    /// Quarantine an unauthorized attempt and canonically replan the same run id.
+    RollbackRetry {
+        #[arg(long = "run-id")]
+        run_id: String,
+        #[arg(long, default_value_t = false)]
+        confirm: bool,
+    },
     /// Cancel a retained packet or program lifecycle run.
     Cancel {
         /// Lifecycle run id.

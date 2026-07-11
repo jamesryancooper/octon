@@ -1235,6 +1235,10 @@ pub(crate) fn cmd_lifecycle(cmd: LifecycleCmd) -> Result<()> {
                 println!("{}", serde_yaml::to_string(&result)?);
             }
         }
+        LifecycleCmd::RollbackRetry { run_id, confirm } => {
+            let result = rollback_retry_lifecycle_run(&octon_dir, &run_id, confirm)?;
+            println!("{}", serde_yaml::to_string(&result)?);
+        }
         LifecycleCmd::Cancel { run_id, reason } => {
             let result = cancel_lifecycle_run(&octon_dir, &run_id, &reason)?;
             println!("{}", serde_yaml::to_string(&result)?);
@@ -1325,6 +1329,225 @@ pub(crate) fn cmd_lifecycle(cmd: LifecycleCmd) -> Result<()> {
         },
     }
     Ok(())
+}
+
+fn rollback_retry_lifecycle_run(
+    octon_dir: &Path,
+    run_id: &str,
+    confirm: bool,
+) -> Result<LifecycleRunResult> {
+    if !confirm {
+        bail!("rollback-and-retry requires --confirm after explicit operator authorization");
+    }
+    let run_id = sanitize_run_id(run_id)?;
+    let repo_root = repo_root_for_octon(octon_dir)?;
+    let control_root = octon_dir.join(RUN_CONTROL_ROOT_REL).join(&run_id);
+    let evidence_root = octon_dir.join(WORKFLOW_EVIDENCE_ROOT_REL).join(&run_id);
+    let checkpoint_path = control_root.join("lifecycle-checkpoint.yml");
+    let checkpoint: LifecycleCheckpoint = serde_yaml::from_slice(
+        &fs::read(&checkpoint_path).context("missing lifecycle checkpoint")?,
+    )?;
+    if checkpoint.lifecycle_id != "proposal-packet"
+        || checkpoint.execution_strategy != ROUTE_PROGRESSION_STRATEGY
+        || checkpoint.current_state.as_deref() != Some("promote-proposal")
+    {
+        bail!("rollback-and-retry requires a proposal-packet run currently at promote-proposal");
+    }
+    let target = resolve_lifecycle_target_path(&repo_root, Path::new(&checkpoint.target))?;
+    let event_log = control_root.join(LIFECYCLE_EVENT_FILE);
+    let event_tip = validate_lifecycle_event_chain_for_admission(
+        &fs::read(&event_log)?,
+        &repo_root,
+        &run_id,
+        &checkpoint.lifecycle_id,
+        &checkpoint.execution_strategy,
+        &target,
+    )?;
+    let proof_path = octon_dir
+        .join("state/evidence/runs")
+        .join(&run_id)
+        .join("authorization/run-packet-implementation-delegation-proof.yml");
+    let proof: Value =
+        serde_yaml::from_slice(&fs::read(&proof_path).context("missing delegation proof")?)?;
+    let scopes = proof
+        .get("declared_write_scope")
+        .and_then(Value::as_sequence)
+        .context("delegation proof has no declared write scope")?;
+    let mut candidates = BTreeSet::new();
+    for scope in scopes {
+        let Some(scope) = scope.as_str() else {
+            continue;
+        };
+        if scope.starts_with("receipt:") {
+            continue;
+        }
+        let path = resolve_lifecycle_target_path(&repo_root, Path::new(scope))?;
+        if path != target && path.exists() {
+            candidates.insert(path);
+        }
+    }
+    let implementation_receipt = target.join("support/implementation-run.md");
+    if implementation_receipt.exists() {
+        candidates.insert(implementation_receipt);
+    }
+    if candidates.is_empty() {
+        bail!("rollback-and-retry found no exact attempt outputs to quarantine");
+    }
+    let recorded_at = now_rfc3339()?;
+    let quarantine_root = octon_dir
+        .join("state/evidence/runs")
+        .join(&run_id)
+        .join("recovery/unauthorized-attempt-1");
+    if quarantine_root.exists() {
+        bail!("conflicting rollback quarantine already exists");
+    }
+    let mut rows = Vec::new();
+    for source in &candidates {
+        let rel = source.strip_prefix(&repo_root)?;
+        let destination = quarantine_root.join("content").join(rel);
+        copy_recovery_path(source, &destination)?;
+        let source_digest = digest_recovery_path(source)?;
+        if source_digest != digest_recovery_path(&destination)? {
+            bail!("quarantine digest mismatch for {}", rel.display());
+        }
+        rows.push(BTreeMap::from([
+            ("path".to_string(), rel_display(&repo_root, source)),
+            ("sha256".to_string(), source_digest),
+        ]));
+    }
+    let manifest_path = quarantine_root.join("manifest.yml");
+    fs::create_dir_all(&quarantine_root)?;
+    fs::write(
+        &manifest_path,
+        serde_yaml::to_string(&serde_json::json!({
+            "schema_version": "octon-lifecycle-rollback-retry-v1",
+            "run_id": run_id,
+            "lifecycle_id": checkpoint.lifecycle_id,
+            "target": checkpoint.target,
+            "source_event_tip_sha256": event_tip,
+            "delegation_proof_ref": rel_display(&repo_root, &proof_path),
+            "recorded_at": recorded_at,
+            "classification": "unauthorized-post-mutation-attempt-retained-audit-evidence",
+            "artifacts": rows,
+        }))?,
+    )?;
+    let mut event_data = BTreeMap::new();
+    event_data.insert(
+        "quarantine_manifest_ref".to_string(),
+        rel_display(&repo_root, &manifest_path),
+    );
+    event_data.insert(
+        "cleanup_scope_count".to_string(),
+        candidates.len().to_string(),
+    );
+    append_lifecycle_event(
+        &control_root,
+        &evidence_root,
+        &run_id,
+        &checkpoint.lifecycle_id,
+        &checkpoint.execution_strategy,
+        &target,
+        "contamination-recorded",
+        "recovery",
+        "operator-authorized-runtime",
+        None,
+        None,
+        None,
+        Some("run-packet-implementation"),
+        None,
+        Some("blocked-recoverable"),
+        event_data.clone(),
+    )?;
+    for source in candidates.iter().rev() {
+        if source.is_dir() {
+            fs::remove_dir_all(source)?;
+        } else {
+            fs::remove_file(source)?;
+        }
+    }
+    append_lifecycle_event(
+        &control_root,
+        &evidence_root,
+        &run_id,
+        &checkpoint.lifecycle_id,
+        &checkpoint.execution_strategy,
+        &target,
+        "rollback-completed",
+        "recovery",
+        "operator-authorized-runtime",
+        None,
+        None,
+        None,
+        Some("run-packet-implementation"),
+        None,
+        Some("route-ready"),
+        event_data,
+    )?;
+    run_lifecycle_from_octon_dir(
+        octon_dir,
+        RunLifecycleOptions {
+            lifecycle_id: checkpoint.lifecycle_id,
+            target,
+            run_id: Some(run_id),
+            executor: ExecutorKind::Auto,
+            max_iterations: None,
+            execute_routes: false,
+            max_steps: None,
+            timeout_seconds: None,
+            max_child_concurrency: None,
+            invocation_authority: "unattended".to_string(),
+            run_inputs: BTreeMap::new(),
+            program_child_filter: None,
+        },
+    )
+}
+
+fn copy_recovery_path(source: &Path, destination: &Path) -> Result<()> {
+    if source.is_dir() {
+        for entry in walkdir::WalkDir::new(source).sort_by_file_name() {
+            let entry = entry?;
+            let rel = entry.path().strip_prefix(source)?;
+            let target = destination.join(rel);
+            if entry.file_type().is_dir() {
+                fs::create_dir_all(&target)?;
+            } else {
+                if let Some(parent) = target.parent() {
+                    fs::create_dir_all(parent)?;
+                }
+                fs::copy(entry.path(), target)?;
+            }
+        }
+    } else {
+        if let Some(parent) = destination.parent() {
+            fs::create_dir_all(parent)?;
+        }
+        fs::copy(source, destination)?;
+    }
+    Ok(())
+}
+
+fn digest_recovery_path(path: &Path) -> Result<String> {
+    let mut hasher = Sha256::new();
+    if path.is_dir() {
+        for entry in walkdir::WalkDir::new(path)
+            .sort_by_file_name()
+            .into_iter()
+            .filter_map(std::result::Result::ok)
+            .filter(|entry| entry.file_type().is_file())
+        {
+            hasher.update(
+                entry
+                    .path()
+                    .strip_prefix(path)?
+                    .to_string_lossy()
+                    .as_bytes(),
+            );
+            hasher.update(fs::read(entry.path())?);
+        }
+    } else {
+        hasher.update(fs::read(path)?);
+    }
+    Ok(format!("sha256:{:x}", hasher.finalize()))
 }
 
 fn run_lifecycle_postmortem_from_octon_dir(
