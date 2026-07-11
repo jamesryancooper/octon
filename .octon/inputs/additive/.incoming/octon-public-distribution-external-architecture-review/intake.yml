@@ -1,0 +1,29 @@
+schema_version: octon-additive-incoming-intake-unit-v1
+intake_id: octon-public-distribution-external-architecture-review
+authority_mode: non_authoritative
+status: intentionally-retained-temporarily
+staged_at: "2026-07-09T22:01:41Z"
+submitted_by:
+  type: agent-assisted
+  name: codex
+reason: "Capture the user-visible Octon public-distribution conversation and a separately labeled external architecture review package without promotion or disclosure approval."
+next_step: "Maintainer reviews source completeness, redactions, provenance, and every disclosure classification before authorizing any external transmission; do not process, promote, archive, activate, or publish this intake."
+route_hint: unknown
+payload:
+  root: payload/
+  form: directory
+provenance:
+  status: partial
+  origin_class: first_party_external
+  imported_from: "User-visible Codex thread 019ee5b1-4ec8-74b0-a9cc-9aef4b295476 plus read-only references to the in-review octon-public-distribution-model proposal program and current repository paths"
+  origin_uri: null
+  source_digest_sha256: c482e0bbdad278eb61dfdea73ae5bcb0f7f90600da0c5a332cf36f5755e2b030
+  attestation_refs: []
+risk:
+  contains_executable: no
+  contains_binary: no
+  contains_secret_or_private_data: unknown
+  redistribution_risk: unknown
+  size_class: medium
+disclosure_status: local-only
+external_transmission_approved: false

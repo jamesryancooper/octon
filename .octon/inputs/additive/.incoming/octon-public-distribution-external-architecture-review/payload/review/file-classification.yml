@@ -1,0 +1,146 @@
+schema_version: "octon-intake-file-classification-v1"
+disclosure_status: "externally-shareable-after-maintainer-review"
+authority_mode: "non-authoritative"
+external_transmission_approved: false
+package_default: "unapproved-for-external-transmission"
+allowed_disclosure_statuses:
+  - "local-only"
+  - "external-review-candidate"
+  - "externally-shareable-after-maintainer-review"
+  - "restricted"
+files:
+  - path: "README.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "intake.yml"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/review/authority-and-information-boundaries.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/current-state-and-problem.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/decision-register.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/downstream-installation-and-update-model.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/executive-overview.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/external-architect-verification-checklist.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/file-classification.yml"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/first-release-blockers.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/implementation-workstreams.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/manual-and-external-effect-gates.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/open-questions-and-specialist-triggers.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/portable-dropin-specification.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/proposal-program-overview.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/repository-and-storage-topology.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/risks-failure-modes-and-rollback.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/security-publication-and-supply-chain-controls.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/self-hosting-migration-model.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/source-traceability.yml"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/superseded-and-deferred-decisions.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/review/target-distribution-model.md"
+    disclosure_status: "externally-shareable-after-maintainer-review"
+    external_transmission_approved: false
+  - path: "payload/source/conversation-thread.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/source-digests.yml"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/source-inventory.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/source-limitations.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-001-inputs-source-material-layer-review.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-002-information-boundary-review.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-003-public-distribution-boundary.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-004-sponsor-distribution-decisions.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-005-architecture-fit-question.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-006-implementation-planning-brief.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-007-external-architect-prompt-request.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-008-attachment-review-instruction.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-009-architecture-review-finalization-brief.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-010-hosted-footprint-core-update.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-011-decision-resolution-migration-plan.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-012-human-decisions-plain-language.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-013-generated-mirror-explanation.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-014-solo-maintainer-decision-input.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-015-final-decision-calibration.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-016-manual-vs-api-effects.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-017-proposal-program-scope-decision.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-018-proposal-program-creation-orchestration.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
+  - path: "payload/source/src-019-external-review-intake-request.md"
+    disclosure_status: "local-only"
+    external_transmission_approved: false
