@@ -7,6 +7,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
+use std::process::Command;
 use time::OffsetDateTime;
 
 const DELEGATED_EXECUTION: &str = "delegated-execution";
@@ -145,7 +146,54 @@ fn build_and_write_proof(
         ));
     }
     materialize_lifecycle_rollback_posture(repo_root, request, &proof_path)?;
+    admit_existing_lifecycle_run(repo_root, request)?;
     Ok(proof_path)
+}
+
+fn admit_existing_lifecycle_run(
+    repo_root: &Path,
+    request: &LifecycleRouteExecutionRequest,
+) -> Result<(), LifecycleExecutionError> {
+    if request.route.route_id != "run-packet-implementation" {
+        return Ok(());
+    }
+    let rollback_ref = format!(
+        ".octon/state/control/execution/runs/{}/rollback-posture.yml",
+        request.run_id
+    );
+    let runtime = std::env::current_exe().map_err(|error| {
+        LifecycleExecutionError::new(
+            LifecycleErrorClass::AuthorizationProofFailed,
+            format!("cannot resolve owning runtime for lifecycle admission: {error}"),
+        )
+    })?;
+    let output = Command::new(runtime)
+        .current_dir(repo_root)
+        .args([
+            "run",
+            "bind-lifecycle",
+            "--run-id",
+            request.run_id.as_str(),
+            "--rollback-posture",
+            rollback_ref.as_str(),
+        ])
+        .output()
+        .map_err(|error| {
+            LifecycleExecutionError::new(
+                LifecycleErrorClass::AuthorizationProofFailed,
+                format!("cannot invoke lifecycle admission route: {error}"),
+            )
+        })?;
+    if !output.status.success() {
+        return Err(LifecycleExecutionError::new(
+            LifecycleErrorClass::AuthorizationProofFailed,
+            format!(
+                "lifecycle admission denied before consequential dispatch: {}",
+                String::from_utf8_lossy(&output.stderr).trim()
+            ),
+        ));
+    }
+    Ok(())
 }
 
 /// Materializes the rollback prerequisite owned by consequential lifecycle
