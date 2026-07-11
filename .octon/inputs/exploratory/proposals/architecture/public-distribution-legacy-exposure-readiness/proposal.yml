@@ -1,0 +1,32 @@
+schema_version: "proposal-v1"
+proposal_id: "public-distribution-legacy-exposure-readiness"
+title: "Public Distribution Legacy Exposure Readiness"
+summary: "Define deterministic, redacted exposure review and maintainer-gated legacy repository disposition before repository transition."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-legacy-exposure-readiness.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-legacy-exposure-readiness.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/legacy-exposure-readiness/"
+  - ".octon/framework/constitution/contracts/disclosure/legacy-exposure-readiness-v1.schema.json"
+  - ".octon/framework/orchestration/governance/legacy-exposure-response-runbook.md"
+  - ".octon/state/evidence/validation/proposals/public-distribution-legacy-exposure-readiness/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: "Review, accept, implement, validate, promote, close out, and archive this packet through the canonical proposal lifecycle, or reject or supersede it with explicit evidence."
+related_proposals:
+  - "octon-public-distribution-model"
+change_profile: "atomic"
+created_date: "2026-07-09"
+program_parent: "octon-public-distribution-model"
+program_phase: "phase-1"
+program_group: "exposure-readiness"
+authority_class_impact:
+  framework: "May add portable exposure-review schemas, validators, fixtures, and runbook material."
+  instance: "No direct instance change."
+  state_control: "Actual transition decisions remain outside this packet and require explicit maintainer action."
+  state_evidence: "Raw findings remain local-private; only classified compact receipts may be retained."
+  generated: "Any summaries are rebuildable and non-authoritative."
+  inputs: "This packet is non-authoritative proposal lineage until separately accepted, implemented, validated, and promoted."
+explicit_runtime_non_implementation_statement: "Creating this packet changes no runtime, repository, GitHub, publication, credential, evidence-retention, or release behavior."

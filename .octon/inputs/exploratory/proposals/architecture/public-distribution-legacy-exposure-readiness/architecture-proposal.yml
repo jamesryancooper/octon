@@ -1,0 +1,13 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "legacy Git and hosted-surface exposure review, credential response, stale-writer inventory, and repository-transition readiness"
+decision_type: "boundary-change"
+decision_summary: "Provide a dry-run-first exposure-review mechanism, redacted classification receipt, credential-response rule, and explicit maintainer disposition gate for the legacy repository."
+affected_surfaces:
+  - "Git history and tracked-tree inventory"
+  - "GitHub hosted publication and retention surfaces"
+  - "known clones, writers, and original-name reuse"
+  - "secret and sensitive-content scanning"
+  - "redacted exposure receipts"
+  - "credential response runbook"
+  - "legacy repository transition gate"
+non_authority_statement: "This packet defines a proposed implementation boundary only. It does not authorize implementation, external effects, publication, legal conclusions, or risk acceptance."
