@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "octon-architecture-evidence-appendix-v1.schema.json",
+  "title": "Octon Architecture Evidence Appendix v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "captured_at",
+    "repository_commit",
+    "environment",
+    "working_tree",
+    "classification",
+    "findings",
+    "unsupported_claims"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-architecture-evidence-appendix-v1"
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "repository_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["environment_id", "host", "tools"],
+      "properties": {
+        "environment_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "host": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tools": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minProperties": 1
+        }
+      }
+    },
+    "working_tree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseline", "session_measurement", "source_integrity"],
+      "properties": {
+        "baseline": {
+          "type": "string",
+          "minLength": 1
+        },
+        "session_measurement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_integrity": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["declared", "static", "dynamic", "adversarial", "inference_rule"],
+      "properties": {
+        "declared": {
+          "type": "string",
+          "minLength": 1
+        },
+        "static": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dynamic": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adversarial": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inference_rule": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "unsupported_claims": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyStringArray": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "finding_id",
+        "claim",
+        "fact_class",
+        "repository_commit",
+        "working_tree_state",
+        "environment_id",
+        "host",
+        "evidence_type",
+        "commands",
+        "outputs",
+        "configuration_paths",
+        "configuration_digests",
+        "file_refs",
+        "limitations",
+        "confidence"
+      ],
+      "properties": {
+        "finding_id": {
+          "type": "string",
+          "pattern": "^R2-[A-Z]+-[0-9]{3}$"
+        },
+        "claim": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fact_class": {
+          "enum": [
+            "repository_fact",
+            "deployment_local_configuration",
+            "observed_session_behavior",
+            "provider_configuration",
+            "architectural_inference"
+          ]
+        },
+        "repository_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "working_tree_state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "environment_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "host": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_type": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["declared", "static", "dynamic", "adversarial"]
+          }
+        },
+        "commands": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "outputs": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "configuration_paths": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "configuration_digests": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "sha256:[0-9a-f]{64}"
+          }
+        },
+        "file_refs": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "limitations": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,917 @@
+schema_version: "octon-architecture-evidence-appendix-v1"
+captured_at: "2026-07-10"
+repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+environment:
+  environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+  host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+  tools:
+    rustc: "1.93.1"
+    cargo: "1.93.1"
+    git: "2.51.1"
+    gh: "2.92.0"
+    yq: "4.50.1"
+    jq: "1.8.1"
+working_tree:
+  baseline: >-
+    Dirty before this packet was written: 32 tracked changes and 1631
+    untracked entries; baseline porcelain digest
+    sha256:65c2162188dbe42cb1fd0aa06ff965aea6214252e5a56cc5d413a7817bde2878.
+  session_measurement: >-
+    One measurement during evidence collection found 32 tracked changes and
+    7272 untracked files with --untracked-files=all after focused Cargo tests
+    and packet work products. The count is intentionally not a final-worktree
+    invariant; it demonstrates material session residue, not a clean-checkout
+    comparison.
+  source_integrity: >-
+    Cited authority, lifecycle, journal, provider-workflow, project-profile,
+    harness, evidence, and evolution source files were not edited by this
+    assignment. Existing user changes were preserved. The pre-existing
+    lifecycle_program.rs modification begins after the cited ProgramApproval
+    ranges; the finding records both current and HEAD digests explicitly.
+classification:
+  declared: "Normative text states the property; implementation may differ."
+  static: "Source or configuration was inspected without exercising the claimed behavior."
+  dynamic: "A command exercised behavior in this recorded session."
+  adversarial: "A hostile mutation or bypass was actively attempted."
+  inference_rule: >-
+    Architectural inferences are labeled by fact_class and limitations. They
+    are never promoted to dynamic or adversarial evidence merely because the
+    source makes a failure plausible.
+
+findings:
+  - finding_id: "R2-AUTH-001"
+    claim: >-
+      The declared and implemented canonical typed path is authorization
+      decision -> GrantBundle -> issued AuthorizedEffect<T> -> verification
+      and consumption -> VerifiedEffect<T>; the Run Contract is a governing
+      input and GrantBundle is not itself a consumable capability.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited files unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "declared"
+      - "static"
+    commands:
+      - "nl -ba .octon/framework/engine/runtime/spec/execution-authorization-v1.md | sed -n '1,80p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs | sed -n '165,666p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs | sed -n '799,994p'"
+    outputs:
+      - "Specification names authorize_execution(request) -> GrantBundle and distinguishes grants from typed effect capabilities."
+      - "Issuer constructs typed tokens from allow grants; verifier checks canonical bindings, records consumption, and returns VerifiedEffect<T>."
+      - "ExecutorLaunch is already a defined and issuable effect kind."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+      - ".octon/framework/engine/runtime/spec/authorized-effect-token-v1.md"
+      - ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs"
+    configuration_digests:
+      - "execution-authorization-v1.md sha256:78598123607480dbf4719b86c2bd192af48925b1af53ae8ecc535a1993258a1a"
+      - "authorized-effect-token-v1.md sha256:b2e999c232eb9017247ae33b7c06492e1b059ab94995dfd25152354343c259a6"
+      - "authorized_effects/src/lib.rs sha256:eb14170ec9f235cffd1e60b21291466f919f6e234464aef6efa0b34269f53230"
+      - "authority_engine/api.rs sha256:1e94e0a050317f9f36cd6aa455b83b12621fbc1dd2618e2bf7e1b86c3beadc51"
+      - "authority_engine/effects.rs sha256:7e353501f3e5d5292cd8f8dc3f1ef4cf555c0232dc3c3ad8f626fa57da5ef9f0"
+    file_refs:
+      - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md:7"
+      - ".octon/framework/engine/runtime/spec/authorized-effect-token-v1.md:1"
+      - ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:283"
+      - ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:389"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:210"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:799"
+    limitations: >-
+      This proves the contract and in-process path, not cryptographic grant
+      authenticity, host isolation, atomic concurrent consumption, or complete
+      mediation.
+    confidence: "high"
+
+  - finding_id: "R2-AUTH-002"
+    claim: >-
+      lifecycle_executor::authorize_before_dispatch currently forms a second
+      operational authorization plane: it validates caller-described lifecycle
+      fields and writes a delegation proof but does not load or verify a
+      canonical GrantBundle or AuthorizedEffect<ExecutorLaunch>.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited files unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+      - "dynamic"
+    commands:
+      - "nl -ba .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs | sed -n '38,355p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs | sed -n '94,146p'"
+      - "cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_lifecycle_executor"
+    outputs:
+      - "authorize_before_dispatch accepts the request contract/mode/gate/receipt/scope fields and persists DelegationProof."
+      - "No canonical authority-engine call, GrantBundle parameter, or ExecutorLaunch token verification appears on the dispatch path."
+      - "61 lifecycle-executor tests passed, including successful fake-executor dispatch from locally constructed unattended requests."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs"
+    configuration_digests:
+      - "authorization.rs sha256:0656ecc8ce4a75f1a31246714beb134838849e8d6feaf2449f68866c50dab09c"
+      - "adapter.rs sha256:3b1dfc5a0365ea35cecc2261b943542b6bc9c21e6492b5f1035fc6de0ff55d22"
+      - "request.rs sha256:b0678230f45601c506e4eeb056d05c77750116ccb3751411879172eeeba4f364"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:38"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:219"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs:109"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs:101"
+    limitations: >-
+      Tests exercised the normal fake-executor path, not an adversarial escape
+      from an independently privileged launch service.
+    confidence: "high"
+
+  - finding_id: "R2-AUTH-003"
+    claim: >-
+      mode, authority_ref, evidence-gate strings, and declared lifecycle scope
+      can currently influence dispatch without being bound to a canonical
+      grant; child processes then launch directly and may inherit environment.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited files unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "rg -n 'unattended|grant-consumption|authority_ref|evidence_gate_results|Command::new|spawn' .octon/framework/engine/runtime/crates/lifecycle_executor/src"
+      - "nl -ba .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs | sed -n '417,452p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs | sed -n '1,320p'"
+    outputs:
+      - "Invocation mode is a request string; evidence gates accept literal pass; authority_ref is copied but not resolved."
+      - "Codex launches with workspace-write rooted at the repository; Claude and workflow paths launch directly."
+      - "No environment-clearing or canonical launch-token consumption was found on these process-spawn paths."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs"
+    configuration_digests:
+      - "authorization.rs sha256:0656ecc8ce4a75f1a31246714beb134838849e8d6feaf2449f68866c50dab09c"
+      - "request.rs sha256:b0678230f45601c506e4eeb056d05c77750116ccb3751411879172eeeba4f364"
+      - "codex.rs sha256:31154a265246bb4c0608dbb3ae819931c123f05870b4daa2ac68be536879f7b0"
+      - "claude.rs sha256:18482cfa14bb1aee08b99d632019d96b48a4e05eef9ce4f00539b93797d311d6"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:68"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:231"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:337"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:417"
+    limitations: >-
+      Static source establishes the missing binding; no real credential
+      exfiltration or host escape was attempted.
+    confidence: "high"
+
+  - finding_id: "R2-AUTH-004"
+    claim: >-
+      Token consumption and journal append are multi-write sequences without a
+      visible transaction, lock, or compare-and-swap, so double-consumption
+      and concurrent-sequence failures are credible static interleavings but
+      are not dynamically proven.
+    fact_class: "architectural_inference"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited files unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "nl -ba .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs | sed -n '576,666p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs | sed -n '384,434p'"
+      - "rg -n 'lock|flock|compare_exchange|sync_all|transaction' .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs .octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs"
+    outputs:
+      - "Verifier reads token state, appends requested/consumed events, writes receipt, then replaces the token record."
+      - "Journal derives sequence/head, appends the event, then rewrites the manifest."
+      - "No matching transaction/CAS/locking implementation was found on the cited paths."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs"
+    configuration_digests:
+      - "effects.rs sha256:7e353501f3e5d5292cd8f8dc3f1ef4cf555c0232dc3c3ad8f626fa57da5ef9f0"
+      - "runtime_bus/src/lib.rs sha256:6f023814309c067dcfd82073d107962cb00f39121269f66effdc766303f7b665"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:576"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:384"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:1778"
+    limitations: >-
+      No concurrent token consumer, concurrent journal writer, or crash
+      injection was run. The finding is a required test premise, not a claimed
+      observed race.
+    confidence: "medium-high"
+
+  - finding_id: "R2-AUTH-005"
+    claim: >-
+      The current typed path is useful in-process defense in depth but is not a
+      complete host trust boundary: GrantBundle lacks an embedded digest or
+      issuer signature, VerifiedEffect<T> is Clone, scope matching uses
+      symmetric string prefixes, and authority-mint is a Cargo feature rather
+      than an OS privilege boundary.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited files unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "nl -ba .octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs | sed -n '408,522p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs | sed -n '283,325p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs | sed -n '1832,1851p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/authorized_effects/Cargo.toml | sed -n '1,20p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/authority_engine/Cargo.toml | sed -n '1,24p'"
+    outputs:
+      - "GrantBundle is serializable/deserializable and has no grant digest or issuer-signature field."
+      - "VerifiedEffect<T> derives/implements Clone and can be passed by shared reference."
+      - "Scope comparison uses string starts_with checks in both directions rather than canonical path-component containment."
+      - "Only authority_engine enables authority-mint in the current workspace, but Cargo feature selection is not a host isolation boundary."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs"
+      - ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs"
+      - ".octon/framework/engine/runtime/crates/authorized_effects/Cargo.toml"
+      - ".octon/framework/engine/runtime/crates/authority_engine/Cargo.toml"
+    configuration_digests:
+      - "authority_engine/api.rs sha256:1e94e0a050317f9f36cd6aa455b83b12621fbc1dd2618e2bf7e1b86c3beadc51"
+      - "authorized_effects/src/lib.rs sha256:eb14170ec9f235cffd1e60b21291466f919f6e234464aef6efa0b34269f53230"
+      - "authority_engine/effects.rs sha256:7e353501f3e5d5292cd8f8dc3f1ef4cf555c0232dc3c3ad8f626fa57da5ef9f0"
+      - "authorized_effects/Cargo.toml sha256:666ca2df557abe9ee401afac41ebd00dd8dcdc756f54325042b61264c2f6f9c2"
+      - "authority_engine/Cargo.toml sha256:ea13c39254d27201b8d4eb685c15e87e69b80d6ed9fba3d35bd0a6f7772e57c3"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs:408"
+      - ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:283"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1832"
+      - ".octon/framework/engine/runtime/crates/authorized_effects/Cargo.toml:7"
+      - ".octon/framework/engine/runtime/crates/authority_engine/Cargo.toml:17"
+    limitations: >-
+      Static inspection does not prove an exploit. These properties motivate
+      non-cloneable broker-internal guards, canonical path semantics, signed
+      grant digests, and an external process/credential boundary.
+    confidence: "high"
+
+  - finding_id: "R2-AUTH-006"
+    claim: >-
+      The current lifecycle-program implementation defines and consumes a
+      local ProgramApprovalGrant/authority-zone approval model. The cited
+      type and decision paths do not constitute a canonical GrantBundle or
+      AuthorizedEffect capability and therefore require explicit retirement
+      as authority-bearing semantics in Revision 2.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: >-
+      dirty baseline; lifecycle_program.rs has pre-existing edits only in
+      hunks beginning at current lines 23567, 24267, and 24603, after the
+      cited ProgramApproval type/use ranges
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "rg -n 'ProgramApprovalGrant|authority_zone|approval_grant' .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs | head -60"
+      - "git diff --unified=0 HEAD -- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs | rg '^@@'"
+      - "shasum -a 256 .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+      - "git show HEAD:.octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs | shasum -a 256"
+    outputs:
+      - "ProgramLifecycle state carries Vec<ProgramApprovalGrant> at line 2223; the type is declared at line 2344 and includes authority_zone at line 2357."
+      - "ProgramApprovalGrant is constructed at line 7266 and evaluated by approval_granted paths beginning at line 14966."
+      - "The only dirty hunks begin at current lines 23567, 24267, and 24603, so the cited ranges are unchanged from HEAD."
+      - "Current file sha256:21cb688713a0ad2787b5bd7f27114361db086f1a9bddc229a53abc2a30d21b95; HEAD file sha256:88089f89cd059419c3d774ee3db0764c7f8b930d2579a51430ec9fe1b1f4f758."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+    configuration_digests:
+      - "current lifecycle_program.rs sha256:21cb688713a0ad2787b5bd7f27114361db086f1a9bddc229a53abc2a30d21b95"
+      - "HEAD lifecycle_program.rs sha256:88089f89cd059419c3d774ee3db0764c7f8b930d2579a51430ec9fe1b1f4f758"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs:2223"
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs:2344"
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs:7266"
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs:14966"
+    limitations: >-
+      Static inspection establishes competing local approval terminology and
+      use, not a dynamically exploited privileged-host bypass. The file is
+      dirty from unrelated work, although the cited ranges precede every
+      recorded dirty hunk.
+    confidence: "high"
+
+  - finding_id: "R2-BOUNDARY-001"
+    claim: >-
+      The current material-side-effect inventory has useful protected-effect
+      coverage but does not encode the Revision 2 disposable-candidate versus
+      durable-target boundary, and no credential-owning effect-broker runtime
+      component currently mediates all durable adapters.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited file unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "nl -ba .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml | sed -n '1,220p'"
+      - "rg --files .octon/framework/engine/runtime/crates | rg 'broker|effect_broker'"
+      - "rg -n 'git push|gh pr|pulls/.*/merge' .octon/framework .github --glob '*.sh' --glob '*.rs' --glob '*.yml'"
+    outputs:
+      - "Inventory marks repo mutation and workflow writes material/high but has no disposable/canonical target class."
+      - "No effect_broker runtime crate was found; current verified wrappers perform effects in process."
+      - "Direct Git/GitHub helper and workflow mutation paths exist."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+      - ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs"
+    configuration_digests:
+      - "material-side-effect-inventory.yml sha256:4269e70db07e0f2f4dca26c93645292528ae99f14cc4e56eed559b67bcdfc1cf"
+      - "authorized_effects/src/lib.rs sha256:eb14170ec9f235cffd1e60b21291466f919f6e234464aef6efa0b34269f53230"
+    file_refs:
+      - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:1"
+      - ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:283"
+    limitations: >-
+      Static repository search cannot rule out deployment-local broker
+      software outside this checkout. No such broker configuration was supplied
+      or observed.
+    confidence: "high"
+
+  - finding_id: "R2-EVIDENCE-001"
+    claim: >-
+      The current Run Journal provides sequence and unkeyed hash-chain
+      corruption/reordering detection, but an actor able to rewrite the local
+      journal can re-chain it; no independent signature or external head anchor
+      makes the journal adversarially tamper-evident.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited files unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "declared"
+      - "static"
+      - "dynamic"
+    commands:
+      - "nl -ba .octon/framework/engine/runtime/spec/run-journal-v1.md | sed -n '20,159p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs | sed -n '1658,1823p'"
+      - "cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_runtime_bus load_journal_rejects_tampered_event_hashes"
+    outputs:
+      - "Contract and implementation validate contiguous sequence, previous hash, and recomputed SHA-256 event hashes."
+      - "Focused sequential tamper test passed: one test, zero failures."
+      - "No signing key, independent witness, or external head-anchor verification appears on the journal path."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/spec/run-journal-v1.md"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs"
+    configuration_digests:
+      - "run-journal-v1.md sha256:aff4e1a2a6ed052235907a10b391cfe64a22c50480c9b5d4008fab06fd770fbb"
+      - "runtime_bus/src/lib.rs sha256:6f023814309c067dcfd82073d107962cb00f39121269f66effdc766303f7b665"
+    file_refs:
+      - ".octon/framework/engine/runtime/spec/run-journal-v1.md:20"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:1658"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:1778"
+    limitations: >-
+      The dynamic test proves detection of an un-rechained mutation, not
+      resistance to a writer that recomputes the entire chain. No adversarial
+      re-chain or external-anchor test was run.
+    confidence: "high"
+
+  - finding_id: "R2-EVIDENCE-002"
+    claim: >-
+      Current external-immutable replay entries are local declarations and
+      locators, not retained proof that payloads were uploaded to an immutable
+      store or that a journal head was externally anchored.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited files unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "nl -ba .octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs | sed -n '4831,4913p'"
+      - "nl -ba .octon/framework/orchestration/runtime/_ops/scripts/write-run.sh | sed -n '1043,1127p'"
+      - "rg -n 'immutable://octon/replays' .octon/framework .octon/instance --glob '!**/target/**'"
+    outputs:
+      - "Authority writer hashes local manifest/pointer files and records immutable:// locators."
+      - "write-run.sh records values such as sha256:$run_id rather than content-derived payload digests."
+      - "No matching upload, WORM store, or locator-resolution implementation was found in searched runtime roots."
+    configuration_paths:
+      - ".octon/framework/constitution/contracts/retention/external-replay-index-v1.schema.json"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
+      - ".octon/framework/orchestration/runtime/_ops/scripts/write-run.sh"
+    configuration_digests:
+      - "external-replay-index schema sha256:fefec6a5b7d833279ed5340d8708336603a5ac9a4739eb3c7288df348e76953c"
+      - "execution.rs sha256:9f0783efb9f98e28759dff85c3432a5536c4201a8ebe15af792a5faaa6176462"
+      - "write-run.sh sha256:94359e19ca7ff0e87372bbb279f98c382d69dbf541e03dea8cff01c789f8f46d"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:4831"
+      - ".octon/framework/orchestration/runtime/_ops/scripts/write-run.sh:1043"
+    limitations: >-
+      No deployment-local external object store or locator resolver was
+      supplied or inspected, so this does not prove that none exists outside
+      the repository.
+    confidence: "high"
+
+  - finding_id: "R2-EVIDENCE-003"
+    claim: >-
+      AcpAttestation.signature is an optional string whose presence and role
+      are evaluated; the inspected policy path does not cryptographically
+      verify it or establish signer-key custody.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited files unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "nl -ba .octon/framework/engine/runtime/crates/policy_engine/src/lib.rs | sed -n '417,425p;658,672p;2560,2622p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/Cargo.toml | sed -n '1,47p'"
+    outputs:
+      - "Non-empty signature strings are counted and matched to roles."
+      - "No signature-verification call or evidence-signing/key-custody component was found on the inspected path."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/crates/policy_engine/src/lib.rs"
+      - ".octon/framework/engine/runtime/crates/Cargo.toml"
+    configuration_digests:
+      - "policy_engine/src/lib.rs sha256:9f10e2284cdaf12e13fc20b4967330c6f2d6ada6ea0907687f90e9fbe17f4c84"
+      - "runtime crates Cargo.toml sha256:89e43d7312347760f498b5f15060f30edd28ae0d37aae2256dbc0ee13293e5c3"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/policy_engine/src/lib.rs:417"
+      - ".octon/framework/engine/runtime/crates/policy_engine/src/lib.rs:658"
+      - ".octon/framework/engine/runtime/crates/policy_engine/src/lib.rs:2560"
+    limitations: "An out-of-repository upstream signer/verifier was not inspected."
+    confidence: "high"
+
+  - finding_id: "R2-IDENTITY-001"
+    claim: >-
+      Current role and connector-credential governance distinguishes human,
+      harness, and model roles and declares externally managed credentials, but
+      it does not establish separately authenticated run, mission, executor,
+      authority, broker, signer, verifier, and child-agent identities.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited files unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "declared"
+      - "static"
+    commands:
+      - "nl -ba .octon/framework/constitution/ownership/roles.yml"
+      - "nl -ba .octon/instance/governance/policies/connector-credentials.yml"
+      - "rg -n 'evidence signer|effect broker|verifier identity|child identity' .octon/framework/constitution .octon/instance/governance"
+    outputs:
+      - "Declared role classes are human, harness, and model."
+      - "Connector credentials are declared externally managed and human-approved."
+      - "No complete authenticated identity/credential matrix for the required runtime principals was found."
+    configuration_paths:
+      - ".octon/framework/constitution/ownership/roles.yml"
+      - ".octon/instance/governance/policies/connector-credentials.yml"
+    configuration_digests:
+      - "roles.yml sha256:4a1383dd7b59cbceddb97ed10b01bfb51c91a8d20dfaa9e162af8a324616282d"
+      - "connector-credentials.yml sha256:2c72c7c9764b45759b51f0f0326d685f00d45549e70c6c9fad0b5850d082d401"
+    file_refs:
+      - ".octon/framework/constitution/ownership/roles.yml:3"
+      - ".octon/instance/governance/policies/connector-credentials.yml:9"
+    limitations: >-
+      Deployment-local OS accounts, keychain entries, secret managers, and App
+      installations were not enumerated. The finding is about the retained
+      Octon contract, not proof that all local identities are shared.
+    confidence: "high"
+
+  - finding_id: "R2-IDENTITY-002"
+    claim: >-
+      The retained self-evolution approval identifies its issuer with the
+      string operator://octon-governance, while the inspected promotion gate
+      validates field presence/value and referenced files rather than
+      cryptographic proof that an authenticated operator identity controlled
+      that approval.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited files unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "nl -ba .octon/state/control/execution/approvals/grants/grant-evolution-promotion-v5-validation.yml"
+      - "nl -ba .octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs | sed -n '852,925p'"
+    outputs:
+      - "Retained issuer value is operator://octon-governance."
+      - "Gate checks approval fields, issuer presence, status/expiry, and referenced artifacts; no cryptographic operator-signature verification appears in the cited path."
+    configuration_paths:
+      - ".octon/state/control/execution/approvals/grants/grant-evolution-promotion-v5-validation.yml"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs"
+    configuration_digests:
+      - "approval grant sha256:d086e8480a32de88461f3f0e344b4304032fe0d95bb3012bd44cce395aad8944"
+      - "evolution.rs sha256:9383e0c845c6841ba15ee73dede026375c585ce94916c654afe27d67dbb47c71"
+    file_refs:
+      - ".octon/state/control/execution/approvals/grants/grant-evolution-promotion-v5-validation.yml:1"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:852"
+    limitations: >-
+      An upstream or deployment-local authenticated approval service was not
+      inspected. This finding is limited to the retained artifact and gate
+      path.
+    confidence: "high"
+
+  - finding_id: "R2-PROVIDER-001"
+    claim: >-
+      Live provider inspection on 2026-07-10 showed active ruleset 12881449 on
+      the default branch with no bypass actors, current_user_can_bypass never,
+      deletion/non-fast-forward/linear-history rules, and four strict required
+      status checks bound to integration_id 15368.
+    fact_class: "provider_configuration"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty local worktree; provider read-only query"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "dynamic"
+    commands:
+      - "gh api repos/jamesryancooper/octon/rulesets/12881449 --jq '{id,name,enforcement,target,conditions,bypass_actors,rules,current_user_can_bypass}'"
+      - "gh api repos/jamesryancooper/octon/rulesets/12881449 --jq '{id,name,enforcement,target,conditions,bypass_actors,rules,current_user_can_bypass}' | shasum -a 256"
+    outputs:
+      - >-
+        id=12881449; name=Main Branch Guardrails (Change Route + CI);
+        enforcement=active; target=branch; include=~DEFAULT_BRANCH;
+        bypass_actors=[]; current_user_can_bypass=never.
+      - >-
+        Rules: deletion; strict required_status_checks for
+        route_neutral_closeout_validation, branch_naming_validation,
+        route_aware_autonomy_validation, exact_source_sha_validation, each
+        integration_id=15368; non_fast_forward; required_linear_history.
+      - "Canonicalized query-output digest sha256:b98ac1d0f35a5ff85547d401485550e3924b9aae399b880e34dcf1a0675464aa"
+    configuration_paths:
+      - "github://repos/jamesryancooper/octon/rulesets/12881449"
+    configuration_digests:
+      - "live selected ruleset fields sha256:b98ac1d0f35a5ff85547d401485550e3924b9aae399b880e34dcf1a0675464aa"
+    file_refs:
+      - ".github/workflows/change-route-projection.yml:31"
+    limitations: >-
+      Provider configuration is mutable after capture. The response does not
+      establish the human-readable owner/name or deployment integrity of
+      integration_id 15368, and it does not prove Octon lifecycle provenance.
+    confidence: "high as of capture"
+
+  - finding_id: "R2-PROVIDER-002"
+    claim: >-
+      Satisfying the current ruleset does not establish full Octon lifecycle
+      provenance: repository workflows emit the required contexts, and
+      exact_source_sha_validation can succeed from commit existence without a
+      receipt binding the required Revision 2 provenance tuple.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited workflow unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "nl -ba .github/workflows/change-route-projection.yml | sed -n '31,165p'"
+      - "rg -n 'run_contract|grant|harness|capability|evidence_root|revocation|rollback' .github/workflows/change-route-projection.yml"
+    outputs:
+      - "Repository workflow defines the four current required check contexts."
+      - "Without a supplied receipt, exact_source_sha_validation checks 40-character SHA syntax and commit existence, then succeeds."
+      - "The complete Revision 2 provenance tuple is not verified."
+    configuration_paths:
+      - ".github/workflows/change-route-projection.yml"
+    configuration_digests:
+      - "change-route-projection.yml sha256:f849ae892d933577b2c23d9f97fb7019c301397cb6201e1b93db4520106c6726"
+    file_refs:
+      - ".github/workflows/change-route-projection.yml:31"
+      - ".github/workflows/change-route-projection.yml:124"
+    limitations: >-
+      This is not evidence that the ruleset can be bypassed. It establishes a
+      different gap: the configured checks may be satisfied without proving
+      complete Octon lifecycle provenance.
+    confidence: "high"
+
+  - finding_id: "R2-PROVIDER-003"
+    claim: >-
+      The current pull_request_target auto-merge path exposes a provider write
+      credential to a step that checks out and executes PR-head Octon code, and
+      the final merge call is not bound to an expected exact head SHA.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited workflow and kernel file unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "nl -ba .github/workflows/pr-auto-merge.yml | sed -n '109,330p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs | sed -n '1374,1592p'"
+    outputs:
+      - "AUTONOMY_PAT or GITHUB_TOKEN is present in the privileged step environment."
+      - "The PR head is fetched/checked out before PR-head protected-ci-auto-merge.sh builds and runs the kernel."
+      - "Approval projection contains refs/granted fields; authorization target omits head SHA; merge API invocation supplies no expected SHA."
+    configuration_paths:
+      - ".github/workflows/pr-auto-merge.yml"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
+    configuration_digests:
+      - "pr-auto-merge.yml sha256:4fff2ab3c5ba847f8f7511c78668fe95ddb16f60349ff8bad332834be01e326d"
+      - "kernel commands/mod.rs sha256:d54ce008d73fac1be5badf4571eba67215c0bf6646e790ebc3636180c82aa2ba"
+    file_refs:
+      - ".github/workflows/pr-auto-merge.yml:109"
+      - ".github/workflows/pr-auto-merge.yml:257"
+      - ".github/workflows/pr-auto-merge.yml:324"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1374"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1452"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1582"
+    limitations: >-
+      No exploit, token read, provider mutation, or merge was attempted. Token
+      existence and effective provider scope were not inspected. The finding
+      is static exposure and binding analysis.
+    confidence: "high"
+
+  - finding_id: "R2-PROVIDER-004"
+    claim: >-
+      GitHub's current official required-status-check semantics treat success,
+      skipped, and neutral as successful conclusions against the latest commit
+      SHA. Therefore an Octon expiry/revocation invalidator must publish a
+      definitive failing conclusion; neutral or skipped would not fail closed.
+    fact_class: "provider_configuration"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "read-only official provider documentation observation on 2026-07-10"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "Open https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks#required-check-needs-to-succeed-against-the-latest-commit-sha"
+      - "curl -sSfL 'https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks' | shasum -a 256"
+    outputs:
+      - "Official documentation states that required checks must pass against the latest commit SHA and lists success, skipped, and neutral as successful check statuses."
+      - "Fetched documentation response sha256:0759fea0d1a394c6df4e380d740c025744eab54dd2d0bab1be741107697da8c7."
+    configuration_paths:
+      - "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks"
+    configuration_digests:
+      - "GitHub Docs response sha256:0759fea0d1a394c6df4e380d740c025744eab54dd2d0bab1be741107697da8c7"
+    file_refs:
+      - "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks#required-check-needs-to-succeed-against-the-latest-commit-sha"
+    limitations: >-
+      This is current official provider documentation, not a live mutation
+      test against this repository. Provider semantics may change; Phase 6
+      must retain a live negative test before activation and after provider
+      changes.
+    confidence: "high"
+
+  - finding_id: "R2-PROJECT-001"
+    claim: >-
+      This deployment's current Project Profile is one mutable projection with
+      an absolute machine-local repository root and no project_id; it is not a
+      durable multi-project identity.
+    fact_class: "deployment_local_configuration"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited instance profile unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "nl -ba .octon/instance/locality/project-profile.yml"
+      - "yq '. | {\"schema_version\": .schema_version, \"repo_root\": .repo_root, \"project_id\": .project_id, \"project_name\": .project_name}' .octon/instance/locality/project-profile.yml"
+    outputs:
+      - "schema_version=project-profile-v1; repo_root=/Users/jamesryancooper/Projects/octon; project_id=null; project_name=null."
+    configuration_paths:
+      - ".octon/instance/locality/project-profile.yml"
+    configuration_digests:
+      - "project-profile.yml sha256:6b051ea3775b393e155b129d2d025cbb1904448951d0b768b2b21160195cd2e4"
+    file_refs:
+      - ".octon/instance/locality/project-profile.yml:36"
+    limitations: >-
+      The instance profile is deployment-local configuration checked into this
+      worktree; it is not a universal claim about other Octon installations.
+    confidence: "high"
+
+  - finding_id: "R2-PROJECT-002"
+    claim: >-
+      The retained Project Profile schema permits additional properties and
+      does not define the proposed stable Workspace Project
+      identity/lifecycle/dependency registry; the existing task-specific
+      execution harness contract is explicitly non-authorizing and should be
+      extended rather than replaced with an authority surface.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited schema/harness unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "declared"
+      - "static"
+    commands:
+      - "nl -ba .octon/framework/engine/runtime/spec/project-profile-v1.schema.json"
+      - "nl -ba .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md | sed -n '1,180p'"
+    outputs:
+      - "Project Profile schema sets additionalProperties true and has no Workspace Project registry/lifecycle/dependency contract."
+      - "Harness contract states it is not authorization, approval, policy, or projection authority."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/spec/project-profile-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md"
+      - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json"
+    configuration_digests:
+      - "project-profile schema sha256:f799ca0e789a587fda2bcfc84e4d157fcd21f6f352beced518046d8dc809dfcb"
+      - "task harness spec sha256:c62697f9079c40c8a5750faea2d1d5dee44b7462b087d319502254f9317b3f5a"
+      - "task harness schema sha256:df7488167574b372c4997002a7513d000b392124f4ea888fe21a51e8bdcfc1d7"
+    file_refs:
+      - ".octon/framework/engine/runtime/spec/project-profile-v1.schema.json:6"
+      - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md:8"
+      - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md:29"
+    limitations: >-
+      Repository contracts were statically inspected. Multi-repository
+      discovery and migration behavior was not dynamically exercised.
+    confidence: "high"
+
+  - finding_id: "R2-SELFDEV-001"
+    claim: >-
+      Self-evolution is declared non-authorizing and promotion is readiness
+      oriented, but the inspected promotion can group a trust mechanism,
+      validator/tests, quorum/approval/recertification records, and evidence
+      surfaces in one unit; independent base-version activation is not
+      established.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited files unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "declared"
+      - "static"
+    commands:
+      - "nl -ba .octon/framework/engine/runtime/spec/promotion-runtime-v1.md | sed -n '1,80p'"
+      - "nl -ba .octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs | sed -n '425,1063p'"
+      - "nl -ba .octon/state/control/evolution/promotions/evolution-promotion-v5-validation.yml"
+      - "nl -ba .octon/state/control/evolution/recertifications/evolution-recertification-v5-validation.yml"
+    outputs:
+      - "Promotion runtime describes readiness and does not itself authorize execution."
+      - "Implementation validates field values and referenced-file presence and reports ready/already_applied."
+      - "Retained target list includes the evolution kernel, validator/tests, quorum policy, approvals, recertification, and control/evidence artifacts."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/spec/promotion-runtime-v1.md"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs"
+      - ".octon/state/control/evolution/promotions/evolution-promotion-v5-validation.yml"
+      - ".octon/state/control/execution/approvals/grants/grant-evolution-promotion-v5-validation.yml"
+      - ".octon/state/control/evolution/recertifications/evolution-recertification-v5-validation.yml"
+    configuration_digests:
+      - "promotion-runtime-v1.md sha256:1e2b32861bd6f24e107257cf52635a8c7ae4cc7e63a3e450e7514f252f9ee2e4"
+      - "evolution.rs sha256:9383e0c845c6841ba15ee73dede026375c585ce94916c654afe27d67dbb47c71"
+      - "promotion record sha256:e4a793908c181b10705be6263019ba8b23c4e263040f23e38460a1bdc5f10dfd"
+      - "approval grant sha256:d086e8480a32de88461f3f0e344b4304032fe0d95bb3012bd44cce395aad8944"
+      - "recertification sha256:00192ae32c238c3cdad19aa4773848c23d0dd99e9ccc6f9e65205093f6bb57fd"
+    file_refs:
+      - ".octon/framework/engine/runtime/spec/promotion-runtime-v1.md:3"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:425"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:541"
+      - ".octon/state/control/evolution/promotions/evolution-promotion-v5-validation.yml:40"
+    limitations: >-
+      Commit/PR history was not reconstructed to prove that every listed target
+      landed in one Git commit. The material architecture issue is that the
+      retained activation/readiness model permits one promotion unit to control
+      all listed surfaces.
+    confidence: "high"
+
+  - finding_id: "R2-ECONOMICS-001"
+    claim: >-
+      Evidence and control storage are operationally material in this recorded
+      dirty-worktree session: the measured roots contain hundreds of megabytes
+      to gigabytes and more than 150,000 files in aggregate.
+    fact_class: "observed_session_behavior"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty; large local run residue included"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "dynamic"
+    commands:
+      - "du -sh .octon/state/evidence .octon/state/control"
+      - "find .octon/state/evidence -type f | wc -l"
+      - "find .octon/state/control -type f | wc -l"
+      - "git ls-files '.octon/state/evidence/**' | wc -l"
+      - "git ls-files '.octon/state/control/**' | wc -l"
+    outputs:
+      - "state/evidence: 1.4G, 119086 files, 17793 tracked"
+      - "state/control: 332M, 31659 files, 21201 tracked"
+    configuration_paths:
+      - ".octon/state/evidence"
+      - ".octon/state/control"
+    configuration_digests:
+      - "measurement-worktree baseline porcelain sha256:65c2162188dbe42cb1fd0aa06ff965aea6214252e5a56cc5d413a7817bde2878"
+    file_refs:
+      - ".octon/state/evidence"
+      - ".octon/state/control"
+    limitations: >-
+      Sizes include dirty-worktree residue and three files created during this
+      session; they are not a clean-checkout footprint, growth rate, or
+      per-run average.
+    confidence: "high for observed worktree"
+
+  - finding_id: "R2-ECONOMICS-002"
+    claim: >-
+      The repository evidence-store contract supports compact views and
+      disclosure tiers and sets a 4,000-token estimate ceiling for the compact
+      model-visible view, but it does not declare quantitative raw-retention
+      duration, bytes/files growth, Git-churn budgets, quotas, or compaction
+      triggers required by Revision 2.
+    fact_class: "repository_fact"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; cited specification unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "static"
+    commands:
+      - "nl -ba .octon/framework/engine/runtime/spec/evidence-store-v1.md | sed -n '138,216p'"
+      - "shasum -a 256 .octon/framework/engine/runtime/spec/evidence-store-v1.md"
+    outputs:
+      - "The contract defines compact views, source-to-summary linkage, disclosure tiers, and retention controls."
+      - "The compact closeout view is limited to model_visible_token_estimate <= 4000; no inspected default sets Class A/B/C raw-retention duration, bytes/files growth, Git-churn ceiling, quota, or compaction trigger."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+    configuration_digests:
+      - "evidence-store-v1.md sha256:2e31ca847e5baeb1b6890cc5d5ddfac7c49fe4491ca3427fe7b813a6db462cb3"
+    file_refs:
+      - ".octon/framework/engine/runtime/spec/evidence-store-v1.md:138"
+      - ".octon/framework/engine/runtime/spec/evidence-store-v1.md:204"
+    limitations: >-
+      This is a static contract-gap finding. It does not measure growth rate,
+      per-run cost, or the effectiveness of any deployed compaction job.
+    confidence: "high"
+
+  - finding_id: "R2-DYNAMIC-001"
+    claim: >-
+      Focused existing tests passed sequential authority, lifecycle, and
+      journal behavior, but the current suites do not dynamically establish
+      the twelve required concurrency, crash, reconciliation, revocation, and
+      outage properties.
+    fact_class: "observed_session_behavior"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline plus test output; source files unchanged from HEAD"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "dynamic"
+    commands:
+      - "cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_authority_engine -p octon_lifecycle_executor -p octon_runtime_bus"
+      - "cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_authority_engine single_use_effect_cannot_be_consumed_twice"
+      - "cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_runtime_bus load_journal_rejects_tampered_event_hashes"
+      - "cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_lifecycle_executor interaction_context_cannot_satisfy_required_dispatch_receipts"
+    outputs:
+      - "153 focused tests passed: 75 authority-engine, 61 lifecycle-executor, 17 runtime-bus; zero failures."
+      - "Single-use sequential re-consumption test passed."
+      - "Sequential journal-tamper rejection test passed."
+      - "Interaction context could not substitute for required dispatch receipts."
+    configuration_paths:
+      - ".octon/framework/engine/runtime/crates/authority_engine"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor"
+      - ".octon/framework/engine/runtime/crates/runtime_bus"
+    configuration_digests:
+      - "authority effects source sha256:7e353501f3e5d5292cd8f8dc3f1ef4cf555c0232dc3c3ad8f626fa57da5ef9f0"
+      - "lifecycle authorization source sha256:0656ecc8ce4a75f1a31246714beb134838849e8d6feaf2449f68866c50dab09c"
+      - "runtime bus source sha256:6f023814309c067dcfd82073d107962cb00f39121269f66effdc766303f7b665"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:210"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:38"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:384"
+    limitations: >-
+      These are existing unit/integration tests, not the required multi-process
+      fault-injection program. No adversarial classification is claimed.
+    confidence: "high"
+
+  - finding_id: "R2-SOURCE-001"
+    claim: >-
+      No artifact in the searched exploratory proposal tree outside this
+      Revision 2 packet matched the supplied Revision 1 title or distinctive
+      phrase set, so the operator assignment is the available correction ledger
+      and current-source verification is the factual baseline.
+    fact_class: "observed_session_behavior"
+    repository_commit: "eff350fcfec641e59665e74544f104f2e5bc6a4d"
+    working_tree_state: "dirty baseline; Revision 2 packet excluded from search"
+    environment_id: "codex-desktop-019f4cd4-5aa4-75a1-88d8-d7eca5d1a6b6"
+    host: "Jamess-MacBook-Pro.local; Darwin 25.5.0 arm64; macOS 26.5.2 build 25F84"
+    evidence_type:
+      - "dynamic"
+    commands:
+      - "rg -l -i 'Complete-Mediation, Trust-Root|Project-Scoped Autonomy|Self-Development Architecture' .octon/inputs/exploratory/proposals --glob '!**/octon-trustworthy-autonomy-solo-developer-revision-2/**' || true"
+    outputs:
+      - "No matches."
+    configuration_paths:
+      - ".octon/inputs/exploratory/proposals/"
+    configuration_digests:
+      - "audit baseline porcelain sha256:65c2162188dbe42cb1fd0aa06ff965aea6214252e5a56cc5d413a7817bde2878"
+    file_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-trustworthy-autonomy-solo-developer-revision-2/README.md:26"
+    limitations: >-
+      The command covered the active/archived exploratory proposal tree, not
+      all checkout text, deleted history, remote branches, external documents,
+      or content the operator did not provide. Revision 2 therefore does not
+      claim line-by-line disposition of an unavailable packet.
+    confidence: "high for the searched proposal tree"
+
+unsupported_claims:
+  - "The current journal is adversarially tamper-evident, authentic, non-repudiable, complete, or necessarily truthful."
+  - "An immutable:// locator proves that an external immutable payload exists or is retrievable."
+  - "ACP signature strings are cryptographically verified."
+  - "AUTONOMY_PAT exists, has a specific scope, or is safely isolated."
+  - "The provider ruleset can be bypassed by the current user."
+  - "Ruleset satisfaction proves Octon lifecycle provenance."
+  - "integration_id 15368 is a specifically named independent Octon App."
+  - "The current merge is exact-head-SHA bound."
+  - "Self-evolution currently has an independently trusted activation gate."
+  - "Concurrency, crash, reconciliation, revocation, or outage correctness has been proven by the focused test run."

@@ -1,0 +1,34 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-trustworthy-autonomy-solo-developer-revision-2"
+title: "Octon Trustworthy Autonomy Without Solo-Developer Bureaucracy — Revision 2"
+summary: >-
+  Corrects and resolves the complete-mediation, trust-root, project-scoped
+  autonomy, evidence, merge-provenance, self-development, Workspace Project,
+  and task-harness architecture so a solo developer gets broad autonomous
+  candidate work with controls concentrated at durable, external,
+  irreversible, and trust-root boundaries.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/engine/runtime/crates/"
+  - ".octon/framework/capabilities/_ops/scripts/"
+  - ".octon/framework/orchestration/runtime/_ops/scripts/"
+  - ".octon/framework/constitution/contracts/"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/framework/product/contracts/"
+  - ".octon/framework/execution-roles/"
+  - ".octon/framework/assurance/runtime/"
+  - ".octon/instance/governance/"
+  - ".octon/instance/locality/"
+status: "in-review"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Obtain independent approval or rejection for each of the twelve architecture
+    decisions, run the required pre-integration architecture review, promote
+    accepted decisions into durable Octon contracts and implementation Changes,
+    validate the resulting runtime with the specified fault-injection and
+    usability gates, then archive this packet without leaving proposal-path
+    dependencies.
+related_proposals: []
