@@ -52,7 +52,7 @@ pub(crate) fn bind_existing_lifecycle_run(
     require_eq(&checkpoint, "current_state", ROUTE)?;
     require_eq(&checkpoint, "last_route", ROUTE)?;
     let target_ref = string(&checkpoint, "target")?;
-    let target = resolve_repo_ref(repo_root, &target_ref, "lifecycle target")?;
+    let target = resolve_checkpoint_target(repo_root, &target_ref)?;
     if !target.is_dir() {
         bail!("lifecycle target is not a directory: {target_ref}");
     }
@@ -266,6 +266,19 @@ pub(crate) fn bind_existing_lifecycle_run(
         (evidence_path, admission),
     ])?;
     Ok(report(run_id, "admitted", false, &admission_ref))
+}
+
+fn resolve_checkpoint_target(repo_root: &Path, raw: &str) -> Result<PathBuf> {
+    let path = Path::new(raw);
+    if !path.is_absolute() {
+        return resolve_repo_ref(repo_root, raw, "lifecycle target");
+    }
+    let canonical_root = fs::canonicalize(repo_root)?;
+    let canonical = fs::canonicalize(path)?;
+    if !canonical.starts_with(&canonical_root) {
+        bail!("lifecycle checkpoint target escapes repository root: {raw}");
+    }
+    Ok(canonical)
 }
 
 fn authorized_scope(
