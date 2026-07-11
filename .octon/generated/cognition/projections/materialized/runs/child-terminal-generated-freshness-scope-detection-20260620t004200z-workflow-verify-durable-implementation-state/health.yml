@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-durable-implementation-state",
-  "generated_at": "2026-07-11T20:28:55Z",
+  "generated_at": "2026-07-11T20:38:04Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.2.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:1e6f26322550525da7402193152b1212c37b76c36c332c2e4a5827ff757930f9",
-    "checked_at": "2026-07-11T20:28:55Z",
+    "combined_source_digest": "sha256:bc0e8255e7a37b6d8bd36f9563a87771f98ee129a37db58ce9dc3aea6d2a6637",
+    "checked_at": "2026-07-11T20:38:04Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/child-terminal-generated-freshness-scope-detection-20260620t004200z-workflow-verify-durable-implementation-state/events.manifest.yml"
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:2d2db723cced39ab0902433ec997d1a42fcaa6f96326e4b5a77262614caa965f",
+      "digest": "sha256:4d14d321709c68067c0ae5c16e608493bbe0a5359820169b0527bede1746c847",
       "status": "present"
     },
     "run_continuity": {
