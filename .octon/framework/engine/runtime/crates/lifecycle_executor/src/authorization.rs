@@ -173,13 +173,23 @@ fn materialize_lifecycle_rollback_posture(
         })?
         .to_string_lossy()
         .replace('\\', "/");
-    let rollback_plan = request.target.join("architecture/rollback-plan.md");
-    if !rollback_plan.is_file() {
-        return Err(LifecycleExecutionError::new(
+    let rollback_plan = [
+        request.target.join("architecture/rollback-plan.md"),
+        request.target.join("architecture/implementation-plan.md"),
+    ]
+    .into_iter()
+    .find(|candidate| {
+        candidate.is_file()
+            && fs::read_to_string(candidate)
+                .map(|body| body.to_ascii_lowercase().contains("## rollback"))
+                .unwrap_or(false)
+    })
+    .ok_or_else(|| {
+        LifecycleExecutionError::new(
             LifecycleErrorClass::AuthorizationProofFailed,
-            "packet implementation requires architecture/rollback-plan.md before run admission",
-        ));
-    }
+            "packet implementation requires a canonical architecture rollback plan or an explicit rollback section in architecture/implementation-plan.md before run admission",
+        )
+    })?;
     let rollback_ref = rollback_plan
         .strip_prefix(repo_root)
         .map_err(|error| {
