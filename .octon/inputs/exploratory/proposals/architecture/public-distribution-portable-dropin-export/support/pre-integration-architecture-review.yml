@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "public-distribution-portable-dropin-export-pre-integration-architecture-review-20260709T233735Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-portable-dropin-export"
+packet_digest: "sha256:ec4ae4dfca20aba1aa34ed3a7f86392d94799ef4816403045ed7eb3671f2f2ca"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-09T23:37:35Z"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-portable-dropin-export/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-portable-dropin-export/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-portable-dropin-export/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-portable-dropin-export/architecture/implementation-plan.md"
+validator_refs:
+  - "validate-proposal-standard.sh --package <packet>"
+  - "validate-architecture-proposal.sh --package <packet>"
+  - "validate-proposal-review-gate.sh --package <packet> --require-implementation-authorization"
+blockers: []
+mode_specific_coverage:
+  system_job: "Export a deterministic, allowlist-only public tree from exact tracked Git objects into empty staging."
+  authority_boundaries: "The exporter owns manifest labels and staging output; it does not mutate source state, publish, or grant public clearance."
+  failure_modes: "Dirty, ignored, untracked, unknown, uncleared, denylisted, traversal, unsafe-link, unlabeled, mode-drift, and ancestry cases fail closed."
+  evidence_and_validation: "Repeated byte equality, canonical manifest fields, source fingerprint invariance, and exact public-tree parity are explicit gates."
+  rollback_and_recovery: "Failed or interrupted exports are disposable staging directories with no passing receipt."
+  verdict_basis: "PD-025 ownership is confirmed and the packet has exact deliverables and measurable negative controls."

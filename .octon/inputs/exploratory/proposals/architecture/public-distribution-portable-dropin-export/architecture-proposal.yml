@@ -1,0 +1,13 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "portable_dropin profile, exporter, manifest, denylist, deterministic build, and public-tree parity"
+decision_type: "boundary-change"
+decision_summary: "Produce a source-read-only exporter that resolves an exact Git commit, selects only cleared component closure paths, writes into an empty staging directory, emits a deterministic manifest, and proves exact public-tree parity."
+affected_surfaces:
+  - "root portability profile"
+  - "exact-commit source resolver"
+  - "allowlist and denylist policy"
+  - "staging and manifest generation"
+  - "determinism and source-mutation checks"
+  - "public-tree parity validator"
+non_authority_statement: "This packet defines a proposed implementation boundary only. It does not authorize implementation, external effects, publication, legal conclusions, or risk acceptance."
+
