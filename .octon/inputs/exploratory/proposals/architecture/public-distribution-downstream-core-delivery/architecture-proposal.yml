@@ -1,0 +1,14 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "downstream core lock, resolver, cache, initialization, transactional update, recovery, rollback, and Tier 1 behavior"
+decision_type: "boundary-change"
+decision_summary: "Provide a cross-platform downstream delivery contract and implementation that commits an exact .octon/core.lock.yml, verifies a release artifact, materializes core locally, initializes neutral project-owned surfaces, updates only core-owned paths transactionally, recovers interruptions, and rolls back safely."
+affected_surfaces:
+  - "core lock schema"
+  - "release resolution and verification"
+  - "local artifact cache"
+  - "neutral target initialization"
+  - "ownership-aware update transaction"
+  - "journal and interruption recovery"
+  - "rollback and Tier 1 platform matrix"
+non_authority_statement: "This packet defines a proposed implementation boundary only. It does not authorize implementation, external effects, publication, legal conclusions, or risk acceptance."
+

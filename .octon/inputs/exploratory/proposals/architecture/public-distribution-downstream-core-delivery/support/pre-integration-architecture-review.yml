@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "public-distribution-downstream-core-delivery-pre-integration-architecture-re-review-20260710T002107Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-downstream-core-delivery"
+packet_digest: "sha256:9f0aa95bc2edd4747bb63b7ad1deb3abc644aaf03b4d4e2df3622b34fe20e76b"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-10T00:21:07Z"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-downstream-core-delivery/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-downstream-core-delivery/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-downstream-core-delivery/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-downstream-core-delivery/architecture/implementation-plan.md"
+validator_refs:
+  - "validate-proposal-standard.sh --package <packet>"
+  - "validate-architecture-proposal.sh --package <packet>"
+  - "validate-proposal-review-gate.sh --package <packet>"
+blockers: []
+mode_specific_coverage:
+  system_job: "Install, verify, update, recover, and roll back an exact verified core without changing project-owned paths."
+  authority_boundaries: "The core lock and materialized core are core-owned; instance, inputs, state, evidence, generated output, host projections, and project files are project-owned."
+  failure_modes: "Bad digest, provenance mismatch, collision, unsafe archive, incompatible instance, interruption, and public-repository-only content fail before irreversible replacement."
+  evidence_and_validation: "Lock-last transactions, project hash invariance, local-artifact mode, and fault injection cover all Tier 1 lifecycle transitions."
+  rollback_and_recovery: "The previous verified core and lock remain available until post-swap verification; incoherent states stop with bounded manual recovery."
+  verdict_basis: "The machine-readable core-lock schema, runtime transaction, and change-level rollback are distinct and fully specified."
