@@ -1,0 +1,19 @@
+# Fixture: NC-B — valid naming catalog. The unknown method is introduced by
+# this fixture's review-routing.yml, so the naming layer itself is clean and the
+# routing validator fails on the unknown reference only.
+schema_version: "architectural-review-naming-v2"
+methods:
+  default: "balanced-architecture-review-method"
+  catalog:
+    - slug: "balanced-architecture-review-method"
+      role: "default"
+    - slug: "greenfield-reference-architecture-review-method"
+      role: "companion"
+    - slug: "tradeoff-review-method"
+      role: "companion"
+    - slug: "failure-mode-review-method"
+      role: "companion"
+    - slug: "evolution-fitness-review-method"
+      role: "companion"
+    - slug: "boundary-authority-review-method"
+      role: "companion"

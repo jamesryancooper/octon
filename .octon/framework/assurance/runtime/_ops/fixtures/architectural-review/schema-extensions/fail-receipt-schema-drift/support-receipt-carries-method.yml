@@ -1,0 +1,20 @@
+# NC-3 receipt_schema_drift (trigger B): a v1 support receipt that carries a
+# method field. The support receipt never gains method/lenses_applied, so the
+# drift guard on the support-receipt path fails closed.
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "fixture-schema-extensions-receipt-drift-method-001"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/example"
+packet_digest: "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/state/evidence/runs/workflows/example/architectural-review/report.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  architecture_scope: "covered"
+recorded_at: "2026-07-09T00:00:00Z"
+method: "balanced-architecture-review-method"

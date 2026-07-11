@@ -1,0 +1,20 @@
+# NC-01 negative control for validate-architectural-review-workflows.sh --root
+# <this fixture root>. A review-occasion workflow that OMITS the method-id
+# run-evidence record: it declares only the v1 support receipt and no
+# `*_method_selection_record` artifact. The validator must fail closed with
+# missing_method_record. Everything else (configure advisory, support-receipt
+# method-freeness) is intact so the failure has exactly one cause.
+schema_version: workflow-contract-v2
+name: pre-integration-architecture-review
+stages:
+  - id: configure
+    asset: stages/01-configure.md
+  - id: balanced-review
+    asset: stages/02-balanced-review.md
+artifacts:
+  - name: pre_integration_architecture_review_receipt
+    path: "/.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/pre-integration-architecture-review/support-receipt.yml"
+    kind: file
+    format: yaml
+    determinism: unique
+    description: Schema-backed support receipt for architecture proposal acceptance and implementation authorization

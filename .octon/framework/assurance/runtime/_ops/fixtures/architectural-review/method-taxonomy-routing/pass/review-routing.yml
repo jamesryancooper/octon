@@ -1,0 +1,26 @@
+# Fixture: routing v2 method-selection layer — positive control.
+# Minimal routing model exercised by validate-architectural-review-routing.sh
+# --methods-fixture. Only the method-selection layer is present; legacy route
+# assertions are skipped in --methods-fixture mode. Every referenced method is
+# a declared naming.yml catalog slug.
+schema_version: "architectural-review-routing-v2"
+method_selection:
+  default_method: "balanced-architecture-review-method"
+  allowed_methods_by_route:
+    pre-integration-architecture-review:
+      - "balanced-architecture-review-method"
+      - "greenfield-reference-architecture-review-method"
+      - "tradeoff-review-method"
+      - "failure-mode-review-method"
+      - "evolution-fitness-review-method"
+      - "boundary-authority-review-method"
+  escalation_map:
+    balanced-architecture-review-method:
+      - trigger: "two-or-more-viable-target-designs"
+        to: "tradeoff-review-method"
+      - trigger: "target-does-not-exist-yet"
+        to: "greenfield-reference-architecture-review-method"
+  constitutional_conflict_routes_to: "constitutional-challenge"
+fail_closed_conditions:
+  - "unknown_method"
+  - "missing_method_record"

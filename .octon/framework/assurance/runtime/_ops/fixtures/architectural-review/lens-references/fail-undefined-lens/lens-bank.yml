@@ -1,0 +1,26 @@
+# Negative control 1: a method profile references a lens id (`nonexistent-lens`)
+# that is not defined in lenses[]. The lens-reference validator MUST fail closed
+# (non-zero exit) on this bank.
+schema_version: "architectural-review-lens-bank-v1"
+mechanism_family_slug: "architectural-review"
+lens_tiers:
+  - "core"
+  - "extended"
+suite_methods:
+  - slug: "balanced-architecture-review-method"
+    slug_status: "canonical"
+lenses:
+  - id: "system-job-framing"
+    tier: "core"
+  - id: "current-reality-map"
+    tier: "core"
+  - id: "tradeoff-adr"
+    tier: "core"
+method_profiles:
+  balanced-architecture-review-method:
+    required:
+      - "system-job-framing"
+      - "current-reality-map"
+      - "nonexistent-lens"
+    optional:
+      - "tradeoff-adr"

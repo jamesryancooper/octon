@@ -1,0 +1,38 @@
+# Fixture: valid minimal lens bank. Every method-profile lens reference resolves
+# to a defined lens id, and every suite method has a non-empty required profile.
+# The lens-reference validator MUST pass on this bank (positive control).
+schema_version: "architectural-review-lens-bank-v1"
+mechanism_family_slug: "architectural-review"
+lens_tiers:
+  - "core"
+  - "extended"
+suite_methods:
+  - slug: "balanced-architecture-review-method"
+    slug_status: "canonical"
+  - slug: "tradeoff-review-method"
+    slug_status: "provisional"
+lenses:
+  - id: "system-job-framing"
+    tier: "core"
+  - id: "current-reality-map"
+    tier: "core"
+  - id: "tradeoff-adr"
+    tier: "core"
+  - id: "quality-attribute-scenarios"
+    tier: "core"
+  - id: "security-threat-model"
+    tier: "extended"
+method_profiles:
+  balanced-architecture-review-method:
+    required:
+      - "system-job-framing"
+      - "current-reality-map"
+      - "tradeoff-adr"
+    optional:
+      - "security-threat-model"
+  tradeoff-review-method:
+    required:
+      - "quality-attribute-scenarios"
+      - "tradeoff-adr"
+    optional:
+      - "system-job-framing"

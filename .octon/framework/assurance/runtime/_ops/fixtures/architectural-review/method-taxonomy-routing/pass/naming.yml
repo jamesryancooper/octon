@@ -1,0 +1,20 @@
+# Fixture: naming v2 method layer — positive control.
+# Minimal naming model exercised by validate-architectural-review-naming.sh
+# --methods-fixture. Only the method layer is present; legacy assertions are
+# skipped in --methods-fixture mode.
+schema_version: "architectural-review-naming-v2"
+methods:
+  default: "balanced-architecture-review-method"
+  catalog:
+    - slug: "balanced-architecture-review-method"
+      role: "default"
+    - slug: "greenfield-reference-architecture-review-method"
+      role: "companion"
+    - slug: "tradeoff-review-method"
+      role: "companion"
+    - slug: "failure-mode-review-method"
+      role: "companion"
+    - slug: "evolution-fitness-review-method"
+      role: "companion"
+    - slug: "boundary-authority-review-method"
+      role: "companion"

@@ -1,0 +1,11 @@
+# Fixture: NC-C — a routing decision selects a method but omits its method
+# record. The first decision is valid; the second selects
+# failure-mode-review-method without a method_record, so the routing validator's
+# missing_method_record check fails closed.
+routing_decisions:
+  - route: "pre-integration-architecture-review"
+    selected_method: "balanced-architecture-review-method"
+    method_record:
+      method: "balanced-architecture-review-method"
+  - route: "pre-integration-architecture-review"
+    selected_method: "failure-mode-review-method"

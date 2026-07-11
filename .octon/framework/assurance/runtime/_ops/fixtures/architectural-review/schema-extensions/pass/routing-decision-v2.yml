@@ -1,0 +1,14 @@
+schema_version: "architectural-review-routing-decision-v2"
+decision_id: "fixture-schema-extensions-routing-decision-v2-001"
+subject_ref: ".octon/framework/example/subject"
+selected_mode: "pre-integration-architecture-review"
+reason_codes:
+  - "example-routing-reason"
+evidence_refs:
+  - ".octon/state/evidence/runs/workflows/example/architectural-review/routing-decision.md"
+authority_boundary: "required-lifecycle-gate"
+recorded_at: "2026-07-09T00:00:00Z"
+method: "greenfield-reference-architecture-review-method"
+lenses_applied:
+  - "clean-sheet-reference"
+  - "current-reality-map"

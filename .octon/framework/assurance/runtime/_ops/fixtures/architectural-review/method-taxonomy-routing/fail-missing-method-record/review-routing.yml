@@ -1,0 +1,18 @@
+# Fixture: NC-C — valid routing v2 method-selection layer with both fail-closed
+# conditions declared. The missing_method_record failure comes from the sibling
+# method-routing-samples.yml, not from this file.
+schema_version: "architectural-review-routing-v2"
+method_selection:
+  default_method: "balanced-architecture-review-method"
+  allowed_methods_by_route:
+    pre-integration-architecture-review:
+      - "balanced-architecture-review-method"
+      - "failure-mode-review-method"
+  escalation_map:
+    balanced-architecture-review-method:
+      - trigger: "runtime-or-governance-failure-behavior-in-doubt"
+        to: "failure-mode-review-method"
+  constitutional_conflict_routes_to: "constitutional-challenge"
+fail_closed_conditions:
+  - "unknown_method"
+  - "missing_method_record"

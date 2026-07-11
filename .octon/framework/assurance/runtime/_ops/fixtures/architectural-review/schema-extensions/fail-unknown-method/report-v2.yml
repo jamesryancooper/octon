@@ -1,0 +1,22 @@
+# NC-1 unknown_method: method is NOT in the live naming.yml methods.catalog.
+# lenses_applied are all valid so the validator fails closed for exactly one
+# reason (unknown_method).
+schema_version: "architectural-review-report-v2"
+review_id: "fixture-schema-extensions-unknown-method-001"
+review_mode: "pre-integration-architecture-review"
+subject_ref: ".octon/framework/example/subject"
+verdict: "pass"
+findings: []
+dispositions: []
+unresolved_count: 0
+blockers: []
+evidence_refs:
+  - ".octon/state/evidence/runs/workflows/example/architectural-review/report.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-09T00:00:00Z"
+method: "nonexistent-review-method"
+lenses_applied:
+  - "system-job-framing"
+  - "domain-model"

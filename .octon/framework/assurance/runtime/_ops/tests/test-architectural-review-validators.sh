@@ -224,6 +224,19 @@ bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-archite
 bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-extension-split.sh"
 bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-skills-commands.sh"
 
+# Lens-reference validator: positive control over the shipped bank plus the two
+# fail-closed negative controls (undefined lens id, missing method profile).
+LENS_REFERENCE_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-lens-references.sh"
+LENS_FIXTURE_DIR="$FIXTURE_DIR/lens-references"
+bash "$LENS_REFERENCE_VALIDATOR"
+bash "$LENS_REFERENCE_VALIDATOR" --lens-bank "$LENS_FIXTURE_DIR/pass/lens-bank.yml"
+expect_failure \
+  "undefined lens id in method profile" \
+  bash "$LENS_REFERENCE_VALIDATOR" --lens-bank "$LENS_FIXTURE_DIR/fail-undefined-lens/lens-bank.yml"
+expect_failure \
+  "bank-known method missing profile" \
+  bash "$LENS_REFERENCE_VALIDATOR" --lens-bank "$LENS_FIXTURE_DIR/fail-missing-profile/lens-bank.yml"
+
 root="$(new_architectural_review_fixture_root)"
 printf '\nlegacy readiness alias: audit-architecture-readiness\n' \
   >>"$root/.octon/framework/capabilities/runtime/commands/architecture-readiness-audit.md"

@@ -1,0 +1,19 @@
+# NC-3 receipt_schema_drift (trigger A): a receipt that claims to be a support
+# receipt but declares a non-v1 schema_version. Fails closed on the support
+# receipt never being allowed to drift off architectural-review-support-receipt-v1.
+schema_version: "architectural-review-support-receipt-v2"
+receipt_id: "fixture-schema-extensions-receipt-drift-version-001"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/example"
+packet_digest: "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+evidence_refs:
+  - ".octon/state/evidence/runs/workflows/example/architectural-review/report.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+unresolved_count: 0
+blockers: []
+non_authority_classification: "retained-evidence-only"
+mode_specific_coverage:
+  architecture_scope: "covered"
+recorded_at: "2026-07-09T00:00:00Z"

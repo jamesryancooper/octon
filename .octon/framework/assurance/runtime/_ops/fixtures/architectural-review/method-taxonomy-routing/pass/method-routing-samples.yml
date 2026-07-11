@@ -1,0 +1,13 @@
+# Fixture: routing-decision samples — positive control for missing_method_record.
+# Each decision selects a method AND records it, so the routing validator's
+# NC-C check passes. This is fixture data the taxonomy-and-routing child
+# controls; it does not depend on the phase-2 schema `method` field.
+routing_decisions:
+  - route: "pre-integration-architecture-review"
+    selected_method: "balanced-architecture-review-method"
+    method_record:
+      method: "balanced-architecture-review-method"
+  - route: "pre-integration-architecture-review"
+    selected_method: "failure-mode-review-method"
+    method_record:
+      method: "failure-mode-review-method"

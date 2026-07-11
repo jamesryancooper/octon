@@ -1,0 +1,18 @@
+# v1 coexistence: a method-agnostic v1 report validates WITHOUT the additive
+# method/lenses_applied fields (Balanced default applies). Existing method-agnostic
+# producers remain valid.
+schema_version: "architectural-review-report-v1"
+review_id: "fixture-schema-extensions-report-v1-001"
+review_mode: "pre-integration-architecture-review"
+subject_ref: ".octon/framework/example/subject"
+verdict: "pass"
+findings: []
+dispositions: []
+unresolved_count: 0
+blockers: []
+evidence_refs:
+  - ".octon/state/evidence/runs/workflows/example/architectural-review/report.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-09T00:00:00Z"

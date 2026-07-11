@@ -1,0 +1,22 @@
+# Fixture: NC-A — a declared method without a lens-bank profile fails closed.
+# All six canonical slugs are present (so the catalog-completeness checks pass),
+# plus an orphan method slug that is absent from lens-bank.yml suite_methods.
+# The naming validator must fail on the orphan's missing binding only.
+schema_version: "architectural-review-naming-v2"
+methods:
+  default: "balanced-architecture-review-method"
+  catalog:
+    - slug: "balanced-architecture-review-method"
+      role: "default"
+    - slug: "greenfield-reference-architecture-review-method"
+      role: "companion"
+    - slug: "tradeoff-review-method"
+      role: "companion"
+    - slug: "failure-mode-review-method"
+      role: "companion"
+    - slug: "evolution-fitness-review-method"
+      role: "companion"
+    - slug: "boundary-authority-review-method"
+      role: "companion"
+    - slug: "orphan-review-method"
+      role: "companion"

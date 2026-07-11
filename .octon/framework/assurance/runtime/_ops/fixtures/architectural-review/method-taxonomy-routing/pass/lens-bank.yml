@@ -1,0 +1,17 @@
+# Fixture: minimal lens bank for the method-taxonomy-routing positive control.
+# Only suite_methods is read by the naming validator's method-binding (NC-A)
+# check; all six canonical method slugs are profiled here.
+schema_version: "architectural-review-lens-bank-v1"
+suite_methods:
+  - slug: "balanced-architecture-review-method"
+    slug_status: "canonical"
+  - slug: "greenfield-reference-architecture-review-method"
+    slug_status: "canonical"
+  - slug: "tradeoff-review-method"
+    slug_status: "canonical"
+  - slug: "failure-mode-review-method"
+    slug_status: "canonical"
+  - slug: "evolution-fitness-review-method"
+    slug_status: "canonical"
+  - slug: "boundary-authority-review-method"
+    slug_status: "canonical"

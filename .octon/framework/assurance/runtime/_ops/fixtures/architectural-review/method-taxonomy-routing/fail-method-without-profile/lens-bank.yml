@@ -1,0 +1,17 @@
+# Fixture: minimal lens bank for NC-A. Profiles the six canonical methods only;
+# the orphan-review-method declared in this fixture's naming.yml has no entry
+# here, so the naming validator's binding check fails closed.
+schema_version: "architectural-review-lens-bank-v1"
+suite_methods:
+  - slug: "balanced-architecture-review-method"
+    slug_status: "canonical"
+  - slug: "greenfield-reference-architecture-review-method"
+    slug_status: "canonical"
+  - slug: "tradeoff-review-method"
+    slug_status: "canonical"
+  - slug: "failure-mode-review-method"
+    slug_status: "canonical"
+  - slug: "evolution-fitness-review-method"
+    slug_status: "canonical"
+  - slug: "boundary-authority-review-method"
+    slug_status: "canonical"

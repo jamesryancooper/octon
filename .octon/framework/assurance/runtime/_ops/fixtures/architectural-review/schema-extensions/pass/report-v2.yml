@@ -1,0 +1,20 @@
+schema_version: "architectural-review-report-v2"
+review_id: "fixture-schema-extensions-report-v2-001"
+review_mode: "pre-integration-architecture-review"
+subject_ref: ".octon/framework/example/subject"
+verdict: "pass"
+findings: []
+dispositions: []
+unresolved_count: 0
+blockers: []
+evidence_refs:
+  - ".octon/state/evidence/runs/workflows/example/architectural-review/report.md"
+validator_refs:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architectural-review-receipts.sh"
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-09T00:00:00Z"
+method: "balanced-architecture-review-method"
+lenses_applied:
+  - "system-job-framing"
+  - "domain-model"
+  - "authority-boundary"

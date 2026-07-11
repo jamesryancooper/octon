@@ -1,0 +1,12 @@
+# v1 coexistence: a method-agnostic v1 routing-decision validates WITHOUT the
+# additive method/lenses_applied fields.
+schema_version: "architectural-review-routing-decision-v1"
+decision_id: "fixture-schema-extensions-routing-decision-v1-001"
+subject_ref: ".octon/framework/example/subject"
+selected_mode: "pre-integration-architecture-review"
+reason_codes:
+  - "example-routing-reason"
+evidence_refs:
+  - ".octon/state/evidence/runs/workflows/example/architectural-review/routing-decision.md"
+authority_boundary: "required-lifecycle-gate"
+recorded_at: "2026-07-09T00:00:00Z"
