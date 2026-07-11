@@ -457,3 +457,9 @@ The route-neutral hosted check set is `route_neutral_closeout_validation`,
 - Do not use proposal-local files as runtime or policy dependencies.
 - Keep GitHub and host adapters projection-only. They may mirror status, but
   they do not mint authority.
+Protected terminal or explicitly inactive operational evidence that must leave
+the checkout routes through `evidence-localization.py`. Localization must
+complete and independently verify the canonical external archive before a
+separate, fresh, exact-path cleanup authorization may remove sources. Active,
+referenced, stale, manual-review-undisposed, or unverifiable evidence remains
+in place and blocks full-worktree cleanliness.

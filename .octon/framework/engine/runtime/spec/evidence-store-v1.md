@@ -65,6 +65,17 @@ publishable.
 
 ## Local Run Residue
 
+### External localization of inactive operational evidence
+
+When protected terminal or explicitly inactive operational evidence must leave
+the checkout, use the governed external localization policy and helper. The
+platform application-data archive is outside the repository and `.git`.
+Localization is copy-before-remove, digest-bound, idempotent, independently
+verified, and separate from cleanup authorization. Active, referenced,
+manual-review-undisposed, stale, unverifiable, or rollback-incomplete groups
+remain in place. External archives are retained evidence only and never become
+control-plane or authored authority.
+
 Publication, validation, service-build, closeout, and agent-quorum runs may
 leave untracked local files under `/.octon/state/**` after the claim-bearing
 receipts, generated locks, or active state have already been retained. Those

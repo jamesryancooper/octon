@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,
+  "required":["schema_version","archive_id","localization_run_id","repository_identity","manifest_digest","inventory_digest","archive_path","retrieval_command","verification_command","non_authority_classification","verified_at"],
+  "properties":{"schema_version":{"const":"evidence-localization-receipt-v1"},"archive_id":{"type":"string"},"localization_run_id":{"type":"string"},"repository_identity":{"type":"string"},"manifest_digest":{"type":"string"},"inventory_digest":{"type":"string"},"archive_path":{"type":"string"},"retrieval_command":{"type":"string"},"verification_command":{"type":"string"},"non_authority_classification":{"const":"retained-external-evidence-only"},"verified_at":{"type":"string"}}
+}

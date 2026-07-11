@@ -209,6 +209,15 @@ local_artifact_hygiene:
       `.octon/state/evidence/local/**` payloads in hosted/shared closeout
       evidence.
   delegated_closeout_route: "closeout-worktree may delegate eligible local residue to repo-hygiene-cleanup, but the wrapper itself must not delete or claim cleanup authority."
+  external_evidence_localization:
+    policy_ref: ".octon/instance/governance/policies/evidence-localization.yml"
+    helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/evidence-localization.py"
+    manifest_schema_ref: ".octon/framework/product/contracts/evidence-localization-manifest-v1.schema.json"
+    receipt_schema_ref: ".octon/framework/product/contracts/evidence-localization-receipt-v1.schema.json"
+    cleanup_authorization_schema_ref: ".octon/framework/product/contracts/evidence-localization-cleanup-authorization-v1.schema.json"
+    purpose: "copy and independently verify terminal or explicitly inactive protected operational evidence outside the checkout before exact separately authorized cleanup"
+    authority_posture: "retained external evidence only; never runtime, policy, proposal, lifecycle, landing, cleanup, or effect authority"
+    active_or_unverifiable_behavior: "fail closed and retain source in place"
   default_mode: "dry-run"
   generated_tmp_scratch:
     root: ".octon/generated/.tmp/**"

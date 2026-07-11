@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,
+  "required":["schema_version","authorization_id","archive_id","repository_identity","manifest_digest","inventory_digest","source_fingerprints","inactivity_evidence_fingerprints","inactivity_evidence_digest","exclusion_fingerprints","exclusions_digest","rollback_posture_digest","issued_at","expires_at","decision"],
+  "properties":{"schema_version":{"const":"evidence-localization-cleanup-authorization-v1"},"authorization_id":{"type":"string"},"archive_id":{"type":"string"},"repository_identity":{"type":"string"},"manifest_digest":{"type":"string"},"inventory_digest":{"type":"string"},"source_fingerprints":{"type":"array"},"inactivity_evidence_fingerprints":{"type":"array"},"inactivity_evidence_digest":{"type":"string"},"exclusion_fingerprints":{"type":"array"},"exclusions_digest":{"type":"string"},"rollback_posture_digest":{"type":"string"},"issued_at":{"type":"string"},"expires_at":{"type":"string"},"decision":{"const":"authorized"}}
+}

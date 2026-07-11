@@ -1,0 +1,21 @@
+schema_version: evidence-localization-policy-v1
+archive_namespace: octon/evidence-archives
+repository_identity:
+  algorithm: sha256-canonical-origin
+archive_root:
+  resolver: platform-application-data
+  macos_subpath: Library/Application Support/Octon/evidence-archives
+  linux_subpath: .local/share/octon/evidence-archives
+  windows_subpath: AppData/Local/Octon/evidence-archives
+  caller_override_allowed: false
+retention:
+  authority_posture: retained-external-evidence-only
+  active_state_verdicts: [terminal, cancelled, superseded, rolled-back, explicitly-inactive]
+  manual_review_dispositions: [retain-external, duplicate-contained, superseded-retained]
+  cleanup_authorization_ttl_seconds: 3600
+  require_rollback_posture: true
+  require_reference_map: true
+compact_receipt:
+  root: .octon/state/evidence/local/evidence-localization
+  authority_posture: retained-evidence-only
+  protected_from_generic_cleanup: true

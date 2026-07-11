@@ -116,6 +116,14 @@ otherwise disposable, and no local evidence-retention need remains. Generated,
 control, evidence, proposal-local, host-state, or lifecycle-event residue from
 a stash archive must not be restored as current authority.
 
+## External Evidence Localization
+
+Terminal or explicitly inactive protected operational evidence that must leave
+the checkout routes through [External Evidence Localization](./evidence-localization.md).
+The route copies and verifies an exact digest-bound archive before it may emit
+a separate cleanup authorization. It never treats classification as deletion
+authority and never accepts a caller-selected archive root.
+
 ## Detector Stack
 
 - `cargo check`
