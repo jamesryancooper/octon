@@ -1353,7 +1353,16 @@ fn rollback_retry_lifecycle_run(
     {
         bail!("rollback-and-retry requires a proposal-packet run currently at promote-proposal");
     }
-    let target = resolve_lifecycle_target_path(&repo_root, Path::new(&checkpoint.target))?;
+    let checkpoint_target = Path::new(&checkpoint.target);
+    let target = if checkpoint_target.is_absolute() {
+        let canonical = fs::canonicalize(checkpoint_target)?;
+        if !canonical.starts_with(&repo_root) {
+            bail!("checkpoint target escapes repository root");
+        }
+        canonical
+    } else {
+        resolve_lifecycle_target_path(&repo_root, checkpoint_target)?
+    };
     let event_log = control_root.join(LIFECYCLE_EVENT_FILE);
     let event_tip = validate_lifecycle_event_chain_for_admission(
         &fs::read(&event_log)?,
