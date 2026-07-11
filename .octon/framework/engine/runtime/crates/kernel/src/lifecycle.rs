@@ -1116,7 +1116,7 @@ pub(crate) fn append_lifecycle_run_started_if_needed(
             run_id,
             lifecycle_id,
             execution_strategy,
-            target: target.strip_prefix(&repo_root)?.to_path_buf(),
+            target,
             "run-started",
             "lifecycle",
             "runtime",
@@ -1137,7 +1137,7 @@ pub(crate) fn cmd_lifecycle(cmd: LifecycleCmd) -> Result<()> {
     match cmd {
         LifecycleCmd::Plan {
             lifecycle_id,
-            target,
+            target: target.strip_prefix(&repo_root)?.to_path_buf(),
         } => match lifecycle_execution_strategy_from_octon_dir(&octon_dir, &lifecycle_id)? {
             LifecycleExecutionStrategy::RouteProgression => {
                 let plan = plan_lifecycle_from_octon_dir(&octon_dir, &lifecycle_id, &target)?;
@@ -1505,7 +1505,7 @@ fn rollback_retry_lifecycle_run(
         octon_dir,
         RunLifecycleOptions {
             lifecycle_id: checkpoint.lifecycle_id,
-            target,
+            target: target.strip_prefix(&repo_root)?.to_path_buf(),
             run_id: Some(run_id),
             executor: ExecutorKind::Auto,
             max_iterations: None,
