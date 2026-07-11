@@ -1,0 +1,28 @@
+# Artifact Catalog
+
+- `README.md`
+- `architecture-proposal.yml`
+- `architecture/acceptance-criteria.md`
+- `architecture/child-packet-contract.md`
+- `architecture/implementation-plan.md`
+- `architecture/packet-sequence.md`
+- `architecture/program-closeout-plan.md`
+- `architecture/target-architecture.md`
+- `navigation/artifact-catalog.md`
+- `navigation/source-of-truth-map.md`
+- `proposal.yml`
+- `resources/child-packet-index.md`
+- `resources/child-packet-index.yml`
+- `resources/conversation-decision-synthesis.md`
+- `resources/decision-to-packet-traceability.yml`
+- `resources/external-effects-boundary.md`
+- `resources/first-release-blocker-map.yml`
+- `support/implementation-conformance-review.md`
+- `support/implementation-grade-completeness-review.md`
+- `support/post-implementation-drift-churn-review.md`
+- `support/pre-integration-architecture-review.yml`
+- `support/program-creation.md`
+- `support/proposal-review.md`
+- `support/revisions/revision-20260709T224716Z.md`
+- `support/revisions/revision-20260709T233458Z.md`
+- `support/revisions/revision-20260710T002107Z.md`

@@ -1,0 +1,307 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "gated-parallel"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "public-distribution-legacy-exposure-readiness"
+    path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-legacy-exposure-readiness"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-1"
+    group_id: "exposure-readiness"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-legacy-exposure-readiness.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-legacy-exposure-readiness.sh"
+      - ".octon/framework/assurance/runtime/_ops/fixtures/legacy-exposure-readiness/"
+      - ".octon/framework/constitution/contracts/disclosure/legacy-exposure-readiness-v1.schema.json"
+      - ".octon/framework/orchestration/governance/legacy-exposure-response-runbook.md"
+    seed_role: "first-child"
+    child_lifecycle_id: "proposal-packet"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/conversation-decision-synthesis.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/decision-to-packet-traceability.yml"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/external-effects-boundary.md"
+  - child_id: "public-distribution-repository-role-contracts"
+    path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-repository-role-contracts"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-1"
+    group_id: "role-contracts"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/octon.yml"
+      - ".octon/README.md"
+      - ".octon/framework/cognition/_meta/architecture/public-distribution-topology.md"
+      - ".octon/framework/engine/runtime/spec/core-path-ownership-v1.yml"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-repository-role-contracts.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-repository-role-contracts.sh"
+      - ".octon/framework/assurance/runtime/_ops/fixtures/repository-role-contracts/"
+    seed_role: "seed-reference"
+    child_lifecycle_id: "proposal-packet"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/conversation-decision-synthesis.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/decision-to-packet-traceability.yml"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/external-effects-boundary.md"
+  - child_id: "public-distribution-portable-base-clearance"
+    path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-portable-base-clearance"
+    required: true
+    deferred: false
+    dependencies:
+      - "public-distribution-repository-role-contracts"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "portable-clearance"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/manifest.yml"
+      - ".octon/framework/constitution/contracts/disclosure/portable-component-clearance-v1.schema.json"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-portable-component-clearance.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-portable-component-clearance.sh"
+      - ".octon/framework/assurance/runtime/_ops/fixtures/portable-component-clearance/"
+    seed_role: "follow-on"
+    child_lifecycle_id: "proposal-packet"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/conversation-decision-synthesis.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/decision-to-packet-traceability.yml"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/external-effects-boundary.md"
+  - child_id: "public-distribution-downstream-core-delivery"
+    path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-downstream-core-delivery"
+    required: true
+    deferred: false
+    dependencies:
+      - "public-distribution-repository-role-contracts"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "downstream-delivery"
+    rollback_posture: "rollback-route"
+    write_scopes:
+      - ".octon/framework/engine/runtime/spec/downstream-core-delivery-v1.md"
+      - ".octon/framework/engine/runtime/spec/core-lock-v1.schema.json"
+      - ".octon/framework/engine/runtime/crates/core_delivery/"
+      - ".octon/framework/scaffolding/runtime/templates/octon/"
+      - ".octon/framework/scaffolding/runtime/_ops/scripts/init-project.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-downstream-core-delivery.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-downstream-core-delivery.sh"
+    seed_role: "follow-on"
+    child_lifecycle_id: "proposal-packet"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/conversation-decision-synthesis.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/decision-to-packet-traceability.yml"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/external-effects-boundary.md"
+  - child_id: "public-distribution-local-storage-evidence"
+    path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-local-storage-evidence"
+    required: true
+    deferred: false
+    dependencies:
+      - "public-distribution-repository-role-contracts"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "local-storage"
+    rollback_posture: "rollback-route"
+    write_scopes:
+      - ".octon/octon.yml"
+      - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+      - ".octon/framework/constitution/contracts/retention/README.md"
+      - ".octon/framework/constitution/contracts/retention/family.yml"
+      - ".octon/framework/constitution/contracts/retention/replay-storage-class-v1.schema.json"
+      - ".octon/framework/constitution/contracts/retention/evidence-classification-v1.schema.json"
+      - ".octon/framework/constitution/contracts/retention/run-evidence-classification-v2.schema.json"
+      - ".octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json"
+      - ".octon/framework/constitution/contracts/retention/evidence-disclosure-tiers-v1.yml"
+      - ".octon/framework/constitution/contracts/retention/local-private-evidence-v1.schema.json"
+      - ".octon/framework/constitution/contracts/retention/repository-git-posture-v1.yml"
+      - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+      - ".octon/framework/engine/runtime/spec/policy-interface-v1.md"
+      - ".octon/framework/lab/runtime/README.md"
+      - ".octon/framework/lab/runtime/contracts/replay-manifest-v1.schema.json"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/runtime_state.rs"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs"
+      - ".octon/framework/orchestration/runtime/_ops/scripts/write-run.sh"
+      - ".octon/framework/orchestration/runtime/_ops/tests/test-shared-runtime-primitives.sh"
+      - ".octon/framework/cognition/_meta/architecture/hosted-repository-footprint.md"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-local-storage-policy.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-local-storage-policy.sh"
+      - ".octon/framework/assurance/runtime/_ops/fixtures/local-storage-policy/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-validate-evidence-disclosure-tiers.sh"
+    seed_role: "follow-on"
+    child_lifecycle_id: "proposal-packet"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/conversation-decision-synthesis.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/decision-to-packet-traceability.yml"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/external-effects-boundary.md"
+  - child_id: "public-distribution-portable-dropin-export"
+    path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-portable-dropin-export"
+    required: true
+    deferred: false
+    dependencies:
+      - "public-distribution-repository-role-contracts"
+      - "public-distribution-portable-base-clearance"
+      - "public-distribution-local-storage-evidence"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "portable-export"
+    rollback_posture: "staged-commit"
+    write_scopes:
+      - ".octon/octon.yml"
+      - ".octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-portable-dropin-export.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-portable-dropin-export.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-root-manifest-profiles.sh"
+    seed_role: "follow-on"
+    child_lifecycle_id: "proposal-packet"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/conversation-decision-synthesis.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/decision-to-packet-traceability.yml"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/external-effects-boundary.md"
+  - child_id: "public-distribution-self-hosting-workspace-migration"
+    path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-self-hosting-workspace-migration"
+    required: true
+    deferred: false
+    dependencies:
+      - "public-distribution-repository-role-contracts"
+      - "public-distribution-local-storage-evidence"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "workspace-root-migration"
+    rollback_posture: "forward-only"
+    write_scopes:
+      - ".gitignore"
+      - ".github/workflows/release-please.yml"
+      - ".github/workflows/runtime-binaries.yml"
+      - "CODEOWNERS"
+      - ".codex/"
+      - ".claude/"
+      - ".cursor/"
+      - ".githooks/pre-push"
+      - "release-please-config.json"
+      - ".release-please-manifest.json"
+    seed_role: "follow-on"
+    child_lifecycle_id: "proposal-packet"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/conversation-decision-synthesis.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/decision-to-packet-traceability.yml"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/external-effects-boundary.md"
+  - child_id: "public-distribution-public-repository-controls"
+    path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-public-repository-controls"
+    required: true
+    deferred: false
+    dependencies:
+      - "public-distribution-portable-base-clearance"
+      - "public-distribution-portable-dropin-export"
+    dependency_gate: "verification"
+    phase_id: "phase-4"
+    group_id: "public-controls"
+    rollback_posture: "compensating"
+    write_scopes:
+      - ".octon/framework/scaffolding/runtime/templates/public-repository/"
+      - ".octon/framework/orchestration/runtime/_ops/scripts/plan-public-repository-state.sh"
+      - ".octon/framework/orchestration/runtime/_ops/tests/test-public-repository-state-plan.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-public-release-candidate.sh"
+      - ".octon/framework/constitution/contracts/disclosure/public-release-candidate-v1.schema.json"
+    seed_role: "follow-on"
+    child_lifecycle_id: "proposal-packet"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/conversation-decision-synthesis.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/decision-to-packet-traceability.yml"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/external-effects-boundary.md"
+  - child_id: "public-distribution-self-hosting-octon-storage-migration"
+    path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-self-hosting-octon-storage-migration"
+    required: true
+    deferred: false
+    dependencies:
+      - "public-distribution-repository-role-contracts"
+      - "public-distribution-local-storage-evidence"
+      - "public-distribution-self-hosting-workspace-migration"
+    dependency_gate: "verification"
+    phase_id: "phase-4"
+    group_id: "workspace-octon-storage"
+    rollback_posture: "forward-only"
+    write_scopes:
+      - ".octon/state/"
+      - ".octon/generated/"
+      - ".octon/inputs/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-octon-storage-migration.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-octon-storage-migration.sh"
+      - ".octon/framework/assurance/runtime/_ops/fixtures/octon-storage-migration/"
+      - ".octon/framework/constitution/contracts/retention/octon-storage-migration-allowlist-v1.yml"
+      - ".octon/instance/governance/contracts/disclosure-retention.yml"
+    seed_role: "follow-on"
+    child_lifecycle_id: "proposal-packet"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/conversation-decision-synthesis.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/decision-to-packet-traceability.yml"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/external-effects-boundary.md"
+  - child_id: "public-distribution-pilot-release-readiness"
+    path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-pilot-release-readiness"
+    required: true
+    deferred: false
+    dependencies:
+      - "public-distribution-legacy-exposure-readiness"
+      - "public-distribution-portable-dropin-export"
+      - "public-distribution-downstream-core-delivery"
+      - "public-distribution-local-storage-evidence"
+      - "public-distribution-public-repository-controls"
+      - "public-distribution-self-hosting-workspace-migration"
+      - "public-distribution-self-hosting-octon-storage-migration"
+    dependency_gate: "verification"
+    phase_id: "phase-5"
+    group_id: "pilot-readiness"
+    rollback_posture: "rollback-route"
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-public-distribution-release-readiness.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-public-distribution-release-readiness.sh"
+      - ".octon/framework/assurance/runtime/_ops/fixtures/public-distribution-release-readiness/"
+      - ".octon/framework/engine/runtime/release-targets.yml"
+      - ".octon/framework/orchestration/runtime/_ops/scripts/run-public-distribution-pilots.sh"
+    seed_role: "follow-on"
+    child_lifecycle_id: "proposal-packet"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/conversation-decision-synthesis.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/decision-to-packet-traceability.yml"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/architecture/child-packet-contract.md"
+      - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/external-effects-boundary.md"

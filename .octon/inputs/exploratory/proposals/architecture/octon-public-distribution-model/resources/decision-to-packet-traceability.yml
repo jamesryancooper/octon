@@ -1,0 +1,273 @@
+schema_version: "octon-public-distribution-decision-traceability-v1"
+decisions:
+  - decision_id: "PD-001"
+    final_disposition: "adopted"
+    statement: "Private workspace and public distribution are separate repositories."
+    source_attachment_ids:
+      - "ATT-003"
+    repository_evidence_refs:
+      - ".octon/framework/cognition/_meta/architecture/shared-foundation.md"
+    owning_child_packet: "public-distribution-repository-role-contracts"
+    acceptance_test: "Role contract validates four distinct surfaces."
+    manual_gate: "maintainer approves repository identities"
+  - decision_id: "PD-002"
+    final_disposition: "adopted"
+    statement: "Public octon is populated only from portable_dropin."
+    source_attachment_ids:
+      - "ATT-004"
+    repository_evidence_refs:
+      - ".octon/octon.yml"
+    owning_child_packet: "public-distribution-portable-dropin-export"
+    acceptance_test: "Profile and export validator reject every other public base route."
+    manual_gate: "maintainer approves exact first tree"
+  - decision_id: "PD-003"
+    final_disposition: "adopted"
+    statement: "Public history is synthetic and has no workspace ancestry."
+    source_attachment_ids:
+      - "ATT-003"
+    repository_evidence_refs:
+      - ".git/config"
+    owning_child_packet: "public-distribution-public-repository-controls"
+    acceptance_test: "Public-tree import and ancestry checks pass; immutable repository IDs match the approved roles."
+    manual_gate: "maintainer authorizes first push after repository-identity preflight"
+  - decision_id: "PD-004"
+    final_disposition: "adopted"
+    statement: "First release uses the smallest dependency-closed cleared base."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - ".octon/framework/manifest.yml"
+    owning_child_packet: "public-distribution-portable-base-clearance"
+    acceptance_test: "Selected closure is dependency-complete with zero unknown paths."
+    manual_gate: "maintainer clears exact closure"
+  - decision_id: "PD-005"
+    final_disposition: "adopted"
+    statement: "Base distribution contains zero additive packs and excludes local roots."
+    source_attachment_ids:
+      - "ATT-004"
+    repository_evidence_refs:
+      - ".octon/octon.yml"
+    owning_child_packet: "public-distribution-portable-dropin-export"
+    acceptance_test: "Negative fixtures reject packs and every strict exclusion."
+    manual_gate: "none"
+  - decision_id: "PD-006"
+    final_disposition: "adopted"
+    statement: "Export uses an exact commit, empty staging, allowlist, manifest, and deterministic parity."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - ".octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh"
+    owning_child_packet: "public-distribution-portable-dropin-export"
+    acceptance_test: "Repeated exact-commit exports and public-tree parity pass."
+    manual_gate: "none"
+  - decision_id: "PD-007"
+    final_disposition: "adopted"
+    statement: "Apache-2.0 covers core and MIT-0 covers designated copy-out templates."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - ".octon/framework/manifest.yml"
+    owning_child_packet: "public-distribution-portable-base-clearance"
+    acceptance_test: "Every exported component has mechanically verified license coverage."
+    manual_gate: "maintainer accepts mapping; specialist only for ambiguity"
+  - decision_id: "PD-008"
+    final_disposition: "adopted"
+    statement: "Provenance is component and release based with path overrides for exceptions."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - ".octon/framework/"
+    owning_child_packet: "public-distribution-portable-base-clearance"
+    acceptance_test: "Zero exported paths have unknown origin or permission; the first release permits zero provenance exceptions because PD-024 governs until the maintainer revises the baseline, after which the PD-008 path-override mechanism may activate."
+    manual_gate: "maintainer accepts provenance"
+  - decision_id: "PD-009"
+    final_disposition: "adopted"
+    statement: "Personal-account ownership is sufficient with two independent authenticators and recovery."
+    source_attachment_ids:
+      - "ATT-010"
+    repository_evidence_refs:
+      - "GitHub repository metadata"
+    owning_child_packet: "public-distribution-public-repository-controls"
+    acceptance_test: "Desired-state runbook records account controls without storing secrets."
+    manual_gate: "maintainer performs account setup"
+  - decision_id: "PD-010"
+    final_disposition: "conditional"
+    statement: "Legacy public archive depends on exposure review; revoke confirmed credentials first."
+    source_attachment_ids:
+      - "ATT-010"
+    repository_evidence_refs:
+      - "Git history and hosted visibility"
+    owning_child_packet: "public-distribution-legacy-exposure-readiness"
+    acceptance_test: "Redacted exposure gate covers Git history and every enabled hosted surface, records credential and legacy disposition, and fails closed on inaccessible enabled surfaces."
+    manual_gate: "maintainer decides disposition and revokes credentials"
+  - decision_id: "PD-011"
+    final_disposition: "adopted"
+    statement: "Public code contributions are not accepted initially."
+    source_attachment_ids:
+      - "ATT-010"
+    repository_evidence_refs:
+      - "Public repository documentation templates"
+    owning_child_packet: "public-distribution-public-repository-controls"
+    acceptance_test: "Generated-mirror contribution documentation is explicit and issues remain available."
+    manual_gate: "maintainer may revise later"
+  - decision_id: "PD-012"
+    final_disposition: "adopted"
+    statement: "Three Tier 1 targets block release; two Tier 2 targets are preview."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - ".octon/framework/engine/runtime/release-targets.yml"
+    owning_child_packet: "public-distribution-pilot-release-readiness"
+    acceptance_test: "Full lifecycle matrix passes or a Tier 1 demotion is explicit."
+    manual_gate: "maintainer approves demotion"
+  - decision_id: "PD-013"
+    final_disposition: "adopted"
+    statement: "Use checksums, SBOM, GitHub/Sigstore attestations, tags, and immutable releases."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - ".github/workflows/runtime-binaries.yml"
+    owning_child_packet: "public-distribution-public-repository-controls"
+    acceptance_test: "Candidate and published assets verify from the public commit."
+    manual_gate: "maintainer publishes exact release"
+  - decision_id: "PD-014"
+    final_disposition: "adopted"
+    statement: "Raw operational evidence uses truthful local-private custody."
+    source_attachment_ids:
+      - "ATT-010"
+    repository_evidence_refs:
+      - ".octon/framework/orchestration/runtime/_ops/scripts/write-run.sh"
+    owning_child_packet: "public-distribution-local-storage-evidence"
+    acceptance_test: "The dependency-closed schema, shell, Rust, consumer, validator, and test matrix emits local-private custody with real byte digests and rejects external-immutable without a real object, durable locator, and matching digest."
+    manual_gate: "none"
+  - decision_id: "PD-015"
+    final_disposition: "adopted"
+    statement: "Use bounded retention, encrypted backups, compact receipts, and deferred compaction deletion."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - ".octon/framework/constitution/contracts/retention/"
+    owning_child_packet: "public-distribution-local-storage-evidence"
+    acceptance_test: "Retention and restore tests pass; deletion remains separate."
+    manual_gate: "maintainer controls keys and deletion"
+  - decision_id: "PD-016"
+    final_disposition: "adopted"
+    statement: "Use separate-checkout gh or SSH auth and deliberate publication; no cross-repository PAT."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - ".github/workflows/release-please.yml"
+    owning_child_packet: "public-distribution-public-repository-controls"
+    acceptance_test: "No PAT path exists and merge cannot publish."
+    manual_gate: "maintainer invokes publication"
+  - decision_id: "PD-017"
+    final_disposition: "adopted"
+    statement: "Public repository uses PR checks, zero required reviews, no force push, scanning, and least privilege."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - "GitHub rulesets and security settings"
+    owning_child_packet: "public-distribution-public-repository-controls"
+    acceptance_test: "API-verifiable desired state passes."
+    manual_gate: "maintainer approves exact API apply"
+  - decision_id: "PD-018"
+    final_disposition: "adopted"
+    statement: "Downstream delivery uses exact lock, verified retrieval, staged update, recovery, and rollback."
+    source_attachment_ids:
+      - "ATT-007"
+    repository_evidence_refs:
+      - ".octon/framework/engine/runtime/spec/external-project-adoption-v1.md"
+    owning_child_packet: "public-distribution-downstream-core-delivery"
+    acceptance_test: "The machine-readable core-lock schema, Tier 1 lifecycle, and project-hash invariance pass."
+    manual_gate: "maintainer selects upgrade"
+  - decision_id: "PD-019"
+    final_disposition: "adopted"
+    statement: "Self-hosting workspace keeps framework source and migrates high-churn state, generated output, raw evidence, and classified input subtypes forward-only."
+    source_attachment_ids:
+      - "ATT-008"
+    repository_evidence_refs:
+      - ".octon/framework/"
+    owning_child_packet: "public-distribution-self-hosting-octon-storage-migration"
+    acceptance_test: "Framework and non-excepted instance hashes remain unchanged; the exact instance retention-policy change is approved; only classified, allowlisted paths leave or remain in Git; and the active program cannot untrack its own authorization or verification lineage before closeout."
+    manual_gate: "maintainer approves untracking"
+  - decision_id: "PD-020"
+    final_disposition: "deferred"
+    statement: "Organization, contributions, app, independent key, hosted evidence, compaction service, vendoring, mirrors, and auto migration remain deferred."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - ".octon/README.md"
+    owning_child_packet: "public-distribution-repository-role-contracts"
+    acceptance_test: "Documentation records each trigger and first release contains none."
+    manual_gate: "maintainer activates only on trigger"
+  - decision_id: "PD-021"
+    final_disposition: "adopted"
+    statement: "API-capable external effects require exact plan approval; human-only custody and publication remain manual."
+    source_attachment_ids:
+      - "ATT-012"
+    repository_evidence_refs:
+      - "GitHub desired-state evidence"
+    owning_child_packet: "public-distribution-public-repository-controls"
+    acceptance_test: "Dry run makes no changes, binds immutable repository identities, and apply requires explicit maintainer authorization."
+    manual_gate: "maintainer approves and executes"
+  - decision_id: "PD-022"
+    final_disposition: "adopted"
+    statement: "Public mirror retains issues and private vulnerability reporting while code contributions are closed."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - "Public repository templates and settings"
+    owning_child_packet: "public-distribution-public-repository-controls"
+    acceptance_test: "Documentation and settings expose the intended channels only."
+    manual_gate: "maintainer approves public docs"
+  - decision_id: "PD-023"
+    final_disposition: "adopted"
+    statement: "Perform a basic name search and identity statement; defer registration."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - "Clearance evidence"
+    owning_child_packet: "public-distribution-portable-base-clearance"
+    acceptance_test: "Search receipt exists and plausible conflict blocks clearance."
+    manual_gate: "maintainer accepts result or seeks specialist"
+  - decision_id: "PD-024"
+    final_disposition: "adopted"
+    statement: "No provenance exception is allowed in the first release."
+    source_attachment_ids:
+      - "ATT-010"
+    repository_evidence_refs:
+      - ".octon/framework/"
+    owning_child_packet: "public-distribution-portable-base-clearance"
+    acceptance_test: "Unknown or ambiguous origin fails closure."
+    manual_gate: "maintainer cannot waive without revising baseline"
+  - decision_id: "PD-025"
+    final_disposition: "adopted"
+    statement: "Public-repository-only files are distinct from downstream-installable files."
+    source_attachment_ids:
+      - "ATT-011"
+    repository_evidence_refs:
+      - "portable_dropin manifest"
+    owning_child_packet: "public-distribution-portable-dropin-export"
+    acceptance_test: "The portable_dropin manifest labels every exported path installable or public-repository-only; a downstream install fixture in public-distribution-downstream-core-delivery excludes every public-repository-only entry; public-distribution-public-repository-controls consumes the labels without redefining them."
+    manual_gate: "none"
+  - decision_id: "PD-026"
+    final_disposition: "adopted"
+    statement: "Root workspace and Octon storage migrations have separate target and rollback domains."
+    source_attachment_ids:
+      - "ATT-013"
+    repository_evidence_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+    owning_child_packet: "public-distribution-self-hosting-workspace-migration"
+    acceptance_test: "Both packets pass scope validation and sequence without mixed target families; root ignore policy precedes subtype-aware Octon index migration."
+    manual_gate: "maintainer approves each migration"
+  - decision_id: "PD-027"
+    final_disposition: "conditional"
+    statement: "Reuse the original public octon repository name only after every known workspace writer is moved to the private identity and stale-endpoint risk is explicitly accepted."
+    source_attachment_ids:
+      - "ATT-016"
+    repository_evidence_refs:
+      - ".git/config"
+      - "GitHub repository identity and rename behavior"
+    owning_child_packet: "public-distribution-public-repository-controls"
+    acceptance_test: "Legacy inventory, private-remote cutover, immutable repository-ID binding, and a negative stale-endpoint push fixture pass before creation or first push to the reused name."
+    manual_gate: "maintainer accepts residual unknown stale-clone risk and authorizes name reuse"

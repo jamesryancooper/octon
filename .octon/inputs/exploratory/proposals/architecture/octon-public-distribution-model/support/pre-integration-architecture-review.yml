@@ -1,0 +1,31 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "octon-public-distribution-model-pre-integration-architecture-re-review-20260710T002107Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model"
+packet_digest: "sha256:8607e5e7ecd7751112d6b650c35ac5f202f71ed1a95bb45c70f1f95942a25a96"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-10T00:21:07Z"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/architecture-proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/child-packet-index.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/decision-to-packet-traceability.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/first-release-blocker-map.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/octon-public-distribution-model/resources/external-effects-boundary.md"
+validator_refs:
+  - "validate-proposal-standard.sh --package <program>"
+  - "validate-architecture-proposal.sh --package <program>"
+  - "validate-proposal-program-structure.sh --package <program>"
+  - "validate-proposal-review-gate.sh --package <program>"
+blockers: []
+mode_specific_coverage:
+  review_charter: "Pre-integration review of the parent coordination program after independent external revision and maintainer calibration."
+  system_job: "Coordinate ten independently authoritative child packets that implement the private-workspace, synthetic-public-mirror, downstream-delivery, and local-storage model."
+  authority_boundaries: "The parent owns coordination and aggregate evidence only; children own exact deliverables; publication, exposure disposition, deletion, and GitHub effects remain explicit maintainer gates."
+  dependency_and_concurrency: "The registry is acyclic, phase and sequence views agree, and concurrently eligible children have no overlapping write scopes."
+  failure_modes: "The program blocks workspace-history publication, parent substitution for child evidence, unclassified export paths, project-owned path overwrite, and autonomous external effects."
+  evidence_and_validation: "All 27 decisions have packet owners, all six blocker groups have objective tests, and every child has independent validation and completeness evidence."
+  rollback_and_closeout: "Parent rejection or supersession does not mutate durable surfaces; closeout requires child-owned terminal evidence and never publishes."
+  verdict_basis: "Prior AR/MR resolutions remain valid; IAR2-001 through IAR2-005 are specified without decomposition change; the revised parent is coherent and intentionally awaits maintainer re-review."

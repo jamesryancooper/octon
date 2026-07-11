@@ -1,0 +1,56 @@
+schema_version: "octon-public-distribution-blocker-map-v1"
+blocker_groups:
+  - blocker_id: "BR-01"
+    name: "Exposure and repository roles"
+    primary_owner: "public-distribution-legacy-exposure-readiness"
+    supporting_children:
+      - "public-distribution-repository-role-contracts"
+      - "public-distribution-self-hosting-workspace-migration"
+      - "public-distribution-public-repository-controls"
+    dependencies: []
+    objective_unblock_test: "Exact-history and enabled-hosted-surface exposure receipts enumerate every finding with an explicit maintainer disposition and zero findings remain undispositioned; credential disposition and legacy decision are explicit; immutable workspace, legacy, and public repository identities are distinct; all known writers target the private workspace; stale original-name pushes fail before object transfer; the maintainer accepts residual unknown-clone risk; and the synthetic-history plan owned by public-distribution-public-repository-controls (PD-003) passes its ancestry checks."
+    negative_control: "A parent or aggregate receipt cannot override a failed, stale, or missing primary child result."
+  - blocker_id: "BR-02"
+    name: "Portable-base clearance"
+    primary_owner: "public-distribution-portable-base-clearance"
+    supporting_children: []
+    dependencies: []
+    objective_unblock_test: "Every selected component and path has resolved dependency, sensitivity, license, provenance, clearance, and name-search status; zero unknown paths and zero packs remain."
+    negative_control: "A parent or aggregate receipt cannot override a failed, stale, or missing primary child result."
+  - blocker_id: "BR-03"
+    name: "Deterministic export"
+    primary_owner: "public-distribution-portable-dropin-export"
+    supporting_children: []
+    dependencies:
+      - "BR-02"
+    objective_unblock_test: "Two exact-commit exports are byte-identical; source mutation is zero; all denylist fixtures fail; candidate public tree exactly matches the manifest."
+    negative_control: "A parent or aggregate receipt cannot override a failed, stale, or missing primary child result."
+  - blocker_id: "BR-04"
+    name: "Tier 1 delivery"
+    primary_owner: "public-distribution-downstream-core-delivery"
+    supporting_children:
+      - "public-distribution-pilot-release-readiness"
+    dependencies:
+      - "BR-03"
+    objective_unblock_test: "Install, verify, neutral init, update, interruption recovery, and rollback pass on every Tier 1 target with project-owned hashes unchanged."
+    negative_control: "A parent or aggregate receipt cannot override a failed, stale, or missing primary child result."
+  - blocker_id: "BR-05"
+    name: "Truthful local evidence"
+    primary_owner: "public-distribution-local-storage-evidence"
+    supporting_children:
+      - "public-distribution-self-hosting-octon-storage-migration"
+    dependencies: []
+    objective_unblock_test: "The dependency-closed schema, shell, Rust, consumer, validator, and test matrix uses local-private records with real content hashes; no unsupported external claim exists; local Git defaults cover every state, generated, evidence, host, and input subtype; subtype-aware migration, active-proposal protection, and re-tracking negative tests pass; backups, retention, and compact receipt checks pass."
+    negative_control: "A parent or aggregate receipt cannot override a failed, stale, or missing primary child result."
+  - blocker_id: "BR-06"
+    name: "Public and release controls"
+    primary_owner: "public-distribution-public-repository-controls"
+    supporting_children:
+      - "public-distribution-pilot-release-readiness"
+    dependencies:
+      - "BR-02"
+      - "BR-03"
+    objective_unblock_test: "Desired public settings, secure CI, checksums, SBOM, attestations, tags, immutable release behavior, and manual exact-publication gate pass without a workspace PAT or merge publication."
+    negative_control: "A parent or aggregate receipt cannot override a failed, stale, or missing primary child result."
+aggregate_release_readiness_rule: "All six primary unblock tests pass on fresh exact revisions; Tier 1 pilots pass or demotions are explicit; approved repository setup exists; no manual gate is represented as completed without its real receipt; readiness still does not publish."
+graph_semantics_note: "Blocker dependencies order release-readiness proofs; child registry dependencies order implementation. The graphs intentionally diverge: BR-04 depends on BR-03 because Tier 1 delivery proof needs a real deterministic export artifact even though downstream-core-delivery implementation may proceed in parallel with export implementation; BR-03 carries no BR-05 dependency because the deterministic-export proof does not consume local-storage evidence even though the export child's implementation waits for local-storage-evidence verification. Neither graph substitutes for the other and neither may be bypassed."
