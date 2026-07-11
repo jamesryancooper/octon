@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-validate-proposal",
-  "generated_at": "2026-07-09T01:03:39Z",
+  "generated_at": "2026-07-11T20:28:55Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.2.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:fbf9c8c1a35d4116e390bfc8380905c8fd518770588ebadac5fff8d4186dbe74",
-    "checked_at": "2026-07-09T01:03:39Z",
+    "combined_source_digest": "sha256:4420efb44144f4bf7c8f0cc882c0304bbe083454f1dc403eae0979cf54ccb9b2",
+    "checked_at": "2026-07-11T20:28:55Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/20260629t235957z-run-program-clean-delivery-validators-archive-run-program-clean-delivery-validators-attempt-1-workflow-validate-proposal/events.manifest.yml"
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:8ca57d45bfd912050cbf0b8458aea26c7c34ee1fc800d161d35f0e5c3e5cebef",
+      "digest": "sha256:99e0709a366be405ab06bd96aa523d31d0ffdfbade92468c37c5b075f3143b3f",
       "status": "present"
     },
     "pack_routes": {

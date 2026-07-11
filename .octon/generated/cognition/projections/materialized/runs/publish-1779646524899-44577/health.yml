@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "publish-1779646524899-44577",
-  "generated_at": "2026-07-09T01:03:39Z",
+  "generated_at": "2026-07-11T20:28:55Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.2.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:a843fc577ec23ad356f2284e6d4a935d8a384f0fcd5ce1124d64f4e80d8ed5b4",
-    "checked_at": "2026-07-09T01:03:39Z",
+    "combined_source_digest": "sha256:19a01e599d71ec8b6a503f5338bd0d172769831cc2b6695473255c2b325b737d",
+    "checked_at": "2026-07-11T20:28:55Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/publish-1779646524899-44577/events.manifest.yml"
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:8ca57d45bfd912050cbf0b8458aea26c7c34ee1fc800d161d35f0e5c3e5cebef",
+      "digest": "sha256:99e0709a366be405ab06bd96aa523d31d0ffdfbade92468c37c5b075f3143b3f",
       "status": "present"
     },
     "pack_routes": {

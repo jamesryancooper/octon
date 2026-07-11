@@ -4628,3 +4628,4 @@
 {"run_id":"tool-1783800932964-61858","timestamp":"2026-07-11T20:15:33Z","decision":"ALLOW","effective_acp":"ACP-1","reason_codes":["ACP_EVIDENCE_INVALID"],"profile":"refactor","operation_class":"service.execute","phase":"promote"}
 {"run_id":"tool-1783800938108-62125","timestamp":"2026-07-11T20:15:38Z","decision":"ALLOW","effective_acp":"ACP-1","reason_codes":["ACP_EVIDENCE_INVALID"],"profile":"refactor","operation_class":"service.execute","phase":"promote"}
 {"run_id":"tool-1783800943343-62519","timestamp":"2026-07-11T20:15:43Z","decision":"ALLOW","effective_acp":"ACP-1","reason_codes":["ACP_EVIDENCE_INVALID"],"profile":"refactor","operation_class":"service.execute","phase":"promote"}
+{"run_id":"publish-1783801457460-18195","timestamp":"2026-07-11T20:24:17Z","decision":"ALLOW","effective_acp":"ACP-1","reason_codes":["ACP_EVIDENCE_INVALID"],"profile":"release-readiness","operation_class":"execution.authorize","phase":"stage"}
