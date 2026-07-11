@@ -1,0 +1,158 @@
+schema_version: architecture-review-findings-v1
+review_id: 20260709-super-root-balanced-review
+findings:
+  - id: F-01
+    severity: high
+    confidence: high
+    kind: hidden-contract / authority-adjacent-gap
+    title: Ambient environment-variable overrides affect authority decisions without a declared contract
+    evidence:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:68 (OCTON_ALLOW_STALE_RUNTIME_ROUTE_BUNDLE bypasses route-bundle freshness verification)"
+      - ".octon/framework/engine/runtime/crates/core/src/config.rs:11"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs:720 (OCTON_EXECUTION_ROLE_KIND defaults execution role)"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs:734-735 (OCTON_POLICY_MODE_OVERRIDE / OCTON_EFFECTIVE_POLICY_MODE)"
+      - ".octon/framework/engine/runtime/crates/policy_engine/src/lib.rs:969"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1111-1114 (kernel self-sets bypass for route_bundle_bypass publications)"
+      - ".octon/framework/engine/runtime/spec/policy-interface-v1.md:308-309 (only OCTON_POLICY_MODE_OVERRIDE is name-dropped; no governance stated)"
+    analysis: >-
+      The stale-bundle bypass exists for a legitimate publication bootstrap
+      (publishing a route bundle while the current one is stale) and records
+      publication-bypass metadata, so intended use is disclosed. However the
+      overrides are ambient process state: settable externally, inheritable by
+      child processes, mostly undocumented, and not covered by any fail-closed
+      rule, validator inventory, or negative control. FCR-025 mandates DENY on
+      stale route bundles; the env var routes around that mandate without a
+      declared break-glass contract. This is the single most significant
+      divergence between documented and enforceable authority posture found in
+      this review.
+    recommended_disposition: >-
+      Bounded architecture revision via a single proposal packet: either
+      contract the overrides as governed break-glass affordances (normative
+      precedence rank 1 slot already exists) with mandatory retained receipts
+      and protected-mode prohibition, or remove ambient overrides in favor of
+      explicit receipted flags on the publication path only. Add a negative
+      control proving authority decisions are invariant under unauthorized
+      OCTON_* settings in protected modes.
+    owner: Octon governance (.octon/framework/constitution/ownership/roles.yml:79-81)
+    revisit_trigger: any protected-mode run executed with an OCTON_* override set
+  - id: F-02
+    severity: medium
+    confidence: high
+    kind: under-specified-surface
+    title: stage_only_behavior policy configuration field is undocumented
+    evidence:
+      - ".octon/framework/engine/runtime/crates/policy_engine/src/lib.rs:195 (pub stage_only_behavior: Option<AcpStageOnlyBehavior>)"
+      - ".octon/framework/engine/runtime/spec/policy-interface-v1.md (no mention)"
+    analysis: >-
+      An opaque configuration knob adjacent to STAGE_ONLY semantics. Runtime
+      verification confirms STAGE_ONLY is not a soft allow (effects.rs:229-236
+      rejects non-ALLOW decisions), so current risk is documentation drift, not
+      live bypass; but an undocumented field on this seam invites future drift.
+    recommended_disposition: document in policy-interface spec within the F-01 packet.
+    owner: Octon governance
+    revisit_trigger: any change to AcpStageOnlyBehavior variants
+  - id: F-03
+    severity: medium
+    confidence: medium
+    kind: incomplete-operational-contract
+    title: External immutable evidence store (immutable://) lacks an operational contract
+    evidence:
+      - ".octon/state/evidence/external-index/** (content-addressed pointers in git; payloads external)"
+      - ".octon/instance/governance/contracts (no store authority/backup/DR document located)"
+      - "retention policy requires external_index for boundary-sensitive replay payloads"
+    analysis: >-
+      Class C replay payloads live outside git behind immutable:// locators.
+      The pointer index is retained, but store authority, backup, verification,
+      and disaster recovery are undocumented in ingress/bootstrap/governance
+      surfaces examined. Replay for boundary-sensitive runs depends on this
+      store's availability. Not a control-plane risk (evidence-only), but an
+      auditability/availability gap.
+    recommended_disposition: author an operational contract for the store; attachable to the F-01 packet or maintenance.
+    owner: Octon governance
+    revisit_trigger: first boundary-sensitive live admission
+  - id: F-04
+    severity: medium
+    confidence: high
+    kind: lapsed-governance-clock
+    title: Retirement-register compatibility reviews are overdue
+    evidence:
+      - ".octon/instance/governance/retirement-register.yml:19,33,48,61,74,97,127 (next_review_due 2026-06-30; run date 2026-07-09)"
+      - ".octon/framework/constitution/CHARTER.md:61-62 (compensating mechanisms require removal review)"
+    analysis: >-
+      Seven of eight retained compatibility surfaces are 9 days past their
+      declared review date. The surfaces remain correctly de-authorized
+      (forbidden consumers + negative controls verified), so exposure is
+      process drift rather than live risk.
+    recommended_disposition: run the reviews; delegable paperwork once decided.
+    owner: Octon governance
+    revisit_trigger: none (date already passed)
+  - id: F-05
+    severity: low
+    confidence: high
+    kind: accidental-complexity
+    title: Runtime spec directory (201 files, multi-generation lineage) has no local index
+    evidence:
+      - ".octon/framework/engine/runtime/spec/ (201 files; 4 retained generations of effective-handle and freshness contracts)"
+      - ".octon/octon.yml:82-108 (active versions + historical_lineage declared centrally)"
+      - ".octon/framework/cognition/_meta/architecture/specification.md:70-79 (active family declared)"
+    analysis: >-
+      Active-version selection IS declared centrally, so this is navigability
+      debt, not authority ambiguity. An index in the spec directory would close
+      the gap cheaply.
+    recommended_disposition: delegable index generation.
+    owner: maintainers
+  - id: F-06
+    severity: low
+    confidence: medium
+    kind: enforcement-gap
+    title: Evidence retention durations are policy-documented but not lifecycle-enforced
+    evidence:
+      - ".octon/framework/constitution/contracts/retention/evidence-disclosure-tiers-v1.yml (tiers/classes enforced)"
+      - "no retention-window/lifecycle validator located among 331 assurance scripts"
+    recommended_disposition: add duration enforcement or declare durations policy-only explicitly.
+    owner: Octon governance
+  - id: F-07
+    severity: low
+    confidence: medium
+    kind: missing-negative-control
+    title: No named pre-resumption continuity-coherence validator
+    evidence:
+      - ".octon/state/continuity/** handoff records are mutable"
+      - ".octon/framework/engine/runtime/spec/mission-continuation-v1.md:21-27 (continuation decisions are not execution approvals)"
+    analysis: >-
+      Authority risk is nil (every run still requires a GrantBundle); the risk
+      is resuming from stale or hand-edited continuity context.
+    recommended_disposition: add coherence check before resumption.
+    owner: maintainers
+  - id: F-08
+    severity: low
+    confidence: medium
+    kind: historical-drift-gap
+    title: Historical RunCard support-tuple references are not retroactively audited
+    evidence:
+      - "~1,085 RunCards under .octon/state/evidence/disclosure/"
+      - "support-target validators audit live claims forward, not historical disclosure"
+    recommended_disposition: add retroactive audit or declare historical RunCards frozen-as-of-issuance.
+    owner: Octon governance
+  - id: F-09
+    severity: low
+    confidence: high
+    kind: incomplete-migration
+    title: Evidence-classification v1 (Class A/B/C) records lack proof-plane arrays; v2 migration incomplete
+    evidence:
+      - "run-evidence-classification-v2 schema requires proof_planes per artifact"
+      - "older runs retain v1-format evidence-classification.yml"
+    recommended_disposition: delegable migration after schema decision.
+    owner: maintainers
+  - id: F-10
+    severity: info
+    confidence: high
+    kind: revisit-trigger
+    title: Default quorum is 1 (single-operator baseline)
+    evidence:
+      - ".octon/instance/governance/quorum-policies/default.yml:6 (required: 1)"
+      - "ACP-2/3/4 tiers escalate for higher-risk changes (mission-autonomy.yml:147-159)"
+    analysis: appropriate for a single-maintainer repository; not a defect.
+    recommended_disposition: revisit upon multi-operator adoption.
+    owner: Octon governance
+    revisit_trigger: multi-operator adoption

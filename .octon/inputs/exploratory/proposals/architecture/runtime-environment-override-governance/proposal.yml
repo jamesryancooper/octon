@@ -1,0 +1,79 @@
+schema_version: proposal-v1
+proposal_id: runtime-environment-override-governance
+title: Runtime Environment-Override Governance
+summary: Decide the architecture disposition for ambient OCTON_* environment
+  variables that affect authority decisions (route-bundle freshness bypass,
+  policy mode, execution role, execution intent). Recommended option removes
+  ambient authority-affecting overrides and replaces the one evidenced
+  legitimate use (route-bundle publication bootstrap) with an explicit
+  receipted runtime input on the narrow publication path; break-glass remains
+  the existing human-issued constitutional rank-1 route, not process
+  environment. Attaches documentation of the undocumented stage_only_behavior
+  policy configuration field.
+proposal_kind: architecture
+promotion_scope: octon-internal
+change_profile: atomic
+release_state: pre-1.0
+status: draft
+selected_direction: option-b-removal-replacement (operator governance direction recorded in support/governance-decision-context.md; formal acceptance pending through the proposal lifecycle)
+governance_decision_context: support/governance-decision-context.md
+pre_implementation_gate: targeted Prompt 4 Architecture Readiness Audit after acceptance, before implementation planning (not yet run); gate definition in architecture/implementation-plan.md precondition 3, and its result must be dispositioned per the "Prompt 4 Gate Result Handling" section there (proceed / revise / defer / escalate / rerun) before planning proceeds
+operational_flexibility_note: maximum self-governance is preserved through a three-tier hierarchy — normal operations system-governed, exceptional-but-anticipated operations (publication bootstrap) system-governed with machine-checked preconditions and auto-denial, and human break-glass reserved for true exceptional override; no routine operation gains a human-in-the-loop step; see architecture/operational-flexibility-and-migration.md
+owner: octon-maintainers
+decision_authority: human governance per .octon/framework/constitution/ownership/roles.yml (governance_owner); final option selection requires human acceptance
+promotion_targets:
+- .octon/framework/engine/runtime/spec/
+- .octon/framework/engine/runtime/spec/policy-interface-v1.md
+- .octon/framework/constitution/obligations/fail-closed.yml
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/engine/runtime/crates/
+lifecycle:
+  temporary: true
+  exit_expectation: Review, decide the override disposition under human
+    governance, implement through governed implementation planning, validate
+    with the negative controls defined in this packet, then close out and
+    archive this packet.
+source_lineage:
+- .octon/state/evidence/validation/architecture/reviews/super-root-balanced-review/20260709-super-root-balanced-review/
+- .octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs
+- .octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs
+- .octon/framework/engine/runtime/crates/core/src/config.rs
+- .octon/framework/engine/runtime/crates/policy_engine/src/lib.rs
+- .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs
+- .octon/framework/engine/runtime/spec/policy-interface-v1.md
+selected_implementation_target: Governance of authority-affecting runtime environment inputs
+scope_statement: Governs the authority-affecting OCTON_* ambient environment
+  overrides and the stage_only_behavior policy configuration field. It defines
+  disposition, receipts, protected-mode behavior, documentation surfaces, and
+  negative controls. It excludes implementation patches, unrelated runtime
+  refactors, support widening, generated/effective publication, proposal
+  program creation, and constitutional amendment drafting.
+findings_covered:
+- F-01 (primary; high severity)
+- F-02 (attached; stage_only_behavior documentation)
+findings_deferred:
+- id: F-03
+  reason: immutable:// evidence store operational contract belongs to the evidence-retention domain, not the runtime override surface
+  owner: octon-maintainers (Octon governance)
+- id: F-04
+  reason: overdue retirement-register reviews are governance maintenance outside the runtime override surface; deferral confirmed by operator governance direction (support/governance-decision-context.md item 7)
+  owner: octon-maintainers (Octon governance)
+- id: F-05
+  reason: runtime spec directory index is delegable maintenance unrelated to the override decision
+  owner: octon-maintainers
+authority_class_impact:
+  framework: Would add or amend runtime spec contracts, one candidate fail-closed rule, and one negative-control validator after acceptance through the governed route.
+  instance: No instance mutation.
+  state_control: No control-truth mutation by this packet.
+  state_evidence: Cites retained review evidence; implementation later retains its own receipts.
+  generated: No generated/effective publication; registry regeneration deliberately skipped at creation.
+  inputs: This packet is proposal-local candidate lineage only and cannot authorize anything.
+runtime_behavior_impact: None until accepted and implemented; accepted target
+  removes or contracts ambient overrides without weakening deny-by-default.
+generated_input_authority_impact: No generated, input, host, or environment
+  surface gains authority under any option in this packet.
+evidence_requirements:
+- Retained review evidence bundle 20260709-super-root-balanced-review (cited, not copied as authority).
+- Environment-override inventory produced during implementation planning.
+- Negative-control run receipts proving authority-decision invariance under unauthorized OCTON_* settings.
+- Publication-path receipt for the replacement of the stale-bundle bypass.

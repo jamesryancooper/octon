@@ -1,0 +1,30 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "runtime-authority-configuration-surface"
+decision_type: "boundary-change"
+title: "Runtime Environment-Override Governance"
+target_state: >-
+  No ambient process-environment input can alter an Octon authority decision.
+  Every authority-affecting runtime input is either removed, or converted into
+  an explicit, receipted, validator-covered runtime input on a declared narrow
+  path. The route-bundle publication bootstrap case is served by an explicit
+  receipted parameter on the publication command. stage_only_behavior is
+  documented in the policy interface contract. A negative control proves
+  authority decisions are invariant under unauthorized OCTON_* settings in
+  protected modes.
+boundary_change: >-
+  Declares ambient process environment a non-authority surface for authority
+  decisions, closing the undeclared gap recorded in authority-boundary-map.yml
+  of the source review (boundary: ambient-process-environment, status: gap).
+authoritative_targets_after_promotion:
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/constitution/obligations/fail-closed.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "architecture/**"
+  - "resources/**"
+  - "support/**"
