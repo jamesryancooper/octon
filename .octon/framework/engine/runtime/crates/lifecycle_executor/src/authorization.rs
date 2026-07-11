@@ -144,7 +144,129 @@ fn build_and_write_proof(
             "retained delegation proof did not round-trip for this route",
         ));
     }
+    materialize_lifecycle_rollback_posture(repo_root, request, &proof_path)?;
     Ok(proof_path)
+}
+
+/// Materializes the rollback prerequisite owned by consequential lifecycle
+/// dispatch. This is derived only after delegation, evidence, context, and
+/// write-scope gates pass; callers cannot supply its contents.
+fn materialize_lifecycle_rollback_posture(
+    repo_root: &Path,
+    request: &LifecycleRouteExecutionRequest,
+    proof_path: &Path,
+) -> Result<(), LifecycleExecutionError> {
+    if request.route.route_id != "run-packet-implementation" {
+        return Ok(());
+    }
+    let run_root = repo_root
+        .join(".octon/state/control/execution/runs")
+        .join(&request.run_id);
+    let path = run_root.join("rollback-posture.yml");
+    let proof_ref = proof_path
+        .strip_prefix(repo_root)
+        .map_err(|error| {
+            LifecycleExecutionError::new(
+                LifecycleErrorClass::AuthorizationProofFailed,
+                format!("delegation proof is outside repository root: {error}"),
+            )
+        })?
+        .to_string_lossy()
+        .replace('\\', "/");
+    let rollback_plan = request.target.join("architecture/rollback-plan.md");
+    if !rollback_plan.is_file() {
+        return Err(LifecycleExecutionError::new(
+            LifecycleErrorClass::AuthorizationProofFailed,
+            "packet implementation requires architecture/rollback-plan.md before run admission",
+        ));
+    }
+    let rollback_ref = rollback_plan
+        .strip_prefix(repo_root)
+        .map_err(|error| {
+            LifecycleExecutionError::new(
+                LifecycleErrorClass::AuthorizationProofFailed,
+                format!("packet rollback plan is outside repository root: {error}"),
+            )
+        })?
+        .to_string_lossy()
+        .replace('\\', "/");
+    let posture = serde_json::json!({
+        "schema_version": "run-rollback-posture-v1",
+        "run_id": request.run_id,
+        "reversibility_class": "reversible",
+        "rollback_strategy": "checkpoint_restore",
+        "rollback_ref": rollback_ref,
+        "rollback_handle": null,
+        "compensation_handle": null,
+        "recovery_window": null,
+        "contamination_state": "clean",
+        "retry_record_ref": proof_ref,
+        "contamination_record_ref": proof_ref,
+        "resume_allowed": true,
+        "reset_action": "Restore the pre-route lifecycle checkpoint and revert only the digest-bound authorized write scope.",
+        "invalidated_artifacts": [],
+        "hard_reset_required": false,
+        "posture_source": "lifecycle-delegation-proof",
+        "updated_at": now_rfc3339(),
+    });
+    if path.exists() {
+        let existing: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(&path).map_err(|error| {
+                LifecycleExecutionError::new(
+                    LifecycleErrorClass::AuthorizationProofFailed,
+                    format!("cannot read rollback posture: {error}"),
+                )
+            })?)
+            .map_err(|error| {
+                LifecycleExecutionError::new(
+                    LifecycleErrorClass::AuthorizationProofFailed,
+                    format!("cannot parse rollback posture: {error}"),
+                )
+            })?;
+        if existing.get("run_id").and_then(serde_yaml::Value::as_str)
+            != Some(request.run_id.as_str())
+            || existing
+                .get("posture_source")
+                .and_then(serde_yaml::Value::as_str)
+                != Some("lifecycle-delegation-proof")
+            || existing
+                .get("resume_allowed")
+                .and_then(serde_yaml::Value::as_bool)
+                != Some(true)
+            || existing
+                .get("hard_reset_required")
+                .and_then(serde_yaml::Value::as_bool)
+                != Some(false)
+        {
+            return Err(LifecycleExecutionError::new(
+                LifecycleErrorClass::AuthorizationProofFailed,
+                "conflicting existing lifecycle rollback posture",
+            ));
+        }
+        return Ok(());
+    }
+    fs::create_dir_all(&run_root).map_err(|error| {
+        LifecycleExecutionError::new(
+            LifecycleErrorClass::AuthorizationProofFailed,
+            format!("cannot create lifecycle run root: {error}"),
+        )
+    })?;
+    fs::write(
+        &path,
+        serde_yaml::to_string(&posture).map_err(|error| {
+            LifecycleExecutionError::new(
+                LifecycleErrorClass::AuthorizationProofFailed,
+                format!("cannot serialize rollback posture: {error}"),
+            )
+        })?,
+    )
+    .map_err(|error| {
+        LifecycleExecutionError::new(
+            LifecycleErrorClass::AuthorizationProofFailed,
+            format!("cannot write rollback posture: {error}"),
+        )
+    })?;
+    Ok(())
 }
 
 pub fn blocked_result(
@@ -346,6 +468,7 @@ fn declared_write_scope(
             .iter()
             .map(|receipt| format!("receipt:{receipt}")),
     );
+    scope.extend(authorized_promotion_targets(request)?);
     if scope.is_empty() {
         return Err(LifecycleExecutionError::new(
             LifecycleErrorClass::AuthorizationProofFailed,
@@ -353,6 +476,82 @@ fn declared_write_scope(
         ));
     }
     Ok(scope)
+}
+
+/// Resolves the only proposal-owned scope expansion used by implementation routes.
+/// Both retained delegation evidence and executor workspace exposure consume this
+/// function so the effective write boundary cannot drift between them.
+pub(crate) fn authorized_promotion_targets(
+    request: &LifecycleRouteExecutionRequest,
+) -> Result<Vec<String>, LifecycleExecutionError> {
+    let enabled = request
+        .route
+        .delegation_contract
+        .as_ref()
+        .map(|contract| {
+            contract.declared_write_scope_source == "route-completion-target-and-promotion-targets"
+        })
+        .unwrap_or(false);
+    if !enabled {
+        return Ok(Vec::new());
+    }
+    if request.route.route_id != "run-packet-implementation" {
+        return Err(LifecycleExecutionError::new(
+            LifecycleErrorClass::AuthorizationProofFailed,
+            "promotion-target scope source is only valid for packet implementation",
+        ));
+    }
+    let manifest_path = request.target.join(&request.manifest_path);
+    let bytes = fs::read(&manifest_path).map_err(|error| {
+        LifecycleExecutionError::new(
+            LifecycleErrorClass::AuthorizationProofFailed,
+            format!("cannot read proposal manifest for scope binding: {error}"),
+        )
+    })?;
+    let manifest: serde_yaml::Value = serde_yaml::from_slice(&bytes).map_err(|error| {
+        LifecycleExecutionError::new(
+            LifecycleErrorClass::AuthorizationProofFailed,
+            format!("cannot parse proposal manifest for scope binding: {error}"),
+        )
+    })?;
+    let targets = manifest
+        .get("promotion_targets")
+        .and_then(serde_yaml::Value::as_sequence)
+        .ok_or_else(|| {
+            LifecycleExecutionError::new(
+                LifecycleErrorClass::AuthorizationProofFailed,
+                "proposal manifest has no promotion_targets sequence",
+            )
+        })?;
+    let mut result = Vec::new();
+    for value in targets {
+        let raw = value.as_str().ok_or_else(|| {
+            LifecycleExecutionError::new(
+                LifecycleErrorClass::AuthorizationProofFailed,
+                "promotion target must be a string",
+            )
+        })?;
+        let path = Path::new(raw);
+        if path.is_absolute()
+            || path.components().any(|component| {
+                matches!(
+                    component,
+                    std::path::Component::ParentDir
+                        | std::path::Component::RootDir
+                        | std::path::Component::Prefix(_)
+                )
+            })
+        {
+            return Err(LifecycleExecutionError::new(
+                LifecycleErrorClass::AuthorizationProofFailed,
+                format!("promotion target escapes the repo write boundary: {raw}"),
+            ));
+        }
+        result.push(raw.to_string());
+    }
+    result.sort();
+    result.dedup();
+    Ok(result)
 }
 
 fn authorization_blocked_result(

@@ -251,6 +251,9 @@ integration_surfaces:
   runtime_run_lifecycle_contract:
     path: ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
     status: "active"
+  existing_lifecycle_run_admission_contract:
+    path: ".octon/framework/constitution/contracts/runtime/lifecycle-run-admission-v1.schema.json"
+    status: "active"
   engagement_change_package_compiler_contracts:
     engagement_schema: ".octon/framework/constitution/contracts/runtime/engagement-v1.schema.json"
     project_profile_schema: ".octon/framework/constitution/contracts/runtime/project-profile-v1.schema.json"

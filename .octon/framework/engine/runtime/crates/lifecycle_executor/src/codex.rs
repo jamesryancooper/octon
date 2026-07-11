@@ -3,7 +3,6 @@ use crate::errors::{LifecycleErrorClass, LifecycleExecutionError};
 use crate::request::LifecycleRouteExecutionRequest;
 use crate::result::LifecycleRouteExecutionResult;
 use crate::{observer, prompt_bundle, workflow_leaf};
-use serde::Deserialize;
 use std::fs;
 use std::fs::File;
 use std::fs::OpenOptions;
@@ -476,12 +475,6 @@ fn executor_command_line(
     }
 }
 
-#[derive(Deserialize)]
-struct ProposalManifest {
-    #[serde(default)]
-    promotion_targets: Vec<String>,
-}
-
 fn codex_workspace_add_dirs(
     repo_root: &Path,
     request: &LifecycleRouteExecutionRequest,
@@ -489,15 +482,11 @@ fn codex_workspace_add_dirs(
     if !route_can_apply_promotion_targets(request) {
         return Vec::new();
     }
-    let manifest_path = request.target.join(&request.manifest_path);
-    let Ok(manifest) = fs::read_to_string(&manifest_path) else {
-        return Vec::new();
-    };
-    let Ok(manifest) = serde_yaml::from_str::<ProposalManifest>(&manifest) else {
-        return Vec::new();
-    };
     let mut add_dirs = Vec::new();
-    for target in manifest.promotion_targets {
+    let Ok(targets) = crate::authorization::authorized_promotion_targets(request) else {
+        return Vec::new();
+    };
+    for target in targets {
         if target == ".codex" || target.starts_with(".codex/") {
             let codex_dir = repo_root.join(".codex");
             if !add_dirs.iter().any(|dir| dir == &codex_dir) {
@@ -522,7 +511,7 @@ fn route_can_apply_promotion_targets(request: &LifecycleRouteExecutionRequest) -
         .map(|contract| {
             matches!(
                 contract.declared_write_scope_source.as_str(),
-                "target" | "route-completion-and-target"
+                "route-completion-target-and-promotion-targets"
             )
         })
         .unwrap_or(false)
@@ -903,7 +892,11 @@ mod tests {
                     decision_class: "delegated-execution".to_string(),
                     safe_delegation: true,
                     authority_zones_allowed: vec!["workspace-declared".to_string()],
-                    declared_write_scope_source: "route-completion-and-target".to_string(),
+                    declared_write_scope_source: if route_id == "run-packet-implementation" {
+                        "route-completion-target-and-promotion-targets".to_string()
+                    } else {
+                        "route-completion-and-target".to_string()
+                    },
                     required_evidence_gates: Vec::new(),
                     required_receipts_before_dispatch: Vec::new(),
                     required_receipts_before_completion: Vec::new(),

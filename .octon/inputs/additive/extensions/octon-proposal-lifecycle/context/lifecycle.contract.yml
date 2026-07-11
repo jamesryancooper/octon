@@ -1031,7 +1031,7 @@ routes:
       authority_zones_allowed:
         - "workspace-declared"
         - "octon-run-bound"
-      declared_write_scope_source: "route-completion-and-target"
+      declared_write_scope_source: "route-completion-target-and-promotion-targets"
       required_evidence_gates:
         - "implementation-grade-readiness"
         - "implementation-authorization"

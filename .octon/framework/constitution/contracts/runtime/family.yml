@@ -12,6 +12,11 @@ activation_lineage_refs:
   - ".octon/instance/cognition/context/shared/migrations/2026-04-09-octon-uec-hardening-recertification/plan.md"
   - ".octon/instance/cognition/context/shared/migrations/2026-04-11-octon-selected-harness-concepts-integration/plan.md"
 run_lifecycle:
+  existing_lifecycle_run_admission:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/lifecycle-run-admission-v1.schema.json"
+    evidence_root: ".octon/state/evidence/runs/<run-id>/admission"
+    canonical_file: "lifecycle-run-admission.yml"
+    rule: "Existing run identity may be bound only from validated proposal lifecycle provenance; admission never mutates lifecycle truth or authorizes external effects."
   event_ledger:
     event_schema_ref: ".octon/framework/constitution/contracts/runtime/run-event-v2.schema.json"
     ledger_schema_ref: ".octon/framework/constitution/contracts/runtime/run-event-ledger-v2.schema.json"

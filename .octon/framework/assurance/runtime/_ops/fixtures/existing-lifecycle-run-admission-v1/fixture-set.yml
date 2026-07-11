@@ -1,0 +1,44 @@
+schema_version: "octon-fixture-set-v1"
+fixture_set_id: "existing-lifecycle-run-admission-v1"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-existing-lifecycle-run-admission.sh"
+test_ref: ".octon/framework/assurance/runtime/_ops/tests/test-existing-lifecycle-run-admission.sh"
+command_contract:
+  invocation: "octon run bind-lifecycle --run-id <id> --rollback-posture <ref>"
+  preserved_identity: true
+  caller_supplied_id_without_lifecycle_provenance_allowed: false
+  compatibility_route_allowed: false
+  control_artifacts:
+    - "run-contract.yml"
+    - "run-manifest.yml"
+    - "runtime-state.yml"
+  admission_evidence: "admission/lifecycle-run-admission.yml"
+positive_cases:
+  - "valid-existing-proposal-lifecycle-run-binds"
+  - "exact-run-id-is-preserved"
+  - "identical-binding-replay-is-idempotent"
+  - "valid-admission-allows-validator-and-shell-execution"
+negative_controls:
+  - "forged-or-unknown-run-id-is-denied"
+  - "mismatched-lifecycle-target-is-denied"
+  - "mismatched-lifecycle-type-is-denied"
+  - "mismatched-selected-route-is-denied"
+  - "stale-checkpoint-is-denied"
+  - "broken-event-chain-is-denied"
+  - "conflicting-existing-run-contract-is-denied"
+  - "widened-or-unauthorized-write-scope-is-denied"
+  - "missing-rollback-posture-is-denied"
+  - "missing-delegation-proof-is-denied"
+  - "post-target-mutation-admission-is-denied"
+  - "compatibility-environment-does-not-authorize-binding"
+  - "consequential-execution-before-admission-is-denied"
+required_bindings:
+  - "lifecycle-id"
+  - "target-path"
+  - "run-id"
+  - "checkpoint-digest"
+  - "event-chain-head"
+  - "selected-route"
+  - "delegation-proof-digest"
+  - "target-manifest-digest"
+  - "write-scope-digest"
+  - "rollback-posture-digest"

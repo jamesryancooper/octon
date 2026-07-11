@@ -1,4 +1,5 @@
 use crate::context::KernelContext;
+use crate::lifecycle_run_admission;
 use crate::orchestration;
 use crate::pipeline;
 use crate::request_builders as request;
@@ -1773,6 +1774,18 @@ fn cmd_run(cmd: RunCmd) -> Result<()> {
     let octon_dir = octon_core::root::RootResolver::resolve()?;
     let repo_root = octon_dir.parent().unwrap_or(&octon_dir).to_path_buf();
     match cmd {
+        RunCmd::BindLifecycle {
+            run_id,
+            rollback_posture,
+        } => {
+            let report = lifecycle_run_admission::bind_existing_lifecycle_run(
+                &repo_root,
+                &run_id,
+                &rollback_posture,
+            )?;
+            println!("{}", serde_json::to_string_pretty(&report)?);
+            Ok(())
+        }
         RunCmd::Start {
             contract,
             executor,

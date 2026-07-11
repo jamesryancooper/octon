@@ -501,7 +501,7 @@ valid_route_replay_class() {
 
 valid_route_write_scope_source() {
   case "$1" in
-    target|route-completion-and-target|workflow-scope|program-child-registry|program-mutation-envelope|run-bound-artifacts)
+    target|route-completion-and-target|route-completion-target-and-promotion-targets|workflow-scope|program-child-registry|program-mutation-envelope|run-bound-artifacts)
       return 0
       ;;
     *)

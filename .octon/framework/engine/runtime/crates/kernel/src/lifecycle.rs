@@ -964,6 +964,58 @@ fn lifecycle_event_hash(event: &LifecycleRunEvent) -> Result<String> {
     ))
 }
 
+/// Replays the packet lifecycle event chain without mutating lifecycle truth.
+/// Existing-run admission uses this exact writer-side hash algorithm.
+pub(crate) fn validate_lifecycle_event_chain_for_admission(
+    bytes: &[u8],
+    repo_root: &Path,
+    run_id: &str,
+    lifecycle_id: &str,
+    execution_strategy: &str,
+    target: &Path,
+) -> Result<String> {
+    let canonical_target = fs::canonicalize(target)?;
+    let mut previous = None;
+    let mut count = 0_u64;
+    for line in std::str::from_utf8(bytes)?
+        .lines()
+        .filter(|line| !line.trim().is_empty())
+    {
+        let event: LifecycleRunEvent = serde_json::from_str(line)?;
+        if event.run_id != run_id
+            || event.lifecycle_id != lifecycle_id
+            || event.execution_strategy != execution_strategy
+        {
+            bail!("lifecycle event provenance mismatch at index {count}");
+        }
+        if event.event_index != count || event.previous_event_sha256 != previous {
+            bail!("broken lifecycle event chain at index {count}");
+        }
+        let event_target = Path::new(&event.target);
+        let event_target = if event_target.is_absolute() {
+            event_target.to_path_buf()
+        } else {
+            repo_root.join(event_target)
+        };
+        if fs::canonicalize(event_target)? != canonical_target {
+            bail!("lifecycle event target mismatch at index {count}");
+        }
+        let actual = event
+            .event_sha256
+            .clone()
+            .ok_or_else(|| anyhow::anyhow!("lifecycle event digest missing at index {count}"))?;
+        if lifecycle_event_hash(&event)? != actual {
+            bail!("broken lifecycle event digest at index {count}");
+        }
+        previous = Some(actual);
+        count += 1;
+    }
+    if count == 0 {
+        bail!("lifecycle event chain is empty");
+    }
+    Ok(previous.expect("nonempty event chain has a tip"))
+}
+
 fn last_lifecycle_event_hash(log_path: &Path) -> Result<Option<String>> {
     if !log_path.exists() {
         return Ok(None);

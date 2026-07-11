@@ -4,6 +4,7 @@ mod commands;
 mod context;
 mod lifecycle;
 mod lifecycle_driver;
+mod lifecycle_run_admission;
 mod orchestration;
 mod pipeline;
 mod request;
@@ -1099,6 +1100,14 @@ impl StewardRenewalOutcomeArg {
 
 #[derive(Subcommand)]
 enum RunCmd {
+    /// Bind an existing proposal lifecycle run to canonical consequential run artifacts.
+    BindLifecycle {
+        #[arg(long = "run-id")]
+        run_id: String,
+        /// Repo-relative validated rollback posture artifact.
+        #[arg(long = "rollback-posture")]
+        rollback_posture: PathBuf,
+    },
     /// Start a run from a canonical run contract.
     Start {
         /// Path to the run contract.

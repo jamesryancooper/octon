@@ -130,6 +130,10 @@ run_product_roadmap() {
 
 run_harness() {
   run_step \
+    "Validate existing lifecycle run admission" \
+    bash "$SCRIPT_DIR/validate-existing-lifecycle-run-admission.sh"
+
+  run_step \
     "Validate harness structure contract" \
     bash "$SCRIPT_DIR/validate-harness-structure.sh"
 
@@ -369,6 +373,10 @@ run_workflows() {
 }
 
 run_proposal_lifecycle() {
+  run_step \
+    "Validate existing lifecycle run admission" \
+    bash "$SCRIPT_DIR/validate-existing-lifecycle-run-admission.sh"
+
   run_step \
     "Test proposal review gate validator" \
     bash "$SCRIPT_DIR/../tests/test-validate-proposal-review-gate.sh"

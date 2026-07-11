@@ -88,6 +88,7 @@ profiles:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-tool-output-envelope-contracts.sh"
       - ".octon/framework/assurance/maintainability/README.md"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-existing-lifecycle-run-admission.sh"
       - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-developer-context-policy.sh"
@@ -158,6 +159,7 @@ profiles:
     label: "Proposal lifecycle completeness, conformance, and drift/churn checks"
     entrypoint: "run_proposal_lifecycle"
     required_paths:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-existing-lifecycle-run-admission.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh"

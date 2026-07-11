@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/lifecycle-run-admission-v1.schema.json",
+  "title": "Existing Proposal Lifecycle Run Admission v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "status", "binding_sha256", "binding", "run_contract_ref", "recorded_at", "authority_boundary"],
+  "properties": {
+    "schema_version": { "const": "lifecycle-run-admission-v1" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "status": { "const": "admitted" },
+    "binding_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "binding": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["run_id", "lifecycle_id", "route_id", "target", "checkpoint_sha256", "event_log_sha256", "event_tip_sha256", "delegation_proof_sha256", "target_manifest_sha256", "authorized_write_scope", "rollback_posture_sha256"]
+    },
+    "run_contract_ref": { "type": "string", "minLength": 1 },
+    "recorded_at": { "type": "string", "minLength": 1 },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorizes_lifecycle_mutation", "authorizes_external_effects", "authorizes_git_or_hosted_mutation"],
+      "properties": {
+        "authorizes_lifecycle_mutation": { "const": false },
+        "authorizes_external_effects": { "const": false },
+        "authorizes_git_or_hosted_mutation": { "const": false }
+      }
+    }
+  }
+}

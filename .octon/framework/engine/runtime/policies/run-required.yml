@@ -20,6 +20,10 @@ observation_only_surfaces:
     route: "allow"
   - surface: "orchestration:*"
     route: "allow"
+admission_surfaces:
+  - surface: "run:bind-lifecycle"
+    route: "provenance-bound-authority-derivation"
+    execution_effect: "materialize canonical run roots only after lifecycle provenance, scope, rollback, and conflict validation; never execute payload work"
 consequential_surfaces:
   - surface: "tool:*"
     route: "compatibility-run-binding"
@@ -33,5 +37,7 @@ consequential_surfaces:
     route: "deny"
 rules:
   - "No consequential surface may execute without a canonical control-root run contract and manifest."
+  - "Lifecycle run admission may preserve an existing run id only when it is derived from a validated canonical lifecycle checkpoint and event chain; caller-supplied identity alone is never authority."
+  - "Lifecycle run admission must leave payload execution blocked until every generated canonical artifact and bound evidence reference validates."
   - "Compatibility entry points must not survive as live consequential execution lanes."
   - "Observation-only surfaces may execute directly when they do not mutate repo, control state, evidence, or external systems."
