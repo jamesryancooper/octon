@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "uec-global-ci-observe-read-20260404",
-  "generated_at": "2026-07-11T21:21:35Z",
+  "generated_at": "2026-07-11T21:29:30Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.2.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "fresh",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:9207702b7d73f073c24be0237d39658c7558c92f11c8d05702419bc5e7c3a1e8",
-    "checked_at": "2026-07-11T21:21:35Z",
+    "combined_source_digest": "sha256:38e3b984abb42e008f4d598f89d5ef0e2394496c1e4c8c19a9eb5bc7456dc892",
+    "checked_at": "2026-07-11T21:29:30Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/events.manifest.yml"
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:4d14d321709c68067c0ae5c16e608493bbe0a5359820169b0527bede1746c847",
+      "digest": "sha256:6ef93a1bdc0a269744f09ca83c106ae1ec010aff14ba8ac5cecc67e8d8ee946a",
       "status": "present"
     },
     "run_continuity": {

@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-worktree-hygiene",
-  "generated_at": "2026-07-11T21:21:35Z",
+  "generated_at": "2026-07-11T21:29:30Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.2.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:b67868a36e8dfd4cc43c6a37a8215cc041f08a06fc4d5dba47137606559e090b",
-    "checked_at": "2026-07-11T21:21:35Z",
+    "combined_source_digest": "sha256:6cae1fd43f4d049579bb59ffa274c42fa5f3c12168f2a5e5f21de86eb67eb31b",
+    "checked_at": "2026-07-11T21:29:30Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/lifecycle-packet-proposal-program-retry-step-budget-controls-terminal-closeout-20260708t014500z-workflow-classify-worktree-hygiene/events.manifest.yml"
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:4d14d321709c68067c0ae5c16e608493bbe0a5359820169b0527bede1746c847",
+      "digest": "sha256:6ef93a1bdc0a269744f09ca83c106ae1ec010aff14ba8ac5cecc67e8d8ee946a",
       "status": "present"
     },
     "run_continuity": {

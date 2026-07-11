@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "bootstrap-doctor-workflow-20260413-v4",
-  "generated_at": "2026-07-11T21:21:35Z",
+  "generated_at": "2026-07-11T21:29:30Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.2.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "fresh",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:e109df1591b2a1e644f9b5c136d7c31f198bbe2ec04e3b0ceee01512cd4b7e20",
-    "checked_at": "2026-07-11T21:21:35Z",
+    "combined_source_digest": "sha256:ac863cd05ba0543a6a58589e9942adc641c2b32acb519d93596ff954e1b181d5",
+    "checked_at": "2026-07-11T21:29:30Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/events.manifest.yml"
@@ -156,7 +156,7 @@
     },
     "support_reconciliation": {
       "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:4d14d321709c68067c0ae5c16e608493bbe0a5359820169b0527bede1746c847",
+      "digest": "sha256:6ef93a1bdc0a269744f09ca83c106ae1ec010aff14ba8ac5cecc67e8d8ee946a",
       "status": "present"
     },
     "run_continuity": {
