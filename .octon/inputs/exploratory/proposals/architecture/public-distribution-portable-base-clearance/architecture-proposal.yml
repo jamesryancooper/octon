@@ -1,0 +1,13 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "portable component closure, license, provenance, sensitivity, and publication clearance"
+decision_type: "boundary-change"
+decision_summary: "Create component-level dependency and clearance records so portable_dropin can export only the smallest dependency-closed, publication-cleared base with zero unknown paths."
+affected_surfaces:
+  - "framework component manifest"
+  - "dependency closure"
+  - "license and provenance records"
+  - "sensitivity and publication clearance"
+  - "name-conflict search procedure"
+  - "clearance validators"
+non_authority_statement: "This packet defines a proposed implementation boundary only. It does not authorize implementation, external effects, publication, legal conclusions, or risk acceptance."
+

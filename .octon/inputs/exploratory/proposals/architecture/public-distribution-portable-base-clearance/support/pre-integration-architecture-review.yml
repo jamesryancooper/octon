@@ -1,0 +1,26 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "public-distribution-portable-base-clearance-pre-integration-architecture-review-refresh-20260709T233943Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/public-distribution-portable-base-clearance"
+packet_digest: "sha256:e92351f78909cbe007c50ae5fd37e6d6fb8c026e81299feb30c6daf33e8e6260"
+review_mode: "pre-integration-architecture-review"
+verdict: "pass"
+unresolved_count: 0
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-09T23:39:43Z"
+evidence_refs:
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-portable-base-clearance/proposal.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-portable-base-clearance/architecture/target-architecture.md"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-portable-base-clearance/architecture/acceptance-criteria.md"
+  - ".octon/inputs/exploratory/proposals/architecture/public-distribution-portable-base-clearance/architecture/implementation-plan.md"
+validator_refs:
+  - "validate-proposal-standard.sh --package <packet>"
+  - "validate-architecture-proposal.sh --package <packet>"
+  - "validate-proposal-review-gate.sh --package <packet> --require-implementation-authorization"
+blockers: []
+mode_specific_coverage:
+  system_job: "Select the smallest dependency-closed portable base and clear every exported component for origin, license, sensitivity, and publication."
+  authority_boundaries: "Clearance evidence authorizes selection only after maintainer disposition; path location never implies publication safety."
+  failure_modes: "Unknown origin, unresolved rights, restricted sensitivity, unreachable selection, dependency gaps, packs, and name conflicts block closure."
+  evidence_and_validation: "Component inheritance with path overrides, synthetic leak fixtures, and exact closure equality provide deterministic checks."
+  rollback_and_recovery: "Removing a component from the selected closure is non-destructive and interrupted clearance yields no passing release receipt."
+  verdict_basis: "First-release zero-exception precedence is explicit and all criteria are measurable."

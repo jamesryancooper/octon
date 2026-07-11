@@ -1,0 +1,33 @@
+schema_version: "proposal-v1"
+proposal_id: "public-distribution-portable-base-clearance"
+title: "Public Distribution Portable Base Clearance"
+summary: "Define dependency-closed component selection and publication clearance for the smallest viable Octon base."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/manifest.yml"
+  - ".octon/framework/constitution/contracts/disclosure/portable-component-clearance-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-portable-component-clearance.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-portable-component-clearance.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/portable-component-clearance/"
+  - ".octon/state/evidence/validation/proposals/public-distribution-portable-base-clearance/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: "Review, accept, implement, validate, promote, close out, and archive this packet through the canonical proposal lifecycle, or reject or supersede it with explicit evidence."
+related_proposals:
+  - "octon-public-distribution-model"
+  - "public-distribution-repository-role-contracts"
+change_profile: "atomic"
+created_date: "2026-07-09"
+program_parent: "octon-public-distribution-model"
+program_phase: "phase-2"
+program_group: "portable-clearance"
+authority_class_impact:
+  framework: "May add component, provenance, license, sensitivity, and clearance contracts and validators."
+  instance: "No instance authority change."
+  state_control: "Release selection remains proposal and later release control, not instance authority."
+  state_evidence: "Clearance evidence is retained without exposing reviewed sensitive content."
+  generated: "Release manifests and SBOM inputs are derived from cleared source and remain non-authoritative."
+  inputs: "This packet is non-authoritative proposal lineage until separately accepted, implemented, validated, and promoted."
+explicit_runtime_non_implementation_statement: "Creating this packet changes no runtime, repository, GitHub, publication, credential, evidence-retention, or release behavior."
