@@ -23564,6 +23564,10 @@ fn program_handoff_request_spec(
     result: &ProgramChildExecutionSummary,
 ) -> Option<ProgramHandoffRequestSpec> {
     if result.status == "blocked"
+        && result
+            .worktree_hygiene_foreign_fingerprint
+            .as_deref()
+            .is_some_and(valid_sha256_digest)
         && matches!(
             result.route_id.as_str(),
             "closeout-packet" | "archive-proposal" | ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT
@@ -24260,6 +24264,9 @@ fn actionable_lifecycle_interaction_request_refs(
         if unsupported_promotion_closeout_worktree_request_without_classifier(
             repo_root,
             &request_ref,
+        )? || unsupported_child_closeout_worktree_request_without_classifier(
+            repo_root,
+            &request_ref,
         )? {
             continue;
         }
@@ -24591,6 +24598,65 @@ fn unsupported_promotion_closeout_worktree_request_without_classifier(
                 .map(String::as_str)
                 == Some("true"),
     )
+}
+
+fn unsupported_child_closeout_worktree_request_without_classifier(
+    repo_root: &Path,
+    request_ref: &str,
+) -> Result<bool> {
+    let Some((normalized_ref, request_path)) =
+        normalize_existing_program_evidence_ref(repo_root, request_ref)
+    else {
+        return Ok(false);
+    };
+    let value: serde_json::Value = match serde_json::from_slice(&fs::read(&request_path)?) {
+        Ok(value) => value,
+        Err(_) => return Ok(false),
+    };
+    if value.get("schema_version").and_then(|schema| schema.as_str())
+        != Some(LIFECYCLE_INTERACTION_REQUEST_SCHEMA)
+    {
+        return Ok(false);
+    }
+    let request = value.get("request");
+    if request
+        .and_then(|request| request.get("requested_lifecycle_id"))
+        .and_then(|lifecycle| lifecycle.as_str())
+        != Some("closeout-worktree")
+        || request
+            .and_then(|request| request.get("requested_route_surface"))
+            .and_then(|surface| surface.as_str())
+            != Some("closeout-worktree")
+    {
+        return Ok(false);
+    }
+    let Some(basis_ref) = normalized_ref
+        .strip_suffix(".json")
+        .map(|stem| format!("{stem}-basis.yml"))
+    else {
+        return Ok(false);
+    };
+    let Some((_, basis_path)) = normalize_existing_program_evidence_ref(repo_root, &basis_ref)
+    else {
+        return Ok(false);
+    };
+    let fields = match parse_receipt_fields(&basis_path) {
+        Ok(fields) => fields,
+        Err(_) => return Ok(false),
+    };
+    Ok(matches!(
+        fields.get("route_id").map(String::as_str),
+        Some("closeout-packet")
+            | Some("archive-proposal")
+            | Some(ROUTE_ID_PROPOSAL_PACKET_TERMINAL_CLOSEOUT)
+    ) && fields.get("route_status").map(String::as_str) == Some("blocked")
+        && fields.get("classifier_output_ref").map(String::as_str) == Some("none")
+        && fields.get("classifier_output_digest").map(String::as_str) == Some("none")
+        && fields.get("non_authorizing").map(String::as_str) == Some("true")
+        && fields
+            .get("child_closeout_authority_preserved")
+            .map(String::as_str)
+            == Some("true"))
 }
 
 fn adapter_error_blocker_class(error: &LifecycleExecutionError) -> (String, bool) {
