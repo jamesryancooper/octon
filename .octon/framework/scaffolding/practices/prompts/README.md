@@ -11,6 +11,7 @@ Project-specific prompts can be added here.
 
 ## Local Prompts
 
+- `create-octon-architecture-migration-proposal-program.md` - Create the fixed, reconciled 15-packet architecture migration proposal program for later operator review without implementing or promoting it.
 - `clean-break-migration.prompt.md` - Execute profile-governed migrations with explicit profile receipts, enforcement controls, and evidence bundle outputs.
 - `unified-execution-constitution-atomic-cutover.prompt.md` - Execute the fully unified execution constitution packet as one big-bang, clean-break, atomic migration without stopping between phases.
 - `audit-skills-system-expansion.md` - Evaluate whether the skills system needs a new artifact or feature, or only tighter existing contracts and validators.
