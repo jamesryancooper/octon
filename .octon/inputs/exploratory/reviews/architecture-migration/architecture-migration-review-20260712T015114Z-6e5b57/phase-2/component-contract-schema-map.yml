@@ -1,0 +1,90 @@
+schema_version: "octon-component-contract-schema-map-v1"
+components:
+  - component: "authority_engine"
+    disposition: "preserve_and_modify"
+    current_refs: [".octon/framework/engine/runtime/crates/authority_engine"]
+    target_contracts: ["execution-authority-vNext", "exact-operation-reservation-v1", "canonical-resource-scope-v1"]
+    schemas: ["grant", "operation", "launch_descriptor", "revocation_generation"]
+    validators: ["authority negative matrix", "scope normalization adversarial suite"]
+    authoritative_for: ["authorization decision", "grant semantics"]
+    forbidden_authority: ["project", "profile", "harness", "provider workflow"]
+  - component: "transactional_store"
+    disposition: "add"
+    current_refs: [".octon/framework/engine/runtime/crates/runtime_bus", ".octon/framework/engine/runtime/crates/replay_store"]
+    target_contracts: ["runtime-store-v1", "operation-state-machine-v1", "evidence-outbox-v1"]
+    schemas: ["SQLite migration set", "backup manifest", "projection cursor"]
+    validators: ["migration", "integrity", "single-writer", "fault recovery"]
+    authoritative_for: ["runtime state", "effect state", "evidence reservation"]
+    forbidden_authority: ["policy decision"]
+  - component: "isolated_launcher"
+    disposition: "replace_dispatch_envelope"
+    current_refs: [".octon/framework/engine/runtime/crates/lifecycle_executor"]
+    target_contracts: ["candidate-isolation-v1", "guarded-launch-v1"]
+    schemas: ["launch_descriptor", "sandbox_profile", "cleanup_receipt"]
+    validators: ["launch inventory", "escape probe matrix"]
+    authoritative_for: ["process creation only after guard consume"]
+    forbidden_authority: ["grant issuance", "durable provider effect"]
+  - component: "local_broker"
+    disposition: "add"
+    current_refs: [".octon/framework/capabilities/_ops/scripts/policy-grant-broker.sh"]
+    target_contracts: ["broker-ipc-v1", "effect-adapter-v1", "credential-custody-v1"]
+    schemas: ["effect_request", "attempt", "unknown_outcome", "effect_result"]
+    validators: ["IPC authentication", "idempotency", "revocation", "reconciliation"]
+    authoritative_for: ["credential custody", "effect performance"]
+    forbidden_authority: ["authorization decision", "verification verdict"]
+  - component: "sanitized_git_adapter"
+    disposition: "add_and_reuse_validation_logic"
+    current_refs: [".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"]
+    target_contracts: ["sanitized-git-effect-v1", "exact-ref-transition-v1"]
+    schemas: ["git_effect_request", "git_effect_receipt"]
+    validators: ["hostile Git extension suite", "target race and CAS suite"]
+    authoritative_for: ["exact Git effect performance"]
+    forbidden_authority: ["route selection", "verifier verdict"]
+  - component: "exact_sha_verifier"
+    disposition: "replace_candidate_checks"
+    current_refs: [".github/workflows/change-route-projection.yml"]
+    target_contracts: ["independent-verdict-v1"]
+    schemas: ["verifier_identity", "exact_sha_verdict"]
+    validators: ["candidate immutability", "duplicate context", "signature", "expiry"]
+    authoritative_for: ["direct observation attestation"]
+    forbidden_authority: ["effect performance", "grant issuance"]
+  - component: "evidence_projector"
+    disposition: "modify"
+    current_refs: [".octon/framework/engine/runtime/crates/runtime_bus", ".octon/framework/engine/runtime/spec/evidence-store-v1.md"]
+    target_contracts: ["signed-checkpoint-v1", "bounded-retention-v1", "proof-import-v1"]
+    schemas: ["signed_event", "checkpoint", "retention_pin", "compaction_receipt"]
+    validators: ["forgery", "rechain", "rollback snapshot", "compaction", "low-space"]
+    authoritative_for: ["projection and aggregation only"]
+    forbidden_authority: ["manufactured pass/approval/execution claims"]
+  - component: "workspace_project"
+    disposition: "add"
+    current_refs: [".octon/instance/locality/project-profile.yml"]
+    target_contracts: ["workspace-project-v1"]
+    schemas: ["project identity", "root binding", "profile reference"]
+    validators: ["relocation", "multi-project", "non-authority"]
+    authoritative_for: ["durable project identity and boundaries"]
+    forbidden_authority: ["execution authorization"]
+  - component: "harness_factory"
+    disposition: "add_compiler"
+    current_refs: [".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md"]
+    target_contracts: ["harness-inputs-v1", "effective-harness-manifest-v1"]
+    schemas: ["manifest", "compile receipt"]
+    validators: ["determinism", "freshness", "capability closure", "digest binding"]
+    authoritative_for: ["deterministic compilation only"]
+    forbidden_authority: ["runtime scheduling", "policy decision", "grant issuance"]
+  - component: "extension_catalog"
+    disposition: "extend"
+    current_refs: [".octon/generated/effective/extensions/catalog.effective.yml"]
+    target_contracts: ["private-signed-catalog-v1"]
+    schemas: ["catalog entry", "signer policy", "revocation", "pin"]
+    validators: ["signature", "compatibility", "capability", "rollback"]
+    authoritative_for: ["artifact authenticity and selection input"]
+    forbidden_authority: ["execution authorization"]
+  - component: "trust_activator"
+    disposition: "add"
+    current_refs: [".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs"]
+    target_contracts: ["trust-root-inventory-v1", "staged-activation-v1", "automatic-rollback-v1"]
+    schemas: ["version record", "activation envelope", "health result", "rollback receipt"]
+    validators: ["previous-version identity", "self-widening", "all-transition fault matrix"]
+    authoritative_for: ["exact preauthorized activation and recovery"]
+    forbidden_authority: ["candidate self-certification"]

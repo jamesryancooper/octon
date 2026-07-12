@@ -1,0 +1,137 @@
+schema_version: "octon-reconciliation-workgroup-comparison-v1"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+comparison:
+  - reconciled_workgroup: "RWG-00"
+    name: "Containment, baseline, claims, and writer inventory"
+    architect_a_mapping: ["WG-00"]
+    architect_b_mapping: ["PP-00", "parts of PP-01"]
+    adopted_from_a: "Manual/protected-PR bridge; disable candidate writes/direct-main; inventory launches/writers."
+    adopted_from_b: "Authority decision-source integrity; tracked-state and workflow census."
+    rejected: ["Any log-only privileged bridge."]
+    dependencies: []
+    reconciled_exit: "Unsafe provider/direct-main paths disabled, claims narrowed, physical writers/launches/credentials/trust roots inventoried."
+  - reconciled_workgroup: "RWG-01"
+    name: "Candidate-immutable canonical authority and exact guards"
+    architect_a_mapping: ["WG-01"]
+    architect_b_mapping: ["PP-01"]
+    adopted_from_a: "Sole authority, scope repair, exhaustive guards."
+    adopted_from_b: "Pin evaluator/policy/receipt inputs; fail closed on production overrides."
+    rejected: ["Mediating spawns through candidate-editable authority."]
+    dependencies: ["RWG-00"]
+    reconciled_exit: "One candidate-immutable decision path and exact guard on every supported launch."
+  - reconciled_workgroup: "RWG-02"
+    name: "Credentialless native candidate isolation"
+    architect_a_mapping: ["WG-02"]
+    architect_b_mapping: ["PP-02"]
+    adopted_from_a: "macOS native isolation and independent Git state."
+    adopted_from_b: "Positive useful-provider session proof and full escape matrix."
+    rejected: ["Linked worktree alone.", "Fresh HOME alone as authentication design."]
+    dependencies: ["RWG-00"]
+    reconciled_exit: "Useful model work with no durable credential or canonical Git/host escape."
+  - reconciled_workgroup: "RWG-03"
+    name: "One transactional runtime store and state migration"
+    architect_a_mapping: ["WG-03"]
+    architect_b_mapping: ["PP-03"]
+    adopted_from_a: "Full SQLite/WAL source of truth."
+    adopted_from_b: "Run-state burden measurement, backup/restore, ENOSPC."
+    rejected: ["Narrow CAS as final target.", "YAML read-through authority rollback."]
+    dependencies: ["RWG-01"]
+    reconciled_exit: "After authority/guard semantics freeze: one writer/transaction; legacy files are non-authoritative projections; fault suite passes."
+  - reconciled_workgroup: "RWG-04"
+    name: "Supervised local broker and credential custody"
+    architect_a_mapping: ["WG-04"]
+    architect_b_mapping: ["PP-04"]
+    adopted_from_a: "One separate broker and narrow IPC."
+    adopted_from_b: "Startup, supervision, authenticated IPC, enrollment, doctor, repair, restart/reconcile."
+    rejected: ["Second broker.", "Candidate-readable durable provider secret."]
+    dependencies: ["RWG-01", "RWG-02", "RWG-03"]
+    reconciled_exit: "Broker alone holds credentials and performs one exact test effect unattended."
+  - reconciled_workgroup: "RWG-05"
+    name: "Sanitized privileged Git"
+    architect_a_mapping: ["WG-05"]
+    architect_b_mapping: ["PP-05"]
+    adopted_from_a: "Broker-internal Git adapter and fast-forward target CAS."
+    adopted_from_b: "Full hostile extension matrix and attempt attribution."
+    rejected: ["Ambient Git rollback.", "Generic force semantics."]
+    dependencies: ["RWG-04"]
+    reconciled_exit: "Exact expected-old fast-forward succeeds; every candidate-controlled Git extension fails."
+  - reconciled_workgroup: "RWG-06"
+    name: "Immutable verifier and adaptive publication"
+    architect_a_mapping: ["WG-06"]
+    architect_b_mapping: ["PP-06"]
+    adopted_from_a: "Separate exact-SHA identity and deterministic PR escalation."
+    adopted_from_b: "Prefer provider-native verifier/App; retire ambiguous checks/workflows; early zero-prompt status UX."
+    rejected: ["Candidate-head verifier.", "Same identity verifies and publishes."]
+    dependencies: ["RWG-01", "RWG-03", "RWG-05"]
+    reconciled_exit: "Immutable verdict binds source/target/policy/time; eligible Class B routes deterministically."
+  - reconciled_workgroup: "RWG-07"
+    name: "Signed bounded evidence, capacity, retention, and degraded mode"
+    architect_a_mapping: ["WG-07"]
+    architect_b_mapping: ["PP-07"]
+    adopted_from_a: "Signed direct observations/checkpoints and capacity reservation."
+    adopted_from_b: "Tracked raw-state migration, pins, quotas, compaction, snapshot rollback tests."
+    rejected: ["Plain Git anchoring.", "Standalone capacity lease service."]
+    dependencies: ["RWG-03", "RWG-04", "RWG-06"]
+    reconciled_exit: "Authentic bounded evidence survives failure/compaction and claims completeness honestly."
+  - reconciled_workgroup: "RWG-08"
+    name: "Recovery, reconciliation, and complete Class B vertical"
+    architect_a_mapping: ["WG-08"]
+    architect_b_mapping: ["parts of PP-07", "publication proof in PP-12"]
+    adopted_from_a: "Separate vertical proof before trust automation."
+    adopted_from_b: "Attempt-bound unknown outcome, provider outage, broker restart, target-race proof."
+    rejected: ["Evidence/recovery deferred until after Class B publication."]
+    dependencies: ["RWG-06", "RWG-07"]
+    reconciled_exit: "Representative Class A/B missions integrate frozen policy/transaction APIs, complete or reconcile without blind retry; mission status, scheduled maintenance, one reversible effect, PR escalation, and degraded mode work."
+  - reconciled_workgroup: "RWG-09"
+    name: "Safe self-development and trust-root activation"
+    architect_a_mapping: ["WG-09"]
+    architect_b_mapping: ["PP-08"]
+    adopted_from_a: "Depends on verification, evidence, and Class B proof; inert landing then previous-version activation."
+    adopted_from_b: "Exact approval binding, trust-root inventory, every-kill-point rollback."
+    rejected: ["Candidate-head gate as bootstrap.", "Same-change certification."]
+    dependencies: ["RWG-06", "RWG-07", "RWG-08"]
+    reconciled_exit: "Every activation ends old healthy, exact new healthy, or authenticated automatic rollback."
+  - reconciled_workgroup: "RWG-10"
+    name: "Minimal Workspace Projects"
+    architect_a_mapping: ["WG-10"]
+    architect_b_mapping: ["PP-09"]
+    adopted_from_a: "Required minimal inferred non-authoritative record."
+    adopted_from_b: "May proceed outside the first single-project safety critical path."
+    rejected: ["Final deferral until a second project appears.", "Portfolio ontology."]
+    dependencies: ["RWG-01"]
+    reconciled_exit: "Two project identities/roots and cross-project mission inbox persist without minting or widening authority."
+  - reconciled_workgroup: "RWG-11"
+    name: "Deterministic Harness Factory"
+    architect_a_mapping: ["WG-11"]
+    architect_b_mapping: ["PP-10"]
+    adopted_from_a: "Full target compiler after Projects and isolation."
+    adopted_from_b: "Preserve route-bundle/resolver/task-harness primitives and prove actual launch binding."
+    rejected: ["Preserve-only completion claim.", "New scheduler/runtime/policy engine."]
+    dependencies: ["RWG-01", "RWG-02", "RWG-10"]
+    reconciled_exit: "Full approved input set compiles deterministically; digest binds into canonical authority/one-shot launch; stale/self-widened digest cannot launch."
+  - reconciled_workgroup: "RWG-12"
+    name: "Extensions and bounded child-agent capabilities"
+    architect_a_mapping: ["WG-12"]
+    architect_b_mapping: ["PP-11"]
+    adopted_from_a: "After signed evidence and Harness Factory."
+    adopted_from_b: "Separate supply-chain and delegation-depth proof; preserve scheduling/publication primitives."
+    rejected: ["Public marketplace.", "Persistent or credentialed children.", "One packet owning both sources of truth."]
+    dependencies: ["RWG-07", "RWG-08", "RWG-11"]
+    packet_dependency_note: "RP-12 may start after RWG-07/RWG-11; RP-13 starts only after RWG-08/RWG-11. This workgroup is a coordination umbrella, not one shared entry gate."
+    reconciled_exit: "Two separate packets close: signed private catalog; credentialless bounded child missions."
+  - reconciled_workgroup: "RWG-13"
+    name: "Solo-product dogfood, scope trim, claims, and promotion"
+    architect_a_mapping: ["WG-13", "late UX portion of WG-12"]
+    architect_b_mapping: ["PP-12"]
+    adopted_from_a: "Independent proof map and authoritative handoff prerequisites."
+    adopted_from_b: "File/workflow/prompt/time budgets, two-project dogfood, unsupported-surface retirement."
+    rejected: ["Treating late product packet as first broker diagnosis delivery."]
+    dependencies: ["RWG-08", "RWG-09", "RWG-10", "RWG-11"]
+    program_closeout_dependencies: ["RWG-12"]
+    reconciled_exit: "Core claim-scoped fresh install and rolling 30-day dogfood pass; optional claims wait for RWG-12; claims match direct proof; promotion prerequisites complete."
+summary:
+  architect_a_workgroups: 14
+  architect_b_packets: 13
+  reconciled_workgroups: 14
+  reconciled_proposal_packets: 15
+  reason_for_packet_split: "RWG-12 coordinates two capabilities with different authoritative sources; RP-12 and RP-13 retain exclusive ownership."

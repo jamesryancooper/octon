@@ -1,0 +1,307 @@
+schema_version: "octon-reconciled-proposal-packet-map-v1"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+status: "proposal-program-design-input"
+packets:
+  - packet_id: "RP-00"
+    name: "Containment, Baseline, and Claim Correction"
+    objective: "Create a safe, complete, and truthful boundary before privileged implementation."
+    scope: ["normalized baseline", "provider/effect containment", "launcher/writer/credential/policy/trust/workflow inventories", "support/proof claim correction", "legacy-state burden baseline"]
+    non_goals: ["target broker/store implementation", "autonomous publication", "trust activation"]
+    decision_owners: ["FD-015 physical writer inventory", "Gate 0 support-claim posture"]
+    source_of_truth_owned: ["TCB physical-writer inventory", "launch/effect/credential/provider-workflow inventory", "trust-root inventory skeleton", "claim-correction register"]
+    affected_components: ["GitHub workflows", "default work-unit route", "support dossiers", "proof validators", ".octon/state inventory"]
+    affected_contracts: [".octon/framework/product/contracts/default-work-unit.yml", ".octon/instance/governance/support-targets.yml", ".octon/instance/governance/disclosure/harness-card.yml"]
+    dependencies: []
+    migration_steps: ["Bind clean baseline and provider snapshot", "Disable candidate-head provider writers and autonomous direct-main", "Make protected PR the only privileged bridge", "Generate physical inventories", "Correct complete/live/executed/signed claims", "Record state/workflow burden"]
+    rollback: "Revert non-safety wording/inventory changes only; unsafe routes remain disabled."
+    validators: ["immutable input integrity", "writer/launcher/workflow inventory validator", "support-claim proof validator with referenced-vs-executed negative fixture"]
+    evidence: ["baseline receipt", "provider containment receipt", "inventory coverage report", "claim correction diff", "state/workflow metrics"]
+    entry_criteria: ["Normalized commit available", "Original review integrity passes"]
+    exit_criteria: ["No candidate-controlled privileged provider write", "No agent direct-main route", "No unregistered writer/launcher/credential plane", "No overstated current proof claim"]
+    blocking_findings: ["RF-003", "RF-007", "RF-008", "RF-013", "RF-017", "RF-018", "RF-032"]
+    supporting_findings: ["RF-020"]
+    operator_decisions: ["ROD-006 human-only escape-hatch phase"]
+    parallelization_constraints: "All other packets may design in parallel but cannot perform privileged changes until RP-00 exits."
+  - packet_id: "RP-01"
+    name: "Canonical Authority and Exact Launch Guards"
+    objective: "Make one candidate-immutable authority decision unavoidable for every agent/child launch."
+    scope: ["authority evaluator/policy/bin/config/receipt integrity", "lifecycle authority retirement", "typed resource scope", "one-shot launch guards", "structural launcher API"]
+    non_goals: ["credential custody", "provider/Git effect execution", "trust-root activation"]
+    decision_owners: ["FD-003", "FD-004"]
+    source_of_truth_owned: ["canonical execution-decision interface", "trusted policy floor and installed evaluator manifest", "typed resource matching", "invocation-guard state contract", "candidate-launch API"]
+    affected_components: ["authority_engine", "policy_engine/wrapper", "lifecycle_executor", "pipeline", "workflow", "workflow_leaf", "studio"]
+    affected_contracts: [".octon/framework/engine/runtime/spec/execution-authorization-v1.md", ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml", ".octon/framework/engine/runtime/spec/policy-interface-v1.md"]
+    dependencies: ["RP-00"]
+    migration_steps: ["Package/pin evaluator and policy floor outside candidate checkout", "Remove or authenticate production runner/bin/mode/stale-route overrides", "Replace scope_matches with typed semantics", "Retire lifecycle DelegationProof authority", "Route all agent/child spawn through guard-owning API", "Enforce future raw-spawn structural check"]
+    rollback: "Restore previous independently certified authority package and disable affected launcher; no log-only or candidate-tree fallback."
+    validators: ["decision-source integrity validator", "typed-scope negative matrix", "spawn dominance/static census", "concurrent one-shot fault suite"]
+    evidence: ["installed evaluator/policy digest", "authority substitution results", "scope matrix", "launch coverage map", "consume/crash receipts"]
+    entry_criteria: ["RP-00 exits", "Epoch-zero authority distribution design recorded"]
+    exit_criteria: ["One issuer/decision source", "Candidate edits cannot change decision", "All supported launches consume exact guard", "Wrong/missing/stale/revoked/scope-widened authority denies"]
+    blocking_findings: ["RF-001", "RF-002", "RF-003"]
+    operator_decisions: ["ROD-003 epoch-zero installed-authority phase"]
+    parallelization_constraints: "May implement alongside RP-02. Freeze the versioned authority/guard semantic interface before RP-03 mutates persistence; the candidate cannot modify the decision source and its only validator in one change."
+  - packet_id: "RP-02"
+    name: "Credentialless Native Candidate Isolation"
+    objective: "Run useful model work without access to durable credentials or canonical host/Git state."
+    scope: ["macOS sandbox", "fresh environment/HOME", "provider session", "independent disposable repository/object DB", "FD/network/process/filesystem/Git boundaries", "safe candidate artifact export"]
+    non_goals: ["VM infrastructure", "Linux production support", "brokered privileged effects"]
+    decision_owners: ["FD-008", "FD-006 candidate-side boundary"]
+    source_of_truth_owned: ["candidate sandbox profile", "candidate environment/session contract", "candidate repository/object-transfer boundary"]
+    affected_components: ["primary-provider model launcher and generic candidate-launch path", "candidate workspace", "Git object transfer", "macOS service/sandbox integration"]
+    affected_contracts: [".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md", ".octon/framework/engine/runtime/adapters/model"]
+    dependencies: ["RP-00"]
+    migration_steps: ["Select macOS floor and session mechanism", "Create independent disposable repository", "Define env/FD/network/process/filesystem allowlists", "Provide useful model authentication without readable durable secrets", "Export exact candidate commit through non-executing boundary"]
+    rollback: "Disable automated candidate launch; preserve/export candidate commit for protected PR."
+    validators: ["sandbox/canary escape suite", "canonical Git mutation denial", "useful model-session test", "environment/FD allowlist validator"]
+    evidence: ["sandbox profile digest", "candidate repository identity", "credential canary results", "positive task receipt", "cleanup receipt"]
+    entry_criteria: ["RP-00 exits", "ED-001 primary-provider session/sandbox disposition applied"]
+    exit_criteria: ["Useful primary supported-provider task succeeds", "No durable credential or canonical Git/host access", "Candidate repository is independent and disposable"]
+    blocking_findings: ["RF-004", "RF-023", "RF-025"]
+    operator_decisions: []
+    parallelization_constraints: "May implement alongside RP-01; the initial provider session is independent of the effect broker, avoiding an RP-02/RP-04 cycle. Fixtures use sentinel credentials and disposable targets only."
+  - packet_id: "RP-03"
+    name: "Transactional Runtime Store and State Migration"
+    objective: "Move all consequential runtime authority state into one SQLite/WAL source and writer."
+    scope: ["canonical operation/attempt schema", "grants/revocation/guards/idempotency", "evidence capacity/outbox", "reconciliation/terminal/manual intervention", "migration/projection/backup/repair", "journal-model convergence", "tracked state reduction"]
+    non_goals: ["generic project metadata database", "external provider transaction", "provider-specific outcome classification/reconciliation policy", "multiple writers or dual canonical journals"]
+    decision_owners: ["FD-005", "FD-012 transaction substrate", "FD-013 capacity substrate"]
+    source_of_truth_owned: ["runtime SQLite schema/migrations", "operation and attempt state machine", "single-writer contract", "legacy-state import/projection contract", "backup/restore/corruption policy"]
+    affected_components: ["authority_engine effects", "runtime_bus", "replay_store", "state/control/evidence projections", "broker store access"]
+    affected_contracts: [".octon/framework/constitution/contracts/runtime", ".octon/framework/constitution/contracts/retention/family.yml", ".octon/framework/engine/runtime/spec/evidence-store-v1.md"]
+    dependencies: ["RP-01"]
+    migration_steps: ["Select one canonical SQL operation/attempt/journal schema", "Define T1 reserve-consume-attempt and T2 result/unknown-outbox", "Build legacy import and read-only comparison", "Quiesce effects and atomically cut authority epoch", "Make files projections/pointers only", "Add physical terminal headroom, backup/restore, corruption repair", "Move raw/detail payloads outside project Git"]
+    rollback: "Before the first consequential effect under the new authority epoch, restore an immutable pre-cutover snapshot. Afterward, keep effects disabled; never make an older DB live directly. Restore only a crash-consistent certified DB/WAL with monotonic epoch/high-water state, reconcile external outcomes, revoke uncertainty or advance the epoch; otherwise repair forward. Never re-promote YAML/file authority."
+    validators: ["schema/invariant validator", "single-writer structural check", "N-way consume/revocation/idempotency tests", "kill-point/ENOSPC/corruption/backup suite", "legacy projection parity"]
+    evidence: ["migration receipt", "authority-epoch receipt", "writer inventory", "fault matrix", "backup/repair drill", "tracked-state delta"]
+    entry_criteria: ["RP-01 versioned authority/guard semantic interface frozen", "ROD-001 store/backup/reserve policy recorded", "Writer/state inventory complete"]
+    exit_criteria: ["One authoritative writer/schema", "No dual authority/journal", "Every T1/effect/T2 kill point reaches explicit state", "Terminal evidence survives constrained volume", "Legacy projections are non-authoritative"]
+    blocking_findings: ["RF-006", "RF-011", "RF-012", "RF-017", "RF-021"]
+    operator_decisions: ["ROD-001 store/backup/reserve phase"]
+    parallelization_constraints: "May implement alongside RP-02 after RP-01 freezes semantics; guard semantics and persistence cannot change concurrently; no privileged external effect until full cutover and fault proof."
+  - packet_id: "RP-04"
+    name: "Supervised Local Broker and Credential Custody"
+    objective: "Operate one unattended local privilege boundary that consumes authority but never mints it."
+    scope: ["broker process/API", "authenticated same-user-resistant IPC", "operation-handle validation", "credential enrollment/custody", "sole DB writer", "auto-start/single-instance/restart/reconcile", "setup/status/doctor/repair/upgrade/uninstall", "one scratch effect"]
+    non_goals: ["second authority plane", "second store", "verifier responsibility", "remote worker in minimum vertical"]
+    decision_owners: ["FD-006", "FD-015 broker role", "FD-016 broker outage behavior"]
+    source_of_truth_owned: ["broker IPC/effect API", "credential custody/enrollment contract", "broker supervision and repair lifecycle", "operation-handle authentication"]
+    affected_components: ["broker executable/service", "Keychain integration", "SQLite writer", "CLI setup/doctor/repair", "effect-adapter host"]
+    affected_contracts: [".octon/instance/governance/policies/mission-autonomy.yml", ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"]
+    dependencies: ["RP-01", "RP-02", "RP-03"]
+    migration_steps: ["Apply ED-002 IPC/process identity and credential disposition", "Install supervised broker and Keychain enrollment", "Make broker sole store writer", "Validate exact operation handles and candidate identity", "Add generic restart scan/dispatch plus status/doctor/repair", "Begin rolling burden/recovery instrumentation", "Perform one exact non-production effect"]
+    rollback: "Disable broker effect route, preserve candidate work, use protected PR; restore only a prior certified broker behind the same IPC/store/credential boundary."
+    validators: ["IPC/identity/replay attack suite", "credential canary test", "single-instance/sole-writer check", "crash/restart/reconcile", "fresh setup/doctor/repair acceptance"]
+    evidence: ["broker install/enrollment receipt", "IPC attack results", "credential-access results", "scratch-effect receipt", "restart/repair receipts"]
+    entry_criteria: ["RP-01/RP-02/RP-03 exit", "ED-002 broker mechanism applied", "ED-001 useful primary-provider session proven"]
+    exit_criteria: ["Only broker holds credentials and writes DB", "Forged/replayed/same-UID unauthorized requests deny", "Broker recovers unattended", "One-command setup/doctor/repair works", "Exact scratch effect completes/reconciles"]
+    blocking_findings: ["RF-004", "RF-005", "RF-025"]
+    operator_decisions: []
+    parallelization_constraints: "No production Git/provider effect; broker cannot author verifier verdict or authority grant."
+  - packet_id: "RP-05"
+    name: "Sanitized Privileged Git Adapter"
+    objective: "Perform only an exact broker-authorized Git ref effect without executing candidate-controlled Git behavior."
+    scope: ["broker-owned minimal/bare Git repository", "pinned provider repository identity", "non-executing candidate object import", "closed command/config/transport allowlist", "expected-old fast-forward CAS", "effect observation/attempt attribution interface"]
+    non_goals: ["candidate checkout under broker identity", "generic Git client", "force update", "provider verifier"]
+    decision_owners: ["FD-009", "FD-010 Git primitive"]
+    source_of_truth_owned: ["broker Git request/result contract", "Git command/config allowlist", "candidate-object transfer contract", "expected-old FF effect implementation"]
+    affected_components: ["hosted no-PR scripts", "broker Git adapter", "Git config/transport", "provider ref API"]
+    affected_contracts: [".octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md", ".octon/framework/product/contracts/default-work-unit.yml"]
+    dependencies: ["RP-04"]
+    migration_steps: ["Create broker-owned minimal repository and pinned remote identity", "Define non-executing exact object import", "Implement closed Git/config/environment/transport surface", "Implement server-observed expected-old fast-forward update", "Expose deterministic observe/reconcile semantics", "Retire ambient helper calls after proof"]
+    rollback: "Disable Git effect route and use protected PR; never restore unsanitized/ambient calls."
+    validators: ["hostile Git extension matrix", "repository identity pin", "object-import non-execution", "ancestor/CAS/target-race tests", "attempt observation contract tests"]
+    evidence: ["adapter/allowlist digest", "hostile-fixture results", "scratch remote effect/observation receipts", "target-race results"]
+    entry_criteria: ["RP-04 exits", "ED-003 credential/CAS/attribution disposition applied"]
+    exit_criteria: ["Exact FF effect succeeds from broker state", "Every candidate-controlled extension route denies", "Wrong remote/ref/expected-old/non-ancestor denies", "Observation distinguishes current state from causal attempt claim"]
+    blocking_findings: ["RF-008", "RF-009", "RF-018", "RF-023", "RF-026"]
+    operator_decisions: []
+    parallelization_constraints: "No candidate checkout or attributes/config under broker identity; verifier work may design in parallel but RP-06 exit waits."
+  - packet_id: "RP-06"
+    name: "Immutable Verification and Adaptive Publication"
+    objective: "Authenticate exact candidate proof and route eligible Class B to no-PR or deterministic protected PR."
+    scope: ["candidate-immutable verifier identity/version", "exact verdict schema", "provider verifier/publication adapter", "required-check identity", "immutable Class A/B/C and Class B/PR predicate policy", "workflow keep/merge/retire", "initial zero-prompt explanation/status"]
+    non_goals: ["generic executor adapter", "runtime store", "trust activation", "same identity verifying and publishing"]
+    decision_owners: ["FD-007", "FD-010", "FD-011", "FD-023 verifier/publication specialization"]
+    source_of_truth_owned: ["verifier identity/version and exact-SHA verdict", "immutable Class A/B/C and Class B/PR predicate policy/route selector", "provider verifier/publication adapter", "authenticated check binding"]
+    affected_components: ["GitHub ruleset/check producers", "change-route projection", "auto-merge/release workflows", "broker publication route", "CLI status"]
+    affected_contracts: [".octon/framework/engine/runtime/adapters/host/github-control-plane.yml", ".octon/instance/governance/support-targets.yml"]
+    dependencies: ["RP-01", "RP-03", "RP-05"]
+    migration_steps: ["Apply ED-004 protected verifier identity", "Define verdict binding and expiry/revocation", "Move verifier code/policy outside candidate control", "Bind provider rules/checks to authenticated identity", "Close ROD-002 and publish immutable A/B/C plus Class B/PR predicate digest", "Implement deterministic route", "Inventory and retire/merge candidate writer/verifier workflows", "Add concise route/blocker/status UX"]
+    rollback: "Disable autonomous publication and use protected PR; restore only prior certified verifier behind same identity; keep candidate output."
+    validators: ["candidate verifier mutation", "duplicate/conflicting context", "wrong repo/source/target/policy/time/expiry/revocation", "route predicate matrix", "provider-config drift", "adapter conformance"]
+    evidence: ["verifier identity/version receipt", "exact verdict fixtures", "ruleset/provider binding observation", "route matrix", "workflow disposition", "provider conformance report"]
+    entry_criteria: ["RP-01/RP-03/RP-05 exit", "ED-004 verifier disposition applied", "ROD-002 autonomy/PR predicate policy recorded"]
+    exit_criteria: ["Candidate cannot alter its only verdict", "Verifier cannot publish", "Eligible Class B obtains exact authenticated verdict", "All other valid work routes to PR; invalid authority denies", "Agent direct-main unreachable", "Initial route is zero-prompt/explainable"]
+    blocking_findings: ["RF-007", "RF-009", "RF-010", "RF-024"]
+    operator_decisions: ["ROD-002"]
+    parallelization_constraints: "Verifier implementation/policy cannot be changed by candidate under review; generic executor adapter remains RP-11-owned."
+  - packet_id: "RP-07"
+    name: "Signed Bounded Evidence, Capacity, and Retention"
+    objective: "Produce authentic, rollback-detecting, bounded proof that remains operable under low space and compaction."
+    scope: ["broker/verifier signatures", "range/terminal checkpoints", "candidate-inaccessible monotonic latest-head anchor", "physical/logical terminal capacity", "evidence outbox/projection", "retention quotas/pins/compaction", "raw payload locality", "signer/storage degraded behavior"]
+    non_goals: ["sign every event", "distributed transparency service", "standalone capacity lease", "plain Git anchoring substitute"]
+    decision_owners: ["FD-013", "FD-014", "FD-016 evidence behavior"]
+    source_of_truth_owned: ["evidence signature/checkpoint envelope", "monotonic checkpoint-head record", "capacity reservation policy", "retention/quota/pin/compaction policy", "evidence projection rules"]
+    affected_components: ["runtime evidence outbox", "broker/verifier signers", "Keychain/provider anchor", "retention/compaction", "project-Git receipts/pointers"]
+    affected_contracts: [".octon/framework/constitution/contracts/retention/family.yml", ".octon/framework/engine/runtime/spec/evidence-store-v1.md", ".octon/framework/constitution/contracts/runtime/checkpoint-v2.schema.json"]
+    dependencies: ["RP-03", "RP-04", "RP-06"]
+    migration_steps: ["Select separate signer identities and latest-head anchor", "Define signed direct/range/terminal records", "Bind sequence/prior head/range/key/operation/pins", "Reserve bounded terminal capacity physically and logically", "Make raw logs local/outside Git and detail retention bounded", "Implement verify-checkpoint-commit-delete compaction", "Project only minimal signed claims/pointers"]
+    rollback: "Block autonomous success/publication when signer/evidence unavailable; retain raw data if compaction incomplete; never fall back unsigned."
+    validators: ["wrong/revoked key and producer forgery", "rechain/old-valid-snapshot/latest-head rollback", "ENOSPC/reservation", "pin/compaction crash", "retention bounds and tracked-file growth"]
+    evidence: ["signer/key/anchor manifest", "forgery/rollback results", "capacity/preallocation results", "compaction receipts", "retention and project-Git volume report"]
+    entry_criteria: ["RP-03/RP-04/RP-06 exit", "ROD-001 signer/anchor/retention phase recorded"]
+    exit_criteria: ["Direct observations authenticated", "Old snapshot/rechain detected", "Terminal records survive constrained storage", "Compaction preserves checkpoints/pins", "No raw logs committed by default", "Missing signer/evidence blocks success honestly"]
+    blocking_findings: ["RF-012", "RF-013", "RF-017", "RF-022", "RF-027", "RF-029"]
+    operator_decisions: ["ROD-001"]
+    parallelization_constraints: "Broker/verifier keys remain distinct; compaction cannot delete before signed checkpoint and anchor commit."
+  - packet_id: "RP-08"
+    name: "Recovery, Reconciliation, and Complete Class B Vertical"
+    objective: "Prove that admitted consequential work completes or converges safely without routine operator intervention."
+    scope: ["integration with RP-03 T1/external/T2 transition API", "attempt/idempotency/unknown/reconciliation", "state_satisfied versus attempt_performed claims", "consumption/reproduction of RP-06 classification policy", "automatic PR escalation proof", "dependency-specific degraded operation", "run status and continuous-operation state", "scheduled maintenance and one bounded reversible external-effect fixture", "zero-prompt Class B dogfood"]
+    non_goals: ["universal atomic transaction with provider", "blind exactly-once claim", "trust-root automation"]
+    decision_owners: ["FD-002", "FD-012", "FD-016"]
+    source_of_truth_owned: ["provider-specific outcome classification and unknown-outcome reconciler", "effect-attempt terminal/manual-intervention semantics", "run status/continuous-operation state", "continuous-operation maintenance policy", "Class B end-to-end proof fixture"]
+    affected_components: ["broker/store/adapter/reconciler", "publication route", "operator status/notification", "proof harness"]
+    affected_contracts: [".octon/framework/engine/runtime/spec/run-lifecycle-v1.md", ".octon/instance/governance/policies/mission-autonomy.yml"]
+    dependencies: ["RP-06", "RP-07"]
+    migration_steps: ["Bind and consume the immutable RP-06 predicate digest without modifying it", "Integrate/prove RP-03 T1 transition API, broker external call, and T2 result/unknown", "Restart scans ATTEMPTING/UNKNOWN before retry", "Normalize observations and attribution", "Implement run status plus narrow degraded/manual-intervention views", "Schedule bounded maintenance and one reversible scratch effect", "Begin rolling 30-day burden collection", "Run representative A/B/C missions and failure matrix"]
+    rollback: "Disable Class B autonomous route, preserve candidate work, use protected PR; never weaken authority, signer, or store."
+    validators: ["duplicate/lost response/target race/concurrent actor/provider outage", "broker/verifier/signer/store crash/restart", "route matrix and zero-prompt acceptance", "manual-intervention honesty"]
+    evidence: ["attempt/reconciliation traces", "failure matrix", "Class route report", "prompt/escalation metrics", "degraded-operation receipts"]
+    entry_criteria: ["RP-06/RP-07 exit", "ED-003 attribution disposition applied", "ROD-002 ambiguity policy recorded", "RP-06 predicate digest frozen"]
+    exit_criteria: ["No repeat before reconciliation", "Every operation/attempt reaches honest terminal or manual intervention", "A/B routine prompts zero", "C cannot downgrade", "Failures preserve work/credentials", "PR escalation deterministic", "Run status is concise", "Scheduled maintenance and one reversible scratch effect complete/recover"]
+    blocking_findings: ["RF-011", "RF-018", "RF-026", "RF-028"]
+    operator_decisions: ["ROD-002 ambiguity/manual-intervention phase"]
+    parallelization_constraints: "Must not modify classification policy while proving it and must exit before RP-09 activation enablement; tests use scratch provider targets until final dogfood."
+  - packet_id: "RP-09"
+    name: "Safe Self-Development and Trust-Root Activation"
+    objective: "Route ordinary Octon changes through Class B and activate trust-root versions only through previous-version-controlled recovery."
+    scope: ["semantic trust-root inventory/dependency closure", "epoch-zero installed version/provider/verifier identity", "ordinary versus trust-root classifier", "content-addressed inert install", "exact activation envelope", "prior-version verification", "atomic active selector", "bounded health/canary", "automatic rollback", "explicit enablement"]
+    non_goals: ["candidate-head sole verifier", "post-merge detection as prevention", "distributed rollout platform", "federation/trust-domain administration"]
+    decision_owners: ["FD-017", "FD-018"]
+    source_of_truth_owned: ["semantic trust-root inventory and epoch-zero record", "self-change classifier", "inert installed-version manifest", "exact-version activation state machine", "activation health/rollback policy"]
+    affected_components: ["evolution/promotion scaffolding", "installed runtime versions", "old-version verifier/controller", "provider configuration", "release artifacts", "active selector/supervisor"]
+    affected_contracts: [".octon/framework/engine/runtime/spec/promotion-activation-v1.md", ".octon/framework/engine/runtime/spec/promotion-runtime-v1.md", ".octon/instance/governance"]
+    dependencies: ["RP-06", "RP-07", "RP-08"]
+    migration_steps: ["Ratify minimal semantic inventory and epoch zero", "Implement old/out-of-tree diff/dependency classifier", "Build/authenticate content-addressed candidate version outside checkout", "Land source without changing active version", "Validate exact operator activation envelope and reserve rollback/evidence", "Run pre-health, atomically switch, watch post-health", "Commit healthy or automatically restore old", "Enable safe-automatic only after adversarial proof"]
+    rollback: "Keep activation disabled/old active; retain and automatically restore previous certified version; never resolve live authority from candidate HEAD."
+    validators: ["classifier direct/indirect/rename/build/provider-change matrix", "same-change self-rule attack", "artifact/approval/epoch/provider drift", "every install/switch/health/receipt/reboot/disk-full kill point", "rollback integrity"]
+    evidence: ["epoch-zero receipt", "inventory/classifier report", "inert-install proof", "exact activation envelope", "kill-point/rollback receipts", "enablement decision"]
+    entry_criteria: ["RP-06/RP-07/RP-08 exit", "ROD-003 inventory/epoch/health/enablement phases recorded"]
+    exit_criteria: ["Ordinary self-change uses Class B", "Trust source landing is inert", "Old version independently verifies exact artifact/rules", "Every fault reaches old healthy/exact new healthy/verified rollback", "Same-change widening fails", "Safe-automatic explicitly enabled only if proof passes"]
+    blocking_findings: ["RF-003", "RF-014", "RF-018", "RF-027"]
+    operator_decisions: ["ROD-003"]
+    parallelization_constraints: "The candidate cannot change any classifier/inventory/verifier/activator/rollback used to judge itself; exit waits for RP-08."
+  - packet_id: "RP-10"
+    name: "Minimal Workspace Projects"
+    objective: "Provide durable multiple-project identity and continuity without creating authority or portfolio administration."
+    scope: ["strict Workspace Project schema/record", "stable ID/lifecycle/roots/bounds", "Project Profile reference/digest and whitelisted projection", "defaults/continuity/cross-project refs", "inference/refresh/operator corrections", "rebuildable location index", "active-run snapshot freeze", "non-authoritative mission continuity record and cross-project CLI mission inbox"]
+    non_goals: ["portfolio ontology", "project authorization/capability grants", "multi-user/team administration", "authoritative cross-repository catalog"]
+    decision_owners: ["FD-019"]
+    source_of_truth_owned: ["Workspace Project schema/record", "project inference/refresh/lifecycle", "operator-correction precedence", "rebuildable location index", "non-authoritative mission continuity record and CLI inbox projection"]
+    affected_components: ["instance locality", "Project Profile", "project bootstrap/onboarding", "context/continuity roots", "CLI mission inbox/state"]
+    affected_contracts: [".octon/framework/engine/runtime/spec/project-profile-v1.schema.json", ".octon/instance/locality/project-profile.yml"]
+    dependencies: ["RP-01"]
+    migration_steps: ["Apply ED-005 strict minimal fields/overlap/correction defaults", "Define per-project durable record and rebuildable path index", "Infer current project and preserve operator corrections", "Whitelist Profile fields entering compilation", "Freeze project/profile digest for active run", "Add non-authoritative mission continuity and cross-project inbox projection", "Exercise two projects, relocation, inbox resume"]
+    rollback: "Preserve stable IDs and profiles; disable inference/refresh; read-only import/export only, with no authority effect."
+    validators: ["schema/unknown-field rejection", "overlap/monorepo relation", "relocation/correction", "active snapshot immutability", "metadata authority-widening negatives"]
+    evidence: ["project records/digests", "inference/correction receipts", "two-project relocation report", "non-authority test results"]
+    entry_criteria: ["RP-01 exits", "ED-005 Workspace Project disposition applied"]
+    exit_criteria: ["Two durable distinct project identities", "Relocation and corrections preserve continuity", "Unknown/authority-shaped fields cannot widen run", "Active snapshot does not change", "CLI inbox resumes and distinguishes missions across projects without becoming authority"]
+    blocking_findings: ["RF-015"]
+    operator_decisions: []
+    parallelization_constraints: "May proceed beside RP-04..RP-09 after RP-01; RP-11 exit waits for it."
+  - packet_id: "RP-11"
+    name: "Deterministic Harness Factory and Generic Executor Adapter"
+    objective: "Compile the full approved per-run envelope and dispatch through one conformant provider interface without another runtime."
+    scope: ["canonical Harness Factory compiler", "complete input precedence/normalization/invalidation", "effective per-run manifest and compile receipt", "manifest/source digest binding into authorization/one-shot spawn", "generic executor adapter prepare/launch/observe/cancel/usage/retire interface", "strict live adapter schema/conformance suite"]
+    non_goals: ["new scheduler/runtime/policy engine", "authority minting", "provider-specific verifier/publication semantics", "child-agent semantics"]
+    decision_owners: ["FD-020", "FD-023 generic execution adapter"]
+    source_of_truth_owned: ["Harness Factory compiler and canonical input precedence", "effective manifest/compile receipt schema", "authorization/spawn digest binding", "generic model/host executor adapter interface and conformance suite"]
+    affected_components: ["task-harness contracts", "route-bundle/resolver", "context/mission/Run Contract", "model/host adapter manifests", "lifecycle executor dispatch"]
+    affected_contracts: [".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md", ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json", ".octon/framework/engine/runtime/spec/task-specific-execution-harness-compile-receipt-v1.schema.json", ".octon/framework/constitution/contracts/adapters"]
+    dependencies: ["RP-01", "RP-02", "RP-10"]
+    migration_steps: ["Apply ED-006 authority-first input precedence and canonical serialization", "Extend existing route/context/harness primitives to full project/mission/run/policy/extension/context/model/tool/validation/evidence/rollback set", "Emit manifest/source digests and compile receipt", "Bind exact digest into authority and immediate spawn", "Replace executor string/hardcoded dispatch with generic adapter", "Make live manifests validate strict schemas and conformance refs", "Prove one real primary-provider adapter plus fake conformance adapters; admit a live secondary only for a separately claimed support tuple"]
+    rollback: "Disable Factory/adapter launch path and preserve legacy route inputs as non-authoritative read-only data; no second runtime or direct provider dispatch fallback."
+    validators: ["byte-determinism and each-input invalidation", "stale/self-widened/wrong-project/wrong-run digest denial", "authorization/immediate-spawn binding", "strict adapter schema negatives", "prepare/launch/observe/cancel/usage/retire conformance"]
+    evidence: ["compiler version/input manifest/digests", "compile receipts", "launch denial matrix", "adapter schema/conformance reports", "primary/fake-adapter conformance fixtures; live-secondary receipt only if that support claim is proposed"]
+    entry_criteria: ["RP-01/RP-02/RP-10 exit", "ED-006 Harness/adapter disposition applied"]
+    exit_criteria: ["Identical inputs yield identical bytes/digest", "Every relevant drift invalidates", "Exact digest is revalidated immediately before spawn", "No provider bypasses adapter contract", "All live manifests validate", "No new runtime/control plane"]
+    blocking_findings: ["RF-015", "RF-016", "RF-024", "RF-030"]
+    operator_decisions: []
+    parallelization_constraints: "Consumes RP-01 authority but cannot redefine it; RP-06 retains verifier/publication adapter; RP-13 retains child semantics."
+  - packet_id: "RP-12"
+    name: "Private Signed Extension Supply Chain"
+    objective: "Make private reusable extensions authentic, pinned, revocable, recoverable, and non-authoritative."
+    scope: ["signed pack envelope", "trusted signer/key and revocation policy", "immutable source/payload digest", "capability/compatibility admission", "availability catalog/pin/quarantine", "atomic prior-generation restore/revalidation/receipt"]
+    non_goals: ["public marketplace", "extension authorization", "automatic selection", "new publication control plane"]
+    decision_owners: ["FD-021"]
+    source_of_truth_owned: ["signed extension envelope", "trusted extension signer/revocation policy", "private availability catalog/pins", "extension generation rollback contract"]
+    affected_components: ["extension publication/quarantine/catalog/locks", "pack manifests", "private repository/release import", "Harness extension generation input"]
+    affected_contracts: [".octon/framework/engine/governance/extensions/trust-and-compatibility.md", ".octon/framework/engine/governance/extensions/boundary-contract.md", ".octon/instance/extensions.yml"]
+    dependencies: ["RP-07", "RP-11"]
+    migration_steps: ["Approve private sources/signer policy", "Define signed envelope over payload/version/capabilities/compatibility/source/signer/pin", "Extend current publication/quarantine verification", "Bind exact admitted generation into Harness", "Implement revoke and retained-generation restore with revalidation"]
+    rollback: "Quarantine/revoke current generation; restore only retained unrevoked compatible generation with receipt; otherwise disable extension."
+    validators: ["unsigned/wrong-key/forged/tampered/revoked/incompatible/capability mismatch", "import-does-not-authorize", "pin and rollback generation tests"]
+    evidence: ["signer/policy manifest", "import/admission receipts", "catalog/pin digest", "revocation/quarantine/rollback receipts"]
+    entry_criteria: ["RP-07/RP-11 exit", "ROD-004 source/signer policy recorded"]
+    exit_criteria: ["All invalid supply-chain cases reject", "Import only makes available", "Harness binds exact generation", "Safe rollback/revocation works", "No public marketplace surface"]
+    blocking_findings: ["RF-016", "RF-027"]
+    operator_decisions: ["ROD-004"]
+    parallelization_constraints: "May implement alongside RP-13; owns no child/authority/runtime-store source."
+  - packet_id: "RP-13"
+    name: "Bounded Mission Child Agents"
+    objective: "Reuse existing lifecycle scheduling to run temporary credentialless children with exact scope, limits, evidence, and retirement."
+    scope: ["temporary child-run identity/contract", "parent/mission/project/harness scope intersection", "one-shot child launch guard", "fresh isolated repository/session", "depth/concurrency/step/timeout/retry/token-cost declarations", "provider-native child adapter mapping", "cancellation/process group", "terminal reconciliation/retirement/revocation/evidence"]
+    non_goals: ["persistent agents/organizations", "self-recruitment", "credentialed children", "new scheduler", "grandchildren in initial support"]
+    decision_owners: ["FD-022", "FD-023 child mapping"]
+    source_of_truth_owned: ["child-run contract/identity", "scope/depth/budget derivation and admission", "child provider mapping", "child cancellation/terminal retirement/evidence"]
+    affected_components: ["lifecycle program scheduler/locks/retries", "candidate launcher/Harness", "provider child APIs", "token/usage measurement", "child evidence"]
+    affected_contracts: [".octon/framework/engine/runtime/spec/run-lifecycle-v1.md", ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md"]
+    dependencies: ["RP-08", "RP-11"]
+    migration_steps: ["Approve supported roles and fixed initial depth one/limits", "Define temporary child identity and strict scope intersection", "Bind exact guard/Harness/provider adapter", "Reuse scheduler/locks/cancellation/terminal observations", "Distinguish enforced versus measurement-only budget dimensions and deny unsupported hard limits", "Retire guard/session/identity/candidate area after reconciliation"]
+    rollback: "Disable child launch; terminate/cancel safely; preserve parent/candidate output and terminal evidence; no identity reuse."
+    validators: ["credential/canonical-Git/sibling-area denial", "guard/scope/depth/recruitment attacks", "concurrency/step/timeout/retry and supported token-cost enforcement", "cancel/kill/unknown/reconcile/retirement/id reuse"]
+    evidence: ["child contract/guard/harness digests", "scope/budget/depth results", "provider task/cancellation traces", "terminal retirement/revocation receipts"]
+    entry_criteria: ["RP-08/RP-11 exit", "ROD-005 child cost/concurrency/provider policy recorded", "Single-agent Harness and shared reconciler proven"]
+    exit_criteria: ["Children are credentialless and strictly narrower", "No child spawn API/depth >1", "Every declared hard limit enforced or unsupported admission denied", "Cancellation and unknown reconcile", "Terminal identity/session/guard cannot be reused"]
+    blocking_findings: ["RF-004", "RF-016", "RF-025", "RF-027", "RF-031"]
+    operator_decisions: ["ROD-005"]
+    parallelization_constraints: "May implement alongside RP-12; cannot modify core authority/store or treat persistent proposal packet as a permanent agent."
+  - packet_id: "RP-14"
+    name: "Solo Product Dogfood, Claim Reverification, and Promotion Handoff"
+    objective: "Demonstrate that the architecture produces the intended solo experience and prepare an honest, non-self-promoting authoritative handoff."
+    scope: ["fresh setup/onboarding/setup-doctor-repair", "20 routine missions/two projects/rolling 30 days", "failure/recovery/provider drift", "independent consumption/reproduction of provider-conformance receipts for each claimed tuple", "file/evidence/workflow/prompt/time/speed/completion burden", "unsupported surface/workflow audit", "support-claim proof map", "independent reproduction", "formal promotion prerequisites/receipts"]
+    non_goals: ["runtime source ownership", "waiving failed proof", "promoting this reconciliation itself"]
+    decision_owners: ["FD-001", "FD-024 final support disposition", "FD-023 cross-provider claim closure"]
+    source_of_truth_owned: ["supported-vertical acceptance report", "solo burden/outcome budget report", "integrated provider support-claim reproduction report", "final support-claim proof map", "authoritative promotion handoff package"]
+    affected_components: ["all completed packets", "CLI/setup/doctor/repair/inbox", "support dossiers", "provider configuration", "state/workflow surface", "promotion receipts"]
+    affected_contracts: [".octon/instance/governance/support-targets.yml", ".octon/instance/governance/disclosure/harness-card.yml", ".octon/framework/product/roadmap/catalog.yml"]
+    dependencies: ["RP-08", "RP-09", "RP-10", "RP-11"]
+    program_closeout_dependencies: ["RP-12", "RP-13"]
+    claim_scoped_gates:
+      core_solo_local: ["RP-08", "RP-09 ordinary-self-development/inert-landing with disabled-or-operator-confirmed activation", "RP-10", "RP-11 primary-provider path"]
+      safe_automatic_trust: ["RP-09 safe-automatic proof and explicit ROD-003 enablement"]
+      signed_extensions: ["RP-12"]
+      bounded_children: ["RP-13"]
+      full_program_closeout: ["all RP-00 through RP-14 exit"]
+    migration_steps: ["Freeze release candidate and exact proof map", "Consume the rolling 30-day evidence window begun in RP-08", "Run fresh-machine setup and two-project onboarding/inbox resume", "Run 20 missions and recovery/race/outage/reversible-effect scenarios", "Independently reproduce RP-11 provider conformance and refresh live provider drift", "Audit unsupported surfaces/workflows and route any required source change back to its owning packet", "Independently reproduce decisive proof", "Draft operator dispositions/ADRs/contracts/schemas/promotion receipts"]
+    rollback: "Demote failed claim and disable affected feature/route while preserving the last safe intermediate state; do not promote."
+    validators: ["end-to-end acceptance matrix", "burden/outcome budget evaluator", "independent provider-conformance receipt reproduction and live drift", "support-claim-to-proof completeness", "independent reproduction", "promotion prerequisite checker"]
+    evidence: ["setup/onboarding timing", "mission/recovery/reversible-effect traces", "two-project inbox continuity", "rolling 30-day prompt/admin/file/inode/evidence/workflow/speed/completion metrics", "provider support-claim reproduction/drift", "independent proof report", "promotion handoff/receipts"]
+    entry_criteria: ["RP-08/RP-09/RP-10/RP-11 exit for core proof", "ROD-006 final support disposition ready", "Independent reproducer assigned", "A completed rolling burden window is available"]
+    exit_criteria: ["Setup <=15m and onboarding <=5m", "At least 18/20 admitted A/B missions complete autonomously and 20/20 have zero unauthorized durable effects/routine prompts", "Median human time <=2m and at least 50% below supervised-agent baseline", "Octon mediation overhead <=60s p50 excluding project tests/provider queue and eligible no-PR is faster than protected PR", "Recoverable broker crash restarts/reconciles <=5s with zero manual steps", "Zero false A/B-to-PR escalations in reference matrix", "Monthly manual admin <=15m", "No raw or new per-run operational/detail evidence tracked in project Git", "One Solo Local profile and <=7 normal command concepts", "Supported-path workflows <=12 or each exception has a unique named proof/outcome owner", "Proposal administration <=30m per packet and <=10% of implementation human time", "All claim-scoped dependencies pass before that claim is promoted", "All claims exactly match current direct proof", "Full program closeout waits for RP-12/RP-13", "Promotion prerequisites complete"]
+    blocking_findings: ["RF-013", "RF-017", "RF-019", "RF-024", "RF-027", "RF-033"]
+    operator_decisions: ["ROD-006 final support/promotion phase"]
+    parallelization_constraints: "Evidence review is independent; packet cannot change runtime/workflow/CLI sources to make its own proof pass and must route fixes back to owning packets. Core claims may promote claim-scoped; optional claims and full program closeout wait for their dependencies."
+ownership_validation:
+  packet_count: 15
+  duplicate_source_ownership: []
+  competing_authority_sources: []
+  competing_runtime_stores: []
+  broker_verifier_responsibility_overlap: []
+  implementation_before_required_proof: []
+  notes:
+    - "RP-11 owns the generic executor-adapter interface; RP-06 owns verifier/publication specialization; RP-13 owns child mapping; RP-14 owns claim-level cross-provider proof only."
+    - "RWG-12 coordinates RP-12 and RP-13 without merging their sources of truth."

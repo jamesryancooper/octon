@@ -1,0 +1,117 @@
+schema_version: "octon-proposal-program-packet-map-v1"
+program_id: "octon-trustworthy-solo-autonomy-migration"
+authoritative: false
+creation_recommendation: "Create a formal proposal program from this map; do not treat this research artifact as the program."
+packets:
+  - packet_id: "WG-00"
+    title: "Containment, physical inventory, and claim correction"
+    dependencies: []
+    entry_criteria: ["Current commit and provider baseline bound", "Privileged lane inventory complete enough to disable safely"]
+    exit_criteria: ["Candidate-controlled provider writes disabled", "Autonomous direct-main disabled", "Physical writers and launches enumerated", "Claims structural or qualified"]
+    rollback: "Manual/protected PR; preserve candidate branch and evidence."
+    proof: ["Malicious candidate receives no token execution", "Claim overstatement fixtures deny"]
+    affected_areas: [1, 2, 14, 26]
+  - packet_id: "WG-01"
+    title: "Canonical authority, exact scopes, and invocation guards"
+    dependencies: ["WG-00"]
+    entry_criteria: ["Launch inventory accepted", "Exact launch descriptor contract reviewed"]
+    exit_criteria: ["authority_engine sole issuer", "All launches consume one exact guard", "Scope widening fixed"]
+    rollback: "Disable migrated executor; legacy fields remain non-authoritative."
+    proof: ["Negative authority matrix", "Concurrent consume", "Static spawn dominance"]
+    affected_areas: [3, 4]
+  - packet_id: "WG-02"
+    title: "Credentialless native candidate and isolated Git"
+    dependencies: ["WG-00"]
+    entry_criteria: ["macOS sandbox profile and disposable Git design accepted"]
+    exit_criteria: ["Codex and Claude useful path works", "No host credential, HOME, Git, forbidden filesystem/process/network access"]
+    rollback: "Disable executor and preserve candidate repository."
+    proof: ["Escape matrix", "Shared object/ref/config denial", "Cleanup/recovery"]
+    affected_areas: [5, 6]
+  - packet_id: "WG-03"
+    title: "SQLite/WAL authoritative runtime state"
+    dependencies: ["WG-00"]
+    entry_criteria: ["Writer/state inventory", "Migration and backup design accepted"]
+    exit_criteria: ["Single writer cutover", "Legacy files projections only", "Evidence capacity in operation transaction"]
+    rollback: "Before first effect restore prior release; afterward forward repair using backup/WAL."
+    proof: ["Concurrency", "kill points", "corruption", "backup/restore", "storage full"]
+    affected_areas: [7, 15, 16]
+  - packet_id: "WG-04"
+    title: "Local broker and credential migration"
+    dependencies: ["WG-01", "WG-02", "WG-03"]
+    entry_criteria: ["Broker IPC and credential decision", "One exact effect contract"]
+    exit_criteria: ["Broker-only credential custody", "Candidate raw effects denied", "Operation reconciliation active"]
+    rollback: "Disable automated effects; retain operation DB/outbox and candidate."
+    proof: ["Least privilege", "forged/stale/revoked denial", "crash/replay"]
+    affected_areas: [8, 9]
+  - packet_id: "WG-05"
+    title: "Sanitized exact Git adapter"
+    dependencies: ["WG-04"]
+    entry_criteria: ["Git allowlist and URL/identity policy", "Target CAS semantics accepted"]
+    exit_criteria: ["Exact fast-forward publication works with all executable extensions neutralized"]
+    rollback: "Disable adapter; manual protected PR."
+    proof: ["Hostile Git fixtures", "target race", "source mismatch", "credential denial"]
+    affected_areas: [10]
+  - packet_id: "WG-06"
+    title: "Independent verifier and adaptive route selector"
+    dependencies: ["WG-01", "WG-03", "WG-05"]
+    entry_criteria: ["Verifier identity/signing policy", "Class/PR predicate fixtures"]
+    exit_criteria: ["Authenticated exact-SHA verdict", "Candidate cannot modify verdict", "PR escalation deterministic"]
+    rollback: "Verifier unavailable means publication blocked or PR manual; no unsigned fallback."
+    proof: ["Self-modified verifier", "duplicate contexts", "expiry", "policy version binding"]
+    affected_areas: [11, 13]
+  - packet_id: "WG-07"
+    title: "Recovery, signed evidence, bounded retention, and degraded mode"
+    dependencies: ["WG-03", "WG-04", "WG-06"]
+    entry_criteria: ["Signer custody and retention decision", "Effect fault model"]
+    exit_criteria: ["Direct-observer signed results", "Unknown reconciliation", "Safe checkpoints/compaction/low-space behavior"]
+    rollback: "Keep raw evidence; label legacy unsigned; stop new privileged operations."
+    proof: ["Forged/rechained/old snapshot", "all effect kill points", "compaction", "low space"]
+    affected_areas: [12, 15, 16, 17]
+  - packet_id: "WG-08"
+    title: "Brokered adaptive Class B publication proof"
+    dependencies: ["WG-06", "WG-07"]
+    entry_criteria: ["No-PR feature off", "Exact operation/verdict/evidence contracts stable"]
+    exit_criteria: ["Verified no-PR landing passes end to end", "Higher consequence/uncertainty escalates to PR", "Direct-main absent"]
+    rollback: "Feature off; PR-only with preserved branch."
+    proof: ["Race/replay/revocation/expiry/provider-delay/crash", "end-to-end signed receipt"]
+    affected_areas: [12, 13, 14]
+  - packet_id: "WG-09"
+    title: "Safe self-development and trust-root activation"
+    dependencies: ["WG-06", "WG-07", "WG-08"]
+    entry_criteria: ["Trust-root inventory decision", "Previous-version verifier and rollback design"]
+    exit_criteria: ["Ordinary self-development uses Class B", "Trust candidate inert", "Exact staged activation and automatic rollback"]
+    rollback: "Previous immutable version remains active or is restored."
+    proof: ["Self-gate mutation", "every activation kill point", "health-window failure"]
+    affected_areas: [18, 19]
+  - packet_id: "WG-10"
+    title: "Minimal Workspace Projects"
+    dependencies: ["WG-01"]
+    entry_criteria: ["Identity/root/profile migration mapping"]
+    exit_criteria: ["Multiple durable projects", "Relocation/recovery", "Project cannot widen active run or authority"]
+    rollback: "Disable project record; retain descriptive profile and immutable mapping."
+    proof: ["Two-project", "relocation", "non-authority", "active-run snapshot"]
+    affected_areas: [20]
+  - packet_id: "WG-11"
+    title: "Governed deterministic Harness Factory"
+    dependencies: ["WG-02", "WG-10"]
+    entry_criteria: ["Compiler input list and authority boundary fixed"]
+    exit_criteria: ["Digest-bound deterministic manifest required at launch", "No second runtime/control plane"]
+    rollback: "Old assembly may feed compiler but cannot bypass digest enforcement."
+    proof: ["Byte determinism", "stale/self-widening/unknown binding denial"]
+    affected_areas: [21]
+  - packet_id: "WG-12"
+    title: "Signed extensions, mission children, and operator UX"
+    dependencies: ["WG-07", "WG-11"]
+    entry_criteria: ["Catalog signer/revocation design", "Child delegation bounds", "Golden-path budgets"]
+    exit_criteria: ["Signed pinned rollback-capable catalog", "Credentialless bounded children", "Setup/doctor/repair/inbox budgets met"]
+    rollback: "Previous catalog generation; disable child/background work; preserve project state."
+    proof: ["Tamper/revoke/rollback", "scope/depth/budget/retirement", "timed dogfood"]
+    affected_areas: [22, 23, 24, 25]
+  - packet_id: "WG-13"
+    title: "Support-claim promotion and authoritative handoff"
+    dependencies: ["WG-08", "WG-09", "WG-12"]
+    entry_criteria: ["Exact proof map complete", "Independent reproduction", "Operator decisions closed or explicitly deferred"]
+    exit_criteria: ["Fresh claims promoted", "Proof expiry withdraws support", "ADRs/proposal receipts authoritative through canonical process"]
+    rollback: "Demote claim and keep unpromoted design research-only."
+    proof: ["Claim-proof completeness", "expiry withdrawal", "promotion integrity", "burden measurements"]
+    affected_areas: [26, 27]

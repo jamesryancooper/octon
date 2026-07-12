@@ -1,0 +1,66 @@
+schema_version: "octon-adversarial-finding-register-v1"
+findings:
+  - finding_id: "ADV-001"
+    target_claim: "Complete launch mediation"
+    challenge: "Enumerate process-spawn sites and require canonical ExecutorLaunch dominance."
+    outcome: "DISPROVED"
+    evidence_classification: ["STATICALLY_INSPECTED"]
+    evidence_refs: [".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:224-256@c5b1f5760c78ff521cca6b054e4e8fef5300505b", ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1360-1415@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    linked_findings: ["AMR-001"]
+  - finding_id: "ADV-002"
+    target_claim: "Token scope cannot widen."
+    challenge: "Inspect parent and sibling-prefix semantics."
+    outcome: "DISPROVED_STATICALLY"
+    evidence_classification: ["STATICALLY_INSPECTED", "ARCHITECTURAL_INFERENCE"]
+    evidence_refs: [".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1832-1851@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    linked_findings: ["AMR-002"]
+  - finding_id: "ADV-003"
+    target_claim: "Candidate execution is credentialless and Git-isolated."
+    challenge: "Trace HOME, environment, working directory, sandbox flags, and Git common directory."
+    outcome: "DISPROVED_CONFIGURATION"
+    evidence_classification: ["STATICALLY_INSPECTED", "CONFIGURATION_DERIVED", "DEPLOYMENT_LOCAL"]
+    evidence_refs: [".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:31-73@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    linked_findings: ["AMR-003"]
+  - finding_id: "ADV-004"
+    target_claim: "Provider verification/effects are candidate-independent."
+    challenge: "Follow pull_request_target token, checkout, and executed code; inspect required check producers."
+    outcome: "DISPROVED"
+    evidence_classification: ["STATICALLY_INSPECTED", "PROVIDER_OBSERVED"]
+    evidence_refs: [".github/workflows/pr-auto-merge.yml:274-330@c5b1f5760c78ff521cca6b054e4e8fef5300505b", ".github/workflows/change-route-projection.yml:31-166@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    linked_findings: ["AMR-005", "AMR-006"]
+  - finding_id: "ADV-005"
+    target_claim: "One-shot token consumption is concurrency/crash safe."
+    challenge: "Trace read/check/receipt/event/rewrite and locking/durability."
+    outcome: "DISPROVED_STATICALLY; DYNAMIC_PROOF_PENDING"
+    evidence_classification: ["STATICALLY_INSPECTED", "ARCHITECTURAL_INFERENCE"]
+    evidence_refs: [".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:294-658@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    linked_findings: ["AMR-008"]
+  - finding_id: "ADV-006"
+    target_claim: "Proof validator executes referenced runtime/negative tests."
+    challenge: "Execute validator and compare emitted fields to shell call graph."
+    outcome: "DISPROVED"
+    evidence_classification: ["DYNAMICALLY_EXECUTED", "STATICALLY_INSPECTED"]
+    evidence_refs: [".octon/framework/assurance/runtime/_ops/scripts/validate-proof-bundle-executability.sh:16-128@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    linked_findings: ["AMR-009", "AMR-012"]
+  - finding_id: "ADV-007"
+    target_claim: "Current hash chain provides authentic non-repudiable evidence."
+    challenge: "Find signer/external monotonic checkpoint in runtime format and validation."
+    outcome: "NOT_SUPPORTED; REWRITE_TEST_PENDING"
+    evidence_classification: ["STATICALLY_INSPECTED"]
+    evidence_refs: [".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:128-223@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    linked_findings: ["AMR-010"]
+  - finding_id: "ADV-008"
+    target_claim: "Trust-root activation is previous-version verified and rollback-capable."
+    challenge: "Trace install, active version, health gate, and executable rollback."
+    outcome: "ABSENT; DYNAMIC_PROOF_NOT_POSSIBLE"
+    evidence_classification: ["STATICALLY_INSPECTED", "UNVERIFIED"]
+    evidence_refs: [".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:425-468@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    linked_findings: ["AMR-011"]
+  - finding_id: "ADV-009"
+    target_claim: "Existing negative controls prove all boundary bypasses denied."
+    challenge: "Run authorized-effect and material-side-effect bypass suites, then compare their scope to unenumerated launch/provider paths."
+    outcome: "TESTED_CONTROLS_PASS_BUT_SCOPE_INCOMPLETE"
+    evidence_classification: ["ADVERSARIALLY_TESTED", "STATICALLY_INSPECTED"]
+    evidence_refs: ["evidence/tests/negative-control-tests.md"]
+    linked_findings: ["AMR-001", "AMR-012"]
+

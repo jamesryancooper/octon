@@ -1,0 +1,279 @@
+schema_version: "octon-architecture-review-finding-register-v1"
+repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+working_tree_status: "clean outside excluded sibling-review tree"
+findings:
+  - finding_id: "AMR-001"
+    claim: "Lifecycle, pipeline, and workflow process launches bypass canonical one-shot ExecutorLaunch consumption."
+    status: "OPEN_CRITICAL"
+    evidence_classification: ["STATICALLY_INSPECTED"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:39-150@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:224-256@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1360-1415@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: ["authorize_before_dispatch", "dispatch_child_process"]
+    command_refs: ["CMD-0010", "CMD-0011"]
+    result_refs: ["phase-1/comprehensive-review.md#b-canonical-authorization"]
+    provider_refs: []
+    confidence: "HIGH"
+    limitations: "Static launch enumeration; shell/provider launch surfaces are addressed separately."
+    consequence: "Lifecycle-local request fields act as a competing authority plane and can launch without the sole canonical issuer."
+    minimum_repair: "Require exact transactional ExecutorLaunch ownership at every process-spawn API; lifecycle checks become descriptive only."
+    acceptance_test: "All launch sites deny without a valid guard; concurrent consumption produces at most one process; no unclassified spawn remains."
+    affected_final_decisions: ["FD-003", "FD-004", "FD-015", "FD-022"]
+  - finding_id: "AMR-002"
+    claim: "Effect scope comparison permits reverse-prefix and non-boundary prefix widening."
+    status: "OPEN_HIGH"
+    evidence_classification: ["STATICALLY_INSPECTED", "ARCHITECTURAL_INFERENCE"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1832-1851@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1404-1423@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: ["scope_matches"]
+    command_refs: ["CMD-0011"]
+    result_refs: ["evidence/subagents/authority-runtime-trust.md"]
+    provider_refs: []
+    confidence: "HIGH"
+    limitations: "No live symlink/case/filesystem adversarial fixture was executed."
+    consequence: "An authentic token may authorize a parent or sibling-prefix resource outside its intended envelope."
+    minimum_repair: "Canonicalize typed resources and require equality or a boundary-aware descendant relation; remove reverse prefix."
+    acceptance_test: "Parent, sibling-prefix, dot-dot, symlink, normalization, case, and non-path resource negative tests all deny."
+    affected_final_decisions: ["FD-003", "FD-004", "FD-009", "FD-015"]
+  - finding_id: "AMR-003"
+    claim: "Candidate executors share host user state, inherited environment, canonical checkout, and common Git state."
+    status: "OPEN_CRITICAL"
+    evidence_classification: ["STATICALLY_INSPECTED", "CONFIGURATION_DERIVED", "DEPLOYMENT_LOCAL"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:31-73@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:416-451@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-wt-new.sh:163-208@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: ["codex_runtime_preflight", "build_command"]
+    command_refs: ["CMD-0012", "CMD-0013"]
+    result_refs: ["phase-1/authority-effect-credential-map.md"]
+    provider_refs: []
+    confidence: "HIGH"
+    limitations: "Credential use or escape was not attempted; exposure potential is not exfiltration proof."
+    consequence: "Candidate code may access credential-capable host context and can mutate shared repository/Git state."
+    minimum_repair: "Use disposable native sandbox, fresh HOME and config, environment allowlist, isolated Git database, and explicit network/process policy."
+    acceptance_test: "Credential, keychain, user-state, shared-ref/object, forbidden filesystem, process, and network probes all fail."
+    affected_final_decisions: ["FD-006", "FD-008", "FD-016", "FD-022", "FD-024"]
+  - finding_id: "AMR-004"
+    claim: "No separate local credential broker or authoritative SQLite/WAL operation store implements the accepted effect boundary."
+    status: "OPEN_CRITICAL"
+    evidence_classification: ["STATICALLY_INSPECTED", "CONFIGURATION_DERIVED"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".octon/framework/capabilities/_ops/scripts/policy-grant-broker.sh:1-300@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:1-417@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: ["AuthorizedEffect", "VerifiedEffect"]
+    command_refs: ["CMD-0014"]
+    result_refs: ["phase-1/authority-effect-credential-map.md"]
+    provider_refs: []
+    confidence: "HIGH"
+    limitations: "Bounded search cannot mathematically exclude an externally installed or non-obviously named component."
+    consequence: "Credential custody, consume, revocation, evidence capacity, unknown outcomes, and recovery cannot share one authoritative transaction."
+    minimum_repair: "Add one deterministic local broker and one SQLite/WAL single-writer store; demote legacy files to projections."
+    acceptance_test: "Forged/stale/revoked operations deny; candidate raw effects fail; kill/concurrency/replay tests yield exactly one terminal outcome."
+    affected_final_decisions: ["FD-005", "FD-006", "FD-012", "FD-013", "FD-015"]
+  - finding_id: "AMR-005"
+    claim: "pull_request_target automation executes candidate-controlled code while write-capable provider credentials remain available."
+    status: "OPEN_CRITICAL"
+    evidence_classification: ["STATICALLY_INSPECTED", "CONFIGURATION_DERIVED", "PROVIDER_OBSERVED"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".github/workflows/pr-auto-merge.yml:3-25@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".github/workflows/pr-auto-merge.yml:274-330@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh:163-189@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: ["protected-ci-auto-merge"]
+    command_refs: ["CMD-0015", "CMD-0016"]
+    result_refs: ["evidence/provider/github-configuration.md"]
+    provider_refs: ["GitHub ruleset 12881449", "AUTONOMY_AUTO_MERGE_ENABLED=true", "AUTONOMY_PAT metadata"]
+    confidence: "HIGH"
+    limitations: "No malicious PR was submitted and no provider mutation was attempted."
+    consequence: "An eligible candidate can replace privileged performer or validation code and create a second effect plane."
+    minimum_repair: "Disable the lane; later use immutable trusted code and a narrowly scoped token to perform only exact preauthorized effects."
+    acceptance_test: "Candidate modifications to workflow, wrapper, kernel, control JSON, verifier, and executable path never run with a token or mutate provider state."
+    affected_final_decisions: ["FD-006", "FD-007", "FD-011", "FD-012", "FD-015", "FD-017", "FD-018", "FD-024"]
+  - finding_id: "AMR-006"
+    claim: "Required exact-SHA checks are candidate-controlled and accepted by context name rather than an independent authenticated verdict."
+    status: "OPEN_CRITICAL"
+    evidence_classification: ["STATICALLY_INSPECTED", "PROVIDER_OBSERVED", "ARCHITECTURAL_INFERENCE"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".github/workflows/change-route-projection.yml:31-166@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh:57-119@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: ["exact_source_sha_validation"]
+    command_refs: ["CMD-0015", "CMD-0016"]
+    result_refs: ["evidence/provider/github-configuration.md"]
+    provider_refs: ["GitHub ruleset 12881449", "GitHub Actions integration 15368"]
+    confidence: "HIGH"
+    limitations: "Duplicate-context masking was observed in provider metadata but not adversarially exercised."
+    consequence: "A candidate can modify the only verifier for its own SHA or potentially satisfy a required context with the wrong workflow instance."
+    minimum_repair: "Move verification outside candidate refs and bind signed verdict to repository, SHA, target, policy version, workflow identity/event, and expiry."
+    acceptance_test: "Candidate verifier edits and duplicate/conflicting contexts cannot produce the accepted verdict."
+    affected_final_decisions: ["FD-007", "FD-010", "FD-011", "FD-012", "FD-017", "FD-018", "FD-024"]
+  - finding_id: "AMR-007"
+    claim: "Autonomous direct-main and ambient unsanitized Git remain active normal routes."
+    status: "OPEN_HIGH"
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED", "DEPLOYMENT_LOCAL"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".octon/framework/product/contracts/default-work-unit.yml:258-317@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh:208-234@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: []
+    command_refs: ["CMD-0017"]
+    result_refs: ["phase-1/comprehensive-review.md#f-git-and-publication"]
+    provider_refs: []
+    confidence: "HIGH"
+    limitations: "No malicious Git extension fixture was executed."
+    consequence: "Candidate identity remains a durable-effect performer and privileged Git can execute repository/global extension points."
+    minimum_repair: "Disable direct-main/provider writes, use PR-only bridge, then move exact Git effects into a sanitized broker adapter."
+    acceptance_test: "All candidate raw Git/GH writes fail and hooks/includes/filters/helpers/drivers/fsmonitor/submodules/protocol fixtures cannot execute."
+    affected_final_decisions: ["FD-006", "FD-009", "FD-010", "FD-015", "FD-024"]
+  - finding_id: "AMR-008"
+    claim: "File-backed token consume and journal append are not atomic, durable, or concurrency-safe."
+    status: "OPEN_CRITICAL"
+    evidence_classification: ["STATICALLY_INSPECTED", "ARCHITECTURAL_INFERENCE", "DYNAMICALLY_EXECUTED"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:294-658@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:384-487@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:1778-1823@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: ["verify_authorized_effect", "append_event", "write_event", "write_manifest"]
+    command_refs: ["CMD-0018", "CMD-0019", "CMD-0020"]
+    result_refs: ["evidence/tests/rust-runtime-tests.md"]
+    provider_refs: []
+    confidence: "HIGH"
+    limitations: "Current sequential suites passed; no concurrent or power-loss test was executed."
+    consequence: "Double consume, duplicate sequence, partial persistence, revocation races, and unreconciled unknown outcomes remain possible."
+    minimum_repair: "Move reservation, consume, revocation, attempts, evidence outbox, and terminal outcome into one SQLite transaction."
+    acceptance_test: "Concurrent consume/append, every kill point, storage-full, corruption, backup/restore, and unknown provider outcomes converge without duplicate effect."
+    affected_final_decisions: ["FD-004", "FD-005", "FD-012", "FD-013", "FD-014"]
+  - finding_id: "AMR-009"
+    claim: "Some evidence materializers and validators assert pass, approval, or test execution without binding actual independent executed results."
+    status: "OPEN_HIGH"
+    evidence_classification: ["STATICALLY_INSPECTED", "DYNAMICALLY_EXECUTED"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:4539-4690@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proof-bundle-executability.sh:16-128@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validator-result-common.sh:275-366@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: ["materialize_run_disclosure", "materialize_proof_planes", "validator_result_add_runtime_test"]
+    command_refs: ["CMD-0021"]
+    result_refs: ["evidence/tests/proof-validator-observation.md"]
+    provider_refs: []
+    confidence: "HIGH"
+    limitations: "Earlier call sites may execute some prerequisites, but generated artifacts are not signer-bound to them."
+    consequence: "Support and closeout can report stronger proof depth than was executed or independently observed."
+    minimum_repair: "Only executing components emit signed result artifacts; aggregators may reference but never manufacture proof outcomes."
+    acceptance_test: "A failing referenced test or missing signed result blocks proof depth and success; forged evaluator identity is rejected."
+    affected_final_decisions: ["FD-011", "FD-014", "FD-024"]
+  - finding_id: "AMR-010"
+    claim: "Evidence is hash-linked but unsigned and retention has no operative capacity bounds."
+    status: "OPEN_HIGH"
+    evidence_classification: ["STATICALLY_INSPECTED", "DEPLOYMENT_LOCAL"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:128-223@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/spec/evidence-store-v1.md:149-181@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/constitution/contracts/retention/family.yml:14-54@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: ["JournalIntegrity", "JournalManifest"]
+    command_refs: ["CMD-0022"]
+    result_refs: ["phase-1/support-claim-review.md"]
+    provider_refs: []
+    confidence: "HIGH"
+    limitations: "No rewrite/rechain or compaction adversarial test was executed."
+    consequence: "A writer can replace/rechain history; rollback to an older valid chain is not externally detected; disk/inode burden is unbounded."
+    minimum_repair: "Broker/verifier signatures, monotonic terminal checkpoints, protected pins, explicit quotas/windows, automatic compaction, and low-space admission."
+    acceptance_test: "Rechain, old-snapshot, wrong-signer, missing-terminal, compaction, pinned-evidence, and low-space tests pass."
+    affected_final_decisions: ["FD-013", "FD-014", "FD-015", "FD-024"]
+  - finding_id: "AMR-011"
+    claim: "Self-development verifier immutability, exact-version staged activation, and executable rollback are absent."
+    status: "OPEN_HIGH"
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED", "UNVERIFIED"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:425-468@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:541-705@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/state/control/evolution/rollbacks/evolution-rollback-v5-validation.yml:1-16@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: ["apply_promotion", "promotion_blockers"]
+    command_refs: ["CMD-0023"]
+    result_refs: ["evidence/subagents/authority-runtime-trust.md"]
+    provider_refs: []
+    confidence: "HIGH"
+    limitations: "Deployment-local installers/supervisors were not exhaustively observed."
+    consequence: "A future candidate can alter its verifier/asserted proof, while current safety relies on activation being unimplemented rather than safely automated."
+    minimum_repair: "Previous-version immutable verifier, trust-root inventory, inert install, exact-version staged activator, health window, automatic rollback, and signed receipts."
+    acceptance_test: "Self-gate mutation fails; every activation kill point ends old healthy, exact new healthy, or verified rollback."
+    affected_final_decisions: ["FD-011", "FD-015", "FD-017", "FD-018"]
+  - finding_id: "AMR-012"
+    claim: "Live complete support and authorization-coverage claims exceed current physical mediation and executed proof."
+    status: "OPEN_HIGH"
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED", "DYNAMICALLY_EXECUTED", "PROVIDER_OBSERVED"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:127-250@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/instance/governance/disclosure/harness-card.yml:1-9@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/instance/governance/support-dossiers/live/github-repo-consequential-en/dossier.yml:80-86@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: []
+    command_refs: ["CMD-0021", "CMD-0024"]
+    result_refs: ["phase-1/support-claim-review.md"]
+    provider_refs: ["GitHub ruleset 12881449"]
+    confidence: "HIGH"
+    limitations: "The GitHub external-evidence limitation is disclosed, so the issue is claim strength, not concealment."
+    consequence: "Operators and implementation work may rely on mediation/authenticity properties that current code does not provide."
+    minimum_repair: "Downgrade to structural/qualified claims and rebuild claim promotion from executed signed proof after migration."
+    acceptance_test: "Every live claim maps to fresh executed signed proof; expiry or missing proof atomically withdraws the claim."
+    affected_final_decisions: ["FD-014", "FD-015", "FD-024"]
+  - finding_id: "AMR-013"
+    claim: "Workspace Project identity, a canonical Harness Factory, and signed private extension import are incomplete."
+    status: "OPEN_MEDIUM"
+    evidence_classification: ["STATICALLY_INSPECTED"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".octon/instance/locality/project-profile.yml:23-42@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md:3-48@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/governance/extensions/trust-and-compatibility.md:46-67@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: ["compile_context_pack"]
+    command_refs: ["CMD-0025"]
+    result_refs: ["evidence/subagents/evidence-product-migration.md"]
+    provider_refs: []
+    confidence: "HIGH"
+    limitations: "Some fixture-producing shell tooling may exist outside the focused runtime compiler search."
+    consequence: "Multi-project continuity, deterministic launch configuration, and private supply-chain authenticity are not end-to-end."
+    minimum_repair: "Add minimal non-authoritative Workspace Project, deterministic digest-bound compiler, and signed pinned/revocable extension import."
+    acceptance_test: "Two projects, relocation, deterministic digest, stale-source denial, tamper/revoke, and generation rollback tests pass."
+    affected_final_decisions: ["FD-019", "FD-020", "FD-021", "FD-022", "FD-024"]
+  - finding_id: "AMR-014"
+    claim: "Default CLI and retained architecture expose complexity outside the smallest solo-builder golden path."
+    status: "OPEN_MEDIUM"
+    evidence_classification: ["STATICALLY_INSPECTED", "ARCHITECTURAL_INFERENCE"]
+    repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    working_tree_status: "clean outside excluded sibling-review tree"
+    file_refs:
+      - ".octon/framework/engine/runtime/crates/kernel/src/main.rs:42-250@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/instance/bootstrap/START.md:95-230@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    symbol_refs: ["Command"]
+    command_refs: ["CMD-0026"]
+    result_refs: ["phase-1/comprehensive-review.md#l-solo-builder-experience"]
+    provider_refs: []
+    confidence: "MEDIUM_HIGH"
+    limitations: "No usage telemetry or novice usability session was available."
+    consequence: "Operator concept burden and maintenance surface can obscure project-run-publish-recover behavior."
+    minimum_repair: "Make setup/project/run/status/inbox/doctor/repair the default; gate federation/stewardship/certification/trust administration as advanced."
+    acceptance_test: "Timed novice golden-path and 30-day dogfood meet setup, prompt, completion-output, recovery, and monthly maintenance budgets."
+    affected_final_decisions: ["FD-001", "FD-002", "FD-019", "FD-023", "FD-024"]

@@ -1,0 +1,167 @@
+schema_version: octon-review-proposal-program-packet-map-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: non-authoritative-draft-input
+note: >-
+  Proposal-packet structure for the migration. Reconciled with the intake's
+  PP-00..PP-12 (packet-and-dependency-map.yml) and adjusted by Phase 1 evidence.
+  This does NOT create authoritative proposal packets; it maps their intended
+  boundaries, ownership, dependencies, gaps, and promotion gates. Creating the
+  packets requires explicit operator instruction.
+program:
+  name: octon-solo-trustworthy-autonomy-migration
+  ordering_authority: safe-intermediate-states.md + migration-dependency-graph.mmd
+  keystone: PP-01 (routes the one ungated effect through the existing primitive)
+packets:
+  - packet_id: PP-00
+    name: baseline-and-claim-correction
+    depends_on: []
+    owns_gaps: [GAP-17]
+    source_ownership: docs, FD-014 register wording, schema comments, capability signature field
+    scope: >-
+      Establish the clean baseline; reword overstated support claims; rename the
+      retention Class A/B/C to remove the FD-002 collision; produce the TCB
+      writer-enumeration skeleton (FD-015). No privileged code change.
+    rollback: revert wording (low risk)
+    promotion_gate: support-claim-proof-map has zero OVERSTATED rows
+    readiness_class: BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION
+  - packet_id: PP-01
+    name: canonical-authority-and-launch-guards
+    depends_on: [PP-00]
+    owns_gaps: [GAP-01]
+    source_ownership: lifecycle_executor, authority_engine effects, kernel lifecycle_driver, side_effects INVENTORY
+    scope: >-
+      Make lifecycle_executor depend on authority_engine; issue+verify a one-shot
+      ExecutorLaunch effect immediately before every agent/child spawn; demote
+      DelegationProof to evidence. Enforce the side_effects INVENTORY invariant.
+    rollback: feature-flag guard to log-only (transient only)
+    promotion_gate: spawn denied without valid grant; concurrent consume ≤ once
+    readiness_class: BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION
+  - packet_id: PP-02
+    name: native-credentialless-isolation
+    depends_on: [PP-00]
+    owns_gaps: [GAP-02, GAP-03]
+    source_ownership: lifecycle_executor spawn paths, authority_engine policy.rs spawn path, NEW isolation module
+    scope: >-
+      env_clear + allowlist at both spawn paths; macOS sandbox-exec/App Sandbox
+      profile applied by the runtime; disposable worktree/GIT_DIR for candidate
+      Git; refuse launch on unsupported platforms.
+    rollback: disable sandbox; keep env_clear
+    promotion_gate: escape-denial suite (fs/network/credential/Git-state) passes
+    readiness_class: REQUIRED_BEFORE_PROOF_OF_ARCHITECTURE
+  - packet_id: PP-03
+    name: transactional-runtime-store
+    depends_on: [PP-00]
+    owns_gaps: [GAP-05, GAP-06, GAP-12-partial]
+    source_ownership: NEW transactional_store, authority_engine state writes, core atomic_write, replay_store export
+    scope: >-
+      One SQLite/WAL authoritative store for grants/tokens/attempts/reservations/
+      revocations; transactional CAS consume; atomic persistence; NDJSON as derived
+      export; legacy YAML read-only projection.
+    rollback: SQLite reverts to read-through of YAML
+    promotion_gate: kill-point + concurrency tests (no torn state, no double-consume)
+    readiness_class: REQUIRED_BEFORE_PROOF_OF_ARCHITECTURE
+  - packet_id: PP-04
+    name: local-broker-and-credentials
+    depends_on: [PP-01, PP-02, PP-03]
+    owns_gaps: [GAP-02, GAP-04, GAP-15]
+    source_ownership: NEW broker crate/process, kernel effect routing, connector-credentials.yml, TCB inventory
+    scope: >-
+      One local credential-holding broker (separate process) with a narrow typed
+      effect surface; agents credentialless; deny-by-default for unsupported
+      effects; enumerate TCB physical writers.
+    rollback: broker denies all (fail-closed), never revert to ambient
+    promotion_gate: raw push/merge/deploy from candidate fails; brokered effect succeeds
+    readiness_class: REQUIRED_BEFORE_PROOF_OF_ARCHITECTURE
+  - packet_id: PP-05
+    name: sanitized-git-effect
+    depends_on: [PP-04]
+    owns_gaps: [GAP-07]
+    source_ownership: broker git adapter, execution-roles git scripts, RETIRE git-autonomy-hooks-install.sh
+    scope: >-
+      All credentialed git through the broker adapter (GIT_CONFIG_NOSYSTEM,
+      hooksPath=/dev/null, --no-verify, protocol.*.allow=never); retire managed
+      hooks; move cleanup convergence to a gated command.
+    rollback: revert to prior git calls (transient only)
+    promotion_gate: git-extension-point negative suite passes
+    readiness_class: BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION
+  - packet_id: PP-06
+    name: exact-verifier-and-adaptive-publication
+    depends_on: [PP-04]
+    owns_gaps: [GAP-08, GAP-09, GAP-19]
+    source_ownership: default-work-unit.yml route order, change-route-projection.yml, pr-auto-merge.yml, NEW out-of-tree verifier
+    scope: >-
+      branch-no-PR default; remove/guard autonomous direct-main; out-of-tree
+      candidate-immutable exact-SHA verifier keyed to a pre-registered SHA; broker
+      performs push and refuses on SHA/target-race; base-ref (not PR-head) CI
+      eligibility; scope the merge App or restrict PAT.
+    rollback: force PR route for all
+    promotion_gate: candidate diff to verifier cannot alter its own verdict; direct-main unreachable for agents
+    readiness_class: BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION (route order); REQUIRED_BEFORE_AUTONOMOUS_CLASS_B_PUBLICATION (verifier)
+  - packet_id: PP-07
+    name: signed-evidence-and-recovery
+    depends_on: [PP-03, PP-04, PP-05, PP-06]
+    owns_gaps: [GAP-10, GAP-11, GAP-12]
+    source_ownership: replay_store, authority_engine records, policy_engine quorum, reconciliation module, checkpoint-v2 schema
+    scope: >-
+      Option A (signing) or B (reworded git-anchored) per operator decision;
+      identity-verifying quorum; attempt-lifecycle reconciliation; capacity
+      reservation in the operation transaction; bounded retention + compaction.
+    rollback: disable signing; keep reconciliation
+    promotion_gate: rewrite-detection (if signed) / reconcile-before-retry / near-full-disk terminal-evidence tests pass
+    readiness_class: REQUIRED_BEFORE_AUTONOMOUS_CLASS_B_PUBLICATION (recovery); REQUIRED_BEFORE_PRODUCTION_TRUST_CLAIMS (evidence)
+  - packet_id: PP-08
+    name: self-development-and-trust-activation
+    depends_on: [PP-07]
+    owns_gaps: [GAP-13, GAP-14]
+    source_ownership: evolution.rs, trust.rs, closure-certification/harness-self-containment/main-change-route-guard/runtime-binaries workflows, NEW self-evolution-gate
+    scope: >-
+      Wire promotion_blockers onto an enforced base-ref merge gate; trust-root/self-dev
+      classifier; inert landing + staged prev-version-verified rollback-capable
+      activation; sign release artifacts or pin out-of-tree verifier; validate trust
+      approval artifacts.
+    rollback: freeze activation; manual operator activation only
+    promotion_gate: same-change self-cert fails; every activation fault → old/healthy-new/auto-rollback
+    readiness_class: REQUIRED_BEFORE_TRUST_ROOT_AUTOMATION
+  - packet_id: PP-09
+    name: workspace-projects
+    depends_on: [PP-01]
+    owns_gaps: [GAP-16]
+    source_ownership: NEW workspace-project-v1 schema, instance/locality registry, project-profile-v1
+    scope: minimal digest-bound non-authority project identity + registry; tighten additionalProperties.
+    rollback: remove identity record (Profile remains)
+    promotion_gate: project record mints no authority; cannot widen a run
+    readiness_class: LATER_OPTIMIZATION
+  - packet_id: PP-10
+    name: harness-factory-preserve-and-prove
+    depends_on: [PP-02, PP-09]
+    owns_gaps: []
+    source_ownership: generate-runtime-effective-route-bundle.sh, runtime_resolver (PRESERVE)
+    scope: preserve; execute the digest-drift deny path to upgrade FD-020 to dynamic proof (UF-04).
+    rollback: n/a (no change)
+    promotion_gate: drift → CAPABILITY_DENIED (executed)
+    readiness_class: LATER_OPTIMIZATION
+  - packet_id: PP-11
+    name: extensions-and-multi-agent
+    depends_on: [PP-07, PP-10]
+    owns_gaps: [GAP-partial A-04, G-06]
+    source_ownership: pack.yml, extension publication, delegation-depth in ExecutionRequest
+    scope: enforce bundled-pack digests; rollback-to-generation; delegation-depth bound threaded and enforced at spawn.
+    rollback: revert depth bound to config-only
+    promotion_gate: bundled pack digest non-null; delegation-depth-exceeded denied
+    readiness_class: LATER_OPTIMIZATION
+  - packet_id: PP-12
+    name: UX-dogfood-scope-trim-and-promotion
+    depends_on: [PP-07, PP-08, PP-09, PP-10, PP-11]
+    owns_gaps: [GAP-18]
+    source_ownership: kernel commands (doctor, inbox), trust.rs feature gate, risk-materiality/mission-autonomy, FD-002 crosswalk
+    scope: >-
+      Operator-mode doctor; cross-project inbox; gate federation off-by-default; map
+      FD-002 consequence classes onto ACP model (verifier as 2nd quorum member for
+      reversible isolated-branch work); trim non-load-bearing CI gates; run the
+      dogfood mission set.
+    rollback: keep gates enabled; revert crosswalk
+    promotion_gate: fresh-install-to-first-mission bounded; routine Class A/B zero prompts; dogfood high completion
+    readiness_class: REQUIRED_BEFORE_PRODUCTION_TRUST_CLAIMS
+proof_of_architecture:
+  requires_packets: [PP-01, PP-02, PP-03, PP-04, PP-05, PP-06, PP-07]
+  definition: see phase-3/proof-of-architecture.md

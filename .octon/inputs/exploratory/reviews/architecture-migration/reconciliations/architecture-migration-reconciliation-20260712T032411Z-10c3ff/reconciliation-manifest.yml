@@ -1,0 +1,75 @@
+schema_version: "octon-architecture-migration-reconciliation-v1"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+status: "complete"
+authoritative: false
+research_only: true
+started_at: "2026-07-12T03:24:11Z"
+completed_at: "2026-07-12T04:53:46Z"
+final_verdict: "READY_FOR_PROPOSAL_PROGRAM"
+mode_sequence:
+  - "ARCHITECT_CROSS_REVIEW:A"
+  - "ARCHITECT_CROSS_REVIEW:B_THIRD_PARTY_SUBSTITUTE"
+  - "RECONCILIATION_LEAD"
+repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+repository_branch: "main"
+target_mode: "observed"
+evidence_depth: "deep"
+post_remediation: false
+profile_selection:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  atomic_mode: "clean-break"
+  rationale: >-
+    This is one isolated non-authoritative reconciliation package over two
+    immutable reviews at one clean commit; it changes no architecture or
+    runtime source.
+inputs:
+  intake: ".octon/inputs/additive/.incoming/octon-architecture-and-migration-handoff-v2.0.0"
+  architect_a: ".octon/inputs/exploratory/reviews/architecture-migration/architecture-migration-review-20260712T015114Z-6e5b57"
+  architect_b: ".octon/inputs/exploratory/reviews/architecture-migration/architecture-migration-review-20260712T015106Z-57f6e8"
+output_root: ".octon/inputs/exploratory/reviews/architecture-migration/reconciliations/architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+search_boundary:
+  allowed_review_ids:
+    - "architecture-migration-review-20260712T015114Z-6e5b57"
+    - "architecture-migration-review-20260712T015106Z-57f6e8"
+  all_other_reviews: "excluded"
+skill_application:
+  name: "audit-domain-architecture"
+  output_override: "User-specified reconciliation directory"
+done_gate:
+  mode: "discovery"
+  value: "converged"
+  rationale: >-
+    Both cross-reviews, claim-level adjudication, semantic self-challenge,
+    graph/source-ownership validation, input immutability checks, containment,
+    and final package integrity have passed. Remaining uncertainties are
+    explicitly routed to packet proof or operator disposition.
+completion_counts:
+  cross_review_packages: 2
+  files_per_cross_review_package: 8
+  comparison_topics: 32
+  disagreements: 18
+  reconciled_findings: 33
+  final_decisions: 24
+  proof_obligations: 24
+  workgroups: 14
+  proposal_packets: 15
+  genuine_operator_decisions: 6
+  engineering_dispositions: 7
+  unresolved_evidence_items: 15
+  required_subagent_roles: 8
+quality_controls:
+  original_input_indexes: "passed: intake 94/94; architect A 56/56; architect B 46/46"
+  cross_review_packages: "passed: exactly eight files and six valid YAML files each"
+  reconciliation_yaml: "passed: 33/33"
+  mermaid: "not applicable: the reconciliation package contains no Mermaid artifact"
+  decision_and_proof_coverage: "passed: FD-001 through FD-024 exactly once"
+  disagreement_dispositions: "passed: 18/18"
+  finding_packet_traceability: "passed: 33/33, with RF-020 explicitly non-blocking"
+  workgroup_and_packet_graphs: "passed: no missing dependency or cycle"
+  source_ownership: "passed: no duplicate source-of-truth ownership"
+  prohibited_architecture: "passed: none restored"
+  permitted_review_ids_only: "passed"
+  write_containment: "passed"
+  original_review_immutability: "passed"
+  reconciliation_integrity_index: "passed; index excludes itself"

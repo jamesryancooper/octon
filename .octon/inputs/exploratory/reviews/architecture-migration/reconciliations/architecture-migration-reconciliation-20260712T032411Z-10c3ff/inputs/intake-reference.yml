@@ -1,0 +1,8 @@
+schema_version: "octon-reconciliation-input-reference-v1"
+input_id: "INTAKE"
+path: ".octon/inputs/additive/.incoming/octon-architecture-and-migration-handoff-v2.0.0"
+status: "immutable research and decision input"
+integrity_status: "94 of 94 indexed artifacts passed"
+integrity_index_sha256: "a99768d03184effc455671d1292f8c0c54459d7efcf8c0ec71bb4f7d44a14873"
+final_decisions: 24
+authority: false

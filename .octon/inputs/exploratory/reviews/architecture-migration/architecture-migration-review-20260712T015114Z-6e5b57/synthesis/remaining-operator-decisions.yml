@@ -1,0 +1,34 @@
+schema_version: "octon-final-remaining-operator-decisions-v1"
+program_creation_blocked: false
+decisions:
+  - decision_id: "OD-001"
+    topic: "First broker provider credential"
+    recommendation: "Dedicated GitHub App installation token; expiring fine-grained token only as bootstrap."
+    must_close_before: "WG-04 exit"
+    evidence_refs: ["AMR-003", "AMR-005"]
+  - decision_id: "OD-002"
+    topic: "Broker/verifier signing-key custody and recovery"
+    recommendation: "macOS Keychain first, with encrypted operator recovery and rotation; preserve hardware-backed option."
+    must_close_before: "WG-07 exit"
+    evidence_refs: ["AMR-010", "AMR-011"]
+  - decision_id: "OD-003"
+    topic: "Minimal trust-root inventory"
+    recommendation: "Registry of physical authority, broker, verifier, activation, rollback, signer, and support enforcement paths plus semantic deny-by-default."
+    must_close_before: "WG-09 design exit"
+    evidence_refs: ["AMR-011"]
+  - decision_id: "OD-004"
+    topic: "Optional protected GitHub effect worker timing"
+    recommendation: "Exclude from minimum proof; allow observation-only prototype after local broker."
+    must_close_before: "Any remote-worker packet"
+    evidence_refs: ["AMR-005", "AMR-006"]
+  - decision_id: "OD-005"
+    topic: "Evidence windows, quotas, pins, and backup"
+    recommendation: "Short measured hot raw window, signed terminal checkpoints, protected pins, and hard byte/inode floors."
+    must_close_before: "WG-07 exit"
+    evidence_refs: ["AMR-010"]
+  - decision_id: "OD-006"
+    topic: "Advanced CLI/domain disposition"
+    recommendation: "Hide mature internal tools behind an operator namespace; exclude unsupported federation/stewardship from the first supported envelope."
+    must_close_before: "WG-12 exit"
+    evidence_refs: ["AMR-014"]
+

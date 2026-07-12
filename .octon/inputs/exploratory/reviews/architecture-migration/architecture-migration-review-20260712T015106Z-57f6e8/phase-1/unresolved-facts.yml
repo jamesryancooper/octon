@@ -1,0 +1,72 @@
+schema_version: octon-review-unresolved-facts-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+note: >-
+  Facts this review could not fully resolve by static inspection + read-only
+  provider queries in a single session. Each names what would resolve it.
+unresolved:
+  - id: UF-01
+    topic: Runtime dynamic behavior of the authorization deny paths
+    detail: >-
+      Deny/reject behavior of authorize_execution and verify_authorized_effect
+      (stale/forged/revoked/mismatched) is inferred from reading the code and its
+      tests, not executed in this session. The behavior is well-tested in
+      authority_engine/src/implementation/tests.rs but not run here.
+    classification: STATICALLY_INSPECTED (not DYNAMICALLY_EXECUTED)
+    resolves_by: Run `cargo test -p authority_engine` and the effect-token/concurrency tests.
+  - id: UF-02
+    topic: Net exploitability of credential inheritance from inside the agent
+    detail: >-
+      Agents inherit ambient credentials (proven statically), but whether a given
+      operator machine actually has GITHUB_TOKEN/SSH present, and whether the Codex
+      CLI's own --sandbox workspace-write constrains network/credential use, is
+      DEPLOYMENT_LOCAL and depends on the external executor binaries not inspected.
+    classification: CONFIGURATION_DERIVED / DEPLOYMENT_LOCAL
+    resolves_by: Spawn an executor with a sentinel secret env var and assert presence/absence in the child; inspect codex sandbox network posture.
+  - id: UF-03
+    topic: Full GitHub provider posture
+    detail: >-
+      Only the live main branch ruleset and pr-auto-merge were observed
+      (PROVIDER_OBSERVED). Repository/org secrets, GitHub App installations,
+      environment protection rules, and all 42 workflows were not exhaustively
+      enumerated; additional CI authority surfaces beyond J-07 may exist.
+    classification: REQUIRES_FRESH_PROVIDER_EVIDENCE
+    resolves_by: Enumerate `gh api` rulesets, apps, secrets metadata, environments; read all 42 workflows for provider-write scopes.
+  - id: UF-04
+    topic: Harness Factory resolver deny path (executed proof)
+    detail: >-
+      The runtime_resolver digest-drift deny path (G-04) is read as fail-closed but
+      not executed; a drift-and-observe test would upgrade FD-020 from inferred to
+      dynamically proven.
+    classification: REQUIRES_DYNAMIC_PROOF
+    resolves_by: Mutate route-bundle.yml without regenerating the lock and run the resolver; expect CAPABILITY_DENIED.
+  - id: UF-05
+    topic: Multi-project model
+    detail: >-
+      Whether "multiple projects" is intended as many independent .octon roots (one
+      per repo) or one operator workspace with a project registry is undetermined;
+      no Workspace Project identity record exists in code (only a singleton Profile).
+    classification: UNVERIFIED
+    resolves_by: Operator decision (see operator-decisions-still-required in Phase 2).
+  - id: UF-06
+    topic: TOCTOU/crash duplication (executed proof)
+    detail: >-
+      The single-use token TOCTOU (D-02/J-04) and crash-retry duplication (D-05) are
+      statically inferred; concurrency and kill-point tests would upgrade them.
+    classification: REQUIRES_DYNAMIC_PROOF
+    resolves_by: Concurrent verify_authorized_effect on one single-use token; SIGKILL between effect and persist_token_record.
+  - id: UF-07
+    topic: run_octon_kernel resolution in CI
+    detail: >-
+      protected-ci-auto-merge.sh delegates to run_octon_kernel; the terminal merge is
+      gated in Rust, but whether run_octon_kernel always resolves to the built,
+      unpatched binary vs a repo-editable wrapper was not fully traced.
+    classification: UNVERIFIED
+    resolves_by: Trace run_octon_kernel resolution and assert it cannot be a candidate-editable shim.
+  - id: UF-08
+    topic: Whether risk-materiality ACP-2 escalation actually fires for solo commits
+    detail: >-
+      risk-materiality maps ordinary repo mutation to ACP-2/escalate/quorum, but
+      mode_defaults (proceed_on_silence, notify) may soften this in practice; the
+      net prompt burden for a routine solo commit was not executed.
+    classification: STATICALLY_INSPECTED (behavioral outcome UNVERIFIED)
+    resolves_by: Run a representative reversible change end-to-end and count human prompts.

@@ -1,0 +1,44 @@
+schema_version: "octon-review-repository-baseline-v1"
+captured_at: "2026-07-12T01:51:14Z"
+repository_root: "/Users/jamesryancooper/Projects/octon"
+repository_url: "git@github.com:jamesryancooper/octon.git"
+branch: "main"
+upstream: "origin/main"
+ahead: 0
+behind: 0
+commit_sha: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+commit_timestamp: "2026-07-11T16:56:55-05:00"
+commit_unix_timestamp: 1783807015
+commit_subject: "chore(main): release octon 0.6.104 (#601)"
+working_tree_scope: >-
+  Entire repository except .octon/inputs/exploratory/reviews/**, excluded to
+  preserve independent-review isolation.
+working_tree_status: "clean"
+staged_changes: []
+unstaged_changes: []
+untracked_changes: []
+checkout_clean_and_reproducible: true
+host:
+  os: "macOS 26.5.2 (25F84)"
+  kernel: "Darwin 25.5.0"
+  architecture: "arm64"
+tools:
+  zsh: "5.9"
+  git: "2.51.1"
+  gh: "2.92.0"
+  rustc: "1.93.1"
+  cargo: "1.93.1"
+  sqlite3: "3.51.0"
+  node: "24.10.0"
+  python: "3.14.0"
+provider_configuration:
+  github_cli_available: true
+  authenticated: true
+  account: "jamesryancooper"
+  credential_storage: "keyring"
+  git_protocol: "https"
+  token_value_retained: false
+limitations:
+  - >-
+    Sibling review paths were deliberately excluded from working-tree
+    inventory, so their existence or status is neither inspected nor asserted.

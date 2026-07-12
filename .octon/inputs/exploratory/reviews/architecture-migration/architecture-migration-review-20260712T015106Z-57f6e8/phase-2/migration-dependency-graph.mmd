@@ -1,0 +1,63 @@
+%% Migration dependency graph (proposal packets PP-00..PP-12)
+%% Reviewed commit c5b1f5760c. Edge = "must complete before".
+flowchart TB
+    PP00["PP-00 baseline + claim correction\n(GAP-17, GAP-10b, rename Class A/B/C)"]
+
+    PP01["PP-01 canonical authority + launch guards\n(GAP-01) reuse verify_authorized_effect"]
+    PP02["PP-02 native credentialless isolation\n(GAP-02, GAP-03)"]
+    PP03["PP-03 transactional SQLite/WAL store\n(GAP-05, GAP-06, GAP-12a)"]
+
+    PP04["PP-04 local broker + credential migration\n(GAP-02, GAP-04, GAP-15)"]
+    PP05["PP-05 sanitized git adapter\n(GAP-07)"]
+    PP06["PP-06 exact-SHA verifier + adaptive publication\n(GAP-08, GAP-09, GAP-19)"]
+    PP07["PP-07 signed evidence + recovery\n(GAP-10, GAP-11, GAP-12)"]
+    PP08["PP-08 self-development + trust activation\n(GAP-13, GAP-14)"]
+
+    PP09["PP-09 workspace projects\n(GAP-16)"]
+    PP10["PP-10 harness factory (preserve+prove)"]
+    PP11["PP-11 extensions + multi-agent depth\n(A-04, G-06)"]
+    PP12["PP-12 UX + dogfood + scope trim + promotion\n(GAP-18)"]
+
+    POA{{"PROOF OF ARCHITECTURE\nminimum executable end-to-end"}}
+
+    PP00 --> PP01
+    PP00 --> PP02
+    PP00 --> PP03
+    PP01 --> PP04
+    PP02 --> PP04
+    PP03 --> PP04
+    PP04 --> PP05
+    PP04 --> PP06
+    PP03 --> PP07
+    PP04 --> PP07
+    PP05 --> PP07
+    PP06 --> PP07
+    PP07 --> PP08
+
+    PP01 --> PP09
+    PP02 --> PP10
+    PP09 --> PP10
+    PP07 --> PP11
+    PP10 --> PP11
+
+    PP04 --> POA
+    PP05 --> POA
+    PP06 --> POA
+    PP07 --> POA
+    PP01 --> POA
+    PP02 --> POA
+    PP03 --> POA
+
+    PP07 --> PP12
+    PP08 --> PP12
+    PP09 --> PP12
+    PP10 --> PP12
+    PP11 --> PP12
+    POA --> PP12
+
+    classDef blocker fill:#fadbd8,stroke:#c0392b;
+    classDef proof fill:#d6eaf8,stroke:#2471a3;
+    classDef preserve fill:#d5f5e3,stroke:#1e8449;
+    class PP00,PP01,PP05,PP06 blocker
+    class POA proof
+    class PP10 preserve

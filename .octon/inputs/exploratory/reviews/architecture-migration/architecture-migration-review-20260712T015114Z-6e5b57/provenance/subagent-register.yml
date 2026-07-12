@@ -1,0 +1,67 @@
+schema_version: "octon-review-subagent-register-v1"
+review_id: "architecture-migration-review-20260712T015114Z-6e5b57"
+status: "completed"
+common_constraints:
+  - "Read-only repository and provider inspection."
+  - "Never read, search, list, index, or cite sibling review directories."
+  - "Exclude .octon/inputs/exploratory/reviews/** from all repository searches."
+  - "Do not write repository files; return findings to the primary architect."
+  - "Use required evidence classifications and exact commit-qualified refs."
+workstreams:
+  - {id: "A", name: "Authority and lifecycle", status: "completed_by_authority_runtime_trust"}
+  - {id: "B", name: "Isolation, credentials, and broker boundary", status: "completed_by_isolation_publication_challenge"}
+  - {id: "C", name: "Git, GitHub, and publication", status: "completed_by_isolation_publication_challenge"}
+  - {id: "D", name: "Runtime persistence and recovery", status: "completed_by_authority_runtime_trust"}
+  - {id: "E", name: "Evidence, attestation, and support claims", status: "completed_by_evidence_product_migration"}
+  - {id: "F", name: "Self-development and trust root", status: "completed_by_authority_runtime_trust"}
+  - {id: "G", name: "Workspace Projects, profiles, harnesses, and extensions", status: "completed_by_evidence_product_migration"}
+  - {id: "H", name: "Product scope, usability, and simplification", status: "completed_by_evidence_product_migration"}
+  - {id: "I", name: "Migration and proposal-program design", status: "completed_by_evidence_product_migration"}
+  - {id: "J", name: "Adversarial independent challenger", status: "completed_by_isolation_publication_challenge"}
+agents:
+  - agent_id: "/root/authority_runtime_trust"
+    assignments: ["A", "D", "F"]
+    inspected_paths:
+      - ".octon/framework/engine/runtime/crates/authorized_effects"
+      - ".octon/framework/engine/runtime/crates/authority_engine"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor"
+      - ".octon/framework/engine/runtime/crates/kernel"
+      - ".octon/framework/engine/runtime/crates/runtime_bus"
+      - ".octon/framework/engine/runtime/crates/replay_store"
+      - ".octon/state/control/evolution"
+      - ".octon/state/evidence/evolution"
+    commands_executed: "Bounded rg launch/store/trust searches and exact source excerpts; intake checksum validation."
+    report_ref: "evidence/subagents/authority-runtime-trust.md"
+  - agent_id: "/root/isolation_publication_challenge"
+    assignments: ["B", "C", "J"]
+    inspected_paths:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor"
+      - ".octon/framework/assurance/runtime/_ops/scripts"
+      - ".octon/framework/product/contracts"
+      - ".github/workflows"
+      - "GitHub provider configuration"
+    commands_executed: "Git/worktree/config inspection, workflow and Git helper trace, deployment metadata, read-only provider API."
+    report_ref: "evidence/subagents/isolation-publication-challenge.md"
+  - agent_id: "/root/evidence_product_migration"
+    assignments: ["E", "G", "H", "I"]
+    inspected_paths:
+      - ".octon/framework/engine/runtime/spec"
+      - ".octon/framework/engine/runtime/crates/runtime_bus"
+      - ".octon/framework/engine/runtime/crates/authority_engine"
+      - ".octon/instance/governance"
+      - ".octon/instance/locality"
+      - ".octon/inputs/additive/extensions"
+      - ".octon/generated/effective/extensions"
+      - ".octon/instance/bootstrap"
+    commands_executed: "Evidence, retention, support, project, harness, extension, and CLI searches; size measurements; proof-validator execution."
+    report_ref: "evidence/subagents/evidence-product-migration.md"
+accepted_findings:
+  - "All material findings in the three subagent reports, with claim strength narrowed as recorded."
+rejected_findings:
+  - finding: "Deployment-local evidence volume proves universal product burden."
+    reason: "Retained only as point-in-time burden evidence and tracked repository floor."
+  - finding: "Current support gap was concealed."
+    reason: "Dossier discloses the external gap; finding reframed as proof-strength mismatch."
+  - finding: "Target race and duplicate-context bypass are dynamically proven."
+    reason: "Retained as architectural/provider inference pending adversarial fixtures."
+unresolved_disagreements: []

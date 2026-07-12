@@ -1,0 +1,103 @@
+schema_version: octon-review-final-recommendation-register-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: non-authoritative
+verdict: READY_WITH_BLOCKING_DECISIONS
+recommendations:
+  - id: REC-01
+    title: Author the proposal program PP-00..PP-12 with Phase 3 corrections folded in
+    priority: now
+    rationale: Structure/boundaries/deps/tests are defined and evidence-grounded.
+    depends_on_decisions: [OD-01, OD-06, OD-08]
+    evidence: [phase-2/proposal-program-packet-map.yml, phase-3/simplification-register.yml]
+  - id: REC-02
+    title: Do PP-00 first — pin the authority decision function (BLOCKER)
+    priority: before-any-privileged-work
+    rationale: authorize_execution shells candidate-editable policy+runner; override env unrestricted in prod (lead-verified L1-01/L1-03).
+    minimum_repair: Pin policy file + runner to out-of-tree/base-ref digest verified inside authorize_execution, or compile deny-by-default into the kernel; scrub OCTON_POLICY_* overrides.
+    acceptance_test: F13
+    gate: G-B2
+  - id: REC-03
+    title: Correct overstated support claims (BLOCKER)
+    priority: before-any-privileged-work
+    rationale: No signing exists; "signed/complete-mediation/attestation" exceed proof.
+    minimum_repair: Reword to hash-chained+git-anchored; identity-verifying quorum; rename retention Class A/B/C.
+    acceptance_test: support-claim-proof-map zero OVERSTATED rows
+    gate: G-B1
+  - id: REC-04
+    title: Extend PP-01 to gate EVERY spawn site + demote DelegationProof
+    priority: proof-of-architecture
+    rationale: pipeline.rs:1856 spawn ungated (L1-02); lifecycle plane self-attests.
+    minimum_repair: Issue+verify one-shot ExecutorLaunch before every Codex/Claude spawn, unconditionally; DelegationProof becomes evidence-only.
+    acceptance_test: F14
+    gate: G-P1
+  - id: REC-05
+    title: Build ONE broker process (store+sanitized-git+creds), not three
+    priority: proof-of-architecture
+    rationale: Simplification L2-02; one chokepoint, one WAL writer, one trust boundary.
+    minimum_repair: Broker owns rusqlite/WAL sole-writer + sanitized git in-process; deny-by-default unsupported effects.
+    acceptance_test: G-P4 + F1 + F2
+    gate: G-P4
+  - id: REC-06
+    title: Credentialless isolation on both spawn paths + isolated Git
+    priority: proof-of-architecture
+    minimum_repair: env_clear+allowlist + runtime-applied macOS sandbox on both paths; disposable worktree/GIT_DIR.
+    acceptance_test: F9 + F10
+    gate: G-P2
+  - id: REC-07
+    title: Scope PP-03 to atomic-write helper + narrow CAS (defer full SQLite migration)
+    priority: proof-of-architecture
+    rationale: Simplification L2-07; most of D-01/D-03 closed by atomic_write; only consume+reserve needs a txn.
+    acceptance_test: F1 + F2
+    gate: G-P3
+  - id: REC-08
+    title: Delegate exact-SHA verifier to a GitHub App; remove the second CI credential plane
+    priority: before-autonomous-class-b
+    rationale: L2-03 (immutability from where it runs); L1-05 (build-from-head enforcer, release-please PAT).
+    minimum_repair: Out-of-tree App keyed to broker-registered SHA; pinned release-binary enforcer; inventory every AUTONOMY_PAT workflow.
+    acceptance_test: F5 + F16 + F17
+    gate: [G-C1, G-C3]
+  - id: REC-09
+    title: Add unknown-outcome reconciliation with attempt-bound attribution + enforced idempotency
+    priority: before-autonomous-class-b
+    rationale: L1-09; bare ls-remote cannot attribute a landed ref.
+    minimum_repair: attempt lifecycle; per-attempt ref namespace / atomic pre-SHA compare; UNIQUE(idempotency_key).
+    acceptance_test: F3 + F4 + F16
+    gate: G-C2
+  - id: REC-10
+    title: Invert route ordering + full git-extension allowlist (BLOCKER)
+    priority: before-any-privileged-work
+    rationale: C-005 direct-main first; L1-08 extension surface.
+    acceptance_test: G-B3 + F15
+    gate: [G-B3, G-B4]
+  - id: REC-11
+    title: Wire promotion_blockers onto a base-ref gate; inert trust-root landing; validate approval artifact
+    priority: before-trust-root-automation
+    rationale: F-017-2 self-cert; F-018-2 unwired reader; J-06 presence-only approval.
+    acceptance_test: F8 + F12
+    gate: [G-T1, G-T2]
+    depends_on_decisions: [OD-08]
+  - id: REC-12
+    title: Move FD-002 crosswalk + Class-A/B/C rename EARLY (PP-00); zero-prompt routine path
+    priority: before-any-privileged-work
+    rationale: L2-06/L4-03; usability regression otherwise lives through the whole build.
+    acceptance_test: 20 routine reversible missions → 0 prompts; ACP-3 → 1
+    gate: SR-12
+  - id: REC-13
+    title: Move committed run-exhaust out of the tracked tree; trim CI gates; gate federation off
+    priority: before-production-trust-claims
+    rationale: SR-10/SR-11/SR-13; 40k/53k tracked files; ~1.5k LOC multi-party surface.
+    acceptance_test: fresh-clone file count bounded; solo dogfood with federation off
+    gate: G-R3
+    depends_on_decisions: [OD-06, OD-09]
+  - id: REC-14
+    title: Ship a supervised broker + pull operator doctor forward to PP-04
+    priority: before-production-trust-claims
+    rationale: L4-01/L4-02; broker is a new SPOF with no lifecycle design; usability deferred to last packet.
+    acceptance_test: broker crash → auto-restart+reconcile ≤5s; octon doctor at PP-04 exit
+    gate: G-R3
+  - id: REC-15
+    title: Run FD-020 digest-drift deny test now (cheapest dynamic proof)
+    priority: opportunistic
+    rationale: UF-04; upgrades the strongest satisfied decision from inferred to executed.
+    acceptance_test: F11
+    gate: G-L2

@@ -1,0 +1,330 @@
+schema_version: "octon-architect-cross-review-assessment-v1"
+architect_label: "A"
+other_review_id: "architecture-migration-review-20260712T015106Z-57f6e8"
+baseline_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+claims:
+  - claim_id: "A-XR-B-001"
+    other_review_reference: "synthesis/final-review.md#final-judgment"
+    claim_summary: "The target direction is sound but privileged implementation is not ready."
+    assessment: "SUPPORTED"
+    evidence_assessment: "The repository and both reviews show candidate-controlled effect paths and missing target proof."
+    agreement_status: "AGREED"
+    accepted_portion: "Target direction and implementation gate."
+    rejected_portion: null
+    replacement_position: null
+    repository_refs: [".octon/framework/engine/runtime/crates", ".github/workflows"]
+    intake_refs: ["decisions/final-decision-register.yml", "validation/proof-of-architecture.md"]
+    proof_required: "Packet-specific dynamic and adversarial proof before privileged activation."
+    migration_effect: "Retain Gate 0 and proof-gated implementation."
+  - claim_id: "A-XR-B-002"
+    other_review_reference: "phase-1/current-finding-register.yml#L1-01"
+    claim_summary: "Canonical authorization executes candidate-editable policy runner, policy data, and receipt code."
+    assessment: "SUPPORTED_AND_LOAD_BEARING"
+    evidence_assessment: "Static call-path inspection confirms repository-relative runner, policy, and receipt writer execution."
+    agreement_status: "AGREED_AMENDMENT_ACCEPTED"
+    accepted_portion: "The authorization decision function is not candidate-immutable."
+    rejected_portion: null
+    replacement_position: "Pin or execute the complete decision function from a base-certified/out-of-candidate TCB."
+    repository_refs: [".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs", ".octon/framework/engine/runtime/policy", ".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-003", "decisions/final-decision-register.yml#FD-011"]
+    proof_required: "A candidate modifying any decision-function input cannot change its own authorization or verification result."
+    migration_effect: "Add candidate-immutability to the canonical-authority packet before any brokered privilege."
+  - claim_id: "A-XR-B-003"
+    other_review_reference: "phase-1/current-finding-register.yml#L1-03,L1-04"
+    claim_summary: "Production environment overrides can substitute policy code/mode or bypass route-bundle freshness."
+    assessment: "SUPPORTED_WITH_NARROWED_THREAT_ACTOR"
+    evidence_assessment: "Static inspection confirms unrestricted production reads; a child process cannot normally mutate its parent's environment, so the direct-agent exploit claim needs deployment-path proof."
+    agreement_status: "AGREED_WITH_DIFFERENT_RATIONALE"
+    accepted_portion: "The overrides weaken production trust and can be inherited from launch/deployment configuration."
+    rejected_portion: "An unqualified claim that any model child can directly rewrite the already-running parent's environment."
+    replacement_position: "Remove production overrides or bind them to test-only/base-certified startup configuration."
+    repository_refs: [".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs", ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs", ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-003", "decisions/final-decision-register.yml#FD-020"]
+    proof_required: "Production-mode tests prove untrusted environment or candidate state cannot shadow policy or freshness."
+    migration_effect: "Include override retirement in Gate 0."
+  - claim_id: "A-XR-B-004"
+    other_review_reference: "phase-1/current-finding-register.yml#L1-02"
+    claim_summary: "Pipeline execution is an alternate launch/effect path without the required one-shot guard."
+    assessment: "SUPPORTED"
+    evidence_assessment: "Static call-path evidence establishes a shell spawn outside universal ExecutorLaunch consumption."
+    agreement_status: "AGREED"
+    accepted_portion: "Pipeline belongs in the exhaustive launch/effect inventory."
+    rejected_portion: null
+    replacement_position: null
+    repository_refs: [".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs", ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-004"]
+    proof_required: "Every supported process-creation path denies without one exact consumable guard."
+    migration_effect: "Keep structural guard and exhaustive launch census early."
+  - claim_id: "A-XR-B-005"
+    other_review_reference: "phase-1/current-finding-register.yml#L1-05,L1-06"
+    claim_summary: "Multiple credentialed or privileged workflows remain candidate-influenced, including auto-merge, release, and push gates."
+    assessment: "SUPPORTED"
+    evidence_assessment: "Workflow inspection confirms PAT/token use and candidate-tree scripts or parameters across more than one plane."
+    agreement_status: "AGREED_AMENDMENT_ACCEPTED"
+    accepted_portion: "The effect-writer inventory must cover all credentialed workflows, not one merge workflow."
+    rejected_portion: null
+    replacement_position: null
+    repository_refs: [".github/workflows/pr-auto-merge.yml", ".github/workflows/release-please.yml", ".github/workflows/main-push-safety.yml"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-006", "decisions/final-decision-register.yml#FD-007", "decisions/final-decision-register.yml#FD-017"]
+    proof_required: "Every durable provider effect maps to one authenticated writer and base-certified policy input."
+    migration_effect: "Expand Gate 0 and broker/provider-worker scope."
+  - claim_id: "A-XR-B-006"
+    other_review_reference: "phase-1/current-finding-register.yml#L1-08,L1-09"
+    claim_summary: "Privileged Git sanitization and provider-attempt attribution are incomplete."
+    assessment: "SUPPORTED"
+    evidence_assessment: "Static evidence supports a larger Git attack surface and shows reachability checks are not durable effect attribution."
+    agreement_status: "AGREED_AMENDMENT_ACCEPTED"
+    accepted_portion: "Use a closed command/config allowlist and durable attempt identity."
+    rejected_portion: null
+    replacement_position: "Include exact expected-old ref, ancestry, attempt ID, provider receipt, and unknown-outcome reconciliation."
+    repository_refs: [".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh", ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-009", "decisions/final-decision-register.yml#FD-012"]
+    proof_required: "Adversarial Git configuration and lost-response tests cannot execute candidate code or duplicate an effect."
+    migration_effect: "Strengthen sanitized-Git and transactional-effect packets."
+  - claim_id: "A-XR-B-007"
+    other_review_reference: "phase-2/migration-architecture.md#broker"
+    claim_summary: "One broker should own provider effects and the one SQLite store, with Git as an internal adapter."
+    assessment: "SUPPORTED_WITH_BOUNDARY_CLARIFICATION"
+    evidence_assessment: "This matches FD-005 and FD-006 when 'component' does not collapse independent verification identity."
+    agreement_status: "AGREED"
+    accepted_portion: "One broker process/component and one store; Git is not a second broker."
+    rejected_portion: "Any interpretation that merges the candidate-immutable verifier into the effect identity."
+    replacement_position: "Keep verifier logically and credentially independent even if deployment packaging is compact."
+    repository_refs: [".octon/framework/engine/runtime/crates"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-005", "decisions/final-decision-register.yml#FD-006", "decisions/final-decision-register.yml#FD-011"]
+    proof_required: "Writer inventory and identity tests prove broker/verifier separation."
+    migration_effect: "Retain one-broker/one-store target and verifier independence."
+  - claim_id: "A-XR-B-008"
+    other_review_reference: "phase-3/adversarial-finding-register.yml#H-04"
+    claim_summary: "The broker proposal lacks a complete solo-operator lifecycle and supervision story."
+    assessment: "SUPPORTED"
+    evidence_assessment: "Architect A's original target narrative mentioned auto-start and diagnosis, but packet acceptance criteria were not sufficiently explicit."
+    agreement_status: "AGREED_AMENDMENT_ACCEPTED"
+    accepted_portion: "Startup, single-instance control, IPC authentication, crash recovery, enrollment, doctor, repair, upgrade, and uninstall are required."
+    rejected_portion: null
+    replacement_position: null
+    repository_refs: [".octon/framework/engine/runtime"]
+    intake_refs: ["product/friction-and-operational-standards.md", "decisions/final-decision-register.yml#FD-001"]
+    proof_required: "Fresh install and crash-recovery dogfood without manual daemon administration."
+    migration_effect: "Add operability to broker packet and early vertical."
+  - claim_id: "A-XR-B-009"
+    other_review_reference: "phase-1/current-finding-register.yml#D-04,E-05"
+    claim_summary: "The route-write lease is the prohibited standalone evidence-capacity subsystem."
+    assessment: "NOT_SUPPORTED"
+    evidence_assessment: "The cited lease serializes route writes; FD-013 concerns reserving evidence capacity in the operation transaction. Architect B's own records classify the negative constraint both violated and satisfied."
+    agreement_status: "REJECTED"
+    accepted_portion: "Current storage/capacity behavior does not satisfy FD-013."
+    rejected_portion: "Conflation of route serialization with evidence-capacity reservation."
+    replacement_position: "Retire redundant route serialization only if the transactional store supersedes it; implement evidence capacity in the operation transaction."
+    repository_refs: [".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-013"]
+    proof_required: "Near-full-store fault tests preserve required terminal evidence."
+    migration_effect: "Keep FD-013 inside the one-store packet; do not create a lease service."
+  - claim_id: "A-XR-B-010"
+    other_review_reference: "phase-3/assurance-review.md#publication"
+    claim_summary: "No current no-PR path performs post-push validation or reconciliation."
+    assessment: "PARTIALLY_SUPPORTED"
+    evidence_assessment: "The shell helper performs a post-push target check, but no universal durable attempt/unknown-outcome state machine exists."
+    agreement_status: "SCOPE_DIFFERENCE"
+    accepted_portion: "Current publication lacks complete transactional reconciliation."
+    rejected_portion: "Universal absence of any post-push check."
+    replacement_position: "Preserve useful exact-target checks while replacing the path with durable broker attempt/reconciliation semantics."
+    repository_refs: [".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh", ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-010", "decisions/final-decision-register.yml#FD-012"]
+    proof_required: "Lost-response and target-race fault injection."
+    migration_effect: "Modify rather than discard post-push verification logic."
+  - claim_id: "A-XR-B-011"
+    other_review_reference: "phase-3/adversarial-finding-register.yml#J-06"
+    claim_summary: "Trust-root approval validation is presence-oriented rather than strongly bound to scope, version, and provenance."
+    assessment: "SUPPORTED"
+    evidence_assessment: "Static inspection supports insufficient semantic binding for the target activation process."
+    agreement_status: "AGREED_AMENDMENT_ACCEPTED"
+    accepted_portion: "Approval must bind exact candidate version, trust scope, prior verifier, expiry, rollback, and provenance."
+    rejected_portion: null
+    replacement_position: null
+    repository_refs: [".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs", ".octon/instance/governance"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-018"]
+    proof_required: "Mismatched, stale, forged, or scope-widened approval is rejected."
+    migration_effect: "Strengthen trust-activation packet."
+  - claim_id: "A-XR-B-012"
+    other_review_reference: "phase-2/current-to-target-crosswalk.md#FD-020"
+    claim_summary: "FD-020 Harness Factory is already satisfied."
+    assessment: "OVERSTATED"
+    evidence_assessment: "Task-harness schemas and route-bundle generation are substantial foundations, but the generator does not compile the full intake target envelope or bind it into all launch authorization."
+    agreement_status: "REJECTED_IN_PART"
+    accepted_portion: "Preserve the existing harness contract, schemas, route bundle, locks, and runtime resolver."
+    rejected_portion: "Full satisfaction of FD-020."
+    replacement_position: "PARTIALLY_SATISFIED. Extend existing compilation rather than create another runtime."
+    repository_refs: [".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md", ".octon/framework/assurance/runtime/_ops/scripts/generate-runtime-effective-route-bundle.sh", ".octon/framework/engine/runtime/crates/runtime_resolver"]
+    intake_refs: ["target-state/workspace-projects-and-harness-factory.md", "decisions/final-decision-register.yml#FD-020"]
+    proof_required: "Deterministic full-envelope compilation and denial of stale/self-widened launch manifests."
+    migration_effect: "Keep a bounded Harness Factory packet that extends present primitives."
+  - claim_id: "A-XR-B-013"
+    other_review_reference: "phase-2/current-to-target-crosswalk.md#FD-023"
+    claim_summary: "FD-023 provider-native delegation is already satisfied."
+    assessment: "OVERSTATED"
+    evidence_assessment: "Replaceable adapter manifests and contracts exist, but conformance and replacement semantics are incomplete for broker, verifier, evidence, and recovery."
+    agreement_status: "REJECTED_IN_PART"
+    accepted_portion: "Preserve adapter contracts, runtime adapter manifests, and provider-native execution."
+    rejected_portion: "End-to-end satisfaction of provider replacement proof."
+    replacement_position: "PARTIALLY_SATISFIED pending conformance and replacement proof."
+    repository_refs: [".octon/framework/engine/runtime/adapters", ".octon/framework/constitution/contracts/adapters", ".github/workflows"]
+    intake_refs: ["target-state/extensions-multi-agent-and-provider-boundaries.md", "decisions/final-decision-register.yml#FD-023"]
+    proof_required: "Replace a provider adapter without changing Octon authority, evidence, recovery, or mission semantics."
+    migration_effect: "Make provider conformance a cross-cutting proof obligation, not a new control plane."
+  - claim_id: "A-XR-B-014"
+    other_review_reference: "phase-2/operator-decisions-still-required.yml#OD-06"
+    claim_summary: "FD-014 evidence signing should become an operator choice, preferably Git anchoring."
+    assessment: "REJECTED_AS_UNRECORDED_DECISION_REOPEN"
+    evidence_assessment: "No evidence shows FD-014 infeasible, contradictory, or unsafe; the required reopen record is absent."
+    agreement_status: "REJECTED"
+    accepted_portion: "Key custody and signing mechanism require bounded implementation design."
+    rejected_portion: "Removing signed broker/verifier observations from the accepted baseline."
+    replacement_position: "Retain FD-014; use the smallest local signing/checkpoint design that passes proof."
+    repository_refs: [".octon/state/evidence"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-014", "target-state/evidence-retention-and-degraded-operation.md"]
+    proof_required: "Forgery, rechaining, compaction, missing-terminal, and key-rotation tests."
+    migration_effect: "No pre-program operator block; signing design belongs to the evidence packet."
+  - claim_id: "A-XR-B-015"
+    other_review_reference: "phase-3/simplification-register.yml#workspace-project-deferral"
+    claim_summary: "Workspace Project support should be deferred until a second project exists."
+    assessment: "REJECTED_AS_SCOPE_CONFLICT"
+    evidence_assessment: "FD-019 and FD-024 already target a minimal multi-project record; no evidence shows the minimal record unsafe or infeasible."
+    agreement_status: "REJECTED"
+    accepted_portion: "Avoid a portfolio ontology and broad registry machinery."
+    rejected_portion: "Deferring the minimal non-authoritative project boundary."
+    replacement_position: "Implement the smallest inferred project record in the complete vertical."
+    repository_refs: [".octon/instance/locality/project-profile.yml"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-019", "decisions/final-decision-register.yml#FD-024"]
+    proof_required: "Project metadata cannot authorize or widen an active run."
+    migration_effect: "Retain dedicated project/harness packet after core trust path."
+  - claim_id: "A-XR-B-016"
+    other_review_reference: "phase-3/simplification-register.yml#federation"
+    claim_summary: "Federation and cross-domain machinery should be hidden or retired for the solo support envelope."
+    assessment: "SUPPORTED_WITH_SCOPE_LIMIT"
+    evidence_assessment: "The accepted solo boundary excludes enterprise/distributed operation; repository surface area is disproportionate if presented as supported product."
+    agreement_status: "AGREED_WITH_CLARIFICATION"
+    accepted_portion: "Remove it from the supported vertical and operator path; quarantine or retire redundant implementation."
+    rejected_portion: "Deleting any primitive still required by the selected local trust-root or extension proof without dependency analysis."
+    replacement_position: "Treat distributed federation as permanently out of scope; preserve only locally necessary trust primitives."
+    repository_refs: [".octon/framework", ".octon/instance/governance"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-001", "product/scope-and-non-goals.md"]
+    proof_required: "Surface/command inventory shows unsupported machinery cannot affect the supported path."
+    migration_effect: "Add simplification acceptance criteria without a second migration track."
+  - claim_id: "A-XR-B-017"
+    other_review_reference: "phase-2/rollback-and-recovery-plan.md"
+    claim_summary: "Rollback may temporarily restore ambient Git, YAML state authority, or log-only privileged guards."
+    assessment: "UNSAFE"
+    evidence_assessment: "These bridges restore the exact dual-authority and credential risks the cutovers remove."
+    agreement_status: "REJECTED"
+    accepted_portion: "Every packet needs a tested rollback or forward-repair posture."
+    rejected_portion: "Rollback through prohibited authority/credential states."
+    replacement_position: "Restore the last certified implementation behind the same boundary, disable the affected route, or fall back to PR-only staging without ambient credentials."
+    repository_refs: [".octon/framework/engine/runtime", ".github/workflows"]
+    intake_refs: ["migration/compatibility-deprecation-and-support-transition.md", "decisions/final-decision-register.yml#FD-006"]
+    proof_required: "Rollback tests never reintroduce candidate-held credentials, dual writers, or shadow authority."
+    migration_effect: "Mark these as prohibited compatibility bridges."
+  - claim_id: "A-XR-B-018"
+    other_review_reference: "phase-2/migration-architecture.md#candidate-isolation"
+    claim_summary: "A disposable Git worktree with separate Git state is sufficient candidate isolation."
+    assessment: "REQUIRES_CLARIFICATION"
+    evidence_assessment: "Linked worktrees share an object database and parts of repository state. The target requires isolated Git state against candidate-controlled privileged execution."
+    agreement_status: "AGREED_IN_INTENT"
+    accepted_portion: "Candidate work must be disposable and branch-isolated."
+    rejected_portion: "An ordinary linked worktree alone as proof of independent Git state."
+    replacement_position: "Use a disposable clone/repository with independent object database and explicit narrow import/export."
+    repository_refs: [".git", ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-008", "target-state/isolation-publication-and-verification.md"]
+    proof_required: "Candidate cannot mutate broker/verifier Git state, refs, config, hooks, objects, or credentials."
+    migration_effect: "Clarify isolation packet implementation and tests."
+  - claim_id: "A-XR-B-019"
+    other_review_reference: "phase-2/migration-architecture.md#no-pr-publication"
+    claim_summary: "Expected-old ref compare-and-swap plus exact-SHA verification is the correct no-PR publication primitive."
+    assessment: "SUPPORTED_WITH_FAST_FORWARD_CONSTRAINT"
+    evidence_assessment: "The design satisfies race resistance only when expected-old and ancestry are both enforced and no force semantics can widen the operation."
+    agreement_status: "AGREED_WITH_CLARIFICATION"
+    accepted_portion: "Server-observed expected-old CAS, exact candidate SHA, and post-effect reconciliation."
+    rejected_portion: "Any generic force push or lease form that permits non-fast-forward update."
+    replacement_position: "Use an atomic expected-old, fast-forward-only provider/Git operation with durable attempt identity."
+    repository_refs: [".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-010", "decisions/final-decision-register.yml#FD-012"]
+    proof_required: "Target-race, non-ancestor, lost-response, duplicate, and revocation tests."
+    migration_effect: "Refine publication packet exit criteria."
+  - claim_id: "A-XR-B-020"
+    other_review_reference: "phase-2/proposal-program-packet-map.yml"
+    claim_summary: "A thirteen-packet proposal program can deliver the migration."
+    assessment: "SUBSTANTIALLY_SUPPORTED_BUT_OWNERSHIP_NEEDS_REFACTOR"
+    evidence_assessment: "Coverage is broad, but bundling final usability/promotion and compressing project/harness ownership obscures exclusive sources of truth."
+    agreement_status: "SYNTHESIS_REQUIRED"
+    accepted_portion: "Core dependencies and most packet objectives."
+    rejected_portion: "Packet map unchanged."
+    replacement_position: "Use fourteen packets with exclusive authority/store/broker/verifier/project/harness/promotion ownership and Architect B's strengthened acceptance criteria."
+    repository_refs: [".octon/framework", ".octon/instance"]
+    intake_refs: ["proposal-program/packet-and-dependency-map.yml", "roadmap/workgroups.yml"]
+    proof_required: "Ownership matrix has no competing source of truth and every packet has entry, exit, rollback, validators, and evidence."
+    migration_effect: "Synthesize packet map; do not average responsibilities."
+  - claim_id: "A-XR-B-021"
+    other_review_reference: "synthesis/remaining-operator-decisions.yml"
+    claim_summary: "Evidence anchoring, trust inventory, and federation scope block proposal-program authoring."
+    assessment: "NOT_SUPPORTED_AS_PRE_PROGRAM_BLOCKERS"
+    evidence_assessment: "Signing is settled; trust inventory and unsupported-surface retirement can be packet entry decisions before implementation."
+    agreement_status: "REJECTED_IN_PART"
+    accepted_portion: "Some implementation choices require operator disposition before their packets cross privileged gates."
+    rejected_portion: "They must be resolved before the program can be authored."
+    replacement_position: "Record genuine choices in packets with explicit decision deadlines and safe defaults."
+    repository_refs: [".octon/instance/governance", ".octon/state/evidence"]
+    intake_refs: ["decisions/final-decision-register.yml", "proposal-program/intake-brief.md"]
+    proof_required: "Decision records before affected packet implementation, not before program creation."
+    migration_effect: "Retain READY_FOR_PROPOSAL_PROGRAM."
+  - claim_id: "A-XR-B-022"
+    other_review_reference: "synthesis/proposal-program-readiness.md"
+    claim_summary: "The correct verdict is READY_WITH_BLOCKING_DECISIONS."
+    assessment: "LESS_SUPPORTED_THAN_READY_FOR_PROPOSAL_PROGRAM"
+    evidence_assessment: "Current gaps are material but bounded; no unresolved repository fact prevents safe packet design, and accepted decisions resolve the alleged signing/product blocks."
+    agreement_status: "ARCHITECTURAL_INTERPRETATION_DISAGREEMENT"
+    accepted_portion: "Privileged implementation is blocked."
+    rejected_portion: "Operator disposition must precede proposal-program creation."
+    replacement_position: "READY_FOR_PROPOSAL_PROGRAM with Gate 0 and packet-specific decision gates."
+    repository_refs: [".octon/framework", ".github/workflows"]
+    intake_refs: ["proposal-program/readiness-acceptance-and-evidence.yml"]
+    proof_required: "Formal proposal validation before implementation."
+    migration_effect: "Proceed to proposal program; do not proceed to privileged activation."
+  - claim_id: "A-XR-B-023"
+    other_review_reference: "phase-3/solo-builder-usability-review.md"
+    claim_summary: "Run-state volume, workflow count, and late operator UX materially burden a solo builder."
+    assessment: "SUPPORTED"
+    evidence_assessment: "The baseline tracks 40,366 `.octon/state` files and exposes many workflow/control surfaces; exact live disk totals are deployment-local and may be higher."
+    agreement_status: "AGREED_AMENDMENT_ACCEPTED"
+    accepted_portion: "Retention, compaction, supported-surface pruning, setup, doctor, status, and repair are architectural acceptance criteria."
+    rejected_portion: null
+    replacement_position: null
+    repository_refs: [".octon/state", ".github/workflows", ".octon/framework/product"]
+    intake_refs: ["product/friction-and-operational-standards.md", "decisions/final-decision-register.yml#FD-024"]
+    proof_required: "Fresh-install and long-run burden metrics meet target budgets."
+    migration_effect: "Move burden reduction into early and evidence packets."
+  - claim_id: "A-XR-B-024"
+    other_review_reference: "phase-3/simplification-register.yml#provider-verifier"
+    claim_summary: "Provider-native CI or a GitHub App should supply exact-SHA verification where conformant."
+    assessment: "SUPPORTED_WITH_IDENTITY_CONSTRAINT"
+    evidence_assessment: "This reduces custom infrastructure if the verifier runs candidate-immutable code and cannot perform the effect it attests."
+    agreement_status: "AGREED_WITH_CLARIFICATION"
+    accepted_portion: "Prefer a provider-native verifier adapter over a bespoke verification service."
+    rejected_portion: "Using the same credential or candidate-controlled workflow that performs publication."
+    replacement_position: "Conformant provider-native verifier, separate identity, base-certified definition, exact-SHA input."
+    repository_refs: [".github/workflows", ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"]
+    intake_refs: ["decisions/final-decision-register.yml#FD-011", "decisions/final-decision-register.yml#FD-023"]
+    proof_required: "Candidate changes cannot alter their own only verifier; verifier identity cannot publish."
+    migration_effect: "Keep verifier packet small and adapter-oriented."
+  - claim_id: "A-XR-B-025"
+    other_review_reference: "phase-1/support-claim-review.md"
+    claim_summary: "Current support claims exceed proved end-to-end behavior."
+    assessment: "SUPPORTED"
+    evidence_assessment: "Declarations and validators do not establish complete mediated Class B publication, recovery, or trust activation."
+    agreement_status: "AGREED"
+    accepted_portion: "Demote or qualify claims until exact target proof passes."
+    rejected_portion: null
+    replacement_position: null
+    repository_refs: [".octon/instance/governance/support-targets.yml", ".octon/instance/governance/disclosure/harness-card.yml", ".octon/instance/governance/support-dossiers/live/github-repo-consequential-en/dossier.yml"]
+    intake_refs: ["validation/support-claim-proof-and-residual-risk.yml", "decisions/final-decision-register.yml#FD-024"]
+    proof_required: "Dogfood and adversarial evidence for the complete supported vertical."
+    migration_effect: "Reserve final packet for claim reverification and promotion."

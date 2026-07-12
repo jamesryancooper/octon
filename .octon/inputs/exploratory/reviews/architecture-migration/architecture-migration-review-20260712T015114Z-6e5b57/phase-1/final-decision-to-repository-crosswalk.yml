@@ -1,0 +1,189 @@
+schema_version: "octon-final-decision-repository-crosswalk-v1"
+repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+intake_ref: ".octon/inputs/additive/.incoming/octon-architecture-and-migration-handoff-v2.0.0/decisions/final-decision-register.yml"
+decision_count: 24
+decisions:
+  - decision_id: "FD-001"
+    topic: "Solo-builder product boundary"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/kernel/src/main.rs:42-250@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/instance/bootstrap/START.md:95-157@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Solo/CLI direction exists, but federation, trust, stewardship, proof, and connector breadth remains prominent and multi-project operator UX is incomplete."
+  - decision_id: "FD-002"
+    topic: "Class A/B/C proportional governance"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/framework/product/contracts/default-work-unit.yml:183-317@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Route classes and predicates exist, but brokered automatic Class B completion and zero-prompt burden are not implemented or measured."
+  - decision_id: "FD-003"
+    topic: "Canonical authorization"
+    alignment: "CONTRADICTED"
+    evidence_classification: ["STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:39-150@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs:4412-4629@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Lifecycle-local request fields and self-produced DelegationProof form a competing launch authority path."
+  - decision_id: "FD-004"
+    topic: "One-shot invocation guards"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["STATICALLY_INSPECTED", "DYNAMICALLY_EXECUTED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:390-394@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:224-256@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "ExecutorLaunch and sequential consumption exist, but lifecycle, pipeline, workflow, and studio process creation are not structurally dominated by exact guard consumption."
+  - decision_id: "FD-005"
+    topic: "Local transactional runtime state"
+    alignment: "ABSENT"
+    evidence_classification: ["STATICALLY_INSPECTED", "CONFIGURATION_DERIVED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:294-658@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:384-435@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Canonical state remains independent JSON/YAML/NDJSON files; no Octon SQLite/WAL operations store or transactional outbox was found."
+  - decision_id: "FD-006"
+    topic: "Credentialless agents and local broker"
+    alignment: "CONTRADICTED"
+    evidence_classification: ["STATICALLY_INSPECTED", "DEPLOYMENT_LOCAL", "PROVIDER_OBSERVED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:31-73@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:416-451@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Children inherit host user state and environment; direct Git/GitHub effect paths remain; no separate credential-custody broker was found."
+  - decision_id: "FD-007"
+    topic: "Optional GitHub effect worker"
+    alignment: "CONTRADICTED"
+    evidence_classification: ["STATICALLY_INSPECTED", "PROVIDER_OBSERVED"]
+    evidence_refs:
+      - ".github/workflows/pr-auto-merge.yml:3-25@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".github/workflows/pr-auto-merge.yml:274-330@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "The active provider lane executes candidate code with a write token and maintains workflow-local effect semantics rather than acting as a narrow preauthorized worker."
+  - decision_id: "FD-008"
+    topic: "Native isolation and host scope"
+    alignment: "CONTRADICTED"
+    evidence_classification: ["STATICALLY_INSPECTED", "CONFIGURATION_DERIVED", "DEPLOYMENT_LOCAL"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:224-260@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-wt-new.sh:163-208@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Codex workspace-write is partial containment, but HOME, environment, canonical checkout, and common Git state are shared; Claude has no launcher sandbox flag."
+  - decision_id: "FD-009"
+    topic: "Sanitized privileged Git"
+    alignment: "ABSENT"
+    evidence_classification: ["STATICALLY_INSPECTED", "DEPLOYMENT_LOCAL"]
+    evidence_refs:
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh:208-234@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-mutation-preflight.sh:198-257@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Provider Git uses ambient configuration and credential helpers; hooks, filters, includes, drivers, fsmonitor, submodules, and protocols are not neutralized."
+  - decision_id: "FD-010"
+    topic: "Adaptive verified publication"
+    alignment: "CONTRADICTED"
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED", "PROVIDER_OBSERVED"]
+    evidence_refs:
+      - ".octon/framework/product/contracts/default-work-unit.yml:295-317@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh:183-234@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Direct-main remains prioritized; no-PR logic has useful exact-ref checks but is neither brokered nor independently verified."
+  - decision_id: "FD-011"
+    topic: "Independent exact-SHA verification"
+    alignment: "CONTRADICTED"
+    evidence_classification: ["STATICALLY_INSPECTED", "PROVIDER_OBSERVED"]
+    evidence_refs:
+      - ".github/workflows/change-route-projection.yml:31-166@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh:57-119@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Required checks execute candidate-modifiable workflow and validator code; success is accepted by context name without an authenticated unique verdict identity."
+  - decision_id: "FD-012"
+    topic: "Transactional idempotency and reconciliation"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["STATICALLY_INSPECTED", "ARCHITECTURAL_INFERENCE"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/replay_store/src/lib.rs:458-610@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:23-33@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Replay and idempotency vocabulary exists, but no transactional reservation/attempt/unknown/reconciliation/terminal effect machine enforces it."
+  - decision_id: "FD-013"
+    topic: "Evidence-capacity reservation"
+    alignment: "ABSENT"
+    evidence_classification: ["STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/spec/evidence-store-v1.md:149-181@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "No capacity reservation shares the operation commit boundary; current retention contracts provide no operative quota or low-space state machine."
+  - decision_id: "FD-014"
+    topic: "Signed bounded evidence and retention"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["STATICALLY_INSPECTED", "DYNAMICALLY_EXECUTED", "DEPLOYMENT_LOCAL"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:128-223@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/constitution/contracts/retention/family.yml:14-54@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Hash-linked evidence and compact views exist; signer authenticity, monotonic checkpoints, enforceable bounds, automatic compaction, and truthful executed-proof binding do not."
+  - decision_id: "FD-015"
+    topic: "Essential TCB roles"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:1-307@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Roles and an inventory exist, but launch, direct Git, and candidate-controlled provider writers are omitted or misclassified."
+  - decision_id: "FD-016"
+    topic: "Narrow degraded operation"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/framework/product/contracts/default-work-unit.md:340-371@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Fail-closed and candidate preservation concepts exist; broker/store outage behavior and no-ambient-credential fallback are not implemented or tested."
+  - decision_id: "FD-017"
+    topic: "Safe self-development"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:425-468@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/spec/promotion-activation-v1.md:1-75@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Promotion is currently inert and declared non-self-authorizing, but candidate-immutable previous-version verification and inert trust-root installation are not enforced."
+  - decision_id: "FD-018"
+    topic: "Autonomous trust-root activation"
+    alignment: "ABSENT"
+    evidence_classification: ["STATICALLY_INSPECTED", "UNVERIFIED"]
+    evidence_refs:
+      - ".octon/state/control/evolution/rollbacks/evolution-rollback-v5-validation.yml:1-16@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "No installed-version controller, staged activation health window, executable rollback state machine, or complete fault proof was found."
+  - decision_id: "FD-019"
+    topic: "Minimal Workspace Projects"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/instance/locality/registry.yml:1-4@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/instance/locality/project-profile.yml:23-42@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "A singleton descriptive profile/locality exists; minimal durable multi-project identity and boundary records do not."
+  - decision_id: "FD-020"
+    topic: "Deterministic Harness Factory"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md:3-48@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json:1-172@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Schemas and resolver/context primitives exist, but no canonical deterministic digest-bound compiler is wired to launch."
+  - decision_id: "FD-021"
+    topic: "Private signed extension catalog"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/framework/engine/governance/extensions/trust-and-compatibility.md:46-67@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+      - ".octon/generated/effective/extensions/catalog.effective.yml:1-70@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Extension publication, generations, receipts, and quarantine are strong; signed import authenticity, signer revocation, pinning, and rollback are incomplete."
+  - decision_id: "FD-022"
+    topic: "Mission-scoped multi-agent operation"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs:109-230@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Temporary lifecycle orchestration and budgets exist, but children are not credentialless, canonically guarded, or Git-isolated."
+  - decision_id: "FD-023"
+    topic: "Provider-native component delegation"
+    alignment: "PARTIALLY_SATISFIED"
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".github/workflows/pr-auto-merge.yml:1-330@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "Provider-native execution is used, but current semantics and trusted effect code are not safely separated from candidate-controlled repository content."
+  - decision_id: "FD-024"
+    topic: "Operator-grade solo-builder support envelope"
+    alignment: "REQUIRES_DYNAMIC_PROOF"
+    evidence_classification: ["UNVERIFIED"]
+    evidence_refs:
+      - ".octon/instance/bootstrap/START.md:95-230@c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+    rationale: "No end-to-end dogfood evidence proves setup, multi-project operation, no unauthorized durable effects, prompt burden, recovery, or monthly maintenance targets."

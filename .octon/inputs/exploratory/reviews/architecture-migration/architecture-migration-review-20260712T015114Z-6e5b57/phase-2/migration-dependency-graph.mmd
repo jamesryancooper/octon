@@ -1,0 +1,27 @@
+flowchart LR
+    W00["WG-00 Containment and claim correction"] --> W01["WG-01 Canonical authority and launch guards"]
+    W00 --> W02["WG-02 Native candidate and Git isolation"]
+    W00 --> W03["WG-03 SQLite/WAL runtime state"]
+    W01 --> W04["WG-04 Broker and credential migration"]
+    W02 --> W04
+    W03 --> W04
+    W04 --> W05["WG-05 Sanitized Git adapter"]
+    W01 --> W06["WG-06 Independent verifier and route selector"]
+    W03 --> W06
+    W05 --> W06
+    W03 --> W07["WG-07 Recovery, signed evidence and retention"]
+    W04 --> W07
+    W06 --> W07
+    W06 --> W08["WG-08 Adaptive Class B publication proof"]
+    W07 --> W08
+    W06 --> W09["WG-09 Safe self-development and trust activation"]
+    W07 --> W09
+    W01 --> W10["WG-10 Workspace Projects"]
+    W02 --> W11["WG-11 Harness Factory"]
+    W10 --> W11
+    W07 --> W12["WG-12 Extensions, child agents and operator UX"]
+    W11 --> W12
+    W08 --> W13["WG-13 Claim promotion and authoritative handoff"]
+    W09 --> W13
+    W12 --> W13
+

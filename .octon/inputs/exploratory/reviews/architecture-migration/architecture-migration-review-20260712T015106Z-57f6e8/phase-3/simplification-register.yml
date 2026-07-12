@@ -1,0 +1,145 @@
+schema_version: octon-review-simplification-register-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: non-authoritative
+legend:
+  classes: [ESSENTIAL_COMPLEXITY, USEFUL_OPTIONAL_COMPLEXITY, UNNECESSARY_COMPLEXITY, DEFERRED_COMPLEXITY, PERMANENTLY_OUT_OF_SCOPE]
+note: >-
+  Simplification lens over the target component set, the reviewer's Phase 2
+  net-new components, and current over-built subsystems. Several entries REVISE
+  the Phase 2 plan (accepted as refinements).
+entries:
+  # --- Target/plan net-new components ---
+  - id: SR-01
+    item: Canonical authority extended to agent launch (PP-01)
+    class: ESSENTIAL_COMPLEXITY
+    rationale: Reuses the existing verify_authorized_effect primitive; the one boundary the whole target rests on. Not new code so much as new wiring — but must ALSO pin its decision function (L1-01).
+    risk_reduced: Unmediated autonomous agent launch (T2/T7)
+  - id: SR-02
+    item: Credentialless OS isolation + isolated Git (PP-02)
+    class: ESSENTIAL_COMPLEXITY
+    rationale: macOS seatbelt/App Sandbox is a provider primitive, not new Octon infra; disposable worktree is cheap. Load-bearing for credential separation.
+    risk_reduced: Credential inheritance, canonical-repo mutation (T1/T4)
+  - id: SR-03
+    item: Broker + transactional store + sanitized git as ONE process (PP-03+04+05)
+    class: ESSENTIAL_COMPLEXITY
+    revises_plan: true
+    rationale: >-
+      L2-02: the plan splits store/broker/git-adapter into three components counted toward
+      "~6 net-new", but migration-architecture.md:100 already places the git adapter inside
+      the broker and all three share one trust boundary and one single-writer requirement.
+      Merge them: the broker is ONE process owning the rusqlite/WAL sole-writer handle and
+      running the sanitized git in-process. Revise net-new count from ~6 to ~3.
+    risk_reduced: Three coordinated processes → one chokepoint (strengthens the boundary claim)
+  - id: SR-04
+    item: Out-of-tree exact-SHA verifier (PP-06)
+    class: USEFUL_OPTIONAL_COMPLEXITY
+    revises_plan: true
+    rationale: >-
+      L2-03: candidate-immutability comes from WHERE it runs (a least-privilege GitHub App or
+      protected repo the candidate cannot edit), not from bespoke Octon code. Delegate to the
+      provider; the only new Octon code is the broker pre-registering the SHA and refusing on
+      race (already in PP-06). Do NOT count a new verifier toward Octon's maintenance burden.
+    risk_reduced: Candidate-authored verdict (T5/GAP-09)
+  - id: SR-05
+    item: SQLite/WAL full store as proof-of-architecture prerequisite (PP-03)
+    class: DEFERRED_COMPLEXITY
+    revises_plan: true
+    rationale: >-
+      L2-07: the tested risks split — torn-write (D-01/D-03) needs only an atomic-rename+fsync
+      helper; only consume+reserve CAS truly needs a transaction. Scope PP-03 to (a) an
+      atomic_write helper (small, closes most of D-01/D-03) and (b) a minimal rusqlite txn for
+      the CAS. Do NOT require migrating all grant/token state to SQLite before proof-of-arch.
+    risk_reduced: Front-loaded schema/migration/compaction work
+  - id: SR-06
+    item: Signing (FD-014 Option A, ed25519/HMAC) through PP-00/PP-07
+    class: DEFERRED_COMPLEXITY
+    revises_plan: true
+    rationale: >-
+      L2-08/L3-R1: tamper-evidence already comes from git/GitHub history; Option B (reword to
+      "hash-chained + git-anchored", identity-verifying quorum) closes GAP-17 with no crypto
+      subsystem. Default to B in PP-00 to clear the OVERSTATED-claims BLOCKER immediately;
+      classify signing as USEFUL_OPTIONAL deferred to REQUIRED_BEFORE_PRODUCTION_TRUST_CLAIMS,
+      only if an off-git threat model is ever established. Do not gate proof-of-arch on signing.
+    risk_reduced: Key custody/rotation burden for a solo operator
+  - id: SR-07
+    item: Operator doctor + cross-project inbox (PP-12)
+    class: DEFERRED_COMPLEXITY
+    revises_plan: true
+    rationale: >-
+      L2-04: `octon doctor` and a single-project Mission Queue already exist. These are EXTEND
+      (add broker/credential/mission/storage checks; add a cross-root view), not ADD. Small
+      work; but pull the doctor FORWARD to ship with PP-04 (see usability L4-01/02), not PP-12.
+    risk_reduced: Inflated net-new mental model; babysitting an un-diagnosable broker
+  - id: SR-08
+    item: Workspace-project identity + registry (PP-09)
+    class: DEFERRED_COMPLEXITY
+    revises_plan: true
+    rationale: >-
+      L2-09: owns no safety gap (GAP-16 is LATER_OPTIMIZATION); the singleton Profile already
+      provides per-repo identity. Building a durable registry for a one-repo operator is
+      speculative multi-project infra. Ship only the cheap `additionalProperties:false`
+      tightening now; build the registry when a 2nd concurrent project actually exists.
+    risk_reduced: Speculative multi-project administration
+  - id: SR-09
+    item: Trust-activation + inert-landing controller (PP-08)
+    class: ESSENTIAL_COMPLEXITY
+    rationale: Required for FD-018 safe autonomous trust-root activation; reuses promotion_blockers() + rollback machinery. Only essential if autonomous trust-root activation is actually pursued (else DEFERRED).
+    risk_reduced: Self-certifying / half-activated trust root
+  # --- Current over-built subsystems ---
+  - id: SR-10
+    item: Committed per-run state exhaust (40,366/53,070 tracked files under .octon/state)
+    class: UNNECESSARY_COMPLEXITY
+    revises_plan: true
+    rationale: >-
+      L2-01: 20,939 run-receipt files across 1,485 run dirs + 3,142 evidence/run files are
+      committed to git — git is the de-facto run store (the exact loose-file substrate FD-005
+      replaces), and it is the dominant clone/index/diagnose burden. No packet owns it.
+    recommendation: >-
+      Add a packet (or fold into PP-03/PP-12): move per-run receipts out of the tracked tree
+      into the store / an ignored local runs dir with bounded retention+compaction, keeping a
+      hash-anchored index in git. Make "run exhaust not committed" a promotion gate.
+    risk_reduced: Fresh-clone file count scaling with historical run count
+  - id: SR-11
+    item: Federation / Trust-Compact / Delegate-lease / cross-domain Attest / Proof import-export (trust.rs ~1,515 LOC)
+    class: PERMANENTLY_OUT_OF_SCOPE
+    rationale: >-
+      L2-05/H-04: inter-party trust machinery with no counterparty in a one-person deployment.
+      Enlarges CLI, state, test, and trust-root attack surface PP-08 must then protect, for zero
+      solo benefit. A future-enterprise concern.
+    recommendation: >-
+      Gate OFF by default via one feature flag BEFORE privileged work (S9 permits it); mark
+      PERMANENTLY_OUT_OF_SCOPE for the solo vertical with a documented deletion decision (OD-06).
+      Do not spend PP-08 budget hardening surfaces that are off.
+    risk_reduced: ~1.5k LOC + verbs + state + trust-root surface a solo operator never uses
+  - id: SR-12
+    item: 7x5 mission_class x ACP-tier routing + Class A/B/C name collision
+    class: UNNECESSARY_COMPLEXITY
+    revises_plan: true
+    rationale: >-
+      L2-06/H-01/H-08: ordinary repo mutation routes to ACP-2 escalate + 2-party quorum (routine
+      ceremony), and "Class A/B/C" collides with the FD-002 consequence classes. Landing the
+      FD-002 crosswalk in the LAST packet leaves the usability regression live throughout.
+    recommendation: >-
+      Move the FD-002 crosswalk + Class-A/B/C rename EARLY into PP-00; collapse the solo path so
+      routine reversible isolated-branch work clears with the SHA verifier as the 2nd quorum
+      member (zero prompts).
+    risk_reduced: Routine prompts on ordinary commits; naming hazard
+  - id: SR-13
+    item: 42 GitHub Actions workflows
+    class: UNNECESSARY_COMPLEXITY
+    revises_plan: true
+    rationale: >-
+      L2-10/H-07: an operating-platform CI surface; several are a second credentialed plane
+      (pr-auto-merge, GAP-19) or candidate-editable verifiers (change-route-projection, GAP-09).
+      Building the broker/verifier on top of an un-trimmed 42-workflow surface hardens gates that
+      should be deleted.
+    recommendation: >-
+      Bring a keep/merge/delete workflow inventory FORWARD into PP-06 (which already touches
+      pr-auto-merge and change-route-projection); retire the second credentialed plane and
+      candidate-editable verifiers as part of the verifier move, not deferred to PP-12 (OD-09).
+    risk_reduced: 42 workflows a solo operator must keep green; hardening deletable gates
+summary:
+  net_new_essential: [SR-01, SR-02, SR-03, SR-09]
+  net_new_deferred_or_optional: [SR-04, SR-05, SR-06, SR-07, SR-08]
+  cut_or_gate_off: [SR-10, SR-11, SR-12, SR-13]
+  revised_net_new_count: "~3 essential (broker+store+git as one, isolation launcher, activation controller) + provider-delegated verifier, vs the plan's ~6"

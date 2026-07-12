@@ -1,0 +1,112 @@
+schema_version: "octon-migration-gap-register-v1"
+gaps:
+  - gap_id: "MG-001"
+    area: "Containment and claim honesty"
+    severity: "CRITICAL"
+    current_refs: [".github/workflows/pr-auto-merge.yml:274-330@c5b1f5760c78ff521cca6b054e4e8fef5300505b", ".octon/instance/governance/disclosure/harness-card.yml:1-9@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    target: "No candidate-controlled privileged code and no claim above proof."
+    owner: "WG-00"
+    dependencies: []
+    exit_criteria: "Privileged lane disabled, direct-main disabled for autonomy, writer/launch inventory complete, claims structural/qualified."
+    rollback: "Manual/protected PR only; preserve candidate branches."
+    proof: "Malicious candidate has no provider credential execution; claim validator rejects overstatement."
+  - gap_id: "MG-002"
+    area: "Canonical authority and launch guard"
+    severity: "CRITICAL"
+    current_refs: [".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:39-150@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    target: "One issuer and exact one-shot spawn guard."
+    owner: "WG-01"
+    dependencies: ["WG-00"]
+    exit_criteria: "All launches structurally consume exact guard; scope matcher fixed."
+    rollback: "Disable affected launch; legacy fields remain descriptive only."
+    proof: "Launch inventory, negative matrix, concurrent consume."
+  - gap_id: "MG-003"
+    area: "Candidate and Git isolation"
+    severity: "CRITICAL"
+    current_refs: [".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:31-73@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    target: "Credentialless disposable native sandbox and independent Git."
+    owner: "WG-02"
+    dependencies: ["WG-00"]
+    exit_criteria: "Both executors run useful tasks while all forbidden probes deny."
+    rollback: "Disable sandbox executor; preserve candidate repository."
+    proof: "Filesystem/process/network/keychain/env/Git-state escape suite."
+  - gap_id: "MG-004"
+    area: "Transactional runtime state"
+    severity: "CRITICAL"
+    current_refs: [".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:384-435@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    target: "One SQLite/WAL writer with operation and evidence transaction."
+    owner: "WG-03"
+    dependencies: ["WG-00"]
+    exit_criteria: "Atomic cutover complete; legacy files read-only projections."
+    rollback: "Pre-effect restore allowed; after first effect forward repair from backup/WAL."
+    proof: "Concurrency, kill, corruption, backup/restore, storage-full tests."
+  - gap_id: "MG-005"
+    area: "Broker, credentials, and sanitized Git"
+    severity: "CRITICAL"
+    current_refs: [".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh:208-234@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    target: "Separate broker-only credentials and allowlisted exact Git effect."
+    owner: "WG-04/WG-05"
+    dependencies: ["WG-01", "WG-02", "WG-03"]
+    exit_criteria: "One broker effect works; candidate raw effect and all Git extensions deny."
+    rollback: "Disable adapter; manual protected PR."
+    proof: "Credential denial, hostile Git fixtures, exact target CAS, idempotency."
+  - gap_id: "MG-006"
+    area: "Independent verification and adaptive publication"
+    severity: "CRITICAL"
+    current_refs: [".github/workflows/change-route-projection.yml:31-166@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    target: "Immutable signed exact-SHA verdict and brokered Class B route."
+    owner: "WG-06/WG-08"
+    dependencies: ["WG-01", "WG-03", "WG-05", "WG-07"]
+    exit_criteria: "Verifier hard required; no-PR passes full race/replay/revocation/fault suite; PR predicates deterministic."
+    rollback: "Disable no-PR; PR-only."
+    proof: "Candidate-modified verifier, duplicate contexts, target races, expiry, revocation."
+  - gap_id: "MG-007"
+    area: "Evidence, recovery, and retention"
+    severity: "HIGH"
+    current_refs: [".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:4539-4690@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    target: "Direct-observer signed outbox, reconciliation, checkpoints, bounds."
+    owner: "WG-07"
+    dependencies: ["WG-03", "WG-04", "WG-06"]
+    exit_criteria: "No manufactured proof; unknown outcomes terminal; compaction and low-space safe."
+    rollback: "Retain raw evidence; label legacy unsigned; block new privileged work."
+    proof: "Forgery/rechain/snapshot/missing-result/compaction/low-space/fault suite."
+  - gap_id: "MG-008"
+    area: "Trust-root activation"
+    severity: "HIGH"
+    current_refs: [".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:425-468@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    target: "Inert version, previous-version verifier, staged exact activation, automatic rollback."
+    owner: "WG-09"
+    dependencies: ["WG-06", "WG-07", "WG-08"]
+    exit_criteria: "Trust inventory approved; every transition and self-widening attack proven."
+    rollback: "Previous version remains immutable and recoverable."
+    proof: "Activation kill matrix and malicious-candidate suite."
+  - gap_id: "MG-009"
+    area: "Workspace Project and Harness Factory"
+    severity: "MEDIUM"
+    current_refs: [".octon/instance/locality/project-profile.yml:23-42@c5b1f5760c78ff521cca6b054e4e8fef5300505b", ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md:3-48@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    target: "Minimal durable project identity and deterministic manifest compiler."
+    owner: "WG-10/WG-11"
+    dependencies: ["WG-01", "WG-02"]
+    exit_criteria: "Multi-project identity and exact harness digest bind every launch."
+    rollback: "Disable migrated project; retain descriptive profile."
+    proof: "Two-project, relocation, deterministic compilation, stale/self-widening denial."
+  - gap_id: "MG-010"
+    area: "Extensions, child agents, and operator UX"
+    severity: "MEDIUM"
+    current_refs: [".octon/generated/effective/extensions/catalog.effective.yml:1-70@c5b1f5760c78ff521cca6b054e4e8fef5300505b", ".octon/instance/bootstrap/START.md:95-230@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    target: "Signed catalog, bounded children, guided setup/doctor/repair/inbox."
+    owner: "WG-12"
+    dependencies: ["WG-07", "WG-11"]
+    exit_criteria: "Supply-chain and child bounds proven; solo burden budgets met."
+    rollback: "Previous extension generation; disable child/background effect; project state preserved."
+    proof: "Tamper/revoke/rollback/depth/budget/retirement and timed usability tests."
+  - gap_id: "MG-011"
+    area: "Claim promotion and authoritative handoff"
+    severity: "HIGH"
+    current_refs: [".octon/framework/engine/runtime/spec/promotion-activation-v1.md:1-75@c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    target: "Only fresh exact proof promotes supported capability and formal architecture."
+    owner: "WG-13"
+    dependencies: ["WG-08", "WG-09", "WG-12"]
+    exit_criteria: "Every promoted claim and proposal references exact receipts/digests; expiry withdraws support."
+    rollback: "Demote claim and keep proposal research-only."
+    proof: "Independent reproduction, proof-expiry, and promotion integrity checks."

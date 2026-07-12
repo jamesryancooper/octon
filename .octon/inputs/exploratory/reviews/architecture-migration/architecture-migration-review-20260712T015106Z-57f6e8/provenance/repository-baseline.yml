@@ -1,0 +1,43 @@
+schema_version: octon-review-repository-baseline-v1
+recorded_utc: "2026-07-12T01:51:06Z"
+repository_root: /Users/jamesryancooper/Projects/octon
+repository_url: git@github.com:jamesryancooper/octon.git
+current_branch: main
+head_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+head_commit_timestamp: "2026-07-11T16:56:55-05:00"
+head_commit_subject: "chore(main): release octon 0.6.104 (#601)"
+release_version: 0.6.104
+working_tree_status: clean
+staged_changes: none
+unstaged_changes: none
+untracked_changes: none
+checkout_clean_and_reproducible: true
+host:
+  os: macOS 26.5.2 (Build 25F84)
+  kernel: Darwin 25.5.0 (xnu-12377.121.10~1/RELEASE_ARM64_T6041)
+  architecture: arm64
+tool_versions:
+  git: 2.51.1
+  rustc: 1.93.1
+  cargo: 1.93.1
+  node: 24.10.0
+  python3: 3.14.0
+  gh: 2.92.0
+  jq: 1.8.1
+  sqlite3: 3.51.0
+provider_configuration:
+  github_cli_authenticated: true
+  github_account: jamesryancooper
+  token_scopes: [gist, "read:org", repo, workflow]
+  provider_observation_mode: read-only queries only; no provider mutation performed
+intake_baseline_comparison:
+  intake_historical_review_commit: eff350fcfec641e59665e74544f104f2e5bc6a4d
+  intake_later_route_contract_commit: ce9244205e1f6d39f810b739b02267e91a8bd99b
+  current_head_differs_from_both: true
+  note: >-
+    Intake unit recorded current_head_commit: unknown and
+    clean_repository_reverification_performed: false. This review supplies
+    the clean-baseline reverification at c5b1f5760c78ff521cca6b054e4e8fef5300505b.
+  head_ancestry: >-
+    ce9244205e (fix(runtime): refresh effective route bundle #606) is the
+    immediate parent lineage of HEAD c5b1f5760c (release 0.6.104).

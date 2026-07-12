@@ -1,0 +1,115 @@
+schema_version: "octon-reconciled-operator-decisions-v2"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+note: "Only genuine operator policy/risk judgments remain. Engineering mechanisms use the recorded defaults and escalate only if proof fails or the default is infeasible. None blocks proposal-program creation."
+decisions:
+  - operator_decision_id: "ROD-001"
+    subject: "Evidence/storage recovery and retention policy"
+    fixed_boundary: "One SQLite/WAL source, signed broker/verifier observations, candidate-inaccessible monotonic head, physical terminal reserve, bounded evidence, no unsigned fallback."
+    choices_to_dispose: ["backup cadence/generations and recovery tolerance", "terminal reserve/quota", "raw/detail/long-lived retention windows and pins", "key loss/rotation recovery posture"]
+    recommended_default: "Platform Keychain identities; candidate-inaccessible latest-head; bounded local raw evidence; preallocated terminal headroom; Git-retained signed checkpoints/pointers; no raw project-Git payloads."
+    why_judgment_is_required: "The operator owns acceptable data-loss window, disk use, recovery burden, and key-loss behavior."
+    decision_deadlines:
+      RP-03_design_exit: "Store location, backup/recovery objective, and physical terminal reserve."
+      RP-07_design_exit: "Signer recovery/rotation, monotonic anchor, retention/quota/pin policy."
+    proof_after_decision: "Backup/restore, old-snapshot, key rotation/loss, compaction, and constrained-volume fault tests."
+    affected_decisions: ["FD-005", "FD-013", "FD-014", "FD-016"]
+    proposal_packets: ["RP-03", "RP-07"]
+  - operator_decision_id: "ROD-002"
+    subject: "Autonomy risk, protected-scope, PR, and ambiguity posture"
+    fixed_boundary: "Deterministic policy classifies; AI cannot authorize; invalid/stale/revoked/raced authority denies and requires fresh authorization rather than PR laundering."
+    choices_to_dispose: ["protected/trust/consequence thresholds", "valid-but-uncertain Class B-to-PR threshold", "irreducibly unknown notification/manual-intervention threshold"]
+    recommended_default: "Use intake predicates; zero false routine A/B escalation in the reference matrix; one concise actionable choice only for irreducible ambiguity."
+    why_judgment_is_required: "This sets the operator's autonomy versus review tolerance within fixed safety constraints."
+    decision_deadlines:
+      RP-06_design_exit: "Immutable A/B/C and Class B/PR predicate policy."
+      RP-08_design_exit: "Irreducibly unknown/manual-intervention notification policy."
+    proof_after_decision: "Route matrix, zero false escalations, downgrade denial, and ambiguity recovery tests."
+    affected_decisions: ["FD-002", "FD-010", "FD-012", "FD-016"]
+    proposal_packets: ["RP-06", "RP-08"]
+  - operator_decision_id: "ROD-003"
+    subject: "Epoch-zero trust root and autonomous activation enablement"
+    fixed_boundary: "Trust source lands inert; previous/out-of-tree version verifies exact artifact; staged health and automatic rollback; no same-change certification."
+    choices_to_dispose: ["minimal semantic epoch-zero inventory and human trust anchor", "bounded health/canary envelope and rollback retention", "when to enable disabled, operator-confirmed, or safe-automatic modes"]
+    recommended_default: "Ratify a small content-addressed installed authority/verifier/provider identity at epoch zero; ship disabled/operator-confirmed first; enable safe-automatic only after the complete adversarial matrix passes."
+    why_judgment_is_required: "This is the human root of trust and the explicit authorization for autonomous trust changes."
+    decision_deadlines:
+      RP-01_design_exit: "Epoch-zero installed authority/policy floor and verifier identity."
+      RP-09_design_exit: "Semantic inventory, health window, rollback retention, activation mode."
+      RP-09_enablement_exit: "Explicit safe-automatic opt-in after proof."
+    proof_after_decision: "Same-change, dependency indirection, artifact/approval/provider drift, every activation/reboot/disk-full kill point."
+    affected_decisions: ["FD-003", "FD-017", "FD-018"]
+    proposal_packets: ["RP-01", "RP-09"]
+  - operator_decision_id: "ROD-004"
+    subject: "Trusted private extension sources and signer policy"
+    fixed_boundary: "Private/local catalog only; signed import, exact pins, revocation, rollback; import never authorizes or selects."
+    choices_to_dispose: ["allowed private repository/release sources", "trusted signer/key family and rotation/recovery", "capability/compatibility admission tolerance"]
+    recommended_default: "One operator-controlled private signer family, immutable release refs/digests, explicit capability grants."
+    why_judgment_is_required: "The operator owns the supply-chain trust set and reusable capability exposure."
+    decision_deadlines:
+      RP-12_design_exit: "Sources, signer/revocation, and admission policy."
+    proof_after_decision: "Unsigned/wrong/revoked/tampered/incompatible/capability-mismatch and generation rollback tests."
+    affected_decisions: ["FD-021"]
+    proposal_packets: ["RP-12"]
+  - operator_decision_id: "ROD-005"
+    subject: "Child-agent cost and concurrency ceiling"
+    fixed_boundary: "Temporary credentialless depth-one children, exact guard, narrower scope, terminal retirement; no persistent organization or self-recruitment."
+    choices_to_dispose: ["maximum concurrency", "wall-clock/attempt/token-cost/evidence ceilings", "whether to admit a provider-native child implementation after conformance"]
+    recommended_default: "Depth one, conservative concurrency and cost ceiling, generic child contract; named roles are templates rather than authority classes."
+    why_judgment_is_required: "The operator owns acceptable spend, parallelism, and interruption risk."
+    decision_deadlines:
+      RP-13_design_exit: "Hard supported limits and provider-child admission."
+    proof_after_decision: "Budget/depth/scope/credential/cancel/unknown/retirement matrix."
+    affected_decisions: ["FD-022", "FD-023"]
+    proposal_packets: ["RP-13"]
+  - operator_decision_id: "ROD-006"
+    subject: "Human escape hatch and final support/promotion disposition"
+    fixed_boundary: "Agents never work/publish on main; one Solo Local profile; unsupported enterprise/federation/persistent-agent surfaces inactive; claims equal direct proof."
+    choices_to_dispose: ["whether an explicit human-only direct-main route remains outside agent support", "final support tuple/claim wording", "which optional extension/child/safe-automatic claims are promoted after their own proof"]
+    recommended_default: "No agent direct-main; retain human-only escape only if explicitly labelled outside autonomous support; promote the core tuple claim-scoped, then optional claims only after their packet evidence."
+    why_judgment_is_required: "The operator owns emergency escape posture and the final public/internal support promise."
+    decision_deadlines:
+      RP-00_containment_exit: "Human-only direct-main disposition; autonomous route remains removed."
+      RP-14_promotion_exit: "Final core and optional support claim dispositions."
+    proof_after_decision: "Route unreachability, full dogfood, burden budgets, optional-capability receipts, and independent claim reproduction."
+    affected_decisions: ["FD-001", "FD-010", "FD-024"]
+    proposal_packets: ["RP-00", "RP-14"]
+engineering_dispositions:
+  - disposition_id: "ED-001"
+    subject: "macOS sandbox and useful primary-provider session"
+    default: "Use a provider-native non-exportable/short-lived primary-provider session independent of the effect broker, plus native sandbox and independent disposable repository."
+    owner: "RP-02"
+    escalation_condition: "Escalate only if the default is infeasible or fails useful-positive/credential-negative proof; do not create a broker dependency cycle."
+  - disposition_id: "ED-002"
+    subject: "Broker IPC, supervision, and credential custody mechanism"
+    default: "macOS launch service, Keychain custody, OS/application identity stronger than same UID, broker-side one-shot operation handle, auto-start/restart."
+    owner: "RP-04"
+    escalation_condition: "Escalate only if same-user attack or operability proof fails."
+  - disposition_id: "ED-003"
+    subject: "Git credential, CAS, and attempt-attribution mechanism"
+    default: "Single-repository GitHub App, atomic expected-old fast-forward provider operation, authenticated receipt when available, explicit state_satisfied versus attempt_performed semantics."
+    owner: "RP-05/RP-08"
+    escalation_condition: "Escalate only if provider capability cannot satisfy the fixed atomicity/attribution boundary."
+  - disposition_id: "ED-004"
+    subject: "Verifier deployment"
+    default: "Provider-native GitHub App or protected external verifier identity with narrow read/check permissions; no custom verifier daemon."
+    owner: "RP-06"
+    escalation_condition: "Escalate only if candidate immutability, identity, or provider conformance proof fails."
+  - disposition_id: "ED-005"
+    subject: "Workspace Project schema mechanics"
+    default: "Strict intake-minimal fields, reject ambiguous overlap, require explicit monorepo parent/child relation, operator correction overrides future inference, active snapshots frozen."
+    owner: "RP-10"
+    escalation_condition: "Escalate only for an irreducible real-project ambiguity."
+  - disposition_id: "ED-006"
+    subject: "Harness serialization, invalidation, and provider breadth"
+    default: "Canonical schema-validated serialization and digest every direct/transitive input; one real primary provider plus fake conformance adapters; a live secondary is conditional on a secondary-provider claim."
+    owner: "RP-11"
+    escalation_condition: "Escalate only if deterministic compile or primary-provider conformance cannot be achieved."
+  - disposition_id: "ED-007"
+    subject: "Workflow and visible-surface retirement"
+    default: "Owning packets remove/merge redundant workflows and place advanced commands under admin/internal surfaces; normal path is one Solo Local profile and at most seven command concepts."
+    owner: "RP-00/RP-04/RP-06/RP-14 audit"
+    escalation_condition: "Escalate only when an additional surface has a unique named outcome/proof owner and cannot be provided by an existing/provider-native primitive."
+summary:
+  genuine_operator_decisions: 6
+  engineering_dispositions: 7
+  routine_mission_operator_prompts_from_these_decisions: 0

@@ -1,0 +1,105 @@
+schema_version: "octon-architect-cross-review-rejected-amendments-v1"
+architect_label: "B"
+reviewer_status: "THIRD_PARTY_SUBSTITUTE"
+reviewer_note: >-
+  Original Architect B was unavailable. Rejections below are the independent
+  conclusions of a third-party substitute; they do not rewrite either source review.
+rejections:
+  - rejection_id: "B-RA-001"
+    other_review_reference: "synthesis/final-review.md#What-must-be-removed; phase-3/assurance-review.md#Assurance-conclusion"
+    proposed_position: "The OTHER review's stated GATE-0 items are sufficient before privileged implementation."
+    decision: "REJECT_AS_INCOMPLETE"
+    reason: >-
+      authorize_execution delegates Allow/Deny to an in-tree policy runner and policy
+      file and accepts production override variables. Guarding every spawn with that
+      decision does not establish an unavoidable trustworthy authority boundary.
+    accepted_portion: "Provider-write containment, direct-main retirement, claim correction, scope repair, and writer/launch inventory."
+    rejected_portion: "Completeness of GATE-0/WG-01 without authority decision-source pinning and fail-closed override handling."
+    replacement_position: >-
+      Pin or compile the policy evaluator and input outside candidate control; scrub
+      or reject OCTON_POLICY_RUNNER_OVERRIDE, OCTON_POLICY_MODE_OVERRIDE, and an
+      unsigned stale-route bypass in release operation.
+    evidence_classification: ["STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:2946-2962"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:309-317"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:432-446"
+      - ".octon/framework/engine/runtime/crates/policy_engine/src/lib.rs:966-979"
+    affected_decisions: ["FD-003", "FD-017", "FD-018", "FD-024"]
+    migration_effect: "Add to WG-00/WG-01 and the trust-root inventory."
+
+  - rejection_id: "B-RA-002"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-008"
+    proposed_position: "DYNAMICALLY_EXECUTED is evidence for the concurrency/crash failure claim."
+    decision: "NARROW_EVIDENCE_STRENGTH"
+    reason: >-
+      Dynamic suites proved sequential behavior and were valuable controls, but no
+      concurrent double-consume, append race, power-loss, or kill-point experiment
+      was executed. The defect is statically supported and its failure reachability
+      is architectural inference pending fault tests.
+    accepted_portion: "The file ordering and absence of a transaction/lock."
+    rejected_portion: "Any interpretation that the race or crash divergence was dynamically reproduced."
+    replacement_position: "STATICALLY_INSPECTED plus ARCHITECTURAL_INFERENCE; keep DYNAMICALLY_EXECUTED only for the sequential control suite."
+    evidence_classification: ["STATICALLY_INSPECTED", "ARCHITECTURAL_INFERENCE"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:294-658"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:384-435"
+    affected_decisions: ["FD-004", "FD-005", "FD-012", "FD-014"]
+    migration_effect: "Strengthen WG-03 fault gates; no architecture change."
+
+  - rejection_id: "B-RA-003"
+    other_review_reference: "phase-2/proposal-program-packet-map.yml#WG-12; synthesis/recommended-workgroup-sequence.yml#WG-12"
+    proposed_position: "One late packet can own signed extensions, child-agent safety, and all operator UX."
+    decision: "REJECT_PACKET_SCOPE_AS_TOO_BROAD"
+    reason: >-
+      These domains have different source ownership and failure modes. More importantly,
+      a solo operator should receive broker supervision, enrollment diagnostics, and
+      doctor/repair when the broker is introduced, not after the full trust stack.
+    accepted_portion: "Final catalog, bounded-child, and timed product dogfood may converge in the same wave."
+    rejected_portion: "Deferral of broker/store/credential diagnostics and zero-prompt route cleanup to WG-12."
+    replacement_position: "Move supervised broker, guided enrollment, doctor/repair, and initial zero-prompt acceptance into WG-04/WG-06; keep final product dogfood late."
+    evidence_classification: ["ARCHITECTURAL_INFERENCE", "STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/instance/bootstrap/START.md:95-230"
+      - ".octon/framework/engine/runtime/crates/kernel/src/main.rs:42-250"
+    affected_decisions: ["FD-001", "FD-002", "FD-006", "FD-024"]
+    migration_effect: "Refine proposal packet ownership and sequencing."
+
+  - rejection_id: "B-RA-004"
+    other_review_reference: "phase-3/simplification-register.yml; synthesis/final-review.md#Complexity-to-remove-or-defer"
+    proposed_position: "The listed default-UX demotions are a complete simplification response."
+    decision: "REJECT_AS_INCOMPLETE"
+    reason: >-
+      The SELF review measured large tracked per-run state/evidence exhaust and a
+      42-workflow CI surface. Hiding CLI verbs alone does not reduce clone, index,
+      validation, state churn, or workflow maintenance burden.
+    accepted_portion: "Hide or gate federation, trust-domain administration, broad certification, and continuous stewardship."
+    rejected_portion: "Omission of tracked run-evidence retirement and explicit CI keep/merge/delete ownership."
+    replacement_position: >-
+      Make raw/detailed run evidence local and bounded outside project Git by default,
+      and inventory load-bearing workflows during containment/verifier migration.
+    evidence_classification: ["STATICALLY_INSPECTED", "DEPLOYMENT_LOCAL"]
+    evidence_refs:
+      - "SELF phase-3/simplification-register.yml#SR-10/SR-13"
+      - "Intake product/friction-and-operational-standards.md"
+    affected_decisions: ["FD-001", "FD-014", "FD-024"]
+    migration_effect: "Add explicit ownership to WG-03/WG-06/WG-13."
+
+  - rejection_id: "B-RA-005"
+    other_review_reference: "phase-2/migration-architecture.md#Isolated-launcher"
+    proposed_position: "Fresh HOME/config plus no durable credentials is by itself a complete useful candidate-launch design."
+    decision: "REJECT_AS_UNDERSPECIFIED"
+    reason: >-
+      The current Codex path explicitly requires writable real user state. The
+      program must explain how Codex/Claude authenticate and run usefully without
+      placing durable API/OAuth material in candidate-readable environment or files.
+    accepted_portion: "Fresh HOME/config, env allowlist, independent Git, native policy, and negative credential tests."
+    rejected_portion: "Treating credentialless model execution as solved by environment clearing alone."
+    replacement_position: >-
+      Define a provider-native session/proxy or non-exportable short-lived channel,
+      then prove useful execution and negative access to all durable credentials.
+    evidence_classification: ["STATICALLY_INSPECTED", "ARCHITECTURAL_INFERENCE", "UNVERIFIED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:31-73"
+    affected_decisions: ["FD-006", "FD-008", "FD-022", "FD-024"]
+    migration_effect: "Add a design and proof gate to WG-02/WG-04."

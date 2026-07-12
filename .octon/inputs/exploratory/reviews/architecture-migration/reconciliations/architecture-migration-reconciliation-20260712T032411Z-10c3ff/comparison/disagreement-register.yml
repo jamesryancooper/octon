@@ -1,0 +1,394 @@
+schema_version: "octon-reconciliation-disagreement-register-v1"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+disagreements:
+  - disagreement_id: "RC-DIS-001"
+    subject: "Proposal-program readiness"
+    architect_a_position: "READY_FOR_PROPOSAL_PROGRAM"
+    architect_b_position: "Original READY_WITH_BLOCKING_DECISIONS; substitute changed to READY_FOR_PROPOSAL_PROGRAM."
+    disagreement_class: "ARCHITECTURAL_INTERPRETATION_DISAGREEMENT"
+    architect_a_evidence: ["A synthesis/proposal-program-readiness.md"]
+    architect_b_evidence: ["B synthesis/proposal-program-readiness.md", "B cross-review/readiness-verdict-after-cross-review.md"]
+    additional_reverification: "Accepted decisions and packet-local decision timing compared."
+    accepted_facts: ["Program structure and safe first gate are bounded.", "Privileged implementation is not ready."]
+    rejected_claims: ["Signer mechanism, federation source disposition, or trust inventory must close before program authoring."]
+    reconciled_position: "Create the formal program now; Gate 0 blocks implementation."
+    disposition: "AGREED"
+    reasoning_summary: "The initial blockers are settled decisions or bounded packet entry choices."
+    confidence: "HIGH"
+    limitations: ["Formal proposal validation has not yet run."]
+    affected_decisions: ["FD-001", "FD-024"]
+    affected_components: ["proposal program"]
+    migration_consequence: "Proceed to proposal drafting only."
+    proof_required: "Proposal schema, ownership, and dependency validation."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-00"
+  - disagreement_id: "RC-DIS-002"
+    subject: "Full SQLite/WAL versus narrow CAS"
+    architect_a_position: "Full FD-005 store before brokered effects."
+    architect_b_position: "Original deferred full store; substitute withdrew the deferral."
+    disagreement_class: "MIGRATION_DESIGN_DISAGREEMENT"
+    architect_a_evidence: ["A AMR-004/AMR-008", "intake FD-005"]
+    architect_b_evidence: ["B SR-05", "B cross-review B-SC-002"]
+    additional_reverification: "Multi-file lifecycle writes reviewed against required transaction."
+    accepted_facts: ["Current files are not one atomic lifecycle transaction.", "FD-005 is accepted."]
+    rejected_claims: ["Atomic files plus narrow CAS are a sufficient final target."]
+    reconciled_position: "One authoritative SQLite/WAL store owns all accepted lifecycle state; files become projections/exports."
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    reasoning_summary: "The full store is necessary for multi-record crash safety and is already settled."
+    confidence: "HIGH"
+    limitations: ["Implementation and fault behavior remain unproved."]
+    affected_decisions: ["FD-004", "FD-005", "FD-012", "FD-013"]
+    affected_components: ["authority store", "runtime bus", "evidence outbox"]
+    migration_consequence: "RP-03 precedes broker effects."
+    proof_required: "Concurrency, kill-point, ENOSPC, backup/restore suite."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-03"
+  - disagreement_id: "RC-DIS-003"
+    subject: "Signed evidence versus Git anchoring"
+    architect_a_position: "Retain FD-014 signed direct observations."
+    architect_b_position: "Original proposed Git anchoring; substitute withdrew."
+    disagreement_class: "ARCHITECTURAL_INTERPRETATION_DISAGREEMENT"
+    architect_a_evidence: ["intake FD-014", "A AMR-010"]
+    architect_b_evidence: ["B SR-06/OD-01", "B cross-review B-SC-003"]
+    additional_reverification: "No valid decision-reopen record found."
+    accepted_facts: ["Current hash links do not authenticate producer identity."]
+    rejected_claims: ["Plain Git history satisfies FD-014 or may replace it silently."]
+    reconciled_position: "Broker and verifier sign direct observations and checkpoints; use minimal local key custody."
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    reasoning_summary: "The accepted property is necessary and not shown infeasible."
+    confidence: "HIGH"
+    limitations: ["Signer mechanism and recovery are undecided."]
+    affected_decisions: ["FD-013", "FD-014", "FD-015"]
+    affected_components: ["evidence", "broker", "verifier"]
+    migration_consequence: "Signing closes before Class B proof."
+    proof_required: "Forgery, rechain, snapshot rollback, rotation, compaction tests."
+    operator_decision_required: true
+    proposal_packet_owner: "RP-07"
+  - disagreement_id: "RC-DIS-004"
+    subject: "Workspace Project timing"
+    architect_a_position: "Required after trust core and before Harness Factory."
+    architect_b_position: "Original deferred until second project; substitute withdrew final deferral."
+    disagreement_class: "PRODUCT_OR_USABILITY_DISAGREEMENT"
+    architect_a_evidence: ["intake FD-019/FD-024", "A AMR-013"]
+    architect_b_evidence: ["B SR-08", "B cross-review B-SC-004"]
+    additional_reverification: "Existing singleton Project Profile/locality inspected."
+    accepted_facts: ["Multiple projects are accepted scope.", "Project metadata must remain non-authoritative."]
+    rejected_claims: ["The minimal record is speculative enterprise machinery."]
+    reconciled_position: "Implement only the minimal inferred durable project boundary."
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    reasoning_summary: "It is required product continuity, not administration."
+    confidence: "HIGH"
+    limitations: ["Two-project dogfood remains unproved."]
+    affected_decisions: ["FD-001", "FD-019", "FD-024"]
+    affected_components: ["Workspace Project", "Project Profile"]
+    migration_consequence: "RP-10 may run after RP-01 and must precede RP-11."
+    proof_required: "Metadata cannot widen run authority; two-project continuity test."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-10"
+  - disagreement_id: "RC-DIS-005"
+    subject: "Harness Factory completion"
+    architect_a_position: "PARTIALLY_SATISFIED."
+    architect_b_position: "Original SATISFIED; substitute changed to PARTIALLY_SATISFIED."
+    disagreement_class: "FACTUAL_REPOSITORY_DISAGREEMENT"
+    architect_a_evidence: ["target Harness Factory input list", "route-bundle generator"]
+    architect_b_evidence: ["B G-03/G-04", "B cross-review B-SC-005"]
+    additional_reverification: "Target, task-harness spec, generator, resolver, and launch path compared."
+    accepted_facts: ["Digest-bound route primitives exist.", "No complete per-run compile/launch binding is proved."]
+    rejected_claims: ["The global route publisher is the complete target compiler."]
+    reconciled_position: "Extend existing primitives into one deterministic per-run compiler; do not add another runtime."
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    reasoning_summary: "The target requires materially more inputs and binding."
+    confidence: "HIGH"
+    limitations: ["A targeted end-to-end trace could discover an undocumented path, but none was found."]
+    affected_decisions: ["FD-019", "FD-020", "FD-024"]
+    affected_components: ["route bundle", "runtime resolver", "task harness"]
+    migration_consequence: "Retain RP-11."
+    proof_required: "Byte determinism and per-input stale/self-widened denial."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-11"
+  - disagreement_id: "RC-DIS-006"
+    subject: "Provider-native delegation completion"
+    architect_a_position: "PARTIALLY_SATISFIED."
+    architect_b_position: "Original SATISFIED; substitute changed to PARTIALLY_SATISFIED."
+    disagreement_class: "EVIDENCE_STRENGTH_DIFFERENCE"
+    architect_a_evidence: ["adapter contracts plus unsafe workflows"]
+    architect_b_evidence: ["B G-07/G-08", "hardcoded provider dispatch trace"]
+    additional_reverification: "No semantics-preserving replacement test exists."
+    accepted_facts: ["Adapter seams are valuable.", "Active execution/effect behavior is not fully adapter-mediated."]
+    rejected_claims: ["Manifests alone satisfy FD-023."]
+    reconciled_position: "Preserve adapter contracts and require replacement conformance."
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    reasoning_summary: "Declarations do not prove runtime/provider semantics."
+    confidence: "HIGH"
+    limitations: ["Live provider behavior remains point-in-time."]
+    affected_decisions: ["FD-007", "FD-011", "FD-023"]
+    affected_components: ["model adapters", "host adapters", "provider worker"]
+    migration_consequence: "Proof spans RP-02, RP-06, RP-13, RP-14."
+    proof_required: "Primary-provider plus fake-adapter semantic-equivalence fixtures and provider observation; add a live secondary only for a secondary-provider support claim."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-06"
+  - disagreement_id: "RC-DIS-007"
+    subject: "Authority decision-source integrity"
+    architect_a_position: "Original omitted specific in-tree runner/policy/override issue."
+    architect_b_position: "Candidate-editable evaluator and overrides are Gate 0 blockers."
+    disagreement_class: "ASSURANCE_OR_THREAT_DISAGREEMENT"
+    architect_a_evidence: ["A cross-review targeted reverification accepts the finding."]
+    architect_b_evidence: ["B L1-01/L1-03/L1-04", "policy.rs call path"]
+    additional_reverification: "Root statically confirmed repository-relative runner, policy, receipt writer, and production env reads."
+    accepted_facts: ["Current authority decision inputs are candidate-influenced."]
+    rejected_claims: ["Universal mediation through current function is sufficient."]
+    reconciled_position: "Pin/compile the decision function and its inputs outside candidate control; retire production bypass overrides."
+    disposition: "ARCHITECT_B_MORE_SUPPORTED"
+    reasoning_summary: "This is a deeper precondition than launch routing alone."
+    confidence: "HIGH"
+    limitations: ["Direct exploitability through a child-to-parent environment path is not proved."]
+    affected_decisions: ["FD-003", "FD-017", "FD-018"]
+    affected_components: ["authority_engine", "policy runner", "policy data"]
+    migration_consequence: "Add to RP-00/RP-01 before privilege."
+    proof_required: "Candidate runner/policy/mode/stale-bundle substitution always denies."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-01"
+  - disagreement_id: "RC-DIS-008"
+    subject: "Scope matcher widening"
+    architect_a_position: "Reverse/non-boundary prefix can widen typed scope."
+    architect_b_position: "Original omitted; substitute accepts."
+    disagreement_class: "FACTUAL_REPOSITORY_DISAGREEMENT"
+    architect_a_evidence: ["A AMR-002", "effects.rs scope_matches"]
+    architect_b_evidence: ["B cross-review B-AA-001"]
+    additional_reverification: "No dynamic normalization matrix yet."
+    accepted_facts: ["Static branch is unsafe."]
+    rejected_claims: ["All path/URI normalization attacks have been dynamically demonstrated."]
+    reconciled_position: "Canonical typed identity or boundary-aware descendant relation only."
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    reasoning_summary: "Direct source establishes the defect; broader reach needs tests."
+    confidence: "HIGH"
+    limitations: ["Filesystem case/symlink/provider URI variants untested."]
+    affected_decisions: ["FD-003", "FD-004", "FD-009", "FD-015"]
+    affected_components: ["typed effects", "resource parsers"]
+    migration_consequence: "Repair in RP-01 before guard adoption."
+    proof_required: "Table-driven resource-boundary negatives."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-01"
+  - disagreement_id: "RC-DIS-009"
+    subject: "Evidence strength for concurrency/crash failures"
+    architect_a_position: "Original finding combined static trace and dynamically passing sequential controls."
+    architect_b_position: "Failure reach was not dynamically reproduced."
+    disagreement_class: "EVIDENCE_STRENGTH_DIFFERENCE"
+    architect_a_evidence: ["A AMR-008", "A Rust runtime tests"]
+    architect_b_evidence: ["B cross-review B-RA-002"]
+    additional_reverification: "None; defer to fault suite."
+    accepted_facts: ["Non-transactional ordering is static fact."]
+    rejected_claims: ["Original tests dynamically proved double consume or torn crash state."]
+    reconciled_position: "Classify defect as static plus architectural inference; require adversarial execution."
+    disposition: "ARCHITECT_B_MORE_SUPPORTED"
+    reasoning_summary: "Use the narrowest evidence claim."
+    confidence: "HIGH"
+    limitations: ["Actual failure frequency unknown."]
+    affected_decisions: ["FD-004", "FD-005", "FD-012"]
+    affected_components: ["runtime store", "journal"]
+    migration_consequence: "No architecture change; stronger RP-03 proof."
+    proof_required: "Concurrent consume and kill-point tests."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-03"
+  - disagreement_id: "RC-DIS-010"
+    subject: "Broker operability and UX timing"
+    architect_a_position: "Original packet under-specified supervision; late UX packet."
+    architect_b_position: "Broker supervision/enrollment/doctor/repair must ship with broker."
+    disagreement_class: "IMPLEMENTATION_SEQUENCE_DISAGREEMENT"
+    architect_a_evidence: ["A target narrative", "A cross-review A-ACC-005/A-ACC-007"]
+    architect_b_evidence: ["B H-04", "B cross-review B-RD-002"]
+    additional_reverification: "Existing bootstrap/doctor surfaces inspected."
+    accepted_facts: ["An unattended local broker requires automatic lifecycle and diagnosis."]
+    rejected_claims: ["All operability can wait until final product packet."]
+    reconciled_position: "Component-local setup/status/doctor/repair close in RP-04/RP-06; final burden dogfood closes in RP-14."
+    disposition: "ARCHITECT_B_MORE_SUPPORTED"
+    reasoning_summary: "Avoids an unsafe or babysat intermediate state without adding a service."
+    confidence: "HIGH"
+    limitations: ["Exact launchd/IPC mechanism undecided."]
+    affected_decisions: ["FD-001", "FD-006", "FD-016", "FD-024"]
+    affected_components: ["broker", "CLI", "credential enrollment"]
+    migration_consequence: "Move operability earlier."
+    proof_required: "One-command setup, broker restart/reconcile, doctor/repair tests."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-04"
+  - disagreement_id: "RC-DIS-011"
+    subject: "Tracked run-state and workflow maintenance burden"
+    architect_a_position: "Original recognized complexity but did not assign explicit file/workflow reduction owners."
+    architect_b_position: "Tracked state and 42-workflow surface require first-class migration ownership."
+    disagreement_class: "SIMPLIFICATION_DISAGREEMENT"
+    architect_a_evidence: ["A AMR-014", "A cross-review A-ACC-008"]
+    architect_b_evidence: ["B SR-10/SR-13 and measurements"]
+    additional_reverification: "Baseline `git ls-files .octon/state` returned 40,366."
+    accepted_facts: ["Tracked run state is operationally large.", "Workflow breadth increases maintenance."]
+    rejected_claims: ["Hiding CLI surfaces alone resolves maintenance burden."]
+    reconciled_position: "Migrate authoritative run state to SQLite/local bounded payloads and require workflow keep/merge/retire ownership."
+    disposition: "SYNTHESIZED_POSITION"
+    reasoning_summary: "Use existing store/verifier packets; add no subsystem."
+    confidence: "MEDIUM_HIGH"
+    limitations: ["Exact workflow retirement set requires implementation impact mapping."]
+    affected_decisions: ["FD-001", "FD-014", "FD-024"]
+    affected_components: [".octon/state", ".github/workflows"]
+    migration_consequence: "Add budgets to RP-03/RP-06/RP-07/RP-14."
+    proof_required: "Fresh clone and 30-day file/inode/workflow metrics."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-14"
+  - disagreement_id: "RC-DIS-012"
+    subject: "Independent Git repository versus linked worktree"
+    architect_a_position: "Independent Git state/object database."
+    architect_b_position: "Original migration wording allowed disposable worktree; substitute accepts independent repository."
+    disagreement_class: "ARCHITECTURAL_INTERPRETATION_DISAGREEMENT"
+    architect_a_evidence: ["intake FD-008/FD-009"]
+    architect_b_evidence: ["B migration architecture", "B cross-review isolation adjudication"]
+    additional_reverification: "Linked worktree shared-state semantics considered."
+    accepted_facts: ["An ordinary linked worktree shares object/ref/config surfaces."
+    ]
+    rejected_claims: ["Worktree branch separation alone proves independent Git isolation."]
+    reconciled_position: "Disposable independent repository/object database with narrow artifact transfer."
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    reasoning_summary: "The stronger boundary is necessary and still local/simple."
+    confidence: "HIGH"
+    limitations: ["Exact clone/cache mechanism undecided."]
+    affected_decisions: ["FD-008", "FD-009"]
+    affected_components: ["candidate workspace", "Git adapter"]
+    migration_consequence: "RP-02 defines boundary before RP-05."
+    proof_required: "Candidate cannot mutate broker/verifier refs, config, objects, or hooks."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-02"
+  - disagreement_id: "RC-DIS-013"
+    subject: "Safe rollback bridges"
+    architect_a_position: "Never restore ambient Git, YAML authority, log-only privilege, or candidate-head gates."
+    architect_b_position: "Original rollback plan allowed some of those transiently."
+    disagreement_class: "MIGRATION_DESIGN_DISAGREEMENT"
+    architect_a_evidence: ["A rollback plan", "accepted FD-005/FD-006"]
+    architect_b_evidence: ["B rollback-and-recovery-plan.md"]
+    additional_reverification: "Proposed bridges tested against prohibited architecture list."
+    accepted_facts: ["A rollback is required."]
+    rejected_claims: ["Rollback may restore a retired privilege/authority hazard."
+    ]
+    reconciled_position: "Restore prior certified code behind the same boundary, forward repair, route disablement, or protected-PR staging only."
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    reasoning_summary: "Rollback cannot recreate the threat removed by cutover."
+    confidence: "HIGH"
+    limitations: ["Exact per-packet recovery commands await design."
+    ]
+    affected_decisions: ["FD-005", "FD-006", "FD-009", "FD-017"]
+    affected_components: ["all trust-sensitive packets"]
+    migration_consequence: "Mark prohibited bridges explicitly."
+    proof_required: "Rollback tests preserve one authority, one writer, and credentialless candidates."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-00"
+  - disagreement_id: "RC-DIS-014"
+    subject: "Route lease versus evidence capacity"
+    architect_a_position: "Different concerns; FD-013 absent."
+    architect_b_position: "Original conflated; substitute accepts absence."
+    disagreement_class: "FACTUAL_REPOSITORY_DISAGREEMENT"
+    architect_a_evidence: ["intake FD-013", "cited route lease"]
+    architect_b_evidence: ["B D-04/E-05", "B cross-review B-SC-010"]
+    additional_reverification: "Repository construct and accepted decision compared."
+    accepted_facts: ["No same-transaction capacity reservation exists."
+    ]
+    rejected_claims: ["Route serialization fulfills or violates the capacity-service decision by itself."]
+    reconciled_position: "Capacity is a field/reservation inside RP-03/RP-07 operations, never a service."
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    reasoning_summary: "The concerns are orthogonal."
+    confidence: "HIGH"
+    limitations: []
+    affected_decisions: ["FD-013"]
+    affected_components: ["runtime store", "evidence"]
+    migration_consequence: "No new component."
+    proof_required: "ENOSPC/near-full terminal evidence tests."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-07"
+  - disagreement_id: "RC-DIS-015"
+    subject: "Post-push validation scope"
+    architect_a_position: "Some shell post-push check exists; durable reconciliation absent."
+    architect_b_position: "Original wording broadly said absent."
+    disagreement_class: "SCOPE_DIFFERENCE"
+    architect_a_evidence: ["git-no-pr-merge.sh"]
+    architect_b_evidence: ["B assurance review runtime path"]
+    additional_reverification: "Targeted shell read."
+    accepted_facts: ["A check exists in one path.", "No universal durable attempt reconciliation exists."
+    ]
+    rejected_claims: ["No post-push validation anywhere."
+    ]
+    reconciled_position: "Preserve exact-target observation; bind it to RP-03 attempt state and RP-08 reconciler."
+    disposition: "SYNTHESIZED_POSITION"
+    reasoning_summary: "Keep useful behavior without overstating coverage."
+    confidence: "HIGH"
+    limitations: ["Provider response-loss behavior remains untested."]
+    affected_decisions: ["FD-010", "FD-012"]
+    affected_components: ["Git adapter", "reconciler"]
+    migration_consequence: "Modify rather than discard helper semantics."
+    proof_required: "Lost-response and target-race tests."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-08"
+  - disagreement_id: "RC-DIS-016"
+    subject: "Current-status vocabulary"
+    architect_a_position: "Credits primitives through PARTIAL/ABSENT while describing contradictory paths."
+    architect_b_position: "Original used CONTRADICTED more often."
+    disagreement_class: "WORDING_ONLY"
+    architect_a_evidence: ["A decision crosswalk"]
+    architect_b_evidence: ["B decision crosswalk"]
+    additional_reverification: "A consistent rule selected."
+    accepted_facts: ["Reusable primitive and decisive clause must both be explicit."
+    ]
+    rejected_claims: []
+    reconciled_position: "Classify the whole decision by its decisive safety clause; list retained primitives separately."
+    disposition: "AGREED_WITH_DIFFERENT_RATIONALE"
+    reasoning_summary: "This avoids false completion without discarding reusable work."
+    confidence: "HIGH"
+    limitations: []
+    affected_decisions: ["FD-003", "FD-004", "FD-006", "FD-007", "FD-008", "FD-009", "FD-010", "FD-011", "FD-017"]
+    affected_components: ["decision status model"]
+    migration_consequence: "No sequence change."
+    proof_required: "None."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-00"
+  - disagreement_id: "RC-DIS-017"
+    subject: "Usable credentialless model-provider session"
+    architect_a_position: "Fresh HOME/environment and no credentials required; exact useful auth mechanism under-specified."
+    architect_b_position: "Same gap; proposes provider session/proxy or non-exportable short-lived mechanism."
+    disagreement_class: "UNRESOLVED_DUE_TO_MISSING_EVIDENCE"
+    architect_a_evidence: ["A isolated launcher design"]
+    architect_b_evidence: ["B cross-review B-RD-005", "Codex launcher HOME behavior"]
+    additional_reverification: "No safe live credential experiment performed."
+    accepted_facts: ["Credentialless must still be useful.", "Fresh HOME alone is insufficient design detail."
+    ]
+    rejected_claims: ["A particular mechanism is already proved."
+    ]
+    reconciled_position: "Choose the smallest provider-native session or non-exportable short-lived channel; agents never read durable credentials."
+    disposition: "REQUIRES_DYNAMIC_PROOF"
+    reasoning_summary: "Apply ED-001; escalate only if the provider-native default is infeasible or fails proof."
+    confidence: "HIGH_ON_GAP_LOW_ON_MECHANISM"
+    limitations: ["Provider capabilities and deployment configuration may constrain the choice."
+    ]
+    affected_decisions: ["FD-006", "FD-008", "FD-022", "FD-024"]
+    affected_components: ["candidate launcher", "broker credential/session adapter"]
+    migration_consequence: "RP-02/RP-04 cannot exit without useful positive and negative tests."
+    proof_required: "Useful primary supported-provider runs with no durable credential readable by candidate/children."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-04"
+  - disagreement_id: "RC-DIS-018"
+    subject: "Packet decomposition"
+    architect_a_position: "Fourteen workgroups, but WG-12 bundled extensions, children, and UX."
+    architect_b_position: "Thirteen packets with bundled ownership and some unsafe rollback."
+    disagreement_class: "MIGRATION_DESIGN_DISAGREEMENT"
+    architect_a_evidence: ["A proposal packet map"]
+    architect_b_evidence: ["B proposal packet map", "both cross-reviews"]
+    additional_reverification: "Exclusive ownership matrix constructed."
+    accepted_facts: ["Core dependency spine converges.", "Late bundle has multiple sources/failure modes."
+    ]
+    rejected_claims: ["Either packet map should be adopted unchanged."
+    ]
+    reconciled_position: "Fourteen workgroups execute fifteen exclusive proposal packets; extensions, bounded children, and final promotion are separate."
+    disposition: "BOTH_POSITIONS_INCOMPLETE"
+    reasoning_summary: "The split removes duplicated ownership while preserving sequence."
+    confidence: "HIGH"
+    limitations: ["Formal proposal schemas may require identifier renaming."
+    ]
+    affected_decisions: ["FD-021", "FD-022", "FD-024"]
+    affected_components: ["proposal program"]
+    migration_consequence: "One extra packet without an extra runtime component."
+    proof_required: "Ownership and dependency validator."
+    operator_decision_required: false
+    proposal_packet_owner: "RP-14"

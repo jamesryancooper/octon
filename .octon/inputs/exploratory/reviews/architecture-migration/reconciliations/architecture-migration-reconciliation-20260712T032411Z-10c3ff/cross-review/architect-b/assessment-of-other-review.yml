@@ -1,0 +1,399 @@
+schema_version: "octon-architect-cross-review-assessment-v1"
+architect_label: "B"
+reviewer_status: "THIRD_PARTY_SUBSTITUTE"
+reviewer_note: >-
+  The original Architect B was unavailable. This assessment was authored by an
+  explicitly identified third-party substitute and must not be represented as
+  Architect B's personal response.
+self_review_id: "architecture-migration-review-20260712T015106Z-57f6e8"
+other_review_id: "architecture-migration-review-20260712T015114Z-6e5b57"
+repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+claims:
+  - claim_id: "B-XR-001"
+    other_review_reference: "review-manifest.yml; provenance/repository-baseline.yml"
+    claim_summary: "The review used a clean main baseline at c5b1f5760c78ff521cca6b054e4e8fef5300505b and its package is internally intact."
+    assessment: "SUPPORTED"
+    evidence_assessment: >-
+      Both review integrity indexes passed in full. Both manifests bind the same
+      repository URL, branch, commit, commit timestamp, clean worktree posture,
+      host, and materially equivalent tool versions. No commit normalization is needed.
+    agreement_status: "NO_DISAGREEMENT"
+    accepted_portion: "Entire claim."
+    rejected_portion: null
+    replacement_position: null
+    repository_refs: ["git:c5b1f5760c78ff521cca6b054e4e8fef5300505b"]
+    intake_refs: ["handoff/executive-brief.md"]
+    proof_required: "Retain both successful checksum transcripts in reconciliation provenance."
+    migration_effect: "Use the shared commit as the reconciliation baseline."
+
+  - claim_id: "B-XR-002"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-001"
+    claim_summary: "Lifecycle, pipeline, and workflow launches do not consume canonical one-shot ExecutorLaunch authority."
+    assessment: "SUPPORTED"
+    evidence_assessment: >-
+      Static call-path evidence proves lifecycle self-constructs DelegationProof and
+      directly spawns. The SELF review independently found the lifecycle and pipeline
+      launch paths lack an exact structural ExecutorLaunch guard.
+    agreement_status: "NO_DISAGREEMENT"
+    accepted_portion: "All supported launch paths require structural guard dominance."
+    rejected_portion: null
+    replacement_position: null
+    repository_refs:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:39-150"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:224-256"
+      - ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1360-1415"
+    intake_refs: ["FD-003", "FD-004", "FD-022"]
+    proof_required: "Static spawn dominance plus concurrent one-shot launch tests."
+    migration_effect: "Retain WG-01 as foundational and demote lifecycle proof to evidence-only."
+
+  - claim_id: "B-XR-003"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-002"
+    claim_summary: "Effect scope comparison permits reverse-prefix and non-boundary widening."
+    assessment: "SUPPORTED_NEW_MATERIAL_FINDING"
+    evidence_assessment: >-
+      scope_matches returns true for both target_scope.starts_with(token_scope_ref)
+      and token_scope_ref.starts_with(target_scope), without a path-component
+      boundary. The existing wrong-scope test does not cover parent or sibling-prefix cases.
+    agreement_status: "SCOPE_DIFFERENCE"
+    accepted_portion: "The static defect and its authority consequence."
+    rejected_portion: "No claim of an observed live exploit is accepted."
+    replacement_position: "Add typed canonical resource matching and negative normalization fixtures to WG-01."
+    repository_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1832-1851"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1403-1423"
+    intake_refs: ["FD-003", "FD-004", "FD-009", "FD-015"]
+    proof_required: "Parent, sibling-prefix, traversal, symlink, case, URI, and non-path resource negatives."
+    migration_effect: "Expand WG-01 before any authority-mediated privileged work."
+
+  - claim_id: "B-XR-004"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-003"
+    claim_summary: "Candidates inherit host state and share canonical repository and Git state."
+    assessment: "SUPPORTED"
+    evidence_assessment: >-
+      Launcher construction has no env_clear or fresh HOME, runs at repo_root, and
+      Codex preflight requires writable user state. Worktrees share a common Git directory.
+      This proves exposure potential, not actual credential exfiltration.
+    agreement_status: "NO_DISAGREEMENT"
+    accepted_portion: "Configuration and deployment-local exposure facts."
+    rejected_portion: "Any claim that a credential was actually read or exfiltrated."
+    replacement_position: null
+    repository_refs:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:31-73"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:416-451"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-wt-new.sh:163-208"
+    intake_refs: ["FD-006", "FD-008", "FD-022", "FD-024"]
+    proof_required: "Credential, filesystem, process, network, parent-state, and independent-Git negative suite."
+    migration_effect: "Retain WG-02 before broker integration."
+
+  - claim_id: "B-XR-005"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-004; phase-2/migration-architecture.md#Transactional-store"
+    claim_summary: "The accepted local broker and SQLite/WAL authoritative operation store are absent and must be added."
+    assessment: "SUPPORTED; OTHER_REVIEW_MORE_SUPPORTED_THAN_SELF"
+    evidence_assessment: >-
+      No Octon SQLite/WAL operations store or credential-custody broker was found.
+      FD-005 explicitly requires one authoritative store for grants, operations,
+      outbox, revocation, reconciliation, and recovery. Atomic file writes plus a
+      narrow CAS do not satisfy that accepted decision.
+    agreement_status: "MIGRATION_DESIGN_DISAGREEMENT"
+    accepted_portion: "One local transactional store and one separate deterministic broker."
+    rejected_portion: "None from the OTHER review. The SELF review's deferral of the full store is withdrawn."
+    replacement_position: "Use WG-03 cutover with no dual canonical writer; broker may own the sole writer handle."
+    repository_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:294-658"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:384-435"
+    intake_refs: ["FD-005", "FD-006", "FD-012", "FD-013", "FD-015"]
+    proof_required: "Concurrency, kill-point, corruption, backup/restore, low-space, and unknown-outcome tests."
+    migration_effect: "Keep full WG-03 before WG-04; do not defer canonical-state migration."
+
+  - claim_id: "B-XR-006"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-005"
+    claim_summary: "Active pull_request_target automation executes candidate code while provider-write credentials remain available."
+    assessment: "SUPPORTED_CRITICAL"
+    evidence_assessment: >-
+      The workflow has write permissions, selects AUTONOMY_PAT or GITHUB_TOKEN,
+      checks out PR head, then runs candidate shell/Rust. Provider observation shows
+      the enabling variable and PAT metadata. No malicious PR was executed.
+    agreement_status: "NO_DISAGREEMENT"
+    accepted_portion: "The privilege-boundary defect and immediate containment requirement."
+    rejected_portion: "No assertion that provider mutation was exploited."
+    replacement_position: null
+    repository_refs:
+      - ".github/workflows/pr-auto-merge.yml:3-25"
+      - ".github/workflows/pr-auto-merge.yml:274-330"
+      - ".octon/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh:163-189"
+    intake_refs: ["FD-006", "FD-007", "FD-011", "FD-017", "FD-018", "FD-024"]
+    proof_required: "Scratch-provider malicious-candidate suite; never test by mutating the live repository."
+    migration_effect: "WG-00 must disable this lane before privileged implementation."
+
+  - claim_id: "B-XR-007"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-006"
+    claim_summary: "Required exact-SHA checks are candidate-controlled and context-name success is not an authenticated verdict."
+    assessment: "SUPPORTED"
+    evidence_assessment: >-
+      The required contexts are produced by candidate-editable workflow and script
+      content. Provider ruleset strictness is a real strength but does not make the
+      verifier implementation candidate-immutable.
+    agreement_status: "NO_DISAGREEMENT"
+    accepted_portion: "Candidate-immutable verifier and unique authenticated verdict are required."
+    rejected_portion: null
+    replacement_position: "Use provider-native execution where possible, but keep Octon semantics and exact verdict binding."
+    repository_refs:
+      - ".github/workflows/change-route-projection.yml:31-166"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh:57-119"
+    intake_refs: ["FD-007", "FD-010", "FD-011", "FD-017", "FD-018"]
+    proof_required: "Candidate verifier edit and duplicate/conflicting-context denial."
+    migration_effect: "Retain WG-06 after sanitized Git and store foundations."
+
+  - claim_id: "B-XR-008"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-007"
+    claim_summary: "Autonomous direct-main and ambient unsanitized Git remain active."
+    assessment: "SUPPORTED"
+    evidence_assessment: >-
+      Current route order selects direct-main before branch-no-PR, while landing
+      helpers invoke ambient Git. This directly contradicts FD-010 and leaves Git
+      executable extension points outside a broker boundary.
+    agreement_status: "NO_DISAGREEMENT"
+    accepted_portion: "Disable direct-main and candidate provider writes; retain protected PR as the bridge."
+    rejected_portion: null
+    replacement_position: null
+    repository_refs:
+      - ".octon/framework/product/contracts/default-work-unit.yml:258-317"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh:208-234"
+    intake_refs: ["FD-006", "FD-009", "FD-010", "FD-015"]
+    proof_required: "Candidate raw Git/GH writes deny; full hostile Git extension matrix denies."
+    migration_effect: "WG-00 containment followed by WG-05 broker-owned Git."
+
+  - claim_id: "B-XR-009"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-008"
+    claim_summary: "File-backed token consumption and journal append are not atomic, durable, or concurrency-safe."
+    assessment: "SUPPORTED_WITH_EVIDENCE_CLASS_CLARIFICATION"
+    evidence_assessment: >-
+      Static read/check/write and event-before-manifest ordering support the defect.
+      Existing dynamic suites establish sequential behavior only; they did not
+      dynamically demonstrate double consumption, crash divergence, or power-loss durability.
+    agreement_status: "EVIDENCE_STRENGTH_DIFFERENCE"
+    accepted_portion: "STATICALLY_INSPECTED defect and ARCHITECTURAL_INFERENCE about reachable races."
+    rejected_portion: "DYNAMICALLY_EXECUTED must not be read as dynamic reproduction of the race/crash claim."
+    replacement_position: "Keep the finding high-confidence but require explicit concurrency and fault injection."
+    repository_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:294-658"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:384-435"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:1778-1823"
+    intake_refs: ["FD-004", "FD-005", "FD-012", "FD-013", "FD-014"]
+    proof_required: "N-way consume/append tests plus kill at every persistence boundary."
+    migration_effect: "No change to WG-03 scope; strengthen its proof gate."
+
+  - claim_id: "B-XR-010"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-009; evidence/tests/proof-validator-observation.md"
+    claim_summary: "Proof aggregation can assert pass, approval, or executed tests without binding independently executed results."
+    assessment: "SUPPORTED_NEW_MATERIAL_FINDING"
+    evidence_assessment: >-
+      The validator adds a test path to metadata and prints it under
+      runtime_tests_executed without invoking it. The OTHER review dynamically
+      reproduced the misleading emitted field and statically traced synthesized outcomes.
+    agreement_status: "SCOPE_DIFFERENCE"
+    accepted_portion: "The validator-semantics defect and direct-observer repair."
+    rejected_portion: "Earlier prerequisite execution is not categorically excluded."
+    replacement_position: "Only the executing component may emit an executed/signed result; aggregators reference it."
+    repository_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proof-bundle-executability.sh:53-128"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validator-result-common.sh:275-366"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:4539-4690"
+    intake_refs: ["FD-011", "FD-014", "FD-024"]
+    proof_required: "A deliberately failing referenced test must force validator failure and prevent proof promotion."
+    migration_effect: "Add claim correction to WG-00 and proof-producer ownership to WG-07."
+
+  - claim_id: "B-XR-011"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-010"
+    claim_summary: "Evidence is hash-linked but unsigned, rollback-vulnerable, and operationally unbounded."
+    assessment: "SUPPORTED; CORRECTS_SELF_DESIGN"
+    evidence_assessment: >-
+      Hash-link validation is a reusable integrity primitive but not signer
+      authenticity or a monotonic checkpoint. Retention contracts do not impose the
+      accepted capacity and compaction behavior. FD-014 already chooses signed evidence.
+    agreement_status: "MIGRATION_DESIGN_DISAGREEMENT"
+    accepted_portion: "Sign direct observations, add signed checkpoints, bounded retention, pins, and compaction."
+    rejected_portion: "The SELF review's proposal to replace FD-014 with git-anchored wording is withdrawn."
+    replacement_position: "Correct present claims immediately, then implement FD-014 rather than reopening it."
+    repository_refs:
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:128-223"
+      - ".octon/framework/engine/runtime/spec/evidence-store-v1.md:149-181"
+      - ".octon/framework/constitution/contracts/retention/family.yml:14-54"
+    intake_refs: ["FD-013", "FD-014", "FD-015", "FD-024"]
+    proof_required: "Wrong-signer, rechain, old-snapshot, compaction, pin, and low-space tests."
+    migration_effect: "Keep signing and bounded evidence in WG-07; remove OD-01 as a program-blocking choice."
+
+  - claim_id: "B-XR-012"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-011"
+    claim_summary: "Safe exact-version trust-root activation and executable rollback are absent."
+    assessment: "SUPPORTED"
+    evidence_assessment: >-
+      Current promotion is inert and therefore safer than a broken activator, but
+      there is no installed previous-version verifier, staged health controller, or
+      executable automatic rollback state machine.
+    agreement_status: "NO_DISAGREEMENT"
+    accepted_portion: "Inert current posture plus missing target controller."
+    rejected_portion: null
+    replacement_position: null
+    repository_refs:
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:425-468"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:541-705"
+    intake_refs: ["FD-017", "FD-018"]
+    proof_required: "Previous-version exact verification and every activation kill point."
+    migration_effect: "Retain WG-09 after the complete Class B proof."
+
+  - claim_id: "B-XR-013"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-012"
+    claim_summary: "Current complete/live support claims exceed physical mediation and executed proof."
+    assessment: "SUPPORTED"
+    evidence_assessment: >-
+      Launch/provider paths are omitted or misclassified, and proof-depth metadata
+      overstates execution. The GitHub dossier does disclose an external evidence
+      gap, so the issue is claim strength, not concealment.
+    agreement_status: "NO_DISAGREEMENT"
+    accepted_portion: "Downgrade claims to structural or qualified until direct proof exists."
+    rejected_portion: "Any allegation that disclosed limitations were hidden."
+    replacement_position: null
+    repository_refs:
+      - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:127-250"
+      - ".octon/instance/governance/disclosure/harness-card.yml:1-9"
+    intake_refs: ["FD-014", "FD-015", "FD-024"]
+    proof_required: "Fresh claim-to-proof mapping with expiry-driven withdrawal."
+    migration_effect: "WG-00 corrects; WG-13 alone promotes."
+
+  - claim_id: "B-XR-014"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-013"
+    claim_summary: "Workspace Project identity, the target Harness Factory, and signed private extension import are incomplete."
+    assessment: "SUPPORTED; OTHER_REVIEW_MORE_SUPPORTED_THAN_SELF"
+    evidence_assessment: >-
+      The route-bundle generator is a useful digest-bound primitive, but it does not
+      compile the accepted task-specific project, mission, Run Contract, context,
+      evidence, rollback, model, tool, and validation inputs into one launch-bound
+      manifest. The catalog has digest/generation/quarantine primitives but no live
+      signer authenticity and full rollback path.
+    agreement_status: "FACTUAL_REPOSITORY_DISAGREEMENT"
+    accepted_portion: "All three are partial foundations requiring migration."
+    rejected_portion: "The SELF review's claims that FD-020 was satisfied and Workspace Projects could be deferred."
+    replacement_position: "Preserve route-bundle/context/catalog primitives inside WG-10 through WG-12; do not treat them as the completed target."
+    repository_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-runtime-effective-route-bundle.sh:11-23"
+      - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md:3-48"
+      - ".octon/instance/locality/project-profile.yml:23-42"
+      - ".octon/framework/engine/governance/extensions/trust-and-compatibility.md:46-67"
+    intake_refs: ["FD-019", "FD-020", "FD-021", "FD-024"]
+    proof_required: "Two-project continuity, deterministic full-input manifest, launch digest binding, and extension tamper/revoke/rollback tests."
+    migration_effect: "Keep WG-10 and WG-11; retain extension work in WG-12."
+
+  - claim_id: "B-XR-015"
+    other_review_reference: "phase-1/current-finding-register.yml#AMR-014"
+    claim_summary: "The default CLI and retained architecture expose excessive solo-builder complexity."
+    assessment: "SUPPORTED_WITH_SEQUENCE_AMENDMENT"
+    evidence_assessment: >-
+      Static CLI breadth supports the burden concern, while lack of usage telemetry
+      prevents a universal usability claim. The target budgets make setup, doctor,
+      repair, zero prompts, and maintenance measurable rather than optional polish.
+    agreement_status: "IMPLEMENTATION_SEQUENCE_DISAGREEMENT"
+    accepted_portion: "Default golden path should be setup/project/run/status/inbox/doctor/repair; advanced surfaces hidden or gated."
+    rejected_portion: "Deferring all operator diagnostics and prompt reduction to late WG-12."
+    replacement_position: "Ship broker/store/credential doctor and enrollment with WG-04; preserve final multi-project dogfood in WG-12/WG-13."
+    repository_refs:
+      - ".octon/framework/engine/runtime/crates/kernel/src/main.rs:42-250"
+      - ".octon/instance/bootstrap/START.md:95-230"
+    intake_refs: ["FD-001", "FD-002", "FD-024", "product/friction-and-operational-standards.md"]
+    proof_required: "Timed setup/onboarding, 20 zero-prompt routine missions, broker restart recovery, and 30-day burden measurement."
+    migration_effect: "Split early operational UX from late product/dogfood scope."
+
+  - claim_id: "B-XR-016"
+    other_review_reference: "phase-2/migration-architecture.md; phase-3/assurance-review.md"
+    claim_summary: "The proposed store/broker/isolation/Git/verifier/evidence migration is the smallest safe accepted direction."
+    assessment: "SUPPORTED_BUT_INCOMPLETE"
+    evidence_assessment: >-
+      Each component maps to an accepted decision and an observed defect. Packet
+      separation does not imply multiple processes; the sanitized Git adapter should
+      remain internal to one broker. However, the OTHER plan omits a load-bearing
+      current fact: authorize_execution shells an in-tree policy runner/policy and
+      accepts production environment overrides that can substitute or soften authority.
+    agreement_status: "ASSURANCE_OR_THREAT_DISAGREEMENT"
+    accepted_portion: "The target component set, clean cutover, and dependency spine."
+    rejected_portion: "Any assertion that the listed GATE-0 items are complete without pinning the authority decision function."
+    replacement_position: "Add policy/runner/base-version integrity and fail-closed override handling to WG-00/WG-01 and the trust-root inventory."
+    repository_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:2946-2962"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:309-317"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:432-446"
+      - ".octon/framework/engine/runtime/crates/policy_engine/src/lib.rs:966-979"
+      - ".octon/framework/engine/runtime/crates/core/src/config.rs:203-223"
+    intake_refs: ["FD-003", "FD-017", "FD-018", "FD-024"]
+    proof_required: "Allow-all policy mutation, runner substitution, shadow-mode override, and stale-bundle bypass must all deny."
+    migration_effect: "Expand GATE-0 and WG-01; do not delay this to trust activation."
+
+  - claim_id: "B-XR-017"
+    other_review_reference: "phase-2/proposal-program-packet-map.yml"
+    claim_summary: "Fourteen packets form a safe proposal-program dependency graph."
+    assessment: "SUPPORTED_WITH_PACKET_REFINEMENT"
+    evidence_assessment: >-
+      The graph removes unsafe provider paths first, establishes authority/isolation/store
+      before broker effects, proves Class B before trust activation, and promotes claims last.
+      WG-12 combines three ownership domains and places operational UX late.
+    agreement_status: "IMPLEMENTATION_SEQUENCE_DISAGREEMENT"
+    accepted_portion: "WG-00 through WG-13 dependency spine and exclusive canonical store/authority intent."
+    rejected_portion: "One late packet owning extension supply chain, child-agent safety, and all operator UX without earlier broker diagnostics."
+    replacement_position: "Retain 14 packets but move broker supervision/enrollment/doctor gates to WG-04 and make WG-12 explicit sub-scopes or split ownership."
+    repository_refs: []
+    intake_refs: ["roadmap/workgroups.yml", "proposal-program/packet-and-dependency-map.yml", "FD-024"]
+    proof_required: "Every packet must have exclusive source ownership and no same-change modification of a trust control and its only validator."
+    migration_effect: "Proposal drafting refinement; no change to core target architecture."
+
+  - claim_id: "B-XR-018"
+    other_review_reference: "synthesis/proposal-program-readiness.md; synthesis/final-review.md"
+    claim_summary: "Octon is ready to create a formal proposal program, while GATE-0 blocks privileged implementation."
+    assessment: "SUPPORTED; SELF_VERDICT_AMENDED"
+    evidence_assessment: >-
+      Same-baseline facts, accepted decisions, target architecture, safe sequencing,
+      rollback, and proof obligations are sufficient to design the formal program.
+      Remaining implementation choices can close within their owning packets. The
+      SELF review incorrectly treated decisions it had reopened as blockers to program creation.
+    agreement_status: "ARCHITECTURAL_INTERPRETATION_DISAGREEMENT"
+    accepted_portion: "READY_FOR_PROPOSAL_PROGRAM with no privileged implementation before GATE-0."
+    rejected_portion: "None from the OTHER verdict."
+    replacement_position: null
+    repository_refs: []
+    intake_refs: ["handoff/executive-brief.md", "FD-001", "FD-024"]
+    proof_required: "No additional proof is required to author the program; all listed gates remain mandatory before their effects."
+    migration_effect: "Change Architect B substitute verdict from READY_WITH_BLOCKING_DECISIONS to READY_FOR_PROPOSAL_PROGRAM."
+
+  - claim_id: "B-XR-019"
+    other_review_reference: "synthesis/remaining-operator-decisions.yml"
+    claim_summary: "Six bounded operator decisions remain but none blocks program creation."
+    assessment: "SUPPORTED_WITH_CLARIFICATION"
+    evidence_assessment: >-
+      Credential form, signer custody, trust-root inventory, optional worker timing,
+      retention budgets, and advanced CLI disposition are genuine design choices.
+      They must close before their packet exits design, not before program creation.
+    agreement_status: "PRODUCT_OR_USABILITY_DISAGREEMENT"
+    accepted_portion: "Packet-local closure timing and recommended defaults."
+    rejected_portion: "No operator choice may reopen signed evidence, the solo boundary, or another accepted FD without the required reopen record."
+    replacement_position: "Treat accepted decisions as fixed and operator choices as implementation details within them."
+    repository_refs: []
+    intake_refs: ["decisions/final-decision-register.yml", "decisions/rejected-and-out-of-scope.yml"]
+    proof_required: "Record each decision in its formal owning packet/ADR before design exit."
+    migration_effect: "Removes false program-authoring blockers while preserving packet gates."
+
+  - claim_id: "B-XR-020"
+    other_review_reference: "synthesis/final-review.md#Decision-alignment"
+    claim_summary: "None of the 24 accepted decisions is fully proven end to end at the reviewed commit."
+    assessment: "SUPPORTED"
+    evidence_assessment: >-
+      Existing route-bundle, adapter, catalog, authority, and evidence primitives
+      are substantial, but none proves its complete accepted end-to-end target
+      property under the required runtime, provider, adversarial, recovery, and usability tests.
+    agreement_status: "FACTUAL_REPOSITORY_DISAGREEMENT"
+    accepted_portion: "FD-020 and FD-023 are partial reusable foundations, not SATISFIED end-to-end."
+    rejected_portion: "The SELF review's SATISFIED classifications for FD-020 and FD-023."
+    replacement_position: "Classify both PARTIALLY_SATISFIED and preserve their primitives."
+    repository_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-runtime-effective-route-bundle.sh:11-23"
+      - ".octon/framework/constitution/contracts/adapters/model-adapter-v1.schema.json:38-141"
+    intake_refs: ["FD-020", "FD-023", "FD-024"]
+    proof_required: "Full harness compile/launch binding and provider-replacement conformance tests."
+    migration_effect: "Retain WG-11 and provider-boundary proof instead of preserve-only treatment."

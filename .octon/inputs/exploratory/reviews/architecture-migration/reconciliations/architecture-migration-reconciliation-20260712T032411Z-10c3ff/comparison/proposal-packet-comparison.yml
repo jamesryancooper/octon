@@ -1,0 +1,99 @@
+schema_version: "octon-reconciliation-proposal-packet-comparison-v1"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+packets:
+  - packet_id: "RP-00"
+    reconciled_name: "containment-baseline-and-claim-correction"
+    architect_a_source: "WG-00"
+    architect_b_source: "PP-00 plus authority-source part of PP-01"
+    disposition: "SYNTHESIZED_POSITION"
+    exclusive_source_ownership: ["effect-writer inventory", "launch inventory", "trust-root inventory", "support-claim correction register"]
+  - packet_id: "RP-01"
+    reconciled_name: "canonical-authority-and-exact-launch-guards"
+    architect_a_source: "WG-01"
+    architect_b_source: "PP-01"
+    disposition: "SYNTHESIZED_POSITION"
+    exclusive_source_ownership: ["canonical execution decision interface", "typed scope matcher", "invocation guard lifecycle"]
+  - packet_id: "RP-02"
+    reconciled_name: "credentialless-native-candidate-isolation"
+    architect_a_source: "WG-02"
+    architect_b_source: "PP-02"
+    disposition: "SYNTHESIZED_POSITION"
+    exclusive_source_ownership: ["candidate sandbox profile", "candidate environment/session contract", "candidate repository boundary"]
+  - packet_id: "RP-03"
+    reconciled_name: "transactional-runtime-store-and-state-migration"
+    architect_a_source: "WG-03"
+    architect_b_source: "PP-03, corrected from narrow-CAS proposal"
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    exclusive_source_ownership: ["runtime SQLite schema", "operation transaction", "state migration/projection contract"]
+  - packet_id: "RP-04"
+    reconciled_name: "supervised-local-broker-and-credential-custody"
+    architect_a_source: "WG-04"
+    architect_b_source: "PP-04 plus early operability amendment"
+    disposition: "SYNTHESIZED_POSITION"
+    exclusive_source_ownership: ["broker IPC API", "credential custody/enrollment", "broker supervision and doctor"]
+  - packet_id: "RP-05"
+    reconciled_name: "sanitized-privileged-git-adapter"
+    architect_a_source: "WG-05"
+    architect_b_source: "PP-05"
+    disposition: "SYNTHESIZED_POSITION"
+    exclusive_source_ownership: ["broker Git command/config allowlist", "Git effect request/result contract"]
+  - packet_id: "RP-06"
+    reconciled_name: "immutable-verification-and-adaptive-publication"
+    architect_a_source: "WG-06"
+    architect_b_source: "PP-06"
+    disposition: "SYNTHESIZED_POSITION"
+    exclusive_source_ownership: ["verifier identity/version contract", "exact-SHA verdict", "Class B/PR route selector", "provider verifier/publication adapter"]
+  - packet_id: "RP-07"
+    reconciled_name: "signed-bounded-evidence-capacity-and-retention"
+    architect_a_source: "WG-07"
+    architect_b_source: "PP-07 corrected to retain FD-014"
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    exclusive_source_ownership: ["evidence signature/checkpoint format", "capacity reservation rules", "retention/compaction/pin policy"]
+  - packet_id: "RP-08"
+    reconciled_name: "recovery-reconciliation-and-class-b-vertical"
+    architect_a_source: "WG-08"
+    architect_b_source: "recovery portion of PP-07 and proof portion of PP-12"
+    disposition: "SYNTHESIZED_POSITION"
+    exclusive_source_ownership: ["provider-specific unknown-outcome reconciler and terminal/manual-intervention policy", "run status/continuous-operation state", "end-to-end Class B proof fixture"]
+  - packet_id: "RP-09"
+    reconciled_name: "safe-self-development-and-trust-root-activation"
+    architect_a_source: "WG-09"
+    architect_b_source: "PP-08"
+    disposition: "SYNTHESIZED_POSITION"
+    exclusive_source_ownership: ["trust-root classification", "inert installation", "exact-version activation state machine", "activation rollback"]
+  - packet_id: "RP-10"
+    reconciled_name: "minimal-workspace-projects"
+    architect_a_source: "WG-10"
+    architect_b_source: "PP-09 after deferral withdrawal"
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    exclusive_source_ownership: ["Workspace Project schema/registry", "project inference/lifecycle"]
+  - packet_id: "RP-11"
+    reconciled_name: "deterministic-harness-factory"
+    architect_a_source: "WG-11"
+    architect_b_source: "PP-10 after FD-020 correction"
+    disposition: "ARCHITECT_A_MORE_SUPPORTED"
+    exclusive_source_ownership: ["Harness Factory compiler", "effective per-run manifest", "compile receipt and launch digest binding", "generic executor-adapter interface and conformance suite"]
+  - packet_id: "RP-12"
+    reconciled_name: "private-signed-extension-supply-chain"
+    architect_a_source: "extension portion of WG-12"
+    architect_b_source: "extension portion of PP-11"
+    disposition: "SYNTHESIZED_POSITION"
+    exclusive_source_ownership: ["private extension catalog", "import/verification/pin/revocation/rollback"]
+  - packet_id: "RP-13"
+    reconciled_name: "bounded-mission-child-agents"
+    architect_a_source: "child-agent portion of WG-12"
+    architect_b_source: "multi-agent portion of PP-11"
+    disposition: "SYNTHESIZED_POSITION"
+    exclusive_source_ownership: ["child launch contract", "delegation-depth/budget/scope rules", "child retirement evidence"]
+  - packet_id: "RP-14"
+    reconciled_name: "solo-product-dogfood-claim-reverification-and-promotion"
+    architect_a_source: "WG-13 and final UX from WG-12"
+    architect_b_source: "PP-12"
+    disposition: "SYNTHESIZED_POSITION"
+    exclusive_source_ownership: ["supported vertical acceptance report", "burden budget report", "support-claim proof map", "promotion handoff"]
+ownership_validation:
+  duplicate_authoritative_sources: []
+  competing_runtime_stores: []
+  broker_verifier_overlap: []
+  candidate_modifies_only_validator: false
+  implementation_before_required_proof: false

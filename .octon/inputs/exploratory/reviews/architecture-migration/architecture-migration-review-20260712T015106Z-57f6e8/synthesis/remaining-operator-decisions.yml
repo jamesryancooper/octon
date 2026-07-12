@@ -1,0 +1,56 @@
+schema_version: octon-review-remaining-operator-decisions-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: non-authoritative
+note: >-
+  Consolidated from phase-2/operator-decisions-still-required.yml with Phase 3
+  weighting. "blocking" decisions must be settled before the corresponding packet
+  can be authored authoritatively or before privileged work begins.
+blocking_before_program_authoring:
+  - id: OD-01
+    question: Evidence integrity — implement signing (A) or reword to git-anchored (B)?
+    recommendation: B (git-anchored) for the solo vertical; A opt-in later only if an off-git threat model emerges.
+    shapes: [PP-00, PP-07]
+    phase3_support: L2-08, L3-R1 (git already provides tamper-evidence; signing adds key-custody burden)
+  - id: OD-06
+    question: Gate federation / Trust-Compact / cross-domain surface off for solo?
+    recommendation: Yes — gate off before privileged work; PERMANENTLY_OUT_OF_SCOPE for the solo vertical.
+    shapes: [PP-08, PP-12]
+    phase3_support: L2-05 (multi-party machinery with no solo counterparty)
+  - id: OD-08
+    question: Trust-root inventory + first-epoch bootstrap — what is the root and how is epoch-0 trusted?
+    recommendation: Operator ratifies an explicit out-of-tree trust-root inventory + a one-time human-anchored epoch-0 bootstrap.
+    shapes: [PP-08]
+    phase3_support: L1-06, RR-05 (base-ref chain has no external anchor without this)
+blocking_before_specific_packets:
+  - id: OD-03
+    question: Scoped GitHub App (FD-007) or mark the App clause out of scope?
+    recommendation: Adopt a least-privilege single-repo App OR require base-ref eligibility; either closes the second CI plane (L1-05).
+    shapes: [PP-06]
+  - id: OD-04
+    question: macOS sandbox primitive — sandbox-exec vs App Sandbox?
+    recommendation: Prototype with sandbox-exec; evaluate App Sandbox for ship; confirm macOS version floor.
+    shapes: [PP-02]
+  - id: OD-05
+    question: Broker IPC + key-enrollment mechanism?
+    recommendation: Unix-domain socket + peer-cred checks + OS keychain custody; supervised launchd; one-command guided enroll.
+    shapes: [PP-04]
+    phase3_support: L4-01 (broker lifecycle/supervision undesigned), L4-06 (enrollment UX ungated)
+  - id: OD-07
+    question: FD-002 consequence-class binding — map onto ACP or collapse the matrix?
+    recommendation: Map reversible-isolated-branch work to ACP-2 with the SHA verifier as the 2nd party (zero prompts); do it EARLY in PP-00; delete residual human-approval defaults for that route class.
+    shapes: [PP-00, PP-12]
+    phase3_support: L2-06, L4-03
+  - id: OD-09
+    question: Which of the 42 CI gates are load-bearing for the solo vertical?
+    recommendation: keep/merge/delete inventory brought forward into PP-06; quarantine the rest behind self-dev/enterprise flags.
+    shapes: [PP-06, PP-12]
+    phase3_support: L2-10
+non_blocking:
+  - id: OD-02
+    question: Multi-project — many .octon roots or one workspace registry?
+    recommendation: One .octon per repo + lightweight operator index; build a registry only when a 2nd concurrent project exists (SR-08).
+    shapes: [PP-09]
+summary: >-
+  Nine decisions total. Three (OD-01, OD-06, OD-08) block authoring the program
+  authoritatively; six shape specific packets; one is non-blocking. All carry a
+  recommended default; none require reviving a superseded direction.

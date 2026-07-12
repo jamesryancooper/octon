@@ -1,0 +1,87 @@
+schema_version: octon-review-support-claim-proof-map-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: non-authoritative
+note: >-
+  Maps each material support claim to the implemented proof at HEAD and to the
+  test that would substantiate it in the target. A claim may not be published
+  stronger than the test it has passed. OVERSTATED rows are GAP-17 (BLOCKER).
+claims:
+  - claim: "authority_engine is the sole/canonical source of execution authority"
+    current_proof: PARTIAL — canonical for kernel paths, but the agent-launch path bypasses it AND the decision function itself is candidate-editable
+    status_at_head: OVERSTATED
+    target_test: F13 (decision pinned) + F14 (every spawn gated) + L1-07 red-team
+    evidence: [A-01, J-01, L1-01, L1-02]
+  - claim: "Broker and verifier sign direct observations; signed checkpoints"
+    current_proof: NONE — no cryptographic signing exists; unkeyed SHA-256 only
+    status_at_head: OVERSTATED
+    target_test: "(A) rewritten log fails signature verify, OR (B) reword to hash-chained+git-anchored and quorum rejects forged/same-actor attestation"
+    evidence: [E-01, E-02, E-03]
+  - claim: "Rechaining breaks checkpoint verification"
+    current_proof: FALSE — verifier recomputes the same public hash a tamperer recomputes
+    status_at_head: OVERSTATED
+    target_test: Same as above; under Option B this claim is retired in favor of git-anchoring
+    evidence: [E-01, E-02]
+  - claim: "Quorum attestations are signatures (non-repudiation)"
+    current_proof: FALSE — "signature" is an unkeyed hash; quorum counts non-empty strings
+    status_at_head: OVERSTATED
+    target_test: Quorum rejects a same-actor / literal-'x' attestation by identity+binding
+    evidence: [E-03]
+  - claim: "Candidate-immutable exact-SHA verification gates publication"
+    current_proof: NONE — required checks live in candidate-editable change-route-projection.yml; exact-SHA passes trivially without a receipt
+    status_at_head: OVERSTATED
+    target_test: Candidate diff to the verifier cannot flip its own verdict (out-of-tree App) — G-C1
+    evidence: [C-003, C-006, J-03]
+  - claim: "Verified no-PR landing default; agents never publish on main"
+    current_proof: CONTRADICTED — route order prefers direct-main; solo low-risk pushes on main
+    status_at_head: OVERSTATED
+    target_test: Autonomous Class B selects branch-no-pr; never commits on main — G-B3
+    evidence: [C-005]
+  - claim: "Every agent launch consumes a one-shot invocation guard"
+    current_proof: PARTIAL — only the studio dev-app launch is ExecutorLaunch-gated
+    status_at_head: OVERSTATED
+    target_test: F14 — no agent spawn reachable without a verified ExecutorLaunch
+    evidence: [A-02, L1-02]
+  - claim: "Agents are credentialless"
+    current_proof: CONTRADICTED — no env_clear at any spawn; ambient creds inherited
+    status_at_head: OVERSTATED
+    target_test: F9 — child env lacks secrets; gh unauth — both spawn paths
+    evidence: [B-01, J-02]
+  - claim: "Every consequential effect is idempotent/exactly-once"
+    current_proof: PARTIAL — TOCTOU consume; idempotency an optional field; no reconciliation
+    status_at_head: OVERSTATED
+    target_test: F1 + F3 + F4 + F16
+    evidence: [D-02, D-05, D-06, J-04, L1-09]
+  # ---- Claims that are HONEST at HEAD (preserve wording) ----
+  - claim: "Missing required evidence blocks closure/promotion/live claim"
+    current_proof: TRUE — fail-closed completeness rules; retained snapshot must hash-match
+    status_at_head: HONEST
+    target_test: preserve; no change
+    evidence: [E-06]
+  - claim: "Effective route bundle is non-authority, digest-bound, denied on drift"
+    current_proof: TRUE (static); runtime_resolver enforces in-kernel
+    status_at_head: HONEST (upgrade to executed via F11)
+    target_test: F11 — drift → CAPABILITY_DENIED (DYNAMICALLY_EXECUTED)
+    evidence: [G-04]
+  - claim: "Provider adapters may not widen authority or support tiers"
+    current_proof: TRUE — non-authoritative, replaceable, bounded to support-targets.yml
+    status_at_head: HONEST
+    target_test: preserve
+    evidence: [G-08]
+  - claim: "No public marketplace; extension trust is repo-owned"
+    current_proof: TRUE
+    status_at_head: HONEST
+    target_test: preserve
+    evidence: [G-05]
+  - claim: "No standalone capacity/lease service"
+    current_proof: TRUE — only an inline network-egress exception input
+    status_at_head: HONEST
+    target_test: preserve
+    evidence: [E-05]
+honest_tamper_evidence_statement: >-
+  The true integrity property is that evidence logs are git-tracked and pushed to
+  GitHub (content-addressed history with an off-machine copy). This is honest
+  tamper-EVIDENCE, not authenticity/non-repudiation, and is what the system should
+  claim. It does not protect against a candidate that (today) has repo write and
+  could rewrite local logs before push. Real authenticity requires either signing
+  (OD-01 A) or explicit delegation to git/GitHub history (OD-01 B, recommended).
+gate: All OVERSTATED rows must reach HONEST (reworded or test-backed) before the corresponding claim is published; PP-00 clears the wording immediately.

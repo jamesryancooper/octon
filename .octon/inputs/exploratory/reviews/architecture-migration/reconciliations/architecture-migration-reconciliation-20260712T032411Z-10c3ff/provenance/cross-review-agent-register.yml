@@ -1,0 +1,17 @@
+schema_version: "octon-cross-review-agent-register-v1"
+architect_a:
+  agent: "/root"
+  status: "original architect"
+  self_review: "architecture-migration-review-20260712T015114Z-6e5b57"
+  other_review: "architecture-migration-review-20260712T015106Z-57f6e8"
+  communication_with_other_cross_reviewer: false
+  response_completed_at: "2026-07-12T03:35:57Z"
+  package_validation: "exactly 8 files; 6 YAML parse; stable correction IDs and repository refs preflight-corrected"
+architect_b:
+  agent: "/root/architect_b_cross_review"
+  status: "explicit third-party substitute; original Architect B unavailable"
+  self_review: "architecture-migration-review-20260712T015106Z-57f6e8"
+  other_review: "architecture-migration-review-20260712T015114Z-6e5b57"
+  communication_with_other_cross_reviewer: false
+  response_completed_at: "2026-07-12T03:43:49Z"
+  package_validation: "exactly 8 files; 6 YAML parse; substitute disclosure retained"

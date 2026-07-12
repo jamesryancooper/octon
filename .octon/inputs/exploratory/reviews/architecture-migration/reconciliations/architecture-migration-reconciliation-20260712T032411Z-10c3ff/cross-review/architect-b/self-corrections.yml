@@ -1,0 +1,316 @@
+schema_version: "octon-architect-cross-review-self-corrections-v1"
+architect_label: "B"
+reviewer_status: "THIRD_PARTY_SUBSTITUTE"
+reviewer_note: >-
+  The original Architect B was unavailable. These are substitute reviewer
+  corrections to the assigned SELF review, not post-hoc edits to that immutable review.
+self_review_id: "architecture-migration-review-20260712T015106Z-57f6e8"
+repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+corrections:
+  - correction_id: "B-SC-001"
+    original_review_reference: "synthesis/final-review.md; synthesis/proposal-program-readiness.md"
+    original_position: "READY_WITH_BLOCKING_DECISIONS"
+    new_position: >-
+      READY_FOR_PROPOSAL_PROGRAM. The proposal architecture, dependency spine,
+      rollback, and proof gates are sufficiently established. GATE-0 still blocks
+      privileged implementation.
+    change_class: "AMEND"
+    triggering_evidence:
+      - "Both reviews used the same clean baseline and passed integrity checks."
+      - "Accepted FD-005, FD-014, FD-019, and FD-020 resolve choices the SELF review treated as program-authoring blockers."
+      - "OTHER synthesis/proposal-program-readiness.md"
+    effect_on_other_findings: "Reclassifies remaining operator choices as packet-local design decisions."
+    effect_on_readiness_verdict: "Changes verdict to READY_FOR_PROPOSAL_PROGRAM."
+    effect_on_migration_sequencing: "None; WG-00/GATE-0 remains first."
+
+  - correction_id: "B-SC-002"
+    original_review_reference: "phase-3/simplification-register.yml#SR-05; synthesis/final-recommendation-register.yml#REC-07"
+    original_position: "Defer full SQLite/WAL migration; use atomic files plus only a narrow transactional CAS for proof of architecture."
+    new_position: >-
+      Implement the accepted single SQLite/WAL authoritative store for grants,
+      operations, reservations, revocation, evidence outbox, reconciliation, and
+      recovery. Atomic file writes remain useful for projections but are not the source of truth.
+    change_class: "WITHDRAW"
+    triggering_evidence:
+      - "Intake FD-005 and target-state/broker-transaction-and-recovery.md"
+      - "OTHER AMR-004 and AMR-008"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:294-658"
+    effect_on_other_findings: "Strengthens D-01 through D-06 remediation and aligns evidence capacity with the operation transaction."
+    effect_on_readiness_verdict: "Removes a false operator/design fork."
+    effect_on_migration_sequencing: "Full WG-03 precedes broker effect integration."
+
+  - correction_id: "B-SC-003"
+    original_review_reference: "phase-2/migration-architecture.md#3.6; phase-3/simplification-register.yml#SR-06; synthesis/remaining-operator-decisions.yml#OD-01"
+    original_position: "Choose between real signing and rewording FD-014 to git-anchored; recommend rewording and defer signing."
+    new_position: >-
+      FD-014 already accepts broker/verifier signatures, signed checkpoints,
+      bounded retention, and compaction. Correct current overstated claims now,
+      then implement that decision. Reopening it requires the formal reopen record
+      absent from both reviews.
+    change_class: "WITHDRAW"
+    triggering_evidence:
+      - "Intake FD-014"
+      - "target-state/evidence-retention-and-degraded-operation.md"
+      - "OTHER AMR-010"
+    effect_on_other_findings: "Retains hash linking as a primitive but not a substitute for authenticity or rollback protection."
+    effect_on_readiness_verdict: "Removes OD-01 as a program-authoring blocker."
+    effect_on_migration_sequencing: "Signing/checkpoint work remains in WG-07 before Class B proof."
+
+  - correction_id: "B-SC-004"
+    original_review_reference: "phase-3/simplification-register.yml#SR-08"
+    original_position: "Defer Workspace Project until a second concurrent project appears."
+    new_position: >-
+      Implement the minimal inferred non-authoritative Workspace Project required by
+      FD-019. It is a solo-product continuity primitive, not speculative enterprise administration.
+    change_class: "WITHDRAW"
+    triggering_evidence:
+      - "Intake FD-019 and FD-024"
+      - "target-state/workspace-projects-and-harness-factory.md"
+      - "OTHER AMR-013"
+    effect_on_other_findings: "Converts GAP-16 from later optimization to required target migration."
+    effect_on_readiness_verdict: "No adverse effect."
+    effect_on_migration_sequencing: "Retain WG-10 after canonical authority; allow parallel progress before final product proof."
+
+  - correction_id: "B-SC-005"
+    original_review_reference: "phase-1/final-decision-to-repository-crosswalk.yml#FD-020; phase-1/current-finding-register.yml#G-03/G-04"
+    original_position: "FD-020 SATISFIED by the runtime effective route-bundle generator and resolver."
+    new_position: >-
+      FD-020 is PARTIALLY_SATISFIED. Route-bundle publication and digest/freshness
+      enforcement are strong inputs to preserve, but they do not compile all approved
+      project, mission, Run Contract, policy, context, model, tool, validation,
+      evidence, rollback, and extension inputs into one launch-bound harness manifest.
+    change_class: "AMEND"
+    triggering_evidence:
+      - "Intake FD-020"
+      - "target-state/workspace-projects-and-harness-factory.md"
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-runtime-effective-route-bundle.sh:11-23"
+      - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md:3-48"
+      - "OTHER AMR-013"
+    effect_on_other_findings: "G-03/G-04 become retained primitives, not proof of target completion."
+    effect_on_readiness_verdict: "No adverse effect."
+    effect_on_migration_sequencing: "Retain WG-11 and launch-time harness-digest proof."
+
+  - correction_id: "B-SC-006"
+    original_review_reference: "phase-1/final-decision-to-repository-crosswalk.yml#FD-023; phase-1/current-finding-register.yml#G-07/G-08"
+    original_position: "FD-023 SATISFIED by non-authoritative provider adapter contracts."
+    new_position: >-
+      FD-023 is PARTIALLY_SATISFIED. Adapter contracts are valuable, but active
+      provider workflows retain candidate-controlled effect semantics, and provider
+      replacement has not been dynamically shown to preserve authority, mission,
+      evidence, and recovery semantics.
+    change_class: "AMEND"
+    triggering_evidence:
+      - "Intake FD-023"
+      - "OTHER AMR-005, AMR-006, and decision crosswalk FD-023"
+      - ".github/workflows/pr-auto-merge.yml:274-330"
+    effect_on_other_findings: "G-07/G-08 remain architectural strengths but no longer close FD-023."
+    effect_on_readiness_verdict: "No adverse effect."
+    effect_on_migration_sequencing: "Provider conformance remains a proof obligation in WG-06/WG-13."
+
+  - correction_id: "B-SC-007"
+    original_review_reference: "phase-1/final-decision-to-repository-crosswalk.yml#FD-002"
+    original_position: "FD-002 CONTRADICTED."
+    new_position: >-
+      FD-002 is PARTIALLY_SATISFIED: proportional route, risk, reversibility, and
+      machine-quorum primitives exist, but Class A/B/C binding, brokered Class B,
+      zero routine prompts, and lower-route denial are not implemented or proven.
+    change_class: "RETAIN_WITH_CLARIFICATION"
+    triggering_evidence:
+      - "OTHER decision crosswalk FD-002"
+      - ".octon/instance/governance/policies/mission-autonomy.yml"
+      - ".octon/framework/product/contracts/default-work-unit.yml:183-317"
+    effect_on_other_findings: "The Class A/B/C naming collision and routine-approval concern remain valid."
+    effect_on_readiness_verdict: "None."
+    effect_on_migration_sequencing: "Move class crosswalk and zero-prompt route acceptance early."
+
+  - correction_id: "B-SC-008"
+    original_review_reference: "phase-1/final-decision-to-repository-crosswalk.yml#FD-003"
+    original_position: "FD-003 PARTIALLY_SATISFIED."
+    new_position: >-
+      FD-003 is CONTRADICTED as an end-to-end target because lifecycle supplies a
+      competing authority and the canonical decision runner/policy remains candidate-editable.
+      The typed authority engine is still a major reusable partial foundation.
+    change_class: "AMEND"
+    triggering_evidence:
+      - "OTHER AMR-001"
+      - "SELF L1-01/L1-03"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:309-317,432-446"
+    effect_on_other_findings: "Narrows A-07 to reusable validation semantics, not a trustworthy current authority boundary."
+    effect_on_readiness_verdict: "None; repair is already bounded."
+    effect_on_migration_sequencing: "Pin the decision function in WG-00/WG-01."
+
+  - correction_id: "B-SC-009"
+    original_review_reference: "phase-1/final-decision-to-repository-crosswalk.yml#FD-006/FD-007/FD-008"
+    original_position: "FD-006, FD-007, and FD-008 ABSENT."
+    new_position: >-
+      Classify these as CONTRADICTED: current agents inherit credential-capable host
+      context; current provider automation is a credentialed second effect plane;
+      and candidate execution shares canonical Git/host state. Partial sandbox and
+      provider primitives remain reusable.
+    change_class: "RETAIN_WITH_CLARIFICATION"
+    triggering_evidence:
+      - "OTHER AMR-003, AMR-005, decision crosswalk FD-006 through FD-008"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:416-451"
+    effect_on_other_findings: "No change to severity, repair, or proof."
+    effect_on_readiness_verdict: "None."
+    effect_on_migration_sequencing: "None."
+
+  - correction_id: "B-SC-010"
+    original_review_reference: "phase-1/final-decision-to-repository-crosswalk.yml#FD-013"
+    original_position: "FD-013 PARTIALLY_SATISFIED because no standalone capacity service is needed."
+    new_position: >-
+      FD-013 is ABSENT. Satisfying the negative constraint does not implement
+      transactionally reserved terminal-evidence capacity, low-space admission, or
+      guaranteed denial/failure/rollback closeout.
+    change_class: "AMEND"
+    triggering_evidence:
+      - "Intake FD-013"
+      - "OTHER AMR-004, AMR-010, and decision crosswalk FD-013"
+    effect_on_other_findings: "D-04 and E-04 become the decisive target-status evidence."
+    effect_on_readiness_verdict: "None."
+    effect_on_migration_sequencing: "Capacity reservation stays inside WG-03/WG-07 transaction design."
+
+  - correction_id: "B-SC-011"
+    original_review_reference: "phase-1/final-decision-to-repository-crosswalk.yml#FD-014"
+    original_position: "FD-014 CONTRADICTED."
+    new_position: >-
+      FD-014 is PARTIALLY_SATISFIED: hash-linked journals, compact views, and
+      completeness concepts are real primitives; signer authenticity, monotonic
+      checkpoints, bounded retention, and trustworthy execution binding are absent.
+    change_class: "AMEND"
+    triggering_evidence:
+      - "OTHER decision crosswalk FD-014 and AMR-009/AMR-010"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:128-223"
+    effect_on_other_findings: "Preserves SELF E-01/E-02 defects while crediting existing integrity structure."
+    effect_on_readiness_verdict: "None."
+    effect_on_migration_sequencing: "No change."
+
+  - correction_id: "B-SC-012"
+    original_review_reference: "phase-1/final-decision-to-repository-crosswalk.yml#FD-022"
+    original_position: "FD-022 CONTRADICTED."
+    new_position: >-
+      FD-022 is PARTIALLY_SATISFIED: temporary lifecycle/program orchestration,
+      concurrency, budgets, and retirement concepts exist, but children lack
+      credentialless isolation, canonical guards, narrowed scope, and depth enforcement.
+    change_class: "AMEND"
+    triggering_evidence:
+      - "OTHER decision crosswalk FD-022"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs:109-230"
+    effect_on_other_findings: "A-03/A-04/A-05 remain current gaps rather than proof that no multi-agent primitive exists."
+    effect_on_readiness_verdict: "None."
+    effect_on_migration_sequencing: "Retain child-agent work after authority/isolation/harness foundations."
+
+  - correction_id: "B-SC-013"
+    original_review_reference: "phase-1/final-decision-to-repository-crosswalk.yml#FD-024"
+    original_position: "FD-024 PARTIALLY_SATISFIED."
+    new_position: >-
+      FD-024 is REQUIRES_DYNAMIC_PROOF. Current components are partial, but only
+      clean-install and multi-project dogfood can establish setup, prompt, completion,
+      recovery, and maintenance budgets without unauthorized durable effects.
+    change_class: "AMEND"
+    triggering_evidence:
+      - "OTHER decision crosswalk FD-024"
+      - "product/friction-and-operational-standards.md"
+    effect_on_other_findings: "Retains H-02/H-05/H-07/H-09 as inputs, not support proof."
+    effect_on_readiness_verdict: "None."
+    effect_on_migration_sequencing: "Promotion remains after dogfood and burden measurement."
+
+  - correction_id: "B-SC-014"
+    original_review_reference: "phase-1/current-finding-register.yml; phase-3/adversarial-finding-register.yml"
+    original_position: "The SELF review omitted reverse-prefix effect-scope widening."
+    new_position: >-
+      Add the OTHER review's AMR-002 as a high-confidence material authority finding.
+      Authentic token scope can widen via reverse and non-boundary string prefix.
+    change_class: "AMEND"
+    triggering_evidence:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1832-1851"
+      - "OTHER AMR-002"
+    effect_on_other_findings: "Expands the authority threat model and negative matrix."
+    effect_on_readiness_verdict: "None."
+    effect_on_migration_sequencing: "Fix in WG-01 before guard adoption."
+
+  - correction_id: "B-SC-015"
+    original_review_reference: "phase-1/support-claim-review.md; phase-3/support-claim-proof-map.yml"
+    original_position: "The SELF review did not isolate the proof validator's referenced-versus-executed metadata defect as a material finding."
+    new_position: >-
+      Accept OTHER AMR-009: adding a test path to metadata and emitting it as
+      runtime_tests_executed without invocation overstates proof depth.
+    change_class: "AMEND"
+    triggering_evidence:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proof-bundle-executability.sh:53-128"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validator-result-common.sh:275-366"
+      - "OTHER evidence/tests/proof-validator-observation.md"
+    effect_on_other_findings: "Strengthens E-06 and support-claim correction."
+    effect_on_readiness_verdict: "None."
+    effect_on_migration_sequencing: "Correct wording in WG-00; bind direct results in WG-07."
+
+  - correction_id: "B-SC-016"
+    original_review_reference: "phase-3/simplification-register.yml#SR-03; synthesis/final-review.md#question-7"
+    original_position: "The essential migration adds about three components because broker, store, and Git are one process."
+    new_position: >-
+      Keep one broker process and put sanitized Git inside it, but continue to model
+      the transactional store and Git adapter as distinct architectural responsibilities
+      and migration packets. Process count is not component/responsibility count.
+    change_class: "RETAIN_WITH_CLARIFICATION"
+    triggering_evidence:
+      - "OTHER phase-2/migration-architecture.md"
+      - "OTHER phase-2/proposal-program-packet-map.yml WG-03 through WG-05"
+    effect_on_other_findings: "Preserves the one-broker boundary without obscuring exclusive source ownership."
+    effect_on_readiness_verdict: "None."
+    effect_on_migration_sequencing: "Retain separate WG-03, WG-04, and WG-05 exits."
+
+  - correction_id: "B-SC-017"
+    original_review_reference: "phase-1/authority-effect-credential-map.md"
+    original_position: "Unscrubbed launch means specific GitHub tokens are inherited."
+    new_position: >-
+      No env_clear proves inheritance if variables are present, and shared HOME/keychain
+      proves credential-capable exposure. It does not prove a specific token was present,
+      readable, or used by a child.
+    change_class: "RETAIN_WITH_CLARIFICATION"
+    triggering_evidence:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:416-451"
+      - "Subagent baseline/authority adjudication"
+    effect_on_other_findings: "Narrows evidence wording without reducing the required isolation repair."
+    effect_on_readiness_verdict: "None."
+    effect_on_migration_sequencing: "None."
+
+  - correction_id: "B-SC-018"
+    original_review_reference: "synthesis/remaining-operator-decisions.yml#OD-01/OD-06/OD-08"
+    original_position: "Signing choice, federation scope, and trust-root bootstrap block proposal-program authoring."
+    new_position: >-
+      None blocks proposal-program creation. Signing and the solo scope are already
+      accepted; trust-root inventory/bootstrap must close before WG-09 design exit.
+      Source-level gate/hide/delete choices and key/bootstrap details remain packet-local.
+    change_class: "AMEND"
+    triggering_evidence:
+      - "Intake FD-001, FD-014, FD-017, FD-018"
+      - "OTHER synthesis/remaining-operator-decisions.yml"
+    effect_on_other_findings: "Eliminates false decision blockers while keeping trust activation gated."
+    effect_on_readiness_verdict: "Changes verdict to READY_FOR_PROPOSAL_PROGRAM."
+    effect_on_migration_sequencing: "WG-09 cannot exit design until trust-root details are formally recorded."
+
+  - correction_id: "B-SC-019"
+    original_review_reference: "phase-1/current-finding-register.yml#F-018-2; synthesis/final-review.md"
+    original_position: "promotion_blockers() is unwired."
+    new_position: >-
+      promotion_blockers() has inspect/apply callers and is useful scaffolding, but
+      those commands report readiness and do not constitute an enforced merge,
+      installation, exact-version activation, health, or rollback boundary.
+    change_class: "RETAIN_WITH_CLARIFICATION"
+    triggering_evidence:
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:395-468"
+      - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:541-728"
+      - "Subagent self-development/trust-root adjudication"
+    effect_on_other_findings: "Preserves the missing-enforcement finding while correcting the absolute call-site claim."
+    effect_on_readiness_verdict: "None."
+    effect_on_migration_sequencing: "Preserve the reader and wire it into candidate-immutable WG-09 enforcement."
+
+summary:
+  retained_unchanged:
+    - "Competing lifecycle authority and unguarded spawn findings."
+    - "Candidate-controlled provider effect and verifier findings."
+    - "Ambient Git, direct-main, recovery, and trust-activation findings."
+    - "Candidate-editable authority policy/runner and fail-open override blocker."
+    - "Tracked run-evidence and CI maintenance-burden concerns."
+  readiness_verdict_changed: true
+  new_readiness_verdict: "READY_FOR_PROPOSAL_PROGRAM"

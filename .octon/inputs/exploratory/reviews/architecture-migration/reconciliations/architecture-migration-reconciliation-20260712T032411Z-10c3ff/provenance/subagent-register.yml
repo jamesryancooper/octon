@@ -1,0 +1,93 @@
+schema_version: "octon-reconciliation-subagent-register-v1"
+status: "complete"
+write_policy: "read-only; no subagent wrote files"
+source_boundary: "repository, specified intake, two named original reviews, current reconciliation only"
+roles:
+  - role_id: "SUB-01"
+    role: "baseline and provenance auditor"
+    agent: "/root/recon_role_1_baseline"
+    assignment: "Verify immutable integrity, shared baseline, worktree boundary, evidence/source traceability, cross-review completeness, FD coverage, and prohibited-review compliance signals."
+    inspected_paths: ["intake manifest/provenance/decisions", "both named review manifests/baselines/integrity/crosswalks", "current reconciliation inputs/provenance/cross-review", "Git metadata/status"]
+    accepted_findings: ["same clean commit c5b1f576", "intake 94/94, A 56/56, B 46/46 indexed artifacts pass", "both eight-file cross-reviews parse and conclude READY_FOR_PROPOSAL_PROGRAM", "both original crosswalks cover FD-001..024"]
+    rejected_or_narrowed_findings: ["Review B summary counts are not reliable", "aggregate digests without reconstruction algorithm are not primary integrity anchors", "source-boundary evidence is not an OS-level read audit"]
+    unresolved_questions: ["ignored-cache fingerprinting not exhaustive", "provider evidence requires refresh at implementation/promotion"]
+    material_effect: "Drove cross-review reference fixes, stable A correction IDs, preflight limitations, and integrity-index hashes."
+  - role_id: "SUB-02"
+    role: "authority, broker, and execution adjudicator"
+    agent: "/root/recon_role_2_authority"
+    assignment: "Adjudicate sole authority, lifecycle/spawn paths, scopes, decision-source integrity, overrides, credentials, broker/store boundary, writers, and Gate 0."
+    inspected_paths: ["intake authority/broker/isolation decisions and targets", "both review authority findings/maps/gates", "authority_engine/policy_engine", "lifecycle/pipeline/workflow/workflow-leaf/studio launchers", "provider/Git writers"]
+    accepted_findings: ["competing lifecycle authority", "multiple unguarded launch families", "unsafe scope matching", "candidate-influenced runner/policy/config/receipt code", "OCTON_POLICY_BIN and other production overrides", "no accepted broker/store", "multiple provider effect planes"]
+    rejected_or_narrowed_findings: ["preserve authorize_execution verbatim", "only one ungated effect", "specific credential presence/use proved", "env_clear or same-UID IPC alone is sufficient", "three deployed services for store/broker/Git"]
+    unresolved_questions: ["exact installed authority distribution", "same-user IPC identity mechanism", "useful credentialless primary-provider session", "provider worker timing"]
+    material_effect: "Expanded RP-00/RP-01 and ED-001/ED-002; added policy binary pinning and structural launch proof."
+  - role_id: "SUB-03"
+    role: "isolation, Git, and publication adjudicator"
+    agent: "/root/recon_role_3_isolation"
+    assignment: "Adjudicate candidate/Git isolation, privileged Git, exact verification, no-PR CAS, PR escalation, provider protection, direct-main retirement, and rollback."
+    inspected_paths: ["intake isolation/publication/proof", "both review isolation/Git/provider/rollback artifacts", "executor launchers", "default route", "hosted no-PR scripts", "Git hook installer", "credentialed workflows/provider evidence"]
+    accepted_findings: ["independent repository/object DB required", "broker-owned minimal Git state", "current helper has useful post-push equality but no durable attempt state", "target-pre check-then-push race", "candidate-immutable separate verifier", "all provider writers belong in Gate 0"]
+    rejected_or_narrowed_findings: ["linked worktree is sufficient", "no post-push check anywhere", "candidate commits .git/hooks", ".gitmodules rewrites origin", "ordinary push force-overwrites non-ancestor history", "unsafe rollback bridges"]
+    unresolved_questions: ["atomic GitHub expected-old mechanism", "attempt attribution strength", "provider verifier/App form", "candidate object-transfer mechanism"]
+    material_effect: "Strengthened RP-02/RP-05/RP-06/RP-08, safe rollback, CAS and attempt semantics."
+  - role_id: "SUB-04"
+    role: "runtime, evidence, and recovery adjudicator"
+    agent: "/root/recon_role_1_baseline"
+    assignment: "Adjudicate SQLite, idempotency, concurrency/crash, reconciliation, evidence authenticity/capacity/retention/checkpoints, degraded mode, tracked-state burden, and rollback."
+    inspected_paths: ["intake transaction/evidence/fault/retention targets", "both review runtime/evidence/fault artifacts", "authority effects", "runtime_bus", "replay_store", "evidence/retention contracts", "tracked state inventory"]
+    accepted_findings: ["full FD-005 store", "T1/external/T2 unknown-before-retry model", "signed direct/range checkpoints", "candidate-inaccessible monotonic head", "physical terminal reserve", "one canonical journal schema", "40,366 tracked state files are material burden"]
+    rejected_or_narrowed_findings: ["narrow CAS final target", "Git anchoring substitutes for FD-014", "route lease is capacity subsystem", "free-space check/SQL row alone ensures capacity", "literal DB/provider both-or-neither", "universal exactly-once/run terminality", "sign every event"]
+    unresolved_questions: ["anchor/capacity implementation", "retention/backup/key recovery policy", "irreducibly unknown operator presentation"]
+    material_effect: "Added RF-028/RF-029 and strengthened RP-03/RP-07/RP-08, proof and burden gates."
+  - role_id: "SUB-05"
+    role: "self-development and trust-root adjudicator"
+    agent: "/root/recon_role_2_authority"
+    assignment: "Adjudicate ordinary self-development, semantic trust closure, inert landing, approval binding, previous-version activation, health, rollback, same-change certification, and epoch zero."
+    inspected_paths: ["intake FD-015..018 and trust targets", "both review trust findings/gates", "evolution/trust commands", "promotion/activation/rollback specs", "candidate-head/release/runtime workflows"]
+    accepted_findings: ["FD-017 contradicted", "FD-018 absent", "promotion_blockers has advisory callers but no unavoidable boundary", "candidate-head self-certification is real", "source landing is not inert", "minimal semantic inventory/epoch zero absent"]
+    rejected_or_narrowed_findings: ["promotion_blockers entirely unwired", "all framework/instance files are live trust roots", "J-06 is an existing activator", "base-ref check or signing alone satisfies activation"]
+    unresolved_questions: ["semantic trust inventory", "epoch-zero human anchor", "health/canary/rollback retention", "safe-automatic enablement"]
+    material_effect: "Strengthened RP-09 and ROD-003; preserved disabled/operator-confirmed core path and proof-gated safe-automatic claim."
+  - role_id: "SUB-06"
+    role: "projects, harnesses, extensions, and multi-agent adjudicator"
+    agent: "/root/recon_role_3_isolation"
+    assignment: "Adjudicate FD-019..023, current primitives, smallest target, provider adapter conformance, packet ownership, and dependencies."
+    inspected_paths: ["intake project/harness/extension/child/provider targets", "both review FD-019..023 findings/maps", "Project Profile/locality", "Harness/route/resolver", "extension publication/trust", "child scheduler/locks/cancel/budgets", "adapter schemas/manifests/dispatch"]
+    accepted_findings: ["all FD-019..023 partial", "route bundle is not full Harness Factory", "Projects required/minimal/non-authoritative", "extension integrity is not signer authenticity", "scheduler/cancel primitives reusable", "token budget is measurement-only", "adapter schema drift/hardcoded dispatch"]
+    rejected_or_narrowed_findings: ["FD-020/023 satisfied", "Projects deferred", "digest field makes signed pack", "FD-022 wholly absent/contradicted", "budgets/retirement fully enforced", "new scheduler/provider service/marketplace"]
+    unresolved_questions: ["project overlap/location index", "extension signer/source", "child cost/concurrency", "secondary-provider feasibility"]
+    material_effect: "Added RP-11 dependency on RP-01, generic adapter ownership, RP-12/RP-13 split, child recovery dependency, and conditional secondary-provider proof."
+  - role_id: "SUB-07"
+    role: "migration and proposal-program adjudicator"
+    agent: "/root/recon_role_1_baseline"
+    assignment: "Validate graph/fields and challenge semantic dependencies, source ownership, rollback, missing target capabilities, proof ownership, and readiness."
+    inspected_paths: ["both original workgroup/packet/safe-state/rollback/gate maps", "current comparison, roadmap, packet map, decisions, proof, safe states, verdict inputs"]
+    accepted_findings: ["target spine and 15-packet/14-workgroup partition are defensible", "literal DAG initially had unique IDs/no cycle/no missing fields", "READY_FOR_PROPOSAL_PROGRAM remains valid only for authoring"]
+    rejected_or_narrowed_findings: ["initial corrected-map arrays proved no overlap", "current map safe to implement unchanged", "FD-024 coverage complete without inbox/continuous operation", "post-effect old backup may be directly restored"]
+    unresolved_questions: ["formal proposal-tool compatibility", "whether optional claims close before/after core promotion"]
+    material_effect: "Moved classification to RP-06, serialized RP-01/RP-03 semantics, added RP-13 recovery dependency, mission inbox/continuous operation, final proof ownership, forward-safe restore, and claim-scoped promotion."
+  - role_id: "SUB-08"
+    role: "simplification and solo-builder challenger"
+    agent: "/root/recon_role_2_authority"
+    assignment: "Challenge machinery, duplicated responsibility, false escalation, setup/evidence/profile/workflow burden, provider delegation, and net product outcome."
+    inspected_paths: ["intake product/budget/scope metrics", "both review simplification/usability artifacts", "current migration/packets/RODs/proof/product gates", "state/workflow counts"]
+    accepted_findings: ["one broker/store/separate provider-native verifier are proportionate", "15 packets are delivery partitions not product components", "Projects/early doctor/full store/signed evidence remain", "five value milestones and claim-scoped optional features"]
+    rejected_or_narrowed_findings: ["12 mechanism questions are operator decisions", "live secondary provider required for core", "RP-14 may edit proof sources", "30-day clock starts at tail", "component existence proves material improvement", "all state/workflows retained by default"]
+    unresolved_questions: ["empirical completion/speed/recovery outcome", "whether workflow <=12 target needs evidence-led adjustment", "provider-session/IPC feasibility"]
+    material_effect: "Reduced RODs to six, recorded engineering defaults, strengthened completion/speed/recovery/state/workflow/surface/administration gates, and enforced proof-only RP-14."
+final_quality_challenge:
+  agent: "/root/isolation_publication_challenge"
+  discipline: "audit-migration final-package self-challenge"
+  status: "passed_after_corrections"
+  assignment: "Independently test completeness, internal consistency, decision/proof/workgroup/packet alignment, source containment, solo burden claims, prohibited architecture, and verdict support."
+  inspected_paths: ["current reconciliation package", "three explicitly bound input indexes and decision references", "Git status and baseline metadata"]
+  accepted_findings: ["terminal metadata and integrity closeout were incomplete", "SI-03 initially bypassed frozen authority semantics", "universal exactly-once wording contradicted the accepted unknown/manual-intervention model", "RF-028..RF-033 initially lacked owning-packet blocker traceability"]
+  rejected_or_narrowed_findings: ["FD-023 packet mismatch: narrowed to an intentional RP-11 implementation/RP-14 independent-promotion split and made explicit", "RF-020 is a positive readiness finding and must not block a packet"]
+  unresolved_questions: []
+  material_effect: "Corrected safe-state ordering, recovery wording, FD-023 ownership, finding-to-packet mapping, terminal metadata, command provenance, and integrity closeout without changing the verdict."
+summary:
+  required_roles: 8
+  completed_roles: 8
+  distinct_agents: 3
+  no_subagent_writes: true
+  unresolved_items_routed_to: "reconciliation/unresolved-evidence.yml and remaining-operator-decisions.yml"

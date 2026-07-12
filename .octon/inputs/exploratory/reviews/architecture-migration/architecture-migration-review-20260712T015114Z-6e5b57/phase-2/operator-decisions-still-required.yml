@@ -1,0 +1,57 @@
+schema_version: "octon-migration-operator-decisions-v1"
+decisions:
+  - decision_id: "OD-001"
+    question: "Which least-privilege provider credential should the broker use first?"
+    options:
+      - "Dedicated GitHub App installation token with exact repository permissions"
+      - "Narrow fine-grained token as a time-bounded bootstrap"
+    recommendation: "Use a dedicated GitHub App when feasible; permit a fine-grained token only as an explicit expiring bootstrap."
+    blocking_for: ["WG-04", "WG-05", "WG-08"]
+    blocks_program_creation: false
+    evidence_needed: "Provider permission and rotation feasibility test."
+  - decision_id: "OD-002"
+    question: "Where should broker and verifier signing keys be enrolled and backed up?"
+    options:
+      - "macOS Keychain identities with encrypted operator recovery export"
+      - "Hardware-backed key where available, with Keychain development fallback"
+    recommendation: "Keychain-first for the solo baseline; design key identifiers and rotation so hardware backing can be added without semantic change."
+    blocking_for: ["WG-07", "WG-09"]
+    blocks_program_creation: false
+    evidence_needed: "Enrollment, non-exportability posture, rotation, loss, and recovery test."
+  - decision_id: "OD-003"
+    question: "What exact paths and semantic changes constitute the trust root?"
+    options:
+      - "Minimal registry of authority, broker, verifier, activation, rollback, signer, and support-claim enforcement surfaces"
+      - "Broader all-governance-path classification"
+    recommendation: "Adopt the minimal physical/semantic registry with deny-by-default classification for unknown authority-expanding changes."
+    blocking_for: ["WG-09"]
+    blocks_program_creation: false
+    evidence_needed: "Path and semantic-effect inventory with malicious reclassification tests."
+  - decision_id: "OD-004"
+    question: "Should the optional protected GitHub effect worker be in the first proof of architecture?"
+    options:
+      - "Defer until local brokered Git publication is proven"
+      - "Prototype in parallel but keep disabled"
+    recommendation: "Defer it from the minimum proof; an observation-only prototype may run in parallel."
+    blocking_for: ["optional remote worker packet"]
+    blocks_program_creation: false
+    evidence_needed: "Demonstrated need that outweighs second-plane and maintenance risk."
+  - decision_id: "OD-005"
+    question: "What bounded evidence windows and quotas satisfy the operator's recovery needs?"
+    options:
+      - "Short hot raw window plus signed terminal checkpoints and protected pins"
+      - "Longer local raw retention with a hard byte/inode cap"
+    recommendation: "Start with a short hot window and measured quotas; tune only from dogfood volume."
+    blocking_for: ["WG-07", "WG-13"]
+    blocks_program_creation: false
+    evidence_needed: "Overnight workload volume, recovery, compaction, and disk-pressure measurements."
+  - decision_id: "OD-006"
+    question: "Which advanced CLI domains remain installed but hidden versus deferred from the solo baseline?"
+    options:
+      - "Hide behind one operator namespace or feature flag"
+      - "Remove from the first supported distribution"
+    recommendation: "Hide mature reusable internals; exclude unsupported federation/stewardship operations from the first supported envelope."
+    blocking_for: ["WG-12", "WG-13"]
+    blocks_program_creation: false
+    evidence_needed: "Usage inventory and dependency map."
+

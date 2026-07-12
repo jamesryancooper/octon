@@ -1,0 +1,24 @@
+flowchart TD
+    U["Operator or autonomous intent"] --> K["Kernel and lifecycle request"]
+    K --> AE["authority_engine authorize_execution"]
+    AE --> TE["Typed effects and file token records"]
+    K --> LA["Lifecycle-local authorization"]
+    LA --> DP["Self-produced DelegationProof"]
+    DP --> LX["Lifecycle adapter"]
+    LX --> CX["Codex in canonical checkout"]
+    LX --> CL["Claude in canonical checkout"]
+    LX --> WF["Workflow leaf"]
+    CX --> FS["Shared repo, Git state, HOME and environment"]
+    CL --> FS
+    WF --> FS
+    TE --> SOME["Selected kernel effects"]
+    SOME --> FILES["File journals, receipts and manifests"]
+    FS --> SHELL["Repository shell and Git scripts"]
+    SHELL --> GH["GitHub provider effects"]
+    PR["pull_request_target workflow"] --> HEAD["Checkout candidate head"]
+    HEAD --> PRIV["Candidate script with write token"]
+    PRIV --> GH
+    GH --> RULE["Active default-branch ruleset"]
+    RULE --> CHECKS["Four required candidate-controlled checks"]
+    CHECKS --> GH
+

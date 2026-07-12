@@ -1,0 +1,101 @@
+schema_version: "octon-recommended-workgroup-sequence-v1"
+sequence:
+  - workgroup: "WG-00"
+    wave: 0
+    dependencies: []
+    entry: "Reviewed baseline and live provider lane bound."
+    exit: "Privileged candidate writes/direct-main disabled; claims corrected; writers/launches inventoried."
+    rollback: "Manual/protected PR."
+    proof: "No candidate token execution; overstatement fixtures deny."
+  - workgroup: "WG-01"
+    wave: 1
+    dependencies: ["WG-00"]
+    entry: "Exact resource and launch contracts."
+    exit: "One issuer; every launch guard; scope fixed."
+    rollback: "Disable affected executor."
+    proof: "Negative authority, spawn dominance, concurrent consume."
+  - workgroup: "WG-02"
+    wave: 1
+    dependencies: ["WG-00"]
+    entry: "macOS isolation and disposable Git design."
+    exit: "Useful credentialless Codex/Claude path."
+    rollback: "Preserve isolated candidate; disable executor."
+    proof: "Escape and cleanup matrix."
+  - workgroup: "WG-03"
+    wave: 1
+    dependencies: ["WG-00"]
+    entry: "Writer inventory and migration/backup plan."
+    exit: "SQLite single writer; legacy projections only."
+    rollback: "Pre-effect restore or post-effect forward repair."
+    proof: "Race/kill/corruption/restore/full-disk."
+  - workgroup: "WG-04"
+    wave: 2
+    dependencies: ["WG-01", "WG-02", "WG-03"]
+    entry: "Broker IPC/credential decision."
+    exit: "Broker-only credentials and one exact effect."
+    rollback: "Disable effects; retain store/candidate."
+    proof: "Credential denial, revocation, idempotency, restart."
+  - workgroup: "WG-05"
+    wave: 3
+    dependencies: ["WG-04"]
+    entry: "Git allowlist and target CAS policy."
+    exit: "Sanitized exact fast-forward adapter."
+    rollback: "Manual protected PR."
+    proof: "Hostile Git and target-race suite."
+  - workgroup: "WG-06"
+    wave: 3
+    dependencies: ["WG-01", "WG-03", "WG-05"]
+    entry: "Verifier signer/identity and route predicates."
+    exit: "Candidate-immutable exact verdict and deterministic PR escalation."
+    rollback: "Block publication; no unsigned fallback."
+    proof: "Self-modification, duplicate contexts, expiry."
+  - workgroup: "WG-07"
+    wave: 4
+    dependencies: ["WG-03", "WG-04", "WG-06"]
+    entry: "Signer/retention policy and fault model."
+    exit: "Signed direct results, recovery, compaction, degraded mode."
+    rollback: "Retain raw; stop privileged admission."
+    proof: "Fault/rechain/snapshot/missing-result/low-space."
+  - workgroup: "WG-08"
+    wave: 5
+    dependencies: ["WG-06", "WG-07"]
+    entry: "No-PR disabled and exact contracts stable."
+    exit: "Verified adaptive Class B, PR escalation, no direct-main."
+    rollback: "PR-only."
+    proof: "End-to-end race/replay/revocation/crash/unknown."
+  - workgroup: "WG-09"
+    wave: 6
+    dependencies: ["WG-06", "WG-07", "WG-08"]
+    entry: "Trust inventory and rollback decision."
+    exit: "Inert exact versions, previous verifier, staged activation/rollback."
+    rollback: "Previous immutable version."
+    proof: "Self-widening and all-transition fault suite."
+  - workgroup: "WG-10"
+    wave: 2
+    dependencies: ["WG-01"]
+    entry: "Project identity/profile migration."
+    exit: "Minimal multi-project non-authority."
+    rollback: "Disable record; retain profile."
+    proof: "Two-project, relocation, no authority widening."
+  - workgroup: "WG-11"
+    wave: 3
+    dependencies: ["WG-02", "WG-10"]
+    entry: "Compiler input/boundary fixed."
+    exit: "Deterministic digest-bound launch manifest."
+    rollback: "Legacy input adapter cannot bypass compiler."
+    proof: "Determinism and stale/self-widened denial."
+  - workgroup: "WG-12"
+    wave: 5
+    dependencies: ["WG-07", "WG-11"]
+    entry: "Catalog signer, child bounds, UX budgets."
+    exit: "Signed catalog, bounded children, setup/doctor/repair/inbox."
+    rollback: "Previous generation; preserve project."
+    proof: "Supply-chain/delegation/timed dogfood."
+  - workgroup: "WG-13"
+    wave: 7
+    dependencies: ["WG-08", "WG-09", "WG-12"]
+    entry: "Exact proof map and independent reproduction."
+    exit: "Fresh promoted claims and canonical architecture handoff."
+    rollback: "Demote claim; keep research non-authoritative."
+    proof: "Claim completeness, expiry withdrawal, promotion integrity."
+

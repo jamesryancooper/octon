@@ -1,0 +1,116 @@
+schema_version: octon-review-operator-decisions-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: non-authoritative
+note: >-
+  Decisions only the operator can make; each blocks or shapes a specific packet.
+  The review recommends a default where one is clearly lower-risk, but does not
+  decide. These correspond to intake unresolved_implementation_details plus new
+  ones surfaced by Phase 1 evidence.
+decisions:
+  - id: OD-01
+    question: Evidence integrity — implement real signing (A) or reword to git-anchored (B)?
+    context: >-
+      No signing exists (E-01/E-02/E-03). FD-014 as written says "signed". Option A
+      (ed25519/HMAC over checkpoints, verified not recomputed) delivers real
+      non-repudiation but adds key custody/rotation/backup burden. Option B (reword
+      to "hash-chained + git-anchored", identity-verifying quorum) is honest, lower
+      burden, and matches the true property (git history is the tamper-evidence).
+    recommendation: >-
+      B for the solo vertical (lowest necessary complexity; the true property is
+      git-anchoring), with A available as an opt-in later if a production trust claim
+      demands non-repudiation. Either way PP-00 must reword overstated claims now.
+    blocks: PP-00, PP-07
+    decisions_touched: [FD-014]
+  - id: OD-02
+    question: Multi-project model — many .octon roots (one per repo) or one operator workspace registry?
+    context: >-
+      No Workspace Project identity exists; only a singleton per-repo Profile
+      (G-01, H-06). FD-024 requires "multiple projects". The two models have very
+      different UX and identity surfaces.
+    recommendation: >-
+      One .octon per repo + a lightweight operator-level index (minimal
+      workspace-project-v1 record, never authority). Avoids a portfolio ontology.
+    blocks: PP-09
+    decisions_touched: [FD-019, FD-024]
+  - id: OD-03
+    question: Optional GitHub effect worker — adopt a scoped App (FD-007) or mark the App clause out of scope?
+    context: >-
+      No App exists; provider writes use a broad AUTONOMY_PAT in a candidate-editable
+      pull_request_target workflow (C-004, J-07). The local broker can remain
+      authoritative without an App.
+    recommendation: >-
+      Adopt a least-privilege single-repo App OR drop the PAT-based auto-merge and
+      require base-ref eligibility; either closes J-07. If neither, explicitly mark
+      the FD-007 App clause out of scope and gate the PAT merge behind the immutable
+      verifier.
+    blocks: PP-06
+    decisions_touched: [FD-007]
+  - id: OD-04
+    question: macOS sandbox primitive — sandbox-exec (seatbelt) vs App Sandbox vs external tool?
+    context: >-
+      No isolation exists (B-04). The exact primitive and its supported restrictions
+      are an unresolved implementation detail (intake). sandbox-exec is deprecated
+      but functional; App Sandbox requires entitlements/signing.
+    recommendation: >-
+      Prototype with sandbox-exec profiles first (fastest path to the escape-denial
+      suite), evaluate App Sandbox for the shipped product. Operator to confirm
+      acceptable macOS version floor.
+    blocks: PP-02
+    decisions_touched: [FD-008]
+  - id: OD-05
+    question: Broker IPC + key-enrollment mechanism?
+    context: >-
+      No broker exists (B-02); secure local IPC and one-time key/credential
+      enrollment are unresolved (intake). Affects installation burden (FD-001).
+    recommendation: >-
+      Unix-domain socket with peer-credential checks + OS keychain for the broker's
+      credential custody; guided one-command enrollment. Operator to confirm the
+      keychain-backed model vs a broker-owned encrypted store.
+    blocks: PP-04
+    decisions_touched: [FD-006, FD-024]
+  - id: OD-06
+    question: Federation / Trust-Compact — gate off, keep for provider delegation, or remove?
+    context: >-
+      ~1.5k LOC multi-party trust machinery conflicts with solo scope (H-04). Some
+      pieces (attestation verify, proof export for self-dogfooding) may be useful.
+    recommendation: >-
+      Gate the multi-operator constructs (Trust Compacts, Federation ledger,
+      Delegated-authority Leases) behind an off-by-default feature for the solo
+      vertical; keep only single-operator-relevant pieces. Confirm which verbs are
+      load-bearing before any removal.
+    blocks: PP-12
+    decisions_touched: [FD-001]
+  - id: OD-07
+    question: FD-002 consequence-class binding — map onto ACP model or collapse the matrix?
+    context: >-
+      "Class A/B/C" collides with the retention taxonomy; ordinary commits route to
+      ACP-2/escalate/quorum (H-01, H-08). A solo profile must avoid routine prompts.
+    recommendation: >-
+      Map: reversible change on an isolated branch with independent exact-SHA
+      verification satisfies ACP-2 quorum via the verifier as the second party — zero
+      human prompts; keep ACP-3+/destructive on stronger routes. Rename the retention
+      taxonomy.
+    blocks: PP-12, PP-00 (rename)
+    decisions_touched: [FD-002]
+  - id: OD-08
+    question: Trust-root inventory + first-epoch bootstrap — what is the trust root and how is epoch 0 trusted?
+    context: >-
+      No trust-root inventory or bootstrap exists (F-018-1/2); intake lists both as
+      unresolved. FD-018 activation cannot be designed without naming the root.
+    recommendation: >-
+      Operator to ratify an explicit trust-root inventory (gate workflows,
+      constitution/charter, release signing key or out-of-tree verifier ref) and a
+      one-time human-anchored epoch-0 bootstrap; all later activation chains from it.
+    blocks: PP-08
+    decisions_touched: [FD-017, FD-018]
+  - id: OD-09
+    question: Which CI gates are load-bearing for the solo vertical (trim target)?
+    context: >-
+      42 workflows; many are UEC-closure/charter-audit/assurance-weight gates whose
+      value for a solo path is unclear (H-07). Trimming reduces maintenance burden.
+    recommendation: >-
+      Operator to confirm which gates map to a testable safety property in the solo
+      path; quarantine the rest behind self-dev/enterprise flags. Do not delete gates
+      that back a Phase-3 acceptance test.
+    blocks: PP-12
+    decisions_touched: [FD-001, FD-024]

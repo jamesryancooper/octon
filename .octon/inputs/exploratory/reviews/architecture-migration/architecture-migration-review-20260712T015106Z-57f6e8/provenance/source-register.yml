@@ -1,0 +1,33 @@
+schema_version: octon-review-source-register-v1
+sources:
+  - source_id: SRC-REPO
+    kind: repository
+    path: /Users/jamesryancooper/Projects/octon
+    commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+    trust: CURRENT_REPOSITORY_FACT when file cited at this commit
+  - source_id: SRC-INTAKE
+    kind: intake-unit
+    path: .octon/inputs/additive/.incoming/octon-architecture-and-migration-handoff-v2.0.0
+    version: 2.0.0
+    generated_at: "2026-07-11T23:53:27Z"
+    integrity: verified (94/94 sha256 OK)
+    trust: research-and-decision-input-only; non-authoritative; claims reverified
+  - source_id: SRC-PROVIDER
+    kind: provider-observation
+    provider: github.com
+    access: gh CLI read-only (account jamesryancooper)
+    trust: PROVIDER_OBSERVED at query time only
+  - source_id: SRC-COMMANDS
+    kind: executed-commands
+    log: evidence/command-log.jsonl
+    trust: DYNAMICALLY_EXECUTED where marked
+excluded_sources:
+  - path_glob: ".octon/inputs/exploratory/reviews/**"
+    exception: this review directory only
+    reason: independence requirement; sibling reviews must not contaminate
+  - note: >-
+      A persistent-memory note from a prior session mentioning an Octon
+      mediation gap was present in the reviewer environment. It was treated
+      as an untrusted hint only; every related conclusion in this review is
+      independently re-derived from current repository evidence at the
+      reviewed commit and cited as such.

@@ -1,0 +1,58 @@
+schema_version: "octon-support-claim-proof-map-v1"
+claims:
+  - claim_id: "SC-001"
+    claim: "authority_engine is the sole normal execution authority"
+    current_status: "NOT_PROVEN"
+    required_proof: ["Launch/effect physical inventory", "All missing/forged/stale/revoked/mismatch denials", "No lifecycle-local issuer"]
+    promotion_gate: "WG-01"
+  - claim_id: "SC-002"
+    claim: "every agent and child launch consumes one exact guard"
+    current_status: "NOT_PROVEN"
+    required_proof: ["Static spawn dominance", "Concurrent consume", "Duplicate issuance denial", "Crash-before/after-spawn recovery"]
+    promotion_gate: "WG-01/WG-03"
+  - claim_id: "SC-003"
+    claim: "candidate execution is credentialless and natively isolated"
+    current_status: "NOT_PROVEN"
+    required_proof: ["Codex and Claude escape matrices", "Independent Git-state denial", "Cleanup/restart"]
+    promotion_gate: "WG-02"
+  - claim_id: "SC-004"
+    claim: "consequential effects are broker-mediated and idempotent"
+    current_status: "NOT_PROVEN"
+    required_proof: ["Candidate raw-effect denial", "Broker credential custody", "All fault transitions", "Unknown reconciliation"]
+    promotion_gate: "WG-03/WG-04/WG-07"
+  - claim_id: "SC-005"
+    claim: "privileged Git is sanitized"
+    current_status: "NOT_PROVEN"
+    required_proof: ["Hostile hooks/helpers/includes/filters/drivers/fsmonitor/submodule/protocol suite"]
+    promotion_gate: "WG-05"
+  - claim_id: "SC-006"
+    claim: "Class B no-PR publication is exact and independently verified"
+    current_status: "NOT_PROVEN"
+    required_proof: ["Source/target CAS", "Immutable exact-SHA verifier", "Target race", "PR escalation", "Signed terminal receipts"]
+    promotion_gate: "WG-06/WG-08"
+  - claim_id: "SC-007"
+    claim: "evidence is authentic, complete within scope, and bounded"
+    current_status: "PARTIAL_HASH_INTEGRITY_ONLY"
+    required_proof: ["Direct-observer signatures", "Rechain/snapshot rejection", "Missing terminal denial", "Compaction/pins/low-space"]
+    promotion_gate: "WG-07"
+  - claim_id: "SC-008"
+    claim: "trust-root activation cannot self-certify and automatically rolls back"
+    current_status: "NOT_IMPLEMENTED"
+    required_proof: ["Previous-version verifier", "Exact inert version", "Self-gate attack", "Every activation kill point"]
+    promotion_gate: "WG-09"
+  - claim_id: "SC-009"
+    claim: "Workspace Projects and harnesses are deterministic non-authority"
+    current_status: "PARTIAL_PRIMITIVES"
+    required_proof: ["Multi-project/relocation", "Deterministic manifest", "Stale/self-widened denial", "No authority mint"]
+    promotion_gate: "WG-10/WG-11"
+  - claim_id: "SC-010"
+    claim: "extensions and mission children are signed, bounded, and credentialless"
+    current_status: "PARTIAL_PUBLICATION_ONLY"
+    required_proof: ["Tamper/revoke/pin/rollback", "Child scope/depth/budget/retirement", "Credential denial"]
+    promotion_gate: "WG-12"
+  - claim_id: "SC-011"
+    claim: "solo-builder support envelope meets burden targets"
+    current_status: "UNVERIFIED"
+    required_proof: ["Timed setup/onboarding", "Zero routine prompts", "30-day burden", "Recovery usability", "Concise output"]
+    promotion_gate: "WG-12/WG-13"
+

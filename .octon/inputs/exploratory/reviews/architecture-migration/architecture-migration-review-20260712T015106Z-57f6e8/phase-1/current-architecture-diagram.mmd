@@ -1,0 +1,58 @@
+%% Current Octon architecture (reviewed commit c5b1f5760c)
+%% Solid arrow = enforced/canonical path; dotted arrow = ungated/self-attested path
+flowchart TB
+    operator([Solo operator / CLI]) --> mission[Mission queue + decision requests]
+    mission --> kdriver[kernel: commands / workflow / pipeline]
+
+    subgraph canonical[Canonical authority plane — STRONG, kernel-only]
+        authexec[authority_engine::authorize_execution\nexecution.rs:2000]
+        verify[verify_authorized_effect\nsingle-use token\neffects.rs:210]
+        authexec --> verify
+    end
+
+    subgraph lifecycle[Lifecycle agent plane — SELF-ATTESTING, no authority_engine dep]
+        abd[authorize_before_dispatch\nself-written DelegationProof\nauthorization.rs:39]
+        spawn[build_executor_command -> spawn\ncodex.rs:416 / pipeline.rs:1856]
+        abd -.-> spawn
+    end
+
+    kdriver -->|kernel subprocess effects| authexec
+    verify -->|gates| keffects[kernel git / bash / studio subprocess]
+    kdriver -->|agent route dispatch| abd
+
+    spawn -.->|inherits ambient env: GITHUB_TOKEN, SSH, API keys| agent[Codex / Claude agent\n--cd repo_root, no OS sandbox]
+    agent -.->|writes canonical .git objects/refs| repo[(Canonical repo + .git)]
+    agent -.->|git push over inherited creds| origin[(GitHub origin)]
+
+    subgraph state[Runtime state — loose files, non-atomic]
+        yaml[.octon/state/**/*.yml + NDJSON journals]
+        hashchain[unkeyed SHA-256 hash chain\nno signing]
+    end
+    verify --> yaml
+    abd -.-> yaml
+    yaml --- hashchain
+
+    subgraph provider[GitHub provider boundary]
+        ruleset[main ruleset:\nno_fast_forward + linear_history\n+ 4 required checks]
+        checks[change-route-projection.yml\nCANDIDATE-EDITABLE required checks]
+        automerge[pr-auto-merge.yml\npull_request_target + AUTONOMY_PAT\nPR-head eligibility scripts]
+        ruleset --> checks
+    end
+    origin --> ruleset
+    automerge -.->|second credentialed CI plane| origin
+
+    subgraph strong[Compile-time strengths — PRESERVE]
+        factory[Deterministic Harness Factory\ndigest-bound route bundle\nruntime_resolver enforces]
+        adapters[Provider adapters:\nnon-authoritative, replaceable]
+        catalog[Extension catalog:\nprovenance, pin, quarantine, no marketplace]
+    end
+    factory --> kdriver
+    adapters --> agent
+    catalog --> factory
+
+    classDef strong fill:#d5f5e3,stroke:#1e8449;
+    classDef weak fill:#fdebd0,stroke:#ca6f1e;
+    classDef gap fill:#fadbd8,stroke:#c0392b;
+    class canonical,strong strong
+    class lifecycle,provider weak
+    class state gap

@@ -1,0 +1,131 @@
+schema_version: "octon-architect-cross-review-reverification-requests-v1"
+architect_label: "B"
+reviewer_status: "THIRD_PARTY_SUBSTITUTE"
+reviewer_note: >-
+  Original Architect B was unavailable. Requests below are narrowly scoped to
+  unresolved facts or required dynamic proof; none authorizes live provider mutation.
+requests:
+  - request_id: "B-RR-001"
+    question: "Can a candidate-controlled policy/runner or production override cause authorize_execution to emit Allow?"
+    why_it_matters: "Launch guards are not trustworthy if the authority decision they consume is candidate-substitutable."
+    minimum_command_or_test: >-
+      In an isolated fixture, mutate deny-by-default policy to allow-all, replace the
+      runner, set OCTON_POLICY_RUNNER_OVERRIDE, set OCTON_POLICY_MODE_OVERRIDE=shadow,
+      and set the stale-bundle bypass without a signed exception; invoke authorization.
+    required_baseline: "Exact reconciled commit in a disposable repository with no real credentials or provider target."
+    expected_evidence: "Every case denies; selected evaluator/policy digests resolve to a previous-version or out-of-tree trusted pin."
+    decision_blocked: ["FD-003", "FD-017", "FD-018"]
+    workgroup_blocked: ["WG-01", "WG-09"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+
+  - request_id: "B-RR-002"
+    question: "Does canonical typed scope matching reject parent, sibling-prefix, normalized, symlink, case, URI, and non-path widening?"
+    why_it_matters: "An authentic token must not authorize a resource outside its exact envelope."
+    minimum_command_or_test: "Add table-driven negative tests around scope_matches and every typed effect resource parser."
+    required_baseline: "Post-WG-01 candidate implementation at an exact commit."
+    expected_evidence: "Only exact identity or an explicitly allowed boundary-aware descendant relation succeeds."
+    decision_blocked: ["FD-003", "FD-004", "FD-009", "FD-015"]
+    workgroup_blocked: ["WG-01"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+
+  - request_id: "B-RR-003"
+    question: "Can every supported launcher run useful model work with no durable credential or host state visible?"
+    why_it_matters: "Fresh HOME and env_clear are incomplete unless Codex/Claude can authenticate usefully without exportable secrets."
+    minimum_command_or_test: >-
+      Run representative Codex, Claude, workflow, pipeline, and child tasks in the
+      candidate boundary; probe environment, keychain, SSH/GH/tool state, parent FDs,
+      filesystem, network, process namespace, and canonical Git objects/refs/config.
+    required_baseline: "Clean macOS host fixture with sentinel credentials and a disposable independent Git repository."
+    expected_evidence: "Useful task passes; every durable/provider credential and canonical Git probe fails."
+    decision_blocked: ["FD-006", "FD-008", "FD-022", "FD-024"]
+    workgroup_blocked: ["WG-02", "WG-04"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+
+  - request_id: "B-RR-004"
+    question: "Does one SQLite/WAL operation transaction prevent double consume, torn state, lost evidence capacity, and resurrected authority?"
+    why_it_matters: "Sequential unit tests do not prove concurrent or crash-safe authority."
+    minimum_command_or_test: >-
+      Run N-way concurrent guard/effect consumption and inject process termination at
+      every reservation, consume, attempt, outbox, result, reconciliation, revocation,
+      and terminal-commit boundary; repeat with ENOSPC and backup/restore.
+    required_baseline: "Post-WG-03 implementation in an isolated database and scratch effect adapter."
+    expected_evidence: "At most one attempt performs; every restart converges to one valid terminal state with reserved terminal evidence."
+    decision_blocked: ["FD-004", "FD-005", "FD-012", "FD-013", "FD-014"]
+    workgroup_blocked: ["WG-03", "WG-04", "WG-07", "WG-08"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+
+  - request_id: "B-RR-005"
+    question: "Can hostile Git extension points execute under the broker identity?"
+    why_it_matters: "A broker that invokes ambient repository/system Git remains a privilege-escalation path."
+    minimum_command_or_test: >-
+      Build fixtures for hooks, include/includeIf, credential.helper, sshCommand,
+      filters, clean/smudge, diff/textconv, fsmonitor, aliases, pager/editor, gpg,
+      insteadOf, protocols, submodules, alternates, and executable transport helpers;
+      perform the exact allowed fast-forward update.
+    required_baseline: "Post-WG-05 broker adapter using a scratch local/remote repository."
+    expected_evidence: "No sentinel executes; the exact authorized update succeeds with isolated configuration and allowlisted transport."
+    decision_blocked: ["FD-006", "FD-009", "FD-010", "FD-015"]
+    workgroup_blocked: ["WG-05", "WG-08"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+
+  - request_id: "B-RR-006"
+    question: "Can candidate changes or duplicate/conflicting check contexts produce an accepted exact-SHA verifier verdict?"
+    why_it_matters: "Provider ruleset strictness is insufficient if candidate code or an ambiguous context can author its own verdict."
+    minimum_command_or_test: >-
+      In a scratch provider repository, modify verifier workflow/code, generate
+      duplicate context names from different event/workflow identities, advance target
+      between authorization and publication, and replay an expired verdict.
+    required_baseline: "Post-WG-06 immutable verifier design in a non-production repository with no production secrets."
+    expected_evidence: "All attacks deny; accepted verdict binds verifier identity/version, repository, source SHA, target pre-SHA, policy, time, and expiry."
+    decision_blocked: ["FD-007", "FD-010", "FD-011", "FD-012"]
+    workgroup_blocked: ["WG-06", "WG-08"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+
+  - request_id: "B-RR-007"
+    question: "Does the Harness Factory compile the complete accepted input set deterministically and bind the exact digest into launch authority?"
+    why_it_matters: "The current route bundle is narrower than FD-020 and cannot by itself prove stale/self-widened task configuration denial."
+    minimum_command_or_test: >-
+      Compile two identical project/mission/Run Contract/policy/extension/context/model/tool/validation/evidence/rollback inputs; compare bytes and digest; mutate each input separately and attempt launch using the stale digest.
+    required_baseline: "Post-WG-10/WG-11 implementation with two Workspace Projects."
+    expected_evidence: "Identical inputs are byte-identical; every mutation changes digest and stale/self-widened launch denies."
+    decision_blocked: ["FD-019", "FD-020", "FD-024"]
+    workgroup_blocked: ["WG-10", "WG-11", "WG-12"]
+    evidence_target: "DYNAMICALLY_EXECUTED"
+
+  - request_id: "B-RR-008"
+    question: "Do signed direct-observer evidence and checkpoints detect forgery, rechain, old-snapshot rollback, and unsafe compaction?"
+    why_it_matters: "Hash linking alone does not prove producer identity or monotonic history."
+    minimum_command_or_test: >-
+      Forge producer identity, sign with a wrong/revoked key, rewrite and rechain raw
+      events, restore an older valid snapshot, compact after a checkpoint, and remove a pinned artifact.
+    required_baseline: "Post-WG-07 signer/checkpoint/retention implementation in a disposable store."
+    expected_evidence: "Every forgery/rollback denies; verified compaction retains sufficient proof and never deletes pins."
+    decision_blocked: ["FD-013", "FD-014", "FD-015"]
+    workgroup_blocked: ["WG-07", "WG-08", "WG-13"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+
+  - request_id: "B-RR-009"
+    question: "Does trust-root activation always end at old healthy, exact new healthy, or automatic verified rollback?"
+    why_it_matters: "Current inert promotion is not an activation state machine and same-change self-certification must remain impossible."
+    minimum_command_or_test: >-
+      Attempt self-modification of verifier/activator/rollback/signer/inventory rules
+      and inject failure before verification, during staging/swap, during health
+      window, before receipt, and during rollback.
+    required_baseline: "Post-WG-09 previous-version verifier and immutable version fixtures."
+    expected_evidence: "Self-widening always denies; every fault reaches exactly one safe terminal state with authenticated receipts."
+    decision_blocked: ["FD-017", "FD-018"]
+    workgroup_blocked: ["WG-09", "WG-13"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+
+  - request_id: "B-RR-010"
+    question: "Does the complete solo-builder path meet setup, prompt, recovery, evidence-volume, and maintenance budgets?"
+    why_it_matters: "Architectural conformance can still fail the governing solo-developer objective."
+    minimum_command_or_test: >-
+      Fresh-machine setup and project onboarding; 20 routine Class A/B missions;
+      broker kill/restart; target race; provider outage; two-project continuation;
+      30-day dogfood with operator-time, workflow, file/inode, and prompt measurement.
+    required_baseline: "Post-WG-12 release candidate on the supported macOS/GitHub/Codex path."
+    expected_evidence: "Setup <=15m, onboarding <=5m, routine prompts zero, work preserved, raw evidence outside project Git, monthly administration <=15m."
+    decision_blocked: ["FD-001", "FD-002", "FD-016", "FD-019", "FD-024"]
+    workgroup_blocked: ["WG-12", "WG-13"]
+    evidence_target: "DYNAMICALLY_EXECUTED"

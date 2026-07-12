@@ -1,0 +1,2328 @@
+schema_version: octon-review-current-finding-register-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: research-and-decision-input-only; non-authoritative
+note: Findings produced by Phase 1 subagents A-J, corroborated by the primary architect. Line ranges are
+  @c5b1f5760c78ff521cca6b054e4e8fef5300505b.
+findings:
+- finding_id: A-01-LIFECYCLE-SECOND-AUTHORITY-PLANE
+  subagent: SUBAGENT A
+  claim: The lifecycle route executor makes its OWN authorization decision by self-constructing a DelegationProof
+    and never consumes a canonical GrantBundle from authority_engine::authorize_execution. lifecycle_executor
+    does not even depend on authority_engine (absent from its Cargo.toml). adapter.rs::execute_route calls
+    authorization::authorize_before_dispatch (authorization.rs:39), which in build_and_write_proof (authorization.rs:57-151)
+    validates a route-supplied delegation_contract and a caller-supplied request.policy.invocation_authority
+    map, then writes its own DelegationProof (struct at authorization.rs:16-37, self-constructed invocation_authority
+    BTreeMap at 85-96). This is a second, self-attesting authority plane competing with authorize_execution.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:16-151
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs:94-147
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/Cargo.toml
+  symbol_refs:
+  - authorize_before_dispatch
+  - build_and_write_proof
+  - DelegationProof
+  - authorize_execution
+  - GrantBundle
+  consequence: There are two divergent sources of execution authority. Agent-route dispatch (the path
+    that spawns Claude/Codex) is authorized by a proof the executor writes about itself from caller-supplied
+    invocation_authority, not by the canonical authority_engine grant. A caller controlling the LifecycleRouteExecutionRequest
+    (route.delegation_contract + policy.invocation_authority) can satisfy the executor's own gate without
+    any authority_engine ALLOW decision, defeating FD-003's single-source guarantee for the highest-consequence
+    effect (process creation of an autonomous agent).
+  minimum_repair: 'Make lifecycle route dispatch consume a canonical grant: have the kernel lifecycle
+    driver call authority_engine::authorize_execution for the route and pass the resulting GrantBundle
+    (or a verified ExecutorLaunch token) into the adapter; have authorize_before_dispatch verify that
+    canonical grant instead of (or in addition to) building its own DelegationProof from caller-supplied
+    invocation_authority.'
+  acceptance_test: Construct a LifecycleRouteExecutionRequest with a valid delegation_contract and invocation_authority.mode='unattended'
+    but with NO corresponding authority_engine grant/ExecutorLaunch token on disk; assert execute_route
+    refuses to spawn (returns authorization-proof-failed) rather than proceeding to run_with_timeout/spawn.
+  affected_final_decisions:
+  - FD-003
+  - FD-004
+- finding_id: A-02-AGENT-SPAWN-NO-ONESHOT-GUARD
+  subagent: SUBAGENT A
+  claim: 'No exact one-shot invocation guard is consumed immediately before agent/child-agent process
+    creation. The real Claude/Codex spawn happens at codex.rs:254 (command.spawn()) inside run_with_timeout,
+    reached via execute_agent (codex.rs:76) -> execute_real (adapter.rs:382-407). execute_agent contains
+    no call to verify_authorized_effect, issue_executor_launch_effect, or any grant consumption (confirmed
+    by grep of the whole crate: only string literal reference exists). The kernel driver that reaches
+    this spawn (lifecycle_driver.rs execute_route at line 116; lifecycle.rs; lifecycle_program.rs) contains
+    ZERO references to authorize_execution / verify_authorized_effect / issue_executor_launch_effect /
+    ExecutorLaunch / VerifiedEffect. The one-shot ExecutorLaunch token (single_use=true, issue_executor_launch_effect
+    effects.rs:165-171; consumption marks record.status=''consumed'' at effects.rs:564-574,649-658) is
+    issued+verified at exactly ONE non-test site: kernel/src/commands/mod.rs:735-745, which gates the
+    ''octon studio'' cargo process (action_type ''launch_executor'', commands/mod.rs:688), NOT an AI agent.
+    Even the pipeline agent spawn (pipeline.rs:1856 run_with_stdin) is not immediately preceded by an
+    issued+verified ExecutorLaunch token; build_executor_command (policy.rs:36) merely constructs a Command
+    from a profile.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:76-140
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:240-256
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_driver.rs:116
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:735-757
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:165-171
+  - .octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1846-1866
+  symbol_refs:
+  - run_with_timeout
+  - execute_agent
+  - issue_executor_launch_effect
+  - verify_authorized_effect
+  - ExecutorLaunch
+  - run_with_stdin
+  consequence: FD-004's core obligation (every agent AND child-agent launch consumes an exact one-shot
+    invocation guard immediately before process creation) is unmet for the actual agent-execution paths.
+    Process creation of autonomous Claude/Codex agents occurs with no reservation, no single-use consumption,
+    no expiry/revocation check bound to the launch event itself. A replayed or duplicated dispatch can
+    spawn agents repeatedly; a revoked grant does not stop the spawn because the spawn never checks a
+    token. The only launch guarded by the one-shot ExecutorLaunch primitive is the studio dev process.
+  minimum_repair: Immediately before each agent/child-agent spawn (codex.rs run_with_timeout and pipeline.rs
+    run_with_stdin), issue an ExecutorLaunch effect from the active canonical grant and call verify_authorized_effect
+    (single_use) with the spawn target scope; abort the spawn on any rejection. Wire the canonical grant
+    through the lifecycle driver so this token exists.
+  acceptance_test: 'Add a test where an ExecutorLaunch token record is pre-marked status=''consumed''
+    (or expired/revoked) for the run; assert the agent spawn path returns an authorization error and never
+    calls Command::spawn. Second test: two dispatches of the same run_id must not both spawn (second is
+    EFFECT_TOKEN_ALREADY_CONSUMED).'
+  affected_final_decisions:
+  - FD-004
+  - FD-003
+- finding_id: A-03-CHILD-AGENTS-NOT-CREDENTIALLESS
+  subagent: SUBAGENT A
+  claim: Child/executor agents are spawned inheriting the full parent process environment; no .env_clear()
+    is applied on any agent spawn path. build_executor_command (codex.rs:416-452) constructs Command::new(executor_bin)
+    and only adds args + configure_process_group; it never clears or scrubs the environment. Grep for
+    env_clear across lifecycle_executor and the kernel lifecycle/workflow/pipeline spawn paths returns
+    none; the only .env() calls set OCTON_* flags additively (e.g. workflow_leaf.rs:438, lifecycle_program.rs:9652,21909-21912).
+    The pipeline agent spawn (run_with_stdin, pipeline.rs:1846-1866) likewise never clears env.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:416-452
+  - .octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1846-1866
+  symbol_refs:
+  - build_executor_command
+  - configure_process_group
+  - run_with_stdin
+  consequence: 'FD-022''s required proof ''children cannot gain credentials'' is contradicted: any credential
+    present in the parent runtime environment (provider API keys, tokens) is inherited by the spawned
+    Claude/Codex child by default. Agents are not credentialless, undermining the credentialless-agent
+    + separate-broker model.'
+  minimum_repair: Apply Command::env_clear() on every agent/child-agent spawn and inject only an explicit
+    allowlist of non-credential env vars (OCTON_* run context, PATH); route any durable credential use
+    through a separate broker rather than inherited env.
+  acceptance_test: Set a sentinel secret env var (e.g. FAKE_PROVIDER_KEY) in the kernel process, spawn
+    an executor via the lifecycle path, and assert the child's environment does not contain FAKE_PROVIDER_KEY.
+  affected_final_decisions:
+  - FD-022
+- finding_id: A-04-NO-DELEGATION-DEPTH-BOUND
+  subagent: SUBAGENT A
+  claim: No semantic delegation-depth guard exists anywhere in the runtime. Grep for delegation_depth/invocation_depth/agent_depth/max_delegation/spawn_depth/nesting_depth/child_depth
+    across the crates and framework returns nothing. The 'depth' occurrences found are filesystem-traversal
+    recursion limits (lifecycle.rs:2531-2542 postmortem file collection; lifecycle_program.rs:6444-6453
+    evidence collection; token_budget.rs:225-226 min_depth/max_depth are a budget ladder, not delegation
+    depth). max_child_concurrency (lifecycle.rs:181, lifecycle_program.rs) bounds PARALLELISM, not delegation
+    nesting depth.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs:2531-2542
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/token_budget.rs:225-226
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs:181
+  symbol_refs:
+  - max_child_concurrency
+  - max_depth
+  consequence: FD-022's required proof 'children cannot exceed delegation depth' has no enforcement primitive.
+    A child agent could in principle drive further lifecycle runs that spawn further agents without any
+    bound on nesting depth, only a per-run step budget and concurrency cap.
+  minimum_repair: 'Introduce a delegation-depth counter threaded through the ExecutionRequest/LifecycleRouteExecutionRequest
+    (parent_run_ref chain), enforced in authorize_execution and at spawn: deny when depth exceeds a configured
+    maximum.'
+  acceptance_test: Configure max delegation depth = N; drive a chain of nested lifecycle dispatches and
+    assert the (N+1)th nested spawn is denied with a depth-exceeded reason code.
+  affected_final_decisions:
+  - FD-022
+- finding_id: A-05-CHILD-SCOPE-NOT-NARROWED-BY-GUARD
+  subagent: SUBAGENT A
+  claim: For agent routes, the effective write scope is derived and retained by the same self-attesting
+    plane (authorization.rs declared_write_scope at 517-537 + authorized_promotion_targets at 542-613)
+    and is NOT enforced by a consumed canonical grant scope envelope at spawn. The scope envelope enforcement
+    (scope_matches, effects.rs:451-466) only runs inside verify_authorized_effect, which the agent spawn
+    path never invokes (see A-02). The child agent inherits the parent repo_root as current_dir (codex.rs:449
+    current_dir(repo_root)) and codex is launched with --sandbox workspace-write over the whole repo plus
+    additional --add-dir workspace dirs (codex.rs:424-437).
+  status: ARCHITECTURAL_INFERENCE
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:517-613
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:424-449
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:451-466
+  symbol_refs:
+  - declared_write_scope
+  - authorized_promotion_targets
+  - scope_matches
+  - codex_workspace_add_dirs
+  consequence: 'FD-022''s ''children cannot widen scope'' is only advisory for agent routes: the declared
+    write scope is recorded in a self-written proof, not enforced by a canonical single-use guard whose
+    scope envelope gates the spawn. The codex sandbox is workspace-write over repo_root, so the OS-level
+    boundary is the whole repo, not a narrowed child scope.'
+  minimum_repair: Bind the spawn to a verified ExecutorLaunch token whose scope envelope is the narrowed
+    child write set, and set the executor sandbox/current_dir/add-dir to that narrowed scope rather than
+    repo_root.
+  acceptance_test: Issue an ExecutorLaunch token scoped to a subdirectory; assert the spawned executor
+    is confined to that subdirectory (add-dir/sandbox root equals the token scope) and a write outside
+    it is blocked.
+  affected_final_decisions:
+  - FD-022
+- finding_id: A-06-NO-FOUR-ROLE-TCB-NO-WRITER-ENUMERATION
+  subagent: SUBAGENT A
+  claim: The constitutional role model (roles.yml) is a three-class model (human / harness / model with
+    subroles), not the FD-015 four-role TCB model (authorize / perform / verify-attest / activate-recover).
+    The only 'four roles' in the framework are cognition/coordination roles (Orchestrator/Implementer/Archivist/Verifier)
+    declared as HAS SHOULD in the artifact-surface technical-specification (line 688), which are documentation
+    agents, not a TCB accounting. No artifact enumerates every physical writer as a TCB accounting (grep
+    for 'physical writer'/'durable writer'/writer registry in framework+instance returns only a build-cache
+    header under target/).
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/constitution/ownership/roles.yml:1-95
+  - .octon/framework/cognition/_meta/architecture/artifact-surface/technical-specification.md:685-705
+  symbol_refs:
+  - role_classes
+  - harness
+  - authority_engine
+  - validator_plane
+  consequence: FD-015's 'four understandable roles ... list every physical writer' is not represented
+    as a canonical TCB model. The authorize role (authority_engine) and verify role (validator_plane)
+    are present in substance, but 'perform' and 'activate/recover' are not distinguished as TCB roles,
+    and no enumerated physical-writer list exists to support the 'change cannot approve/activate itself'
+    proof obligation.
+  minimum_repair: Add a constitutional TCB artifact mapping the four roles (authorize=authority_engine,
+    perform=the effect-consuming writers, verify/attest=validator_plane/effect verifier, activate/recover=trust-root
+    activation + rollback) and enumerate every physical writer (kernel command paths, pipeline stages,
+    lifecycle executor, studio) with its role and gate.
+  acceptance_test: A governance check parses the TCB artifact, confirms all four roles are present, and
+    asserts every code path that performs a durable write is listed as a physical writer with a named
+    gate.
+  affected_final_decisions:
+  - FD-015
+- finding_id: A-07-AUTHORIZE-EXECUTION-GRANT-IS-CANONICAL-FOR-KERNEL-PATHS
+  subagent: SUBAGENT A
+  claim: 'For the kernel command / workflow / pipeline / service / studio paths, authorize_execution (execution.rs:2000)
+    IS the single canonical authority: it verifies runtime route bundle freshness (2013-2083), intent
+    binding (2085-2095), policy mode vs environment (2102-2147), executor profile + write scope preconditions
+    (2149-2178), context-evidence binding subordinate to authorize_execution (2209-2216, enforced at 514-519),
+    and returns a GrantBundle; downstream mutations consume single-use AuthorizedEffect tokens via verify_authorized_effect
+    (effects.rs:210-667) which enforces decision=Allow, id/route/scope/freshness/expiry/revocation/approval/exception/rollback/budget/egress
+    and single-use consumption. All non-test callers of authorize_execution are in kernel (commands/mod.rs,
+    stdio.rs, workflow.rs, pipeline.rs).'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:2000-2216
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:210-667
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:610-968
+  symbol_refs:
+  - authorize_execution
+  - verify_authorized_effect
+  - GrantBundle
+  - AuthorizedEffect
+  - single_use
+  consequence: FD-003 is genuinely satisfied for the kernel command/pipeline/service/studio surfaces and
+    the token verifier is a strong, reusable single-use guard primitive. The gap is confined to the lifecycle
+    route executor plane (A-01/A-02), so the fix is to extend the existing canonical primitive to the
+    agent-spawn path rather than build a new one.
+  minimum_repair: No change to this primitive; reuse it. Route the lifecycle agent-spawn path through
+    authorize_execution + verify_authorized_effect::<ExecutorLaunch> so the one existing canonical authority
+    governs agent launches too.
+  acceptance_test: Enumerate every process-creating call site (Command::spawn/status/output) in the runtime
+    and assert each consequential one is dominated by a prior verify_authorized_effect on the active grant.
+  affected_final_decisions:
+  - FD-003
+- finding_id: B-01
+  subagent: Subagent B
+  claim: The lifecycle executor spawns candidate work (codex/claude/auto) as a direct child process with
+    NO OS-level sandbox and NO environment scrubbing. build_executor_command uses Command::new(executor_bin)
+    with current_dir(repo_root) (the CANONICAL repo), never calls env_clear/env_remove, and only passes
+    flags to the executor CLI itself. For codex it passes the Codex CLI's own '--sandbox workspace-write';
+    for claude it passes only '-p --output-format text' with NO sandbox flag whatsoever. The child therefore
+    inherits the full parent environment (any GITHUB_TOKEN, GH_TOKEN, SSH_AUTH_SOCK, git credentials)
+    and runs against the canonical working tree.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:416-452
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:439-441
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:449
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:254-260
+  symbol_refs:
+  - build_executor_command
+  - execute_agent
+  - run_with_timeout
+  - configure_process_group
+  consequence: Any agent process launched by the lifecycle executor runs with full ambient credentials
+    and full canonical-repo write access mediated only by the third-party executor CLI's own sandbox (codex)
+    or by nothing at all (claude). A compromised or misbehaving prompt can read GITHUB_TOKEN/SSH keys
+    from the inherited env and reach network/filesystem outside any Octon-enforced envelope. This directly
+    contradicts FD-006 (agents credentialless) and FD-008 (native OS sandboxing).
+  minimum_repair: Before spawn, clear the environment (Command::env_clear) and re-inject only an explicit
+    allowlist that excludes all durable credentials; wrap the child in an OS sandbox (macOS sandbox-exec/App
+    Sandbox profile) enforced by the runtime rather than trusting the executor CLI's own flag; make the
+    claude path also apply a sandbox posture.
+  acceptance_test: A test that builds the executor command for both codex and claude and asserts (a) env
+    is cleared and only an allowlist without GITHUB_TOKEN/GH_TOKEN/SSH_AUTH_SOCK remains, and (b) the
+    spawned command is wrapped by a runtime-owned OS sandbox invocation; plus an adversarial test that
+    a child cannot read a sentinel secret env var set in the parent.
+  affected_final_decisions:
+  - FD-006
+  - FD-008
+  - FD-016
+- finding_id: B-02
+  subagent: Subagent B
+  claim: There is NO separate local deterministic broker process that holds durable credentials. The only
+    artifact named 'broker' in the repo is .octon/framework/capabilities/_ops/scripts/policy-grant-broker.sh,
+    which brokers capability GRANT RECORDS (JSON files with tools/write-scopes/TTL/provenance) via a policy
+    runner — it never holds, issues, or handles any durable credential (no GITHUB_TOKEN, SSH key, or secret).
+    No 'launch broker' or 'local effect broker' component exists in the Rust runtime source.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/capabilities/_ops/scripts/policy-grant-broker.sh:1-308
+  - .octon/framework/capabilities/_ops/overview.md:25
+  symbol_refs:
+  - cmd_create
+  - cmd_inspect
+  - cmd_renew
+  - cmd_revoke
+  - policy-grant-broker.sh
+  consequence: FD-006's core primitive — a single separate local deterministic broker that alone holds
+    durable credentials so agents/executors stay credentialless — does not exist. Durable credentials
+    remain wherever the host puts them (ambient env, gh keychain) and are inherited by every spawned agent.
+    The grant-broker only records authorization intent, so it provides no credential custody boundary.
+  minimum_repair: Introduce an actual credential-custody broker process (separate from the agent/executor
+    process) that holds durable credentials, and route all credentialed effects (git push, gh, deploy)
+    through typed broker operations that agents invoke without ever receiving the raw secret; keep the
+    policy-grant-broker as the authorization layer feeding it.
+  acceptance_test: 'Integration test: with all credential env vars unset in the agent/executor process,
+    a git-push or gh operation still succeeds because it is performed by the broker, and a test asserting
+    the executor child process never has any credential env var present.'
+  affected_final_decisions:
+  - FD-006
+  - FD-016
+- finding_id: B-03
+  subagent: Subagent B
+  claim: There is a SECOND executor spawn path in the kernel pipeline (authority_engine build_executor_command)
+    whose Codex invocation omits the '--sandbox' flag entirely and, when the executor profile has dangerous_flags_allowed=true,
+    adds '--full-auto' (codex) or '--permission-mode bypassPermissions' (claude). Like the lifecycle path
+    it uses current_dir(repo_root) and performs no env scrubbing. The 'release_candidate_preparation'
+    default profile has dangerous_flags_allowed=true.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:36-69
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:256-260
+  - .octon/framework/engine/runtime/crates/core/src/config.rs:120-130
+  - .octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1803-1856
+  symbol_refs:
+  - build_executor_command
+  - dangerous_flags_for
+  - ExecutorProfileConfig
+  - run_with_stdin
+  - ManagedExecutorKind
+  consequence: 'Two divergent executor spawn paths exist with inconsistent sandbox posture: the pipeline/authority_engine
+    path applies NO sandbox flag to codex at all (unlike the lifecycle path''s ''--sandbox workspace-write''),
+    and under a dangerous profile actively grants full-auto/bypassPermissions. Neither scrubs credentials.
+    This is a wider hole than the lifecycle path and further contradicts FD-008/FD-006. The inconsistency
+    also makes the effective isolation posture depend on which code path launched the agent.'
+  minimum_repair: Unify both spawn paths through a single sandbox-and-env-scrubbing wrapper; ensure the
+    authority_engine codex path also gets an enforced sandbox; gate dangerous_flags_allowed behind an
+    OS-enforced envelope so 'bypassPermissions' cannot also mean 'ambient credentials + canonical repo'.
+  acceptance_test: A test asserting both build_executor_command implementations (lifecycle_executor and
+    authority_engine) produce a command wrapped by the same runtime-owned sandbox and with a cleared/allowlisted
+    env, and that no code path can spawn an executor without that wrapper.
+  affected_final_decisions:
+  - FD-006
+  - FD-008
+- finding_id: B-04
+  subagent: Subagent B
+  claim: 'No OS-level sandbox or isolation primitive exists anywhere in the repository (excluding target/):
+    a repo-wide grep for sandbox-exec, seatbelt, unshare, chroot, nsjail, bubblewrap/bwrap, firejail,
+    seccomp, setrlimit, pledge, unveil returns ZERO matches. The only cfg(target_os) usage is in studio/src/app_state.rs
+    for clipboard and reveal-in-file-manager helpers (pbcopy/open, wl-copy/xdg-open, powershell/explorer),
+    not for candidate-work isolation. The string ''sandbox'' in runtime source is either a passed-through
+    Codex CLI flag or a replay-store comment (''sandbox replay keeps side effects isolated'').'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/studio/src/app_state.rs:1460-1563
+  - .octon/framework/engine/runtime/crates/replay_store/src/lib.rs:773
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:430-432
+  symbol_refs:
+  - configure_process_group
+  consequence: FD-008's 'macOS native sandboxing' is entirely ABSENT from the codebase. There is no seatbelt/App
+    Sandbox profile, no namespace/OCI isolation, no host-conformance suite. The runtime provides zero
+    OS-enforced isolation of candidate work; it relies wholly on the third-party executor CLIs' self-declared
+    sandbox flags.
+  minimum_repair: Implement a macOS sandbox-exec/App Sandbox profile applied by the runtime at spawn (with
+    an explicit filesystem/network/process envelope), plus a conformance/escape-denial test suite as the
+    trust boundary; treat Linux path as experimental and explicitly refuse to launch on unsupported platforms.
+  acceptance_test: On macOS, an escape test where an agent attempts to write outside its declared write-scope
+    or open a disallowed network endpoint is denied by the runtime-applied sandbox profile (not merely
+    by the executor CLI), with a retained escape-denial evidence envelope.
+  affected_final_decisions:
+  - FD-008
+- finding_id: B-05
+  subagent: Subagent B
+  claim: Candidate work is NOT run in an isolated worktree/clone with separate .git objects/refs; it runs
+    in the canonical repository. Every executor spawn sets current_dir(repo_root) on the canonical repo
+    root (codex --cd repo_root, current_dir(repo_root); claude current_dir; workflow_leaf current_dir(repo_root)).
+    'worktree' appears in the source only in the kernel's closeout/hygiene classification that DETECTS
+    foreign/ambiguous worktrees after the fact — it does not CREATE an isolated worktree for candidate
+    execution. No GIT_DIR override or git-clone-for-isolation exists in the runtime.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:433-434
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:449
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs:434-440
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs:4343-4384
+  symbol_refs:
+  - build_executor_command
+  - run_workflow_command
+  - lifecycle_plan_has_worktree_hygiene_blocker
+  - classify_terminal_worktree
+  consequence: FD-008's 'isolated Git state' is not implemented. Candidate agents operate directly on
+    canonical .git objects and refs, so a misbehaving agent can create/move refs, stage, and commit against
+    the canonical repository with no object-store isolation. The only protection is after-the-fact worktree-hygiene
+    detection during closeout, not prevention.
+  minimum_repair: Launch candidate work in a disposable worktree/clone with an isolated GIT_DIR (or a
+    separate object store), and only promote reviewed trees/refs into canonical state through the effect
+    broker; keep the hygiene classifier as a backstop.
+  acceptance_test: A test that a candidate run's git writes land in a disposable object store/worktree
+    and that the canonical repo's refs and objects are unchanged until an explicit brokered promotion
+    step runs.
+  affected_final_decisions:
+  - FD-008
+  - FD-006
+- finding_id: B-06
+  subagent: Subagent B
+  claim: 'Credential custody is entirely delegated to host tools and the ambient environment; no Octon-owned
+    vault/keyring exists. connector-credentials.yml declares storage_posture values ''no_credentials''
+    and ''externally_managed'' with default_route: deny and credential_policy_authorizes_execution: false
+    — i.e. the policy explicitly defers durable credential storage to external managers. No keyring/secret-service/security-framework
+    crate dependency exists in any runtime Cargo.toml. The gh CLI is invoked via gh_output inheriting
+    ambient env; the github-autonomy-runbook documents that gh reads auth from the macOS Keychain (gh''s
+    own keyring), confirming credentials live in host-tool custody, not an Octon broker.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: CONFIGURATION_DERIVED
+  confidence: high
+  file_refs:
+  - .octon/instance/governance/policies/connector-credentials.yml:1-35
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1398-1411
+  - .octon/framework/execution-roles/practices/github-autonomy-runbook.md:415-496
+  symbol_refs:
+  - gh_output
+  - connector-credentials
+  - credential_class
+  - storage_posture
+  consequence: The design intent (per connector-credentials.yml) is that Octon holds NO durable credentials
+    — they are externally managed. But because there is no broker mediating credentialed effects and no
+    env scrubbing before agent spawn, those externally-managed credentials are reachable by any spawned
+    agent through the ambient environment (gh keychain unlocks in the inherited session, SSH agent socket
+    inherited). FD-006's separation (broker holds credentials, agents credentialless) is therefore neither
+    implemented nor enforceable at the spawn boundary.
+  minimum_repair: Keep credentials externally managed but interpose the credential-custody broker so agents
+    never inherit the ambient credential surface; scrub SSH_AUTH_SOCK/GH_TOKEN/GITHUB_TOKEN and any gh
+    keychain reachability from the executor child env, and require credentialed effects to go through
+    typed broker calls.
+  acceptance_test: With the executor child launched, assert 'gh auth status' inside the child fails (no
+    inherited keychain/token) while a brokered gh operation initiated by the runtime succeeds; assert
+    SSH_AUTH_SOCK is absent in the child env.
+  affected_final_decisions:
+  - FD-006
+  - FD-016
+- finding_id: B-07
+  subagent: Subagent B
+  claim: 'authorize_before_dispatch self-attests authorization: it builds and writes its own DelegationProof
+    YAML (with a self-constructed invocation_authority map) and never calls a kernel verify_authorized_effect
+    for the ExecutorLaunch. ExecutorLaunch exists only as a classification label (MaterialSideEffectClass::ExecutorLaunch)
+    used for metadata, with no unavoidable in-kernel gate at the spawn site. The one callback that does
+    re-enter the kernel (admit_existing_lifecycle_run) shells out to the SAME runtime binary via std::env::current_exe()
+    with current_dir(repo_root), inheriting the same environment — it is not a separate credentialless
+    boundary and only runs for route_id == run-packet-implementation.'
+  status: ARCHITECTURAL_INFERENCE
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:39-151
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:153-197
+  - .octon/framework/engine/runtime/crates/kernel/src/side_effects/mod.rs:22-42
+  - .octon/framework/engine/runtime/crates/kernel/src/side_effects/mod.rs:158-165
+  symbol_refs:
+  - authorize_before_dispatch
+  - build_and_write_proof
+  - admit_existing_lifecycle_run
+  - DelegationProof
+  - classify_execution_request
+  - MaterialSideEffectClass::ExecutorLaunch
+  consequence: 'The ExecutorLaunch side effect has no unavoidable mediated boundary: the executor authorizes
+    itself by writing a proof file, so the isolation/credential guarantees FD-006/FD-016 depend on are
+    self-asserted rather than broker-verified. A code path that skips authorize_before_dispatch (or a
+    divergent spawn path such as the pipeline path in B-03) can launch an agent with no proof at all,
+    and there is no kernel chokepoint that refuses an unproven ExecutorLaunch.'
+  minimum_repair: Route every executor launch through a single mediated verify step (verify_authorized_effect
+    for a one-shot AuthorizedEffect<ExecutorLaunch>) owned by an independent broker/authority process
+    that also installs the sandbox and scrubbed env before spawn; make spawning without a verified single-use
+    effect impossible by construction.
+  acceptance_test: A negative test proving no code path can spawn codex/claude without first consuming
+    a verified single-use ExecutorLaunch effect, and that the verify step is performed by a process distinct
+    from the one building the proof.
+  affected_final_decisions:
+  - FD-006
+  - FD-016
+- finding_id: B-08
+  subagent: Subagent B
+  claim: 'Degraded operation is narrow at the ROUTE level (FD-016''s first clause is partially met): failures
+    produce per-route blocked/failed/cancelled/preflight-blocked results with specific error classes and
+    next_action = manual-intervention, blocking only the affected transition rather than the whole system;
+    the codex runtime preflight blocks only that codex route. However the ''never expose ambient credentials''
+    clause is only vacuously satisfied — there is no credential custody to protect, and ambient credentials
+    are already exposed to every spawned child (findings B-01, B-06), so a degraded transition neither
+    newly exposes nor withholds credentials.'
+  status: ARCHITECTURAL_INFERENCE
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs:161-231
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs:327-380
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:31-74
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:39-55
+  symbol_refs:
+  - executor_preflight_blocked
+  - input_binding_blocked_result
+  - cancellation_result
+  - runtime_preflight_failure
+  - blocked_result
+  consequence: The transition-scoped blocking half of FD-016 is present and is a genuine strength, but
+    the credential-protection half is unenforceable because there is no credential boundary to preserve
+    during degradation. FD-016 cannot be fully satisfied until B-01/B-06 establish a credential boundary
+    that degraded operation can then protect.
+  minimum_repair: Once a credential-custody broker exists, add explicit assertions that a blocked/degraded
+    transition leaves the credential envelope withheld from the affected executor and emits evidence that
+    no ambient credential was surfaced.
+  acceptance_test: 'Fault-injection test: force a transition into blocked state and assert the affected
+    executor''s env contains no credentials before, during, and after the block, and that only the affected
+    route (not sibling routes) is stopped.'
+  affected_final_decisions:
+  - FD-016
+- finding_id: C-001
+  subagent: SUBAGENT C
+  claim: 'No credentialed-Git broker exists: every git invocation in the repo runs with the ambient environment
+    and repo-controlled configuration. No git script, skill, or Rust caller sets GIT_CONFIG_NOSYSTEM,
+    GIT_CONFIG_GLOBAL, GIT_CONFIG_SYSTEM, -c core.hooksPath=, or disables includes/filters/fsmonitor.
+    `git commit` runs WITHOUT --no-verify, so pre-commit/commit-msg hooks execute. The `text=auto`/`eol=lf`/symlink
+    `.gitattributes` at repo root is benign, but nothing prevents a candidate from committing a `.gitattributes`
+    `filter=`/`diff=` driver or a repo-local hook that git would then honor on the operator''s machine.'
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/execution-roles/_ops/scripts/git/git-branch-commit.sh:104
+  - .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh:228
+  - .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh:42-60
+  - .gitattributes:1-30
+  symbol_refs:
+  - git-branch-commit.sh run_cmd git commit -m
+  - github_repo()
+  - git remote get-url
+  consequence: The FD-009 guarantee that credentialed Git flows only through a broker-owned sanitized
+    config, and that hooks/includes/filters/helpers/submodules/fsmonitor/aliases/drivers CANNOT execute,
+    is not implemented. A candidate that lands content on a branch (or an already-merged repo state on
+    an operator machine) can ship a malicious hook, `.gitattributes` filter/diff driver, config include,
+    or credential helper; the next `git commit`/`git checkout`/`git diff` by the operator or the autonomy
+    hooks will execute it with the operator's credentials and PAT in scope.
+  minimum_repair: Introduce a single git wrapper (Rust or shell) that all mutation/query helpers must
+    call, exporting GIT_CONFIG_NOSYSTEM=1, GIT_CONFIG_GLOBAL=/dev/null (or a broker-owned config), -c
+    core.hooksPath=/dev/null, -c core.fsmonitor=false, and -c protocol.*.allow=never for submodules, and
+    passing --no-verify on commit/push. Add a validator that fails if any git script bypasses the wrapper.
+  acceptance_test: grep for `Command::new("git")` and `run_cmd git`/`git -C` across .octon and .github
+    shows every mutating invocation routed through the sanitized wrapper; a test that plants a repo-local
+    .git/hooks/pre-commit and a `.gitattributes` filter driver and then runs git-branch-commit.sh proves
+    neither executes.
+  affected_final_decisions:
+  - FD-009
+- finding_id: C-002
+  subagent: SUBAGENT C
+  claim: The repo actively INSTALLS and USES git hooks rather than disabling them. git-autonomy-hooks-install.sh
+    writes managed post-merge and post-checkout hooks into .git/hooks that re-invoke git-pr-cleanup.sh
+    (which itself performs `git merge --ff-only origin/main` and ref mutations). The managed hook also
+    chains any pre-existing `<hook>.octon-local` backup unconditionally.
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/execution-roles/_ops/scripts/git/git-autonomy-hooks-install.sh:30-133
+  - .octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh:401
+  symbol_refs:
+  - write_managed_hook
+  - install_hook
+  - post-merge
+  - post-checkout
+  - LEGACY_HOOK backup chain
+  consequence: 'FD-009 requires that hooks cannot execute. The current design does the opposite: hooks
+    are a load-bearing autonomy mechanism that runs git mutations (merge/ref writes) in the background
+    on merge/checkout, and blindly execs a backed-up prior hook. This is both an FD-009 violation and
+    an autonomous-mutation surface that runs outside any authorization envelope.'
+  minimum_repair: Move the post-merge/post-checkout cleanup convergence out of git hooks into an explicit,
+    authorization-gated command the operator/agent runs deliberately; if hooks are retained, they must
+    run under the sanitized broker with an explicit allowlist and must not chain arbitrary legacy hooks.
+  acceptance_test: With sanitized git config in force (core.hooksPath=/dev/null), a post-merge does not
+    spawn git-pr-cleanup; cleanup convergence still works via an explicit authorized command.
+  affected_final_decisions:
+  - FD-009
+- finding_id: C-003
+  subagent: SUBAGENT C
+  claim: 'The exact-SHA / route-neutral verifier is candidate-controlled, not an immutable verifier separate
+    from effect identity. The four live required status checks on main (confirmed via gh api: route_neutral_closeout_validation,
+    branch_naming_validation, route_aware_autonomy_validation, exact_source_sha_validation) are all jobs
+    defined in .github/workflows/change-route-projection.yml — an agent-editable file in the repo tree.
+    The exact_source_sha_validation job passes trivially (echo ''valid for shadow/report-only'') whenever
+    no receipt_path input is supplied, which is the normal case for a PR merge (PR_HEAD_SHA path) or a
+    raw push; it only enforces receipt/route binding on manual workflow_dispatch with an explicit receipt_path.
+    main-change-route-guard.yml (the receipt route verifier) runs on: push with permissions: contents:
+    read AFTER the update has already landed, so it can only report, never block. Its required-check list
+    is read from github-control-plane-contract.json, also candidate-editable.'
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .github/workflows/change-route-projection.yml:124-167
+  - .github/workflows/main-change-route-guard.yml:9-11
+  - .github/workflows/main-change-route-guard.yml:179-185
+  - .octon/framework/execution-roles/practices/standards/github-control-plane-contract.json:35-45
+  symbol_refs:
+  - exact-source-sha-validation job
+  - routeNeutralRequiredChecks()
+  - validateBranchNoPr
+  - validateDirectMain
+  - git-required-checks-at-ref.sh
+  consequence: FD-011 requires a candidate-immutable, exact-SHA verifier whose identity is separate from
+    effect identity. Here the verifier's code, its required-check contract, and its pass/fail logic all
+    live inside the candidate-editable repo. An admitted candidate that edits change-route-projection.yml
+    (e.g., makes exact_source_sha_validation an unconditional success) and lands it changes the meaning
+    of the check that gates the very landing — the verdict is authored by the thing being verified. The
+    verifier also does not verify against a pre-computed exact SHA independent of the pushed head in the
+    common (no-receipt) path.
+  minimum_repair: Move the exact-SHA verifier out of the candidate tree into an out-of-band, candidate-immutable
+    location (a GitHub App / separate protected worker repo, or a required check whose workflow lives
+    in a repo the candidate cannot edit), keyed to a pre-registered exact SHA and route verdict computed
+    by the authorization envelope, not re-derived from the pushed head. Make change-route-projection.yml
+    modifications themselves require the immutable verifier to pass.
+  acceptance_test: A candidate PR that rewrites .github/workflows/change-route-projection.yml exact_source_sha_validation
+    to `exit 0` is blocked from landing because the immutable, out-of-tree verifier (unaffected by the
+    candidate diff) still enforces the pre-registered SHA/route verdict.
+  affected_final_decisions:
+  - FD-011
+- finding_id: C-004
+  subagent: SUBAGENT C
+  claim: 'No optional protected GitHub Actions effect worker with a narrowly scoped App exists. There
+    is zero GitHub App configuration anywhere in the repo (no create-github-app-token, app_id, installation
+    token, or private-key wiring). Provider writes (auto-merge, protected merge boundary) run inside pr-auto-merge.yml
+    on `pull_request_target` with permissions contents: write / pull-requests: write, authenticated by
+    `secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN` — a broad PAT/default token, not a narrowly scoped
+    App. The write logic (protected-ci-auto-merge.sh, evaluate-pr-autonomy-policy.sh) is candidate-authored
+    in the repo tree.'
+  status: ABSENT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .github/workflows/pr-auto-merge.yml:4-9
+  - .github/workflows/pr-auto-merge.yml:23-25
+  - .github/workflows/pr-auto-merge.yml:43-44
+  - .github/workflows/pr-auto-merge.yml:326-330
+  symbol_refs:
+  - pr-auto-merge PR Auto Merge
+  - AUTONOMY_PAT
+  - protected-ci-auto-merge.sh
+  - pull_request_target
+  consequence: FD-007's optional protected Actions effect worker with a narrowly scoped App is not present.
+    Provider-write authority is a broad PAT held in a candidate-editable workflow triggered by pull_request_target
+    (which runs with repo secrets even for the base ref); the merge policy code is candidate-authored.
+    This is a weaker and broader capability than the FD-007 target and offers no App-scoped isolation.
+    The local broker (git-branch-authorize/land helpers) does stay authoritative for hosted no-PR landing,
+    so the second clause of FD-007 is met, but the App-scoped worker clause is absent.
+  minimum_repair: If FD-007's optional worker is desired, add a narrowly scoped GitHub App (least-privilege,
+    contents+pull_requests only, single-repo installation) minted via create-github-app-token, and keep
+    its policy code out of the candidate-editable tree; otherwise mark FD-007's worker clause explicitly
+    out of scope and ensure the PAT-based auto-merge is gated by the immutable verifier from C-003.
+  acceptance_test: pr-auto-merge.yml authenticates via a scoped App installation token (not AUTONOMY_PAT),
+    the App has only contents/pull-requests write on this repo, and disabling the App leaves the local
+    broker landing path fully functional.
+  affected_final_decisions:
+  - FD-007
+- finding_id: C-005
+  subagent: SUBAGENT C
+  claim: 'route_selection_order lists direct-main BEFORE branch-no-pr, and direct-main permits autonomous
+    agents to land and push directly on main. default-work-unit.yml route_selection_order is: resolve
+    identity, fail_closed, branch-pr (predicate), direct-main, branch-no-pr, stage-only-escalate. solo_route_selection.direct_main_first_when_all
+    explicitly prefers direct-main for solo low-risk changes; the direct-main route description says it
+    is ''landed directly on current clean main and pushed to origin''.'
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/product/contracts/default-work-unit.yml:295-317
+  - .octon/framework/product/contracts/default-work-unit.yml:258-278
+  - .octon/framework/product/contracts/default-work-unit.yml:302-310
+  symbol_refs:
+  - route_selection_order
+  - direct-main route
+  - solo_route_selection.direct_main_first_when_all
+  - branch_no_pr_preference_rule
+  consequence: FD-010 requires a verified branch-no-PR default for admitted Class B, automatic PR escalation,
+    and that agents NEVER work/publish directly on main. The current contract makes direct-main the PREFERRED
+    solo route (ordered above branch-no-pr and chosen first when clean-main predicates hold), i.e. autonomous
+    agents ARE expected to commit and push directly on main. This directly contradicts the FD-010 'agents
+    NEVER work/publish directly on main' clause and inverts the intended branch-no-pr default ordering.
+  minimum_repair: For admitted Class B autonomous agents, remove direct-main from the autonomous route
+    order (or gate it behind an operator-only predicate), make branch-no-pr the default, and require automatic
+    escalation to branch-pr on the FD-010-defined conditions. Keep direct-main only for explicit human/solo-maintainer
+    operation.
+  acceptance_test: route_selection_order for the autonomous Class B profile lists branch-no-pr before/without
+    direct-main; a solo low-risk autonomous change selects branch-no-pr and never commits on main; validate-default-work-unit-alignment.sh
+    enforces the new ordering.
+  affected_final_decisions:
+  - FD-010
+- finding_id: C-006
+  subagent: SUBAGENT C
+  claim: 'Live protected main is route-neutral: `gh api repos/{owner}/{repo}/rules/branches/main` returns
+    rule types [deletion, required_status_checks, non_fast_forward, required_linear_history] with NO pull_request
+    rule. Required status check contexts are exactly [route_neutral_closeout_validation, branch_naming_validation,
+    route_aware_autonomy_validation, exact_source_sha_validation] — the four candidate-authored jobs from
+    change-route-projection.yml.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: PROVIDER_OBSERVED
+  confidence: high
+  file_refs:
+  - 'live: repos/{owner}/{repo}/rules/branches/main'
+  - .octon/framework/product/contracts/default-work-unit.yml:600-625
+  symbol_refs:
+  - required_status_checks
+  - non_fast_forward
+  - required_linear_history
+  - deletion
+  consequence: The only non-cooperative (provider-enforced) boundary protecting main is the ruleset, and
+    it enforces exactly four checks whose defining workflows are candidate-editable (see C-003). Non-fast-forward
+    + linear history genuinely prevent force-push/history rewrite, but the semantic gate (route/receipt/exact-SHA
+    correctness) is delegated to candidate-authored checks. This confirms the ruleset is the sole hard
+    boundary and that it is only as strong as the candidate-authored check jobs behind it.
+  minimum_repair: Bind the required status check contexts to workflows hosted outside the candidate-editable
+    tree (per C-003), so the provider-enforced gate cannot be neutered by a candidate diff.
+  acceptance_test: The required_status_checks contexts on main resolve to workflows the candidate cannot
+    edit; a candidate diff to .github/workflows cannot weaken any required check.
+  affected_final_decisions:
+  - FD-011
+  - FD-010
+- finding_id: C-007
+  subagent: SUBAGENT C
+  claim: 'The hosted no-PR landing broker resolves the GitHub owner/repo and provider ruleset from repo-controlled
+    state: github_repo() parses `git remote get-url origin`, and ruleset_requires_pr_live() queries whatever
+    remote that resolves to. A candidate that controls the remote URL (via config include or a committed
+    .gitmodules/remote rewrite) could redirect ruleset inspection to an attacker-controlled repo whose
+    rules report no PR requirement.'
+  status: PARTIALLY_SATISFIED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh:40-71
+  - .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh:143-150
+  - .octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh:35-55
+  symbol_refs:
+  - github_repo()
+  - ruleset_requires_pr_live()
+  - git remote get-url
+  consequence: 'Compounds FD-009/FD-011: because git runs with unsanitized config (C-001), the remote
+    and ruleset provenance the preflight trusts are themselves candidate-influenceable, so the ''provider
+    ruleset allows route-neutral landing'' verdict can be spoofed. The narrow command surface intent (no
+    PR create/merge in these helpers) is partially met — the helpers deliberately never create/merge PRs
+    — but the provenance is not pinned.'
+  minimum_repair: Pin the target owner/repo and the ruleset query endpoint in broker-owned config (not
+    derived from repo-controlled remote), and run the query with sanitized git config so config includes
+    cannot rewrite the remote.
+  acceptance_test: Rewriting `origin` remote URL via a repo-local config include does not change which
+    repo/ruleset the hosted preflight inspects.
+  affected_final_decisions:
+  - FD-009
+  - FD-011
+- finding_id: D-01
+  subagent: Subagent D
+  claim: There is NO SQLite/WAL or any embedded transactional database in the Octon runtime. The only
+    'sqlite' references (lifecycle_executor/src/codex.rs:47, kernel/src/lifecycle_program.rs:36030) are
+    read-only references to the third-party Codex CLI's own '.codex/state_5.sqlite'. No Cargo.toml or
+    Cargo.lock under .octon/framework declares rusqlite/sqlx/sled/rocksdb/redb/lmdb. The authoritative
+    runtime state substrate is loose YAML + NDJSON files under .octon/state/{control,evidence,continuity}/.
+    FD-005's mandated single local SQLite/WAL authoritative store does not exist.
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/Cargo.lock
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:47
+  - .octon/framework/engine/runtime/crates/replay_store/src/lib.rs:29-42
+  - .octon/state/control
+  - .octon/state/evidence
+  symbol_refs: []
+  consequence: Grants, operations, evidence outbox, revocation, reconciliation and recovery cannot share
+    a single atomic transaction boundary. Cross-record invariants (e.g. consume-token AND record-attempt
+    AND reserve-capacity as one unit) are impossible; every multi-file mutation is a non-atomic sequence
+    with partial-failure windows. Crash between two file writes leaves inconsistent state with no journal
+    to roll forward/back atomically.
+  minimum_repair: Introduce one embedded transactional store (rusqlite with WAL, or an equivalent single-writer
+    log-structured store) as the authoritative substrate for grant/operation/token/revocation/reservation
+    records, keeping the existing NDJSON run-journal as a derived export. Route all consequential state
+    transitions through a single BEGIN/COMMIT.
+  acceptance_test: grep for a DB dependency in .octon/framework/**/Cargo.toml returns a transactional
+    store; a kill-point test that SIGKILLs the process between the token-consume write and the attempt-record
+    write, on restart, shows either both records present or neither (no torn intermediate).
+  affected_final_decisions:
+  - FD-005
+  - FD-012
+  - FD-013
+- finding_id: D-02
+  subagent: Subagent D
+  claim: The single-use ('one-shot') effect-token consume in verify_authorized_effect is a read-check-write
+    with a TOCTOU window and no lock. The record is loaded at effects.rs:294 (load_token_record), the
+    guard 'if record.single_use && record.status == "consumed"' is checked at effects.rs:564, and the
+    mutated record is written back at effects.rs:658 (persist_token_record). No file lock, advisory lock,
+    or O_EXCL rename-based CAS is held across the load->check->write window. persist_token_record -> write_json
+    (policy.rs:81-88) is a plain fs::write (no temp+rename, no fsync).
+  status: PARTIALLY_SATISFIED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:294
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:562-574
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:649-658
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1154-1156
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:81-88
+  symbol_refs: []
+  consequence: Two concurrent verify_authorized_effect calls for the same single-use token can both pass
+    the 'consumed' check before either writes 'consumed', double-consuming a one-shot grant (double dispatch
+    of a consequential effect). Additionally, a crash mid-write of the token record (non-atomic fs::write)
+    can truncate/corrupt the record JSON, making the token neither cleanly consumed nor re-consumable
+    (load_token_record parse failure -> CapabilityDenied), i.e. a torn one-shot with no recovery path.
+  minimum_repair: 'Make consume atomic: perform the consumed-status flip via a compare-and-swap (either
+    a transactional UPDATE ... WHERE status<>''consumed'' in the FD-005 store, or an O_EXCL ''consumed
+    marker'' file created before the effect that fails the second caller). Write the token record via
+    temp+fsync+rename. Hold the guard and the write inside one critical section.'
+  acceptance_test: 'Adversarial test: spawn N concurrent verify_authorized_effect calls against one single_use
+    token; assert exactly one returns VerifiedEffect and N-1 return EFFECT_TOKEN_ALREADY_CONSUMED. Kill-point
+    test: SIGKILL during persist_token_record and confirm the record is either fully old or fully ''consumed'',
+    never truncated.'
+  affected_final_decisions:
+  - FD-012
+- finding_id: D-03
+  subagent: Subagent D
+  claim: 'The entire authority_engine writes state non-atomically. authority_engine/src has 11 non-test
+    fs::write call sites and ZERO sync_all/atomic-rename usage. Grant bundles (authority.rs:412 write_authority_grant_bundle
+    -> write_yaml -> fs::write at policy.rs:95), token records, decision artifacts, and token-consumption
+    receipts are all written with plain fs::write. Atomic temp+fsync+rename helpers DO exist but only
+    in isolated spots: kernel/src/scaffold.rs:298 (atomic_write), wasm_host/src/scoped_fs.rs:539 (atomic_write_file,
+    incl. fsync_dir_best_effort), wasm_host/src/kv_store.rs:100, and a partial temp+rename (no fsync)
+    in kernel/src/lifecycle_run_admission.rs:458 publish_artifact_set.'
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:86
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:95
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/authority.rs:412-417
+  - .octon/framework/engine/runtime/crates/core/src/execution_integrity.rs:516
+  - .octon/framework/engine/runtime/crates/kernel/src/scaffold.rs:298-326
+  - .octon/framework/engine/runtime/crates/wasm_host/src/scoped_fs.rs:539-560
+  symbol_refs: []
+  consequence: A crash during any authority-engine state write (grant bundle, decision artifact, token
+    record, revocation) can leave a truncated/half-written YAML/JSON file. On restart the file fails to
+    parse and the run is either wedged (CapabilityDenied) or, worse, a partially-written grant could be
+    re-read as valid. Durability is not guaranteed even for cleanly-written files (no fsync) so a power
+    loss can lose acknowledged state.
+  minimum_repair: Provide one shared atomic_write(path, bytes) helper (temp in same dir + write_all +
+    sync_all + rename + best-effort dir fsync) in core and route ALL authority_engine/core state writes
+    (write_json/write_yaml) through it; or fold these records into the FD-005 transactional store.
+  acceptance_test: 'Static: grep authority_engine/src for fs::write returns zero call sites that bypass
+    an atomic helper. Kill-point: SIGKILL during write_authority_grant_bundle; on restart the grant file
+    is either the full previous version or the full new version, and always parses.'
+  affected_final_decisions:
+  - FD-005
+  - FD-012
+- finding_id: D-04
+  subagent: Subagent D
+  claim: There is no reservation / capacity-reservation-in-the-same-transaction mechanism, and there IS
+    a standalone lease subsystem (the exact anti-pattern FD-013 forbids). Route-write-leases are written
+    to their own .octon/state/evidence/.../route-write-leases/*.yml files via naive fs::write (lifecycle_program.rs:10947-10955),
+    explicitly self-described as 'dispatch-preflight-only' (line 10931-10933) and 'does not authorize
+    mutation' (10928-10930). token_budget.rs is a write-out ledger (write_route_token_budget_ledger at
+    line 134) with no reserve/decrement/remaining logic. Nothing reserves evidence capacity atomically
+    with the operation record; there is no evidence 'outbox' at all (grep for outbox/capacity_reservation
+    across framework+instance returns nothing).
+  status: ABSENT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs:10912-10960
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/token_budget.rs:12-14
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/token_budget.rs:134-166
+  symbol_refs: []
+  consequence: Capacity/budget can be exceeded under crash or concurrency because it is tracked in a separate
+    ledger file written after (or independent of) the operation, not reserved in the same commit. The
+    standalone route-write-lease files can drift from the operation records they gate (lease says bound
+    while the operation never happened, or vice versa) with no transactional link. FD-013's requirement
+    that evidence-capacity be reserved in the same transaction and that there be NO standalone lease subsystem
+    is directly violated.
+  minimum_repair: Fold capacity reservation into the same transaction as the operation-attempt record
+    in the FD-005 store (reserve N units and insert the attempt row atomically; release on terminal outcome).
+    Retire route-write-lease *.yml as a standalone durable authority; if retained, make it a derived read-only
+    projection of the transactional reservation, not an independent file.
+  acceptance_test: 'Static: no code path reserves capacity in a file/table distinct from the operation
+    record''s transaction. Concurrency test: two operations each requesting > half of a capacity budget
+    cannot both succeed. Crash test: SIGKILL after reservation but before operation commit leaves zero
+    net reserved capacity on restart.'
+  affected_final_decisions:
+  - FD-013
+  - FD-005
+- finding_id: D-05
+  subagent: Subagent D
+  claim: 'There is no unknown-outcome / uncertain-external-effect reconciliation engine. For consequential
+    external effects (git push/publication), the actual mutation is delegated to the agent/executor and
+    is NOT re-verified post-hoc: grep across kernel for post-push confirmation (ls-remote / rev-parse
+    against remote after push) finds only validation predicates that assert push MUST NOT have happened
+    (lifecycle_program.rs:19499, 19518 forbidden-actions lists) — never a path that, after attempting
+    a push, reconciles whether it actually landed. The only ''recovery'' surface is passive status fields
+    (orchestration.rs:140 recovery_status / recovery_reason, and lease_expires_at/last_heartbeat_at in
+    the run-status YAML) plus an O_EXCL child lock (lifecycle_program.rs:24991 acquire_child_lock) with
+    stale-lock detection. replay_store (replay_store/src/lib.rs) reconstructs state from a hash-chained
+    journal and gates live side-effect replay, but it operates only on already-recorded events; it does
+    not resolve ''did the push land?'' for an in-flight attempt whose process died.'
+  status: ABSENT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/framework/engine/runtime/crates/core/src/orchestration.rs:140-141
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs:24991-25002
+  - .octon/framework/engine/runtime/crates/kernel/src/stdio.rs:98
+  - .octon/framework/engine/runtime/crates/replay_store/src/lib.rs:747-826
+  symbol_refs: []
+  consequence: If the runtime crashes after dispatching a consequential external effect (e.g. git push)
+    but before the terminal outcome is durably recorded, on restart the system cannot determine whether
+    the effect landed. There is no attempt->pending->{committed|failed}->reconciled state machine for
+    external effects, so recovery either blindly retries (risking duplicate side effect) or blocks a human.
+    FD-012's unknown-outcome handling, reconciliation, and terminal-state requirements are not implemented
+    as a runtime mechanism.
+  minimum_repair: 'Add an attempt lifecycle to the FD-005 store: record intent (pending) before the external
+    call, record outcome (committed/failed) after; on restart, for each pending attempt, run an idempotent
+    reconcile probe (e.g. git ls-remote to check whether the ref landed) to reach a terminal state before
+    any retry. Make retries keyed by the attempt idempotency_key.'
+  acceptance_test: 'Kill-point test: SIGKILL immediately after a git push subprocess returns but before
+    the terminal record is written; on restart the reconcile path queries the remote, classifies the attempt
+    as committed-observed or failed, and does NOT re-push a landed ref. A pending attempt is never left
+    with no terminal state after reconcile runs.'
+  affected_final_decisions:
+  - FD-012
+- finding_id: D-06
+  subagent: Subagent D
+  claim: Attempt-state and idempotency exist only partially and non-transactionally. The run-journal (replay_store
+    RunJournalEvent) carries an optional idempotency_key field (replay_store/src/lib.rs:171) and hash-chains
+    events; lifecycle requests carry retry_attempt (lifecycle_executor/src/request.rs:100) and terminal
+    executor states 'completed-observed'/'timed-out' exist (observed in adapter behavior). But idempotency_key
+    is Option and not enforced as a uniqueness/dedup key against a store (no unique-index / no dedup lookup
+    on replay of an attempt), and there is no durable attempt row that is transactionally advanced through
+    reservation->consume->outcome->terminal. Cross-process de-dup relies on the per-process in-memory
+    Mutex<HashMap> 'inflight' (kernel/src/stdio.rs:98) which does not survive a crash and does not coordinate
+    across processes.
+  status: PARTIALLY_SATISFIED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/framework/engine/runtime/crates/replay_store/src/lib.rs:171
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs:100
+  - .octon/framework/engine/runtime/crates/kernel/src/stdio.rs:41-98
+  symbol_refs: []
+  consequence: Idempotency is advisory (a field in a journal event), not enforced by a store that rejects
+    a duplicate attempt. After a crash the in-memory inflight guard is gone, so a re-dispatched attempt
+    with the same logical identity is not automatically deduplicated at the persistence layer, permitting
+    duplicate consequential effects. FD-012's requirement that every consequential effect carry enforced
+    idempotency and a single terminal state per attempt is only partly met.
+  minimum_repair: Make idempotency_key mandatory for consequential effects and enforce it with a unique
+    constraint in the FD-005 store; on re-dispatch, look up the prior attempt and return its recorded
+    terminal outcome instead of re-executing. Persist attempt state (not just an in-memory map) so it
+    survives restart.
+  acceptance_test: Submit the same consequential effect twice with the same idempotency_key across two
+    separate process invocations; assert the second is short-circuited to the first attempt's terminal
+    outcome and the external side effect executes exactly once.
+  affected_final_decisions:
+  - FD-012
+- finding_id: E-01
+  subagent: Subagent E
+  claim: 'FD-014 mandates that broker/verifier ''sign'' direct observations and that checkpoints be ''signed'',
+    but the runtime implements NO cryptographic signing of any kind: the only crypto dependency across
+    all 13 crates is unkeyed SHA-256 (sha2) plus hex. There is no ed25519/hmac/ring/dalek/ecdsa crate,
+    no keypair, no secret/signing key, and no signature field on any evidence, event, or checkpoint. Journal
+    integrity is a plain unkeyed hash chain (replay_store digest_value = Sha256::digest(serde_json bytes);
+    kernel program_event_hash = sha256_digest of the event with its hash field zeroed). Because the hash
+    is unkeyed and the hashing algorithm is public code, any actor with write access to the retained event
+    log can rewrite any event and deterministically recompute the entire downstream chain, producing a
+    chain that passes validate_event_hash_chain / validate_journal. Hash chaining detects accidental corruption
+    and naive single-event edits, NOT authenticated rewriting or non-repudiation.'
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/Cargo.toml:33-34
+  - .octon/framework/engine/runtime/crates/replay_store/src/lib.rs:828-836
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs:29412-29416
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs:29508-29539
+  - .octon/framework/engine/runtime/crates/replay_store/src/lib.rs:554-617
+  symbol_refs:
+  - digest_value
+  - canonical_event_hash
+  - validate_journal
+  - program_event_hash
+  - validate_event_hash_chain
+  consequence: FD-014's required proof — 'Rechaining breaks checkpoint verification' — is FALSE as implemented.
+    Rechaining does NOT break verification because nothing signs the chain head or checkpoint with a secret;
+    the verifier only recomputes the same public hash the tamperer already recomputed. Support claims
+    that lean on 'signed' evidence, non-repudiation, or unforgeable checkpoints are unsupported. The genuine
+    tamper-evidence property comes only from the fact that event logs are git-tracked and pushed to GitHub
+    (content-addressed commit history with a remote copy), not from any in-repo signing.
+  minimum_repair: 'Either (a) implement real signing: add an ed25519 (or HMAC with an operator-held key)
+    signature over each event-log head / checkpoint, sign at seal time with a key the writer holds, and
+    verify the signature (not just recompute the hash) at closeout/promotion; or (b) if signing is intentionally
+    out of scope for a solo local-first builder, amend FD-014 and all governance/schema wording to say
+    ''hash-chained and git-anchored'' instead of ''signed'', and document that tamper-evidence relies
+    on the external git/GitHub commit history rather than in-repo cryptographic signatures.'
+  acceptance_test: Take a retained events.ndjson for a closed run, edit a payload/effect field of a non-terminal
+    event, recompute event_sha256 and all downstream previous_event_sha256 with the public program_event_hash
+    algorithm, then run the closeout/promotion hash-chain validator. Under the current implementation
+    the rechained log passes (demonstrating the gap). Under a correct fix, signature verification against
+    the writer's key must fail on the rewritten head.
+  affected_final_decisions:
+  - FD-014
+- finding_id: E-02
+  subagent: Subagent E
+  claim: Neither RunCheckpointRecord (Rust) nor checkpoint-v2.schema.json (contract) carries any signature,
+    MAC, or signed-head field. checkpoint-v2 declares mutable_state_digest and artifact_digests (SHA-256
+    digests) and run-event-v2 declares hash_algorithm const 'sha256' with previous_event_hash/event_hash
+    — i.e. hash-chaining only. There is no 'signed checkpoint' concept anywhere in the framework, instance,
+    or kernel code (grep for 'signed checkpoint'/'checkpoint signature' returns nothing).
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/records.rs:564-588
+  - .octon/framework/constitution/contracts/runtime/checkpoint-v2.schema.json:1-40
+  - .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json:320-333
+  symbol_refs:
+  - RunCheckpointRecord
+  - checkpoint-v2.schema.json
+  - run-event-v2.schema.json
+  consequence: FD-014's 'signed checkpoints' are absent at both the code and contract layer. A checkpoint
+    cannot 'detect retained-evidence rewriting' via signature because it has no signature field; it only
+    references digests that a rewriter can recompute. PROOF-EVIDENCE ('Signed checkpoints detect retained-evidence
+    rewriting') has no supporting primitive.
+  minimum_repair: Add a signed-head field (e.g. checkpoint_signature over {run_id, checkpoint_id, event_position,
+    last_event_hash, artifact_digests}) to checkpoint-v2.schema.json and RunCheckpointRecord, produced
+    with an operator/broker key and verified on load; or downgrade the FD-014 language and schema comments
+    to 'digest-anchored, git-tracked checkpoint' and state the detection boundary explicitly.
+  acceptance_test: 'grep the checkpoint schema and RunCheckpointRecord struct for a signature/MAC field:
+    today there is none. A correct fix adds a signature field whose verification is exercised by a test
+    that rewrites the checkpointed artifacts and asserts verification fails.'
+  affected_final_decisions:
+  - FD-014
+- finding_id: E-03
+  subagent: Subagent E
+  claim: 'The capability service layer emits ''attestations'' whose ''signature'' field is generated by
+    hash_text() = plain unkeyed ''shasum -a 256'' (falling back to ''sha256sum'', and finally to ''cksum''
+    — a CRC32 checksum) over the public string ''role|actor|plan_hash|evidence_hash|run_id''. Any party
+    who knows those inputs can recompute the identical ''signature''. Worse, the policy_engine quorum
+    check never verifies the signature value: it counts attestation entries whose signature string is
+    merely non-empty (!value.trim().is_empty()) and checks that plan_hash/evidence_hash strings match
+    — a literal signature of ''x'' satisfies quorum.'
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/capabilities/runtime/services/execution/agent/impl/agent.sh:279-290
+  - .octon/framework/capabilities/runtime/services/execution/agent/impl/agent.sh:356-364
+  - .octon/framework/engine/runtime/crates/policy_engine/src/lib.rs:2586-2614
+  - .octon/framework/engine/runtime/crates/policy_engine/src/lib.rs:2624-2667
+  symbol_refs:
+  - hash_text
+  - build_attestations_json
+  - min_signatures
+  - validate_owner_attestation
+  consequence: The proposer/verifier/recovery 'signatures' (ACP-2+ quorum) provide zero authenticity and
+    zero non-repudiation, and are not even validated cryptographically — quorum is presence-counting theater.
+    The field name 'signature' overstates the guarantee (support-claim inaccuracy). A single actor can
+    fabricate all three attestations, or supply arbitrary non-empty strings, to clear the quorum gate.
+  minimum_repair: Replace hash_text-based 'signature' with a real MAC/signature keyed to the attesting
+    actor and verify it in the policy_engine quorum check (verify the signature over the bound plan_hash/evidence_hash,
+    not just count non-empty strings and enforce distinct actor identities). If real signing is out of
+    scope, rename the field (e.g. 'attestation_digest') and document that quorum enforces role/actor presence
+    and hash-binding only, not cryptographic authenticity.
+  acceptance_test: 'Construct an AcpRequest with three attestations all authored by the same actor and
+    signature values of literal ''x'' (or hash_text recomputed by any party): current policy_engine clears
+    quorum (min_signatures satisfied, roles present). A correct fix rejects it for unverifiable/forged
+    signatures and/or non-distinct attesters.'
+  affected_final_decisions:
+  - FD-014
+- finding_id: E-04
+  subagent: Subagent E
+  claim: FD-013 requires reserving required evidence capacity in the same transaction as the operation,
+    with the proof that near-full storage still records denial, failure, revocation, rollback, and closeout.
+    No evidence-capacity reservation, disk/free-space check, ENOSPC handling, or storage-pressure concept
+    exists anywhere in the runtime or governance (grep across all crates and .octon/framework|instance
+    is empty). Evidence writes use plain fs::write (write_json/write_yaml) with no fsync/sync_all and
+    no temp-file-then-rename atomicity, and the consequential-run evidence bundle spans many separate
+    files written independently.
+  status: ABSENT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:81-97
+  - .octon/framework/engine/runtime/crates/core/src/execution_integrity.rs:1203-1295
+  - .octon/framework/engine/runtime/spec/evidence-store-v1.md:117-147
+  symbol_refs:
+  - write_json
+  - write_yaml
+  - ensure_run_evidence_families
+  - record_retained_evidence
+  consequence: 'FD-013''s safety property is unproven: under near-full storage, an fs::write can produce
+    a truncated/partial file or fail mid-bundle, leaving terminal evidence (denial/failure/revocation/rollback/closeout)
+    missing or corrupt with no reservation guaranteeing space for those terminal records and no ordering/atomicity
+    guarantee that they land. The behavioral-contract promise ''never lose recoverable work'' (PROOF-CRASH-SAFETY)
+    is not backstopped for the full-disk case.'
+  minimum_repair: Add a minimal capacity reservation or pre-flight free-space check that pre-allocates
+    space for the mandatory terminal-evidence records before beginning a consequential operation, and
+    make evidence writes atomic (write to a temp file, fsync, rename) so a mid-write failure never yields
+    a partial canonical record; alternatively, prove via an fault-injection test that terminal-evidence
+    writes are ordered-first and durable even when subsequent writes fail on a full volume.
+  acceptance_test: 'Run a consequential lifecycle on a filesystem constrained to a few KB free (fault
+    injection): assert denial/failure/revocation/rollback/closeout records are still written completely
+    and pass validation, and that no canonical evidence file is left truncated. Current code has no mechanism
+    ensuring this.'
+  affected_final_decisions:
+  - FD-013
+- finding_id: E-05
+  subagent: Subagent E
+  claim: FD-013's negative constraint — 'no standalone lease subsystem/service' — is satisfied. The only
+    'lease' primitive in the runtime is the network-egress exception lease, a time-boxed governance INPUT
+    file under .octon/state/control/execution/exceptions/leases/ that is evaluated inline by evaluate_network_egress
+    (not a service or lifecycle). The journal field capability_lease_ref is an Option<String> governing-ref
+    that is always None in the code paths inspected (telemetry_sink, replay_store defaults).
+  status: SATISFIED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/core/src/execution_integrity.rs:403-461
+  - .octon/framework/engine/runtime/crates/core/src/execution_integrity.rs:1040-1096
+  - .octon/framework/engine/runtime/crates/replay_store/src/lib.rs:229
+  - .octon/framework/engine/runtime/crates/telemetry_sink/src/lib.rs:124
+  symbol_refs:
+  - load_execution_exception_leases
+  - network_lease_matches
+  - capability_lease_ref
+  consequence: 'This half of FD-013 is met: there is no separate capacity/capability lease service or
+    lifecycle to maintain, consistent with the solo-builder simplicity rationale. The exception-lease
+    mechanism is a policy input, not a lifecycle service, and should be preserved as-is.'
+  minimum_repair: None required for the negative constraint. Keep the inline exception-lease evaluation
+    model.
+  acceptance_test: 'grep the crates for any lease service/lifecycle/daemon: only the inline network-egress
+    exception-lease evaluator exists. No standalone lease subsystem is instantiated.'
+  affected_final_decisions:
+  - FD-013
+- finding_id: E-06
+  subagent: Subagent E
+  claim: Support-claim accuracy is generally HONEST for the completeness half of FD-014 but the 'signed'
+    vocabulary is overstated. evidence-store-v1.md correctly uses 'hash-match' (not 'signed') for the
+    journal mirror and states honest fail-closed completeness rules ('missing required evidence blocks
+    closure, promotion, or live claim activation'; retained snapshot must hash-match the live control
+    journal at closeout). The platform-overview doc calls ACP-2+ artifacts 'attestations' and 'signature'
+    without qualifying that these are unkeyed recomputable hashes. No governance/spec doc claims 'tamper-proof',
+    'non-repudiation', or 'cryptographically signed' evidence (grep is empty), so the framework avoids
+    the worst overclaims — but FD-014's own register text ('Broker and verifier sign direct observations;
+    signed checkpoints') is the overclaim relative to the implementation.
+  status: PARTIALLY_SATISFIED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/spec/evidence-store-v1.md:229-243
+  - .octon/framework/engine/runtime/spec/evidence-store-v1.md:302-318
+  - .octon/framework/capabilities/runtime/services/_meta/docs/platform-overview.md:594
+  - .octon/inputs/additive/.incoming/octon-architecture-and-migration-handoff-v2.0.0/decisions/final-decision-register.yml
+  symbol_refs:
+  - evidence-store-v1 Completeness Rules
+  - acp.attestations
+  consequence: The 'honest completeness claims' clause of FD-014 is met by the evidence-store completeness
+    rules and fail-closed hash-match requirement. The 'signed observations / signed checkpoints' clause
+    is not met and its vocabulary overstates the actual guarantee. A reader trusting FD-014 as written
+    would believe the system provides cryptographic non-repudiation it does not.
+  minimum_repair: 'Reconcile the FD-014 register text and platform-overview attestation description with
+    reality: replace ''sign''/''signed''/''signature'' with ''hash-chain and git-anchor'' (or implement
+    real signing per E-01/E-03). Keep the evidence-store-v1 completeness/hash-match language unchanged
+    — it is accurate.'
+  acceptance_test: 'Audit every governance use of ''sign(ed)/signature/attestation'' against the implementation:
+    each must either map to a verified cryptographic signature or be reworded to ''hash/digest/git-anchored''.
+    The evidence-store completeness rules should already pass this audit; the FD-014 register text and
+    ACP attestation docs should fail until reworded or backed by real signing.'
+  affected_final_decisions:
+  - FD-014
+- finding_id: E-07
+  subagent: Subagent E
+  claim: The evidence-retention-contract-v1 schema exists but is a container of free-text string rule
+    arrays (retention_rules/integrity_rules/retrieval_rules as arrays of prose strings), and no concrete
+    active instance of it was found (only framework README/family references and log mentions). There
+    is no machine-enforced bounded-retention or compaction routine that re-verifies the hash chain after
+    compaction. The 'compact evidence views' (evidence-index, raw-log-summary, failing-slice-manifest,
+    retained-run-evidence-index) are declared as non-authoritative aids that must fail closed on digest
+    mismatch and must not overwrite raw evidence — but they are reduction/summary views, not a retention-bound
+    compaction that preserves and re-anchors chain verifiability.
+  status: PARTIALLY_SATISFIED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/framework/constitution/contracts/retention/evidence-retention-contract-v1.schema.json:55-70
+  - .octon/framework/engine/runtime/spec/evidence-store-v1.md:149-181
+  symbol_refs:
+  - evidence-retention-contract-v1
+  - Compact Evidence Views
+  consequence: 'FD-014''s ''bounded retention, compaction'' with the proof ''compaction preserves verifiability''
+    is only partially represented: compact views preserve source digests and fail closed on mismatch (good),
+    but there is no enforced retention bound or a compaction operation that re-establishes a verifiable
+    (let alone signed) head over the compacted set. Operational evidence volume for a solo builder is
+    bounded only by ad-hoc external-localization/cleanup helpers, not by an active retention policy instance.'
+  minimum_repair: Instantiate an active evidence-retention-contract with concrete bounded-retention limits,
+    and define a compaction operation that, when it drops or archives raw events, retains a verifiable
+    digest-anchored (ideally signed per E-01) checkpoint over the compacted range so post-compaction verification
+    still detects rewriting; add a test that compacts a run and re-verifies chain integrity.
+  acceptance_test: Compact a run's raw evidence per the retention policy, then run chain/checkpoint verification
+    over the compacted bundle and assert it still detects a rewrite of a compacted-range artifact. Today
+    no such compaction+re-verification path exists.
+  affected_final_decisions:
+  - FD-014
+- finding_id: F-017-1
+  subagent: Subagent F
+  claim: The self-evolution / promotion / recertification runtime (octon evolve, octon promote, octon
+    recertify) is inspection-only and is not invoked by any merge/CI gate; it therefore does not enforce
+    that trust-root or ordinary self-development changes actually pass through the evolution/promotion/recertification
+    process before they take effect on main.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:105-125
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:425-469
+  - .octon/framework/engine/runtime/spec/promotion-runtime-v1.md:1-50
+  - .github/workflows/
+  symbol_refs:
+  - cmd_promote
+  - apply_promotion
+  - recertification_dry_run
+  consequence: The entire self-evolution control surface (candidate/classify/simulate/lab/propose/promote/recertify)
+    is a hand-run CLI advisory. `apply_promotion` (evolution.rs:425-469) only reads state and returns
+    `ready_to_apply`/`blocked` reports; it performs no file write and no activation. A grep of .github/workflows
+    shows only uec-cutover-certify.yml references 'recertif' (a one-time UEC closure workflow, workflow_dispatch/push,
+    not a merge gate), and NO workflow invokes `octon evolve`/`octon promote`/`octon recertify` or the
+    octon-self-evolution program. Nothing mechanically forces a self-development change (ordinary Class-B-shaped
+    or trust-root) to be classified, lab-gated, promotion-receipted, or recertified before it merges.
+    The FD-017 discipline exists only as governance prose that an agent may bypass by editing files directly
+    and merging via the normal Change routes.
+  minimum_repair: Add a required merge gate (e.g. a new job in closure-certification.yml or a dedicated
+    self-evolution-gate.yml) that, for any diff touching declared trust-root/authority surfaces, fails
+    closed unless a matching promotion receipt + accepted self-evolution-decision-request + recertification-result
+    exist and validate; wire `octon promote apply`/`octon recertify run` (or an equivalent validator)
+    into that gate so the runtime that encodes the discipline is actually on the enforced path.
+  acceptance_test: Create a branch that edits a trust-root file (e.g. .octon/framework/constitution/charter.yml)
+    with no promotion receipt / decision request / recertification result and open a PR; the new required
+    gate must fail closed. A second PR that includes a valid receipt+decision+recertification for that
+    exact change must pass. Confirm the gate job appears in the branch ruleset required checks.
+  affected_final_decisions:
+  - FD-017
+  - FD-018
+- finding_id: F-017-2
+  subagent: Subagent F
+  claim: Merge/certification gates check out and run the PR's own head ref, so a change that edits its
+    own gate workflow, its own validator script, or its own governing policy is certified by the edited
+    (post-change) version — a same-change self-certification path with no independent verifier.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .github/workflows/harness-self-containment.yml:48-108
+  - .github/workflows/closure-certification.yml:40-98
+  - .github/workflows/deny-by-default-gates.yml:47-91
+  - .github/workflows/main-change-route-guard.yml:19-22
+  symbol_refs:
+  - validate-harness-structure.sh
+  - validate-promotion-receipts.sh
+  - validate-authorization-boundary-coverage.sh
+  consequence: closure-certification.yml runs `validate-promotion-receipts.sh`, `validate-authorization-boundary-coverage.sh`,
+    `validate-generated-non-authority.sh`, etc. from the checked-out PR head (checkout at closure-certification.yml:40-41).
+    harness-self-containment.yml likewise validates workflow/validator changes from the PR head (checkout:48-49)
+    and its `paths:` list (lines 7-33) even scopes-in edits to the trust-root workflows themselves (main-change-route-guard.yml,
+    main-push-safety.yml, release-please.yml, runtime-binaries.yml, harness-self-containment.yml). Because
+    the verifier is inside the same change surface it gates, a PR can weaken or neutralize its own validator/gate/policy
+    and be certified by the weakened version. This directly violates FD-017's 'cannot self-certify' clause
+    and FD-018's 'candidate cannot change its own verification/activation/rollback rules'.
+  minimum_repair: 'Pin the trust-root verifier set to a trusted ref: for gates that certify authority/trust-root
+    surfaces, check out the verifier scripts and gate workflows from the base branch (or a signed/pinned
+    tag) rather than the PR head, or run those gates via `pull_request_target` with an explicit checkout
+    of `github.event.pull_request.base.sha` for the verifier while diffing the head; add a distinct required
+    check that fails whenever a diff touches a verifier/gate file without an independent (base-ref) re-run
+    and an operator approval.'
+  acceptance_test: Open a PR that edits `.octon/framework/assurance/runtime/_ops/scripts/validate-promotion-receipts.sh`
+    to `exit 0` unconditionally AND removes a promotion receipt; under current code the closure-certification
+    job passes. After the repair, the base-ref verifier must run and fail closed, and a separate required
+    check must flag the verifier-file edit for independent approval.
+  affected_final_decisions:
+  - FD-017
+  - FD-018
+- finding_id: F-017-3
+  subagent: Subagent F
+  claim: 'There is no inert-landing mechanism for trust-root changes: authored authority under .octon/framework/**
+    and .octon/instance/** (constitution, charter, policies, gate workflows, validators) takes effect
+    the instant it lands on main; nothing lets a trust-root change land dormant and require a separate,
+    later activation step.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: ARCHITECTURAL_INFERENCE
+  confidence: medium
+  file_refs:
+  - .octon/framework/engine/runtime/spec/promotion-activation-v1.md:43-66
+  - .octon/instance/governance/policies/promotion-semantics.yml:63-88
+  - .octon/framework/constitution/CHARTER.md:136-143
+  symbol_refs:
+  - Release Activation
+  - release_activation
+  consequence: The only 'activation' concept (promotion-activation-v1.md:43-51, promotion-semantics.yml
+    release_activation) is a documentation/receipt discipline for flipping the live *disclosure/release*
+    claim (harness-card / release-lineage), and it is enforced by no runtime crate code (grep of crates/
+    for release_lineage/active_release/harness_card in runtime code returned nothing). Constitution/charter/policy/workflow/validator
+    files are read live at HEAD by CI and by the runtime resolver, so a merged edit to any of them is
+    immediately effective. There is no feature-flag/staging gate that holds a trust-root change dormant
+    pending an independent activation decision. FD-017's 'trust-root changes land inert' is therefore
+    ABSENT as an implemented control; the charter Amendment Policy (CHARTER.md:136-143) requires 'human
+    governance approval' in the same branch but supplies no inert/two-phase landing.
+  minimum_repair: 'Introduce a staged-activation primitive for trust-root surfaces: land trust-root changes
+    into a non-effective staging location or behind an explicit effective-selector (e.g. a `state/control/**`
+    activation record + resolver that reads staged trust-root only when a separate, later-dated activation
+    receipt selects it), so the merge that introduces the change is provably distinct from the change
+    that makes it effective.'
+  acceptance_test: Merge a trust-root edit and show, via the resolver/effective-state, that the old rule
+    is still in force until a separate activation record is committed; then commit the activation record
+    and show the new rule becomes effective. Prove the two commits are authored by distinct authorization
+    events.
+  affected_final_decisions:
+  - FD-017
+- finding_id: F-017-4
+  subagent: Subagent F
+  claim: No enforced 'Class B / ordinary self-development' classification exists for self-development
+    changes; the repo's 'Class B' vocabulary refers exclusively to evidence-retention pointer artifacts,
+    and risk-materiality tiers key on action type (mutate_repo / protected_branch_mutation), not on whether
+    a change touches the trust root.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/constitution/contracts/retention/README.md:32
+  - .octon/state/evidence/README.md:35
+  - .octon/instance/governance/policies/risk-materiality.yml:1-49
+  - .octon/instance/governance/evolution/programs/octon-self-evolution/program.yml:20-25
+  symbol_refs:
+  - risk-materiality-policy-v1
+  - prohibited_change_classes
+  consequence: FD-017 distinguishes 'ordinary self-dev follows Class B' from 'trust-root changes'. In
+    this repo, 'Class B' means Git-pointer evidence manifests (retention/README.md:32, state/evidence/README.md:35)
+    — unrelated to a self-development risk class. risk-materiality.yml classifies by action_type; a trust-root
+    edit and a docs edit both map to `mutate_repo` (moderate/ACP-2) unless they touch a protected branch.
+    The octon-self-evolution program.yml prohibits `autonomous_constitutional_amendment` and `self_modifying_runtime`
+    (program.yml:20-25), which is the closest expression of the FD-017 trust-root/ordinary split, but
+    it is a governance YAML that no merge gate reads and the program itself is never invoked (see F-017-1).
+    So the taxonomy that FD-017 assumes (an ordinary-self-dev class vs a trust-root class with different,
+    enforced controls) is not materialized as an enforceable classifier.
+  minimum_repair: Add an authoritative trust-root inventory + a self-development change classifier (policy
+    + validator) that maps a diff's touched paths to {ordinary-self-dev, trust-root} and binds each class
+    to distinct required evidence/gates; reference program.yml prohibited_change_classes from the enforced
+    gate so the class boundary is machine-checked, not prose.
+  acceptance_test: 'Run the new classifier against a diff touching only docs (expect: ordinary-self-dev,
+    base gate set) and a diff touching .octon/framework/constitution/** or a gate workflow (expect: trust-root,
+    elevated gate set incl. independent verifier + activation). Confirm both are wired as required checks.'
+  affected_final_decisions:
+  - FD-017
+  - FD-018
+- finding_id: F-018-1
+  subagent: Subagent F
+  claim: Harness self-activation has no operator-preauthorized, previous-version-verified, exact-version,
+    staged, rollback-capable process; the runtime binary is built and shipped from HEAD via unsigned artifacts,
+    with no gate where the prior harness version verifies the new one and no immutable verifier the candidate
+    cannot edit.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .github/workflows/runtime-binaries.yml:1-182
+  - .github/workflows/release-please.yml:1-159
+  - .octon/framework/engine/practices/release-runbook.md:32-61
+  - .octon/framework/engine/runtime/release-targets.yml
+  symbol_refs:
+  - runtime-binaries
+  - release-please
+  - action-gh-release
+  consequence: runtime-binaries.yml builds `octon_kernel` release binaries from the tagged HEAD and publishes
+    them via softprops/action-gh-release (runtime-binaries.yml:122-182) with no signing/cosign/sigstore/GPG
+    step (grep for sign/cosign/sigstore/gpg over workflows+spec returned only attestation-envelope schema
+    fields and an unrelated auditor_signoff enum). release-please.yml (unsigned, PAT-driven) creates the
+    tag. There is no gate in which the *previous* installed harness version verifies the *new* candidate,
+    no exact-version pin binding a verifier that the candidate cannot change, and no staged rollout/rollback-capable
+    activation of the harness itself — the release runbook (release-runbook.md:32-61) is a manual checklist.
+    Combined with F-017-2 (verifiers run from the change's own head), an autonomous agent could ship a
+    new harness that alters its own activation and verification rules. FD-018's five conjuncts (operator-preauthorized,
+    previous-version-verified, exact-version, staged, rollback-capable, rules-immutable-to-candidate)
+    are essentially ABSENT / at best REQUIRES_FRESH_PROVIDER_EVIDENCE for the operator-preauthorization
+    piece.
+  minimum_repair: Sign release artifacts and pin an exact previous-version verifier (a released, tagged
+    binary or an out-of-tree signed verifier) that must validate the new candidate before activation;
+    require an operator-preauthorized activation approval keyed to the exact new version; make harness
+    activation staged (canary/soak per governance-model.md) with a retained rollback handle; ensure the
+    verification/activation/rollback rules live outside the candidate's own change surface (base-ref or
+    signed external ref).
+  acceptance_test: 'Attempt to publish a runtime binary whose source alters the activation gate: activation
+    must be blocked until (a) the signed previous-version verifier validates the exact new version, (b)
+    an operator preauthorization for that version exists, and (c) a rollback handle is retained. Confirm
+    the verifier/activation rules cannot be satisfied by files edited in the same release change.'
+  affected_final_decisions:
+  - FD-018
+- finding_id: F-018-2
+  subagent: Subagent F
+  claim: The declarative promotion/amendment/decision-request contracts do assert the correct non-self-authorization
+    posture (decision_request_authorizes_promotion:false, promotion_runtime_self_approves:false, human_or_quorum_approval_required:true,
+    recertification failure_blocks_closure:true), but every one of these checks is embedded in the same
+    editable governance surface and enforced only by the un-wired evolution CLI, so the strong-looking
+    contract is not on an unavoidable enforced boundary.
+  status: ARCHITECTURAL_INFERENCE
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/framework/engine/runtime/spec/self-evolution-decision-request-v1.schema.json:43-44
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:541-787
+  - .octon/instance/governance/evolution/policies/promotion-policy.yml:26
+  - .octon/instance/governance/evolution/policies/constitutional-amendment-policy.yml:30-31
+  - .octon/framework/engine/runtime/spec/recertification-result-v1.schema.json:52
+  symbol_refs:
+  - decision_request_authorizes_promotion
+  - promotion_runtime_self_approves
+  - promotion_blockers
+  - validate_approval_or_decision_ref
+  consequence: 'promotion_blockers() (evolution.rs:541-787) is a genuinely thorough fail-closed reader:
+    it requires accepted decision refs, human/quorum approval, lab gate pass, rollback posture, recertification
+    request/result, support-no-widening proof, and rejects self-approval (promotion_runtime_self_approves
+    must be false; decision_request_authorizes_promotion is const false in the schema). These are strong
+    primitives worth preserving. BUT the caller `apply_promotion` never mutates anything and no gate calls
+    it (F-017-1), and the policy/schema files that define the boundary are themselves editable trust-root
+    files certified by their own head-ref run (F-017-2). Net: the mediation asserted by these contracts
+    is advisory. This mirrors the pre-existing ''Octon mediation gap'' (engine enforces in-kernel but
+    nothing unavoidable calls it for agent effects).'
+  minimum_repair: Route the actual landing of a trust-root/self-evolution change through `promotion_blockers`/`octon
+    promote apply` as a required, base-ref-run gate (see F-017-1/F-017-2), so the already-correct non-self-authorization
+    logic becomes an unavoidable boundary rather than an optional CLI report.
+  acceptance_test: With the gate wired and run from a trusted ref, feed a promotion record whose `promotion_runtime_self_approves:true`
+    or whose decision ref is missing/ungranted; the gate must block the merge. Flip to a valid, granted,
+    human-approved record and confirm it passes.
+  affected_final_decisions:
+  - FD-017
+  - FD-018
+- finding_id: G-01
+  subagent: Subagent G
+  claim: 'No durable, digest-bound ''Workspace Project'' identity exists in current authored/framework/generated
+    surfaces; only a singleton mutable Project Profile (`instance/locality/project-profile.yml`) exists,
+    and the base + constitutional profile schemas set `additionalProperties: true` with NO registry/lifecycle/dependency/revision-pointer/authority
+    contract. The ''Workspace Project'' concept appears only inside an unaccepted exploratory proposal
+    tree.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/spec/project-profile-v1.schema.json:6
+  - .octon/framework/constitution/contracts/runtime/project-profile-v1.schema.json:6
+  - .octon/instance/locality/project-profile.yml:23-44
+  - .octon/instance/locality/registry.yml:1-5
+  - .octon/inputs/exploratory/proposals/architecture/octon-trustworthy-autonomy-solo-developer-revision-2/support/concept-extraction-output.md:25
+  symbol_refs:
+  - project-profile-v1 (schema)
+  - profile_id
+  - repo_root
+  - profile_scope
+  - octon-locality-registry-v1
+  consequence: FD-019's 'durable Workspace Project identity referencing Project Profiles' is not realized.
+    The current identity is a single machine-path-bound Profile with no multi-project identity, no immutable-revision
+    store, and no digest-bound maximum-boundary pointer. There is no durable, authenticated project boundary
+    that policy/authority could independently verify as a maximum locality ceiling; the only boundary
+    primitives are the descriptive `protected_zones`/`governance_relevant_paths` arrays in the profile
+    and the `octon-locality-scope-v2` scope (single `octon-harness` scope).
+  minimum_repair: Introduce a minimal `workspace-project-v1` identity contract (schema_version, project_id,
+    repo/ownership identity, maximum locality boundary, dependency refs, and a `profile_revision_ref`
+    pointer to the refreshable Project Profile) plus a project registry under `instance/locality/`, explicitly
+    classified non-authoritative, and wire it as a read input to policy/authority without granting effects.
+    Keep the existing Profile as the refreshable descriptive half.
+  acceptance_test: grep confirms a `workspace-project-v1` (or equivalent) schema and a durable project-identity
+    record outside `inputs/exploratory/**`; the record carries a digest/revision pointer to `project-profile.yml`;
+    a schema/validator asserts it declares no route/effect/grant fields; and a validator run treats it
+    as a non-authorizing read input.
+  affected_final_decisions:
+  - FD-019
+- finding_id: G-02
+  subagent: Subagent G
+  claim: 'The existing Project Profile satisfies FD-019''s ''never authority'' clause: the `project-profile-v1`
+    schema exposes only descriptive discovery fields (repo_structure, toolchain discovery, hints, protected_zones,
+    governance_relevant_paths, validation_strategy, rollback_constraints) and NO route/effect/grant/scope-minting
+    keys; the product feature note explicitly states the compiler ''does not mint runtime authority'',
+    and the kernel treats it as an evidence-compiled read artifact with a `ProjectProfileStaleness` (refreshability)
+    signal.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/spec/project-profile-v1.schema.json:29-103
+  - .octon/instance/locality/project-profile.yml:1-44
+  - .octon/framework/product/features/engagement-change-package-compiler.md:9
+  - .octon/framework/engine/runtime/crates/kernel/src/main.rs:1050
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs:349-388
+  symbol_refs:
+  - ProjectProfileStaleness
+  - PROJECT_PROFILE_REF
+  - protected_zones
+  - governance_relevant_paths
+  consequence: 'The ''never authority'' half of FD-019 is well anchored today; the descriptive Profile
+    cannot grant effects. The risk is only structural: `additionalProperties: true` on both profile schemas
+    means a widened profile could smuggle non-schema keys, but nothing in the runtime consumes profile
+    fields as authority, so this is latent rather than active.'
+  minimum_repair: When adding Workspace Project identity, tighten `additionalProperties` to false (or
+    an explicit allowlist) on the identity/boundary contract so a self-widened profile/project record
+    cannot introduce authority-shaped fields; retain the descriptive profile as-is.
+  acceptance_test: A schema-conformance validator rejects any project/profile record containing route/effect/grant/capability
+    keys; adding such a key to `project-profile.yml` fails validation.
+  affected_final_decisions:
+  - FD-019
+- finding_id: G-03
+  subagent: Subagent G
+  claim: 'A deterministic Harness Factory exists and is digest-bound: `generate-runtime-effective-route-bundle.sh`
+    hashes a fixed set of approved effective inputs (root manifest, runtime-resolution, support matrix,
+    pack routes + lock, extension catalog + generation lock, workflow manifest) into `route-bundle.yml`
+    + `route-bundle.lock.yml`, records `source_digests`, `freshness.mode: digest_bound`, `invalidation_conditions`,
+    `non_authority_classification: derived-runtime-handle`, and forbidden consumers; the generator is
+    idempotent (reuse-if-payload-unchanged).'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/assurance/runtime/_ops/scripts/generate-runtime-effective-route-bundle.sh:1-80
+  - .octon/generated/effective/runtime/route-bundle.lock.yml:1-78
+  - .octon/generated/effective/runtime/route-bundle.yml:1-118
+  - .octon/octon.yml:80-90
+  symbol_refs:
+  - hash_file
+  - normalize_effective_publication_payload
+  - maybe_reuse_publication_values
+  - source_digests
+  - freshness.mode
+  - octon-runtime-effective-route-bundle-lock-v3
+  consequence: FD-020's 'deterministic Harness Factory compiles approved inputs into a digest-bound effective
+    manifest' is realized. The bundle compiles routes/tuples and does not itself decide/schedule; it emits
+    `allow`/`stage_only`/`requires_mission` from precompiled tiers, matching 'not another runtime/scheduler/policy
+    engine'.
+  minimum_repair: 'None required for satisfaction. Optional hardening: pin the input set in a machine-readable
+    factory input manifest so an added authority input cannot silently enter the digest set.'
+  acceptance_test: Re-running the generator on an unchanged input set is a no-op (idempotent); mutating
+    any declared source input changes the bundle/lock digests and receipt; a stale bundle is rejected
+    downstream (see G-04).
+  affected_final_decisions:
+  - FD-020
+- finding_id: G-04
+  subagent: Subagent G
+  claim: 'Stale or self-widened effective manifests cannot launch: the `runtime_resolver` crate enforces
+    the digest binding IN-KERNEL. `verify_runtime_route_bundle` denies on generation_id mismatch, `route_bundle_sha256`
+    drift, runtime-resolution digest drift, root-manifest/support-matrix digest mismatch, receipt digest/generation/status/published-path
+    mismatch, and requires dependency handles for v3; `handles.rs` performs per-dependency `verify_digest_field`/`enforce_freshness_mode`/`allows_consumer`,
+    emitting `CAPABILITY_DENIED` on drift. The freshness-gates-v4 spec codifies ''stale or missing runtime-effective
+    handle: deny'' and ''pack widening beyond admitted tuple: deny''.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/runtime_resolver/src/lib.rs:368-535
+  - .octon/framework/engine/runtime/crates/runtime_resolver/src/handles.rs:198-274
+  - .octon/framework/engine/runtime/crates/runtime_resolver/src/handles.rs:382-471
+  - .octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md:56-72
+  symbol_refs:
+  - verify_runtime_route_bundle
+  - verify_digest_field
+  - enforce_freshness_mode
+  - enforce_handle_freshness
+  - allows_consumer
+  - CAPABILITY_DENIED
+  consequence: 'The ''can a stale or self-widened manifest launch?'' probe is answered NO by static inspection
+    of the resolver: the effective manifest is a derived non-authority handle whose trust collapses on
+    any input drift, and the resolver refuses drifted/forbidden-consumer handles. This is a strength:
+    the Harness Factory output is compile-time-fixed and runtime-verified, not a live authority surface.'
+  minimum_repair: 'None for FD-020. Residual: I did not DYNAMICALLY_EXECUTE the resolver; a runtime proof
+    (deliberately drift a digest and observe CAPABILITY_DENIED) would upgrade this from architectural
+    inference of the deny path to executed proof.'
+  acceptance_test: 'REQUIRES_DYNAMIC_PROOF: mutate `route-bundle.yml` (or an upstream source input) without
+    regenerating the lock, run the resolver, and confirm it returns CAPABILITY_DENIED (digest drift) rather
+    than launching.'
+  affected_final_decisions:
+  - FD-020
+- finding_id: G-05
+  subagent: Subagent G
+  claim: 'A private signed extension catalog with import/verify/pin/quarantine exists: normalized packs
+    live under `inputs/additive/extensions/<pack-id>/` (import via governed intake), `pack.yml` is `octon-extension-pack-v5`
+    carrying `provenance{source_id,imported_from,origin_uri,digest_sha256,attestation_refs}` and trust
+    classes (first_party_bundled=allow, first_party_external=require_acknowledgement, third_party=deny);
+    publication produces a digest-pinned effective catalog + generation lock + artifact map with `invalidation_conditions`
+    and receipt SHAs; invalid/denied packs quarantine under `state/control/extensions/quarantine.yml`;
+    publication status supports `published | published_with_quarantine | withdrawn`. There is NO public
+    marketplace surface.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/governance/extensions/trust-and-compatibility.md:34-67
+  - .octon/instance/extensions.yml:1-60
+  - .octon/generated/effective/extensions/generation.lock.yml:1-16
+  - .octon/state/control/extensions/quarantine.yml:1-4
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh:105
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh:453-465
+  - .octon/inputs/additive/extensions/nextjs/pack.yml:1-35
+  symbol_refs:
+  - octon-extension-pack-v5
+  - provenance.digest_sha256
+  - provenance.attestation_refs
+  - octon-extension-generation-lock-v6
+  - published_with_quarantine
+  - withdrawn
+  - trust.default_actions
+  consequence: 'FD-021''s import/verify/pin plus revoke-by-quarantine/withdraw and the ''no public marketplace''
+    constraint are realized. This is a genuine strength: trust is repo-owned in `instance/extensions.yml`,
+    provenance travels with the pack, and runtime consumes only the digest-pinned published view.'
+  minimum_repair: None for the import/verify/pin/quarantine/no-marketplace clauses.
+  acceptance_test: grep confirms no marketplace endpoint/URL surface; `validate-extension-publication-state.sh`
+    enforces quarantine/status invariants; the generation lock pins desired-config + root-manifest SHAs;
+    a denied `third_party` pack is quarantined and excluded from the effective catalog.
+  affected_final_decisions:
+  - FD-021
+- finding_id: G-06
+  subagent: Subagent G
+  claim: 'Two clauses of FD-021 are only partially met: (a) ''signed'' — the schema supports `digest_sha256`
+    + `attestation_refs`, but every currently-shipped pack is `first_party_bundled` with `digest_sha256:
+    null` and `attestation_refs: []`, and signature/attestation is required only for `first_party_external`/`third_party`,
+    so no signature is actually enforced on the live catalog; (b) ''rollback'' — publication models revoke
+    via `withdrawn` and re-publish-from-config, but there is no first-class ''roll back the extension
+    catalog to a prior published generation/pin'' operation distinct from regenerating from the current
+    desired config.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/inputs/additive/extensions/nextjs/pack.yml:19-25
+  - .octon/inputs/additive/extensions/octon-concept-integration/pack.yml:38-44
+  - .octon/framework/engine/governance/extensions/trust-and-compatibility.md:48-56
+  - .octon/instance/extensions.yml:52-60
+  symbol_refs:
+  - provenance.digest_sha256=null
+  - attestation_refs=[]
+  - 'first_party_bundled: allow'
+  - withdrawn
+  consequence: 'The catalog is ''signable'' but not ''signed'' in practice, and ''rollback'' is emergent
+    (re-publish/withdraw) rather than a named pin-restore. FD-021 as written (''import/verify/pin/revoke/rollback''
+    + ''signed'') is therefore satisfied in spirit but has two thin spots: unenforced signatures on the
+    shipped set and no explicit rollback-to-prior-generation primitive.'
+  minimum_repair: (a) Populate `digest_sha256` for bundled packs and add a validator assertion that every
+    published pack carries a non-null content digest (even bundled), so the catalog is content-signed
+    end to end; (b) add an explicit `rollback_to_generation`/prior-lock-restore operation (or document
+    that withdraw+republish-from-pinned-config is the sanctioned rollback and gate it on a retained prior
+    generation lock).
+  acceptance_test: 'A validator fails if any published pack has `digest_sha256: null`; and an operator
+    can restore the effective catalog to a named prior `generation_id` with a receipt, or the governance
+    docs explicitly define the withdraw+republish rollback path with a retained prior lock.'
+  affected_final_decisions:
+  - FD-021
+- finding_id: G-07
+  subagent: Subagent G
+  claim: 'Extensions/projects/harnesses cannot mint or widen authority: the extension boundary contract
+    forbids governance/authority/orchestration/engine/assurance/services content in raw packs and restricts
+    runtime consumption to the generated effective view; model/host adapters (the provider-native delegation
+    surface) are `authority_mode: non_authoritative`/`projection_only`, `replaceable: const true`, and
+    carry explicit `non_authoritative_boundaries` (''may not widen authority or support tiers''); the
+    route bundle is `derived-runtime-handle` non-authority; the freshness spec denies ''pack widening
+    beyond admitted tuple''.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/governance/extensions/boundary-contract.md:14-28
+  - .octon/framework/constitution/contracts/adapters/model-adapter-v1.schema.json:38-46
+  - .octon/framework/constitution/contracts/adapters/model-adapter-v1.schema.json:134-141
+  - .octon/framework/engine/runtime/adapters/model/frontier-governed.yml:45-48
+  - .octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md:63-72
+  symbol_refs:
+  - authority_mode
+  - non_authoritative_boundaries
+  - replaceable
+  - derived-runtime-handle
+  consequence: 'The ''they must not mint or widen authority'' constraint spanning FD-019/020/021/023 is
+    structurally enforced: none of these surfaces is an authority class, and both the effective manifest
+    and adapters classify themselves as non-authority. This is a core strength to preserve.'
+  minimum_repair: 'None. Optional: add an assurance check asserting adapter manifests keep `authority_mode`
+    in the non-authoritative enum and `non_authoritative_boundaries` non-empty, so a future adapter cannot
+    silently omit the boundary.'
+  acceptance_test: A validator fails any adapter manifest with an authority-granting mode or empty `non_authoritative_boundaries`;
+    the boundary-contract validator rejects governance/engine/authority content in a raw pack.
+  affected_final_decisions:
+  - FD-019
+  - FD-020
+  - FD-021
+  - FD-023
+- finding_id: G-08
+  subagent: Subagent G
+  claim: 'Provider-native component delegation with Octon-owned semantics and trust contracts is realized
+    via the constitutional adapter contract family. `model-adapter-v1` defines `integration_class: provider-bridge
+    | native-planning | local-model` and mandates Octon-owned trust surfaces: `conformance_criteria_refs`,
+    `conformance_suite_refs`, `contamination_reset_policy`, `memory_discipline_policy`, `support_target_ref`
+    subordination, `known_limitations`, and `non_authoritative_boundaries`. The live `frontier-governed`
+    adapter uses `integration_class: provider-bridge` and binds `interface_ref` to Octon''s `policy-interface-v1`,
+    i.e., the provider plugs into an Octon-owned interface and Octon owns the semantics/trust.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/constitution/contracts/adapters/README.md:9-18
+  - .octon/framework/constitution/contracts/adapters/model-adapter-v1.schema.json:47-141
+  - .octon/framework/engine/runtime/adapters/model/frontier-governed.yml:6-48
+  - .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml:6-51
+  - .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json:46-55
+  symbol_refs:
+  - octon-model-adapter-v1
+  - integration_class=provider-bridge
+  - conformance_criteria_refs
+  - contamination_reset_policy
+  - support_target_ref
+  - policy-interface-v1
+  consequence: 'FD-023 is realized: provider-native model/host components are delegated to through replaceable,
+    non-authoritative Octon-owned adapter contracts; Octon owns the interface (policy-interface-v1), the
+    conformance/trust obligations, and the support-target ceiling. Provider behavior ''may shape execution
+    quality but may not widen authority or support tiers.'''
+  minimum_repair: 'None for satisfaction. Note: connector-level provider delegation (connector-trust-dossier,
+    connector-admission, tool-connector-posture) exists as a broader contract family but I inspected the
+    model/host adapters primarily; a connector-side confirmation would broaden coverage.'
+  acceptance_test: 'A schema-conformance validator confirms every model/host adapter manifest declares
+    `authority_mode` non-authoritative, `replaceable: true`, a bound Octon `interface_ref`, and non-empty
+    conformance + non_authoritative_boundaries; a provider-bridge adapter cannot declare support tiers
+    beyond `support-targets.yml`.'
+  affected_final_decisions:
+  - FD-023
+- finding_id: H-01
+  subagent: Subagent H
+  claim: 'The repo''s ''Class A/B/C'' taxonomy is an EVIDENCE-RETENTION storage class (Git-inline / Git-pointer
+    / external-digest), NOT the FD-002 consequence-class routing (autonomous / brokered+auto-completed
+    / stronger-controls). The actual consequence/autonomy routing uses a DIFFERENT and much richer taxonomy:
+    mission_class (observe/campaign/reconcile/maintenance/migration/incident/destructive) crossed with
+    risk tiers ACP-0..ACP-4, materiality classes, reversibility classes, and machine quorum requirements.
+    There is no code or contract that names ''Class A/B/C'' as the run-routing axis FD-002 describes.'
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/constitution/contracts/retention/README.md:30-34
+  - .octon/instance/governance/policies/mission-autonomy.yml:1-9
+  - .octon/instance/governance/policies/risk-materiality.yml:1-40
+  - .octon/instance/governance/policies/hierarchical-planning.yml:36-47
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/runtime_state.rs:1880
+  symbol_refs:
+  - Class A/B/C (retention)
+  - mission-autonomy-policy-v1.mode_defaults
+  - risk-materiality-policy-v1.tiers
+  - acp_thresholds ACP-0..ACP-4
+  - quorum ACP-2/ACP-3/ACP-4
+  consequence: FD-002's promised simple three-bucket model ('concentrates ceremony at actual consequence
+    boundaries') is not what the code implements. The implemented model is a 7x5 mission-class x ACP-tier
+    matrix with quorum, burn states, circuit breakers, and safing subsets — far more surface than 'Class
+    A autonomous / Class B brokered / Class C stronger controls'. A reviewer testing FD-002 by grepping
+    for Class A/B/C routing will find only the unrelated retention taxonomy, and the naming collision
+    (same words, different meaning) is itself a discoverability/usability hazard for a solo operator.
+  minimum_repair: Either (a) add an explicit crosswalk contract mapping the FD-002 Class A=autonomous
+    / Class B=brokered+auto-completed / Class C=stronger-controls buckets onto the existing mission_class
+    + ACP-tier + reversibility model, or (b) collapse the implemented matrix toward the three named buckets.
+    Rename the retention 'Class A/B/C' to a distinct term (e.g. Retention Tier 1/2/3) to remove the naming
+    collision.
+  acceptance_test: grep the repo for a contract that binds the strings 'Class A'/'Class B'/'Class C' to
+    autonomous/brokered/stronger-controls routing (not retention). A representative 'Class A' task must
+    show zero routine prompts and a 'Class C' task must be provably unable to select a lower route, referencing
+    the same named buckets FD-002 uses.
+  affected_final_decisions:
+  - FD-002
+- finding_id: H-02
+  subagent: Subagent H
+  claim: There is NO local credentialed broker implemented as a runtime process/binary. FD-024 lists 'local
+    broker' as a required deliverable and FD-006 requires 'one separate local deterministic broker holding
+    durable credentials'. Grep across all Rust crates for broker / credential-holder / credential-vault
+    returns nothing; the only 'broker' artifact is a shell script policy-grant-broker.sh that mints policy
+    grants, not a credential-holding daemon. Agents/executors being credentialless is therefore unenforced
+    by any broker boundary.
+  status: ABSENT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/capabilities/_ops/scripts/policy-grant-broker.sh
+  - .octon/framework/engine/runtime/crates/kernel/src/main.rs:107-111
+  symbol_refs:
+  - policy-grant-broker.sh
+  - DelegateCmd (lease commands, not a broker process)
+  consequence: 'The central privilege boundary FD-024/FD-006 depend on does not exist as a runtime component.
+    Without a credential-holding broker, ''agents are credentialless'' and ''raw push/merge/deploy fail
+    from candidate execution'' cannot be demonstrated. This is the single largest FD-024 gap: the vertical
+    ''complete path'' is missing its authority anchor. It also feeds the mediation gap (H-03): even the
+    in-kernel authorization is not invoked at launch, and there is no broker to hold credentials that
+    agents must go through.'
+  minimum_repair: Introduce a single local broker component (process or in-kernel role) that holds durable
+    provider credentials, exposes a narrow deterministic effect surface, and is the only holder of push/merge/deploy
+    capability; make agent and lifecycle-executor launch paths credentialless by construction.
+  acceptance_test: 'Negative test: a candidate execution attempting raw git push / PR merge / deployment
+    / protected access without going through the broker fails. Positive test: the same effect succeeds
+    only when routed through the broker with a valid grant.'
+  affected_final_decisions:
+  - FD-024
+  - FD-002
+- finding_id: H-03
+  subagent: Subagent H
+  claim: authority_engine's verify_authorized_effect is only ever called from within authority_engine
+    itself (implementation.rs, effects.rs) and its tests — never from the kernel/executor launch paths
+    (ExecutorLaunch). Meanwhile lifecycle_executor/src/authorization.rs::authorize_before_dispatch BUILDS
+    AND WRITES its own DelegationProof via build_and_write_proof, constructing its own invocation_authority
+    checks. So there are two authority planes and no unavoidable mediation boundary at process launch.
+  status: PARTIALLY_SATISFIED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:210
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1002
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:37-95
+  symbol_refs:
+  - verify_authorized_effect
+  - authorize_before_dispatch
+  - build_and_write_proof
+  - invocation_authority.mode == "grant-consumption"
+  consequence: For FD-002 (Class A must run with zero routine prompts) and FD-024 (safe self-dev, no unauthorized
+    durable effects), the safety property is asserted by governance prose and by an executor-self-constructed
+    proof rather than enforced at an unavoidable kernel boundary. A solo operator relying on 'Class A
+    is autonomous but bounded' has no single choke point proving effects were authorized. This is architectural
+    inference about enforceability, corroborated by the standing repo memory note on the mediation gap.
+  minimum_repair: Make process/effect launch call the canonical authority_engine verify path (or the broker
+    from H-02) as an unavoidable mediation step; retire the executor's self-built DelegationProof as a
+    competing authority source (reduce it to evidence, not authority).
+  acceptance_test: Grep shows every ExecutorLaunch/effect-dispatch path routes through a single authorize/verify
+    call; a launch with missing/forged/stale/revoked authority is denied before process creation regardless
+    of executor-local proof.
+  affected_final_decisions:
+  - FD-002
+  - FD-024
+- finding_id: H-04
+  subagent: Subagent H
+  claim: There is a substantial cross-org / federated-trust subsystem that conflicts with FD-001's 'one
+    serious solo operator; enterprise/team administration out of scope'. The kernel ships Trust-domain
+    registry, Trust Compacts (propose/approve/revoke), Federation ledger/status, Attestation (verify/accept/reject),
+    Delegated-authority Leases, and portable Proof-bundle import/export — trust.rs alone is ~1,515 LOC,
+    and these are top-level CLI verbs (Trust, Proof, Attest, Delegate, Certify, Federation). This is multi-party
+    trust-federation machinery a single operator with separate technical identities does not need.
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/framework/engine/runtime/crates/kernel/src/main.rs:89-123
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/trust.rs:1-160
+  - .octon/framework/engine/runtime/spec/external-project-adoption-v1.md:21
+  symbol_refs:
+  - TrustCmd
+  - TrustDomainCmd
+  - TrustCompactCmd (Propose/Approve/Revoke)
+  - FederationCmd
+  - AttestCmd
+  - DelegateLeaseCmd
+  - TrustProofExportCmd/TrustProofImportCmd
+  - CertifyCmd
+  consequence: 'This is the clearest scope-conflicting subsystem for FD-001. Federation compacts and cross-domain
+    trust are inherently multi-party; they add ~1.5k+ LOC of surface, several CLI verb families, and their
+    own contracts/state for a persona that is explicitly one person. It inflates install/operate/diagnose
+    burden (the FD-001 required proof) and dilutes the ''one complete vertical path'' FD-024 wants. Note:
+    some of this could be defended as future provider-native delegation (FD-023), but trust COMPACTS and
+    FEDERATION LEDGERS are multi-operator constructs, not solo primitives.'
+  minimum_repair: Gate Trust-domain / Federation / Trust-Compact behind an off-by-default feature or move
+    it out of the solo vertical; retain only the single-operator-relevant pieces (attestation verify,
+    proof export/import for self-dogfooding) if any. Confirm with the operator which trust verbs are load-bearing
+    for a solo build.
+  acceptance_test: With federation/trust-compact disabled, the solo dogfood mission set (FD-024 required
+    proof) still completes end to end. No solo workflow depends on TrustCompactCmd or FederationCmd.
+  affected_final_decisions:
+  - FD-001
+  - FD-024
+- finding_id: H-05
+  subagent: Subagent H
+  claim: There is no 'CLI mission inbox' as FD-024 names it. The closest surface is the Mission Queue
+    (octon mission queue / mission next) which is per-mission action-slice selection, and Decision Request
+    inspection (octon decide list/resolve). There is no cross-mission operator inbox aggregating pending
+    items/decisions across the operator's multiple projects. The word 'inbox' in-repo refers only to the
+    human scratchpad staging folder (ideation/scratchpad/inbox), not a mission control surface.
+  status: PARTIALLY_SATISFIED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/framework/engine/runtime/crates/kernel/src/main.rs:349
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs:86-159
+  - .octon/framework/engine/runtime/README.md:135
+  - .octon/framework/cognition/_meta/architecture/dot-files.md:65
+  symbol_refs:
+  - MissionCmd::Queue
+  - MissionCmd::Next
+  - DecideCmd (DecisionListCmd/DecisionResolveCmd)
+  consequence: 'FD-024''s ''CLI mission inbox'' as the operator''s daily driver across multiple projects
+    is only partially present: per-mission queue + decision list exist, but there is no unified inbox
+    view spanning projects/missions. For a solo operator managing multiple projects, the absence of a
+    single ''what needs me now across everything'' surface raises daily operating burden (the FD-001/FD-024
+    proof obligation).'
+  minimum_repair: Add a cross-mission/cross-project inbox command (e.g. octon inbox) that aggregates open
+    Decision Requests, blocked slices, and escalations across all missions/projects into one operator-facing
+    list, reusing the existing DecisionRequest and Mission Queue primitives.
+  acceptance_test: octon inbox (or equivalent) lists all pending operator decisions and blocked items
+    across every active mission/project in one call; resolving from that surface advances the underlying
+    missions.
+  affected_final_decisions:
+  - FD-024
+- finding_id: H-06
+  subagent: Subagent H
+  claim: The Project Profile is singular per repo (.octon/instance/locality/project-profile.yml), and
+    Engagements bind one Project Profile each. FD-024/FD-019 require multi-project support ('multiple
+    projects', 'multi-project continuity'). There is no durable multi-project registry/identity record
+    in the Rust source; grep for workspace-project / multi-project / project-identity in crates returns
+    only the single PROJECT_PROFILE_REF constant.
+  status: PARTIALLY_SATISFIED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/stewardship.rs:21
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs:29
+  - .octon/framework/engine/runtime/crates/kernel/src/main.rs:47
+  symbol_refs:
+  - PROJECT_PROFILE_REF = ".octon/instance/locality/project-profile.yml"
+  consequence: 'The ''multiple projects'' pillar of FD-024 (and FD-019''s minimal durable project identity/boundary
+    record) is not visibly realized: the runtime models one project profile per .octon root. Whether multi-project
+    is achieved by multiple .octon roots (one per repo) or a single registry is unverified — but no Workspace-Project
+    identity record exists in code, so multi-project continuity is undemonstrated. UNCERTAIN whether the
+    intended model is many independent .octon installs vs. one operator workspace.'
+  minimum_repair: Either document/prove that multi-project = one .octon per repo with a lightweight operator-level
+    index, or add the FD-019 minimal durable project identity/boundary record (never authority) so multiple
+    projects share one operator surface.
+  acceptance_test: An operator with N repos can enumerate and continue missions across all N from one
+    surface; project metadata provably cannot widen an active run or mint authority (FD-019 proof).
+  affected_final_decisions:
+  - FD-024
+  - FD-001
+- finding_id: H-07
+  subagent: Subagent H
+  claim: 'Operate/maintain surface is very large for one person: 13 Rust crates (~157k LOC across crates),
+    42 GitHub workflows (many governance gates: adr-prompt, ai-review-gate, alignment-check, architecture-conformance,
+    assurance-weight-gates, closure-certification, deny-by-default-gates, principles-charter-overrides-audit,
+    uec-cutover-certify/validate, unified-execution-constitution-closure, etc.), 33 instance governance
+    policies, ~2,342 framework config/doc files, plus .octon/state (~148.6k files) and .octon/generated
+    (~36.6k files). FD-001''s required proof is that ONE person can install, operate, upgrade, diagnose,
+    and recover Octon within burden targets.'
+  status: PARTIALLY_SATISFIED
+  evidence_classification: CONFIGURATION_DERIVED
+  confidence: high
+  file_refs:
+  - .github/workflows/
+  - .octon/instance/governance/policies/
+  - .octon/framework/engine/runtime/crates/
+  symbol_refs:
+  - 42 workflows
+  - 33 policies
+  - 13 crates
+  - 148658 state files
+  - 36609 generated files
+  consequence: The internal-complexity exposure and monthly admin burden are high relative to a solo persona.
+    42 CI workflows (a large fraction being certification/closure/charter-audit gates) plus 33 governance
+    policies plus 185k state+generated files is an operating platform, not a single-person tool. This
+    directly stresses the FD-001 burden targets and the FD-024 'low review burden' proof. The 148k state
+    + 36k generated files also imply heavy repository churn that a solo operator must keep coherent.
+  minimum_repair: 'Define explicit burden targets (install steps, workflows a solo run actually triggers,
+    monthly maintenance minutes) and trim non-load-bearing gates. Candidate cuts for the solo vertical:
+    UEC cutover/closure certification workflows, charter-overrides-audit, assurance-weight-gates, and
+    federation-related CI, unless each maps to a testable safety property in the solo path.'
+  acceptance_test: A fresh macOS install-to-first-mission runbook has a bounded, measured step count;
+    a routine Class A/B change triggers only the small subset of workflows tied to a named safety property,
+    and the rest are quarantined behind self-dev/enterprise flags.
+  affected_final_decisions:
+  - FD-001
+  - FD-024
+- finding_id: H-08
+  subagent: Subagent H
+  claim: 'The autonomy policy imposes machine quorum for medium/high tiers: ACP-2 requires 2 signers (execution
+    agent + independent verifier/validator), ACP-3 requires 3, ACP-4 requires human/break-glass. risk-materiality
+    maps ordinary repo mutation (git.commit / mutate_repo) to ACP-2 with required_route ''escalate'' and
+    required approval artifacts (decision-artifact + grant-bundle). For a solo operator, routine repo
+    commits mapping to an escalate route with 2-party quorum is exactly the ''false escalation / ceremony''
+    risk the simplification lens is asked to flag.'
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/instance/governance/policies/risk-materiality.yml:10-33
+  - .octon/instance/governance/policies/mission-autonomy.yml:146-159
+  symbol_refs:
+  - risk-materiality tiers repo-change-moderate risk_tier ACP-2 required_route escalate
+  - 'quorum ACP-2 required: 2'
+  - 'quorum ACP-3 required: 3'
+  consequence: FD-002 promises Class A/B run autonomously with zero routine prompts. But the risk-materiality
+    contract routes ordinary repo mutation to ACP-2/escalate with a 2-party quorum and grant-bundle/decision-artifact
+    requirements. If enforced literally, a solo operator's routine commits generate escalation ceremony
+    and prompts — the opposite of FD-002's 'zero routine prompts for Class A/B'. Whether this ceremony
+    actually fires for solo commits depends on how mission_class defaults + proceed_on_silence interact
+    (mode_defaults maintenance='notify', reconcile='proceed_on_silence'), which softens but does not remove
+    the escalate route. This tension needs a concrete solo-path resolution.
+  minimum_repair: Reconcile risk-materiality's 'repo-change-moderate -> escalate + quorum 2' with FD-002's
+    'Class B brokered + auto-completed, zero routine prompts'. Define a solo profile where reversible
+    repo mutation on an isolated branch with independent exact-SHA verification (FD-011) satisfies the
+    ACP-2 quorum via the verifier as the second party — no human prompt.
+  acceptance_test: A representative reversible repo change on an isolated branch completes with zero human
+    prompts, with the independent SHA verifier counted as the second quorum member; a genuinely higher-consequence
+    (ACP-3+/destructive) change provably cannot take that route.
+  affected_final_decisions:
+  - FD-002
+- finding_id: H-09
+  subagent: Subagent H
+  claim: The `octon doctor` command exists but only supports `--architecture` (runs validate-architecture-health.sh,
+    a self-development gate) and hard-errors without that flag. There is no operator-facing setup/health/recover
+    'doctor' that diagnoses a solo operator's install (broker up, credentials present, missions healthy,
+    storage capacity). FD-001 requires proof one person can install, diagnose, and recover.
+  status: PARTIALLY_SATISFIED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:475-500
+  - .octon/framework/engine/runtime/crates/kernel/src/main.rs:173-178
+  symbol_refs:
+  - Command::Doctor { architecture }
+  - cmd_doctor
+  - validate-architecture-health.sh
+  consequence: 'The diagnose/recover leg of the FD-001 burden proof is only partly served: doctor is a
+    self-dev architecture linter, not an operator health check. A solo operator hitting a broken install/broker/credential/storage
+    state has no first-class diagnostic path, raising recovery burden.'
+  minimum_repair: Add an operator-mode doctor (no --architecture) that checks broker/credential presence,
+    mission/queue integrity, evidence storage capacity (FD-013), and offers recovery hints; keep the architecture
+    gate as a separate self-dev subcommand.
+  acceptance_test: octon doctor (no flags) reports install health across broker, credentials, missions,
+    and storage, and returns non-zero with actionable output when any is broken.
+  affected_final_decisions:
+  - FD-001
+  - FD-024
+- finding_id: J-01
+  subagent: Subagent J
+  claim: 'The primary agent-execution engine (lifecycle_executor) launches the candidate agent (codex/claude)
+    WITHOUT ever passing through authority_engine::authorize_execution or verify_authorized_effect. lifecycle_executor
+    has ZERO dependency on authority_engine (no octon_authority_engine in its Cargo.toml, no authority_engine::
+    usage in src). Its only pre-dispatch gate is its OWN authorize_before_dispatch, which self-constructs
+    and writes a DelegationProof from request.policy.invocation_authority rather than consuming any kernel-issued
+    grant or ExecutorLaunch effect token. Thus the most consequential agent-facing effect path is not
+    completely mediated by the kernel authority.'
+  status: CONTRADICTED
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs:109-123
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs:39-151
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:416-452
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/Cargo.toml
+  symbol_refs:
+  - authorize_before_dispatch
+  - build_and_write_proof
+  - DelegationProof
+  - build_executor_command
+  - execute_real
+  consequence: 'Complete mediation (FD tied to single unavoidable authority boundary) does not hold for
+    the agent implementation path. The lifecycle executor is a second, self-attesting authorization plane:
+    it decides its own authority from route.delegation_contract + policy.invocation_authority and dispatches
+    the agent, which then performs arbitrary repo/git/network effects with no kernel grant, no ExecutorLaunch
+    effect-token consumption, and no verify_authorized_effect. issue_executor_launch_effect is called
+    in production ONLY for the studio app launch (commands/mod.rs:736), never for the candidate agent.'
+  minimum_repair: Make lifecycle_executor depend on authority_engine and require a real authorize_execution
+    grant + issue/verify of an ExecutorLaunch effect token immediately before build_executor_command spawns
+    codex/claude; fail closed if the grant/effect is absent. Remove or subordinate the self-built DelegationProof
+    so it can only annotate, never authorize.
+  acceptance_test: Add a test that invokes the lifecycle_executor adapter for run-packet-implementation
+    with a request whose authority_engine grant is missing/denied and assert the agent process is never
+    spawned (build_executor_command not reached) and the result status is authorization-proof-failed;
+    grep-assert that codex.rs spawn is preceded by a verify_authorized_effect::<ExecutorLaunch> call.
+  affected_final_decisions:
+  - FD-003
+  - FD-004
+  - FD-009
+  - FD-017
+  - FD-018
+- finding_id: J-02
+  subagent: Subagent J
+  claim: The candidate/agent child process inherits the full ambient parent environment, including any
+    durable credentials (GITHUB_TOKEN/GH_TOKEN, ANTHROPIC/OPENAI API keys, git credential helpers). No
+    env_clear or env_remove or allowlist is applied at ANY spawn site in the runtime crates.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:416-452
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:240-254
+  symbol_refs:
+  - build_executor_command
+  - configure_process_group
+  - execute_agent
+  consequence: Credential separation between the trusted runtime and the untrusted candidate agent does
+    not exist. A prompt-injected or misbehaving agent can read and use any credential present in the runtime's
+    environment to perform authenticated network publication (git push over HTTPS credential helper, gh
+    api merges) entirely outside the authorization boundary. Combined with J-01 this means autonomous
+    durable publication with ambient credentials is reachable from inside the ungated agent spawn.
+  minimum_repair: Before Command::spawn in build_executor_command, call command.env_clear() then re-inject
+    only an explicit allowlist of non-credential vars (PATH, HOME-for-tool-state, TERM, and any per-run
+    tokens minted by the authority engine). Route all provider/network credential use through a runtime-mediated
+    broker rather than passing ambient env to the child.
+  acceptance_test: Unit test build_executor_command and assert the resulting Command's env map does not
+    contain GITHUB_TOKEN/GH_TOKEN/ANTHROPIC_API_KEY/OPENAI_API_KEY when they are set in the parent process
+    (requires env_clear + allowlist to pass).
+  affected_final_decisions:
+  - FD-006
+  - FD-009
+  - FD-017
+- finding_id: J-03
+  subagent: Subagent J
+  claim: 'Exact-SHA publication safety and direct-main autonomous publication: The publication contract
+    lists direct-main at precedence 20 in route_selection_order (before branch-no-pr) and explicitly permits
+    autonomous origin push during closeout. Exact-SHA validation is expressed only as evidence/validator
+    requirements (''route_neutral_exact_sha_check_evidence_when_hosted_publication_claimed'') enforced
+    by repo-resident shell scripts, not by a runtime gate at the push site. The runtime does not itself
+    execute git push for this path; the push is performed inside the candidate agent process, and the
+    exact-sha validators live in candidate-editable governance scope.'
+  status: CONTRADICTED
+  evidence_classification: CONFIGURATION_DERIVED
+  confidence: high
+  file_refs:
+  - .octon/framework/product/contracts/default-work-unit.yml:258-334
+  - .octon/framework/product/contracts/default-work-unit.yml:295-317
+  - .octon/framework/engine/runtime/crates/kernel/src/workflow.rs:5434-5451
+  symbol_refs:
+  - route_selection_order
+  - direct_main_first_when_all
+  - terminal_forbidden_actions_are_all_false
+  consequence: Exact-SHA publication safety is not enforced by an unavoidable runtime boundary. Direct-main
+    autonomous publication remains reachable and is route-preferred for solo low-risk changes. The only
+    exact-sha enforcement is post-hoc evidence checked by shell validators under .octon/framework/assurance/.../scripts,
+    which are within the write scope an implementation run can be granted, enabling same-run subversion
+    of the check that governs its own publication. The workflow.rs 'push' reference at line 5440 is only
+    a forbidden-action label in a closeout receipt, not a gated push.
+  minimum_repair: Perform any origin push / hosted landing only through a gated kernel command (like protected-ci)
+    that (a) computes the expected head SHA in trusted Rust, (b) refuses to publish if the resolved SHA
+    differs, and (c) forbids the publishing run from having write scope over the exact-sha validator scripts.
+    Do not delegate the push to the candidate agent process.
+  acceptance_test: Add a kernel test asserting that a publication request whose resolved origin head SHA
+    differs from the authorized landed_commit is rejected in Rust before any gh/git push subprocess runs;
+    assert direct-main publication cannot proceed when the implementation run's declared write scope intersects
+    the exact-sha validator script paths.
+  affected_final_decisions:
+  - FD-010
+  - FD-011
+  - FD-012
+- finding_id: J-04
+  subagent: Subagent J
+  claim: Effect-token single-use consumption is a non-transactional read-check-then-write with no atomic
+    reservation, no cross-process lock, and non-atomic file persistence (plain fs::write, no temp+rename,
+    no O_EXCL, no fsync). The 'already consumed' guard is checked at effects.rs:564 but status is only
+    flipped and persisted at effects.rs:658 via persist_token_record -> write_json (policy.rs:81-88 plain
+    fs::write). The material effect the token authorizes happens in the caller after verify_authorized_effect
+    returns.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:564-666
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1154-1156
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:81-97
+  symbol_refs:
+  - verify_authorized_effect
+  - persist_token_record
+  - write_json
+  consequence: Idempotency/replay safety is not guaranteed for effect-token single-use. A crash after
+    the material durable effect but before persist_token_record leaves status != consumed, so a crash-retry
+    re-verifies and re-authorizes the same effect -> duplicated durable effect. Two concurrent verifiers
+    can both pass the consumed-check at 564 before either persists at 658 (TOCTOU), double-consuming a
+    single-use token. There is no transactional reserve-then-commit and no exactly-once boundary.
+  minimum_repair: 'Reserve atomically before the material effect: create a per-token reservation via OpenOptions::new().create_new(true)
+    (O_EXCL) or an advisory flock held across verify+consume, mark consumed BEFORE returning the VerifiedEffect
+    (reserve-first), and persist records via write-to-temp + atomic rename + fsync. Treat an existing
+    reservation as EFFECT_TOKEN_ALREADY_CONSUMED.'
+  acceptance_test: Add a concurrency test spawning two threads that call verify_authorized_effect on the
+    same single-use token record simultaneously and assert exactly one succeeds; add a crash-simulation
+    test that reserves, injects a failure before persist, retries, and asserts the second attempt is rejected
+    as already-consumed.
+  affected_final_decisions:
+  - FD-011
+  - FD-014
+- finding_id: J-05
+  subagent: Subagent J
+  claim: 'Bounded/honest evidence: verify_authorized_effect proves only local internal consistency of
+    a runtime-issued token (allow decision, id/kind/digest match, referenced authority files exist, single-use
+    status), not that the durable effect actually occurred at any provider, nor cryptographic non-repudiation.
+    side_effects/mod.rs INVENTORY is a static DECLARED list of which classes ''should'' require the boundary
+    (marked #![allow(dead_code)]) and does not itself enforce mediation. Any language describing this
+    stack as complete-mediation / tamper-proof / attested for provider effects overstates what hash-chained
+    local files prove.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: high
+  file_refs:
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:210-330
+  - .octon/framework/engine/runtime/crates/kernel/src/side_effects/mod.rs:1-90
+  symbol_refs:
+  - verify_authorized_effect
+  - MaterialSideEffectInventoryEntry
+  - INVENTORY
+  - required_authority_refs_exist
+  consequence: Claims of tamper-proof / non-repudiation / attestation / complete mediation are only true
+    within the closed world of runtime-written local files and only for effect paths that actually route
+    through the kernel (which the lifecycle_executor agent path does not, per J-01). The evidence is local,
+    mutable by any process with filesystem write (the agent inherits repo write), and not externally verifiable,
+    so it is bounded local audit evidence, not a security proof against a misbehaving candidate.
+  minimum_repair: Downgrade documentation claims to 'bounded local evidence for kernel-mediated effects
+    only'; enumerate explicitly which effect classes are mediated in code vs declared-only; make side_effects
+    INVENTORY enforced (assert at runtime that every material class in the inventory is reached only via
+    a verified effect) rather than dead_code.
+  acceptance_test: Add a test that walks the side_effects INVENTORY and, for each material=true entry,
+    asserts a corresponding code path exists that calls verify_authorized_effect before the subprocess;
+    assert the ExecutorLaunch inventory entry maps to a verified launch for the agent executor (currently
+    fails).
+  affected_final_decisions:
+  - FD-003
+  - FD-004
+  - FD-014
+- finding_id: J-06
+  subagent: Subagent J
+  claim: 'Trust admission approval is presence-only, not validated: trust_domain_add sets approved = args.approval_ref.is_some()
+    (trust.rs:302) and flips status from ''blocked'' to ''stage_only'' purely on the presence of an --approval-ref
+    string, without verifying the referenced approval artifact exists, is well-formed, or is authoritative.
+    (Distinct from protected_ci_auto_merge at mod.rs:1432-1452 which does file-existence-check its projection.)'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/trust.rs:297-341
+  symbol_refs:
+  - trust_domain_add
+  consequence: 'Safe trust activation is weak at admission: a candidate can advance a trust domain from
+    blocked to stage_only by passing any arbitrary approval-ref token, without a verified human approval
+    artifact. The cap is stage_only (not execution), and domain_authorizes_execution stays false, so this
+    alone does not authorize effects, but it erodes the intended human boundary and lets self-supplied
+    references stand in for approvals.'
+  minimum_repair: In trust_domain_add, resolve args.approval_ref against the repo, require the artifact
+    to exist, parse it as a valid human-approval envelope, and validate its schema/subject before treating
+    the domain as approved (mirror the file-existence + schema checks already used in protected_ci_auto_merge).
+  acceptance_test: Add a test calling trust domain add with --approval-ref pointing to a nonexistent or
+    malformed path and assert the resulting domain status is 'blocked' (not 'stage_only').
+  affected_final_decisions:
+  - FD-018
+- finding_id: J-07
+  subagent: Subagent J
+  claim: 'A second, credentialed control plane exists in GitHub Actions: pr-auto-merge.yml runs on a schedule
+    (cron every 2h) and pull_request_target with contents:write + pull-requests:write and secrets.AUTONOMY_PAT,
+    and decides merge eligibility via repo-resident, PR-head-checked-out shell scripts (evaluate-pr-autonomy-policy.sh
+    and assert_automerge_eligible) before invoking the gated ''octon protected-ci auto-merge''. Because
+    eligibility scripts are checked out from the PR head (git checkout --detach ${head_sha}) and chmod+x''d
+    from that tree, a PR that edits those scripts or the standards JSON can influence its own eligibility
+    gate.'
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: CONFIGURATION_DERIVED
+  confidence: medium
+  file_refs:
+  - .github/workflows/pr-auto-merge.yml:1-28
+  - .github/workflows/pr-auto-merge.yml:110-196
+  - .github/workflows/pr-auto-merge.yml:285-333
+  - .octon/framework/assurance/runtime/_ops/scripts/protected-ci-auto-merge.sh:1-7
+  symbol_refs:
+  - pr-auto-merge
+  - assert_automerge_eligible
+  - assert_canonical_merge_authorization
+  - evaluate-pr-autonomy-policy.sh
+  - protected-ci-auto-merge.sh
+  consequence: The autonomous-merge authority and its trigger cadence + credential (AUTONOMY_PAT) live
+    in GitHub Actions, an authority source outside the Rust kernel. While the terminal merge routes through
+    the gated Rust command, the eligibility decision is a candidate-influenceable CI-layer control plane
+    (same-change self-certification risk when a PR mutates its own policy scripts/standards, and pull_request_target
+    grants secrets to code triggered by external PRs). The Rust boundary does not re-derive eligibility
+    from trusted state independent of the PR head.
+  minimum_repair: Pin eligibility scripts and standards JSON to the base ref (not the PR head) when evaluating
+    merge eligibility; move the eligibility policy evaluation into the trusted Rust protected-ci command
+    using base-ref-pinned inputs; restrict AUTONOMY_PAT usage and avoid running PR-head scripts under
+    pull_request_target with write scope.
+  acceptance_test: Add a CI/integration assertion that the eligibility evaluation reads policy scripts
+    and standards from the merge base (origin/main) rather than the PR head, and that a PR modifying evaluate-pr-autonomy-policy.sh
+    cannot alter its own auto-merge eligibility outcome.
+  affected_final_decisions:
+  - FD-004
+  - FD-012
+  - FD-017
+  - FD-018
+- finding_id: J-08
+  subagent: Subagent J
+  claim: authorize_execution contains an operator-toggle bypass of runtime-route-bundle freshness verification
+    via env var OCTON_ALLOW_STALE_RUNTIME_ROUTE_BUNDLE, which substitutes verify_runtime_route_bundle
+    with runtime_route_bundle_publication_bypass.
+  status: CURRENT_REPOSITORY_FACT
+  evidence_classification: STATICALLY_INSPECTED
+  confidence: medium
+  file_refs:
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:67-72
+  - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:2013-2044
+  symbol_refs:
+  - allow_stale_runtime_route_bundle
+  - runtime_route_bundle_publication_bypass
+  - verify_runtime_route_bundle
+  consequence: Even on the properly-gated kernel path, an ambient environment variable weakens a freshness
+    precondition of authorization (route-bundle staleness verification), so an operator or a process controlling
+    the runtime env can dispatch against a stale/bypassed route bundle. This is an env-driven softening
+    of the authorization gate, not a fail-closed boundary.
+  minimum_repair: Require the stale-bundle bypass to be justified by a signed, human-approved, run-scoped
+    exception artifact rather than a bare environment variable; record and fail-closed if the bypass is
+    used without such an artifact.
+  acceptance_test: Add a test asserting that setting OCTON_ALLOW_STALE_RUNTIME_ROUTE_BUNDLE=1 without
+    an accompanying approved exception artifact causes authorize_execution to deny rather than proceed
+    via the bypass branch.
+  affected_final_decisions:
+  - FD-010
+  - FD-011

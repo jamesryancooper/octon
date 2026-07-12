@@ -1,0 +1,11 @@
+schema_version: "octon-reconciliation-review-reference-v1"
+architect_label: "B"
+review_id: "architecture-migration-review-20260712T015106Z-57f6e8"
+path: ".octon/inputs/exploratory/reviews/architecture-migration/architecture-migration-review-20260712T015106Z-57f6e8"
+reviewer_status: "original architect unavailable; cross-review uses explicit third-party substitute"
+repository_commit: "c5b1f5760c78ff521cca6b054e4e8fef5300505b"
+completed_at: "2026-07-12T03:08:31Z"
+original_verdict: "READY_WITH_BLOCKING_DECISIONS"
+integrity_status: "passed"
+integrity_index_sha256: "968d8f48d94471c11b95e20ace6c7b179d4edd8bbab7c4fa6f2d261b08f70eba"
+immutable: true

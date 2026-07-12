@@ -1,0 +1,60 @@
+schema_version: "octon-implementation-readiness-gates-v1"
+gates:
+  - gate_id: "GATE-0"
+    classification: "BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION"
+    status: "BLOCKED"
+    evidence: ["AMR-002", "AMR-005", "AMR-006", "AMR-007", "AMR-012"]
+    consequence: "Candidate code or widened scope can reach privileged execution/effect paths while support claims overstate protection."
+    minimum_repair: "Complete WG-00; fix scope comparison; disable candidate-controlled provider writes and autonomous direct-main; use PR-only/manual bridge."
+    acceptance_test: "Malicious candidate/provider fixtures cannot execute with token; no live claim or route advertises unproved mediation."
+    owner: "WG-00/WG-01"
+    operator_input_required: false
+  - gate_id: "GATE-1"
+    classification: "REQUIRED_BEFORE_PROOF_OF_ARCHITECTURE"
+    status: "BLOCKED"
+    evidence: ["AMR-001", "AMR-003", "AMR-004", "AMR-008"]
+    consequence: "Minimum architecture cannot demonstrate exact authority, isolation, transactionality, or credential custody."
+    minimum_repair: "Complete WG-01 through WG-07 for one Git effect."
+    acceptance_test: "Execute the proof-of-architecture matrix."
+    owner: "WG-01/WG-02/WG-03/WG-04/WG-05/WG-06/WG-07"
+    operator_input_required: true
+    operator_decision_refs: ["OD-001", "OD-002", "OD-005"]
+  - gate_id: "GATE-2"
+    classification: "REQUIRED_BEFORE_AUTONOMOUS_CLASS_B_PUBLICATION"
+    status: "BLOCKED"
+    evidence: ["AMR-005", "AMR-006", "AMR-007", "AMR-008", "AMR-009", "AMR-010"]
+    consequence: "Publication can be self-verified, duplicated, unreconciled, or evidenced by unauthenticated claims."
+    minimum_repair: "Complete WG-08 after broker, verifier, recovery, signatures, and bounded retention pass."
+    acceptance_test: "End-to-end race/replay/revocation/crash/unknown/duplicate-context proof with exact signed terminal receipt."
+    owner: "WG-08"
+    operator_input_required: false
+  - gate_id: "GATE-3"
+    classification: "REQUIRED_BEFORE_TRUST_ROOT_AUTOMATION"
+    status: "BLOCKED"
+    evidence: ["AMR-011"]
+    consequence: "A candidate can influence its verifier and no exact executable rollback exists."
+    minimum_repair: "Complete WG-09 after WG-06/WG-07/WG-08."
+    acceptance_test: "Malicious self-widening and all-transition activation fault matrix."
+    owner: "WG-09"
+    operator_input_required: true
+    operator_decision_refs: ["OD-002", "OD-003"]
+  - gate_id: "GATE-4"
+    classification: "REQUIRED_BEFORE_PRODUCTION_TRUST_CLAIMS"
+    status: "BLOCKED"
+    evidence: ["AMR-009", "AMR-010", "AMR-012", "AMR-013", "AMR-014"]
+    consequence: "Claims may exceed proof and solo support burdens remain unknown."
+    minimum_repair: "Complete WG-10 through WG-13 and independently reproduce core proofs."
+    acceptance_test: "Fresh exact claim-to-proof map, proof-expiry withdrawal, dogfood burden and recovery measurements."
+    owner: "WG-10/WG-11/WG-12/WG-13"
+    operator_input_required: true
+    operator_decision_refs: ["OD-005", "OD-006"]
+  - gate_id: "GATE-5"
+    classification: "LATER_OPTIMIZATION"
+    status: "DEFERRED"
+    evidence: []
+    consequence: "Optional remote worker, broader external effects, and Linux maturity may improve resilience but are not needed for the first trustworthy path."
+    minimum_repair: "Only add after measured need and no second-plane regression."
+    acceptance_test: "Provider replacement preserves authority/evidence/recovery semantics."
+    owner: "future packets"
+    operator_input_required: false
+

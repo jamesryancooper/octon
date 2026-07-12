@@ -1,0 +1,179 @@
+schema_version: octon-review-migration-gap-register-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: non-authoritative
+note: >-
+  One gap per material target property not yet met. severity_gate names the
+  readiness class from Phase 3 implementation-readiness gates. Each gap names the
+  packet (PP-xx) that owns it in the proposal-program packet map.
+gaps:
+  - gap_id: GAP-01
+    title: 'Agent-launch path bypasses canonical authority'
+    current: 'lifecycle_executor self-attests via DelegationProof; no authority_engine dependency'
+    target: 'Every agent/child launch consumes a verified canonical grant + one-shot ExecutorLaunch'
+    findings: [A-01, A-02, J-01]
+    decisions: [FD-003, FD-004]
+    owning_packet: 'PP-01'
+    severity_gate: 'BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION'
+    acceptance_test: 'Spawn denied when grant/ExecutorLaunch token missing/expired/revoked/consumed; concurrent consume ≤ once.'
+  - gap_id: GAP-02
+    title: 'Agents inherit ambient durable credentials'
+    current: 'no env_clear/allowlist at any spawn site; child inherits GITHUB_TOKEN/SSH/API keys'
+    target: 'credentialless agents; credentials only in local broker'
+    findings: [B-01, B-06, J-02, A-03]
+    decisions: [FD-006, FD-022]
+    owning_packet: 'PP-02, PP-04'
+    severity_gate: 'BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION'
+    acceptance_test: 'Sentinel secret set in parent is absent in child env; `gh auth status` fails in child.'
+  - gap_id: GAP-03
+    title: 'No OS isolation / candidate runs in canonical repo + Git'
+    current: 'no sandbox primitive; --cd repo_root; canonical .git objects/refs'
+    target: 'disposable OS-sandboxed env with isolated Git state'
+    findings: [B-04, B-05]
+    decisions: [FD-008]
+    owning_packet: 'PP-02'
+    severity_gate: 'REQUIRED_BEFORE_PROOF_OF_ARCHITECTURE'
+    acceptance_test: 'Escape test (fs/network/Git-state) denied by runtime-applied sandbox; canonical refs unchanged until brokered promotion.'
+  - gap_id: GAP-04
+    title: 'No local credential-holding broker'
+    current: 'only a policy-grant shell script; no credential custody component'
+    target: 'one separate local deterministic broker holds durable credentials'
+    findings: [B-02, H-02]
+    decisions: [FD-006, FD-024]
+    owning_packet: 'PP-04'
+    severity_gate: 'REQUIRED_BEFORE_PROOF_OF_ARCHITECTURE'
+    acceptance_test: 'Raw push/merge/deploy from candidate fails; brokered effect succeeds without agent holding secret.'
+  - gap_id: GAP-05
+    title: 'No transactional runtime store'
+    current: 'loose YAML/NDJSON; 11 non-atomic fs::write sites; no fsync/rename'
+    target: 'one SQLite/WAL authoritative store'
+    findings: [D-01, D-03]
+    decisions: [FD-005, FD-012]
+    owning_packet: 'PP-03'
+    severity_gate: 'REQUIRED_BEFORE_PROOF_OF_ARCHITECTURE'
+    acceptance_test: 'Kill-point between two writes leaves both-or-neither; all state files always parse.'
+  - gap_id: GAP-06
+    title: 'Single-use consume is TOCTOU / non-atomic'
+    current: 'read-check-write, no lock, plain fs::write'
+    target: 'transactional CAS consume; atomic persistence'
+    findings: [D-02, J-04]
+    decisions: [FD-011, FD-012]
+    owning_packet: 'PP-03'
+    severity_gate: 'REQUIRED_BEFORE_AUTONOMOUS_CLASS_B_PUBLICATION'
+    acceptance_test: 'N concurrent verifies on one single-use token → exactly one success.'
+  - gap_id: GAP-07
+    title: 'Unsanitized privileged Git; hooks installed'
+    current: 'no GIT_CONFIG_NOSYSTEM/hooksPath; managed hooks run git mutations'
+    target: 'broker-owned sanitized git; hooks/includes/filters cannot execute'
+    findings: [C-001, C-002, C-007]
+    decisions: [FD-009]
+    owning_packet: 'PP-05'
+    severity_gate: 'BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION'
+    acceptance_test: 'Planted hook + .gitattributes filter do not execute; every git call routes through the sanitized adapter.'
+  - gap_id: GAP-08
+    title: 'Direct-main preferred over branch-no-PR'
+    current: 'route_selection_order lists direct-main before branch-no-pr; solo prefers it'
+    target: 'branch-no-PR default; automatic PR escalation; no autonomous direct-main'
+    findings: [C-005, J-03]
+    decisions: [FD-010]
+    owning_packet: 'PP-06'
+    severity_gate: 'BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION'
+    acceptance_test: 'Autonomous Class B selects branch-no-pr; never commits on main; higher risk forces PR.'
+  - gap_id: GAP-09
+    title: 'Exact-SHA verifier candidate-controlled'
+    current: 'required checks defined in change-route-projection.yml (agent-editable); passes trivially without receipt'
+    target: 'candidate-immutable out-of-tree verifier keyed to pre-registered SHA'
+    findings: [C-003, C-006]
+    decisions: [FD-011]
+    owning_packet: 'PP-06'
+    severity_gate: 'REQUIRED_BEFORE_AUTONOMOUS_CLASS_B_PUBLICATION'
+    acceptance_test: 'A PR rewriting the verifier to exit 0 is still blocked by the out-of-tree verifier.'
+  - gap_id: GAP-10
+    title: 'No cryptographic signing of evidence'
+    current: 'unkeyed SHA-256 only; signature fields are unkeyed hashes; quorum presence-counts'
+    target: 'signed checkpoints OR explicit git-anchored wording + identity-verifying quorum'
+    findings: [E-01, E-02, E-03, E-06]
+    decisions: [FD-014]
+    owning_packet: 'PP-07, PP-00'
+    severity_gate: 'REQUIRED_BEFORE_PRODUCTION_TRUST_CLAIMS'
+    acceptance_test: '(A) rewritten log fails signature verify; or (B) all claims reworded and quorum rejects same-actor/forged attestations.'
+  - gap_id: GAP-11
+    title: 'No unknown-outcome reconciliation'
+    current: 'no post-effect did it land? probe; in-memory dedup lost on crash'
+    target: 'attempt lifecycle + idempotent reconcile before retry'
+    findings: [D-05, D-06]
+    decisions: [FD-012]
+    owning_packet: 'PP-07'
+    severity_gate: 'REQUIRED_BEFORE_AUTONOMOUS_CLASS_B_PUBLICATION'
+    acceptance_test: 'Crash after push-returns/before-terminal-record: reconcile classifies without re-pushing a landed ref.'
+  - gap_id: GAP-12
+    title: 'No capacity reservation; standalone lease files'
+    current: 'no free-space/ENOSPC handling; route-write-lease files drift from operations'
+    target: 'capacity reserved in the operation transaction'
+    findings: [D-04, E-04]
+    decisions: [FD-013]
+    owning_packet: 'PP-03, PP-07'
+    severity_gate: 'REQUIRED_BEFORE_PRODUCTION_TRUST_CLAIMS'
+    acceptance_test: 'Near-full disk still records denial/failure/revocation/rollback/closeout completely.'
+  - gap_id: GAP-13
+    title: 'Self-development discipline unwired; same-change self-cert'
+    current: 'evolution CLI advisory; gates run PR head ref; no inert landing'
+    target: 'enforced classifier + base-ref verifiers + inert trust-root landing'
+    findings: [F-017-1, F-017-2, F-017-3, F-017-4]
+    decisions: [FD-017]
+    owning_packet: 'PP-08'
+    severity_gate: 'REQUIRED_BEFORE_TRUST_ROOT_AUTOMATION'
+    acceptance_test: 'A PR editing its own validator to exit 0 is blocked by the base-ref verifier; trust-root edit is inert until a separate activation record selects it.'
+  - gap_id: GAP-14
+    title: 'No safe trust-root activation'
+    current: 'unsigned release from HEAD; presence-only trust approval; no staged rollback activation'
+    target: 'operator-preauthorized, prev-version-verified, exact-version, staged, rollback-capable'
+    findings: [F-018-1, F-018-2, J-06]
+    decisions: [FD-018]
+    owning_packet: 'PP-08'
+    severity_gate: 'REQUIRED_BEFORE_TRUST_ROOT_AUTOMATION'
+    acceptance_test: 'Every activation fault ends old / healthy-new / auto-rollback; self-widening activation fails.'
+  - gap_id: GAP-15
+    title: 'No four-role TCB / physical-writer enumeration'
+    current: 'authorize+verify present in substance; no canonical TCB artifact or writer list'
+    target: 'four roles + enumerated physical writers'
+    findings: [A-06]
+    decisions: [FD-015]
+    owning_packet: 'PP-00, PP-04'
+    severity_gate: 'REQUIRED_BEFORE_PRODUCTION_TRUST_CLAIMS'
+    acceptance_test: 'Every durable-write code path is listed with its role and gate.'
+  - gap_id: GAP-16
+    title: 'No durable Workspace Project identity'
+    current: 'singleton mutable Profile; additionalProperties:true'
+    target: 'minimal digest-bound project identity (never authority)'
+    findings: [G-01, G-02, H-06]
+    decisions: [FD-019]
+    owning_packet: 'PP-09'
+    severity_gate: 'LATER_OPTIMIZATION'
+    acceptance_test: 'Project record declares no route/effect/grant fields; cannot widen a run.'
+  - gap_id: GAP-17
+    title: 'Overstated support claims'
+    current: 'signed/complete-mediation/attestation stronger than implemented'
+    target: 'claims match implemented, testable proof'
+    findings: [E-01, E-03, J-05]
+    decisions: [FD-014]
+    owning_packet: 'PP-00'
+    severity_gate: 'BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION'
+    acceptance_test: 'Every sign/complete-mediation/attested claim maps to verified proof or is reworded.'
+  - gap_id: GAP-18
+    title: 'Scope + usability burden for solo builder'
+    current: 'federation breadth; 42 workflows; no cross-project inbox; no operator doctor'
+    target: 'solo vertical; demoted multi-party; inbox + doctor; trimmed gates'
+    findings: [H-04, H-05, H-07, H-09]
+    decisions: [FD-001, FD-002, FD-024]
+    owning_packet: 'PP-12'
+    severity_gate: 'REQUIRED_BEFORE_PRODUCTION_TRUST_CLAIMS'
+    acceptance_test: 'Fresh-install-to-first-mission bounded; routine Class A/B zero prompts; federation off by default.'
+  - gap_id: GAP-19
+    title: 'Second credentialed CI control plane'
+    current: 'pr-auto-merge pull_request_target + AUTONOMY_PAT + PR-head eligibility scripts'
+    target: 'eligibility from base-ref/trusted state; no candidate self-cert of merge'
+    findings: [J-07, C-004]
+    decisions: [FD-004, FD-007]
+    owning_packet: 'PP-06'
+    severity_gate: 'REQUIRED_BEFORE_AUTONOMOUS_CLASS_B_PUBLICATION'
+    acceptance_test: 'A PR editing eligibility scripts cannot change its own auto-merge outcome.'

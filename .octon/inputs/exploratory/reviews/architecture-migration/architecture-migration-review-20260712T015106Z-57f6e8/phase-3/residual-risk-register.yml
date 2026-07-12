@@ -1,0 +1,122 @@
+schema_version: octon-review-residual-risk-register-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: non-authoritative
+note: >-
+  Risks that remain even after a faithfully-executed corrected migration, or that a
+  solo builder cannot fully discharge. Each names the honest evidence class it can
+  actually achieve, so Phase 3 does not overstate assurance.
+residual_risks:
+  - id: RR-01
+    title: Sandbox escape completeness is a negative existential
+    detail: >-
+      F10 proves denial of the escape paths TESTED, never absence of ALL escapes. A
+      runtime-applied seatbelt/App Sandbox profile raises attacker cost but cannot be
+      proven complete by a solo builder.
+    achievable_evidence: regression-suite (extend over time), not a completeness proof
+    severity: medium
+    mitigation: Maintain F10 as a growing regression suite; refuse launch on unsupported platforms; keep the worktree-hygiene classifier as a backstop.
+    decisions: [FD-008]
+    source: [L3-R2, B-04]
+  - id: RR-02
+    title: Out-of-tree verifier immutability is configuration-derived
+    detail: >-
+      The exact-SHA verifier and base-ref self-cert protection are only as immutable as
+      the operator's GitHub App / protected-repo / ruleset configuration, which is not a
+      local unit test.
+    achievable_evidence: CONFIGURATION_DERIVED (provider config correctness)
+    severity: medium
+    mitigation: Document the required App/ruleset config as an install invariant; add a config-drift check; treat provider config as trust-root.
+    decisions: [FD-011, FD-007, FD-017]
+    source: [L3-R2, C-006, L1-06]
+  - id: RR-03
+    title: Off-git tamper-evidence / non-repudiation is not provided under Option B
+    detail: >-
+      Recommended Option B (git-anchored) delegates authenticity to git/GitHub history.
+      It does not defend against an actor who controls both the local repo and the push,
+      nor provide cryptographic non-repudiation. Option A (signing) adds key custody the
+      solo builder must secure.
+    achievable_evidence: ARCHITECTURAL_INFERENCE (git history is the anchor)
+    severity: medium
+    mitigation: State the boundary explicitly; if a real off-git threat model emerges, adopt Option A with documented key rotation/backup (OD-01).
+    decisions: [FD-014]
+    source: [L3-R1, E-01]
+  - id: RR-04
+    title: Near-full-disk capacity proof is deployment-local
+    detail: >-
+      F7 proves the code reserves/denies under a constrained fixture, not that the
+      operator's real disk will always have the reserved space at terminal-write time.
+    achievable_evidence: DEPLOYMENT_LOCAL
+    severity: low
+    mitigation: Ship the capacity reservation + up-front deny; document that real-disk headroom is an operator responsibility; doctor reports storage health.
+    decisions: [FD-013]
+    source: [L3-R2, D-04]
+  - id: RR-05
+    title: Epoch-0 / bootstrap trust has no external anchor
+    detail: >-
+      The base-ref verifier chain and out-of-tree pins must start from a first trusted
+      state; nothing external certifies that epoch-0. A compromised bootstrap undermines
+      every later activation.
+    achievable_evidence: OPERATOR_DECISION (human-anchored bootstrap)
+    severity: medium
+    mitigation: OD-08 — operator ratifies an explicit trust-root inventory and a one-time human-anchored epoch-0 bootstrap; all later chains derive from it.
+    decisions: [FD-017, FD-018]
+    source: [L1-06, F-018-1]
+  - id: RR-06
+    title: Broker is a new single point of operational failure
+    detail: >-
+      Folding store+git+creds into one broker process (the correct simplification) makes
+      it the single durable-effect chokepoint — good for security, but its crash halts all
+      durable effects. No supervision/recovery is designed yet.
+    achievable_evidence: STATICALLY_INSPECTED (no daemon pattern exists today)
+    severity: medium
+    mitigation: Supervised launchd LaunchAgent with health-gated auto-restart and fail-closed-on-restart; broker MTTR budget; doctor health check (L4-01).
+    decisions: [FD-006, FD-016, FD-024]
+    source: [L4-01, SR-03]
+  - id: RR-07
+    title: Solo maintenance burden may exceed a one-person budget
+    detail: >-
+      42 workflows, 42,257 tracked state files, 167 state-commits/30d. Even after trimming,
+      the governance surface is large; upkeep could exceed a solo budget.
+    achievable_evidence: STATICALLY_INSPECTED (measured); target requires dogfood
+    severity: medium
+    mitigation: SR-10/SR-13 — move run-exhaust out of tree, keep/merge/delete workflow inventory, set an explicit weekly budget as a promotion gate.
+    decisions: [FD-001, FD-024]
+    source: [L2-01, L2-10, H-07]
+  - id: RR-08
+    title: Reconciliation attribution under concurrent actors
+    detail: >-
+      Even with attempt-bound markers, distinguishing this attempt's landed ref from a
+      concurrent operator/CI action requires discipline; a mis-attribution risks a false
+      success or double-apply.
+    achievable_evidence: to be DYNAMICALLY_EXECUTED via F16
+    severity: low
+    mitigation: Per-attempt ref namespace + atomic pre-SHA compare; fail-closed on DIVERGED.
+    decisions: [FD-011, FD-012]
+    source: [L1-09]
+  - id: RR-09
+    title: Overnight autonomy blocked by credential-change actions
+    detail: >-
+      proceed_on_silence forbids credential_change; broker enrollment and (Option A) key
+      rotation cannot run unattended, stalling first-run/rotation during autonomous windows.
+    achievable_evidence: STATICALLY_INSPECTED (policy)
+    severity: low
+    mitigation: Prefer OD-01 B (no rotation); make enrollment a one-time operator-present step off the mission critical path.
+    decisions: [FD-001, FD-006]
+    source: [L4-04]
+  - id: RR-10
+    title: Review contamination / independence
+    detail: >-
+      A prior-session memory hint about the mediation gap was present in the environment;
+      it was treated as untrusted and every related conclusion re-derived from source.
+    achievable_evidence: documented control
+    severity: low
+    mitigation: See provenance/limitations.md; no sibling review was read; the mediation finding is independently verified (L1-01 lead-verified).
+    decisions: []
+    source: [provenance/limitations.md]
+overall: >-
+  After the corrected migration, the residual risk profile is dominated by items a
+  solo builder must ACCEPT rather than fully prove (sandbox completeness, provider-config
+  correctness, off-git authenticity, epoch-0 bootstrap, broker as SPOF, maintenance
+  budget). None re-open a BLOCKER if the Phase 3 gates are met; each is honestly bounded
+  and carries a named mitigation. This is the expected, acceptable residual for a
+  one-operator local-first autonomy system.

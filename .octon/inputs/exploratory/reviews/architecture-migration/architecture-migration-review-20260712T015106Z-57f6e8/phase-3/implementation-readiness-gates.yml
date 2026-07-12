@@ -1,0 +1,151 @@
+schema_version: octon-review-implementation-readiness-gates-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: non-authoritative
+legend:
+  classes:
+    - BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION
+    - REQUIRED_BEFORE_PROOF_OF_ARCHITECTURE
+    - REQUIRED_BEFORE_AUTONOMOUS_CLASS_B_PUBLICATION
+    - REQUIRED_BEFORE_TRUST_ROOT_AUTOMATION
+    - REQUIRED_BEFORE_PRODUCTION_TRUST_CLAIMS
+    - LATER_OPTIMIZATION
+gates:
+  # ---- BLOCKERS BEFORE ANY PRIVILEGED IMPLEMENTATION ----
+  - id: G-B1
+    class: BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION
+    title: Correct overstated support claims
+    evidence: E-01/E-03/J-05/GAP-17 — "signed/complete-mediation/attestation" exceed implemented proof
+    consequence: Misplaced trust; the PROHIBITED "claims stronger than proof" state
+    minimum_repair: PP-00 reword to hash-chained+git-anchored; identity-verifying quorum; rename retention Class A/B/C
+    acceptance_test: support-claim-proof-map has zero OVERSTATED rows
+    operator_input_required: OD-01 (signing vs reword)
+  - id: G-B2
+    class: BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION
+    title: Pin the authority decision function (candidate cannot edit the Allow/Deny)
+    evidence: L1-01 (lead-verified) — authorize_execution shells bash <policy_runner> --policy <policy_file>, both candidate-editable; OCTON_POLICY_RUNNER_OVERRIDE unrestricted in prod (L1-03)
+    consequence: The canonical authority grants attacker-chosen scope; PP-01 keystone is not a boundary
+    minimum_repair: Pin policy file + runner to a base-ref/out-of-tree digest verified inside authorize_execution, or embed deny-by-default in compiled kernel; scrub/deny OCTON_POLICY_RUNNER_OVERRIDE and OCTON_POLICY_MODE_OVERRIDE in release
+    acceptance_test: F13 — mutating deny-by-default.v2.yml to Allow-all, replacing the runner, or setting the override each cause authorize_execution to DENY
+    operator_input_required: no
+  - id: G-B3
+    class: BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION
+    title: Disable candidate-controlled provider-write and autonomous direct-main
+    evidence: C-005 (route order), C-002 (installed hooks), L1-05 (build-from-head enforcer)
+    consequence: Candidate publishes on main / self-certifies merge before any boundary exists
+    minimum_repair: Remove direct-main from autonomous route order; retire managed git hooks; force PR fallback until PP-06 verifier lands
+    acceptance_test: Autonomous Class B cannot select direct-main; no managed hook executes
+    operator_input_required: no
+  - id: G-B4
+    class: BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION
+    title: Sanitized-git allowlist covers the full extension surface
+    evidence: L1-08 — plan omits sshCommand/credential.helper/include.path/filter/textconv/insteadOf/gitmodules/aliases
+    consequence: Code executes under broker creds via a git extension the adapter did not clear
+    minimum_repair: Allowlist-clean git env (NOSYSTEM/GLOBAL/SYSTEM=/dev/null, ATTR_NOSYSTEM, explicit -c clears); refuse candidate-authored .gitattributes/.gitmodules until re-validated
+    acceptance_test: F15 — planted include.path/filter/insteadOf/sshCommand each fail to execute
+    operator_input_required: no
+  - id: G-B5
+    class: BLOCKER_BEFORE_PRIVILEGED_IMPLEMENTATION
+    title: Credential inventory complete + all OCTON_* override vars enumerated fail-closed
+    evidence: B-06 credential inventory; L1-04 env fail-open family
+    consequence: Env-driven softening of enforcement/digest binding survives migration
+    minimum_repair: Enumerate every durable credential and every OCTON_* allow/override/bypass var; make each fail-closed / operator-signed
+    acceptance_test: Setting OCTON_ALLOW_STALE/POLICY_MODE/POLICY_RUNNER without a signed exception denies
+    operator_input_required: no
+  # ---- REQUIRED BEFORE PROOF OF ARCHITECTURE ----
+  - id: G-P1
+    class: REQUIRED_BEFORE_PROOF_OF_ARCHITECTURE
+    title: Every agent-spawn site dominated by a one-shot ExecutorLaunch
+    evidence: L1-02 (pipeline.rs:1856 ungated), A-02
+    minimum_repair: Issue+verify ExecutorLaunch before EVERY spawn (lifecycle_executor AND pipeline), unconditionally
+    acceptance_test: F14 — no Codex/Claude spawn reachable without a verified ExecutorLaunch
+  - id: G-P2
+    class: REQUIRED_BEFORE_PROOF_OF_ARCHITECTURE
+    title: Credentialless isolation on both spawn paths + isolated Git
+    evidence: B-01/B-03/B-04/B-05
+    minimum_repair: env_clear+allowlist and runtime-applied sandbox on both paths; disposable worktree/GIT_DIR
+    acceptance_test: F9 (cred scrub, both paths) + F10 (escape suite); canonical refs byte-identical
+  - id: G-P3
+    class: REQUIRED_BEFORE_PROOF_OF_ARCHITECTURE
+    title: Atomic state + transactional CAS consume
+    evidence: D-01/D-02/D-03/J-04; refined by L2-07 (atomic-write helper + narrow CAS, not full migration)
+    minimum_repair: atomic_write(temp+fsync+rename) for single-record writes; rusqlite CAS for consume+reserve
+    acceptance_test: F1 (concurrent consume → exactly one) + F2 (4 kill-points both-or-neither)
+  - id: G-P4
+    class: REQUIRED_BEFORE_PROOF_OF_ARCHITECTURE
+    title: Local broker is the sole credentialed durable-effect plane
+    evidence: B-02/H-02; refined by L2-02 (one process owns store+git+creds)
+    minimum_repair: One broker process holding creds + WAL sole-writer + sanitized git in-process; deny-by-default unsupported effects
+    acceptance_test: Raw push/merge/deploy from candidate fails; brokered effect succeeds; only one process can open the store for write
+  # ---- REQUIRED BEFORE AUTONOMOUS CLASS B PUBLICATION ----
+  - id: G-C1
+    class: REQUIRED_BEFORE_AUTONOMOUS_CLASS_B_PUBLICATION
+    title: Candidate-immutable exact-SHA verification + target-race refusal
+    evidence: C-003/C-006/J-03; L2-03 (delegate to App), L1-09 (attempt attribution)
+    minimum_repair: Out-of-tree verifier keyed to broker-registered SHA; broker push CAS (--force-with-lease=<pre-SHA>); attempt-bound reconcile
+    acceptance_test: F5 (target-race refused) + F16 (attempt attribution) + candidate diff cannot flip verdict
+  - id: G-C2
+    class: REQUIRED_BEFORE_AUTONOMOUS_CLASS_B_PUBLICATION
+    title: Unknown-outcome reconciliation + enforced idempotency
+    evidence: D-05/D-06
+    minimum_repair: attempt lifecycle (pending→terminal); UNIQUE(idempotency_key); reconcile before retry
+    acceptance_test: F3 (push-landed/record-lost → zero re-push) + F4 (duplicate dispatch → one effect)
+  - id: G-C3
+    class: REQUIRED_BEFORE_AUTONOMOUS_CLASS_B_PUBLICATION
+    title: Remove the second credentialed CI plane (single broker invariant)
+    evidence: L1-05/GAP-19 — pr-auto-merge build-from-head; release-please AUTONOMY_PAT
+    minimum_repair: Pinned release-binary enforcer or App; inventory every AUTONOMY_PAT workflow; base-ref eligibility
+    acceptance_test: F17 — a PR rewriting the enforcer cannot self-merge
+  - id: G-C4
+    class: REQUIRED_BEFORE_AUTONOMOUS_CLASS_B_PUBLICATION
+    title: Revocation wins the consume race
+    evidence: D-12 design; effects.rs:482-498 vs :658 not one transaction (F6)
+    minimum_repair: Read revocations inside the consume transaction; re-check before broker effect
+    acceptance_test: F6 — no external effect when revocation commits before the effect
+  # ---- REQUIRED BEFORE TRUST-ROOT AUTOMATION ----
+  - id: G-T1
+    class: REQUIRED_BEFORE_TRUST_ROOT_AUTOMATION
+    title: No same-change self-certification; base-ref verifiers; inert landing
+    evidence: F-017-2/F-017-3; L1-06 (push-trigger hole, in-tree gate params)
+    minimum_repair: Run trust-root verifiers from base ref; move protected-surface inventory + route order out-of-tree; inert landing + separate activation; wire promotion_blockers()
+    acceptance_test: F8 — weakened-validator PR blocked; trust-root edit inert pre-activation
+    operator_input_required: OD-08 (trust-root inventory + epoch-0 bootstrap)
+  - id: G-T2
+    class: REQUIRED_BEFORE_TRUST_ROOT_AUTOMATION
+    title: Staged, previous-version-verified, rollback-capable activation
+    evidence: F-018-1/F-018-2/J-06
+    minimum_repair: Operator-preauthorized exact-version activation records; validate approval ARTIFACT; signed/pinned prev-version verifier; retained rollback handle
+    acceptance_test: F12 — every activation fault → old/healthy-new/auto-rollback; self-widen fails
+    operator_input_required: OD-08
+  # ---- REQUIRED BEFORE PRODUCTION TRUST CLAIMS ----
+  - id: G-R1
+    class: REQUIRED_BEFORE_PRODUCTION_TRUST_CLAIMS
+    title: Capacity reservation + evidence completeness under pressure
+    evidence: D-04/E-04
+    minimum_repair: Reserve terminal-evidence budget in the operation transaction; deny up-front if unreservable
+    acceptance_test: F7 — near-full disk still records complete terminal evidence (DEPLOYMENT_LOCAL caveat)
+  - id: G-R2
+    class: REQUIRED_BEFORE_PRODUCTION_TRUST_CLAIMS
+    title: TCB physical-writer enumeration + four roles
+    evidence: A-06/FD-015
+    minimum_repair: Canonical TCB artifact mapping authorize/perform/verify/activate; enumerate every durable writer
+    acceptance_test: Every durable-write code path listed with role + gate
+  - id: G-R3
+    class: REQUIRED_BEFORE_PRODUCTION_TRUST_CLAIMS
+    title: Solo maintenance budget + scope trim met by dogfood
+    evidence: H-07/L4-05/SR-10/SR-11/SR-13
+    minimum_repair: Move run-exhaust out of tree; gate federation off; keep/merge/delete workflow inventory; set burden budgets
+    acceptance_test: 4-week dogfood within budget; fresh-clone file count bounded; routine prompts=0
+    operator_input_required: OD-06, OD-09
+  # ---- LATER OPTIMIZATION ----
+  - id: G-L1
+    class: LATER_OPTIMIZATION
+    title: Workspace-project registry; catalog rollback-to-generation; delegation-depth
+    evidence: G-01/G-06/A-04
+    minimum_repair: Build only when a 2nd concurrent project exists; add depth bound + digest enforcement when needed
+    acceptance_test: Deferred; ship additionalProperties:false tightening now
+  - id: G-L2
+    class: LATER_OPTIMIZATION
+    title: Upgrade FD-020 to executed proof
+    evidence: G-04/UF-04 (cheapest dynamic proof available today)
+    minimum_repair: Add the drift→CAPABILITY_DENIED test
+    acceptance_test: F11 — input drift denied (DYNAMICALLY_EXECUTED)

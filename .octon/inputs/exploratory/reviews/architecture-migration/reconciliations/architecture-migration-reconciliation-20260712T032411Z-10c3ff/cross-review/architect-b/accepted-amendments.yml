@@ -1,0 +1,171 @@
+schema_version: "octon-architect-cross-review-amendments-v1"
+architect_label: "B"
+reviewer_status: "THIRD_PARTY_SUBSTITUTE"
+reviewer_note: >-
+  Original Architect B was unavailable. These amendments are accepted by a
+  third-party substitute after comparing the immutable SELF and OTHER reviews.
+amendments:
+  - amendment_id: "B-AA-001"
+    source: "OTHER AMR-002"
+    subject: "Authority scope matching"
+    accepted_position: >-
+      Reverse-prefix and non-boundary string matching can widen an authentic effect
+      token. Canonical typed-resource equality/descendant matching is required.
+    evidence_classification: ["STATICALLY_INSPECTED", "ARCHITECTURAL_INFERENCE"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1832-1851"
+    reason: "Direct source inspection confirms the branch and missing negative fixtures."
+    effect_on_self_review: "Adds a previously omitted high-severity authority finding."
+    effect_on_program: "WG-01 scope and negative matrix expand."
+
+  - amendment_id: "B-AA-002"
+    source: "OTHER AMR-009"
+    subject: "Referenced versus executed proof"
+    accepted_position: >-
+      A validator that records a referenced test and emits it as executed without
+      invocation overstates proof depth; only an executing producer can claim execution.
+    evidence_classification: ["STATICALLY_INSPECTED", "DYNAMICALLY_EXECUTED"]
+    evidence_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proof-bundle-executability.sh:53-128"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validator-result-common.sh:275-366"
+    reason: "OTHER dynamically reproduced the misleading manifest and traced the call graph."
+    effect_on_self_review: "Strengthens support-claim and evidence authenticity findings."
+    effect_on_program: "WG-00 corrects wording; WG-07 binds direct results."
+
+  - amendment_id: "B-AA-003"
+    source: "OTHER AMR-013 and decision crosswalk FD-020"
+    subject: "Harness Factory status"
+    accepted_position: >-
+      Existing route-bundle and resolver machinery is a reusable digest-bound input,
+      not the complete accepted task-specific Harness Factory. FD-020 is partial.
+    evidence_classification: ["STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/generate-runtime-effective-route-bundle.sh:11-23"
+      - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md:3-48"
+    reason: "The generated route bundle omits accepted project/mission/run/evidence/rollback inputs and launch binding."
+    effect_on_self_review: "Reclassifies FD-020 from SATISFIED to PARTIALLY_SATISFIED."
+    effect_on_program: "Retains WG-11 rather than preserve-only proof."
+
+  - amendment_id: "B-AA-004"
+    source: "OTHER decision crosswalk FD-023"
+    subject: "Provider-native delegation status"
+    accepted_position: >-
+      Non-authoritative adapter contracts are strong, but unsafe provider effect
+      workflows and missing replacement conformance mean FD-023 is partial.
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED", "PROVIDER_OBSERVED"]
+    evidence_refs:
+      - ".octon/framework/constitution/contracts/adapters/model-adapter-v1.schema.json:38-141"
+      - ".github/workflows/pr-auto-merge.yml:274-330"
+    reason: "Declared adapter boundaries do not prove current provider behavior or replacement semantics."
+    effect_on_self_review: "Reclassifies FD-023 from SATISFIED to PARTIALLY_SATISFIED."
+    effect_on_program: "Keeps provider conformance proof in WG-06/WG-13."
+
+  - amendment_id: "B-AA-005"
+    source: "OTHER migration architecture WG-03"
+    subject: "Full transactional cutover"
+    accepted_position: >-
+      One SQLite/WAL authoritative runtime store must own every lifecycle state named
+      by FD-005; atomic file writes alone may support projections but cannot replace
+      the multi-record transaction.
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED", "ARCHITECTURAL_INFERENCE"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:294-658"
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:384-435"
+    reason: "Accepted FD-005 settles the direction and observed writes span multiple files."
+    effect_on_self_review: "Withdraws SR-05 and REC-07."
+    effect_on_program: "Full WG-03 cutover is required before brokered effects."
+
+  - amendment_id: "B-AA-006"
+    source: "OTHER AMR-010 and migration WG-07"
+    subject: "Signed bounded evidence"
+    accepted_position: >-
+      Current claims must be narrowed immediately, but target signing, signed
+      checkpoints, bounded retention, compaction, and capacity remain mandatory.
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED", "PROVIDER_OBSERVED"]
+    evidence_refs:
+      - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:128-223"
+      - ".octon/framework/constitution/contracts/retention/family.yml:14-54"
+    reason: "FD-014 is operator-accepted and plain Git history does not authenticate direct producer observations."
+    effect_on_self_review: "Withdraws the git-anchored substitute and OD-01 fork."
+    effect_on_program: "WG-07 remains before autonomous Class B."
+
+  - amendment_id: "B-AA-007"
+    source: "OTHER AMR-013 and WG-10"
+    subject: "Workspace Project requirement"
+    accepted_position: >-
+      Minimal inferred durable project identity is required for the accepted
+      multi-project solo experience and remains non-authoritative.
+    evidence_classification: ["DECLARED", "STATICALLY_INSPECTED"]
+    evidence_refs:
+      - ".octon/instance/locality/registry.yml:1-4"
+      - ".octon/instance/locality/project-profile.yml:23-42"
+    reason: "FD-019 and FD-024 already settle the product requirement."
+    effect_on_self_review: "Withdraws SR-08 deferral."
+    effect_on_program: "Retains WG-10."
+
+  - amendment_id: "B-AA-008"
+    source: "OTHER packet map WG-03/WG-04/WG-05"
+    subject: "Responsibility and packet separation"
+    accepted_position: >-
+      One broker process may own the sole database writer and sanitized Git adapter,
+      while store, broker custody, and Git hardening remain distinct responsibilities
+      with separate migration exits and rollback gates.
+    evidence_classification: ["ARCHITECTURAL_INFERENCE"]
+    evidence_refs: []
+    reason: "This preserves one chokepoint without hiding ownership or coupling migration cutovers."
+    effect_on_self_review: "Clarifies SR-03's component-count claim."
+    effect_on_program: "Retains separate WG-03, WG-04, and WG-05 packets."
+
+  - amendment_id: "B-AA-009"
+    source: "OTHER readiness verdict"
+    subject: "Proposal-program readiness"
+    accepted_position: >-
+      The repository is ready to create the formal proposal program. It is not ready
+      for privileged implementation, Class B publication, trust automation, or
+      production support claims.
+    evidence_classification: ["STATICALLY_INSPECTED", "PROVIDER_OBSERVED"]
+    evidence_refs: []
+    reason: "Factual baseline and migration architecture are bounded; remaining choices close within packets."
+    effect_on_self_review: "Changes READY_WITH_BLOCKING_DECISIONS to READY_FOR_PROPOSAL_PROGRAM."
+    effect_on_program: "Begin formal drafting with WG-00/GATE-0 as the first implementation boundary."
+
+  - amendment_id: "B-AA-010"
+    source: "OTHER material finding schema and evidence package"
+    subject: "Evidence discipline"
+    accepted_position: >-
+      Use OTHER's 14 material findings as the primary claim spine because each binds
+      commit-qualified repository refs, command/result/provider refs, confidence,
+      limitations, repair, and acceptance tests; import SELF-only findings separately.
+    evidence_classification: ["DYNAMICALLY_EXECUTED", "STATICALLY_INSPECTED"]
+    evidence_refs:
+      - "Both review integrity indexes passed"
+    reason: "SELF is broader but less uniform at finding-level traceability."
+    effect_on_self_review: "No source finding is erased; evidentiary weighting changes."
+    effect_on_program: "Reconciliation can use stable AMR IDs plus explicit SELF amendments."
+
+  - amendment_id: "B-AA-011"
+    source: "OTHER provider evidence"
+    subject: "Provider guardrails as preserved primitives"
+    accepted_position: >-
+      Preserve the no-bypass, non-fast-forward, linear-history, and strict-check
+      ruleset properties while replacing candidate-controlled check producers and effect code.
+    evidence_classification: ["PROVIDER_OBSERVED", "STATICALLY_INSPECTED"]
+    evidence_refs:
+      - "OTHER evidence/provider/github-configuration.md"
+      - ".github/workflows/change-route-projection.yml:31-166"
+    reason: "Provider configuration is real protection but not verifier independence."
+    effect_on_self_review: "Clarifies rather than changes C-003/C-006."
+    effect_on_program: "WG-06 reuses provider ruleset enforcement with authenticated verdict identity."
+
+  - amendment_id: "B-AA-012"
+    source: "OTHER decision crosswalk"
+    subject: "End-to-end completion status"
+    accepted_position: >-
+      No accepted decision is fully proven end to end at the reviewed commit;
+      structural primitives must not be promoted as target completion without their
+      runtime/provider/adversarial/recovery/usability proof.
+    evidence_classification: ["STATICALLY_INSPECTED", "UNVERIFIED"]
+    evidence_refs: []
+    reason: "FD-020 and FD-023 lacked complete target wiring and dynamic proof."
+    effect_on_self_review: "Removes the two SATISFIED classifications."
+    effect_on_program: "All final support claims remain gated through WG-13."

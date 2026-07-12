@@ -1,0 +1,166 @@
+schema_version: "octon-reconciled-workgroup-roadmap-v1"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+workgroups:
+  - workgroup_id: "RWG-00"
+    name: "Containment, baseline, claims, and inventories"
+    wave: 0
+    objective: "Create a safe implementation boundary without changing the target architecture."
+    dependencies: []
+    entry_criteria: ["Clean normalized baseline", "Provider observation bound or explicitly stale", "Both review integrity indexes pass"]
+    exit_criteria: ["Candidate-head provider writes and autonomous direct-main disabled", "Manual/protected PR is the only privileged bridge", "Claims corrected", "Physical launcher/writer/credential/policy/trust/provider workflow inventories complete"]
+    rollback: "Revert only non-safety inventory/wording changes; keep unsafe routes disabled."
+    proof: ["Candidate-head write fixtures deny", "No unregistered writer/launcher", "Referenced-only tests not labelled executed"]
+    proposal_packets: ["RP-00"]
+    parallelization_constraints: "Must close before any other packet performs a privileged change."
+  - workgroup_id: "RWG-01"
+    name: "Candidate-immutable canonical authority and exact guards"
+    wave: 1
+    objective: "Establish one trustworthy decision path and unavoidable agent/child launch guards."
+    dependencies: ["RWG-00"]
+    entry_criteria: ["Trusted authority distribution/epoch design drafted", "Launch/effect inventory complete"]
+    exit_criteria: ["Lifecycle-local authority retired", "Evaluator/policy/bin/config/receipt inputs installed/pinned", "Production weakening overrides reject", "Typed scope fixed", "All supported launches use guard-owning API"]
+    rollback: "Restore prior independently certified authority implementation and disable affected launch route; never use log-only privilege."
+    proof: ["Decision-source substitution matrix", "Scope boundary matrix", "Spawn dominance and concurrent one-shot tests"]
+    proposal_packets: ["RP-01"]
+    parallelization_constraints: "May proceed beside RWG-02. Freeze the versioned authority/guard semantic interface before RWG-03 mutates persistence; trust-source files and their only validators cannot be changed by the same untrusted change."
+  - workgroup_id: "RWG-02"
+    name: "Credentialless native candidate isolation"
+    wave: 1
+    objective: "Run useful model work without exposing durable credentials or canonical host/Git state."
+    dependencies: ["RWG-00"]
+    entry_criteria: ["macOS host floor and sandbox/session design selected", "Independent repository/object-transfer design selected"]
+    exit_criteria: ["Useful primary supported-provider path", "Fresh allowed environment and closed FDs", "Independent disposable repository/object DB", "Credential/Keychain/SSH/Git/network/process/filesystem negatives pass"]
+    rollback: "Disable automated candidate launch, preserve/export candidate commit, use protected PR."
+    proof: ["Canary credential and host/Git escape suite", "Positive representative task"]
+    proposal_packets: ["RP-02"]
+    parallelization_constraints: "May proceed beside RWG-01/RWG-03; no real production credential/effect target in tests."
+  - workgroup_id: "RWG-03"
+    name: "One transactional runtime store and state migration"
+    wave: 2
+    objective: "Make one SQLite/WAL schema/writer authoritative for consequential runtime state."
+    dependencies: ["RWG-01"]
+    entry_criteria: ["RWG-01 versioned authority/guard semantics frozen", "Writer/state inventory complete", "Canonical operation/attempt schema selected", "Migration/backup/capacity policy approved"]
+    exit_criteria: ["Grants/revocation/guards/operations/attempts/outbox/recovery/checkpoint heads in one store", "One writer enforced", "Legacy files read-only projections", "T1/effect/T2 state semantics explicit", "Physical terminal capacity and backup/restore pass"]
+    rollback: "Before first effect restore immutable snapshot; after first effect restore DB/WAL backup or forward-repair/reconcile—never restore file authority."
+    proof: ["N-way consume/revocation race", "Every DB/effect boundary kill point", "ENOSPC/corruption/schema migration/backup restore"]
+    proposal_packets: ["RP-03"]
+    parallelization_constraints: "May proceed beside RWG-02 after RWG-01 freezes semantics; no concurrent guard semantic/persistence change, dual-write authority period, or privileged effect before exit."
+  - workgroup_id: "RWG-04"
+    name: "Supervised local broker and credential custody"
+    wave: 3
+    objective: "Introduce the one unattended local privilege boundary."
+    dependencies: ["RWG-01", "RWG-02", "RWG-03"]
+    entry_criteria: ["ED-002 IPC/identity/supervision/credential disposition applied", "Candidate/store boundaries stable"]
+    exit_criteria: ["Broker alone holds credentials and sole DB write connection", "Same-UID/forged/replayed requests deny", "Auto-start/single-instance/restart scan/dispatch", "setup/enrollment/status/doctor/repair/upgrade/uninstall work", "Rolling burden/recovery instrumentation active", "One exact scratch effect completes"]
+    rollback: "Disable broker effect route, preserve candidate work, use protected PR; restore prior certified broker only behind same boundary."
+    proof: ["IPC identity/handle attacks", "Keychain/candidate access denial", "kill/restart/reconcile", "fresh setup and repair"]
+    proposal_packets: ["RP-04"]
+    parallelization_constraints: "No production effect; broker does not mint authority or act as verifier."
+  - workgroup_id: "RWG-05"
+    name: "Sanitized privileged Git"
+    wave: 4
+    objective: "Put the smallest closed Git effect adapter inside the broker."
+    dependencies: ["RWG-04"]
+    entry_criteria: ["Broker identity and scratch target available", "Object-transfer and CAS decisions approved"]
+    exit_criteria: ["Broker-owned minimal repository/config", "Pinned repository identity", "Non-executing candidate object import", "Exact expected-old fast-forward update", "Full hostile Git extension matrix denies", "Attempt observation API defined"]
+    rollback: "Disable Git effect route; protected PR only; never restore ambient/unsanitized Git."
+    proof: ["Hooks/includes/helpers/filters/drivers/submodules/transports matrix", "Concurrent target move/CAS tests"]
+    proposal_packets: ["RP-05"]
+    parallelization_constraints: "No candidate checkout or local config under broker identity."
+  - workgroup_id: "RWG-06"
+    name: "Immutable verifier and adaptive publication"
+    wave: 4
+    objective: "Create authenticated exact-SHA verdicts and the sole immutable Class A/B/C plus Class B/PR routing policy."
+    dependencies: ["RWG-01", "RWG-03", "RWG-05"]
+    entry_criteria: ["Verifier/provider identity selected", "Publication predicate and verdict schema stable"]
+    exit_criteria: ["Candidate-immutable verifier separate from effect identity", "Verdict binds repository/source/target/policy/time/expiry/evidence", "Duplicate context and candidate edit deny", "One versioned immutable A/B/C and Class B/PR predicate digest", "Expected-old Class B route and PR escalation deterministic", "Write/check workflows keep/merge/retire disposition complete", "Initial zero-prompt status UX works"]
+    rollback: "Disable autonomous publication; retain protected PR and candidate state; restore prior certified verifier behind same identity."
+    proof: ["Verifier mutation/duplicate context/provider drift", "race/revocation/expiry/route matrix", "provider replacement fixture"]
+    proposal_packets: ["RP-06"]
+    parallelization_constraints: "Verifier definition and the only validator of it cannot be candidate-changed together; no same identity performs effect."
+  - workgroup_id: "RWG-07"
+    name: "Signed bounded evidence, capacity, retention, and degraded mode"
+    wave: 5
+    objective: "Make proof authentic, bounded, rollback-detecting, and operable under failure."
+    dependencies: ["RWG-03", "RWG-04", "RWG-06"]
+    entry_criteria: ["Signer/anchor/retention/capacity decisions approved", "Operation/verdict identities stable"]
+    exit_criteria: ["Broker/verifier sign direct observations and range/terminal checkpoints", "Candidate-inaccessible monotonic latest-head anchor", "Physical/logical capacity reserve", "Automatic quotas/pins/compaction", "Raw logs local/outside Git", "Dependency-specific degraded behavior"]
+    rollback: "Block autonomous publication/success claims if signer/evidence unavailable; keep raw evidence until verified compaction; never use unsigned fallback."
+    proof: ["Forgery/key/rechain/old-snapshot/compaction/pin tests", "ENOSPC reserve tests", "bounded state growth"]
+    proposal_packets: ["RP-07"]
+    parallelization_constraints: "Signer identities remain distinct; compaction cannot delete active pins or precede checkpoint commit."
+  - workgroup_id: "RWG-08"
+    name: "Recovery, reconciliation, and complete Class B vertical"
+    wave: 6
+    objective: "Integrate the frozen classification and transaction APIs, then prove unattended consequential work, mission status, maintenance, and one reversible effect converge safely and efficiently."
+    dependencies: ["RWG-06", "RWG-07"]
+    entry_criteria: ["No-PR disabled except fixtures", "Attempt/verdict/evidence contracts stable", "RP-06 class predicate digest frozen", "ROD-002 ambiguity policy recorded"]
+    exit_criteria: ["RP-03 T1/attempt/external/T2 API integrated and reconcile loop proven", "No retry while unknown", "State-satisfied versus attempt-performed claims honest", "Class A/B zero routine prompts", "C/lower route denied without modifying policy", "Provider/broker/verifier/signer outage preserves work", "PR escalation works", "Run status/maintenance and one reversible scratch effect recover", "Rolling 30-day burden collection started"]
+    rollback: "Disable Class B route and preserve candidate for protected PR; never weaken authority/evidence."
+    proof: ["Lost response/duplicate/concurrent actor/target race/outage/crash", "20 representative A/B/C routing fixtures"]
+    proposal_packets: ["RP-08"]
+    parallelization_constraints: "Must close before trust-root automation; irreducible unknown may end manual_intervention, not false success/failure."
+  - workgroup_id: "RWG-09"
+    name: "Safe self-development and trust-root activation"
+    wave: 7
+    objective: "Make ordinary self-change fast and trust-root activation inert, independent, and recoverable."
+    dependencies: ["RWG-06", "RWG-07", "RWG-08"]
+    entry_criteria: ["Trust inventory/epoch zero/health/rollback decisions approved", "Class B vertical proven"]
+    exit_criteria: ["Old/out-of-tree classifier identifies semantic trust closure", "Ordinary self-change uses Class B", "Trust candidate is content-addressed and inert", "Exact operator envelope and previous-version verification", "Atomic selector/staged health/automatic rollback", "Explicit safe-automatic enablement only after proof"]
+    rollback: "Keep activation disabled/old version active; restore retained prior version automatically; never use candidate-head verification."
+    proof: ["Classifier indirection and same-change attacks", "artifact/approval/provider drift negatives", "every activation/reboot/disk-full kill point"]
+    proposal_packets: ["RP-09"]
+    parallelization_constraints: "Candidate may not modify inventory/classifier/validator/activator/rollback used to judge itself."
+  - workgroup_id: "RWG-10"
+    name: "Minimal Workspace Projects"
+    wave: 2
+    objective: "Add only the durable project and mission-inbox continuity needed by a solo operator."
+    dependencies: ["RWG-01"]
+    entry_criteria: ["Minimal field/correction policy approved", "Project Profile migration mapped"]
+    exit_criteria: ["Two project identities/roots/lifecycle/defaults/continuity persist", "Operator corrections preserved", "Active run snapshot immutable", "Project/mission metadata cannot authorize/widen", "Cross-project CLI mission inbox resumes/distinguishes work without becoming authority"]
+    rollback: "Read-only compatibility import/export; preserve project IDs and profiles; no authority consequence."
+    proof: ["Two-project relocation/correction", "authority-widening negatives"]
+    proposal_packets: ["RP-10"]
+    parallelization_constraints: "May proceed after RWG-01 alongside broker/trust work; must precede RWG-11."
+  - workgroup_id: "RWG-11"
+    name: "Deterministic Harness Factory"
+    wave: 3
+    objective: "Compile the full approved task envelope without another runtime."
+    dependencies: ["RWG-01", "RWG-02", "RWG-10"]
+    entry_criteria: ["Canonical authority/guard contract, project schema, and isolation stable", "ED-006 normalization/provider-breadth disposition applied"]
+    exit_criteria: ["Full project/mission/run/policy/extension/context/model/tool/validation/evidence/rollback inputs compile", "Byte-deterministic digest/receipt", "Digest bound to canonical authorization and one-shot spawn", "Generic executor-adapter interface and strict conformance suite govern provider dispatch", "One real primary-provider plus fake adapters pass; live secondary only if claimed", "Stale/self-widened/wrong-project manifest denies"]
+    rollback: "Disable new compiler/launch route and preserve legacy read-only route inputs; no second runtime or policy authority."
+    proof: ["Two identical compiles", "Each-input mutation matrix", "Launch binding negatives"]
+    proposal_packets: ["RP-11"]
+    parallelization_constraints: "Cannot widen authority and cannot execute; compiler/consumer contract owners coordinate one cutover."
+  - workgroup_id: "RWG-12"
+    name: "Private extensions and bounded child capabilities"
+    wave: 6
+    objective: "Add reusable supply chain and parallel work only after the single-agent trust path."
+    dependencies: ["RWG-07", "RWG-08", "RWG-11"]
+    entry_criteria: ["RP-12: catalog source/signer policy and RWG-07/RWG-11 complete", "RP-13: child cost/concurrency policy and RWG-08/RWG-11 complete", "Single-agent harness proven"]
+    exit_criteria: ["RP-12 signed private import/pin/revoke/rollback closes", "RP-13 child guard/scope/budget/depth/credential/retirement closes", "No marketplace or persistent organization surface"]
+    rollback: "Quarantine/revoke extension generation; disable child launch while preserving parent/candidate state."
+    proof: ["Extension supply-chain negative matrix", "Child scope/depth/credential/persistence/retirement matrix"]
+    proposal_packets: ["RP-12", "RP-13"]
+    packet_dependency_gates:
+      RP-12: ["RWG-07", "RWG-11"]
+      RP-13: ["RWG-08", "RWG-11"]
+    parallelization_constraints: "This is a coordination umbrella with packet-specific entry gates, not one shared start. RP-12 may start earlier; RP-13 reuses RWG-08 recovery. Neither may change core authority/store."
+  - workgroup_id: "RWG-13"
+    name: "Solo dogfood, scope trim, claim reverification, and promotion"
+    wave: 8
+    objective: "Prove the product outcome and prepare an honest authoritative handoff."
+    dependencies: ["RWG-08", "RWG-09", "RWG-10", "RWG-11"]
+    program_closeout_dependencies: ["RWG-12"]
+    entry_criteria: ["Core target packets RWG-08/RWG-09/RWG-10/RWG-11 closed", "Rolling 30-day window available", "Exact proof map complete", "Independent reproducer assigned"]
+    exit_criteria: ["Setup <=15m/onboarding <=5m/admin <=15m monthly", "At least 18/20 admitted A/B missions autonomous and 20/20 unauthorized-effect/prompt free", "Median human time <=2m and >=50% below supervised baseline", "Mediation overhead <=60s p50 and eligible no-PR faster than protected PR", "Recoverable broker crash converges <=5s with no manual step", "Zero false A/B-to-PR escalations", "No tracked per-run raw/detail/operational evidence", "One Solo Local profile and <=7 normal concepts", "Supported-path workflows <=12 or each exception has a unique proof/outcome owner", "Proposal administration <=30m/packet and <=10% of implementation human time", "Every claim maps to direct current proof", "Optional claims wait for RWG-12; full program closeout waits for all packets", "Promotion prerequisites and receipts ready"]
+    rollback: "Demote failed claims and disable affected feature/route; preserve lower safe state; do not promote reconciliation itself."
+    proof: ["Fresh install/dogfood/recovery drills", "Burden metrics", "Independent security/provider/support reproduction"]
+    proposal_packets: ["RP-14"]
+    parallelization_constraints: "Independent evidence review; cannot modify runtime/workflow/CLI sources, waive failed packet proof, or self-promote. Core claims are claim-scoped; optional claims/full closeout wait for RWG-12."
+validation_summary:
+  workgroup_count: 14
+  missing_dependencies: []
+  cycles: []
+  workgroups_missing_entry_exit_rollback_proof: []

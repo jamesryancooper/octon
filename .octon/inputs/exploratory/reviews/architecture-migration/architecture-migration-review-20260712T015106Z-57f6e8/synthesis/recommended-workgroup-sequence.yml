@@ -1,0 +1,93 @@
+schema_version: octon-review-recommended-workgroup-sequence-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: non-authoritative
+note: >-
+  Recommended implementation sequence, reconciling the intake workgroups (WG-00..17)
+  and packets (PP-00..12) with Phase 3 corrections. Each workgroup lists entry
+  criteria, exit criteria (acceptance tests / gates), rollback, and proof. Ordering
+  is constrained by phase-2/safe-intermediate-states.md — no step may create a
+  prohibited intermediate state.
+workgroups:
+  - wg: WG-00
+    name: Clean baseline + blocker corrections (PP-00)
+    entry: This review accepted as input; OD-01/OD-06/OD-07 defaulted
+    scope: >-
+      Reword overstated claims (G-B1); pin the authority decision function (G-B2);
+      disable autonomous direct-main + managed hooks (G-B3); full git-extension
+      allowlist design (G-B4); fail-closed OCTON_* + credential inventory (G-B5);
+      FD-002 crosswalk + Class-A/B/C rename early; run-exhaust removal plan.
+    exit: support-claim-proof-map clean; F13 passes; direct-main unreachable; env fail-closed
+    rollback: revert wording/config (low risk)
+    proof: F13, F11 (cheap dynamic anchor)
+    blocks: all privileged work
+  - wg: WG-01
+    name: Canonical authority + launch guards on every spawn (PP-01)
+    entry: WG-00 complete
+    scope: lifecycle_executor depends on authority_engine; one-shot ExecutorLaunch before EVERY spawn incl pipeline.rs; demote DelegationProof
+    exit: F14; spawn denied without valid grant; concurrent consume <=1
+    rollback: feature-flag guard log-only (transient)
+    proof: F14, F1
+  - wg: WG-02
+    name: Native credentialless isolation (PP-02)
+    entry: WG-00
+    scope: env_clear+allowlist + runtime sandbox on both paths; disposable worktree/GIT_DIR
+    exit: F9 (both paths) + F10; canonical refs byte-identical
+    rollback: disable sandbox, keep env_clear
+    proof: F9, F10
+    decision: OD-04
+  - wg: WG-03
+    name: Atomic state + narrow CAS (PP-03, scoped per L2-07)
+    entry: WG-00
+    scope: atomic_write helper for single-record writes; rusqlite CAS for consume+reserve; legacy YAML read-through
+    exit: F1 + F2
+    rollback: SQLite read-through of YAML
+    proof: F1, F2
+  - wg: WG-04
+    name: One broker = store + sanitized git + credentials (PP-04+05, merged per L2-02)
+    entry: WG-01, WG-02, WG-03
+    scope: single supervised broker process; sole WAL writer; sanitized git in-process (full allowlist); credential custody; operator doctor pulled forward
+    exit: raw effect from candidate fails; brokered effect succeeds; F15; broker crash auto-restart+reconcile; octon doctor healthy
+    rollback: broker denies all (fail-closed)
+    proof: G-P4, F15, RR-06 mitigation
+    decision: OD-05
+  - wg: WG-05
+    name: Exact-SHA verifier (App) + adaptive publication + remove 2nd CI plane (PP-06)
+    entry: WG-04
+    scope: out-of-tree App keyed to broker-registered SHA; branch-no-PR default; broker push CAS + target-race refusal; inventory+retire AUTONOMY_PAT workflows; pinned enforcer
+    exit: F5 + F16 + F17; candidate diff cannot flip verdict
+    rollback: force PR route for all
+    proof: F5, F16, F17
+    decision: OD-03, OD-09
+  - wg: WG-06
+    name: Signed/anchored evidence + reconciliation + capacity (PP-07)
+    entry: WG-03, WG-04, WG-05
+    scope: Option B git-anchored (default) or A signing; attempt lifecycle + reconcile; UNIQUE(idempotency_key); capacity reservation
+    exit: F3 + F4 + F6 + F7
+    rollback: disable signing; keep reconciliation
+    proof: F3, F4, F6, F7
+    decision: OD-01
+  - wg: WG-07
+    name: PROOF OF ARCHITECTURE (integration)
+    entry: WG-01..WG-06
+    scope: compose the end-to-end chain + L1-07 red-team
+    exit: proof-of-architecture.md P1 green; all six red-team vectors denied
+    rollback: n/a (gate)
+    proof: F1+F3+F5+F9+F13+F14+F16 composed
+  - wg: WG-08
+    name: Self-development + trust activation (PP-08)
+    entry: WG-07
+    scope: base-ref verifiers; promotion_blockers wired; inert landing; staged rollback-capable activation; validate approval artifact; federation gated off
+    exit: F8 + F12; weakened-validator PR blocked
+    rollback: freeze activation; manual only
+    proof: F8, F12
+    decision: OD-06, OD-08
+  - wg: WG-09
+    name: UX + scope trim + dogfood + promotion (PP-12, + PP-09/10/11 tails)
+    entry: WG-07 (+ WG-08 for trust claims)
+    scope: cross-project inbox; CI-gate trim; run-exhaust migration; burden budgets; workspace-project additionalProperties tightening; FD-020 executed proof
+    exit: G-R1/R2/R3; 4-week dogfood within budget; routine prompts=0
+    rollback: keep gates enabled
+    proof: dogfood metrics, F11
+    decision: OD-02, OD-09
+critical_path: WG-00 -> WG-01/02/03 -> WG-04 -> WG-05 -> WG-06 -> WG-07 -> WG-08 -> WG-09
+parallelizable: "[WG-01, WG-02, WG-03] after WG-00; PP-09/10/11 tails alongside WG-08/09"

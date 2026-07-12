@@ -1,0 +1,127 @@
+schema_version: octon-review-component-contract-schema-map-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: non-authoritative
+note: >-
+  Maps each migration change to the concrete components, contracts/schemas, and
+  validators it touches. Paths are current repository locations. New artifacts are
+  marked NEW. This is an implementation-surface map, not authorization to change.
+components:
+  - area: Canonical authority unification
+    packet: PP-01
+    crates_touched:
+      - lifecycle_executor (add dep on authority_engine; consume grant before spawn) — src/adapter.rs, src/authorization.rs, src/codex.rs
+      - authority_engine (reuse issue_executor_launch_effect / verify_authorized_effect) — src/implementation/effects.rs, execution.rs
+      - kernel (thread grant through lifecycle_driver) — src/lifecycle_driver.rs, src/pipeline.rs
+    contracts_schemas:
+      - authorized-effect / ExecutorLaunch effect kind (existing)
+      - side_effects INVENTORY -> enforced invariant (kernel/src/side_effects/mod.rs)
+    validators:
+      - NEW: assert every process-creating call site is dominated by verify_authorized_effect
+  - area: Native credentialless isolation
+    packet: PP-02
+    crates_touched:
+      - lifecycle_executor/src/codex.rs, claude.rs, workflow_leaf.rs (env_clear + allowlist + sandbox wrapper)
+      - authority_engine/src/implementation/policy.rs (second spawn path B-03)
+      - NEW: isolation module (macOS sandbox-exec/seatbelt profile; disposable worktree/GIT_DIR)
+    contracts_schemas:
+      - NEW: host-isolation-profile-v1 (fs/network/process envelope)
+    validators:
+      - NEW: escape-denial conformance suite (negative fs/network/credential/Git-state tests)
+  - area: Transactional runtime store
+    packet: PP-03
+    crates_touched:
+      - NEW crate or module: transactional_store (rusqlite + WAL)
+      - authority_engine (route grant/token/decision writes through store or atomic_write) — policy.rs, authority.rs, records.rs
+      - core (shared atomic_write helper) — reuse scaffold.rs:298 / wasm_host scoped_fs.rs pattern
+      - replay_store (keep NDJSON as derived export)
+    contracts_schemas:
+      - NEW: store schema (grants, effect_tokens, attempts, reservations, revocations)
+      - checkpoint-v2.schema.json, run-event-v2.schema.json (unchanged unless signing added)
+    validators:
+      - NEW: kill-point + concurrency test harness
+  - area: Local broker + credential migration
+    packet: PP-04
+    crates_touched:
+      - NEW crate: broker (separate process; credential custody; typed effect surface)
+      - kernel (route durable effects to broker IPC)
+    contracts_schemas:
+      - connector-credentials.yml (keep externally_managed; broker interposes)
+      - NEW: broker-effect-request-v1 / broker-effect-receipt-v1
+      - NEW: TCB writer inventory artifact (FD-015)
+    validators:
+      - NEW: negative credential-reachability test (child env scrubbed)
+  - area: Sanitized Git adapter
+    packet: PP-05
+    crates_touched:
+      - broker (git adapter with GIT_CONFIG_NOSYSTEM / hooksPath=/dev/null / --no-verify / protocol.*.allow=never)
+    scripts_touched:
+      - execution-roles/_ops/scripts/git/*.sh (route through adapter)
+      - RETIRE: git-autonomy-hooks-install.sh
+    validators:
+      - NEW: git-extension-point negative suite (hooks/includes/filters/helpers/submodules/fsmonitor/aliases/drivers)
+  - area: Exact-SHA verifier + adaptive publication
+    packet: PP-06
+    contracts_schemas:
+      - default-work-unit.yml route_selection_order (modify: branch-no-pr default; remove autonomous direct-main)
+      - github-control-plane-contract.json (required-check contract)
+    workflows_touched:
+      - change-route-projection.yml (move required checks OUT of candidate tree)
+      - pr-auto-merge.yml (base-ref eligibility; scope App or restrict PAT) — J-07
+    components:
+      - NEW: out-of-tree verifier (GitHub App or protected verifier repo) keyed to pre-registered SHA
+      - broker performs push; refuses on SHA/target-race mismatch
+    validators:
+      - NEW: candidate-diff-to-verifier-cannot-alter-verdict test
+  - area: Signed evidence + recovery
+    packet: PP-07
+    crates_touched:
+      - replay_store, authority_engine records (signing OR reword), reconciliation module
+      - policy_engine/src/lib.rs (quorum verifies identity/binding, not string presence) — E-03
+    contracts_schemas:
+      - checkpoint-v2.schema.json (+ signature field if option A)
+      - evidence-retention-contract-v1 (instantiate concrete bounded retention)
+    validators:
+      - NEW: rewrite-detection test; reconcile-before-retry test; near-full-disk terminal-evidence test
+  - area: Self-development + trust activation
+    packet: PP-08
+    crates_touched:
+      - kernel/src/commands/evolution.rs (wire promotion_blockers to enforced gate), trust.rs (validate approval — J-06)
+    workflows_touched:
+      - closure-certification.yml, harness-self-containment.yml, main-change-route-guard.yml (run verifiers from base ref) — F-017-2
+      - runtime-binaries.yml (sign artifacts or pin out-of-tree verifier) — F-018-1
+      - NEW: self-evolution-gate.yml (trust-root classifier + inert-landing enforcement)
+    contracts_schemas:
+      - promotion-activation-v1, promotion-semantics.yml (inert landing / staged activation)
+      - NEW: trust-root inventory + self-dev change classifier
+    validators:
+      - NEW: same-change-self-cert-fails test; activation-fault-rollback test
+  - area: Workspace Projects
+    packet: PP-09
+    contracts_schemas:
+      - NEW: workspace-project-v1.schema.json (additionalProperties:false; no route/effect/grant fields)
+      - instance/locality/ project registry; project-profile-v1 (tighten additionalProperties)
+    validators:
+      - NEW: project-record-mints-no-authority test
+  - area: Harness Factory (preserve + harden)
+    packet: PP-10
+    components:
+      - generate-runtime-effective-route-bundle.sh, runtime_resolver (PRESERVE)
+    validators:
+      - EXECUTE the existing digest-drift deny path (UF-04) to upgrade FD-020 to dynamic proof
+  - area: Extensions + multi-agent
+    packet: PP-11
+    contracts_schemas:
+      - pack.yml octon-extension-pack-v5 (populate digest_sha256 on bundled packs) — G-06
+      - NEW: rollback-to-generation operation
+      - delegation-depth field threaded through ExecutionRequest — A-04
+    validators:
+      - NEW: bundled-pack-digest-nonnull; delegation-depth-exceeded-denied tests
+  - area: UX / dogfood / promotion
+    packet: PP-12
+    crates_touched:
+      - kernel/src/commands/mod.rs (operator-mode doctor), mission.rs (cross-project inbox)
+    scope_changes:
+      - Gate federation/trust-compact (trust.rs) behind off-by-default feature — H-04
+      - Rename retention Class A/B/C; add FD-002 consequence-class crosswalk — H-01, H-08
+    validators:
+      - NEW: fresh-install-to-first-mission bounded step count; zero-prompt routine Class A/B dogfood

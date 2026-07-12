@@ -1,0 +1,97 @@
+schema_version: octon-review-subagent-register-v1
+orchestration:
+  method: Workflow tool, single parallel fan-out, read-only subagents
+  model: claude-opus-4-8 (all 9 subagents)
+  total_subagent_tokens: 950612
+  total_tool_calls: 345
+  wall_clock_ms: 557654
+  independence_controls: >-
+    Every subagent prompt forbade reading/searching/citing anything under
+    .octon/inputs/exploratory/reviews/ except this directory, forbade repo
+    mutation, forbade cargo build/test (avoid target/ lock), and required exact
+    path:line citations with the fixed evidence-classification vocabulary.
+subagents:
+  - id: A-authority-lifecycle
+    assignment: FD-003, FD-004, FD-015, FD-022 (authority + lifecycle launch)
+    findings: 7
+    key_findings: [A-01, A-02, A-03, A-04, A-07]
+    accepted: all (independently corroborated by lead reads of execution.rs, authorization.rs, codex.rs)
+    rejected: none
+  - id: B-isolation-credentials-broker
+    assignment: FD-006, FD-008, FD-016 (isolation, credentials, broker)
+    findings: 8
+    key_findings: [B-01, B-02, B-04, B-05, B-06]
+    accepted: "all (corroborated: no env_clear, no OS sandbox, no broker component)"
+    rejected: none
+  - id: C-git-github-publication
+    assignment: FD-007, FD-009, FD-010, FD-011 (git, GitHub, publication)
+    findings: 7
+    key_findings: [C-001, C-002, C-003, C-005, C-006]
+    accepted: "all (corroborated: route_selection_order, unsanitized git, candidate-editable verifier; C-006 PROVIDER_OBSERVED live ruleset)"
+    rejected: none
+  - id: D-runtime-persistence-recovery
+    assignment: FD-005, FD-012, FD-013 (runtime state + recovery)
+    findings: 6
+    key_findings: [D-01, D-02, D-03, D-04, D-05]
+    accepted: "all (corroborated: no SQLite, non-atomic fs::write, TOCTOU consume, no reconciliation)"
+    rejected: none
+  - id: E-evidence-attestation
+    assignment: FD-013, FD-014 (evidence, attestation, support-claims)
+    findings: 7
+    key_findings: [E-01, E-02, E-03, E-05, E-06]
+    accepted: "all (corroborated: no asymmetric signing exists; \"signature\" = unkeyed hash; completeness half honest)"
+    rejected: none
+  - id: F-selfdev-trustroot
+    assignment: FD-017, FD-018 (self-development + trust root)
+    findings: 6
+    key_findings: [F-017-1, F-017-2, F-017-3, F-018-1, F-018-2]
+    accepted: "all (corroborated: evolution CLI unwired, PR-head self-cert, no inert landing, unsigned release)"
+    rejected: none
+  - id: G-projects-harness-extensions
+    assignment: FD-019, FD-020, FD-021, FD-023 (projects, harness, extensions, adapters)
+    findings: 8
+    key_findings: [G-01, G-03, G-04, G-05, G-07, G-08]
+    accepted: "all (corroborated: Harness Factory + digest binding + adapter non-authority are genuine strengths)"
+    rejected: none
+  - id: H-product-scope-usability-simplification
+    assignment: FD-001, FD-002, FD-024 (scope, usability, simplification)
+    findings: 9
+    key_findings: [H-01, H-02, H-04, H-07, H-08, H-09]
+    accepted: "all (corroborated: 53k files / 42 workflows burden; federation breadth; Class A/B/C naming collision)"
+    rejected: none
+  - id: J-adversarial-challenger
+    assignment: disprove complete mediation, credential separation, exact-SHA, idempotency, bounded evidence, safe activation, second control plane
+    findings: 8
+    key_findings: [J-01, J-02, J-03, J-04, J-05, J-07, J-08]
+    accepted: all (J-01..J-05 corroborated by lead; J-06/J-07/J-08 accepted at stated medium confidence)
+    rejected: none
+unresolved_disagreements:
+  - topic: FD-011 verdict
+    detail: >-
+      Subagent C rated FD-011 CONTRADICTED (exact-SHA verifier lives in the
+      candidate-editable tree); Subagent J rated it PARTIALLY_SATISFIED (a check
+      exists but is not runtime-enforced). Lead reconciliation: CONTRADICTED on
+      the candidate-immutability clause (the required checks are defined in
+      change-route-projection.yml, an agent-editable file), PARTIAL on the
+      existence of an exact-SHA concept. Recorded as CONTRADICTED in crosswalk.
+  - topic: FD-013 verdict
+    detail: >-
+      Subagent D rated FD-013 CONTRADICTED (no capacity reservation, and a
+      standalone route-write-lease file subsystem exists); Subagent E rated the
+      no-standalone-lease-service half SATISFIED (E-05). Lead reconciliation:
+      PARTIALLY_SATISFIED — the "no standalone lease service" negative constraint
+      is met, but capacity-reservation-in-transaction is ABSENT.
+  - topic: FD-017/FD-018 verdicts
+    detail: >-
+      F and J split PARTIALLY/CONTRADICTED/ABSENT. Lead reconciliation:
+      FD-017 CONTRADICTED (self-cert reachable, no inert landing, evolution CLI
+      unwired), FD-018 ABSENT (no staged rollback-capable prev-version-verified
+      activation exists). Strong fail-closed primitives (promotion_blockers) noted
+      as preservable but not on any enforced path.
+lead_independent_corroboration:
+  - "authorize_execution at execution.rs:2000 and its exclusive kernel callers"
+  - "authorize_before_dispatch / DelegationProof at authorization.rs:16-151; adapter.rs:109"
+  - "codex build_executor_command spawn with no env_clear (codex.rs:416-452)"
+  - "route_selection_order direct-main before branch-no-pr (default-work-unit.yml:295-300)"
+  - "no ed25519/hmac signing in Rust source; no sqlite/broker/invocation_guard symbols"
+  - "repo scale 53,070 tracked .octon files / 157k Rust LOC / 42 workflows"

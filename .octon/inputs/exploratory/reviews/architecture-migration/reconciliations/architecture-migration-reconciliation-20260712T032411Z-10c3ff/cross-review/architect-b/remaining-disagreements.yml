@@ -1,0 +1,134 @@
+schema_version: "octon-architect-cross-review-disagreement-register-v1"
+architect_label: "B"
+reviewer_status: "THIRD_PARTY_SUBSTITUTE"
+reviewer_note: >-
+  Original Architect B was unavailable. These remaining disagreements are the
+  substitute reviewer's evidence-based positions for reconciliation-lead adjudication.
+disagreements:
+  - disagreement_id: "B-RD-001"
+    subject: "Authority decision-source integrity"
+    self_review_position: >-
+      SELF L1-01/L1-03/L1-04 identifies the in-tree policy runner/policy and
+      environment override family as blockers before privileged implementation.
+    other_review_position: >-
+      OTHER preserves authority_engine and repairs launch mediation/scope but omits
+      decision-source pinning from its findings, GATE-0, and WG-01.
+    disagreement_class: "ASSURANCE_OR_THREAT_DISAGREEMENT"
+    evidence:
+      - classification: "STATICALLY_INSPECTED"
+        refs:
+          - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:2946-2962"
+          - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:309-317"
+          - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs:432-446"
+          - ".octon/framework/engine/runtime/crates/policy_engine/src/lib.rs:966-979"
+    substitute_position: >-
+      SELF is more supported on this point. Import the finding into GATE-0/WG-01,
+      pin or compile the evaluator/policy, and fail closed on unsigned overrides.
+    requested_disposition: "ARCHITECT_B_MORE_SUPPORTED"
+    confidence: "HIGH"
+    affected_decisions: ["FD-003", "FD-017", "FD-018", "FD-024"]
+    migration_consequence: "Privileged authority integration cannot begin until this is in the formal packet scope."
+    proof_required: "Allow-all policy edit and all override substitution attempts deny."
+    operator_decision_required: false
+
+  - disagreement_id: "B-RD-002"
+    subject: "Operational UX timing and WG-12 ownership"
+    self_review_position: >-
+      Broker supervision, guided credential enrollment, doctor/repair, and the
+      zero-prompt Class B route should arrive with the components they make operable.
+    other_review_position: >-
+      WG-12, after WG-07 and WG-11, owns signed extensions, bounded children, and
+      setup/doctor/repair/inbox usability together.
+    disagreement_class: "IMPLEMENTATION_SEQUENCE_DISAGREEMENT"
+    evidence:
+      - classification: "DECLARED"
+        refs:
+          - "Intake product/friction-and-operational-standards.md"
+      - classification: "STATICALLY_INSPECTED"
+        refs:
+          - ".octon/instance/bootstrap/START.md:95-230"
+    substitute_position: >-
+      Move component-local operability into WG-04/WG-06 and keep only complete
+      multi-project dogfood and final burden proof in WG-12/WG-13.
+    requested_disposition: "SYNTHESIZED_POSITION"
+    confidence: "HIGH"
+    affected_decisions: ["FD-001", "FD-002", "FD-006", "FD-024"]
+    migration_consequence: "Avoid a maximum-friction intermediate state that a solo operator must babysit."
+    proof_required: "Broker kill/restart/reconcile plus doctor and one-command enrollment at WG-04 exit."
+    operator_decision_required: false
+
+  - disagreement_id: "B-RD-003"
+    subject: "Tracked evidence exhaust and workflow maintenance"
+    self_review_position: >-
+      Moving raw/detailed run evidence out of project Git and reducing the load-bearing
+      workflow set are first-class simplification and maintenance requirements.
+    other_review_position: >-
+      OTHER recommends hiding advanced CLI/domain surfaces but does not assign explicit
+      packet ownership to tracked run exhaust or a workflow keep/merge/delete reduction.
+    disagreement_class: "SIMPLIFICATION_DISAGREEMENT"
+    evidence:
+      - classification: "STATICALLY_INSPECTED"
+        refs:
+          - "SELF phase-3/simplification-register.yml#SR-10/SR-13"
+      - classification: "DECLARED"
+        refs:
+          - "Intake product/friction-and-operational-standards.md"
+    substitute_position: >-
+      Retain SELF's maintenance findings, but implement them inside OTHER's WG-03,
+      WG-06, and WG-13 rather than creating another subsystem.
+    requested_disposition: "SYNTHESIZED_POSITION"
+    confidence: "MEDIUM_HIGH"
+    affected_decisions: ["FD-001", "FD-014", "FD-024"]
+    migration_consequence: "Add storage/file-count/workflow-count burden gates to formal packets."
+    proof_required: "Fresh clone, 30-day dogfood, raw-evidence locality, and named workflow-set measurements."
+    operator_decision_required: false
+
+  - disagreement_id: "B-RD-004"
+    subject: "Current-state status vocabulary for partially present but opposite behavior"
+    self_review_position: >-
+      SELF used CONTRADICTED more often where a target primitive exists but current
+      behavior violates a decisive clause, including FD-004, FD-009, and FD-017.
+    other_review_position: >-
+      OTHER sometimes uses PARTIALLY_SATISFIED or ABSENT to credit the primitive while
+      separately describing the violating path.
+    disagreement_class: "WORDING_ONLY"
+    evidence:
+      - classification: "STATICALLY_INSPECTED"
+        refs:
+          - "Both phase-1/final-decision-to-repository-crosswalk.yml files"
+    substitute_position: >-
+      Reconciliation should use one consistent rule: classify the whole accepted
+      decision by its decisive safety clause and name reusable primitives separately.
+      The migration and proof consequences are identical either way.
+    requested_disposition: "AGREED_WITH_DIFFERENT_RATIONALE"
+    confidence: "HIGH"
+    affected_decisions: ["FD-004", "FD-009", "FD-017"]
+    migration_consequence: "None if reusable primitives and violated clauses are explicit."
+    proof_required: "None beyond existing claim evidence."
+    operator_decision_required: false
+
+  - disagreement_id: "B-RD-005"
+    subject: "Usable credentialless model-provider session"
+    self_review_position: >-
+      SELF requires credentialless agents but did not fully specify how Codex/Claude
+      authenticate from a fresh home without candidate-readable durable credentials.
+    other_review_position: >-
+      OTHER specifies fresh HOME/config and no credentials but likewise does not define
+      the usable authentication/session boundary.
+    disagreement_class: "UNRESOLVED_DUE_TO_MISSING_EVIDENCE"
+    evidence:
+      - classification: "STATICALLY_INSPECTED"
+        refs:
+          - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:31-73"
+      - classification: "ARCHITECTURAL_INFERENCE"
+        refs:
+          - "Fresh-home target design requires a separate authentication channel."
+    substitute_position: >-
+      Preserve the target direction and require WG-02/WG-04 to choose and prove a
+      provider-native session/proxy or non-exportable short-lived mechanism.
+    requested_disposition: "REQUIRES_TARGETED_REVERIFICATION"
+    confidence: "HIGH on gap; LOW on mechanism"
+    affected_decisions: ["FD-006", "FD-008", "FD-022", "FD-024"]
+    migration_consequence: "WG-02 cannot exit on negative tests alone; useful model execution must also pass."
+    proof_required: "Useful Codex and Claude runs with no durable provider credential readable in process, filesystem, or child environment."
+    operator_decision_required: true

@@ -1,0 +1,142 @@
+schema_version: "octon-reconciled-unresolved-evidence-v1"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+items:
+  - evidence_id: "UE-001"
+    question: "Can candidate-controlled runner/policy/binary/config/receipt inputs or production overrides weaken a real authority decision?"
+    why_it_matters: "Canonical mediation is not trustworthy if its decision source can be substituted."
+    minimum_command_or_test: "In a disposable production-mode fixture, mutate each in-tree decision input and set runner/bin/mode/stale-bundle overrides; invoke authorization."
+    required_baseline: "RP-01 implementation at an exact commit with no real credentials."
+    expected_evidence: "Every substitution denies and selected trusted artifacts resolve to installed/base-certified digests."
+    decision_blocked: ["FD-003", "FD-017", "FD-018"]
+    workgroup_blocked: ["RWG-01", "RWG-09"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+  - evidence_id: "UE-002"
+    question: "Does every supported agent/child launcher consume exact authority, and do typed scopes reject every widening form?"
+    why_it_matters: "A sole authority claim requires dominance and boundary-safe resource matching."
+    minimum_command_or_test: "Static call-graph/spawn census plus table-driven parent/sibling/dot-dot/symlink/case/Git-ref/URI and concurrent consume tests."
+    required_baseline: "RP-01 implementation."
+    expected_evidence: "Unregistered spawn fails validation; only exact/allowed descendants match; at most one process launches."
+    decision_blocked: ["FD-003", "FD-004", "FD-009", "FD-015"]
+    workgroup_blocked: ["RWG-01"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+  - evidence_id: "UE-003"
+    question: "Can the primary supported provider run useful tasks in the selected macOS boundary without candidate-readable durable credentials or canonical Git/host access?"
+    why_it_matters: "Fresh HOME/env clearing alone can be safe but unusable, or useful but credential-leaking."
+    minimum_command_or_test: "Run representative tasks with sentinel credentials; probe environment, Keychain, SSH agent, parent FDs, filesystem, process/network, canonical Git refs/objects/config."
+    required_baseline: "RP-02/RP-04 design on pinned macOS/provider versions and independent disposable repository."
+    expected_evidence: "Useful result succeeds; all durable credential/host/Git probes fail."
+    decision_blocked: ["FD-006", "FD-008", "FD-022", "FD-024"]
+    workgroup_blocked: ["RWG-02", "RWG-04"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+  - evidence_id: "UE-004"
+    question: "Does the one store prevent double consume, torn state, evidence loss, and authority resurrection across every local/external boundary?"
+    why_it_matters: "Static ordering does not prove crash/concurrency safety; SQLite cannot atomically include GitHub."
+    minimum_command_or_test: "N-way consume/revocation/idempotency tests; kill before/during/after T1, send, T2, outbox; DB busy/corrupt/WAL/backup/schema/ENOSPC drills."
+    required_baseline: "RP-03 implementation with scratch adapter and constrained volume."
+    expected_evidence: "At most one authorized attempt; unknown reconciles before retry; terminal/manual-intervention state and reserved evidence remain valid."
+    decision_blocked: ["FD-004", "FD-005", "FD-012", "FD-013", "FD-014"]
+    workgroup_blocked: ["RWG-03", "RWG-08"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+  - evidence_id: "UE-005"
+    question: "Can hostile Git extension points execute under broker identity, and is expected-old fast-forward truly atomic at the provider?"
+    why_it_matters: "Sanitized Git and exact target binding are prerequisites to no-PR speed."
+    minimum_command_or_test: "Hostile hooks/includes/helpers/filters/drivers/fsmonitor/submodules/transports fixtures plus concurrent ancestor/non-ancestor target moves against scratch provider."
+    required_baseline: "RP-05 broker adapter with pinned remote and no production secret."
+    expected_evidence: "No sentinel executes; only exact expected-old ancestor update succeeds; mismatches leave target unchanged."
+    decision_blocked: ["FD-009", "FD-010", "FD-012"]
+    workgroup_blocked: ["RWG-05"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+  - evidence_id: "UE-006"
+    question: "Can candidate changes, ambiguous contexts, or provider drift produce an accepted exact-SHA verdict?"
+    why_it_matters: "Ruleset strictness is not verifier independence."
+    minimum_command_or_test: "Modify verifier/workflow, create duplicate contexts, vary event identity, wrong repo/source/target/policy/time, expire/revoke, and drift App/ruleset in scratch provider."
+    required_baseline: "RP-06 candidate-immutable verifier in non-production repository."
+    expected_evidence: "Every attack denies and accepted verdict carries authenticated identity/version and complete binding."
+    decision_blocked: ["FD-007", "FD-010", "FD-011", "FD-023"]
+    workgroup_blocked: ["RWG-06"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+  - evidence_id: "UE-007"
+    question: "What evidence can truthfully attribute a provider effect to an attempt after a lost response?"
+    why_it_matters: "Remote desired state may prove convergence without proving causation."
+    minimum_command_or_test: "Compare provider receipt/audit identity, atomic attempt marker/ref, and state_satisfied-only designs under lost response and concurrent actor."
+    required_baseline: "RP-05/RP-08 scratch provider implementation."
+    expected_evidence: "Chosen semantics cannot falsely label state satisfaction as attempt performance; retry remains safe."
+    decision_blocked: ["FD-012", "FD-014"]
+    workgroup_blocked: ["RWG-08"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+  - evidence_id: "UE-008"
+    question: "Do signed observations/checkpoints detect producer forgery, full rechain, and rollback to an older valid signed snapshot while surviving compaction/low space?"
+    why_it_matters: "Hash links and DB-local signatures do not by themselves detect old-snapshot rollback or ensure physical terminal writes."
+    minimum_command_or_test: "Wrong/revoked key, forged producer, rechain, restore older DB+checkpoint, roll back monotonic anchor, compact with pins/crash, fill constrained volume."
+    required_baseline: "RP-07 implementation with candidate-inaccessible anchor and physical reserve."
+    expected_evidence: "Every forgery/rollback denies; compaction preserves proof/pins; terminal evidence remains writable."
+    decision_blocked: ["FD-013", "FD-014", "FD-015", "FD-016"]
+    workgroup_blocked: ["RWG-07"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+  - evidence_id: "UE-009"
+    question: "Does safe self-development classify the semantic trust closure and does every activation fault converge safely?"
+    why_it_matters: "Current candidate-head gates and live HEAD resolution permit same-change self-certification/effect."
+    minimum_command_or_test: "Edit/move/indirectly depend on inventory/classifier/evaluator/verifier/activator/rollback/provider config; test wrong artifacts/approvals; kill at every install/switch/health/receipt/reboot/disk-full point."
+    required_baseline: "RP-09 old-version verifier/controller with retained exact versions."
+    expected_evidence: "Unknown trust impact fails closed; source landing inert; every fault ends old healthy, exact new healthy, or verified rollback."
+    decision_blocked: ["FD-017", "FD-018"]
+    workgroup_blocked: ["RWG-09"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+  - evidence_id: "UE-010"
+    question: "Does the Harness Factory compile every accepted input deterministically and bind the exact digest into authority and immediate spawn?"
+    why_it_matters: "The current global route bundle is narrower and can overstate FD-020."
+    minimum_command_or_test: "Compile identical inputs twice; mutate project/mission/run/policy/extension/context/model/tool/validation/evidence/rollback one at a time; launch with stale/widened/wrong digest."
+    required_baseline: "RP-01/RP-02/RP-10/RP-11 implementation with two projects."
+    expected_evidence: "Byte-identical equality; every mutation invalidates; canonical authorization and spawn both deny stale/wrong digest."
+    decision_blocked: ["FD-019", "FD-020", "FD-024"]
+    workgroup_blocked: ["RWG-11"]
+    evidence_target: "DYNAMICALLY_EXECUTED"
+  - evidence_id: "UE-011"
+    question: "Do all live adapter manifests satisfy strict schemas and does the primary provider plus fake conformance adapters prove provider replacement semantics (with a live secondary only if claimed)?"
+    why_it_matters: "Current manifest/schema drift and hardcoded dispatch contradict full provider-native conformance."
+    minimum_command_or_test: "Validate live manifests against strict schemas including negative fixtures; run identical prepare/launch/observe/cancel/usage/retire fixtures through the primary provider and fake adapters; add a live secondary only for a secondary-provider claim."
+    required_baseline: "RP-11 generic adapter interface; RP-06/RP-13 specializations."
+    expected_evidence: "Schemas reject drift; canonical authority/mission/evidence/cancellation/recovery outcomes match across conformant adapters and every live claimed provider."
+    decision_blocked: ["FD-023", "FD-024"]
+    workgroup_blocked: ["RWG-11", "RWG-13"]
+    evidence_target: "DYNAMICALLY_EXECUTED"
+  - evidence_id: "UE-012"
+    question: "Does private extension import authenticate signer and safely revoke/restore exact generations without authorizing them?"
+    why_it_matters: "Digests/publication integrity are not signer authenticity or rollback."
+    minimum_command_or_test: "Unsigned/wrong-key/forged/tampered/revoked/incompatible/capability mismatch imports plus pin/revoke/retained-generation restore fixtures."
+    required_baseline: "RP-12 implementation."
+    expected_evidence: "Invalid imports deny; import only makes available; exact Harness generation binds; revoked rollback denies."
+    decision_blocked: ["FD-021"]
+    workgroup_blocked: ["RWG-12"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+  - evidence_id: "UE-013"
+    question: "Can temporary children remain credentialless, narrower, depth/budget bounded, cancellable, reconcilable, and irreversibly retired?"
+    why_it_matters: "Current scheduling/termination primitives do not complete child trust or hard budget enforcement."
+    minimum_command_or_test: "Credential/Git/sibling probes, reused/expired guard, scope widening, spawn/grandchild, concurrency/timeout/retry/token-cost limits, cancel/kill/lost response, retirement/id reuse."
+    required_baseline: "RP-13 implementation after single-agent Harness proof."
+    expected_evidence: "All widening/persistence/credential/depth attacks deny; hard limits stop or unsupported admission denies; terminal identity cannot be reused."
+    decision_blocked: ["FD-022", "FD-023"]
+    workgroup_blocked: ["RWG-12"]
+    evidence_target: "ADVERSARIALLY_TESTED"
+  - evidence_id: "UE-014"
+    question: "Does the complete supported vertical—including two-project mission inbox, scheduled maintenance, and one reversible effect—meet autonomy, speed, recovery, evidence, setup, and maintenance budgets?"
+    why_it_matters: "Architectural conformance can still fail the solo-developer objective."
+    minimum_command_or_test: "Fresh machine, two-project onboarding/relocation/inbox resume, 20 A/B/C missions, scheduled maintenance and reversible effect, broker/provider/verifier/signer failures, target race, upgrade/repair, and rolling 30-day dogfood against a supervised-agent baseline."
+    required_baseline: "RP-14 release candidate on the supported macOS/GitHub/Codex path."
+    expected_evidence: "At least 18/20 admitted A/B missions autonomous, 20/20 prompt/unauthorized-effect free, median human time <=2m and >=50% below baseline, mediation <=60s p50, no-PR faster than PR, recovery <=5s, zero false escalation, setup <=15m, onboarding <=5m, admin <=15m/month, inbox continuity, raw evidence outside project Git, bounded state/workflows/surface."
+    decision_blocked: ["FD-001", "FD-002", "FD-016", "FD-019", "FD-024"]
+    workgroup_blocked: ["RWG-13"]
+    evidence_target: "DYNAMICALLY_EXECUTED"
+  - evidence_id: "UE-015"
+    question: "What is the current live provider protection, App/token/environment/check-producer posture at implementation and promotion time?"
+    why_it_matters: "The original provider observation is point-in-time; drift can invalidate verifier/effect/support proof."
+    minimum_command_or_test: "Read-only export of rulesets/branch protection, required-check producer identities, Apps/permissions, Actions defaults, environments, secret consumers, and relevant audit/run evidence."
+    required_baseline: "Exact implementation/promotion commit and timestamp; no provider mutation."
+    expected_evidence: "Redacted provider-observed receipt matching packet assumptions or explicit block/demotion."
+    decision_blocked: ["FD-007", "FD-010", "FD-011", "FD-018", "FD-023", "FD-024"]
+    workgroup_blocked: ["RWG-06", "RWG-09", "RWG-13"]
+    evidence_target: "PROVIDER_OBSERVED"
+summary:
+  issue_count: 15
+  blocks_proposal_program_creation: false
+  blocks_privileged_implementation: true

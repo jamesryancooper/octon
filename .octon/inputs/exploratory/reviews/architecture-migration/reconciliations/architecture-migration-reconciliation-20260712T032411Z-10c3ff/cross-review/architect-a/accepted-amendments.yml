@@ -1,0 +1,39 @@
+schema_version: "octon-cross-review-amendments-v1"
+architect_label: "A"
+accepted_amendments:
+  - amendment_id: "A-ACC-001"
+    source_reference: "Architect B L1-01"
+    accepted_position: "The entire authorization decision function and its inputs must be candidate-immutable before privileged execution."
+    affected_original_refs: ["AMR-001", "WG-00", "WG-01"]
+  - amendment_id: "A-ACC-002"
+    source_reference: "Architect B L1-03/L1-04"
+    accepted_position: "Production policy and stale-route overrides must be removed or base-certified and test-only."
+    affected_original_refs: ["AMR-001", "WG-00"]
+  - amendment_id: "A-ACC-003"
+    source_reference: "Architect B L1-05/L1-06"
+    accepted_position: "Gate 0 covers all PAT/App/token workflows and push-triggered gates, not only the primary merge path."
+    affected_original_refs: ["AMR-005", "WG-00", "WG-04"]
+  - amendment_id: "A-ACC-004"
+    source_reference: "Architect B L1-08/L1-09"
+    accepted_position: "Sanitized Git needs a comprehensive hostile-config matrix and durable effect-attempt attribution."
+    affected_original_refs: ["AMR-006", "WG-05", "WG-06"]
+  - amendment_id: "A-ACC-005"
+    source_reference: "Architect B broker operability challenge"
+    accepted_position: "Broker lifecycle, authenticated IPC, enrollment, diagnosis, repair, upgrade, and crash recovery are architectural acceptance criteria."
+    affected_original_refs: ["WG-04", "WG-12"]
+  - amendment_id: "A-ACC-006"
+    source_reference: "Architect B J-06"
+    accepted_position: "Trust approval must bind exact version, scope, provenance, prior verifier, expiry, and rollback."
+    affected_original_refs: ["WG-09"]
+  - amendment_id: "A-ACC-007"
+    source_reference: "Architect B usability sequencing"
+    accepted_position: "Core setup/doctor/status/repair UX ships with the first safe vertical."
+    affected_original_refs: ["WG-04", "WG-12"]
+  - amendment_id: "A-ACC-008"
+    source_reference: "Architect B state and workflow surface measurements"
+    accepted_position: "Retention, compaction, and supported-surface reduction require measurable solo-operator burden budgets."
+    affected_original_refs: ["AMR-008", "AMR-014", "WG-08", "WG-12"]
+  - amendment_id: "A-ACC-009"
+    source_reference: "Architect B provider-native verifier recommendation"
+    accepted_position: "Prefer a conformant provider-native exact-SHA verifier adapter with separate identity over a bespoke service."
+    affected_original_refs: ["WG-06", "FD-023 assessment"]

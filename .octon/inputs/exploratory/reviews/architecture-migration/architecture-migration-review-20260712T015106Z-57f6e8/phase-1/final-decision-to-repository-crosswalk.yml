@@ -1,0 +1,275 @@
+schema_version: octon-review-final-decision-crosswalk-v1
+reviewed_commit: c5b1f5760c78ff521cca6b054e4e8fef5300505b
+status: research-and-decision-input-only; non-authoritative
+legend:
+  alignment_values: [SATISFIED, PARTIALLY_SATISFIED, ABSENT, CONTRADICTED, OBSOLETE_DUE_TO_REPOSITORY_EVOLUTION, REQUIRES_FRESH_PROVIDER_EVIDENCE, REQUIRES_DYNAMIC_PROOF]
+  reconciliation_rule: >-
+    Where subagents split, the lead adopts the verdict that is honest about the
+    safety-relevant clause (worst credible), while naming the genuine strength.
+summary_counts:
+  SATISFIED: 2          # FD-020, FD-023
+  PARTIALLY_SATISFIED: 8 # FD-001, FD-003, FD-012, FD-013, FD-015, FD-016, FD-019, FD-021, FD-024 (see note)
+  CONTRADICTED: 8       # FD-002, FD-004, FD-009, FD-010, FD-011, FD-014, FD-017, FD-022
+  ABSENT: 5             # FD-006, FD-007, FD-008, FD-018, (FD-005 recorded CONTRADICTED/ABSENT)
+  note: FD-005 counted under CONTRADICTED; FD-024 under PARTIALLY_SATISFIED; counts are indicative.
+decisions:
+  - decision_id: FD-001
+    topic: Solo-builder product boundary
+    alignment: PARTIALLY_SATISFIED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      Solo intent is pervasive in governance prose, but the repo carries
+      multi-party breadth (Trust Compacts, Federation ledger, Delegated-authority
+      Leases, cross-domain attestation ~1.5k LOC in trust.rs) and a very large
+      operating surface (53,070 tracked .octon files, 157k Rust LOC, 42 CI
+      workflows, 33 governance policies) that stress the "one person can install,
+      operate, diagnose, recover" proof.
+    findings: [H-04, H-07]
+  - decision_id: FD-002
+    topic: Class A/B/C proportional governance
+    alignment: CONTRADICTED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      The repo's "Class A/B/C" is an evidence-retention storage taxonomy, not the
+      consequence-routing model FD-002 describes. Actual routing is a 7x5
+      mission_class x ACP-tier matrix; ordinary repo mutation maps to ACP-2 with an
+      "escalate" route and 2-party quorum, i.e. routine ceremony, the opposite of
+      "zero routine prompts". The name collision is itself a hazard.
+    findings: [H-01, H-08]
+  - decision_id: FD-003
+    topic: Canonical authorization
+    alignment: PARTIALLY_SATISFIED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      authority_engine::authorize_execution IS the single canonical authority for
+      the kernel command/workflow/pipeline/service/studio paths (A-07), a genuine
+      strength. But the lifecycle_executor agent-spawn path — the most consequential
+      effect — never calls it (no authority_engine dependency at all), so there is
+      no single unavoidable authority boundary for autonomous agent launches.
+    findings: [A-01, A-07, J-01, H-03]
+  - decision_id: FD-004
+    topic: One-shot invocation guards
+    alignment: CONTRADICTED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      The one-shot ExecutorLaunch effect token is issued/verified at exactly one
+      non-test site (the `octon studio` dev process), never for AI-agent spawns.
+      The agent spawn consumes no guard; lifecycle_executor self-attests via its own
+      DelegationProof; a second credentialed CI plane (pr-auto-merge) decides merge
+      eligibility from PR-head scripts. Both are competing planes.
+    findings: [A-02, J-01, J-07]
+  - decision_id: FD-005
+    topic: Local transactional runtime state
+    alignment: CONTRADICTED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      No SQLite/WAL or any embedded transactional store exists; authoritative state
+      is loose YAML + NDJSON files. authority_engine has 11 non-test fs::write sites
+      and zero atomic-rename/fsync usage, so multi-record invariants cannot share an
+      atomic transaction and crashes can leave torn/partial state.
+    findings: [D-01, D-03]
+  - decision_id: FD-006
+    topic: Credentialless agents and local broker
+    alignment: ABSENT
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      No credential-holding broker process exists (the only "broker" is a
+      policy-grant shell script that mints grant records, no secrets). No spawn site
+      applies env_clear/allowlist, so agents inherit ambient durable credentials.
+      The core privilege boundary is not implemented.
+    findings: [B-01, B-02, B-06, H-02]
+  - decision_id: FD-007
+    topic: Optional GitHub effect worker
+    alignment: ABSENT
+    evidence_class: CONFIGURATION_DERIVED
+    rationale: >-
+      No narrowly scoped GitHub App exists. Provider writes run in pr-auto-merge.yml
+      on pull_request_target with a broad AUTONOMY_PAT (or default GITHUB_TOKEN) and
+      candidate-authored policy scripts. The local-broker-stays-authoritative clause
+      is partially met for hosted no-PR landing, but the App-scoped worker is absent.
+    findings: [C-004]
+  - decision_id: FD-008
+    topic: Native isolation and host scope
+    alignment: ABSENT
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      Repo-wide grep for sandbox-exec/seatbelt/unshare/chroot/nsjail/seccomp returns
+      zero. Candidate work runs in the canonical repo root (--cd repo_root) with only
+      the third-party Codex CLI's own --sandbox flag (claude path has none). No
+      isolated worktree/GIT_DIR; candidate git writes hit canonical objects/refs.
+    findings: [B-04, B-05]
+  - decision_id: FD-009
+    topic: Sanitized privileged Git
+    alignment: CONTRADICTED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      Every git invocation runs with ambient env and repo-controlled config; no
+      GIT_CONFIG_NOSYSTEM/hooksPath=/dev/null/--no-verify. Worse, the repo actively
+      installs managed post-merge/post-checkout hooks that run git mutations and
+      chain prior hooks — hooks are load-bearing, the opposite of "cannot execute".
+    findings: [C-001, C-002, C-007]
+  - decision_id: FD-010
+    topic: Adaptive verified publication
+    alignment: CONTRADICTED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      route_selection_order lists direct-main BEFORE branch-no-pr and
+      solo_route_selection prefers direct-main for solo low-risk changes; the
+      direct-main route lands and pushes on main. This directly contradicts "agents
+      never work/publish directly on main" and inverts the branch-no-PR default.
+      (Confirmed at HEAD, not only at the intake's ce924420 inspection.)
+    findings: [C-005, J-03]
+  - decision_id: FD-011
+    topic: Independent exact-SHA verification
+    alignment: CONTRADICTED
+    evidence_class: STATICALLY_INSPECTED
+    provider_cross_check: PROVIDER_OBSERVED (C-006 live main ruleset)
+    rationale: >-
+      The four required status checks on main are jobs defined in
+      change-route-projection.yml — an agent-editable file — and the exact-SHA job
+      passes trivially in the common no-receipt path. The verifier's code, its
+      required-check contract, and its verdict all live in the candidate tree, so the
+      thing being verified authors its own verdict. An exact-SHA concept exists but is
+      not candidate-immutable.
+    findings: [C-003, C-006, J-03]
+  - decision_id: FD-012
+    topic: Transactional idempotency and reconciliation
+    alignment: PARTIALLY_SATISFIED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      A single-use effect-token concept exists but consume is a non-transactional
+      read-check-write (TOCTOU, no lock, plain fs::write). idempotency_key is an
+      optional journal field, not an enforced dedup key; cross-process dedup is an
+      in-memory map lost on crash. No unknown-outcome reconciliation engine (no
+      post-push "did it land?" probe). Terminal-state machine is incomplete.
+    findings: [D-02, D-05, D-06, J-04]
+  - decision_id: FD-013
+    topic: Evidence-capacity reservation
+    alignment: PARTIALLY_SATISFIED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      Negative constraint met (E-05: no standalone capacity/lease service; the only
+      lease is an inline network-egress exception input). But capacity-reservation
+      in-the-same-transaction is ABSENT (no free-space/ENOSPC handling; a separate
+      route-write-lease file subsystem drifts from operations), so near-full-storage
+      terminal-evidence durability is unproven.
+    findings: [E-04, E-05, D-04]
+  - decision_id: FD-014
+    topic: Signed bounded evidence and retention
+    alignment: CONTRADICTED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      No cryptographic signing of any kind exists (only unkeyed SHA-256). "Rechaining
+      breaks checkpoint verification" is FALSE as implemented: an actor with log write
+      access can rewrite events and recompute the public hash chain to pass validation.
+      Capability "signatures" are unkeyed hashes and quorum only presence-counts them.
+      The completeness/fail-closed half IS honest and accurate.
+    findings: [E-01, E-02, E-03, E-06]
+  - decision_id: FD-015
+    topic: Essential TCB roles
+    alignment: PARTIALLY_SATISFIED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      Authorize (authority_engine) and verify/attest (validator plane) exist in
+      substance, but the four-role TCB model (authorize/perform/verify/activate) is
+      not represented as a canonical artifact, and no enumeration of every physical
+      durable writer exists to support the "change cannot approve/activate itself"
+      proof.
+    findings: [A-06]
+  - decision_id: FD-016
+    topic: Narrow degraded operation
+    alignment: PARTIALLY_SATISFIED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      Transition-scoped blocking is genuinely present (a failed route yields
+      blocked/failed/cancelled for only the affected transition) — a real strength.
+      But the "never expose ambient credentials" clause is only vacuously satisfied
+      because there is no credential boundary to protect (see FD-006); it cannot be
+      fully met until a credential boundary exists.
+    findings: [B-08]
+  - decision_id: FD-017
+    topic: Safe self-development
+    alignment: CONTRADICTED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      The self-evolution/promotion/recertification runtime is a hand-run CLI advisory
+      wired into no merge gate. Certification gates check out and run the PR's own head
+      ref, so a change can weaken its own validator/gate/policy and be certified by the
+      weakened version (same-change self-certification). No inert-landing mechanism —
+      trust-root edits take effect the instant they land on main.
+    findings: [F-017-1, F-017-2, F-017-3, F-017-4]
+  - decision_id: FD-018
+    topic: Autonomous trust-root activation
+    alignment: ABSENT
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      No operator-preauthorized, previous-version-verified, exact-version, staged,
+      rollback-capable activation exists. Release binaries are built from HEAD via
+      unsigned artifacts (no cosign/sigstore/gpg), the tag is PAT-driven, and trust
+      admission approval is presence-only (any --approval-ref string flips status).
+      The thorough fail-closed promotion_blockers() reader exists but is on no
+      enforced path.
+    findings: [F-018-1, F-018-2, J-06]
+  - decision_id: FD-019
+    topic: Minimal Workspace Projects
+    alignment: PARTIALLY_SATISFIED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      The "never authority" half is solid — the Project Profile is descriptive-only
+      and mints no effects. But there is no durable, digest-bound Workspace Project
+      identity; only a singleton mutable per-repo Profile with additionalProperties:true.
+      Multi-project continuity is undemonstrated.
+    findings: [G-01, G-02, H-06]
+  - decision_id: FD-020
+    topic: Deterministic Harness Factory
+    alignment: SATISFIED
+    evidence_class: STATICALLY_INSPECTED
+    dynamic_followup: REQUIRES_DYNAMIC_PROOF (G-04 deny-path not executed)
+    rationale: >-
+      A deterministic, digest-bound effective-route-bundle generator exists and is
+      idempotent; the runtime_resolver enforces the digest binding in-kernel and denies
+      on any input drift or forbidden consumer. The factory output is compile-fixed and
+      runtime-verified, not a live authority surface. Strongest satisfied decision.
+    findings: [G-03, G-04]
+  - decision_id: FD-021
+    topic: Private signed extension catalog
+    alignment: PARTIALLY_SATISFIED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      Import/verify/pin/quarantine/withdraw and the no-public-marketplace constraint are
+      realized with provenance-carrying packs and a digest-pinned effective catalog. Two
+      thin spots: signatures are unenforced on the shipped first-party-bundled set
+      (digest_sha256 null), and there is no explicit rollback-to-prior-generation primitive.
+    findings: [G-05, G-06]
+  - decision_id: FD-022
+    topic: Mission-scoped multi-agent operation
+    alignment: CONTRADICTED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      Children inherit ambient credentials (no env_clear), so "cannot gain credentials"
+      fails. No delegation-depth primitive exists (only parallelism/step budgets). Child
+      write scope is recorded in a self-written proof, not enforced by a consumed
+      canonical guard; codex sandbox is workspace-write over the whole repo.
+    findings: [A-03, A-04, A-05]
+  - decision_id: FD-023
+    topic: Provider-native component delegation
+    alignment: SATISFIED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      Provider-native model/host components are delegated through replaceable,
+      non-authoritative Octon-owned adapter contracts (model-adapter-v1: authority_mode
+      non-authoritative, replaceable const true, Octon-owned interface_ref +
+      conformance + non_authoritative_boundaries). Provider replacement cannot widen
+      authority or support tiers.
+    findings: [G-08, G-07]
+  - decision_id: FD-024
+    topic: Operator-grade solo-builder support envelope
+    alignment: PARTIALLY_SATISFIED
+    evidence_class: STATICALLY_INSPECTED
+    rationale: >-
+      Several pillars exist (mission queue, decision requests, extension catalog,
+      adapters, deterministic harness), but the vertical is missing its authority anchor
+      (no local broker, FD-006/H-02), has no cross-project mission inbox, no operator-mode
+      doctor (only a self-dev architecture linter), and high maintenance burden. The
+      "complete path" is not yet complete or proven by dogfood.
+    findings: [H-02, H-05, H-06, H-09, H-07]
