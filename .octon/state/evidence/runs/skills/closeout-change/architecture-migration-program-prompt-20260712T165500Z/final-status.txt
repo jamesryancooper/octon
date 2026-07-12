@@ -1,0 +1,14 @@
+change_id=architecture-migration-program-prompt
+selected_route=branch-no-pr
+target_lifecycle_outcome=cleaned
+lifecycle_outcome=cleaned
+source_ref=b329114e29a79a7511490c2070f11a745caa08da
+landed_ref=b329114e29a79a7511490c2070f11a745caa08da
+local_main_ref=b329114e29a79a7511490c2070f11a745caa08da
+origin_main_ref=b329114e29a79a7511490c2070f11a745caa08da
+origin_main_contains_landed_ref=true
+local_main_contains_landed_ref=true
+local_delivery_branch_present=false
+remote_delivery_branch_present=false
+source_dirty_anchor=none-route-owned
+source_dirty_anchor_disposition=not-applicable

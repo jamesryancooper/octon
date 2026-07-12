@@ -1,0 +1,13 @@
+schema_version: change-closeout-residue-classification-v1
+read_only: true
+detection_is_deletion_authority: false
+change_id: architecture-migration-program-prompt
+selected:
+  routing_class: publishable_change
+  include_paths:
+    - .octon/framework/scaffolding/practices/prompts/README.md
+    - .octon/framework/scaffolding/practices/prompts/create-octon-architecture-migration-proposal-program.md
+    - .octon/state/evidence/runs/skills/refine-prompt/2026-07-12T16-25-38Z-create-octon-architecture-migration-proposal-program.md
+excluded:
+  - .octon/inputs/exploratory/reviews/architecture-migration
+rollback_posture: recreate the delivery branch at the landed SHA or revert the landed commit

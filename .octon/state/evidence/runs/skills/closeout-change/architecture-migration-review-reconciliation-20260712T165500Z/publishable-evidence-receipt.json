@@ -1,0 +1,75 @@
+{
+  "schema_version": "publishable-evidence-receipt-v1",
+  "receipt_id": "architecture-migration-review-reconciliation-publishable-closeout",
+  "receipt_mode": "claim",
+  "created_at": "2026-07-12T16:55:00Z",
+  "issuer_ref": "closeout-change:architecture-migration-review-reconciliation",
+  "disclosure_tier": "repo-publishable",
+  "evidence_tier_ref": "repo_publishable_evidence",
+  "claim_scope": {
+    "claim_id": "architecture-migration-review-reconciliation",
+    "claim_type": "closeout",
+    "statement": "The review and reconciliation Change passed its integrity and syntax floor, landed by authorized fast-forward, synchronized main, and completed governed delivery-branch cleanup.",
+    "applies_to": ["architecture-migration-review-reconciliation", "cd5df7a94e0280bee313269051c0166388f40493"]
+  },
+  "source_summary": {
+    "summary": "Repo-publishable closeout proof contains the governed authorization receipts and concise validation/current-state summaries; transient helper output is not published.",
+    "source_refs": [
+      "sha256:262b6905184105803506ba11d7a278ea3dc4483e4558ab11df9439d932e77d96",
+      "sha256:dc460f9a2568ec25905dfdd7871a5468610bf3a365a1f870bbaf334cf89f2a88",
+      "sha256:f408b360354c40ef4487ea9493551e7b15532693bdcc235e0b389ff9b960edb8"
+    ],
+    "raw_evidence_published": false
+  },
+  "validation_summary": {
+    "verdict": "pass",
+    "commands_or_checks": [
+      "three provenance integrity indexes",
+      "YAML JSON and JSONL syntax parsing",
+      "git diff --check",
+      "live provider no-PR preflight",
+      "governed landing and branch cleanup helpers"
+    ],
+    "evidence_refs": ["validation-summary.md", "final-status.txt"]
+  },
+  "redactions": {
+    "status": "applied",
+    "summary": "Absolute transient runtime paths and verbose helper output are omitted.",
+    "redacted_fields": ["transient command output", "runtime approval transport metadata"]
+  },
+  "limitations": [
+    {
+      "limitation_id": "planning-input-only",
+      "description": "The landed reviews and reconciliation remain non-authoritative planning inputs.",
+      "impact": "This receipt does not authorize proposal creation, acceptance, implementation, promotion, or archive."
+    }
+  ],
+  "local_evidence_refs": [
+    {"ref_kind":"repo-relative-path","ref":"landing-authorization.json","digest_algorithm":"sha256","digest":"sha256:262b6905184105803506ba11d7a278ea3dc4483e4558ab11df9439d932e77d96","raw_evidence_not_published":true,"description":"Governed no-PR landing authorization."},
+    {"ref_kind":"repo-relative-path","ref":"cleanup-authorization.json","digest_algorithm":"sha256","digest":"sha256:dc460f9a2568ec25905dfdd7871a5468610bf3a365a1f870bbaf334cf89f2a88","raw_evidence_not_published":true,"description":"Governed delivery-branch cleanup authorization."},
+    {"ref_kind":"repo-relative-path","ref":"final-status.txt","digest_algorithm":"sha256","digest":"sha256:f408b360354c40ef4487ea9493551e7b15532693bdcc235e0b389ff9b960edb8","raw_evidence_not_published":true,"description":"Concise main alignment and branch absence proof."}
+  ],
+  "outcome": {
+    "result": "pass",
+    "summary": "The singular Change reached cleaned on its branch-no-pr route.",
+    "decided_at": "2026-07-12T16:55:00Z"
+  },
+  "rollback_or_discard": {
+    "posture": "revert-landed-commit",
+    "trigger": "A later audit disproves integrity, landing, or cleanup evidence.",
+    "instructions": "Recreate the delivery branch at cd5df7a94e0280bee313269051c0166388f40493 or revert that commit from main."
+  },
+  "authority_boundaries": {
+    "raw_inputs_not_authority": true,
+    "generated_outputs_not_authority": true,
+    "proposal_paths_not_authority": true,
+    "host_state_not_authority": true,
+    "parent_program_evidence_not_substitute": true
+  },
+  "concision": {
+    "declared_receipt_size_bytes": 4096,
+    "warning_threshold_bytes": 65536,
+    "failure_threshold_bytes": 262144,
+    "size_exception_authorized": false
+  }
+}

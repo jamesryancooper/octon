@@ -1,0 +1,158 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "architecture-migration-review-reconciliation",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Deliver the two independent architecture migration reviews and their completed reconciliation as durable planning inputs without creating or implementing the proposal program.",
+  "scope": {
+    "summary": "Two independent architecture migration reviews and one reconciled proposal-program baseline.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/reviews/architecture-migration/architecture-migration-review-20260712T015106Z-57f6e8/",
+      ".octon/inputs/exploratory/reviews/architecture-migration/architecture-migration-review-20260712T015114Z-6e5b57/",
+      ".octon/inputs/exploratory/reviews/architecture-migration/reconciliations/architecture-migration-reconciliation-20260712T032411Z-10c3ff/"
+    ],
+    "diff_refs": ["commit:cd5df7a94e0280bee313269051c0166388f40493"]
+  },
+  "source_branch_ref": "chore/architecture-migration-review-reconciliation",
+  "target_branch_ref": "origin/main@cd5df7a94e0280bee313269051c0166388f40493",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/cleanup-authorization.json",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/architecture-migration-review-reconciliation",
+    "source_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "target_pre_ref": "c5b1f5760c78ff521cca6b054e4e8fef5300505b",
+    "target_post_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "validated_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "required_check_refs": ["empty-check-set-explicitly-allowed@cd5df7a94e0280bee313269051c0166388f40493"],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "cd5df7a94e0280bee313269051c0166388f40493:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "hosted_landing_execution": {
+    "signal": "--execute-authorized-landing",
+    "authorization_consumed": true,
+    "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/landing-authorization.json",
+    "execution_lane_kind": "sandbox-tool-authority-receipt",
+    "execution_lane_status": "authorized",
+    "execution_lane_evidence_ref": "managed-runtime approval for git-branch-land-hosted-no-pr.sh",
+    "source_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "target_pre_ref": "c5b1f5760c78ff521cca6b054e4e8fef5300505b",
+    "target_post_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "rollback_handle_ref": "revert-commit:cd5df7a94e0280bee313269051c0166388f40493",
+    "final_sync_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/final-status.txt",
+    "host_controls_not_bypassed": true
+  },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "target_ref": "origin/main@cd5df7a94e0280bee313269051c0166388f40493",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/landing-authorization.json",
+      "git-branch-land-hosted-no-pr.sh fast-forward proof"
+    ]
+  },
+  "source_branch_integration": {
+    "source_branch_ref": "chore/architecture-migration-review-reconciliation",
+    "source_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "landed_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "origin_main_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": ["origin/main and local main contain the exact source ref"]
+  },
+  "landed_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+  "main_alignment": {
+    "local_main_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "origin_main_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "landed_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "aligned": true,
+    "origin_fetch_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/final-status.txt",
+    "local_main_sync_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/final-status.txt",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/final-status.txt"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/cleanup-authorization.json",
+    "git-branch-cleanup.sh completed local and remote branch deletion"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/architecture-migration-review-reconciliation",
+    "remote_branch": "origin/chore/architecture-migration-review-reconciliation",
+    "evidence_refs": ["origin/main containment and no-open-PR proof passed before deletion"]
+  },
+  "validation_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/validation-summary.md",
+    "integrity-index:46/46@cd5df7a94e0280bee313269051c0166388f40493",
+    "integrity-index:56/56@cd5df7a94e0280bee313269051c0166388f40493",
+    "integrity-index:50/50@cd5df7a94e0280bee313269051c0166388f40493",
+    "empty-check-set-explicitly-allowed@cd5df7a94e0280bee313269051c0166388f40493"
+  ],
+  "review_waiver_refs": ["operator selected partitioned branch-no-pr closeout; no PR requested and no PR predicate applied"],
+  "publishable_evidence_receipt_refs": [
+    {
+      "receipt_ref": ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/publishable-evidence-receipt.json",
+      "schema_ref": ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json",
+      "disclosure_tier": "repo-publishable",
+      "claim_scope_ref": "architecture-migration-review-reconciliation",
+      "receipt_digest": "sha256:bcb8549a6fe8633b5b32bed58b49a0ae9f879a42a89bb54e56c8507c50c5a38a",
+      "raw_evidence_not_published": true
+    }
+  ],
+  "terminal_current_state_proof_ref": ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/final-status.txt",
+  "durable_history": {
+    "kind": "commit",
+    "ref": "cd5df7a94e0280bee313269051c0166388f40493",
+    "branch": "chore/architecture-migration-review-reconciliation"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "origin/chore/architecture-migration-review-reconciliation@cd5df7a94e0280bee313269051c0166388f40493 until governed cleanup executes; thereafter recreate branch at landed SHA or revert commit",
+    "instructions": "Recreate the deleted source branch at the landed SHA or revert commit cd5df7a94e0280bee313269051c0166388f40493 from main."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/initial-inventory.txt",
+    "residue_classification_ref": ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/residue-classification.yml",
+    "phase_exit_refs": [
+      "branch-local commit cd5df7a94e0280bee313269051c0166388f40493",
+      "remote branch pushed without PR",
+      "origin/main fast-forwarded to source ref",
+      "local and remote delivery branch cleanup completed"
+    ],
+    "cleanup_decision_refs": [".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/cleanup-authorization.json"],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/landing-authorization.json"],
+    "branch_cleanup_refs": [".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/cleanup-authorization.json"],
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/final-status.txt"
+  },
+  "retained_state_report": {
+    "delivered_branch": {"row_kind":"delivered_branch","subjects":["chore/architecture-migration-review-reconciliation@cd5df7a94e0280bee313269051c0166388f40493"],"disposition":"delivered","evidence_refs":["origin/main contains landed ref"],"retention_or_blocker_reason":"Delivered by authorized fast-forward."},
+    "route_owned_delivery_branch": {"row_kind":"route_owned_delivery_branch","subjects":["chore/architecture-migration-review-reconciliation"],"disposition":"deleted","evidence_refs":["cleanup-authorization.json"],"retention_or_blocker_reason":"Deleted after containment and no-open-PR proof."},
+    "source_dirty_anchor_branches": {"row_kind":"source_dirty_anchor_branches","subjects":["none"],"disposition":"not-applicable","evidence_refs":["residue-classification.yml"],"retention_or_blocker_reason":"No route-owned dirty anchor remains in this singular Change scope."},
+    "retained_local_branches": {"row_kind":"retained_local_branches","subjects":["none"],"disposition":"not-applicable","evidence_refs":["final-status.txt"],"retention_or_blocker_reason":"No route-owned delivery branch retained."},
+    "retained_worktrees": {"row_kind":"retained_worktrees","subjects":["none"],"disposition":"not-applicable","evidence_refs":["final-status.txt"],"retention_or_blocker_reason":"No Change-owned retained worktree remains."},
+    "retained_required_evidence": {"row_kind":"retained_required_evidence","subjects":["landing and cleanup authorizations"],"disposition":"retained","evidence_refs":["landing-authorization.json","cleanup-authorization.json"],"retention_or_blocker_reason":"Required durable closeout proof."},
+    "local_private_evidence": {"row_kind":"local_private_evidence","subjects":["none"],"disposition":"not-applicable","evidence_refs":["publishable-evidence-receipt.json"],"retention_or_blocker_reason":"No local-private evidence is required by the shared terminal claim."},
+    "generated_diagnostics": {"row_kind":"generated_diagnostics","subjects":["none"],"disposition":"not-applicable","evidence_refs":["validation-summary.md"],"retention_or_blocker_reason":"No generated diagnostics required cleanup."},
+    "deleted_residue": {"row_kind":"deleted_residue","subjects":["local and remote delivery branch refs"],"disposition":"deleted","evidence_refs":["cleanup-authorization.json"],"retention_or_blocker_reason":"Governed branch cleanup completed."},
+    "excluded_residue": {"row_kind":"excluded_residue","subjects":["none"],"disposition":"not-applicable","evidence_refs":["residue-classification.yml"],"retention_or_blocker_reason":"Unrelated wrapper candidates are outside this singular Change receipt."},
+    "manual_review_residue": {"row_kind":"manual_review_residue","subjects":["none"],"disposition":"not-applicable","evidence_refs":["residue-classification.yml"],"retention_or_blocker_reason":"No manual-review residue in this Change."},
+    "remote_mutation_status": {"row_kind":"remote_mutation_status","subjects":["origin/main","origin/chore/architecture-migration-review-reconciliation"],"disposition":"verified","evidence_refs":["landing-authorization.json","cleanup-authorization.json"],"retention_or_blocker_reason":"Authorized landing and source-branch deletion completed."},
+    "archive_authorization": {"row_kind":"archive_authorization","subjects":["none"],"disposition":"not-authorized","evidence_refs":["validation-summary.md"],"retention_or_blocker_reason":"This Change does not archive or promote proposals."},
+    "final_current_state_proof": {"row_kind":"final_current_state_proof","subjects":["local main","origin/main","landed ref"],"disposition":"verified","evidence_refs":["final-status.txt"],"retention_or_blocker_reason":"Both main refs contain the landed ref and the delivery branch is absent."}
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-07-12T16:55:00Z"
+}

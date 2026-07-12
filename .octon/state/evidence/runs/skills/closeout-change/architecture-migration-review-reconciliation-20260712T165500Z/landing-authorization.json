@@ -1,0 +1,25 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-architecture-migration-review-reconciliation-cd5df7a94e02",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/architecture-migration-review-reconciliation",
+  "source_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+  "remote_source_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+  "target_pre_ref": "c5b1f5760c78ff521cca6b054e4e8fef5300505b",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "empty-check-set-explicitly-allowed@cd5df7a94e0280bee313269051c0166388f40493"
+  ],
+  "allow_empty_check_set": true,
+  "rollback_handle": "remote branch origin/chore/architecture-migration-review-reconciliation at cd5df7a94e0280bee313269051c0166388f40493; revert landed commit if rollback is required",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-07-12T16:46:49Z",
+  "empty_check_set_rationale": "Live provider rules expose no required check contexts for this route; three integrity indexes plus YAML, JSON, JSONL, and diff checks passed locally."
+}

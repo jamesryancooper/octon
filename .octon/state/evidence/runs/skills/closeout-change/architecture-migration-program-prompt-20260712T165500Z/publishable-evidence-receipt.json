@@ -1,0 +1,76 @@
+{
+  "schema_version": "publishable-evidence-receipt-v1",
+  "receipt_id": "architecture-migration-program-prompt-publishable-closeout",
+  "receipt_mode": "claim",
+  "created_at": "2026-07-12T16:55:00Z",
+  "issuer_ref": "closeout-change:architecture-migration-program-prompt",
+  "disclosure_tier": "repo-publishable",
+  "evidence_tier_ref": "repo_publishable_evidence",
+  "claim_scope": {
+    "claim_id": "architecture-migration-program-prompt",
+    "claim_type": "closeout",
+    "statement": "The reusable 15-packet program-prompt Change passed its structural validation floor, landed by authorized fast-forward, synchronized main, and completed governed delivery-branch cleanup.",
+    "applies_to": ["architecture-migration-program-prompt", "b329114e29a79a7511490c2070f11a745caa08da"]
+  },
+  "source_summary": {
+    "summary": "Repo-publishable closeout proof contains the governed authorization receipts and concise validation/current-state summaries; transient helper output is not published.",
+    "source_refs": [
+      "sha256:062d77031e87ef7891a1a23d54d8a3335fe97d20e69aa41364b72b09ff508390",
+      "sha256:6e505c546f3bd54322e04516409b5881e11e0f33d1b2741de5c871f50b5ed642",
+      "sha256:df11e884a0fe31932d39e082ecf8bcc4251fe2dc197495352b5487f3904f7ce1"
+    ],
+    "raw_evidence_published": false
+  },
+  "validation_summary": {
+    "verdict": "pass",
+    "commands_or_checks": [
+      "frontmatter and fixed-context parsing",
+      "exact 15-packet identity and dependency topology",
+      "fixed path resolution and placeholder scan",
+      "git diff --check",
+      "live provider no-PR preflight",
+      "governed landing and branch cleanup helpers"
+    ],
+    "evidence_refs": ["validation-summary.md", "final-status.txt"]
+  },
+  "redactions": {
+    "status": "applied",
+    "summary": "Absolute transient runtime paths and verbose helper output are omitted.",
+    "redacted_fields": ["transient command output", "runtime approval transport metadata"]
+  },
+  "limitations": [
+    {
+      "limitation_id": "planning-input-only",
+      "description": "The landed reusable prompt remains a non-authoritative instruction artifact.",
+      "impact": "This receipt does not authorize proposal creation, acceptance, implementation, promotion, or archive."
+    }
+  ],
+  "local_evidence_refs": [
+    {"ref_kind":"repo-relative-path","ref":"landing-authorization.json","digest_algorithm":"sha256","digest":"sha256:062d77031e87ef7891a1a23d54d8a3335fe97d20e69aa41364b72b09ff508390","raw_evidence_not_published":true,"description":"Governed no-PR landing authorization."},
+    {"ref_kind":"repo-relative-path","ref":"cleanup-authorization.json","digest_algorithm":"sha256","digest":"sha256:6e505c546f3bd54322e04516409b5881e11e0f33d1b2741de5c871f50b5ed642","raw_evidence_not_published":true,"description":"Governed delivery-branch cleanup authorization."},
+    {"ref_kind":"repo-relative-path","ref":"final-status.txt","digest_algorithm":"sha256","digest":"sha256:df11e884a0fe31932d39e082ecf8bcc4251fe2dc197495352b5487f3904f7ce1","raw_evidence_not_published":true,"description":"Concise main alignment and branch absence proof."}
+  ],
+  "outcome": {
+    "result": "pass",
+    "summary": "The singular Change reached cleaned on its branch-no-pr route.",
+    "decided_at": "2026-07-12T16:55:00Z"
+  },
+  "rollback_or_discard": {
+    "posture": "revert-landed-commit",
+    "trigger": "A later audit disproves integrity, landing, or cleanup evidence.",
+    "instructions": "Recreate the delivery branch at b329114e29a79a7511490c2070f11a745caa08da or revert that commit from main."
+  },
+  "authority_boundaries": {
+    "raw_inputs_not_authority": true,
+    "generated_outputs_not_authority": true,
+    "proposal_paths_not_authority": true,
+    "host_state_not_authority": true,
+    "parent_program_evidence_not_substitute": true
+  },
+  "concision": {
+    "declared_receipt_size_bytes": 4096,
+    "warning_threshold_bytes": 65536,
+    "failure_threshold_bytes": 262144,
+    "size_exception_authorized": false
+  }
+}

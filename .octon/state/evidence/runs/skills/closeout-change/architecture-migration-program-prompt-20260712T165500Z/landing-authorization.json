@@ -1,0 +1,25 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-architecture-migration-program-prompt-b329114e29a7",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/architecture-migration-program-prompt",
+  "source_ref": "b329114e29a79a7511490c2070f11a745caa08da",
+  "remote_source_ref": "b329114e29a79a7511490c2070f11a745caa08da",
+  "target_pre_ref": "cd5df7a94e0280bee313269051c0166388f40493",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "empty-check-set-explicitly-allowed@b329114e29a79a7511490c2070f11a745caa08da"
+  ],
+  "allow_empty_check_set": true,
+  "rollback_handle": "remote branch origin/chore/architecture-migration-program-prompt at b329114e29a79a7511490c2070f11a745caa08da; revert landed commit if rollback is required",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-07-12T16:52:46Z",
+  "empty_check_set_rationale": "Live provider rules expose no required check contexts for this route; prompt frontmatter, topology, paths, placeholders, discoverability, refinement receipt, and diff checks passed locally."
+}

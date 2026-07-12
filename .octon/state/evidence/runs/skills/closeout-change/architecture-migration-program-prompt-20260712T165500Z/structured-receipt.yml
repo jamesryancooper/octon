@@ -1,0 +1,28 @@
+schema_version: structured-receipt-v1
+artifact_kind: structured-receipt
+artifact_id: architecture-migration-program-prompt-20260712T165500Z-structured-receipt
+authority_status: retained-evidence-aid non-authoritative
+producer: {id: closeout-change, produced_at: "2026-07-12T16:55:00Z"}
+consumer: {default_reader: closeout-change, model_route: compact-default}
+reader_preference: {default: structured, raw_default: false}
+model_visible_token_estimate: 900
+source_refs: &refs
+  - .octon/state/evidence/runs/skills/closeout-change/architecture-migration-program-prompt-20260712T165500Z/change-receipt.json
+  - .octon/state/evidence/validation/analysis/2026-07-12-change-closeout-architecture-migration-program-prompt.md
+  - .octon/state/evidence/runs/skills/closeout-change/architecture-migration-program-prompt-20260712T165500Z/run-log.md
+source_digests: &digests
+  - {source_ref: .octon/state/evidence/runs/skills/closeout-change/architecture-migration-program-prompt-20260712T165500Z/change-receipt.json, sha256: "sha256:3754785ed1a628fae81a60948ba61e415ebe64a8edb3dff0d751cec42c2cadb9"}
+  - {source_ref: .octon/state/evidence/validation/analysis/2026-07-12-change-closeout-architecture-migration-program-prompt.md, sha256: "sha256:f1c6c5874020974114ba07bfa620ec5c0fdcbb08419529deea8c238e0ec86d12"}
+  - {source_ref: .octon/state/evidence/runs/skills/closeout-change/architecture-migration-program-prompt-20260712T165500Z/run-log.md, sha256: "sha256:a69e06ea1ecc0f3ae855872327ac8dc16382fbeb7c729a802736eda4046e991f"}
+evidence_refs:
+  - .octon/state/evidence/runs/skills/closeout-change/architecture-migration-program-prompt-20260712T165500Z/landing-authorization.json
+  - .octon/state/evidence/runs/skills/closeout-change/architecture-migration-program-prompt-20260712T165500Z/cleanup-authorization.json
+validation: {status: valid, validator: validate-structured-receipt-artifacts.sh, validation_refs: [current-run-validation]}
+freshness: {state: fresh}
+failure_behavior: {on_missing_source: fail_closed, on_digest_mismatch: fail_closed, on_stale_freshness: fail_closed, on_authority_conflict: fail_closed}
+authority_boundary: {proposal_inputs_authoritative: false, generated_outputs_authoritative: false, raw_evidence_replaced: false, engine_authorization_bypassed: false}
+route: {entered: closeout-change, selected: branch-no-pr, target_lifecycle_outcome: cleaned, lifecycle_outcome: cleaned}
+candidate: {id: architecture-migration-program-prompt, disposition: closed}
+blockers: []
+rollback_refs: ["revert-commit:b329114e29a79a7511490c2070f11a745caa08da"]
+exclusions: [architecture-migration-program-prompt]

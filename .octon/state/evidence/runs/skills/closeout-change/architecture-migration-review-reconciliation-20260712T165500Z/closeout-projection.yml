@@ -1,0 +1,28 @@
+schema_version: closeout-projection-v1
+artifact_kind: closeout-projection
+artifact_id: architecture-migration-review-reconciliation-20260712T165500Z-closeout-projection
+authority_status: retained-evidence-aid non-authoritative
+producer: {id: closeout-change, produced_at: "2026-07-12T16:55:00Z"}
+consumer: {default_reader: closeout-change, model_route: compact-default}
+reader_preference: {default: compact, raw_default: false}
+model_visible_token_estimate: 700
+source_refs:
+  - .octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/change-receipt.json
+  - .octon/state/evidence/validation/analysis/2026-07-12-change-closeout-architecture-migration-review-reconciliation.md
+source_digests:
+  - {source_ref: .octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/change-receipt.json, sha256: "sha256:e1cc3cd188451cc241ed61e20958454926856d4cb16726c9668ba1c7e5def196"}
+  - {source_ref: .octon/state/evidence/validation/analysis/2026-07-12-change-closeout-architecture-migration-review-reconciliation.md, sha256: "sha256:6d9e3bd4a82c04b362d77e30ebb8ffa6debc09f38aee85e8b79ff7177e7e70db"}
+evidence_refs:
+  - .octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/landing-authorization.json
+  - .octon/state/evidence/runs/skills/closeout-change/architecture-migration-review-reconciliation-20260712T165500Z/cleanup-authorization.json
+validation: {status: valid, validator: validate-structured-receipt-artifacts.sh, validation_refs: [current-run-validation]}
+freshness: {state: fresh}
+failure_behavior: {on_missing_source: fail_closed, on_digest_mismatch: fail_closed, on_stale_freshness: fail_closed, on_authority_conflict: fail_closed}
+authority_boundary: {proposal_inputs_authoritative: false, generated_outputs_authoritative: false, raw_evidence_replaced: false, engine_authorization_bypassed: false}
+gate_state: {route_entered: closeout-change, selected_route: branch-no-pr, lifecycle_outcome: cleaned, closeout_outcome: completed, cleanup_authorization: validated}
+blockers: []
+unresolved_questions: []
+changed_files:
+  - .octon/inputs/exploratory/reviews/architecture-migration/
+rollback_refs: ["revert-commit:cd5df7a94e0280bee313269051c0166388f40493"]
+exclusions: [architecture-migration-program-prompt]
