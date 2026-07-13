@@ -9,7 +9,9 @@ The current hosted no-PR path already provides useful pieces:
 - source SHA, remote, target branch, and target pre-ref are recorded;
 - ancestry and ordinary non-force push provide partial fast-forward safety;
 - post-push fetch and equality confirm the observed target state;
-- protected PR remains an existing safe lane.
+- protected PR remains an existing provider route, but the current
+  candidate-head privileged writer is not presumed safe and is subject to
+  RP-00 containment plus RP-06 replacement proof.
 
 These are inputs to the new boundary, not proof that the target exists.
 
@@ -50,5 +52,12 @@ state therefore remains applicable to this packet.
   after equivalent proof; they cannot remain independent effect paths.
 - Post-push equality is retained as an observation, not promoted to causal
   attribution or final verdict.
-- Protected PR remains the safe production bridge while the full vertical is
-  incomplete.
+- Production publication remains disabled while the full vertical is
+  incomplete; PR is available only through a valid pre-effect RP-06 selection.
+
+The revision also closes explicit design gaps for candidate/source-ref
+credentials, expected-absent and expected-tip source races, legacy
+closed-unmerged deletion, compare/delete cleanup races, and provider CAS under
+mandatory protections. Ruleset `12881449` and runs `29249394310`, `29249511200`,
+`29249511103`, and `29249511080` are bounded planning observations only; the
+current normal push and post-main checks are not target proof.

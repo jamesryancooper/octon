@@ -84,6 +84,10 @@ for RP-08 reconciliation.
 - hostile fixture manifest and results;
 - scratch repository and ref identities;
 - expected-old race observations;
+- expected-absent/source-tip create/update races and lost responses;
+- expected-tip cleanup races and closed-unmerged preservation;
+- mandatory-protection CAS conformance with no bypass actor/path;
+- target collision and `UNKNOWN` route-freeze proof;
 - provider receipt and lost-response records;
 - state-satisfied versus attempt-performed classifications;
 - writer inventory and direct-path scan;
@@ -96,3 +100,8 @@ No summary-only result passes. The proof bundle must identify evaluator,
 inputs, outputs, criteria, negative controls, trace or replay references,
 receipt references, and final result. Failure leaves production publication
 disabled.
+
+The suite also advances the target to a different ancestor of `S` after
+validation and proves the exact recorded `O` still rejects. A failed CAS,
+network loss, or ambiguous response must never create/update a PR. Direct
+arbitrary Git requests and all candidate credentials are negative fixtures.

@@ -22,3 +22,7 @@
   authorization or promotion.
 - AC-08: Rollback disables launch and restores only a previously certified
   authority package; no candidate-tree or loose-file authority fallback exists.
+- AC-09: Publication grants structurally bind issuer, repository, source
+  identity/ref, `S`, target ref, `O`, route-policy digest, operation,
+  expiry/revocation/epoch, and consequence scope without giving RP-01 route
+  policy or provider-effect ownership.

@@ -82,7 +82,7 @@ version, and freshness. A missing or stale projection is regenerated from the
 store and never imported back into live authority.
 
 Control and retained evidence remain role-separated. Raw logs, transcripts,
-and detailed payloads are local and outside project Git by default; the store
+and detailed operational payloads are local and outside project Git without exception; the store
 retains bounded metadata, digest, locator, classification, and terminal
 obligation. RP-07 later owns signing, quotas, pins, compaction, and long-term
 retention.
@@ -109,3 +109,10 @@ daemon fleet, or per-operation approval. Routine checkpoint, backup, and
 projection maintenance follow the selected policy. Store failure preserves
 candidate work and safe read-only activity while consequential transitions
 stop with one concise status and recovery route.
+
+The publication specialization stores the complete opaque tuple digest:
+repository, source identity/ref, `S`, target ref, `O`, RP-01 grant, RP-06 `V`,
+route/history/policy, operation/attempt/idempotency, consequence, and RP-07
+evidence head. T1 freezes it before send. No API may change route or substitute
+one of these bindings while `ATTEMPTING` or `UNKNOWN`; a new route requires a
+new pre-effect decision and attempt.

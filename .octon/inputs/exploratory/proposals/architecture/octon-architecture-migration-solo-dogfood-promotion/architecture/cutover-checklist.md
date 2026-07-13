@@ -8,7 +8,11 @@
 - [ ] Failed claims are demoted and routed to their owning child without RP-14 source edits.
 - [ ] The accepted upstream RP-00 ROD-006 posture is bound: Octon exposes no
       human or agent direct-main route, ordinary human Git remains outside
-      Octon, and protected PR is the privileged bridge.
+      Octon, eligible Class B defaults to brokered no-PR, and protected PR is
+      selected only by a valid pre-effect review/high-contention predicate.
+- [ ] Equal-floor no-PR/PR, exact CAS, `S -> Q`, preserved-work, local-mirror,
+      closed-unmerged, and conditional-cleanup gates pass with zero prohibited
+      route switches or false `cleaned` states.
 - [ ] Each final claim disposition is accepted separately through its evidence-based promotion gate.
 - [ ] Claim map and handoff bind exact evidence; downstream authority accepts separately.
 - [ ] Full closeout verifies RP-12 and RP-13 terminal outcomes and all fifteen child lifecycles.

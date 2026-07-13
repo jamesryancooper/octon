@@ -8,7 +8,7 @@ RP-00 ends in exactly one safe resting state:
 clean exact repository baseline + bound provider observation
   -> no candidate-head privileged provider writer
   -> no Octon-owned human or agent direct-main route
-  -> protected PR is Octon's only privileged bridge
+  -> no autonomous production publication bridge in containment
   -> every physical writer, launcher, credential, policy input, trust root,
      and provider workflow is registered and assigned one accountable role
   -> support and proof claims equal direct retained evidence
@@ -27,7 +27,9 @@ the RP-00 exit proof passes.
   remains outside Octon.
 - `authority_engine` remains the sole normal decision issuer; RP-00 does not
   add another evaluator or authority path.
-- Protected PR is a temporary safe bridge, not a new control plane.
+- Protected PR may be used only for independently review-selected work after
+  its writer boundary is proved safe; it is not a universal bridge or recovery
+  fallback.
 - `.github/**` remains a non-authoritative host projection.
 - Retained evidence records facts; it never authorizes a route or widens a
   support claim.
@@ -45,10 +47,14 @@ the RP-00 exit proof passes.
 5. Support claims cite admitted tuples and direct retained proof at the correct
    evidence classification.
 6. Disabling an unsafe route preserves candidate work and the protected-PR
-   recovery lane.
+   route-neutral preserved-work lane; a separately valid review predicate may
+   select protected PR before effect.
 7. Containment does not create a broker, store, verifier, credential proxy,
    workflow controller, or second authority plane.
 8. No count-based cleanup occurs without separate ownership and deletion proof.
+9. Current autonomous no-PR effect entrypoints and destructive cleanup are
+   unreachable. Their classification/status remains available and the candidate
+   is preserved for the later RP-05–RP-08 production target.
 
 ## Component Behavior When Unavailable
 
@@ -66,6 +72,8 @@ the RP-00 exit proof passes.
 - dual authority or dual writer acceptance;
 - any Octon-owned human or agent direct-main route;
 - candidate-head provider write or verifier code;
+- privileged `pull_request_target` or equivalent execution of candidate code;
+- current checkout-held no-PR publication or deletion of closed-unmerged work;
 - ambient credentials in a candidate execution context;
 - linked-worktree-only isolation claimed as sufficient;
 - PR escalation used to launder forged, stale, revoked, or wrong-scope

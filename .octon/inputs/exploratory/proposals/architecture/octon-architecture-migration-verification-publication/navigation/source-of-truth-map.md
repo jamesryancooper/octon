@@ -44,13 +44,19 @@ or admit support.
 | --- | --- |
 | Verifier identity/version and verdict contract | RP-06 |
 | A/B/C and Class-B/PR predicate digest | RP-06 |
+| Canonical publication classifier | `.octon/instance/governance/policies/change-publication.yml`; RP-06 owns final `default-work-unit` route projection after RP-00 containment |
+| History-shape and baseline-aware validation policy | RP-06 |
+| Protected-PR source/base/head/review/merge semantics | RP-06; RP-05 supplies only sealed ref primitives |
+| `S -> Q` association/tree-patch proof | RP-06 |
+| Hosted-main to local-main mirror orchestration | RP-06; local main is never authority |
+| Conditional cleanup lifecycle/status | RP-08; RP-06 supplies landed facts only |
 | Provider verification/publication specialization | RP-06 |
 | Authenticated check binding and route UX | RP-06 |
 | Generic executor adapter | RP-11 |
 | Authority issuance | RP-01 |
 | Attempt persistence | RP-03 |
 | Git effect and provider credential | RP-04/RP-05 |
-| Outcome reconciliation | RP-08 |
+| Outcome classification, `UNKNOWN` reconciliation, cleanup | RP-08 |
 | Trust activation | RP-09 |
 | Final provider/support claim | RP-14 |
 

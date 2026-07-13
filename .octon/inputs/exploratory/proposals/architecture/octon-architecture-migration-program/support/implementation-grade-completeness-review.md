@@ -13,6 +13,15 @@ clarification_required: no
   and UE proof do not exist. Those lifecycle/proof gaps—not operator ambiguity or
   a reopened intake architecture—keep the program from implementation readiness.
 
+- The brokered publication architecture is now specified, but provider-native
+  expected-old CAS under mandatory protection, sealed source-ref operations,
+  complete protected-PR base/head/review binding, `S -> Q` equivalence,
+  baseline-aware substantive validation, post-land verification, mirror,
+  conditional cleanup, recovery, and equal-floor Solo Local measurements remain
+  future child-owned engineering evidence. The current PR workflow is not
+  presumed safe and current autonomous no-PR remains disabled until the complete
+  RP-05 through RP-08 spine is proved.
+
 ## Assumptions
 
 - The intake controls accepted operator-intent lineage while remaining

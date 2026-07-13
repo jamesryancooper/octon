@@ -18,3 +18,12 @@ owner's semantics, use `.github/**` as an octon-internal target, claim planned
 proof as executed, or treat generated/input/proposal/provider state as authority.
 Material infeasibility returns to child revision and, only if the fixed boundary
 cannot remain safe, parent program revision with operator disposition.
+
+Every Git lifecycle semantic has exactly one child owner. Shared physical files
+may have bounded contributors only when exact sections/symbols and serialization
+are declared. Route selection freezes before effect; RP-03 records it, RP-04
+validates it, and neither becomes a route owner. If source-ref mechanics, target
+CAS, PR effects, mirror synchronization, or conditional cleanup cannot fit the
+existing owners without a generic Git service, second issuer/writer/broker, or
+competing publication plane, the owning packets remain disabled and the program
+stops for operator disposition before changing packet count, IDs, or DAG.

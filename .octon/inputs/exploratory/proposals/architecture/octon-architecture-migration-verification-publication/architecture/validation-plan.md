@@ -37,10 +37,11 @@ Exercise:
 
 ## PO-FD-007 / Optional Provider Worker
 
-If admitted, prove narrow App permissions, exact operation binding,
-duplicate/lost/delayed workflow reconciliation, inability to mint authority,
-and no canonical state. Absence of the optional worker does not block the core
-local path.
+Prove FD-007 has no brokered Git publication call path, ref input, or credential.
+If a separate non-Git worker is later admitted, prove narrow permissions, exact
+operation binding, duplicate/lost/delayed reconciliation, inability to mint
+authority, and no canonical state. Its absence does not block the core local
+path and its presence cannot create a second publication control plane.
 
 ## FD-023 Specialization
 
@@ -87,3 +88,11 @@ Drift blocks or demotes the affected route.
 
 No context-name, summary-only, self-reported, candidate-generated, or stale
 provider result passes. Failure keeps autonomous publication disabled.
+
+The expanded matrix covers target collision and `UNKNOWN` never-to-PR,
+history-shape admission, complete PR draft/review/thread/check/conflict/
+mergeability/freshness state, base/head races, lost source-ref/PR/merge results,
+`S -> Q` association and equivalence, inherited-red correction, candidate
+credentials/privileged head code, post-main-only substantive failure, immediate
+post-land verification, later concurrent hosted-main advancement, local mirror,
+closed-unmerged preservation, and false `cleaned` negatives.

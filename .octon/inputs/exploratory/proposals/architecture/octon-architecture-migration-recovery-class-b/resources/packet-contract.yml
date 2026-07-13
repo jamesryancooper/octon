@@ -37,7 +37,7 @@ target_state:
   - "RP-03 commits T1 ATTEMPTING/outbox before send and T2 result/UNKNOWN/terminal afterward; RP-08 selects only legal transitions."
   - "Every ATTEMPTING/UNKNOWN operation is scanned and reconciled before retry."
   - "Provider evidence yields honest attempt_performed, state_satisfied, not_performed, failed, unknown, or manual_intervention outcomes."
-  - "Class A and admitted B are zero-routine-prompt; valid no-PR-ineligible B routes to protected PR; C/invalid authority cannot downgrade."
+  - "Class A and admitted B are zero-routine-prompt; valid review-required or stable pre-route high-contention B selects protected PR before effect; C/invalid/collided/unknown authority cannot downgrade or switch."
   - "Dependency outages block only affected consequence, preserve candidate/Class A/evidence, automatically restart/reconcile where supported, and expose no credentials."
   - "One fresh non-authoritative status view and bounded scheduled/reversible scratch effect establish SI-06."
 scope:
@@ -62,7 +62,7 @@ invariants:
   - "Desired-state equality without attempt-bound provider evidence cannot be labeled attempt_performed."
   - "A retry after proved not_performed is a new attempt requiring fresh authority; no silent reuse."
   - "The exact RP-06 predicate/version/digest remains immutable throughout proof and runtime."
-  - "Class C and invalid authority never take Class A/B or PR fallback."
+  - "Class C, invalid authority, collision, ATTEMPTING, and UNKNOWN never take Class A/B or switch to PR."
   - "RP-07 signed evidence/current head/completeness is mandatory for dependent success; no unsigned fallback."
   - "Provider/broker/verifier/store/signer/evidence failure preserves candidate work and exposes no ambient credentials."
   - "Status and scheduling are projections/orchestration inputs, not authority or substitutes for Run Contracts."
@@ -142,7 +142,7 @@ migration_steps:
   - "Publish reconciliation/outcome/status/continuous-operation contracts and exact registry entries."
   - "Implement one credentialless effect_reconciler library over frozen RP-03/RP-05/RP-06/RP-07 interfaces."
   - "Bind route digest, classify provider observations, scan ATTEMPTING/UNKNOWN, and prohibit retry until proved not_performed."
-  - "Integrate deterministic protected PR for valid ineligible B and deny invalid/C downgrade."
+  - "Integrate deterministic pre-effect protected PR for valid review/high-contention B and deny invalid/collision/UNKNOWN/C downgrade."
   - "Extend fresh non-authoritative status and dependency-specific degraded behavior."
   - "Run scheduled maintenance/reversible scratch effect plus full route/fault/attribution proof."
   - "Atomically activate SI-06, retire blind/direct retry, and hand evidence to RP-09/RP-14."
@@ -163,16 +163,16 @@ prohibited_intermediate_states:
 compatibility_bridges:
   - "Existing post-effect equality checks may feed shadow classification as state observations only; they cannot prove causation or authorize retry."
   - "Existing run-health and mission surfaces may be extended as projections/orchestration, but cannot replace canonical operation/route/evidence records."
-  - "Existing protected PR remains a valid-work fallback only after exact RP-06 route selection."
+  - "Protected PR is a primary valid-work route only when exact RP-06 policy selected it before effect; it is never a recovery fallback."
 deprecations_and_retirements:
   - "Retire any direct/blind provider retry and shell-only canonical outcome."
   - "Retire ambiguous success wording that conflates state satisfaction with attempt performance."
-  - "Retire PR fallback that accepts invalid authority or changes candidate/verdict/evidence."
+  - "Retire every technical-failure route switch and any PR path that accepts invalid authority or changes candidate/verdict/evidence."
   - "Retire duplicate/legacy status sources after fresh canonical projection cutover."
 rollback_strategy: >-
   Disable autonomous Class B/no-PR, preserve exact candidate, operation intent,
-  unknown state, and signed evidence, and use protected PR only when the frozen
-  predicate says authority remains valid. Restore only a prior certified
+  unknown state, signed evidence, and frozen route. Any later protected PR
+  requires a fresh valid pre-effect RP-06 decision. Restore only a prior certified
   reconciler behind the same authority/store/broker/verifier/signer boundaries.
 recovery_strategy: >-
   Restart broker and scanner, reconcile every ATTEMPTING/UNKNOWN through bounded
@@ -196,8 +196,9 @@ support_claim_effect: >-
   new live support claim. RP-14 independently proves the full two-project,
   30-day, speed, recovery, setup, and maintenance envelope.
 operator_experience_effect: >-
-  Routine A/B work completes or routes to protected PR without questions. One
-  fresh status view shows exact outcome, attribution, preserved work, and next
+  Routine eligible A/B work completes without questions; protected PR appears
+  only when the immutable pre-effect predicate selected review. One fresh
+  status view shows exact outcome, attribution, preserved work, and next
   automatic action; only an irreducibly ambiguous effect state asks one
   actionable question under the settled ROD-002 rule.
 setup_and_maintenance_effect: >-
@@ -247,7 +248,7 @@ entry_criteria:
 exit_criteria:
   - "No external send lacks T1 and no retry occurs before UNKNOWN reconciliation."
   - "Every operation/attempt reaches honest terminal or manual_intervention with correct attribution strength."
-  - "A/B routine prompts are zero, valid PR fallback deterministic, C/invalid authority cannot downgrade, and predicate digest is unchanged."
+  - "A/B routine prompts are zero, valid review-selected PR is deterministic, false A/B-to-PR and invalid/collision/UNKNOWN-to-PR are zero, and predicate digest is unchanged."
   - "Failures preserve work/Class A/evidence, expose no credentials, and broker restart/reconcile meets the admitted recovery target."
   - "Status is concise/fresh/non-authoritative and scheduled maintenance plus reversible scratch effect complete/recover."
   - "PO-FD-002/012/016 and UE-004/007 pass; UE-014 handoff is complete."
@@ -269,3 +270,13 @@ authoritative_promotion_requirements:
   - "frozen dependency/predicate digests, settled ROD-002 policy encoding, ED-003, and exclusive shared entry ownership"
   - "retained PG-08-CLASS-ROUTES/EFFECT-RECOVERY/DEGRADED-MODE and UE-004/007 results"
   - "passing conformance and drift/churn receipts before closeout"
+brokered_no_pr_revision:
+  route_freeze: "repository/source/target/O/S/V/grant/policy/history/route freeze at T1; no mutation while ATTEMPTING or UNKNOWN"
+  fresh_tuple_rule: "expected-old/base/head mismatch requires fresh O, grant, V, policy decision, and attempt"
+  pr_subeffects: ["source-ref-create-update", "PR-create-update", "merge"]
+  outcome_vocabulary: ["attempt_performed", "state_satisfied", "not_performed", "failed", "unknown", "manual_intervention"]
+  retry_rule: "every UNKNOWN reconciles before retry; route never switches"
+  mirror_status: "classify downstream local-main mirror without making it authority"
+  cleanup_ownership: "RP-08 exclusively owns eligibility/status/recovery; RP-05 supplies expected-tip primitive"
+  cleanup_truth: "closed-unmerged never deletes; failure is landed/cleanup-deferred"
+  findings: ["BNP-F-004", "BNP-F-005", "BNP-F-006", "BNP-F-007", "BNP-F-011", "BNP-F-012", "BNP-F-013"]

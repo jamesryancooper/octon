@@ -63,7 +63,7 @@ invariants:
   - "The monotonic latest head lives outside the candidate and outside the rollback unit of the RP-03 database."
   - "Logical reservation and real allocated physical headroom both pass before consequential admission; terminal reserve is not consumed by discretionary diagnostics."
   - "Compaction cannot delete before producer/checkpoint verification, independent re-verification, head advance, and durable receipt, and cannot delete active pins."
-  - "Raw payloads are bounded local data outside project Git by default; signed projections remain evidence, never authority."
+  - "Raw operational payloads are bounded local data outside project Git without exception; signed projections remain evidence, never authority."
   - "Missing or unverifiable evidence blocks success/publication honestly, preserves work, and has no unsigned, Git-only, or stale-head fallback."
 planned_durable_source_ownership:
   signed_envelope_checkpoint_and_verification: "RP-07"
@@ -293,3 +293,10 @@ authoritative_promotion_requirements:
   - "accepted ROD-001 lineage binding and UE-008 adversarial closure"
   - "retained PO-FD-013/PG-07-EVIDENCE-CAPACITY and PO-FD-014/PG-07-SIGNED-EVIDENCE results"
   - "passing implementation conformance and post-implementation drift/churn receipts before closeout"
+brokered_no_pr_revision:
+  publication_symbols: ["O", "S", "V", "Q"]
+  signed_chain: ["grant-and-issuer", "route-and-policy", "history-shape", "V-and-producer-deployment-harness-results", "operation-attempt-T1", "broker-request", "direct-provider-result", "immediate-landed-S-or-Q", "historical-target-transition", "independent-post-land-observation", "reconciliation-class", "preserved-work", "local-main-mirror", "cleanup-authorization-result", "terminal-checkpoint-anchor"]
+  role_separation: "signatures authenticate direct observations only; they do not mint authority, route, causation, recovery, or cleanup eligibility"
+  cleanup_truth: "cleaned requires conditional expected-tip result; otherwise landed/cleanup-deferred"
+  project_git_rule: "zero raw/detail operational evidence"
+  findings: ["BNP-F-006", "BNP-F-007", "BNP-F-009", "BNP-F-011"]

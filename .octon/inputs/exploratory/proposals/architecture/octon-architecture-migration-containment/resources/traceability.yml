@@ -44,8 +44,13 @@ operator_decisions:
   - operator_decision_id: "ROD-006"
     status: "accepted"
     owned_phase: "RP-00 containment exit"
-    disposition: "no Octon-owned human or agent direct-main route; ordinary human Git remains outside Octon; protected PR is the privileged bridge"
+    disposition: "no Octon-owned human or agent direct-main route; ordinary human Git remains outside Octon; PR is only an independently review-selected route, never a universal bridge"
     relationship: "bound input; no remaining operator choice"
+brokered_no_pr_revision:
+  primary_findings: ["BNP-F-001", "BNP-F-010"]
+  cross_findings: ["BNP-F-003", "BNP-F-006", "BNP-F-011"]
+  prior_audit_lineage: ["GIT-ENF-001", "GIT-ENF-006", "GIT-ENF-008", "GIT-ENF-013", "GIT-LC-002", "GIT-LC-003", "GIT-LC-005"]
+  boundary: "RP-00 hard-disables unsafe current writers/routes/cleanup; it does not own final route, Git, verifier, evidence, or recovery semantics"
 engineering_dispositions:
   - disposition_id: "ED-007"
     owned_slice: "RP-00 workflow and visible-surface retirement audit"

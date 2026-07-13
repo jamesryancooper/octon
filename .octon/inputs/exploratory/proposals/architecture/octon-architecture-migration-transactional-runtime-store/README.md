@@ -21,7 +21,7 @@ authorize implementation.
 - T2 records a bounded observed result or `UNKNOWN`; unknown work cannot retry
   until a later owner applies provider-specific reconciliation policy.
 - Legacy control files become read-only projections, exports, or pointers;
-  raw/detail payloads leave project Git by default.
+  raw/detail operational evidence remains outside project Git without exception.
 - Backup, restore, schema migration, corruption repair, epoch/high-water
   checks, and constrained-volume terminal writes fail closed.
 
@@ -69,3 +69,9 @@ After accepted implementation and direct proof, RP-03 may close only when
 PO-FD-005 passes PG-03-SINGLE-STORE, UE-004's store portion is adversarially
 proved, no legacy authority writer remains, rollback/restore cannot resurrect
 older authority, and conformance plus drift reviews pass.
+
+For publication, T1 also freezes and digests repository, source identity/ref,
+target ref, `O`, `S`, grant, `V`, route-policy, history shape, operation,
+attempt, and evidence head. Route cannot mutate while `ATTEMPTING` or `UNKNOWN`.
+RP-03 persists these opaque values but never issues authority, interprets a
+verdict, selects a route, or classifies provider results.

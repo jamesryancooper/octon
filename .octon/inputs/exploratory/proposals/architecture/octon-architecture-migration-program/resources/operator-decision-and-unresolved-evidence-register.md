@@ -25,11 +25,11 @@ program and changes no runtime, support, trust, provider, or promotion authority
 | Lineage | Accepted disposition | Implementation owner | Fail-closed behavior |
 | --- | --- | --- | --- |
 | ROD-001 | `OPERATOR_ACCEPTED_ADAPTIVE_POLICY` — conservative bounded recovery/evidence posture with reversible measurement-adjusted values; one store, signed bounded evidence, transactional terminal capacity, and narrow degraded operation remain settled. | RP-03 binds backup/recovery engineering defaults; RP-07 binds retention, quota, pinning, and key-recovery mechanisms. | Deny affected effects if terminal evidence cannot be guaranteed; preserve work; no unsigned fallback. |
-| ROD-002 | `SETTLED_RETIRED_OPEN_DECISION` — accepted A/B/C, no-PR Class B, deterministic PR escalation, protected Class C/trust, no-agent-direct-main, and irreducible-ambiguity-only notification policy. | RP-06 and RP-08 encode and prove the accepted rules. | Apply the intake predicates; invalid/stale/revoked/raced authority denies; valid review-required work uses protected PR. |
+| ROD-002 | `SETTLED_RETIRED_OPEN_DECISION` — accepted A/B/C, eligible no-PR Class B, deterministic review-selected PR, protected Class C/trust, no-agent-direct-main, and irreducible-ambiguity-only notification policy. | RP-06 and RP-08 encode and prove the accepted rules. | Invalid/stale/revoked/mismatched authority and actual races deny/preserve; valid review-required or stable pre-route high-contention work uses protected PR. |
 | ROD-003 | `OPERATOR_ACCEPTED_TRUST_BOOTSTRAP` — small content-addressed semantic epoch-zero inventory, one-time human trust anchor/bootstrap, and exact bounded activation preauthorization. Safe automatic activation remains proof- and promotion-gated. | RP-01 binds epoch-zero semantics; RP-09 binds exact preauthorization and activation mechanisms. | Trust changes land inert; activation stays disabled or operator-confirmed; safe-automatic remains unclaimed until proof and later promotion acceptance. |
 | ROD-004 | `OPERATOR_ACCEPTED_DENY_BY_DEFAULT_CONFIG` — one operator-controlled signer family, immutable references/digests, explicit capability grants, and an initially empty source allowlist. | RP-12 binds nonsecret source/signer configuration and signed-catalog proof. | Unknown, unsigned, revoked, incompatible, or unadmitted sources deny; no private import or availability. |
 | ROD-005 | `OPERATOR_ACCEPTED_ADAPTIVE_RESOURCE_POLICY` — lowest useful concurrency with conservative adjustable time, attempt, token, cost, and evidence ceilings; widen only from dogfood measurement. | RP-13 binds enforceable provisional values and conformance proof. | Child launch remains disabled until values are bound and every enforcement/conformance gate passes. |
-| ROD-006 | `OPERATOR_ACCEPTED_NO_OCTON_DIRECT_MAIN` — Octon exposes no human or agent direct-main route; ordinary human Git remains outside Octon. | RP-00 proves route unreachability and disclosure; RP-14 consumes the receipt only as an upstream fact. | Protected PR is the privileged bridge; no Octon-owned direct-main route. |
+| ROD-006 | `OPERATOR_ACCEPTED_NO_OCTON_DIRECT_MAIN` — Octon exposes no human or agent direct-main route; ordinary human Git remains outside Octon. | RP-00 proves route unreachability and disclosure; RP-14 consumes the receipt only as an upstream fact. | Eligible Class B uses brokered no-PR after the safety spine; PR is review-selected, never a failure fallback. |
 
 ## Genuine remaining operator decisions
 
@@ -88,7 +88,7 @@ governed decision rather than silently widen this receipt.
 | Field | Accepted content |
 | --- | --- |
 | Accepted choice | Octon exposes no human-only or autonomous direct-main route. Ordinary human Git remains possible outside Octon and outside autonomous support. |
-| Policy invariants | No agent or Octon-owned direct-main path; protected PR remains the privileged bridge. |
+| Policy invariants | No agent or Octon-owned direct-main path; hosted publication is candidate-first and brokered; PR is selected only by a valid pre-effect review predicate. |
 | Engineering/configuration work | Route removal/unreachability, identity separation, rollback, and support disclosure. |
 | Evidence | Intake `decisions/operator-decisions.md:68-73,166-171`; `product/product-experience.md:38-45`; Architect A `phase-1/current-finding-register.yml:699-710`; reconciliation `remaining-operator-decisions.yml:64-75`. |
 | Proof consequence | Autonomous and Octon-owned direct-main unreachability, authorization separation, rollback, and support-disclosure tests. |
@@ -102,8 +102,9 @@ are engineering work. The accepted behavior is:
 
 - Class A autonomous candidate work;
 - admitted Class B brokered, independently verified no-PR completion;
-- deterministic PR escalation for provider/review/validation/recovery/race/
-  protected/trust/ownership/evidence/policy predicates;
+- deterministic protected PR for valid review-required or stable pre-route
+  high-contention predicates; actual collision, invalid authority,
+  `ATTEMPTING`, and `UNKNOWN` never change route;
 - protected PR and guarded activation for Class C/trust-root work;
 - no autonomous direct-main; and
 - human notification only for irreducibly ambiguous state.

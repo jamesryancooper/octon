@@ -47,7 +47,8 @@ If any property is missing, RP-05 remains stage-only.
 
 - Required: PO-FD-009 and UE-005 pass; ambient writers are disabled; RP-06
   receives the stable interface.
-- Permitted: fixture publication and protected PR.
+- Permitted: fixture publication on disposable refs and a separately
+  policy-selected protected PR outside RP-05 ownership.
 - Prohibited: autonomous production landing until RP-06, RP-07, and RP-08
   complete.
 - Rollback: restore only the previous certified adapter behind the same broker
@@ -68,9 +69,11 @@ If any property is missing, RP-05 remains stage-only.
 
 ## Compatibility
 
-Protected PR is the only compatibility lane. It is not an authority bypass:
-invalid, stale, forged, revoked, wrong-SHA, or wrong-scope authority denies and
-requires fresh authorization. No ambient Git compatibility bridge is allowed.
+RP-05 has no route fallback. Invalid, stale, forged, revoked, wrong-SHA,
+wrong-scope, collided, or unknown effects preserve work and require denial,
+reconciliation, or a fresh tuple. No ambient Git compatibility bridge is
+allowed. Scratch cutover exercises source-ref create/update, target CAS,
+expected-tip delete, and mirror primitives before production remains disabled.
 
 ## Cutover Completion
 

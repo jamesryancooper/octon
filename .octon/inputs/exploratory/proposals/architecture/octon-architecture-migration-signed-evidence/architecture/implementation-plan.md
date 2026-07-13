@@ -111,3 +111,9 @@ frozen.
   verdict semantics routes back to the owning packet before proceeding.
 - A failure to prove the selected anchor or physical reserve blocks activation;
   it never justifies unsigned or Git-only fallback.
+
+Extend the signed envelope/checkpoint, broker observation adapter, verifier
+observation adapter, and minimal operator projection with the Git publication
+profile. RP-01 retains grant semantics, RP-06 retains `V`/route/`S -> Q`, and
+RP-08 retains outcome/recovery/cleanup state. Shadow-sign the complete lifecycle
+with deletion disabled before any Class B publication can enable.

@@ -18,10 +18,12 @@ creation.
   physical inventory is disabled or placed behind a candidate-immutable
   boundary; a negative fixture proves candidate edits cannot write.
 - **AC-03:** No Octon route, agent or human, can select direct-main. Ordinary
-  human Git remains outside Octon; protected PR is Octon's only privileged
-  implementation bridge during containment.
-- **AC-04:** Protected PR is Octon's only privileged implementation bridge until
-  later packet gates replace it.
+  human Git remains outside Octon. Current autonomous no-PR and local landing
+  effect entrypoints are unreachable while their classification and candidate
+  remain intact.
+- **AC-04:** Protected PR is available only for independently review-selected
+  work after its candidate-code/credential boundary is proved safe. No current
+  PR workflow is presumed safe and invalid/raced authority never becomes PR.
 
 ## Inventory Gates
 
@@ -50,7 +52,7 @@ creation.
 
 - **AC-11:** Rollback testing proves non-safety wording and inventory changes
   can be reverted while unsafe routes remain disabled and candidate work stays
-  available through protected PR.
+  preserved without requiring a route change.
 - **AC-12:** No `.github/**` path appears as an `octon-internal` promotion
   target, and any required host-projection change is traceable to a durable
   `.octon/**` owner plus projection validation.
@@ -60,3 +62,10 @@ creation.
 - **AC-14:** Implementation conformance and post-implementation drift/churn
   receipts pass before this packet may claim implementation or archive-ready
   status.
+
+- **AC-15:** Direct invocation of the current hosted no-PR helper, local landing
+  helper, and destructive cleanup helper denies during containment.
+- **AC-16:** A closed-unmerged or otherwise unlanded candidate is never deleted;
+  outage, rejection, and collision each retain a recoverable exact SHA.
+- **AC-17:** Eligible Class B remains reported as no-PR-but-blocked until the
+  RP-05–RP-08 safety spine exits; no universal PR requirement is introduced.

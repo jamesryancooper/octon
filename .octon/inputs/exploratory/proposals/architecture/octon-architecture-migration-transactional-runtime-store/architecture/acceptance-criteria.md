@@ -87,3 +87,6 @@ runtime-store, migration, concurrency, or recovery proof conditions.
   remain correctly cross-referenced to their primary owners.
 - **AC-21:** Implementation conformance and post-implementation drift/churn
   receipts pass before `implemented` or implemented archival is claimed.
+- **AC-22:** Publication T1 persists the complete opaque
+  repository/source/target/`O/S`/grant/`V`/route/policy/history/evidence tuple,
+  and no `ATTEMPTING` or `UNKNOWN` record can mutate route or any binding.

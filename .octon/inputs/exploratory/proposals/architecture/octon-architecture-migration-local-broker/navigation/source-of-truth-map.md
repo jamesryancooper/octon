@@ -32,6 +32,11 @@ projections, and retained evidence are non-authoritative.
 | Independent exact-SHA verifier and verdict | RP-06 | Broker observations are never sole verification verdicts. |
 | Provider-specific outcome classification, reconciliation/retry, and full degraded mode | RP-08 | RP-04 scans and preserves generic attempt state but cannot infer provider truth. |
 
+For the publication vertical, RP-04 owns only structural equality between the
+complete tuple committed at RP-03 T1 and the tuple digest bound into its
+internal one-shot handle. RP-03 carries route and verdict references opaquely;
+RP-06 owns their semantics, so RP-04 gains no RP-06 dependency or policy role.
+
 ## Broker Non-Authority Rules
 
 - An IPC request, authenticated peer, Keychain item, launchd label, process ID,
@@ -62,3 +67,6 @@ and placement without granting RP-04 authority to repurpose it.
   credential access or external send.
 - Broker outage blocks the affected consequence, preserves candidate work, and
   never falls back to ambient credentials, file authority, or direct effects.
+- Broker outage, `ATTEMPTING`, or `UNKNOWN` also preserves the selected route;
+  none can expose or select PR. A later PR requires fresh RP-06 classification
+  and authority after reconciliation.

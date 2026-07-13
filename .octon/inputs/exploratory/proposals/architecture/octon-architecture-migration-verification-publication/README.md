@@ -7,9 +7,16 @@ not implementation or publication authorization.
 ## Purpose
 
 Create one candidate-immutable exact-SHA verifier and one immutable route
-predicate. Eligible Class B uses RP-05's exact broker Git primitive; valid work
-requiring review uses protected PR; invalid, stale, revoked, raced, or
-wrong-scope authority denies and cannot be laundered through PR.
+predicate. Deterministically eligible Class B defaults to
+`brokered-class-b-no-pr`; valid review-required or stable pre-route
+high-contention work uses protected PR. Invalid, stale, revoked, mismatched,
+collided, or `UNKNOWN` authority/effects deny or reconcile without PR laundering.
+
+RP-06 also owns history shape, substantive exact-candidate validation,
+complete expected-base/head/review PR semantics, `S -> Q` squash-result proof,
+independent post-land verification, and hosted-main to local-main mirror
+orchestration. RP-08 owns provider-result classification, `UNKNOWN`
+reconciliation, and conditional cleanup lifecycle/status.
 
 ## Dependencies
 
@@ -19,8 +26,11 @@ wrong-scope authority denies and cannot be laundered through PR.
 
 ## Separation
 
-The verifier has read and verdict/check-emission authority but no merge,
-content-write, or durable mutation credential. The publisher consumes a
+The verifier has read and verdict/check-emission authority but no provider
+write, merge, release, broker, general signing, content-write, or durable
+mutation credential. Its only signing capability is the RP-07-governed,
+non-exportable, role-bound evidence-attestation key for its own direct
+observations. The publisher consumes a
 verdict and broker authorization but cannot issue or alter a verdict. Context
 name alone is never verifier identity.
 

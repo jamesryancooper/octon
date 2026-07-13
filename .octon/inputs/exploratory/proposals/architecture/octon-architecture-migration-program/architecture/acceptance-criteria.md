@@ -16,6 +16,25 @@
   later support/optional-capability acceptance is owned by the promotion handoff.
 - Planned durable ownership is exact at file/module/symbol/registry-entry level;
   shared files are serialized and do not create two semantic owners.
+- `brokered-class-b-no-pr` is the sole default for deterministically eligible,
+  admitted Class B; PR is selected only by the immutable review/high-contention
+  predicate, never by invalid authority, collision, outage, or `UNKNOWN`.
+- The complete grant, `O`, `S`, `V`, policy, history, operation, attempt, target,
+  source, and evidence tuple is bound before effect, and RP-05 proves a true
+  server-observed expected-old CAS without force, bypass, or check-then-push.
+- Candidate workspaces hold no credentials; the verifier cannot publish; the
+  broker never checks out or executes candidate code; exactly one issuer,
+  writer, broker, and publication control plane remain.
+- The protected-PR branch binds exact base/head and full review state, reconciles
+  every provider subeffect, and proves `S -> Q` association/equivalence before
+  reporting the squash result landed.
+- One curated commit is the automatic default; any admitted multi-commit
+  `O..S` range is bounded and fully validated before publication.
+- Independent post-land verification, signed external evidence, fast-forward
+  local-main mirror synchronization, conditional cleanup, and preserved-work
+  proof close together; `cleanup-deferred` is never mislabeled `cleaned`.
+- No generic Git service, second control plane, raw operational evidence in
+  project Git, same-change self-certification, or universal PR rule is created.
 - Every child specifies safe/prohibited states, rollback, recovery, proof,
   retained evidence, support-claim effect, operator experience, and unsupported
   remainder without claiming execution.
@@ -26,3 +45,7 @@
   and absent from the child registry and parent related list.
 - Changed paths remain limited to the parent, fifteen children, authorized
   lifecycle evidence, and generated registry projection.
+- RP-14 compares no-PR and protected PR under an equal substantive floor and
+  proves zero unauthorized effects, zero routine prompts for eligible A/B, zero
+  false eligible-A/B-to-PR escalation, bounded recovery, lower no-PR latency,
+  bounded operator burden, and work preservation for every failure class.

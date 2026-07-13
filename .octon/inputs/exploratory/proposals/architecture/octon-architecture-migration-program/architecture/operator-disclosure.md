@@ -3,7 +3,7 @@
 Program creation changes no behavior. The future operator experience target is
 one Solo Local profile, no more than seven primary concepts, one-screen status
 with progressive disclosure, no routine prompts for admitted A/B work,
-deterministic denial/PR fallback, preserved work, automatic bounded recovery,
+deterministic no-PR or review-selected PR, fail-closed denial, preserved work, automatic bounded recovery,
 and only genuine human risk, trust, cost, recovery, or support-preference choices.
 
 The intake's architecture direction is settled. ROD-002 is retained as
@@ -18,3 +18,10 @@ No operator is asked to approve unverifiable mechanics, maintain a second contro
 plane, reconsider an accepted intake decision, or accept proposal prose as
 authority. RP-00 is the first later review; the parent and all children remain
 `draft`.
+
+The one-screen route view exposes `O`, `S`, `V`, `Q` when applicable, frozen
+route, operation/attempt, validation, provider outcome, landed proof, local-main
+mirror, preservation, and cleanup status. Intervention occurs only for genuine
+review, trust, cost, irreducible recovery, or provider infeasibility—not routine
+eligible work. Invalid, raced, or unknown authority is never presented as a PR
+opportunity.

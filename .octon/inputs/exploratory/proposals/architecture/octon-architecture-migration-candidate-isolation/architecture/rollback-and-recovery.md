@@ -12,7 +12,8 @@ FDs, broad egress, broker IPC, or an unproved provider/session tuple.
 - immutable source and contract snapshots for every promoted target;
 - a default-disabled isolation feature binding with one operator-visible stop;
 - exact candidate repository, common-directory, object-store, and commit IDs;
-- a non-executing commit-export procedure and protected-PR destination;
+- a non-executing commit-export procedure and route-neutral
+  candidate-preservation destination/handle;
 - provider-session revoke/expiry handle without retained secret material;
 - process-group cancellation and descendant census;
 - workspace/HOME quarantine and deterministic cleanup procedure;
@@ -23,7 +24,7 @@ FDs, broad egress, broker IPC, or an unproved provider/session tuple.
 | Failure | Recovery |
 | --- | --- |
 | Isolation preparation or native policy fails | Do not launch the provider client; quarantine partial roots, record the denial, and keep automation disabled. |
-| Provider session is unavailable or expires | Stop the candidate, retire the session, preserve non-secret work, and offer manual/protected PR; never inject a durable token. |
+| Provider session is unavailable or expires | Stop the candidate, retire the session, preserve non-secret work, and report the blocked isolation route; never inject a durable token or select PR as recovery. |
 | Credential, canonical Git, host, process, FD, IPC, or network canary succeeds | Treat the boundary as compromised, terminate the full process group, revoke/expire the session, quarantine all artifacts, preserve forensic digests without secrets, and block the tuple. |
 | Useful task fails while negative probes pass | Record UE-003 as unresolved, keep the route unsupported, preserve safe candidate output if identifiable, and revise the engineering mechanism. |
 | Candidate repository is linked to canonical state | Reject the run before provider launch when possible; otherwise terminate and quarantine it. Re-materialize an independent repository from the bound baseline. |
@@ -42,7 +43,8 @@ every stop it must prove:
 - the candidate process group and session are terminated or quarantined;
 - the workspace, HOME, repository, and temporary identity are never reused;
 - an exact candidate commit is preserved/exported when one safely exists;
-- manual/protected PR remains available without a privileged automated effect;
+- any later publication requires a fresh RP-06 route decision; protected PR is
+  available only when its valid review predicate selects it;
 - no RP-04 broker, VM, Linux-production, or second control plane is required.
 
 Any uncertainty is a failed drill. Recovery stays fail-closed and returns the

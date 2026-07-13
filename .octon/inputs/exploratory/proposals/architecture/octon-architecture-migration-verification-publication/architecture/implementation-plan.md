@@ -34,16 +34,19 @@ This plan remains inactive while the proposal is draft.
 
 - Encode the accepted ROD-002 lineage as typed deterministic predicates.
 - Version and digest the sole A/B/C and Class-B/PR policy.
+- Authenticate the RP-07-governed verdict signature, producer/deployment,
+  complete tuple, expiry, and revocation before admitting any T1 request.
 - Bind it into request construction and immediate route evaluation.
-- Deny invalid authority and distinguish valid PR escalation.
+- Deny invalid authority and distinguish valid pre-effect PR selection.
 - Add one-screen route and blocker output with zero routine prompts.
 
 ## Workstream 4 — Publication Specialization
 
 - Consume RP-03 attempt identity, exact verdict, and RP-05 Git primitive.
 - Keep publication identity separate from verifier.
-- Implement optional FD-007 provider worker only after the local path passes
-  and only as a stateless exact-effect projection.
+- Keep FD-007's optional provider worker unreachable from brokered Git
+  publication and credentialless for that target; any non-Git claim remains a
+  separate gated projection after the sole local effect path passes.
 - Normalize provider observations for RP-08 without claiming recovery.
 
 ## Workstream 5 — Workflow Projection Ownership
@@ -80,3 +83,20 @@ permissions cannot be separated, exact verdict binding is unavailable, route
 policy still depends on candidate code or model judgment, or required workflow
 changes lack an accepted .octon source/generator. Do not add a verifier daemon,
 second authority plane, or mixed target family as a shortcut.
+
+## Brokered Publication Workstreams Added by Revision
+
+- Shape and freeze the final candidate history before `V`; default to one
+  curated commit and validate every commit in any admitted bounded series.
+- Implement the exact `O/S/V` grant/verdict tuple, authenticated producer
+  provenance, substantive pre-effect validation, and the deterministic
+  inherited-red correction lane.
+- Implement policy-selected PR source-ref/create-update/merge requests with
+  exact base/head/review state and `S -> Q` proof; consume RP-05 primitives and
+  never absorb Git credential custody.
+- Add independent post-land verification, fast-forward local-main mirror
+  orchestration, and the route-specific landed facts RP-08 needs for cleanup.
+- Atomically migrate final publication classification to
+  `.octon/instance/governance/policies/change-publication.yml`; the RP-00
+  containment slice of `default-work-unit.{yml,md}` becomes a validated
+  projection/consumer, never a duplicated classifier.

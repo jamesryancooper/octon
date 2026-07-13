@@ -71,3 +71,8 @@ This packet does not claim:
 
 Unsupported conditions remain explicit and cannot be promoted through a
 generic `signed` or `tamper-proof` claim.
+
+One-screen publication evidence shows route, `O/S/V/Q`, operation/attempt,
+landed/attribution class, preserved candidate, local-main mirror, and cleanup
+status. Raw provider logs and sensitive detail stay outside project Git and are
+available only through bounded diagnostic references.

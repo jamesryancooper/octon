@@ -28,5 +28,6 @@ provider versions.
 - Current provider launch binaries behind a stricter host boundary.
 - Run Contract, exact guard, Harness, and adapter contracts as consumed inputs,
   never authority invented by RP-02.
-- Protected PR as the safe candidate-preservation route while privileged
-  publication remains disabled.
+- Route-neutral exact-candidate preservation while privileged publication
+  remains disabled; protected PR is possible only after a later fresh RP-06
+  review-required selection.

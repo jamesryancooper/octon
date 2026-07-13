@@ -27,11 +27,12 @@ surface duplication and keeps raw diagnostics out of the normal path.
 ## Failure Experience
 
 If the broker is unavailable or unsafe, Octon blocks only the affected
-consequence, preserves candidate work, and offers manual/protected PR. It does
-not reveal credentials, start another writer, invoke direct helpers, blindly
-retry an unknown effect, or ask the operator to babysit a daemon. Restart aims
-to recover automatically on proved tuples; irreducible uncertainty is shown
-once with one safe action.
+consequence and preserves candidate work plus frozen route state. It does not
+offer PR as a technical fallback, reveal credentials, start another writer,
+invoke direct helpers, blindly retry an unknown effect, or ask the operator to
+babysit a daemon. A PR can appear only from a separate valid RP-06 pre-effect
+classification. Restart aims to recover automatically on proved tuples;
+irreducible uncertainty is shown once with one safe action.
 
 ## Support Claim
 

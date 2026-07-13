@@ -2,15 +2,15 @@
 
 | Packet | Exclusive semantic ownership | Explicit exclusions/handoffs |
 | --- | --- | --- |
-| RP-00 | containment, writer/launcher/credential/trust/provider-workflow inventories, claim correction | no broker/store/verifier implementation |
+| RP-00 | containment, hard-disable slices for unsafe current publication/cleanup entrypoints, writer/launcher/credential/trust/provider-workflow inventories, claim correction | no final route policy, broker/store/verifier implementation, or presumption that current PR is safe |
 | RP-01 | authority semantics, typed scopes, decision receipts, exact guard API | RP-03 persistence; RP-02 isolation; RP-11 Harness; RP-13 budgets |
 | RP-02 | candidate-isolation module/native host policy/disposable repo export | RP-01 guard; RP-11 generic adapter; RP-04 credentials |
 | RP-03 | SQLite schema/migrations, one store mutation API, T1/outbox/T2, backup/restore | RP-08 provider outcome classification; RP-07 evidence policy |
 | RP-04 | broker core, IPC, Keychain, supervision, operation handles, sole deployed writer/effect host | no authority mint/verdict; RP-05 Git; RP-07 evidence; RP-08 reconciliation |
-| RP-05 | `local_broker` Git adapter and sanitized expected-old fast-forward primitive | RP-06 route/verifier/publication policy |
-| RP-06 | verifier identity/verdict/predicate/publication adapter and `.octon` workflow projection owner | no candidate verifier; no signed evidence/recovery |
-| RP-07 | evidence signature/checkpoint/head/retention/reserve/compaction semantics and exact evidence adapters | consumes RP-03 store/outbox; no store schema authority |
-| RP-08 | provider outcome classifier, UNKNOWN reconciliation, manual intervention, run health/maintenance, reversible vertical | consumes frozen RP-03 transitions and RP-06 predicate |
+| RP-05 | closed non-executing Git/ref primitives: exact-object import, source-ref expected-absent/expected-tip create/update, target `O -> S` CAS, expected-tip delete, and fast-forward mirror primitive | no route, history, PR, cleanup-eligibility, outcome, or recovery policy; never a generic Git service |
+| RP-06 | immutable route taxonomy/predicate, history policy, exact `V`, protected-PR semantics, `S -> Q` proof, publication postconditions, local-main mirror orchestration, and `.octon` workflow projection owner | no candidate-held verifier, grant issuance, Git credential custody, signed evidence, outcome classification, or recovery |
+| RP-07 | signed grant/verdict/operation/provider/landed/reconciliation/terminal evidence, checkpoint/head/retention/reserve/compaction, monotonic anchor, and exact evidence adapters | consumes RP-03 store/outbox; no authorization, route, effect, cleanup, or store-schema authority |
+| RP-08 | provider outcome classifier, UNKNOWN reconciliation, retry eligibility, manual intervention, conditional cleanup lifecycle/status, run health/maintenance, reversible vertical | consumes frozen RP-03 transitions, RP-06 route/landed facts, and RP-05 conditional primitive |
 | RP-09 | semantic trust inventory, inert install, selector/health/rollback activation | consumes prior safety spine; no same-change authority |
 | RP-10 | project identity/profile/location/inbox symbols | project metadata is non-authority; RP-11 Harness |
 | RP-11 | Harness compiler, generic adapter trait/manifests/conformance | RP-06/RP-08/RP-13 specializations |
@@ -28,12 +28,29 @@ RP-08 owns a separate credentialless `effect_reconciler` library that cannot
 open credentials, dispatch effects, or become a writer. Global Cargo/contract
 registries have one integration writer and packet-owned exact entries.
 
+## Brokered Publication Responsibility Decisions
+
+| Decision | Sole semantic owner | Bounded consumers/contributors |
+| --- | --- | --- |
+| `BNP-OWN-001` candidate source-ref create/update | RP-05 | RP-06 supplies a policy-bound request; RP-08 classifies/reconciles. |
+| `BNP-OWN-002` target-main `O -> S` CAS | RP-05 | RP-04 hosts the effect; RP-08 classifies/reconciles. |
+| `BNP-OWN-003` immutable route taxonomy/predicate | RP-06 | RP-01 supplies generic grant fields; RP-03 freezes the selected digest. |
+| `BNP-OWN-004` exact candidate verification and `V` | RP-06 | RP-07 authenticates the resulting evidence reference. |
+| `BNP-OWN-005` protected-PR create/update/merge semantics | RP-06 | RP-04 hosts closed effects; RP-05 supplies only ref primitives; RP-08 reconciles. |
+| `BNP-OWN-006` `S -> Q` provider association and tree/patch proof | RP-06 | RP-07 signs the independent observation. |
+| `BNP-OWN-007` provider-result classification | RP-08 | RP-05/RP-06 supply direct observations. |
+| `BNP-OWN-008` `UNKNOWN` reconciliation and no-retry rule | RP-08 | RP-03 preserves attempt truth; RP-04 cannot retry independently. |
+| `BNP-OWN-009` hosted-main to canonical-local-main mirror orchestration | RP-06 | RP-05 may supply the closed fast-forward primitive; RP-08 records failure outcome. |
+| `BNP-OWN-010` conditional cleanup lifecycle, eligibility, and status | RP-08 | RP-06 supplies route-specific landed facts; RP-05 supplies expected-tip deletion only. |
+| `BNP-OWN-011` history-shape policy | RP-06 | RP-05 validates/imports the admitted closure but does not select shape. |
+| `BNP-OWN-012` signed terminal evidence and monotonic anchor | RP-07 | All producers remain role-separated and evidence never mints authority. |
+
 ## Exact Shared-Target Ownership and Serialization
 
 The registry intentionally retains exact promotion targets so runtime
 exact-or-directory-prefix overlap detection can serialize every physical
-collision. The table below covers all 42 paths claimed by more than one child
-in the creation baseline. “Owns” means semantic authority for the named
+collision. The table below covers the creation-baseline overlaps plus the exact
+serialized targets added by the brokered no-PR revision. “Owns” means semantic authority for the named
 surface; contributors may change only the named row, symbol, registration, or
 specialization. Dependency gates order declared predecessors. Unordered peers
 must acquire the same exact-path integration lock and run in a single
@@ -70,6 +87,8 @@ integration lane; they never edit the target concurrently.
 | `.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml` | Exact rows: RP-00 baseline, RP-04 broker, RP-05 Git, RP-06 verifier/publication. | RP-00, RP-04, RP-05, then RP-06. |
 | `.octon/framework/engine/runtime/spec/run-lifecycle-v1.md` | RP-08 owns generic recovery lifecycle semantics; RP-13 may add only MissionChild references whose semantics remain in its dedicated contract. | RP-08, then RP-13. |
 | `.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml` | RP-05 owns the sanitized Git primitive; RP-06 owns deterministic publication routing. | RP-05, then RP-06. |
+| `.octon/framework/product/contracts/default-work-unit.yml`; `.octon/framework/product/contracts/default-work-unit.md` | RP-00 owns containment removal/disablement of current routes; RP-06 later owns only the final publication-route projection that consumes canonical `change-publication.yml`. No duplicated policy source survives cutover. | RP-00, then RP-06. |
+| `.octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh`; `.octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh`; `.octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh` | RP-00 owns only hard-disable/retirement containment; RP-05 later owns closed ref primitives and RP-08/RP-06 own cleanup/route semantics. | RP-00, then RP-05/RP-06/RP-08 through declared dependencies. |
 | `.octon/instance/governance/policies/mission-autonomy.yml` | RP-08 owns production Class-B policy; RP-04 may add only the scratch broker-disabled posture. | RP-04, then RP-08. |
 
 At child acceptance, implementation review must either prove each bounded

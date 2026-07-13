@@ -30,7 +30,9 @@ blockers, not an unanswered operator decision or proposal-creation question.
 - ED-004 remains feasible: one provider-native App or protected external
   verifier identity with narrow read/check permissions and no custom daemon.
 - ED-007 permits workflow removal/merge only after source ownership and proof.
-- Protected PR remains the safe valid-work bridge; invalid authority denies.
+- Protected PR is a deterministic pre-effect valid-work route only for review
+  or stable high-contention predicates; invalid authority, collision, and
+  `UNKNOWN` deny or reconcile without route switching.
 - RP-11 retains the generic executor-adapter interface and RP-14 retains final
   support/provider claim authority.
 - .github/** remains outside this octon-internal packet.

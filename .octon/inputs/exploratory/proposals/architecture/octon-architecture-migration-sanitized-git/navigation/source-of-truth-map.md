@@ -44,7 +44,13 @@ controlling planning input only and cannot authorize implementation.
 | Candidate-object transfer contract | RP-05 |
 | Git command/config/environment/transport allowlist | RP-05 |
 | Expected-old fast-forward implementation | RP-05 |
-| Grant or operation authority | RP-01/RP-03/RP-04 |
+| Expected-absent/expected-tip source-ref create/update | RP-05 closed primitive; RP-06 owns when and why it is requested |
+| Conditional expected-tip delete | RP-05 closed primitive; RP-08 owns cleanup eligibility/status |
+| Fast-forward local-main operation | RP-05 closed primitive; RP-06 owns post-land mirror orchestration |
+| Protected-PR and history semantics | RP-06; never RP-05 fallback policy |
+| Grant issuance, validation, expiry, and revocation | RP-01 |
+| Operation/attempt persistence, T1/T2, and idempotency | RP-03 |
+| Credential custody, structural tuple validation, and sole effect hosting | RP-04 |
 | Credential custody and broker supervision | RP-04 |
 | Verifier identity and exact-SHA verdict | RP-06 |
 | A/B/C and Class-B/PR predicate | RP-06 |

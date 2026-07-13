@@ -51,6 +51,7 @@ planned_durable_source_ownership:
 source_ownership_exclusions:
   - "RP-01 owns authority, guard semantics, and the guard-owning launch API"
   - "RP-04 owns credential custody, effect broker, and privileged IPC"
+  - "RP-06 owns every downstream publication-route decision; RP-02 exports only a route-neutral exact candidate"
   - "RP-11 owns generic prepare/launch/observe/cancel/usage/retire adapter semantics"
 proposal_lifecycle_ownership:
   manifests: "this child packet"
@@ -111,8 +112,8 @@ safe_intermediate_states:
   - state_id: "SI-02"
     description: >-
       Useful credentialless isolated candidate work may export an exact commit
-      for manual/protected PR while canonical Git, credentials, broker IPC, and
-      privileged effects remain inaccessible.
+      for preservation and later RP-06 route evaluation while canonical Git,
+      credentials, broker IPC, and privileged effects remain inaccessible.
 prohibited_intermediate_states:
   - "provider execution before the native policy and independent repository checks pass"
   - "candidate-readable durable token, credential file, Keychain item, helper, or agent socket"
@@ -122,7 +123,7 @@ prohibited_intermediate_states:
   - "trusted execution of candidate-controlled hooks, filters, helpers, drivers, or checkout behavior during export"
 compatibility_bridges:
   permitted:
-    - "manual/protected PR using an exact non-executing candidate commit export"
+    - "exact non-executing candidate commit export with no publication-route selection"
   prohibited:
     - "ambient credential fallback"
     - "canonical-repository launcher fallback"
@@ -133,8 +134,9 @@ deprecations_and_retirements:
   - "candidate workspace, HOME, repository, session, and identity are retired or quarantined after every run"
 rollback_strategy: >-
   Disable automated candidate launch and preserve or export the exact safe
-  candidate commit for manual/protected PR; never restore ambient credentials
-  or canonical-repository execution as a supported fallback.
+  candidate commit without selecting a publication route; never restore ambient
+  credentials or canonical-repository execution as a supported fallback, and
+  require a fresh RP-06 decision before any later protected PR.
 recovery_strategy: >-
   Terminate the full process group, expire/revoke the provider session,
   quarantine uncertain candidate state, retain redacted evidence, and repair
@@ -164,7 +166,7 @@ evidence_to_retain:
   - "UE-003 and candidate-side PO-FD-006 disposition"
   - "PO-FD-008, rollback, conformance, and drift/churn receipts"
 support_claim_effect: "none at draft; later exact-tuple claim only after all positive and negative proof passes"
-operator_experience_effect: "automatic isolation with no routine setup or approval ceremony; one concise protected-PR recovery route"
+operator_experience_effect: "automatic isolation with no routine setup or approval ceremony; one concise blocked/preserved status and no technical PR fallback"
 setup_and_maintenance_effect: "ephemeral per-run roots and sessions; no daemon, VM fleet, new database, or broker dependency"
 parallelization_constraints:
   - "may implement beside RP-01 after RP-00, but not in the same launcher module/symbol"

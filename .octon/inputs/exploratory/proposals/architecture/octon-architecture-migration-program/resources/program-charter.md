@@ -14,12 +14,19 @@ safe-state/risk/evidence read models, operator reading order, correction routing
 program verification, promotion handoff, and aggregate closeout. Children own
 all implementation and lifecycle authority.
 
+The governing publication decision is candidate-first: Class A remains local;
+eligible admitted Class B defaults to `brokered-class-b-no-pr`; valid
+review-required or deterministically preclassified high-contention Class B uses
+protected PR; Class C uses stronger control or denial. Invalid, stale, revoked,
+mismatched, raced, or unknown authority denies and preserves work. Octon owns no
+human or agent `direct-main`; canonical local `main` is a post-publication mirror.
+
 ## Non-Goals
 
 No migration execution, proposal acceptance, authority/support/trust promotion,
 provider mutation, Git publication, public marketplace, enterprise platform,
-distributed consensus, VM fleet, persistent agent organization, direct-main
-agent route, credentialed candidates, multi-writer state, or universal
+distributed consensus, VM fleet, persistent agent organization, Octon-owned
+direct-main route, credentialed candidates, universal PR, multi-writer state, or universal
 exactly-once claim is authorized.
 
 ## Decision Baseline

@@ -48,5 +48,6 @@ clarification_required: no
 
 Decision-register correction: RP-14 consumes accepted ROD-006 only as the
 upstream no-Octon-direct-main posture. Ordinary human Git remains outside
-Octon, protected PR is the privileged bridge, and ROD-006 does not decide final
+Octon; eligible Class B defaults to brokered no-PR and protected PR is only a
+deterministic review-selected valid-work route. ROD-006 does not decide final
 support wording or optional-capability promotion.

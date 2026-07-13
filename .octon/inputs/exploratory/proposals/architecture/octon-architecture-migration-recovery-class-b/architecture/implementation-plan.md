@@ -11,7 +11,7 @@ lineage, strict architecture review, and exact dependency exits.
    requesting another operator vote.
 3. Apply ED-003: atomic expected-old provider operation, authenticated receipt
    when available, explicit attribution semantics, targeted scratch proof.
-4. Inventory every effect retry, post-effect check, PR fallback, status, mission
+4. Inventory every effect retry, post-effect check, route-switch/PR path, status, mission
    schedule, and direct provider probe at the implementation commit.
 
 ## Workstream 2 — Contracts And Reconciler
@@ -28,11 +28,13 @@ lineage, strict architecture review, and exact dependency exits.
 
 1. Bind immutable RP-06 predicate/verdict digest to run admission, effect, T2,
    status, and closeout.
-2. Route eligible B automatically; route valid ineligible B to deterministic
-   protected PR with the exact candidate/verdict/evidence.
+2. Route eligible B through default brokered no-PR; route valid review-required
+   or stable pre-route high-contention B to deterministic protected PR with the
+   exact candidate/verdict/evidence before effect.
 3. Deny C downgrade and invalid/stale/revoked/raced/mismatched authority; never
    launder through PR.
-4. Treat unknown PR creation/update as another effect requiring reconciliation.
+4. Treat source-ref, PR creation/update, and merge as separate effects requiring
+   reconciliation; base/head movement invalidates the tuple.
 
 ## Workstream 4 — Status And Degraded Mode
 
@@ -63,7 +65,9 @@ lineage, strict architecture review, and exact dependency exits.
    stale predicate.
 3. Run 20 representative A/B/C route and ambiguity fixtures with prompt and
    unauthorized-effect accounting.
-4. Prove rollback, automatic recovery, PR fallback, and no-policy-mutation.
+4. Prove rollback, automatic recovery, policy-selected PR, route freeze,
+   local-main mirror/cleanup-deferred truth, closed-unmerged preservation, and
+   no-policy-mutation.
 
 ## Workstream 7 — Atomic Activation And Handoff
 

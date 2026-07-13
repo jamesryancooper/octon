@@ -5,12 +5,14 @@ implementation; absence is not evidence of completion.
 
 | Target | Current assumption | Required change | Owner | Priority | Rationale |
 | --- | --- | --- | --- | --- | --- |
-| .octon/framework/engine/runtime/adapters/host/github-control-plane.yml | Declares a host adapter but does not own the complete immutable-verifier and publication specialization | Bind verifier identity, exact verdict, deterministic route, provider observations, projection source, and drift behavior | RP-06 | P0 | Establishes one durable specialization boundary |
+| .octon/framework/product/contracts/default-work-unit.yml | RP-00 owns the containment route slice; current Change routing predates the final classifier | Replace only the final publication-route subsection with a validated reference/projection of canonical `change-publication.yml`; no duplicate predicate survives | RP-06 after RP-00 | P0 | Makes one final route source explicit |
+| .octon/framework/product/contracts/default-work-unit.md | Narrative projects current routing | Align final candidate-first/no-direct-main/no-fallback semantics to the canonical publication policy | RP-06 after RP-00 | P0 | Prevents operator/policy drift |
+| .octon/framework/engine/runtime/adapters/host/github-control-plane.yml | Declares a host adapter but does not own the complete immutable-verifier and publication specialization | Bind verifier identity, exact verdict, deterministic route, PR source/create/update/merge requests/results, `S -> Q`, provider observations, projection source, and drift behavior | RP-06 | P0 | Establishes one durable specialization boundary |
 | .octon/framework/engine/runtime/adapters/host/github-control-plane/ | No accepted authored source or generator for current .github workflow projections was found | Add the minimum template/generation inputs, source/output digests, publisher identity, and freshness receipt contract | RP-06 | P0 | Resolves the target-family split before any projection change |
 | .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs | Current command surface does not expose the reconciled route decision as one immutable operation | Add or narrow route-evaluation command integration without adding a normal command concept | RP-06 | P1 | Keeps routing inside the existing runtime surface |
 | .octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs | Request construction does not bind the complete verdict and frozen predicate digest | Build the exact typed verification/publication request from RP-01 and RP-03 identities | RP-06 consuming RP-01/RP-03 | P0 | Prevents policy or identity substitution |
 | .octon/framework/engine/runtime/crates/kernel/src/side_effects/mod.rs | Side-effect dispatch lacks the RP-06 route specialization | Dispatch only a valid route decision and exact RP-05 primitive request | RP-06 consuming RP-05 | P0 | Separates selection from physical Git execution |
-| .octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs | Generic typed effects exist but no minimum verifier/publication data boundary is accepted | Add only sealed verdict and route-decision data needed by existing authority and broker interfaces | RP-06 with RP-01 interface review | P0 | Keeps verdict data exact without granting authority |
+| .octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs | Generic typed effects exist but no minimum verifier/publication data boundary is accepted | Add only sealed verdict, route, PR subeffect, `S -> Q`, mirror, and landed-fact data needed by existing authority and broker interfaces | RP-06 with RP-01 interface review | P0 | Keeps publication data exact without granting authority |
 | .octon/framework/engine/runtime/spec/exact-sha-verdict-v1.schema.json | No accepted exact-verdict schema exists | Add complete identity, source, target, target-pre, policy, harness, evidence, time, expiry, and revocation binding | RP-06 | P0 | Makes candidate-immutable proof machine-checkable |
 | .octon/framework/engine/runtime/spec/publication-route-decision-v1.schema.json | No single route-decision schema exists | Add typed deny, Class B no-PR, protected PR, Class C, and local Class A outcomes | RP-06 | P0 | Makes adaptive publication deterministic and auditable |
 | .octon/framework/constitution/contracts/adapters/exact-sha-verdict-v1.schema.json | No constitutional mirror constrains the runtime verdict boundary | Add the minimum stable cross-boundary verdict contract through the constitutional route | RP-06 with constitutional owner | P0 | Prevents a runtime-only trust rule |
@@ -25,8 +27,10 @@ implementation; absence is not evidence of completion.
 
 ## Consumed But Not Owned
 
-- .octon/framework/product/contracts/default-work-unit.yml remains the
-  canonical Change route authority; RP-06 only projects its accepted policy.
+- RP-00 owns only the earlier containment slice of
+  `.octon/framework/product/contracts/default-work-unit.{yml,md}`. RP-06 later
+  owns the exact final publication-route subsection and migrates canonical
+  classification to `change-publication.yml` atomically.
 - .octon/instance/governance/support-targets.yml remains RP-14 final-claim
   ownership and is not widened here.
 - RP-01 authority issuance, RP-03 operation/attempt transitions, and RP-05 Git

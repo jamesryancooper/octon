@@ -62,7 +62,8 @@ directly proven. They must disclose that:
 - generic adapter semantics belong to RP-11;
 - final provider and support claims belong to RP-14;
 - provider observations are point-in-time and drift-sensitive;
-- optional worker and secondary-provider claims require their own proof;
+- FD-007 is absent from brokered Git publication; any non-Git optional-worker
+  or secondary-provider claim requires its own proof;
 - .github workflows are derived projections, never authority or RP-06
   promotion targets.
 
@@ -72,3 +73,9 @@ RP-06 contributes zero routine prompts, zero false A/B-to-PR escalations in
 the reference matrix, preserved blocked work, at most seven normal command
 concepts program-wide, and concise one-screen status. RP-14 owns final measured
 speed, completion, setup, and maintenance claims.
+
+The one-screen status prefers `brokered-class-b-no-pr` and shows `O`, `S`, `V`,
+`Q` when applicable, history shape, frozen route, substantive validation,
+operation/attempt, PR review state, landed verification, local-main mirror, and
+cleanup/preservation. A collided or unknown no-PR attempt is `blocked` or
+`reconciling`, never silently displayed as PR.

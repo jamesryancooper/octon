@@ -73,3 +73,10 @@ implementation-ready. ROD-001 is operator-accepted; binding its invariants and
 recording/proving conservative reversible engineering defaults, dependency
 exits, strict architecture review, UE-008 adversarial proof, parent integration,
 and post-implementation receipts remain future gates.
+
+The brokered publication evidence profile covers both
+`brokered-class-b-no-pr` and policy-selected protected PR. RP-07 authenticates
+and anchors grant/verdict, operation/attempt, direct provider observation,
+landed SHA, historical target transition, reconciliation, preserved-work,
+mirror, and cleanup status. It neither issues authority nor selects, executes,
+classifies, reconciles, or cleans a route.

@@ -8,7 +8,7 @@ described here.
 | `.octon/framework/engine/runtime/spec/run-lifecycle-v1.md` | Bind attempting/unknown/reconciling/manual-intervention behavior and status. | RP-08 semantics; RP-03 transitions unchanged. |
 | `.octon/framework/engine/runtime/spec/effect-reconciliation-v1.md` | New provider classification, reconciliation, attribution, retry, PR, and degraded contract. | RP-08. |
 | `.octon/framework/engine/runtime/spec/effect-reconciliation-v1.schema.json` | Strict observation/decision/receipt schema. | RP-08. |
-| `.octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json` | Add class/route, attempt, attribution, dependency, preserved-work, and next-action fields. | Projection only. |
+| `.octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json` | Add class/frozen route, attempt, attribution, PR subeffect, local-mirror, cleanup-deferred, preserved-work, and next-action fields. | Projection only. |
 | `.octon/framework/engine/runtime/spec/operator-read-models-v1.md` | Document concise reconciliation/degraded status and non-authority. | RP-08 UX. |
 | `.octon/framework/engine/runtime/spec/mission-autonomy-runtime-v2.md` | Integrate bounded SI-06 routes without changing class predicate. | Exact RP-08 integration. |
 | `.octon/framework/engine/runtime/spec/mission-continuation-v1.md` | Require unknown reconciliation and bounded maintenance resume. | RP-08 exact behavior. |
@@ -27,14 +27,14 @@ described here.
 | `.octon/instance/governance/policies/mission-closeout.yml` | Require honest attribution/terminal/manual completeness. | RP-08. |
 | `.octon/instance/governance/policies/continuous-operation.yml` | New bounded maintenance/effect schedule policy over missions/runs. | RP-08; no scheduler/authority. |
 | `.octon/framework/assurance/runtime/_ops/scripts/validate-effect-reconciliation.sh` | Validate frozen inputs, state behavior, attribution, retry, PR, degraded, and status. | RP-08. |
-| `.octon/framework/assurance/runtime/_ops/tests/effect-reconciliation/` | Add crash/lost/duplicate/race/outage/attribution/route/PR fixtures. | RP-08 proof. |
+| `.octon/framework/assurance/runtime/_ops/tests/effect-reconciliation/` | Add crash/lost/duplicate/race/outage/attribution/route-freeze/PR-subeffect/mirror/cleanup fixtures. | RP-08 proof. |
 | `.octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh` | Validate new status fields/freshness/non-authority. | RP-08 exact checks. |
 | `.octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh` | Derive concise view from canonical refs only. | Projection generator. |
 | `.octon/framework/assurance/runtime/_ops/tests/test-run-health-read-model.sh` | Add attempting/unknown/reconcile/manual/degraded snapshots. | RP-08. |
 | `.octon/framework/assurance/runtime/_ops/scripts/test-mission-autonomy-scenarios.sh` | Add immutable A/B/C, zero-prompt, PR, scheduled/reversible cases. | RP-08 scenario additions. |
 | `.octon/framework/assurance/runtime/_ops/scripts/validate-mission-autonomy-runtime-v2.sh` | Enforce frozen predicate, SI-06, no trust-root/production and no blind retry. | RP-08 exact checks. |
 | `.octon/framework/assurance/runtime/_ops/tests/test-mission-autonomy-runtime-v2.sh` | Add route/outage/continuous-operation integration fixtures. | RP-08. |
-| `.octon/state/evidence/validation/proposals/octon-architecture-migration-recovery-class-b/` | Retain route/fault/attribution/status/degraded/scheduled/reversible proof and receipts. | Evidence owner; scratch targets only. |
+| `.octon/state/evidence/validation/proposals/octon-architecture-migration-recovery-class-b/` | Retain route/fault/attribution/status/degraded/scheduled/reversible/mirror/cleanup/preservation proof and receipts. | Evidence owner; scratch targets only. |
 
 ## Explicit Exclusions
 

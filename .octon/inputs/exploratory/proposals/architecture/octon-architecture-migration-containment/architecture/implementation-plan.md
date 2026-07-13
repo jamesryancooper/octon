@@ -6,8 +6,8 @@ AC-01. It does not authorize implementation.
 ## Workstream 0 — Bind Decisions and Exact Baseline
 
 1. Bind accepted ROD-006: Octon exposes no human or agent direct-main route;
-   ordinary human Git remains outside Octon and protected PR is the privileged
-   bridge.
+   ordinary human Git remains outside Octon. No universal PR bridge follows
+   from this decision.
 2. Bind the exact implementation commit, branch, tree state, and provider
    observation; mark unavailable provider facts stale rather than inferred.
 3. Freeze the promotion-target and affected-projection ledger.
@@ -19,8 +19,9 @@ AC-01. It does not authorize implementation.
    agent route can select direct-main; ordinary human Git remains outside Octon.
 2. Inventory write-capable or credential-bearing GitHub projections, including
    auto-merge, release, AI review, and check-producer planes.
-3. Disable candidate-head privileged writers and retain protected PR as Octon's
-   only privileged bridge.
+3. Disable candidate-head privileged writers, current autonomous no-PR/local
+   landing effects, and destructive unlanded cleanup. Retain protected PR only
+   for independently review-selected work after its boundary is proved safe.
 4. Validate the host projection against the updated durable contract and
    record any provider mutation through separately authorized provider
    receipts.

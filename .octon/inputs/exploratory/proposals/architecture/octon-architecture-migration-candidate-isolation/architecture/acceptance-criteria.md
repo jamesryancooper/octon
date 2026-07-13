@@ -20,9 +20,9 @@ runtime or provider proof conditions.
   isolated candidate, produces the expected bounded result, and records exact
   provider, client, sandbox, source, and workspace identities.
 - **AC-04:** The candidate result becomes an exact commit in an independent
-  disposable repository and can be exported for protected PR without
-  executing candidate hooks, filters, helpers, drivers, or checkout code under
-  trusted identity.
+  disposable repository and can be exported as an exact route-neutral
+  candidate without executing candidate hooks, filters, helpers, drivers, or
+  checkout code under trusted identity.
 
 ## Credential and Host Negatives
 
@@ -47,8 +47,9 @@ runtime or provider proof conditions.
   workspace, and temporary HOME state without identity reuse; cleanup proof is
   retained.
 - **AC-11:** Disabling automated launch preserves/exports the exact candidate
-  commit when available and routes it to manual/protected PR without granting
-  credentials or canonical Git access.
+  commit when available without granting credentials, canonical Git access, or
+  a publication-route decision; protected PR requires a later fresh valid
+  RP-06 review predicate.
 
 ## Proof and Closeout
 

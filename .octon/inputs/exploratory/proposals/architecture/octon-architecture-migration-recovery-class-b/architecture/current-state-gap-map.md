@@ -18,19 +18,24 @@ and no complete zero-prompt Class B vertical under outage/race/crash.
 | Attribution | Desired state can reflect concurrent actor rather than this attempt | Separate `attempt_performed` from `state_satisfied`; ED-003 targeted proof | RP-05/RP-08; RF-026, UE-007 |
 | External atomicity | SQLite cannot commit atomically with Git/GitHub | Honest T1/external/T2 model and per-attempt manual intervention | RP-03/RP-08; RF-028 |
 | FD-016 degraded mode | Failure concepts exist but full narrow work-preserving route is unproved | Dependency-specific block/restart/reconcile; no ambient fallback | RP-08; PO-FD-016 |
-| Protected PR fallback | PR exists but must not launder invalid authority or hide unknown effects | Frozen deterministic valid-work fallback with same candidate/evidence | RP-06 route, RP-08 proof |
+| Policy-selected protected PR | PR exists but must not launder invalid authority, collision, or unknown effects | Frozen deterministic pre-effect review/high-contention selection with same candidate/evidence | RP-06 route, RP-08 proof |
 | Status | Run-health projections exist but not full effect/reconciliation UX | Concise fresh non-authoritative class/attempt/unknown/next-action view | RP-08 |
 | Continuous operation | Mission scheduling exists; complete bounded maintenance/effect vertical absent | Bounded existing mission/run route plus reversible scratch effect | RP-08 component, RP-14 integrated UE-014 |
-| Unsafe rollback | Prior designs could restore log-only/YAML/unsanitized/unsigned paths | Disable route, preserve candidate, protected PR or prior certified boundary | RF-018 |
+| Unsafe rollback | Prior designs could restore log-only/YAML/unsanitized/unsigned paths or switch route | Disable route and preserve candidate/frozen attempt; any later PR needs a fresh valid selection | RF-018 |
 
 ## Preserved Strengths
 
 - Preserve RP-03's one canonical transaction model and RP-06's immutable route
   predicate; do not create a second policy/state machine.
 - Preserve existing mission/run contracts and run-health projection discipline.
-- Preserve protected PR as a safe valid-work route, never invalid-authority
-  remediation.
+- Preserve protected PR as a valid-work route only after its boundary and
+  complete predicate are proved, never as invalid-authority remediation.
 - Preserve honest manual intervention for irreducible ambiguity.
+
+The revision also closes gaps for route mutation after T1, PR source-ref/
+create-update/merge `UNKNOWN`, expected-old tuple invalidation, local-main mirror
+status, cleanup-deferred truth, closed-unmerged preservation, and compare/delete
+races. Stable pre-route contention may select PR; an actual collision cannot.
 
 ## Evidence Limits
 

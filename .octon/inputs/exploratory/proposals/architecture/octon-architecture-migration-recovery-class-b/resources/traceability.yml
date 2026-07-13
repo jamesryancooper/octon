@@ -28,7 +28,7 @@ finding_coverage:
   - finding_id: "RF-018"
     relationship: "cross-reference and packet-applied rollback constraint"
     controlling_packet: "RP-00"
-    required_closure: "disable route/preserve candidate/protected PR or prior certified boundary; never restore retired hazards"
+    required_closure: "disable route/preserve candidate and frozen attempt or prior certified boundary; any later PR requires fresh pre-effect selection; never restore retired hazards"
     acceptance_refs: ["RP08-AC-011", "RP08-AC-017"]
   - finding_id: "RF-026"
     relationship: "direct targeted-reverification owner with RP-05"
@@ -42,7 +42,7 @@ proof_coverage:
   - proof_id: "PO-FD-002"
     promotion_gate: "PG-08-CLASS-ROUTES"
     ownership: "direct vertical proof; RP-06 owns predicate"
-    required_result: "A/B zero routine prompts; valid B protected-PR fallback; C/ambiguity/invalid authority lower routes deny; predicate digest unchanged."
+    required_result: "A/B zero routine prompts; valid review/high-contention B uses pre-effect protected PR; false A/B-to-PR and invalid/collision/UNKNOWN-to-PR are zero; predicate digest unchanged."
     evidence_classification: "ADVERSARIALLY_TESTED"
   - proof_id: "PO-FD-012"
     promotion_gate: "PG-08-EFFECT-RECOVERY"
@@ -99,7 +99,7 @@ safe_state_coverage:
     entry: "SI-05 plus RP-07 signed evidence/capacity/retention"
     required: "unknown reconciliation, race/duplicate/lost response/outage/crash, deterministic PR, zero routine prompts"
     prohibited: "trust-root automation and broader support claims"
-    rollback: "disable Class B, preserve work, protected PR, keep signing for any autonomous-success claim"
+    rollback: "disable Class B, preserve work and frozen route, require fresh pre-effect selection for any later PR, keep signing for any autonomous-success claim"
 claim_boundary:
   current_claim: "none"
   future_claim: "one separately admitted and proved SI-06 Class B tuple, pending RP-14 integrated promotion"
@@ -109,3 +109,9 @@ claim_boundary:
     - "automatic resolution of every unknown"
     - "production/trust-root automation"
     - "full UE-014 product acceptance"
+brokered_no_pr_revision:
+  primary_findings: ["BNP-F-006", "BNP-F-011"]
+  cross_findings: ["BNP-F-004", "BNP-F-005", "BNP-F-007", "BNP-F-012", "BNP-F-013"]
+  prior_audit_lineage: ["GIT-ENF-003", "GIT-ENF-004", "GIT-ENF-008", "GIT-ENF-009", "GIT-LC-001", "GIT-LC-002", "GIT-LC-004", "GIT-LC-006", "GIT-LC-009"]
+  semantic_ownership: ["provider-result-classification", "UNKNOWN-reconciliation", "retry-eligibility", "conditional-cleanup-lifecycle-status"]
+  frozen_route_rule: "collision, ATTEMPTING, UNKNOWN, invalid authority, and failed effect never switch to PR"

@@ -11,6 +11,23 @@ Deliver the greatest safe autonomous capability for one serious builder with
 the least visible ceremony and only the internal complexity necessary to keep
 consequential effects controlled, verifiable, recoverable, and maintainable.
 
+## Publication Decision Incorporated by This Revision
+
+This draft program now recommends `brokered-class-b-no-pr` as the default
+publication topology for deterministically eligible Class B work. `branch-no-pr`
+remains only a compatibility route label. Class A remains local and
+credentialless; valid review-required or deterministically preclassified
+high-contention Class B uses protected PR; Class C uses stronger control or
+denial. Missing, forged, stale, expired, revoked, wrong-SHA, wrong-target,
+wrong-scope, raced, or otherwise insufficient authority denies and preserves the
+candidate. A technical failure or `UNKNOWN` effect never becomes a PR fallback.
+
+This is planned architecture, not current authority. RP-00 containment disables
+unsafe writers, Octon `direct-main`, and current autonomous no-PR effects while
+preserving route classification and work. Production no-PR remains disabled
+until RP-05 through RP-08 prove the complete safety spine. The fixed fifteen-child
+graph is unchanged and every proposal remains `draft`.
+
 ## Reading Order
 
 1. `proposal.yml`

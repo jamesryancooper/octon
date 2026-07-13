@@ -26,6 +26,7 @@
 - two live retry/classification state machines;
 - policy/predicate changes during its proof;
 - provider call before T1 or retry while unknown;
+- route change after T1, during `ATTEMPTING`, or during `UNKNOWN`;
 - desired-state equality labeled `attempt_performed` without causal evidence;
 - invalid authority routed to PR;
 - production/trust-root target in SI-06 proof;
@@ -43,7 +44,9 @@
 6. Atomically activate frozen-route consumption, reconciler, signed-evidence
    checks, run status, and continuous-operation bounds.
 7. Disable direct/blind retry and ambiguous legacy outcome paths.
-8. Retain activation receipt and hand SI-06 to RP-09/RP-14.
+8. Enable conditional cleanup only after closed-unmerged, expected-tip race,
+   landed-proof, mirror, and false-cleaned fixtures pass.
+9. Retain activation receipt and hand SI-06 to RP-09/RP-14.
 
 ## Completion Evidence
 

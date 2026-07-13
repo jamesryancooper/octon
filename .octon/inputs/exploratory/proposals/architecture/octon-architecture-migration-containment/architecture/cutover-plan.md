@@ -6,7 +6,8 @@
 - Proposal acceptance and pre-integration architecture review pass.
 - Exact repository and provider baselines are bound.
 - Candidate work is preserved on a non-main branch or exportable commit.
-- Protected PR is verified available before an unsafe route is disabled.
+- Candidate preservation and stage-only reporting are verified before an unsafe
+  route is disabled; protected PR is not a prerequisite or presumed safe bridge.
 - Rollback handles and provider recovery instructions exist.
 
 ## Atomic Containment Sequence
@@ -14,9 +15,10 @@
 1. Freeze the current writer, launcher, credential, policy-input, trust, and
    provider-workflow census at the exact commit.
 2. Disable candidate-head privileged provider writers.
-3. Make every Octon-owned human or agent direct-main route unreachable while
-   retaining the governed protected-PR bridge; ordinary human Git remains
-   outside Octon.
+3. Make every Octon-owned human or agent direct-main route, current autonomous
+   no-PR/local landing effect, and destructive unlanded cleanup unreachable.
+   Ordinary human Git remains outside Octon; a separately proved PR route is
+   permitted only when the immutable review predicate selected it.
 4. Re-run the census and fail if any discovered privileged path is not
    registered and assigned.
 5. Correct support and disclosure claims to the direct proof envelope.
@@ -30,8 +32,9 @@ accepted as supported autonomous paths.
 
 ## Safe Resting State
 
-At SI-00, observation, proposal drafting, isolated candidate work, and
-protected PR are allowed. Privileged autonomous implementation is not.
+At SI-00, observation, proposal drafting, isolated candidate work, and only a
+separately proved predicate-selected protected PR are allowed. Privileged
+autonomous implementation is not.
 The state is valid for an extended pause because candidate work is preserved
 and the remaining unsupported architecture is disclosed.
 

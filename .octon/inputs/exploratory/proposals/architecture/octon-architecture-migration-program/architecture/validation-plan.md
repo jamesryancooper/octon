@@ -16,3 +16,18 @@ Future proof uses only the evidence classifications declared by reconciliation:
 `DECLARED`, `STATICALLY_INSPECTED`, `DYNAMICALLY_EXECUTED`,
 `ADVERSARIALLY_TESTED`, `CONFIGURATION_DERIVED`, `DEPLOYMENT_LOCAL`,
 `PROVIDER_OBSERVED`, `ARCHITECTURAL_INFERENCE`, and `UNVERIFIED`.
+
+The Git lifecycle floor additionally tests malicious candidate configuration and
+head code, absent/wrong/expired/revoked grants, wrong repository/source/target,
+wrong `O/S/V`, policy and harness drift, duplicate or circular check contexts,
+target and source-ref races, true provider CAS under mandatory protections,
+multi-commit admission, inherited-red baseline correction, full PR review state,
+base/head movement, `S -> Q` equivalence, lost provider responses, no retry while
+`UNKNOWN`, closed-unmerged preservation, conditional-delete races, local mirror
+ordering, false `cleaned` claims, and raw-evidence exclusion.
+
+RP-14 runs equal-floor no-PR and PR cohorts and records p50/p95 end-to-end and
+mediated latency, prompt count, route confusion matrix, unauthorized effects,
+recovery time, preservation proofs, setup/onboarding time, intervention time,
+and monthly administration burden. Current run IDs and ruleset observations are
+bounded baseline evidence only, never implementation proof.

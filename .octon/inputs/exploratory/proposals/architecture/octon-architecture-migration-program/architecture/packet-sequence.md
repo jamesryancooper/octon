@@ -40,3 +40,10 @@ after RP-00. The RP-10/RP-11 non-authority product branch may proceed alongside
 the broker spine after dependencies. RP-07 authenticity/capacity precedes RP-08
 terminal recovery claims. RP-12 and RP-13 remain distinct children. The graph is
 gated-parallel, not optimistic parallel execution.
+
+The graph is unchanged by the brokered no-PR revision. RP-00 containment leaves
+eligible no-PR work classified, blocked, and preserved. Production
+`brokered-class-b-no-pr` cannot enable until RP-05, RP-06, RP-07, and RP-08 each
+exit their own gates. Stable pre-route contention may deterministically select
+PR; an actual expected-old collision, `ATTEMPTING`, or `UNKNOWN` cannot switch an
+attempt to PR and requires reconciliation or a fresh tuple before any new route.

@@ -16,6 +16,7 @@ Keychain integration, launch service, or accepted scratch-effect proof exists.
 | No authenticated local IPC | Current repository has no admitted broker socket/XPC protocol or peer application-identity check. | Apply ED-002 using a reviewed macOS mechanism stronger than same UID, with mutual identity, nonce/expiry, replay denial, and exact request schemas. | RP-04 primary. |
 | No durable credential custody boundary | No repo-native broker Keychain enrollment/access contract proves that candidate or other same-user processes cannot read/export secrets. | Store durable credentials only through broker-bound Keychain access control; retain metadata/receipts without secret material. | RP-02 proves candidate-side denial; RP-04 owns custody. |
 | No store-bound one-shot dispatch handle | Current authorized-effect tokens exist, but there is no broker-internal handle bound to one committed RP-03 operation/attempt and authenticated client. | Derive and atomically consume a non-widening internal handle immediately before adapter dispatch. | RP-01 authority and RP-03 T1 remain prerequisites. |
+| Publication tuple compatibility is implicit | The broker packet predates the exact `O`/`S`/grant/route/`V` publication tuple and could otherwise appear free to interpret downstream policy. | Bind the complete RP-03-committed tuple digest to the one-shot handle, validate only structural equality, and prohibit route/verdict interpretation or PR selection. | RP-03 commits opaque references; RP-06 owns policy and verdict; RP-05 owns Git primitives. |
 | No sole deployed store writer | Current state is file-oriented and no broker process owns a unique database write identity. | Consume RP-03's one store API as the only normal deployed connection owner; deny all other writers. | RP-03 owns schema/API. |
 | No supervision or restart scan | No local launch service, single-instance enforcement, bounded restart, or attempt scan/dispatch exists. | Install one supervised service; on restart scan committed states, never repeat UNKNOWN, and return healthy within the proved budget. | RP-08 later owns provider reconciliation policy. |
 | Broker lifecycle UX is absent | Kernel has general doctor/status surfaces but no setup/enrollment/status/doctor/repair/upgrade/uninstall broker path. | Add one `octon broker` command concept with quiet healthy behavior and actionable failure output. | ED-007 audit prevents surface proliferation. |
@@ -30,7 +31,8 @@ Keychain integration, launch service, or accepted scratch-effect proof exists.
 - RP-03 schema, T1/T2/UNKNOWN/outbox, epoch, capacity, backup, and repair APIs;
 - existing process-safe receipt, lifecycle, material-effect inventory, and
   host-adapter validation concepts;
-- protected PR and contained work preservation when privilege is unavailable.
+- candidate preservation and a separately preclassified protected-PR route;
+  broker failure never converts the frozen operation into PR.
 
 ## Removed or Demoted Behavior
 

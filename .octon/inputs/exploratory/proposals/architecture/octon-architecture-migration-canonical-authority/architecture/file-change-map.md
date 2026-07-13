@@ -11,3 +11,6 @@
 
 No `.github/**`, provider setting, credential, generated projection, or proposal
 path is a durable RP-01 implementation target.
+
+The existing grant/scope contract targets carry the typed publication tuple;
+no new route-policy, verifier, broker, provider, or Git target is added.

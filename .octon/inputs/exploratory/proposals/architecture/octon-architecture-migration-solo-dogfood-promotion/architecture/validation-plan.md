@@ -12,3 +12,10 @@
 Every result binds the implementation commit, environment, provider identity,
 time, test corpus, child receipt references, and evidence digest. Failed or
 incomplete proof is retained and cannot be reported as success.
+
+The protocol stratifies equal-floor no-PR and PR cohorts, reports p50/p95
+latency, and computes a route confusion matrix. It includes malicious head,
+credential scan, exact CAS race, one/bounded-history, PR `S -> Q`, lost provider
+result, closed-unmerged/expected-tip cleanup, false-cleaned, local mirror, and
+preserved-work fixtures. Any unauthorized effect or missing preserved-S proof
+fails the affected claim rather than being averaged away.

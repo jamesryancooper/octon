@@ -13,6 +13,14 @@ Within this parent, `proposal.yml` owns identity/lifecycle,
 `architecture/child-packet-contract.md` owns parent/child separation, and the
 remaining registers are corrected aggregate read models.
 
+The 2026-07-13 brokered no-PR revision is a later proposal-local architectural
+refinement. It supersedes conflicting target wording in earlier proposal-local
+support receipts without changing their historical record. The target lifecycle
+is owned by `architecture/target-architecture.md`; exact cross-packet semantics
+are owned by `resources/source-ownership-map.md`; findings and ownership IDs are
+projected in `resources/traceability-register.yml`. Bounded provider run and
+ruleset observations are evidence only, never authority.
+
 `support/operator-decision-acceptance-receipt.md` records the operator's five
 accepted bounded postures as proposal-local intent evidence. It is not runtime,
 policy, support, trust, provider, or promotion authority.

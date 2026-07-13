@@ -18,7 +18,7 @@ SQLite dependency exists at packet creation.
 | External effects cannot share a SQLite commit | No durable T1/attempt/external/T2 envelope covers every crash boundary. | Commit reservation, consumption, idempotency, capacity, and `ATTEMPTING` in T1; commit bounded result or `UNKNOWN` in T2. | RP-08 later owns provider-specific reconciliation semantics. |
 | Terminal capacity is not reserved with operation admission | Evidence retention exists, but no same-transaction physical reserve proves denial/failure/revocation/rollback/closeout remain writable near full storage. | Add capacity accounting and fault-proven physical headroom substrate without a lease subsystem. | RP-07 owns final evidence policy, signatures, quotas, and compaction. |
 | Restore can resurrect older authority | No activated SQLite epoch/high-water or certified DB/WAL recovery path exists. | Bind activation and recovery to monotonic epoch/high-water checks; reject direct older-backup activation. | ROD-001 sets recovery tolerance; RP-07 later strengthens checkpoint authenticity. |
-| State volume remains operational burden | Large tracked per-run state and repeated projections impose clone, index, validation, and maintenance cost. | Project only minimal required pointers/receipts and move raw/detail payloads outside project Git by default. | RP-14 measures integrated burden; RP-07 owns retention policy. |
+| State volume remains operational burden | Large tracked per-run state and repeated projections impose clone, index, validation, and maintenance cost. | Project only minimal classified signed pointers/checkpoints; raw/detail operational evidence remains outside project Git without exception. | RP-14 measures integrated burden; RP-07 owns retention policy. |
 | SQLite implementation choice is absent | The runtime workspace has no SQLite crate dependency or migration mechanism. | Select and review the library/linkage/features with a Dependency Receipt before implementation. | RP-03 design gate. |
 
 ## Preserved Primitives
@@ -29,8 +29,9 @@ SQLite dependency exists at packet creation.
   concepts where they remain compatible with one transactional model;
 - control versus retained-evidence separation;
 - fail-closed handling for generated/input non-authority and unresolved refs;
-- manual/protected PR and contained operation while consequential effects are
-  disabled.
+- route-neutral preserved work and contained operation while consequential
+  effects are disabled; PR remains possible only through a fresh valid
+  pre-effect RP-06 decision.
 
 ## Removed or Demoted Behavior
 
@@ -41,7 +42,7 @@ SQLite dependency exists at packet creation.
 - replay_store as a competing canonical journal model;
 - blind retry across an uncertain external outcome;
 - direct activation of an old database backup or restoration of file authority;
-- raw/detail evidence payloads in project Git by default.
+- raw/detail operational evidence payloads in project Git.
 
 ## Unresolved Design Inputs
 

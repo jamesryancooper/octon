@@ -20,3 +20,20 @@
 
 All children are required sibling proposals and remain draft. The parent does
 not own child receipts, targets, statuses, archives, or terminal outcomes.
+
+## Brokered Publication Revision Overlay
+
+The fixed fifteen-packet graph and every dependency edge remain unchanged.
+Brokered publication semantics fit the existing boundaries: RP-00 temporarily
+disables unsafe current Git routes; RP-01 supplies the complete grant; RP-03
+commits the frozen effect tuple; RP-04 validates its structural equality and
+hosts the sole broker; RP-05 owns closed Git/ref primitives; RP-06 owns route,
+verdict, history, PR, and mirror policy; RP-07 owns signed evidence; RP-08 owns
+provider-result classification, reconciliation, recovery, and cleanup; and
+RP-14 owns equal-floor Solo Local proof. RP-02 and RP-09 through RP-13 retain
+their existing scopes.
+
+The registry write scopes now include the containment helpers in RP-00,
+conditional cleanup primitive in RP-05, and canonical default-work-unit policy
+sources in RP-06. These are future promotion targets only; the draft revision
+does not edit or authorize them.

@@ -26,6 +26,7 @@ surfaces.
 | Concern | Durable authority or planned owner | Boundary |
 | --- | --- | --- |
 | Change route semantics | `.octon/framework/product/contracts/default-work-unit.{yml,md}` | RP-00 may remove autonomous direct-main at containment; RP-06 owns the later final publication classifier and route UX. |
+| Current publication/cleanup containment | RP-00 exact helper hard-disable slices | RP-05 later owns closed Git/ref primitives; RP-08 owns conditional cleanup; no route-policy authority transfers to RP-00. |
 | Physical side-effect inventory | `.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml` | Must enumerate authenticated physical writers and consumers; it never grants authority. |
 | Authorization boundary coverage | `.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml` | RP-00 inventories; RP-01 later repairs canonical authority and exact launch guards. |
 | Delegated governance inventory | `.octon/framework/orchestration/governance/delegated-governance-inventory-v1.yml` | Inventory and lineage only; no lifecycle-local authority survives as a competing issuer. |

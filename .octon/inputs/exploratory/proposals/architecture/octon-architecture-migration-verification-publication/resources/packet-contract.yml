@@ -5,8 +5,9 @@ proposal_id: "octon-architecture-migration-verification-publication"
 parent_program: "octon-architecture-migration-program"
 purpose: >-
   Authenticate exact candidate proof outside candidate control and apply one
-  deterministic policy that denies invalid authority, routes eligible Class B
-  to the RP-05 no-PR primitive, and routes valid review-required work to PR.
+  deterministic policy that denies invalid authority, defaults eligible Class B
+  to brokered-class-b-no-pr, and selects PR only for valid review-required or
+  stable pre-route high-contention work.
 problem_statement: >-
   Current provider workflows can combine candidate-influenced verification,
   ambiguous check identity, and effect execution, while publication policy is
@@ -22,14 +23,18 @@ scope:
   - "immutable Class A/B/C and Class-B/PR predicate"
   - "deterministic publication route selector"
   - "GitHub verifier/publication specialization"
-  - "optional exact stateless provider worker"
+  - "optional exact stateless provider worker for separately gated non-Git effects only; excluded from brokered Git publication"
   - "workflow keep/merge/retire and .octon projection-source ownership"
   - "initial zero-prompt route and blocker status"
+  - "history-shape and baseline-aware substantive validation policy"
+  - "complete protected-PR source/base/head/review/merge semantics and S-to-Q proof"
+  - "independent post-land verification and local-main mirror orchestration"
 non_goals:
   - "generic executor adapter"
   - "runtime store or operation transition ownership"
   - "broker credential custody or Git execution"
   - "recovery and unknown-outcome reconciliation"
+  - "conditional cleanup lifecycle/status"
   - "trust-root activation"
   - "same identity verifying and publishing"
   - "direct .github promotion"
@@ -40,12 +45,16 @@ invariants:
   - "context name alone is never identity"
   - "verdict binds exact repository, source, target, target-pre, policy, harness, evidence, and time"
   - "invalid authority denies and cannot be laundered through PR"
-  - "eligible Class B uses only the RP-05 expected-old fast-forward primitive"
+  - "eligible Class B defaults to only the RP-05 expected-old fast-forward primitive"
+  - "actual collision, ATTEMPTING, and UNKNOWN never select PR"
   - "agent direct-main remains unreachable"
   - "candidate work is preserved when publication blocks"
   - "provider state and host projections remain evidence, never authority"
   - "production Class B stays disabled until RP-07 and RP-08 exit"
 planned_durable_source_ownership:
+  default_work_unit_route_projection:
+    - ".octon/framework/product/contracts/default-work-unit.yml"
+    - ".octon/framework/product/contracts/default-work-unit.md"
   provider_adapter_manifest: ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
   provider_projection_source: ".octon/framework/engine/runtime/adapters/host/github-control-plane/"
   kernel_integration:
@@ -78,7 +87,7 @@ components_affected:
   - "CLI status"
 contracts_affected:
   - ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
-  - ".octon/framework/product/contracts/default-work-unit.yml, consumed not owned"
+  - ".octon/framework/product/contracts/default-work-unit.{yml,md}, final publication-route subsection owned after RP-00 containment"
   - ".octon/instance/governance/support-targets.yml, consumed not owned"
   - ".octon/framework/execution-roles/practices/standards/github-control-plane-contract.json"
   - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
@@ -132,14 +141,15 @@ prohibited_intermediate_states:
   - "production Class B before RP-07/RP-08"
   - "direct .github target or unreceipted projection"
 compatibility_bridges:
-  - "protected PR for valid policy-selected work only"
+  - "none; protected PR is a primary policy-selected route for valid review/high-contention work, not a fallback"
 deprecations_and_retirements:
   - "candidate-head verifier and writer ownership on the supported automatic path"
   - "context-name-only trust"
   - "autonomous direct-main remains removed"
 rollback_strategy: >-
-  Disable autonomous publication, preserve candidate work and valid protected
-  PR, and restore only a prior certified verifier behind the same identity.
+  Disable autonomous publication, preserve candidate work and the frozen route,
+  and restore only a prior certified verifier behind the same identity; a later
+  PR requires a fresh valid pre-effect decision.
 recovery_strategy: >-
   Treat missing, stale, conflicting, or drifted verification as route-local
   failure; never self-verify, retry unresolved effects, or weaken authority.
@@ -234,3 +244,13 @@ unsupported_remainder:
   - "secondary-provider or optional-worker support without separate proof"
   - "production autonomous Class B before RP-07/RP-08"
   - "direct .github ownership"
+brokered_no_pr_revision:
+  symbols: {expected_old: "O", candidate: "S", verdict: "V", squash_result: "Q"}
+  full_verdict_binding: ["repository", "authenticated-producer", "source-ref", "S", "target-ref", "O", "grant-and-issuer", "operation", "consequence", "route-policy", "history-shape", "verifier-version-deployment", "harness", "validation-inputs-results", "evidence-head", "issue-expiry-revocation", "protected-scope-facts"]
+  route_order: ["class-a-local", "eligible-class-b-brokered-no-pr-default", "valid-review-or-stable-pre-route-high-contention-protected-pr", "class-c-stronger-or-deny", "invalid-deny-preserve"]
+  history_policy: "one curated commit by default; bounded O..S only when pre-admitted and fully validated"
+  pr_gate: ["expected-source-ref", "expected-base", "expected-head", "checks", "requested-changes", "unresolved-conversations", "draft-state", "conflicts", "mergeability", "review-requirements", "freshness"]
+  squash_proof: "provider association plus independent tree/patch equivalence S-to-Q"
+  correction_lane: "same harness/policy on O and S; no new failures; strict baseline reduction; changed scope passes; both result digests bound"
+  post_land: ["independent immediate landed verification", "fast-forward local-main mirror orchestration", "route-specific landed facts for RP-08 cleanup"]
+  findings: ["BNP-F-001", "BNP-F-002", "BNP-F-003", "BNP-F-005", "BNP-F-007", "BNP-F-008", "BNP-F-010", "BNP-F-011", "BNP-F-012", "BNP-F-013"]

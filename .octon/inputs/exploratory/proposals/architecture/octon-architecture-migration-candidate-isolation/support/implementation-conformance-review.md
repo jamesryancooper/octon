@@ -48,7 +48,7 @@ runtime/adapter views remain outside this delegated authoring write scope.
 
 Rollback and quarantine requirements are specified; no interruption drill,
 session retirement, process-tree cleanup, exact-commit preservation, or
-protected-PR recovery exercise has run.
+fresh downstream route-selection exercise has run.
 
 ## Downstream Reference Coverage
 

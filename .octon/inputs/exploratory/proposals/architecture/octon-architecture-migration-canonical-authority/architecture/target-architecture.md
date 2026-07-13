@@ -26,3 +26,10 @@ launches only. Brokered provider or Git effects remain disabled. Rollback means
 disabling launch and selecting a previously independently certified authority
 package; log-only checks, loose candidate files, or same-change authority are
 prohibited.
+
+For publication scope, the generic typed grant explicitly binds issuer
+identity, repository, source producer identity/ref, exact candidate `S`, target
+ref, expected old `O`, route-policy digest, operation, expiry/revocation/epoch,
+and consequence scope. RP-01 owns these field semantics and issuance only;
+RP-06 owns the route-policy values and verdict, RP-03 owns consumption, and
+RP-04 owns effect hosting.

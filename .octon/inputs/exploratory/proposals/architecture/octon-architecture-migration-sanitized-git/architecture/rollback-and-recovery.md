@@ -3,14 +3,17 @@
 ## Rollback Objective
 
 Rollback preserves one authority source, one store writer, one broker,
-credentialless candidates, candidate work, and protected PR. It never restores
-ambient Git, autonomous direct-main, candidate credentials, or dual writers.
+credentialless candidates, candidate work, and frozen route state. It never
+restores ambient Git, autonomous direct-main, candidate credentials, dual
+writers, or a technical-failure-to-PR route switch. A protected PR exists only
+after a fresh valid RP-06 pre-effect selection and proof of its writer boundary.
 
 ## Before First Scratch Effect
 
 - Disable or remove the inactive adapter.
 - Remove broker-owned fixture Git state after retaining required test evidence.
-- Leave current production mutation disabled or protected-PR-only.
+- Leave current production mutation disabled; independently review-selected PR
+  remains unavailable until its writer boundary is proved safe.
 - No external reconciliation is required because no effect was attempted.
 
 ## After A Known Scratch Success Or Denial
@@ -64,3 +67,8 @@ the exact route-disable action.
 Recovery succeeds only when the target is unchanged, the exact proposed-new
 state is safely reconciled, or the operation ends in explicit manual
 intervention with no retry. A guessed success or failure is invalid.
+
+Every failed source-ref, target, mirror, or deletion operation preserves `S`.
+An expected-old/source-tip mismatch requires a fresh tuple before a new
+attempt. Recovery never changes the frozen route to PR, and cleanup failure is
+reported to RP-08 as `landed/cleanup-deferred`, not `cleaned`.

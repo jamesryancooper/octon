@@ -98,3 +98,8 @@ migration digests, writer inventory, import/parity and epoch receipts, every
 race/kill/storage/backup/corruption result, capacity proof, projection and
 tracked-state delta, rollback drill, PO-FD-005/UE-004 dispositions, conformance,
 and drift/churn review.
+
+Publication fixtures substitute wrong repository, source/ref, target, `O`,
+`S`, grant, `V`, route/policy/history, operation/attempt, or evidence digest at
+T1/outbox/restart. They also attempt a route switch during `ATTEMPTING` and
+`UNKNOWN`; every mutation denies without creating a new effect.

@@ -57,7 +57,7 @@ commit by retained evidence under the declared packet evidence root.
   deletes raw items. Crashes at every boundary converge to preserved raw data
   or a fully covered compact range; pin deletion and partial coverage deny.
 - **RP07-AC-012 — Bounded raw locality.** Raw logs/payloads remain local and
-  outside project Git by default; tracked projections contain only classified
+  outside project Git without exception; tracked projections contain only classified
   minimal signed checkpoints/pointers and their freshness/source digests.
 
 ## Degraded Operation And Solo UX
@@ -83,3 +83,16 @@ commit by retained evidence under the declared packet evidence root.
 - **RP07-AC-017 — Proposal closeout gates.** Accepted review and strict
   architecture-review receipts precede implementation; implementation-grade,
   conformance, and drift/churn receipts pass before implemented closeout.
+- **RP07-AC-018 — Exact publication chain.** The signed chain binds every
+  grant/route/`O/S/V/Q`/history/operation/provider/landed/reconciliation/mirror/
+  cleanup field and the responsible role without omission or substitution.
+- **RP07-AC-019 — Role separation and epistemic limit.** Candidate, verifier,
+  broker, provider observer, and reconciler remain attributable. Broker and
+  verifier observations use their own distinct role-bound producer-signing
+  identities, while the checkpoint signer is separately attributable; no
+  candidate access or silent role aliasing is permitted, and no signature
+  converts state equality into causal proof or mints authority.
+- **RP07-AC-020 — Preservation and cleanup truth.** Every denial/collision/
+  outage/failed/unknown/cleanup-deferred result retains a signed preserved-work
+  fact; `cleaned` requires conditional proof and raw operational detail in
+  project Git remains zero.

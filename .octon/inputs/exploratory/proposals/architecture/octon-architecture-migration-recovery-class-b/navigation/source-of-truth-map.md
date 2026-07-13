@@ -42,7 +42,9 @@ policy.
 | Immutable A/B/C and B/no-PR-versus-protected-PR predicate | RP-06 | RP-08 binds exact predicate/version digest and cannot modify or reinterpret it during proof. |
 | Signed observations/checkpoints/head/reserve/completeness | RP-07 | RP-08 verifies/consumes; no unsigned fallback or signature reinterpretation. |
 | Provider-specific result classification and `UNKNOWN` reconciler | RP-08 | Observes exact provider state/receipts and selects only legal RP-03 transitions. |
-| `attempt_performed`, `state_satisfied`, `not_performed`, `failed`, `manual_intervention` semantics | RP-08 | Claims remain evidence-strength honest; no universal exactly-once. |
+| Conditional cleanup lifecycle, eligibility, status, and recovery | RP-08 | Consumes RP-06 route-specific landed facts and RP-05 expected-tip primitive; never deletes closed-unmerged work. |
+| Local-main mirror result classification | RP-08 | RP-06 owns orchestration; local main remains non-authoritative. |
+| `attempt_performed`, `state_satisfied`, `not_performed`, `failed`, `unknown`, `manual_intervention` semantics | RP-08 | Claims remain evidence-strength honest; no universal exactly-once. |
 | Run status and continuous-operation policy | RP-08 | Read model is non-authoritative; schedules only bounded mission/run contracts through existing routes. |
 | Trust-root activation | RP-09 | Explicitly excluded from RP-08 and SI-06. |
 | Complete two-project/30-day product proof | RP-14 | UE-014 remains cross-referenced, not closed by RP-08 component proof. |
@@ -52,8 +54,10 @@ policy.
 RP-08 reproduces the exact RP-06 predicate digest in every route result. Class A
 continues autonomously within its admitted boundary; admitted Class B uses the
 brokered automatic route or deterministic protected PR; Class C never takes a
-lower route. Invalid, stale, revoked, raced, or mismatched authority denies and
-requires fresh authorization rather than PR laundering.
+lower route. Only a stable pre-effect review/high-contention predicate selects
+PR. Invalid, stale, revoked, raced, mismatched, collided, `ATTEMPTING`, or
+`UNKNOWN` authority/effects deny or reconcile; the frozen attempt cannot switch
+route and any new attempt requires fresh authority.
 
 ## Operational Surfaces
 

@@ -55,6 +55,18 @@ An operation handle is a replay barrier and dispatch binding, not a grant. It
 is impossible to create a usable handle without an already-valid RP-01 guard
 and committed RP-03 row, and it cannot outlive or widen either.
 
+For the later publication vertical, RP-04 accepts only the sealed tuple already
+authenticated by the RP-06-owned pre-T1 verdict/route gate, then validates
+structural equality of the single canonical complete T1 tuple and digest defined by RP-03's
+`brokered_no_pr_compatibility.t1_opaque_bindings`, plus the selected closed
+effect's exact precondition. The internal handle binds that canonical digest;
+it cannot substitute, omit, or reinterpret any field. RP-01 separately proves
+the consumed guard remains valid for expiry and revocation. RP-04 does not
+depend directly on RP-06, authenticate or evaluate route/verdict semantics,
+mint `V`, or understand PR semantics. RP-03 transports opaque RP-06-owned references without creating a
+dependency cycle, and RP-05 receives the already-frozen effect request through
+the closed adapter interface.
+
 ## Credential Custody and Enrollment
 
 - Durable provider credentials are stored only in macOS Keychain under access
@@ -107,6 +119,9 @@ authority or verifier roles. The broker:
 ## Availability and Solo Experience
 
 Broker absence blocks only the affected consequence, preserves candidate work,
-and exposes protected PR through its owner. Safe isolated work remains possible
-where already admitted. There is no ambient credential/direct-effect fallback.
-One setup command and quiet supervision replace persistent operator ceremony.
+and leaves the selected route frozen. Safe isolated work remains possible where
+already admitted. An `ATTEMPTING` or `UNKNOWN` no-PR operation cannot switch to
+PR; a later PR requires a fresh RP-06 pre-effect policy decision and fresh
+authority after reconciliation. There is no ambient credential/direct-effect
+fallback. One setup command and quiet supervision replace persistent operator
+ceremony.

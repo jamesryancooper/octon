@@ -15,7 +15,7 @@ provider snapshot before containment.
 
 | Gap | Current evidence | Required RP-00 correction | Later owner |
 | --- | --- | --- | --- |
-| Candidate-influenced provider writers | `pr-auto-merge.yml` has write permission and token use; `release-please.yml` is a separate PAT/write plane; candidate repository code participates in important workflow paths. | Disable candidate-head privileged writes and make protected PR Octon's only privileged bridge during containment. | RP-05/RP-06 replace the temporary bridge with sanitized Git and immutable verification/publication. |
+| Candidate-influenced provider writers | `.github/workflows/pr-auto-merge.yml` uses `pull_request_target`, checks out candidate-head code, and executes it with write-capable credentials; `release-please.yml` is a separate PAT/write plane. | Disable every candidate-head privileged writer. Do not presume the current PR workflow is a safe bridge. | RP-05/RP-06 later supply sanitized Git and immutable verification/publication. |
 | Octon-owned direct-main | `.octon/framework/product/contracts/default-work-unit.yml` can select direct-main before the branch-no-PR path. | Remove every Octon-owned human or agent direct-main route under accepted ROD-006; ordinary human Git remains outside Octon. | RP-06 owns the final Class A/B/C and Class B/PR route policy. |
 | Incomplete physical inventory | Material-side-effect and authorization-coverage surfaces exist, but the reconciliation found unaccounted launcher, writer, credential, trust, and provider-workflow planes. | Produce one complete role-to-physical-entrypoint inventory and make unknown entries fail validation. | RP-01 through RP-09 repair or replace the owned components. |
 | Candidate-influenced decision inputs | Current authorization can read repository-relative policy/receipt code and production environment overrides. | Record and contain every decision input and block privileged implementation; do not implement the RP-01 repair here. | RP-01. |
@@ -28,7 +28,18 @@ provider snapshot before containment.
 - Canonical `authority_engine` typed grants and effect vocabulary.
 - Run Contract, support-target, evidence, and disclosure families.
 - Existing material-side-effect and authorization-boundary inventory contracts.
-- Protected PR as Octon's safe migration and recovery lane.
+- Route-neutral candidate preservation; PR only when independently
+  review-selected and its writer boundary is proved safe.
+
+Additional bounded containment evidence: current no-PR authority is locally
+self-issued; normal push does not enforce the recorded expected-old SHA; legacy
+cleanup can delete closed-unmerged branches and governed cleanup has a
+compare/delete race. Candidate run `29249394310` and route run `29249511200`
+passed required route checks, but Main Push Safety run `29249511080` failed only
+after landing; main guard run `29249511103` was observational. The landed range
+`d78ee8b42cb3a39557bbe39b66cb5d156946172a..71df92e0ecae6b07c924872931601d51f107e181`
+contained two commits. Ruleset `12881449` had no bypass actors and no universal
+PR rule. These references are bounded evidence only; no raw logs enter Git.
 - Current provider guardrails that can be proven non-bypassable.
 
 Preservation is not proof that these primitives already satisfy the target.

@@ -18,6 +18,13 @@ inside the supervised local broker: exact request binding, non-executing
 candidate-object transfer, closed Git behavior, pinned repository identity,
 and server-observed expected-old fast-forward execution.
 
+The preferred lifecycle term is `brokered-class-b-no-pr`. RP-05 exposes only a
+sealed ref-operation family: expected-absent/expected-tip source-ref
+create/update, target `O -> S` CAS, conditional expected-tip deletion, and a
+fast-forward-only local mirror primitive. Every call is separately bound to an
+RP-03 operation/attempt. RP-05 never selects a route, interprets a verdict,
+authorizes cleanup, implements PR policy, or becomes a generic Git service.
+
 ## Boundary
 
 RP-05 owns no authority issuer, credential enrollment, store transition,
@@ -48,7 +55,8 @@ candidate and decides no-PR versus protected-PR publication.
 The packet advances only from SI-04, a supervised broker with one
 non-production effect, to the Git half of SI-05. Until RP-06 verification,
 RP-07 evidence, and RP-08 recovery have passed, the adapter may target only
-disposable scratch refs. Protected PR remains the safe production lane.
+disposable scratch refs. Production publication remains disabled; a protected
+PR is available only when RP-06 selected it before effect.
 
 ## Exit
 

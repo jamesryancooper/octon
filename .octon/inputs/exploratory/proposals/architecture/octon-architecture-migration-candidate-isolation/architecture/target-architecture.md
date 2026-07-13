@@ -32,6 +32,8 @@ guard-owning launch interface without redefining it.
   non-executing export, cleanup, and isolation evidence.
 - **RP-04:** credential enrollment/custody and privileged effect IPC. RP-02 is
   deliberately independent of the broker to avoid a dependency cycle.
+- **RP-06:** downstream publication-route policy. RP-02 only preserves and
+  exports `S`; it never selects no-PR, protected PR, or any failure fallback.
 - **RP-11:** generic executor adapter interface and conformance. RP-02 supplies
   an isolation implementation behind that interface but does not change
   provider replacement semantics.
@@ -50,8 +52,8 @@ guard-owning launch interface without redefining it.
    independent of the future privileged effect broker.
 6. Candidate output cannot mutate canonical Git or host state; export is exact,
    content-addressed, and non-executing.
-7. The candidate never mints authority, chooses support, holds effect
-   credentials, or invokes privileged broker IPC.
+7. The candidate never mints authority, chooses support or publication route,
+   holds effect credentials, or invokes privileged broker IPC.
 8. Failure preserves the exact candidate commit when available and otherwise
    reports an honest terminal state without unsafe retry or fallback.
 

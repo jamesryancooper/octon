@@ -14,6 +14,14 @@ surface, narrows claims to direct proof, and captures the current maintenance
 burden. It does not build the target broker, store, isolation, publication, or
 trust-activation mechanisms.
 
+Containment has no autonomous production publication bridge. It disables
+candidate-head privileged writers, every Octon `direct-main` route, current
+checkout-held no-PR effects, and destructive cleanup of unlanded work. Eligible
+no-PR work remains classified, blocked, and preserved. Protected PR is available
+only when an independent immutable predicate selected review and its writer
+boundary has itself been proved safe; the current `pull_request_target` workflow
+is not presumed to satisfy that condition.
+
 ## Lifecycle State
 
 - status: `draft`

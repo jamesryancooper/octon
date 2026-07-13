@@ -153,7 +153,7 @@ prohibited_intermediate_states:
   - "policy-grant-broker.sh repurposed as credential/effect broker"
 compatibility_bridges:
   permitted:
-    - "manual/protected PR with candidate work preserved"
+    - "candidate and frozen-route preservation; a protected PR only when independently selected by RP-06 before effect execution"
     - "prior certified broker behind the identical IPC/store/credential boundary"
   prohibited:
     - "ambient credential or direct helper fallback"
@@ -166,12 +166,27 @@ deprecations_and_retirements:
   - "redundant visible broker lifecycle surfaces are removed/hidden by ED-007 owners"
 rollback_strategy: >-
   Disable broker dispatch, revoke the endpoint, preserve candidate work and
-  pending operation state, use protected PR, and restore only a prior certified
-  broker satisfying the same identity/IPC/Keychain/store boundary.
+  pending frozen operation state, never route-switch an attempted or unknown
+  effect to PR, and restore only a prior certified broker satisfying the same
+  identity/IPC/Keychain/store boundary. Any later PR requires a fresh RP-06
+  pre-effect decision and fresh authority after reconciliation.
 recovery_strategy: >-
   Auto-restart one instance, revalidate identity/config/Keychain/store, scan
   ATTEMPTING/UNKNOWN/outbox state without resending uncertain effects, expose
   concise status, and use typed RP-03 repair or remain disabled.
+publication_tuple_compatibility:
+  structural_owner: "RP-04"
+  committed_tuple_transport_owner: "RP-03"
+  route_and_verdict_semantic_owner: "RP-06"
+  git_effect_primitive_owner: "RP-05"
+  requirement: >-
+    RP-04 validates exact structural equality of every field in the one
+    canonical complete T1 tuple/digest defined by RP-03
+    brokered_no_pr_compatibility.t1_opaque_bindings, plus the selected closed
+    effect precondition, and binds that digest to the internal handle without
+    interpreting route policy, verdict meaning, or PR state. RP-01 separately
+    validates guard expiry and revocation.
+  route_switch_on_outage_or_unknown: false
 validation_plan:
   - "forged/replayed/same-UID/wrong-identity IPC attack suite"
   - "candidate/client/process/file/store/log/backup credential canary matrix"

@@ -3,8 +3,9 @@ proposal_id: "octon-architecture-migration-sanitized-git"
 title: "Sanitized Privileged Git Adapter"
 summary: >-
   Define the smallest broker-owned Git adapter that can import an exact
-  candidate object without execution and perform only a pinned,
-  server-observed expected-old fast-forward ref update while denying every
+  candidate object without execution and perform only sealed source-ref,
+  server-observed expected-old target fast-forward, conditional expected-tip
+  deletion, and downstream mirror primitives while denying every
   candidate-controlled Git extension surface.
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
@@ -16,6 +17,7 @@ promotion_targets:
   - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
   - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh"
   - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh"
+  - ".octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh"
   - ".octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md"
   - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
   - ".octon/framework/assurance/runtime/_ops/tests/sanitized-git/"
@@ -52,13 +54,14 @@ logical_dependencies:
   - "RP-04"
 selected_implementation_target: >-
   Broker-owned sanitized Git request/result, non-executing candidate-object
-  transfer, closed Git configuration and transport policy, and atomic
-  expected-old fast-forward execution.
+  transfer, closed Git configuration and transport policy, sealed conditional
+  ref operations, and atomic expected-old fast-forward execution.
 scope_statement: >-
   RP-05 owns the Git effect primitive inside the RP-04 broker boundary. It does
   not own broker authority, credentials, the runtime store, provider verdicts,
-  route classification, support admission, GitHub workflow projections, or
-  provider-specific outcome classification.
+  route classification, history shape, PR semantics, cleanup eligibility,
+  support admission, GitHub workflow projections, or provider-specific outcome
+  classification.
 authority_class_impact:
   framework: >-
     Adds a broker Git adapter and typed effect contract, updates current
@@ -81,8 +84,9 @@ authority_class_impact:
 runtime_behavior_impact: >-
   None at draft. After governed implementation, the broker can perform one
   exact fast-forward ref effect without evaluating candidate-controlled Git
-  behavior; unavailable or denied execution preserves candidate work and
-  routes to protected PR.
+  behavior; unavailable, collided, denied, or unknown execution preserves
+  candidate work and the frozen route. Any later PR requires a fresh valid
+  pre-effect RP-06 route decision.
 generated_input_authority_impact: >-
   No input, generated output, host check, provider observation, or proposal
   artifact becomes authority.

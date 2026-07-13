@@ -58,8 +58,12 @@
 6. Complete UE-008 forgery, rollback, compaction, pin, and low-space proof.
 7. Activate all live gates atomically and disable unsigned success/publication.
 8. Run a representative Class B dry-run with publication disabled, then hand
-   the frozen contract to RP-08.
+the frozen contract to RP-08.
 9. Remove duplicate writers/claims and begin bounded 30-day burden evidence.
+
+The shadow phase must sign the complete no-PR and PR publication chain with
+cleanup in no-delete mode. Class B remains disabled until RP-08 proves outcome
+classification and recovery against those signed records.
 
 ## Completion Evidence
 

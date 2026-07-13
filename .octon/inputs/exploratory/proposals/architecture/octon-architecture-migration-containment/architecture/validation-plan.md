@@ -36,9 +36,15 @@ fail until their real prerequisites exist.
 - inject an unregistered shell or Rust writer;
 - inject a raw agent spawn path;
 - set a human or agent Octon route to direct-main;
+- directly invoke current local landing, hosted no-PR, or destructive cleanup;
+- close a PR unmerged and attempt candidate/source-branch deletion;
+- present invalid, stale, revoked, wrong-SHA, or raced authority and attempt to
+  convert the denial into PR;
+- classify eligible Class B no-PR and prove it remains blocked and preserved;
 - cite a test without executing it and attempt an executed classification;
 - claim a stage-only or stale tuple as live;
-- remove the protected-PR bridge while containment is active;
+- treat protected PR as a universal or presumptively safe bridge while
+  containment is active;
 - treat GitHub status, generated inventory, or proposal prose as authority.
 
 Every case must fail closed without secret values or production effect targets.

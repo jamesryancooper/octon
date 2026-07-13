@@ -48,16 +48,18 @@ entry/module ownership prevents redefinition of RP-03/RP-05/RP-06/RP-07.
 ## Affected Artifact Coverage
 
 The packet covers effect reconciliation contracts/library, run lifecycle,
-mission continuation/closeout integration, status read models, continuous
-operation, scheduled maintenance, reversible scratch effect, degraded behavior,
-protected-PR fallback, route/fault evidence, rollback, and operator disclosure.
+  mission continuation/closeout integration, status read models, continuous
+  operation, scheduled maintenance, reversible scratch effect, degraded behavior,
+  policy-selected protected PR, frozen-route denial/reconciliation, route/fault
+  evidence, rollback, and operator disclosure.
 
 ## Validator Coverage
 
 The packet names proposal gates and future class-route, T1/send/T2, outbox,
 lost/duplicate/timeout/race/concurrent actor/outage, signer/store crash,
-attribution, no-retry, PR fallback, zero-prompt, status, recovery, and bounded
-continuous-operation tests. No future test is claimed executed.
+attribution, no-retry, zero technical-failure-to-PR switching, zero-prompt,
+status, recovery, and bounded continuous-operation tests. No future test is
+claimed executed.
 
 ## Implementation Prompt Readiness
 

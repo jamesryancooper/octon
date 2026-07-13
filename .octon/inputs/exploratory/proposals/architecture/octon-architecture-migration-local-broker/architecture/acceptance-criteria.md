@@ -31,6 +31,15 @@ broker, IPC, Keychain, store-writer, scratch-effect, or recovery proof.
   or policy evaluation path reachable from broker request handling.
 - **AC-07:** Broker receipts and observations are explicitly non-verdict; no
   broker identity can satisfy RP-06 verifier gates.
+- **AC-07A:** For the later publication vertical, the broker structurally
+  validates equality of every field in RP-03's one canonical complete T1 tuple
+  plus the selected closed effect's exact precondition, and binds the canonical
+  tuple digest to the internal handle. Missing or mismatched fields deny before
+  credential access or adapter invocation; RP-01 independently validates guard
+  expiry and revocation.
+- **AC-07B:** The broker cannot interpret the route predicate, mint or replace
+  `V`, select PR, change `O` or `S`, or turn broker outage, invalid authority,
+  collision, `ATTEMPTING`, or `UNKNOWN` into another route.
 
 ## Credential Boundary
 
@@ -73,9 +82,10 @@ broker, IPC, Keychain, store-writer, scratch-effect, or recovery proof.
 - **AC-18:** Upgrade rejects identity/protocol/store incompatibility and safe
   uninstall refuses pending work, preserves evidence, and disposes credentials
   only through an explicit protected route.
-- **AC-19:** Disabling the broker preserves candidate output and protected PR;
-  restoring a prior certified broker preserves the same IPC/store/credential
-  boundary and cannot downgrade identity.
+- **AC-19:** Disabling the broker preserves candidate output and frozen route
+  state; restoring a prior certified broker preserves the same IPC/store/
+  credential boundary and cannot downgrade identity. Any later PR is a fresh
+  RP-06 pre-effect decision, never recovery of the failed broker effect.
 
 ## Proof and Closeout
 

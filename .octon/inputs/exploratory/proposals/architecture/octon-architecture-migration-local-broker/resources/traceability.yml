@@ -81,6 +81,17 @@ authority_boundary:
   operation_handle_is_authority: false
   broker_observation_is_verifier_verdict: false
   installed_service_or_keychain_state_is_promotion_target: false
+brokered_no_pr_compatibility:
+  finding_ids:
+    - "BNP-F-002"
+    - "BNP-F-005"
+    - "BNP-F-011"
+  structural_tuple_validation: "RP-04"
+  tuple_commit_and_transport: "RP-03"
+  route_and_verdict_semantics: "RP-06"
+  git_effect_primitives: "RP-05"
+  route_switch_on_broker_failure: false
+  dependency_cycle_added: false
 coverage_status:
   identifiers_mapped: true
   implementation_proof_complete: false

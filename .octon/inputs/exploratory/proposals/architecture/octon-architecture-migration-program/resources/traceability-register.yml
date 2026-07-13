@@ -158,3 +158,41 @@ specialization_splits:
   FD-013: {capacity_substrate: "RP-03", evidence_primary: "RP-07"}
   FD-016: {broker_and_evidence_substrate: ["RP-04", "RP-07"], vertical_primary: "RP-08"}
   FD-023: {generic_component: "RP-11", specializations: ["RP-06", "RP-08", "RP-13"], integrated_promotion_primary: "RP-14"}
+brokered_no_pr_revision:
+  source_review_id: "git-lifecycle-reassessment-20260713-brokered-no-pr"
+  authority_effect: "proposal-local architecture only; current authority unchanged"
+  aggregate_findings:
+    BNP-F-001: {primary: "RP-00", cross: ["RP-06"], proof: ["PG-00-WRITER-INVENTORY", "UE-006"], status: "architecture-incorporated-unimplemented"}
+    BNP-F-002: {primary: "RP-01", cross: ["RP-06", "RP-07"], proof: ["PG-01-AUTHORITY-DOMINANCE", "UE-006", "UE-008"], status: "architecture-incorporated-unimplemented"}
+    BNP-F-003: {primary: "RP-06", cross: ["RP-14"], proof: ["UE-006", "UE-014"], status: "architecture-incorporated-unimplemented"}
+    BNP-F-004: {primary: "RP-05", cross: ["RP-08"], proof: ["UE-005", "UE-007"], status: "architecture-incorporated-unimplemented"}
+    BNP-F-005: {primary: "RP-06", cross: ["RP-08"], proof: ["UE-006", "UE-007"], status: "architecture-incorporated-unimplemented"}
+    BNP-F-006: {primary: "RP-08", cross: ["RP-05"], proof: ["UE-005", "UE-007"], status: "architecture-incorporated-unimplemented"}
+    BNP-F-007: {primary: "RP-06", cross: ["RP-07", "RP-08"], proof: ["UE-006", "UE-008"], status: "architecture-incorporated-unimplemented"}
+    BNP-F-008: {primary: "RP-06", cross: [], proof: ["UE-006"], status: "architecture-incorporated-unimplemented"}
+    BNP-F-009: {primary: "RP-07", cross: [], proof: ["UE-008"], status: "architecture-incorporated-unimplemented"}
+    BNP-F-010: {primary: "RP-00", cross: ["RP-06"], proof: ["PG-00-WRITER-INVENTORY", "UE-006"], status: "architecture-incorporated-unimplemented"}
+    BNP-F-011: {primary: "RP-08", cross: ["RP-06", "RP-03", "RP-04"], proof: ["UE-004", "UE-007"], status: "architecture-incorporated-unimplemented"}
+    BNP-F-012: {primary: "RP-14", cross: ["RP-06", "RP-08"], proof: ["UE-014"], status: "architecture-incorporated-unimplemented"}
+    BNP-F-013: {primary: "RP-05", cross: ["RP-06", "RP-08"], proof: ["UE-005", "UE-006", "UE-007"], status: "architecture-incorporated-unimplemented"}
+  prior_audit_lineage:
+    enforcement: ["GIT-ENF-001", "GIT-ENF-002", "GIT-ENF-003", "GIT-ENF-004", "GIT-ENF-005", "GIT-ENF-006", "GIT-ENF-007", "GIT-ENF-008", "GIT-ENF-009", "GIT-ENF-010", "GIT-ENF-011", "GIT-ENF-012", "GIT-ENF-013", "GIT-ENF-014"]
+    lifecycle: ["GIT-LC-001", "GIT-LC-002", "GIT-LC-003", "GIT-LC-004", "GIT-LC-005", "GIT-LC-006", "GIT-LC-007", "GIT-LC-008", "GIT-LC-009", "GIT-LC-010", "GIT-LC-011"]
+  ownership_decisions:
+    BNP-OWN-001: {semantic: "candidate source-ref create/update", primary: "RP-05"}
+    BNP-OWN-002: {semantic: "target-main O-to-S CAS", primary: "RP-05"}
+    BNP-OWN-003: {semantic: "immutable route taxonomy and predicate", primary: "RP-06"}
+    BNP-OWN-004: {semantic: "exact candidate verification and V", primary: "RP-06"}
+    BNP-OWN-005: {semantic: "protected-PR create/update/merge semantics", primary: "RP-06"}
+    BNP-OWN-006: {semantic: "S-to-Q association and equivalence proof", primary: "RP-06"}
+    BNP-OWN-007: {semantic: "provider-result classification", primary: "RP-08"}
+    BNP-OWN-008: {semantic: "UNKNOWN reconciliation and retry prohibition", primary: "RP-08"}
+    BNP-OWN-009: {semantic: "hosted-main to local-main mirror orchestration", primary: "RP-06"}
+    BNP-OWN-010: {semantic: "conditional cleanup lifecycle and status", primary: "RP-08"}
+    BNP-OWN-011: {semantic: "history-shape policy", primary: "RP-06"}
+    BNP-OWN-012: {semantic: "signed terminal evidence and monotonic anchor", primary: "RP-07"}
+  provider_observation_refs:
+    runs: ["29249394310", "29249511200", "29249511103", "29249511080"]
+    ruleset: "12881449"
+    landed_range: "d78ee8b42cb3a39557bbe39b66cb5d156946172a..71df92e0ecae6b07c924872931601d51f107e181"
+    raw_operational_evidence_in_project_git: false

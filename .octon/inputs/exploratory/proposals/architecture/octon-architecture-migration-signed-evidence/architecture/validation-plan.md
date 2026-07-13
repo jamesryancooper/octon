@@ -120,3 +120,10 @@ exit codes, canonical payloads/signatures, negative results, fault points,
 capacity measurements, compaction receipts, status snapshots, and scope
 limitations under the packet evidence root. No private key or raw sensitive
 payload enters retained project Git evidence.
+
+Publication negatives substitute wrong `O/S/V/Q`, grant, issuer, route,
+history range, harness/policy, producer/deployment, operation/attempt, or landed
+observation; replay duplicate contexts; claim causation from state equality;
+claim `cleaned` without conditional result; delete closed-unmerged work; or add
+raw logs to Git. Positive proof requires immediate landed observation by a
+non-broker identity and distinguishes immediate landing from later containment.

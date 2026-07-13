@@ -5,7 +5,9 @@ single one-screen status, progressive detail, no routine prompts, automatic
 recovery, and preserved work on blocked publication. RP-14 consumes the
 accepted upstream RP-00 ROD-006 posture: Octon exposes no human or agent
 direct-main route, ordinary human Git remains outside Octon, and protected PR
-is the privileged bridge. Separately, the claim map and promotion handoff
+is a deterministic review-selected route while eligible Class B defaults to
+brokered no-PR. Invalid, collided, or unknown attempts never switch to PR.
+Separately, the claim map and promotion handoff
 summarize demonstrated claims, limits, burden, and residual risks for later
 evidence-gated acceptance.
 

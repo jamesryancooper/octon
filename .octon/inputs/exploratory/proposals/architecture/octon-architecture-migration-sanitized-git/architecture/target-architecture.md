@@ -12,16 +12,16 @@ verdict.
 
 The adapter consists of four packet-owned contracts:
 
-1. A broker Git request/result contract binding operation, attempt, repository
-   identity, source object, target ref, expected-old object, proposed-new
-   object, authorization references, and policy version.
+1. A broker Git request/result contract binding RP-03's one canonical complete
+   T1 tuple/digest without omission, plus expected source tip/absence or the
+   other selected closed effect precondition.
 2. A candidate-object transfer contract that imports only the required object
    closure into broker-owned minimal Git state without checkout or execution.
 3. A closed Git policy that fixes commands, arguments, environment,
    configuration, transports, repository identity, and allowed output.
-4. An effect implementation that proves ancestry and asks the provider to
-   enforce the exact expected-old target atomically before a fast-forward-only
-   update.
+4. Sealed effects for expected-absent/expected-tip source-ref create/update,
+   target `O -> S` CAS, expected-tip deletion, and downstream fast-forward
+   mirror. Each proves its precondition at the effect boundary.
 
 This is not a generic Git service. It is a narrow adapter hosted by the single
 broker and backed by the single RP-03 operation/attempt state machine.
@@ -46,6 +46,12 @@ broker and backed by the single RP-03 operation/attempt state machine.
    any retry.
 10. RP-06 separately verifies the exact candidate and owns the publication
     route and final verdict.
+
+Each provider-visible source-ref, target, or delete call has its own RP-03 T1,
+operation, attempt, idempotency key, and T2/reconciliation path. The adapter
+does not interpret whether a source ref should exist, a PR should be opened, or
+cleanup is eligible; RP-06 supplies policy-bound requests and RP-08 owns result
+classification and cleanup lifecycle.
 
 ## Closed Git Surface
 
@@ -88,16 +94,25 @@ supplied through the broker boundary; they are never returned to a candidate.
 - Force update and non-fast-forward behavior are unreachable.
 - Observation distinguishes target state from causal attempt attribution.
 - GitHub is not a canonical ledger or authority source.
-- Protected PR remains available when the adapter is disabled or the route is
-  not eligible.
+- Expected-old/source-tip mismatch, outage, and `UNKNOWN` preserve the frozen
+  route and candidate; none selects PR.
+- Conditional deletion cannot delete a closed-unmerged or otherwise unlanded
+  candidate because RP-08 must supply route-specific landed authorization and
+  the exact expected tip.
 
 ## Unavailability
 
 If the adapter, provider, broker credential, network, or expected-old
 precondition is unavailable, the effect does not run or retry blindly.
-Candidate work remains intact. The normal safe route is a protected PR after
-the owning route policy confirms it is valid; invalid authority denies and
-requires fresh authorization rather than PR escalation.
+Candidate work and the frozen route remain intact. A new attempt requires
+reconciliation and, when `O` or another bound fact changed, fresh authority and
+verification. Protected PR is possible only through a fresh valid pre-effect
+RP-06 selection, never as recovery from collision or `UNKNOWN`.
+
+If the provider cannot perform true server-observed expected-old CAS under
+mandatory protections without bypass, production publication remains disabled.
+Force, non-fast-forward, hidden bypass, and weaker check-then-push substitution
+are unreachable.
 
 ## Unsupported Remainder
 

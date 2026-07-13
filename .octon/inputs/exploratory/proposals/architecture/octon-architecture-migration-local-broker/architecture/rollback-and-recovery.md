@@ -3,9 +3,11 @@
 ## Principle
 
 Rollback disables the broker effect route, preserves candidate output, and
-uses manual/protected PR. It never restores ambient credentials, candidate
-effect access, a second DB writer, direct provider helpers, the ephemeral policy
-grant helper as broker, a remote worker, or broker self-verification.
+preserves the frozen operation state. It never changes an attempted or unknown
+effect into manual/protected PR, restores ambient credentials, candidate effect
+access, a second DB writer, direct provider helpers, the ephemeral policy grant
+helper as broker, a remote worker, or broker self-verification. A later PR
+requires a fresh RP-06 route decision and fresh authority after reconciliation.
 
 ## Prepared Handles
 
@@ -16,7 +18,7 @@ grant helper as broker, a remote worker, or broker self-verification.
 - Keychain access-policy and non-secret enrollment/rotation/revocation metadata;
 - RP-03 certified backup/repair and writer-identity controls;
 - operation/attempt/internal-handle/outbox/UNKNOWN inventory;
-- candidate commit preservation and protected-PR route; and
+- candidate commit and frozen-route preservation; and
 - deterministic status, doctor, repair, upgrade, uninstall, and evidence
   commands.
 
@@ -46,8 +48,8 @@ adapter without fresh admission.
 
 ## Rollback Drill
 
-Drill stop/disable, endpoint revocation, candidate preservation, protected PR,
-prior-broker restore, credential rotation/revocation, store writer transfer,
-pending attempt preservation, and safe uninstall at every crash point. Any
-identity, secret, writer, outcome, or pending-state uncertainty leaves broker
-effects disabled.
+Drill stop/disable, endpoint revocation, candidate and route preservation,
+denial of PR route-switching, prior-broker restore, credential rotation/
+revocation, store writer transfer, pending attempt preservation, and safe
+uninstall at every crash point. Any identity, secret, writer, outcome, or
+pending-state uncertainty leaves broker effects disabled.

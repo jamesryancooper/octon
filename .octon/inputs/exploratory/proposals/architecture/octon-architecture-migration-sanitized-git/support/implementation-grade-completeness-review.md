@@ -24,7 +24,8 @@ These are future lifecycle and proof blockers, not missing product questions.
   RP-05 is implemented.
 - ED-003 remains the engineering default unless targeted proof shows it
   infeasible.
-- Protected PR remains the safe production bridge.
+- Protected PR is not a recovery bridge; it is usable only after a fresh RP-06
+  pre-effect review selection and proof of its writer boundary.
 - .github/** remains outside this octon-internal packet.
 
 ## Promotion Target Coverage

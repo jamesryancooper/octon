@@ -22,3 +22,7 @@ dependencies:
 cross_packet_handoffs:
   - "Frozen semantic interface to RP-03."
   - "Guard API to RP-02, RP-04, RP-06, RP-10, and RP-11 consumers without transferring semantic ownership."
+brokered_no_pr_compatibility:
+  findings: ["BNP-F-002", "BNP-F-011"]
+  prior_audit_lineage: ["GIT-ENF-002", "GIT-ENF-014"]
+  boundary: "complete typed publication grant fields; no route, verdict, writer, broker, or provider semantics"

@@ -62,3 +62,8 @@ Before activation, inject failure at every signer, outbox, write/fsync/rename,
 checkpoint, anchor, pin, compaction, delete, and reserve boundary. Demonstrate
 that the recovery result is a verified prior head plus preserved data or a
 verified new head plus covered deletion, never a silent gap.
+
+Rollback preserves exact `S`, the signed publication chain, `UNKNOWN` pins,
+last trusted head, and `cleanup-deferred` state. It never deletes a candidate or
+evidence to make terminal status appear complete, and it never rewrites a
+direct observation after later reconciliation.

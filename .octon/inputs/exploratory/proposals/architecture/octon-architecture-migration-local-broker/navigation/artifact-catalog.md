@@ -17,7 +17,7 @@
 - `architecture/validation-plan.md` — IPC, credential, writer, crash, repair, and scratch-effect matrices.
 - `architecture/file-change-map.md` — planned durable targets and ownership.
 - `architecture/cutover-plan.md` — enrollment, service activation, writer/effect cutover, and handoff.
-- `architecture/rollback-and-recovery.md` — route disablement, prior broker restore, and protected-PR recovery.
+- `architecture/rollback-and-recovery.md` — route-preserving disablement, prior broker restore, and fresh policy-selected PR boundary.
 - `architecture/operator-disclosure.md` — one-command quiet UX and unsupported remainder.
 
 ## Resources

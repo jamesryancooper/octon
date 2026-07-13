@@ -41,3 +41,8 @@ here.
   adapter.
 - `.github/**`, raw provider/model payloads, and generated proposal registry are
   not RP-07 promotion targets.
+
+The existing envelope, checkpoint, publishable-receipt, broker-evidence,
+verifier-evidence, signing-policy, retention-policy, assurance, and retained
+evidence targets also carry the exact Git publication profile. No new service,
+authority signer, route owner, provider writer, or promotion target is added.

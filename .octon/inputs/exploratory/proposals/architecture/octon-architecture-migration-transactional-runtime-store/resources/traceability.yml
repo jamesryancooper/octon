@@ -88,3 +88,7 @@ coverage_status:
   operator_decisions_complete: false
   dependency_design_complete: false
   architecture_review_complete: false
+brokered_no_pr_compatibility:
+  findings: ["BNP-F-002", "BNP-F-011"]
+  prior_audit_lineage: ["GIT-ENF-002", "GIT-ENF-014", "GIT-LC-009"]
+  boundary: "complete opaque tuple frozen at T1; no route change during ATTEMPTING/UNKNOWN; RP-03 remains sole transactional writer without publication semantics"

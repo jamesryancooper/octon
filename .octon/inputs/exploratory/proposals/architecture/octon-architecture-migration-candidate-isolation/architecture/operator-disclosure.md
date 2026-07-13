@@ -8,8 +8,9 @@
   inherited descriptors, bounded process/filesystem/network access, and a
   provider-native session that does not expose durable credentials.
 - The only artifact leaving the boundary is the exact candidate commit and
-  evidence needed for a manual/protected-PR route; trusted code does not
-  execute candidate-controlled Git extensions during export.
+  evidence needed for later RP-06 route evaluation; export itself selects no
+  route, and trusted code does not execute candidate-controlled Git extensions
+  during export.
 
 ## Normal Solo-Builder Experience
 
@@ -28,8 +29,9 @@ enrollment remains outside the candidate boundary and outside this packet.
 If the exact macOS/provider/session/profile tuple is unsupported, stale, or
 fails proof, Octon does not silently fall back to ambient execution. It stops,
 preserves or exports the exact safe candidate commit when available, and
-offers manual/protected PR with one reason. Cleanup uncertainty causes
-quarantine rather than reuse.
+reports one reason. Export selects no publication route; only a later fresh
+RP-06 decision may select protected PR for valid review-required work. Cleanup
+uncertainty causes quarantine rather than reuse.
 
 ## Support Claim
 

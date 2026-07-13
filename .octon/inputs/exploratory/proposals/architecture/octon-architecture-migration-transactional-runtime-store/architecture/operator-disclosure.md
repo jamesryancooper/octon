@@ -42,7 +42,9 @@ measured and adjusted without weakening fail-closed behavior.
 When the store or reserve is unsafe, Octon stops consequential transitions and
 preserves candidate work. It does not fall back to writable YAML, a second
 journal, an old database, ambient credentials, or blind retry. Safe read-only
-inspection and manual/protected PR may remain available through their owners.
+inspection may remain available. Protected PR appears only through a fresh
+valid pre-effect RP-06 decision, never because storage is unavailable or an
+attempt is `ATTEMPTING`/`UNKNOWN`.
 
 ## What This Packet Does Not Provide
 

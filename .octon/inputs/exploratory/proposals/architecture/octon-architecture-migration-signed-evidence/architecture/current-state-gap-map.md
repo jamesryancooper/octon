@@ -44,3 +44,10 @@ Accepted ROD-001 fixes bounded raw locality, longer-lived signed recovery
 references, terminal reserve, no unsigned fallback, and deny/preserve-work
 behavior; engineering controls the
 exact signer, anchor, reserve, backup, and provisional budget mechanisms.
+
+`BNP-F-009` records that current in-band/self-referential receipts prove shape
+more readily than provider state or causation. No current chain role-binds
+grant/issuer, `O/S/V/Q`, route/history, T1 operation/attempt, direct provider
+result, immediate landed observation, reconciliation class, preserved-work,
+local mirror, and cleanup truth. The target adds that profile without treating
+a signature as authorization or causation.

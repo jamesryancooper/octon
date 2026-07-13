@@ -9,7 +9,7 @@ after accepted implementation.
 | AC-RP05-002 | Broker Git state is independent from the candidate and canonical repository, with no checkout under broker identity. | Filesystem/object-database identity fixtures |
 | AC-RP05-003 | Candidate-object import transfers the exact reachable object closure without executing candidate code or loading candidate configuration. | Non-execution fixtures and object digest comparison |
 | AC-RP05-004 | Hooks, includes, aliases, helpers, filters, drivers, fsmonitor, submodules, alternates, transports, signing programs, editors, pagers, attributes, and local config cannot execute or redirect the effect. | UE-005 hostile extension matrix with sentinels |
-| AC-RP05-005 | Repository identity, remote, target ref, expected-old, proposed-new, authorization, and policy version are exact and immutable for one attempt. | Request mutation and wrong-identity negatives |
+| AC-RP05-005 | Every RP-03 canonical T1 tuple/digest field, including consequence scope and evidence head, plus the selected source/target/delete/mirror precondition is exact and immutable for one attempt. | Per-field omission/mutation and wrong-identity negatives |
 | AC-RP05-006 | The proposed object is independently proved to descend from expected-old before the provider operation. | Ancestor and non-ancestor tests |
 | AC-RP05-007 | The provider atomically rejects an expected-old mismatch even when the intervening target remains an ancestor of the proposed object. | Concurrent ancestor target-race test against a scratch provider |
 | AC-RP05-008 | Non-fast-forward, wrong repository, wrong ref, wrong SHA, stale authorization, missing credential, and unsupported transport all deny without changing the target. | Negative route matrix and remote observation |
@@ -19,6 +19,11 @@ after accepted implementation.
 | AC-RP05-012 | PO-FD-009 passes and RP-06 can consume the proven FD-010 Git primitive without RP-05 owning verifier or route policy. | PG-05 proof bundle and RP-06 interface conformance |
 | AC-RP05-013 | No .github path or generated projection becomes an octon-internal promotion target. | Target-family and drift/churn review |
 | AC-RP05-014 | Normal operation adds no new routine operator prompt or command concept. | Operator-flow fixture and disclosure review |
+| AC-RP05-015 | Expected-absent/expected-tip source-ref create/update and expected-tip deletion are sealed, separately T1-bound operations. | Source-ref race and lost-response suite |
+| AC-RP05-016 | Conditional deletion cannot remove a closed-unmerged or otherwise unlanded candidate and rejects a moved tip atomically. | Closed-unmerged and compare/delete-race fixtures |
+| AC-RP05-017 | True target CAS works under mandatory protections with no bypass; if unavailable, production publication remains disabled. | Scratch provider/ruleset conformance and bypass-negative proof |
+| AC-RP05-018 | Candidate environments contain no provider credential, and collision, outage, denial, or `UNKNOWN` never switches the frozen attempt to PR. | Credential scan and route-freeze negatives |
+| AC-RP05-019 | The adapter remains a closed operation family and cannot expose arbitrary Git commands, transports, repositories, refs, or credentials. | API surface and hostile request negatives |
 
 ## Exit Criteria
 

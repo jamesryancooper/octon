@@ -35,13 +35,20 @@ redacted logs/digests, and evidence classification.
 
 - missing/deny/stale/expired/revoked RP-01 authority; wrong scope, target,
   adapter, project, operation, attempt, client, store, epoch, or high-water;
+- for the later publication vertical, omit or mismatch each field in RP-03's
+  canonical complete T1 tuple/digest and each closed effect precondition in
+  turn; every case denies before credential access or adapter call, while
+  expired or revoked RP-01 guard cases deny through the guard validator;
 - random/forged/captured/replayed/duplicate/expired/already-consumed handle;
 - handle used after grant revocation, process restart, config upgrade, store
   restore, target replacement, or client identity change;
 - concurrent N-way same operation and same handle; exactly one can reach the
   adapter and all others retain deterministic denial receipts;
 - static/dynamic call census proves request paths cannot reach authority mint,
-  policy mutation, verifier verdict, arbitrary command, or remote dispatch.
+  route selection, PR selection, policy mutation, verifier verdict, arbitrary
+  command, or remote dispatch;
+- broker outage, `ATTEMPTING`, and `UNKNOWN` preserve the frozen route and
+  candidate; no test can make the broker expose, select, or authorize PR.
 
 ## Credential Canary Matrix
 

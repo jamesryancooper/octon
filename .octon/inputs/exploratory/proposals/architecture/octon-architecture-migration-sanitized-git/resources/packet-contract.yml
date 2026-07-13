@@ -19,7 +19,9 @@ scope:
   - "pinned provider repository identity"
   - "non-executing candidate object import"
   - "closed command, config, environment, and transport allowlist"
-  - "expected-old fast-forward effect"
+  - "expected-absent/expected-tip source-ref create/update"
+  - "server-observed expected-old target fast-forward CAS"
+  - "conditional expected-tip delete and fast-forward mirror primitives"
   - "effect observation and attribution interface"
 non_goals:
   - "candidate checkout under broker identity"
@@ -36,7 +38,7 @@ invariants:
   - "ancestry and expected-old are both required"
   - "non-fast-forward updates are unreachable"
   - "unknown outcomes reconcile before retry"
-  - "protected PR preserves candidate work"
+  - "every failed or unknown ref operation preserves candidate work and the frozen route"
 planned_durable_source_ownership:
   broker_git_adapter: ".octon/framework/engine/runtime/crates/local_broker/src/adapters/git/"
   authorized_effect_types: ".octon/framework/engine/runtime/crates/authorized_effects/"
@@ -102,12 +104,12 @@ prohibited_intermediate_states:
   - "blind retry"
   - "production Class B before RP-06 through RP-08"
 compatibility_bridges:
-  - "protected PR only"
+  - "none owned by RP-05; protected PR exists only when RP-06 selected it before effect"
 deprecations_and_retirements:
   - "ambient hosted Git mutation"
   - "autonomous direct-main remains removed"
 rollback_strategy: >-
-  Disable the Git effect route and preserve candidate work for protected PR;
+  Disable the Git effect route and preserve candidate work and frozen route;
   restore only a prior certified adapter behind the same broker boundary.
 recovery_strategy: >-
   Preserve attempt facts, reconcile target state before retry, and distinguish
@@ -120,6 +122,10 @@ validation_plan:
   - "ancestry, expected-old, and target races"
   - "lost response and concurrent actor"
   - "outage and restart"
+  - "source-ref expected-absent/expected-tip races and lost responses"
+  - "conditional-delete moved-tip and closed-unmerged preservation"
+  - "mandatory-protection target CAS with no bypass"
+  - "collision and UNKNOWN cannot switch route to PR"
 adversarial_tests:
   - "hooks, includes, aliases, helpers, filters, drivers, fsmonitor"
   - "submodules, alternates, transports, signing, editor, pager, attributes"
@@ -134,7 +140,7 @@ evidence_to_retain:
 support_claim_effect: "none until later proof and promotion"
 operator_experience_effect: >-
   Zero routine prompts and no new normal command; blocked work is preserved
-  with concise status and protected-PR fallback.
+  with concise status; PR appears only when RP-06 selected it before effect.
 setup_and_maintenance_effect: >-
   Reuse RP-04 setup, doctor, repair, credential rotation, and supervision; no
   additional daemon or store.
@@ -182,3 +188,10 @@ unsupported_remainder:
   - "production autonomous publication"
   - "universal causal attribution"
   - "trust activation"
+brokered_no_pr_revision:
+  preferred_term: "brokered-class-b-no-pr"
+  owned_operations: ["source-ref-conditional-create-update", "target-O-to-S-CAS", "expected-tip-delete", "fast-forward-local-mirror-primitive"]
+  canonical_t1_tuple_owner: "RP-03 brokered_no_pr_compatibility.t1_opaque_bindings"
+  request_binding: ["canonical-T1-tuple-digest", "repository", "source-identity", "source-ref", "expected-source-tip-or-absence", "target-ref", "O", "S", "grant-digest", "V-digest", "route-policy-digest", "history-shape-digest", "operation-id", "attempt-id", "idempotency-key", "consequence-scope", "evidence-head", "selected-closed-effect-precondition"]
+  semantic_exclusions: ["route selection", "history selection", "PR semantics", "cleanup eligibility", "outcome classification", "UNKNOWN recovery"]
+  findings: ["BNP-F-004", "BNP-F-006", "BNP-F-013"]

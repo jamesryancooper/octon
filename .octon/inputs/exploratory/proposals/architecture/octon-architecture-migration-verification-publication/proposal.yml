@@ -3,12 +3,15 @@ proposal_id: "octon-architecture-migration-verification-publication"
 title: "Immutable Verification and Adaptive Publication"
 summary: >-
   Define a candidate-immutable exact-SHA verifier and one deterministic
-  publication policy that sends eligible Class B work through the broker's
-  expected-old fast-forward primitive, routes valid review-required work to
-  protected PR, and denies invalid authority without prompt or PR laundering.
+  publication policy that defaults eligible Class B to
+  brokered-class-b-no-pr, selects protected PR only for valid review-required
+  or stable pre-route high-contention work, proves history and S-to-Q results,
+  and denies invalid, collided, or unknown authority without PR laundering.
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
 promotion_targets:
+  - ".octon/framework/product/contracts/default-work-unit.yml"
+  - ".octon/framework/product/contracts/default-work-unit.md"
   - ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
   - ".octon/framework/engine/runtime/adapters/host/github-control-plane/"
   - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
@@ -68,13 +71,15 @@ logical_dependencies:
 selected_implementation_target: >-
   Candidate-immutable verifier identity and exact-SHA verdict, immutable
   Class A/B/C and Class-B/PR predicate, deterministic route selector,
-  provider verification/publication specialization, authenticated check
-  binding, and zero-prompt route status.
+  history-shape policy, complete protected-PR and S-to-Q semantics, provider
+  verification/publication specialization, baseline-aware validation,
+  post-land local-main mirror orchestration, authenticated check binding, and
+  zero-prompt route/status.
 scope_statement: >-
   RP-06 owns verification and publication policy, not generic provider
   execution, the runtime store, broker credentials, Git effect execution,
-  recovery policy, trust activation, support admission, or .github workflow
-  files. Provider projections may change only after an authored .octon source
+  result/UNKNOWN or cleanup lifecycle policy, trust activation, support
+  admission, or .github workflow files. Provider projections may change only after an authored .octon source
   or generator resolves the target-family boundary.
 authority_class_impact:
   framework: >-
@@ -98,8 +103,9 @@ authority_class_impact:
     publish, or admit support by itself.
 runtime_behavior_impact: >-
   None at draft. After governed implementation, an authenticated exact-SHA
-  verdict and immutable predicate route eligible Class B through RP-05, valid
-  review-required work through protected PR, and invalid authority to denial.
+  verdict and immutable predicate default eligible Class B through RP-05,
+  select protected PR only before effect for valid review/high-contention work,
+  and preserve/deny invalid, collided, or unknown tuples without route switching.
 generated_input_authority_impact: >-
   No proposal, generated output, context name, host check, provider dashboard,
   or workflow result becomes authority.

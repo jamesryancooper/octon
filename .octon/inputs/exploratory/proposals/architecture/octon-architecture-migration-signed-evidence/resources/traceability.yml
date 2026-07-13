@@ -158,3 +158,9 @@ claim_boundary:
     - "raw payload durability beyond selected retention policy"
     - "Git history as producer authentication"
     - "authority or causation inferred from signature presence"
+brokered_no_pr_revision:
+  primary_findings: ["BNP-F-009"]
+  cross_findings: ["BNP-F-006", "BNP-F-007", "BNP-F-011"]
+  prior_audit_lineage: ["GIT-ENF-010", "GIT-ENF-011", "GIT-LC-001", "GIT-LC-004", "GIT-LC-011"]
+  ownership: "signed publication evidence and monotonic anchor only"
+  exclusions: ["grant issuance", "route selection", "effect execution", "provider result classification", "UNKNOWN reconciliation", "cleanup authorization"]

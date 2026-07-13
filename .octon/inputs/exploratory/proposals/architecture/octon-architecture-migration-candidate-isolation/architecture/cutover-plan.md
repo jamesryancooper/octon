@@ -13,7 +13,8 @@
 - Proposal acceptance, implementation-grade completeness, and pre-integration
   architecture review pass.
 - Sentinel credentials, disposable provider targets, an independent repository
-  fixture, a protected-PR bridge, and cleanup/rollback handles are prepared.
+  fixture, a route-neutral exact-candidate preservation/export fixture, and
+  cleanup/rollback handles are prepared.
 
 ## Atomic Isolation Sequence
 
@@ -52,9 +53,12 @@ tuple and returns the route to disabled pending fresh proof.
 
 At SI-02, useful primary-provider work may run only through the admitted
 credentialless native candidate route. Candidate commits may be exported for
-manual/protected PR. Candidate access to canonical Git, broker credentials,
-privileged IPC, or provider effects remains prohibited. RP-02 can safely pause
-there without waiting for RP-04.
+preservation and later RP-06 route evaluation; export itself selects no
+publication route. Protected PR is available only when RP-06 later evaluates a
+fresh valid review-required predicate, never as isolation-failure recovery.
+Candidate access to canonical Git, broker credentials, privileged IPC, or
+provider effects remains prohibited. RP-02 can safely pause there without
+waiting for RP-04.
 
 ## Handoff
 

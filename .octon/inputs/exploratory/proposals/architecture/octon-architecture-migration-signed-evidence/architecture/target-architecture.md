@@ -75,9 +75,11 @@ state, source/target/precondition/policy/Harness binding, evidence inputs,
 verdict, expiry, and timing. It cannot publish or sign that the broker caused a
 state unless direct provider attribution supports that statement.
 
-Broker and verifier private identities are distinct, candidate-inaccessible,
-role-bound, and non-exported by normal operation. Candidate, broker, verifier,
-and evidence checkpoint roles cannot alias silently.
+Broker and verifier producer-signing identities are distinct,
+candidate-inaccessible, role-bound, and non-exported by normal operation. The
+checkpoint signer is a separately attributable signing role. Candidate access
+and silent identity aliasing across producer or checkpoint roles are forbidden;
+this does not confuse the producer's role-bound key with the checkpoint signer.
 
 ### 3. Signed Range And Terminal Checkpoints
 
@@ -149,7 +151,7 @@ Pins protect active operations, unresolved/unknown outcomes, required rollback
 material, latest trusted checkpoints, and explicit operator retention.
 
 Raw provider output, prompts, model transcripts, logs, and bulky fixtures stay
-in the bounded local evidence store outside project Git by default. Only
+in the bounded local evidence store outside project Git without exception. Only
 sanitized signed checkpoints, compact manifests, or opaque pointers may become
 project-Git evidence after classification. A pointer cannot elevate absent raw
 proof or become authority.
@@ -218,3 +220,25 @@ retention contracts, and existing assurance roots. It signs direct material
 observations and checkpoints rather than every event. Retention automation must
 keep routine evidence administration within the program's monthly solo-builder
 budget and avoid raw-file growth in project Git.
+
+## Git Publication Evidence Profile
+
+For `O` (expected target), `S` (candidate), `V` (verdict), and protected-PR
+squash `Q`, the signed terminal chain binds:
+
+- grant reference, issuer, repository/source/target scope, expiry and revocation;
+- route decision, route-policy digest, consequence, and history shape;
+- `V`, authenticated producer, verifier version/deployment, harness, validation
+  inputs/results, and evidence head;
+- RP-03 operation/attempt/idempotency/T1 and terminal-reserve identities;
+- RP-04 broker request plus RP-05/RP-06 direct provider observation;
+- immediate landed `S` or `Q`, historical `O -> S` or PR transition, and an
+  independent non-broker post-land observation;
+- RP-08 outcome/reconciliation class, preserved-work proof, local-main mirror,
+  cleanup authorization/result, and terminal checkpoint/monotonic anchor.
+
+Producer-direct signatures never manufacture authorization, route validity,
+effect causation, or cleanup eligibility. Candidate and broker cannot
+self-certify the same change. `landed/cleanup-deferred` is signed honestly;
+`cleaned` requires the conditional expected-tip result. Raw/detail operational
+evidence remains outside project Git.

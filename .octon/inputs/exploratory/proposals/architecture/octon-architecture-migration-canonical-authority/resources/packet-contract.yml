@@ -78,3 +78,7 @@ exit_criteria: ["FD-003/FD-004 proof gates pass", "UE-001/UE-002 resolved", "SI-
 proof_produced: ["PG-01-AUTHORITY-DOMINANCE", "PG-01-LAUNCH-GUARDS"]
 authoritative_promotion_requirements:
   - "Accepted packet and bound ROD-003 baseline, implementation authorization, exact-commit dynamic/adversarial evidence, conformance review, and promotion receipts."
+brokered_no_pr_compatibility:
+  publication_grant_fields: ["issuer-identity", "repository", "source-identity", "source-ref", "S", "target-ref", "O", "route-policy-digest", "operation", "expiry", "revocation-epoch", "consequence-scope"]
+  semantic_boundary: "RP-01 owns generic typed grant issuance only; RP-06 owns route values/V, RP-03 owns consumption, and RP-04 owns effect hosting"
+  findings: ["BNP-F-002", "BNP-F-011"]

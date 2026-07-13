@@ -137,7 +137,7 @@ compatibility_bridges:
   permitted:
     - "offline read-only legacy comparison before activation"
     - "post-commit read-only legacy projections and exports"
-    - "manual/protected PR while consequential effects remain disabled"
+    - "route-neutral preserved work while consequential effects remain disabled; PR only through a fresh pre-effect RP-06 decision"
   prohibited:
     - "dual write or shadow authority"
     - "file lock, atomic rename, append journal, or narrow CAS as final authority"
@@ -244,3 +244,9 @@ unsupported_remainder:
   - "provider-specific outcome classification, reconciliation, retry, and complete Class B behavior"
   - "signed evidence identity, final capacity/retention/compaction policy, and anti-rollback checkpoints"
   - "sanitized Git, immutable verification, autonomous publication, trust activation, product layers, extensions, child agents, and final product proof"
+brokered_no_pr_compatibility:
+  t1_opaque_bindings: ["repository", "source-identity", "source-ref", "S", "target-ref", "O", "grant-digest", "V-digest", "route-policy-digest", "history-shape-digest", "operation-id", "attempt-id", "idempotency-key", "consequence-scope", "evidence-head"]
+  admission_precondition: "RP-03 accepts the opaque publication tuple only through the RP-06-owned gate after verdict/route authentication and RP-01 authorization; RP-03 does not reinterpret those semantics"
+  route_freeze: "no binding or route mutation while ATTEMPTING or UNKNOWN"
+  boundary: "RP-03 owns persistence/consumption/outbox only; no grant, verdict, route, provider, result-classification, or cleanup semantics"
+  findings: ["BNP-F-002", "BNP-F-011"]

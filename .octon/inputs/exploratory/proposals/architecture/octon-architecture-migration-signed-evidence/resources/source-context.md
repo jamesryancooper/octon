@@ -57,7 +57,7 @@ the target:
   physical terminal headroom;
 - evidence is bounded by quotas/pins and compacted only after verified signed
   checkpoint plus anchor commit;
-- raw payloads stay local/outside project Git by default;
+- raw payloads stay local/outside project Git without exception;
 - minimal signed checkpoints/pointers may be retained in Git but Git is never
   the signature mechanism;
 - there is no standalone capacity lease or unsigned fallback; and
@@ -104,3 +104,11 @@ accepted intake intent without the permitted new evidence.
 Unrelated review packages, chat state, generated summaries, host UI state,
 provider dashboards, and unscoped ideation are not semantic inputs. No raw
 proposal path becomes a runtime or policy dependency after promotion.
+
+## Bounded Git Lifecycle Input
+
+The 2026-07-13 reassessment supplied only bounded references to runs
+`29249394310`, `29249511200`, `29249511103`, `29249511080`, ruleset `12881449`,
+and the observed two-commit landed range. No raw logs were imported. These
+observations motivate role-separated provider/landed/causation evidence but do
+not establish current authority or future proof.

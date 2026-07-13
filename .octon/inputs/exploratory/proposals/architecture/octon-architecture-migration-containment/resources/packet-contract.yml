@@ -85,17 +85,17 @@ migration_preconditions:
   - "accepted ROD-006 no-Octon-direct-main posture bound"
   - "accepted proposal and passing pre-integration review"
   - "exact clean repository and provider baselines"
-  - "protected PR recovery bridge verified"
+  - "route-neutral candidate preservation and stage-only status verified"
 migration_steps:
   - "bind baseline and provider snapshot"
-  - "disable candidate-head provider writers and every Octon-owned human or agent direct-main route"
+  - "disable candidate-head provider writers, every Octon-owned human or agent direct-main route, current autonomous no-PR/local landing effects, and destructive unlanded cleanup"
   - "complete physical inventories"
   - "correct proof and support claims"
   - "capture burden baseline"
   - "run negative controls, rollback drill, conformance, and drift review"
 safe_intermediate_states:
   - state_id: "SI-00"
-    description: "Contained baseline with observation, candidate work, and protected PR permitted; ordinary human Git remains outside Octon."
+    description: "Contained baseline with observation and candidate work; a protected PR is permitted only when independently review-selected and its writer boundary is proved safe; ordinary human Git remains outside Octon."
 prohibited_intermediate_states:
   - "privileged autonomous implementation before RP-00 exit"
   - "candidate-head privileged provider write"
@@ -103,16 +103,18 @@ prohibited_intermediate_states:
   - "unregistered writer, launcher, credential, policy input, trust root, or provider workflow"
   - "overstated proof or support claim"
 compatibility_bridges:
-  permitted: ["protected PR"]
+  permitted: ["predicate-selected protected PR only after its writer boundary is proved safe"]
   prohibited: ["log-only guards", "ambient credentials", "candidate-head writers", "any Octon-owned human or agent direct-main route"]
 deprecations_and_retirements:
   - "every Octon-owned human or agent direct-main route leaves the supported path"
   - "candidate-head credentialed writer paths are disabled pending owned replacement"
 rollback_strategy: "Revert non-safety wording or inventory changes only; unsafe routes remain disabled."
-recovery_strategy: "Preserve candidate output, use protected PR, repair inventories or projections forward, and keep claims narrowed."
+recovery_strategy: "Preserve candidate output and frozen classification, repair inventories or projections forward, and keep claims narrowed; a later PR requires a fresh valid pre-effect review selection."
 validation_plan:
   - "writer and launcher inventory validators with unknown-entry fixtures"
   - "Octon-owned human/agent direct-main and candidate-head writer negative fixtures"
+  - "direct current no-PR/local-land/cleanup invocation and closed-unmerged preservation fixtures"
+  - "invalid or raced authority cannot convert to PR"
   - "support proof and live-claim validators"
   - "GitHub projection alignment and read-only provider observation"
 adversarial_tests:
@@ -132,7 +134,7 @@ evidence_to_retain:
   - "state, workflow, prompt, and operator burden metrics"
   - "rollback, conformance, and drift/churn receipts"
 support_claim_effect: "narrow-only; no new support claim"
-operator_experience_effect: "preserve candidate work and route privilege through protected PR with one concise explanation"
+operator_experience_effect: "preserve candidate work and report eligible no-PR as blocked; show protected PR only when independently review-selected, with one concise explanation"
 setup_and_maintenance_effect: "no new daemon, database, dependency, or routine approval surface"
 parallelization_constraints:
   - "other packets may design but may not perform privileged changes until RP-00 exits"
@@ -141,13 +143,19 @@ must_not_run_concurrently_with:
 operator_decisions:
   - id: "ROD-006"
     status: "accepted"
-    decision: "Octon exposes no human or agent direct-main route; ordinary human Git remains outside Octon and protected PR is the privileged bridge."
+    decision: "Octon exposes no human or agent direct-main route; ordinary human Git remains outside Octon; this does not create a universal PR bridge."
 engineering_dispositions:
   - "ED-007 workflow and visible-surface retirement audit"
 blocking_findings:
   owned: ["RF-007", "RF-013", "RF-018", "RF-032"]
   cross_references: ["RF-003", "RF-008", "RF-017"]
 supporting_findings: ["RF-020"]
+brokered_no_pr_revision:
+  findings: ["BNP-F-001", "BNP-F-003", "BNP-F-006", "BNP-F-010", "BNP-F-011"]
+  containment_only: true
+  production_no_pr_enabled: false
+  preserved_route: "eligible brokered-class-b-no-pr remains classified, blocked, and preserved"
+  pr_rule: "only an independent valid pre-effect review predicate may select PR"
 entry_criteria:
   - "clean exact baseline"
   - "provider observation bound or explicitly stale"

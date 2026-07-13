@@ -37,12 +37,12 @@ compatibility_bridges: ["None; comparisons are proof inputs, not production rout
 deprecations_and_retirements: ["RP-14 verifies child-owned retirement evidence but performs no retirement."]
 rollback_strategy: "Invalidate/quarantine only affected proof generation and withdraw dependent handoff; child owners roll back features."
 recovery_strategy: "Preserve evidence and candidate work, restore frozen protocol inputs, rerun exact-commit proof, and keep failed claims demoted."
-validation_plan: ["fresh setup", "two-project onboarding", "20-mission corpus", "fault/recovery matrix", "30-day burden", "provider reproduction", "claim-map audit"]
+validation_plan: ["fresh setup", "two-project onboarding", "20-mission equal-floor no-PR/PR corpus", "route confusion matrix", "exact CAS and S-to-Q", "fault/recovery/preservation/mirror/cleanup matrix", "30-day burden", "provider reproduction", "claim-map audit"]
 adversarial_tests: ["selective omission", "stale child receipt", "producer self-attestation", "optional leakage", "false escalation", "unsafe fallback", "raw evidence growth"]
 fault_injection: ["broker outage", "provider lost/duplicate response", "store/signer/verifier outage", "publication block", "reboot", "provider drift"]
 evidence_to_retain: ["protocol", "environment", "mission results", "fault results", "burden metrics", "provider observations", "claim map", "accepted upstream RP-00 ROD-006 no-direct-main lineage", "handoff"]
 support_claim_effect: "No immediate claim; passing proof may be submitted to the separately governed promotion authority."
-operator_experience_effect: "One-screen progressive disclosure, no routine prompts, preserved work, accepted no-Octon-direct-main routing through protected PR, and later claim-scoped promotion acceptance only after proof."
+operator_experience_effect: "One-screen progressive disclosure, no routine prompts, preserved work, no Octon direct-main, eligible-Class-B brokered no-PR default, review-selected PR only, and later claim-scoped promotion acceptance only after proof."
 setup_and_maintenance_effect: "Proves setup <=15m, onboarding <=5m, monthly admin <=15m, proposal admin <=30m and <=10% implementation human time."
 dependencies: ["RP-08", "RP-09", "RP-10", "RP-11"]
 program_closeout_dependencies: ["RP-12", "RP-13"]
@@ -51,7 +51,7 @@ must_not_run_concurrently_with: ["Any implementation mutation to a proof subject
 operator_decisions:
   - id: "ROD-006"
     status: "accepted"
-    decision: "Octon exposes no human or agent direct-main route; ordinary human Git remains outside Octon and protected PR is the privileged bridge."
+    decision: "Octon exposes no human or agent direct-main route; ordinary human Git remains outside Octon; eligible Class B defaults to brokered no-PR and PR is review-selected only."
     relationship_to_rp14: "Consumed upstream only; final support wording and optional-capability promotion use existing evidence gates."
 blocking_findings: ["RF-017", "RF-019", "RF-027", "RF-033"]
 unresolved_evidence: ["UE-011", "UE-014", "UE-015"]
@@ -59,3 +59,9 @@ entry_criteria: ["Core children pass their own gates", "protocol and provider sn
 exit_criteria: ["All budgets adjudicated", "FD-001/023/024 gates pass", "UE-011/014/015 resolved", "accepted upstream RP-00 ROD-006 posture bound", "optional claims accurately gated"]
 proof_produced: ["PG-14-SOLO-BUDGETS", "PG-14-PROVIDER-CONFORMANCE", "PG-14-COMPLETE-VERTICAL"]
 authoritative_promotion_requirements: ["Independent proof, downstream owner review/authorization, claim-scoped admission changes, and current provider refresh; accepted ROD-006 supplies only the upstream no-Octon-direct-main posture."]
+brokered_no_pr_revision:
+  equal_floor: ["same route-policy", "same harness", "same substantive checks", "same evidence classifications"]
+  required_metrics: ["p50-p95-end-to-end-and-mediated-latency", "unauthorized-effects", "routine-prompts", "route-confusion", "recovery-time", "preserved-work", "setup-onboarding", "intervention", "monthly-administration"]
+  zero_budgets: ["unauthorized-effects", "routine-prompts-eligible-A-B", "false-eligible-A-B-to-PR", "review-required-bypass", "invalid-collision-UNKNOWN-to-PR", "candidate-credentials", "privileged-candidate-head-execution", "closed-unmerged-deletion", "false-cleaned", "raw-operational-evidence-in-project-Git"]
+  mandatory_proofs: ["true-O-to-S-CAS", "one-commit-default-or-full-bounded-range", "S-to-Q", "local-main-post-land-mirror", "preserved-S-every-failure-class", "conditional-cleanup"]
+  finding: "BNP-F-012"

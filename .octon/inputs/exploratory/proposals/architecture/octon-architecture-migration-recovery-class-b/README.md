@@ -15,7 +15,7 @@ earlier packets:
 - RP-08 classifies provider-specific observations and reconciles every
   `UNKNOWN` before any retry;
 - outcomes distinguish `attempt_performed`, `state_satisfied`,
-  `not_performed`, `failed`, and honest `manual_intervention`;
+  `not_performed`, `failed`, `unknown`, and honest `manual_intervention`;
 - RP-06's immutable Class A/B/C and B/no-PR-versus-PR predicate is consumed by
   exact digest and never changed during proof;
 - outages block only affected consequences while preserving candidate work,
@@ -40,7 +40,14 @@ trust-root automation.
 RP-05 supplies the ED-003 expected-old fast-forward/provider observation
 primitive, but is not a direct DAG dependency. RP-08 owns provider-specific
 outcome classification, reconciliation, operation terminal/manual-intervention
-semantics, run status, continuous-operation policy, and vertical proof.
+semantics, route-freeze enforcement, conditional cleanup lifecycle/status, run
+status, continuous-operation policy, and vertical proof.
+
+The route freezes before effect. An operation already `ATTEMPTING` or `UNKNOWN`
+cannot switch to PR. Expected-old/base/head mismatch invalidates the tuple and
+requires fresh authority; only stable pre-route contention or a valid review
+predicate may select PR. Every failed, denied, collided, unknown, unmerged, or
+cleanup-deferred outcome preserves the exact candidate.
 
 ## Promotion Scope
 

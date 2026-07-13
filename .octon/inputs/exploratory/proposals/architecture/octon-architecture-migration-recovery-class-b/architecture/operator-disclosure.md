@@ -3,7 +3,7 @@
 ## Normal Experience
 
 The operator states intent, not route mechanics. Healthy Class A and admitted
-Class B work completes or opens the deterministic protected PR without routine
+Class B work completes or opens a pre-effect policy-selected protected PR without routine
 questions. A single status screen shows class, immutable route digest,
 attempt/outcome, attribution strength, dependency health, preserved candidate,
 next automatic action, and freshness.
@@ -38,10 +38,12 @@ or PR laundering.
 
 ## PR Disclosure
 
-Protected PR means valid work was ineligible for automatic no-PR under the
-frozen predicate. It does not mean authority was invalid or that an unknown
-effect was safely retried. The PR binds the exact candidate/verdict/evidence and
-is itself reconciled if creation/update response is lost.
+Protected PR means valid work was review-required or stable pre-route
+high-contention under the frozen predicate. It does not mean invalid authority,
+collision, or an unknown effect was accepted or rerouted. The PR binds exact
+candidate/verdict/evidence and every source-ref/create/update/merge effect is
+reconciled. Status also shows preserved `S`, local mirror, and
+cleanup/`cleanup-deferred` state.
 
 ## Continuous Operation Disclosure
 

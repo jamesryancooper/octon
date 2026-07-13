@@ -64,3 +64,8 @@ claim_effect:
   live_support_widened: false
   implementation_claimed: false
   proof_claimed: false
+brokered_no_pr_revision:
+  primary_findings: ["BNP-F-004", "BNP-F-013"]
+  cross_findings: ["BNP-F-006", "BNP-F-007", "BNP-F-010", "BNP-F-011"]
+  prior_audit_lineage: ["GIT-ENF-008", "GIT-ENF-009", "GIT-LC-001", "GIT-LC-002", "GIT-LC-004", "GIT-LC-006"]
+  ownership: "closed Git/ref primitives only; RP-06 owns route/PR/history/mirror orchestration and RP-08 owns result/recovery/cleanup lifecycle"

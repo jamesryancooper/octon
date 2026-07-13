@@ -48,7 +48,11 @@ decision unless the accepted boundary itself must change.
    any store or Keychain access.
 3. Validate RP-01 envelope and use RP-03 T1 to create/consume the internal
    operation handle immediately before dispatch.
-4. Ensure no authority-mint, verifier, remote-worker, arbitrary command, shell,
+4. For publication operations, compare every opaque RP-03-committed tuple field
+   and bind the complete tuple digest to the handle without importing RP-06
+   route/verdict interpretation into the broker.
+5. Ensure no authority-mint, verifier, route-selection, remote-worker,
+   arbitrary command, shell,
    or dynamic plugin entry point is linked/reachable.
 
 ## Workstream 2 — Keychain Custody and Enrollment
@@ -92,6 +96,9 @@ decision unless the accepted boundary itself must change.
    receipts.
 4. Hand a closed effect-host interface to RP-05 and generic outage/attempt state
    to RP-08 without transferring authority, credentials, or verdict ownership.
+5. Prove that broker outage or a wrong `O`, `S`, grant, verdict, route-policy,
+   source, target, harness, or scope binding denies and preserves the frozen
+   operation instead of exposing or selecting PR.
 
 ## Parallelization Constraints
 

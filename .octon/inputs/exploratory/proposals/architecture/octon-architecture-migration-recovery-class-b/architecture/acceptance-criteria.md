@@ -20,9 +20,10 @@ packet evidence root.
 - **RP08-AC-004 — Predicate immutability.** Proof reproduces the exact RP-06
   predicate/version/digest before and after; no metric-driven policy mutation
   occurs.
-- **RP08-AC-005 — PR fallback.** Valid-but-no-PR-ineligible Class B preserves the
-  exact candidate and opens/updates a protected PR automatically; invalid,
-  stale, revoked, raced, or mismatched authority denies instead of PR routing.
+- **RP08-AC-005 — Policy-selected PR.** Valid review-required or stable
+  pre-route high-contention Class B preserves the exact candidate and
+  opens/updates protected PR; invalid, stale, revoked, collided, `UNKNOWN`, or
+  mismatched authority/effects never select PR.
 
 ## Effect Recovery
 
@@ -38,10 +39,12 @@ packet evidence root.
   inflated claim.
 - **RP08-AC-009 — Race and concurrency.** Expected-old mismatch, target race,
   concurrent actor, duplicate broker delivery, and duplicate reconciler cannot
-  duplicate effect or overwrite a stronger observation.
+  duplicate effect, overwrite a stronger observation, or change the frozen route;
+  any new attempt uses fresh `O`/grant/`V`/policy.
 - **RP08-AC-010 — Per-attempt terminality.** Every operation/attempt reaches an
   honest terminal or `manual_intervention`; no universal run terminality or
-  exactly-once claim is emitted.
+  exactly-once claim is emitted, and route cannot mutate while `ATTEMPTING` or
+  `UNKNOWN`.
 
 ## Degraded Mode And UX
 
@@ -66,11 +69,19 @@ packet evidence root.
   at send/T2/reversal preserve an honest outcome.
 - **RP08-AC-016 — Zero-prompt proof.** The canonical A/B/C and failure matrix
   produces zero routine A/B prompts, zero unauthorized effects, deterministic
-  PR fallback, and one concise notification only for configured irreducible
+  review-selected PR, zero false eligible-A/B-to-PR or invalid/race/UNKNOWN-to-PR
+  transitions, and one concise notification only for configured irreducible
   ambiguity.
 - **RP08-AC-017 — SI-06 rollback.** Disabling Class B preserves candidates and
-  signed evidence and uses protected PR; signing, authority, and store
-  boundaries remain intact.
+  signed evidence and the frozen route; a later PR requires a new valid
+  pre-effect decision. Signing, authority, and store boundaries remain intact.
+
+- **RP08-AC-020 — PR subeffect recovery.** Source-ref, PR create/update, and
+  merge each reconcile lost/duplicate/delayed results and base/head movement
+  through distinct attempts without retry while unknown.
+- **RP08-AC-021 — Mirror and cleanup truth.** Local-main mirror and conditional
+  cleanup outcomes remain honest; closed-unmerged work is never deleted and
+  cleanup failure yields `landed/cleanup-deferred`, never `cleaned`.
 
 ## Gates
 

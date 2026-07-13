@@ -4,7 +4,9 @@ title: "Containment, Baseline, and Claim Correction"
 summary: >-
   Establish the safe and truthful Gate 0 boundary for the Octon architecture
   migration by disabling candidate-controlled privileged provider writes and
-  every Octon-owned human or agent direct-main route, completing physical writer, launcher,
+  every Octon-owned human or agent direct-main route, hard-disabling current
+  autonomous no-PR publication and destructive unlanded cleanup while preserving
+  candidate work and route classification, completing physical writer, launcher,
   credential, policy, trust, and provider-workflow inventories, correcting
   overstated support and proof claims, and measuring the current state and
   workflow burden before privileged implementation begins.
@@ -13,6 +15,9 @@ promotion_scope: "octon-internal"
 promotion_targets:
   - ".octon/framework/product/contracts/default-work-unit.yml"
   - ".octon/framework/product/contracts/default-work-unit.md"
+  - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh"
+  - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
+  - ".octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh"
   - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
   - ".octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json"
   - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"

@@ -27,7 +27,7 @@ and duplicate context. Assert:
 
 - all routine admitted A/B routes require zero operator prompts;
 - every C/lower-route and invalid-authority downgrade denies;
-- valid PR fallback preserves exact candidate/verdict/evidence;
+- valid policy-selected PR preserves exact candidate/verdict/evidence;
 - invalid authority never becomes a PR;
 - no unauthorized effect occurs; and
 - result records reproduce the exact frozen predicate digest.
@@ -74,7 +74,7 @@ and zero operator steps.
 - run and reverse one expected-old scratch effect;
 - inject failures during schedule, send, T2, reconcile, closeout, and reverse;
 - assert no production/trust-root target and no infinite agent loop;
-- capture prompt count, PR fallback, recovery time, mediation time, candidate
+- capture prompt count, policy-selected PR, recovery time, mediation time, candidate
   preservation, and operator intervention; and
 - package but do not claim RP-14 UE-014 two-project/30-day product results.
 
@@ -93,3 +93,9 @@ fixtures, fault points, transitions, provider observations/receipts, signed
 checkpoints, route/prompt/unauthorized-effect metrics, status snapshots,
 scheduled/reversible-effect receipts, rollback rehearsal, and explicit
 limitations under the packet evidence root. Use only disposable provider targets.
+
+Additional fixtures freeze route at T1, distinguish stable pre-route contention
+from actual collision, prohibit collision/`ATTEMPTING`/`UNKNOWN` route switches,
+and exercise lost source-ref/PR-create/update/merge responses, base/head
+movement, fresh-tuple requirements, local mirror advancement, closed-unmerged
+cleanup, expected-tip delete races, cleanup-deferred, and false-cleaned claims.

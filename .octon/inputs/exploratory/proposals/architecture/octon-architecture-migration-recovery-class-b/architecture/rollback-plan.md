@@ -2,8 +2,8 @@
 
 ## Principle
 
-Rollback disables Class B, preserves candidate work and signed evidence, and
-uses deterministic protected PR or a prior certified implementation behind the
+Rollback disables Class B, preserves candidate work, frozen attempts, and signed
+evidence, and uses only a fresh policy-selected protected PR or a prior certified implementation behind the
 same authority/store/broker/verifier/signer boundaries. It never restores
 blind retry, ambient credentials, unsanitized Git, YAML/log-only authority,
 unsigned evidence, candidate-controlled verification, or policy mutation.
@@ -16,7 +16,7 @@ unsigned evidence, candidate-controlled verification, or policy mutation.
 | Shadow classifier | Disable shadow reads; retain diagnostics as non-live evidence. |
 | Retry-disabled scanner | Keep Class B disabled and preserve unknown operations/candidates for diagnosis. |
 | Scratch vertical | Stop scratch route, reconcile every attempted/reversal effect, retain signed proof. |
-| Activated | Disable autonomous Class B/no-PR; preserve exact candidates and use frozen protected-PR route where authority remains valid. |
+| Activated | Disable autonomous Class B/no-PR; preserve exact candidates and frozen attempts. A later PR requires a fresh pre-effect decision. |
 
 ## Recovery Cases
 
@@ -24,7 +24,7 @@ unsigned evidence, candidate-controlled verification, or policy mutation.
   before any new attempt.
 - Target race/concurrent actor: preserve candidate; record
   `state_satisfied` only if exact desired state holds, otherwise
-  `manual_intervention` or valid protected PR per frozen policy.
+  `manual_intervention`; never change the existing attempt to PR.
 - Broker crash: auto-restart, scan T1/outbox/unknown, reconcile before accepting
   effects; never expose credentials to candidate.
 - Store outage/corruption: stop consequential transitions and use RP-03
@@ -35,6 +35,10 @@ unsigned evidence, candidate-controlled verification, or policy mutation.
   do not create duplicates blindly.
 - Scheduled/reversal failure: pause mission, reconcile the exact effect, and
   end honestly terminal/manual-intervention.
+
+Mirror or cleanup rollback cannot falsify landed status. Cleanup failure retains
+the source candidate and `landed/cleanup-deferred`; a target race requires a new
+tuple rather than PR routing.
 
 ## ROD-002 Manual Intervention
 

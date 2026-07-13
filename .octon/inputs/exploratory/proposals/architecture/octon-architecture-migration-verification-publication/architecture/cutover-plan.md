@@ -54,7 +54,8 @@ exist, and production autonomous Class B must remain disabled.
 - Permitted: exact scratch no-PR effects and protected PR selected by the
   immutable policy.
 - Prohibited: production autonomous Class B until RP-07 and RP-08 exit.
-- Rollback: disable autonomous publication and retain protected PR.
+- Rollback: disable autonomous publication and preserve every frozen candidate;
+  PR remains only when independently selected before effect.
 
 ## Prohibited Intermediate States
 
@@ -72,10 +73,13 @@ exist, and production autonomous Class B must remain disabled.
 
 ## Compatibility
 
-Protected PR is the only compatibility lane and only for valid work selected
-by the immutable policy. Invalid, stale, forged, revoked, raced, wrong-SHA,
-wrong-target, or wrong-scope authority denies and requires fresh authority.
-There is no candidate-verifier, ambiguous-context, or direct-main bridge.
+Protected PR is a policy-selected route only, not a compatibility or recovery
+fallback. Invalid, stale, forged, revoked, raced, wrong-SHA, wrong-target,
+wrong-scope, collided, `ATTEMPTING`, or `UNKNOWN` tuples deny/reconcile and
+require fresh authority for any new attempt. Cutover proves the complete no-PR
+and PR paths on disposable refs, freezes route before T1, then proves post-land
+verification, mirror, and cleanup handoff. There is no candidate-verifier,
+ambiguous-context, direct-main, or route-switch bridge.
 
 ## Cutover Completion
 

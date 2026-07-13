@@ -6,7 +6,8 @@ summary: >-
   signed-evidence contract to reconcile every unknown provider outcome before
   retry, preserve honest attribution, provide narrow degraded operation and
   concise status, and prove a zero-routine-prompt Class B vertical with
-  deterministic protected-PR fallback.
+  frozen routes, deterministic policy-selected protected PR, conditional
+  cleanup, and no technical-failure fallback.
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
 promotion_targets:

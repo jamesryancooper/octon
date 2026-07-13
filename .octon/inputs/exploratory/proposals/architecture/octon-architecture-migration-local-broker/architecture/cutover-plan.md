@@ -13,7 +13,8 @@
 - Proposal acceptance, implementation-grade completeness, and independent
   architecture review pass.
 - Sentinel credentials, disposable scratch target, prior certified broker
-  rollback artifact, protected-PR path, and exact repo/store baselines exist.
+  rollback artifact, candidate-preservation path, and exact repo/store
+  baselines exist.
 
 ## Default-Disabled Preparation
 
@@ -41,7 +42,8 @@
 5. Kill/restart at every boundary; verify UNKNOWN is never resent, pending
    state is visible, and the service returns healthy within measured budget.
 6. Verify one-command fresh setup, quiet healthy status, doctor/repair,
-   compatible upgrade, safe uninstall refusal, and rollback to protected PR.
+   compatible upgrade, safe uninstall refusal, and fail-closed rollback with
+   candidate and frozen operation state preserved.
 7. Publish ED-002/ED-007, role inventory, PO-FD-006/UE-003, scratch-effect,
    rollback, conformance, and drift receipts.
 
@@ -51,7 +53,8 @@ At SI-04, one supervised broker holds sentinel/non-production credential
 custody, is the sole store writer/effect host, and can perform one disposable
 scratch effect. Production Class B publication, Git effects, remote workers,
 and broker-authored verdicts remain prohibited. The system can pause here with
-candidate work preserved and protected PR available.
+candidate work and frozen route state preserved. A protected PR is available
+only for work independently selected by RP-06 before effect execution.
 
 ## Handoff
 

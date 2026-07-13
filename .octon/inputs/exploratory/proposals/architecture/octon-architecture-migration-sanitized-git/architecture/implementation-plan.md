@@ -63,8 +63,8 @@ implementation gates pass.
 - Convert required callers to the broker adapter.
 - Remove or hard-disable ambient mutation code only after positive and
   negative parity proof.
-- Preserve protected PR as the only production bridge until RP-06, RP-07, and
-  RP-08 gates pass.
+- Keep production publication disabled until RP-06, RP-07, and RP-08 gates
+  pass; PR is not a technical compatibility fallback.
 - Update material-side-effect inventory and authorization-boundary coverage so
   direct Git mutation outside the adapter is denied.
 
@@ -91,3 +91,9 @@ expected-old plus fast-forward-only behavior, if object transfer requires
 candidate execution, if RP-04 cannot provide exclusive credential custody, or
 if implementation requires a durable non-.octon target. Such evidence triggers
 architecture repair or an owning-packet decision, not a weaker adapter.
+
+The effect workstream implements four sealed operations, not a generic client:
+source-ref expected-absent/expected-tip create/update, target `O -> S` CAS,
+conditional expected-tip delete, and fast-forward-only local mirror. Every
+provider call commits a distinct RP-03 operation/attempt before send. RP-06
+owns requests/PR policy; RP-08 owns result and cleanup lifecycle.

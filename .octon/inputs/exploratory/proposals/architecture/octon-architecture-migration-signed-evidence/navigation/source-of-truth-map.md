@@ -44,6 +44,7 @@ policy.
 | Physical terminal reserve and evidence capacity/retention policy | RP-07 | Logical reservation remains RP-03-owned; no lease service is created. |
 | Quotas, pins, compaction, locality, and minimal projection rules | RP-07 | Raw payloads stay local/outside Git; signed pointers are non-authoritative evidence. |
 | Unknown-outcome reconciliation and Class B end-to-end behavior | RP-08 | Consumes signed evidence; may not weaken or reinterpret it. |
+| Publication grant/verdict/operation/provider/landed/reconciliation evidence chain | RP-07 | Authenticates references and direct observations; never issues grant, selects route, executes effect, classifies `UNKNOWN`, or authorizes cleanup. |
 
 ## Direct-Observation Signature Boundary
 

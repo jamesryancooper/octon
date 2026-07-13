@@ -15,7 +15,9 @@ reviewed_at: 2026-07-12
 - The fixed architecture-migration reconciliation remains the controlling
   non-authoritative planning baseline.
 - ROD-006 is accepted: Octon has no human or agent direct-main route, ordinary
-  human Git remains outside Octon, and protected PR is the privileged bridge.
+  human Git remains outside Octon, and no universal privileged PR bridge
+  follows. During containment, eligible no-PR work is blocked and preserved;
+  PR is available only when independently review-selected and proved safe.
 - `.github/**` remains a host-projection family rather than an
   `octon-internal` promotion target.
 - Current RP-00 source assumptions are unchanged between the reconciliation
@@ -69,6 +71,8 @@ Do not implement from this failing receipt.
 
 Supersession note: the original completeness review treated ROD-006 as open.
 The accepted disposition removes every Octon-owned human or agent direct-main
-route, leaves ordinary human Git outside Octon, and uses protected PR as the
-privileged bridge. The `fail` verdict is preserved because proposal acceptance,
-independent review, and implementation evidence remain absent.
+route and leaves ordinary human Git outside Octon. This revision further
+supersedes the earlier privileged-bridge interpretation: protected PR is only
+an independently selected valid-work route after its writer boundary is proved.
+The `fail` verdict is preserved because proposal acceptance, independent review,
+and implementation evidence remain absent.

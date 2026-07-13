@@ -20,7 +20,7 @@ Preservation is not a completion claim.
 | Coupled verification/effect plane | Candidate workflows or provider identities can combine decision and mutation | Separate verifier/check identity from publisher/effect identity |
 | Route policy spread | Current direct-main, branch-no-PR, and branch-PR rules do not implement one frozen A/B/C predicate | Publish one immutable typed policy and digest |
 | Invalid-authority escalation risk | Blocked routes can be mistaken for PR predicates | Deny invalid authority; PR only for valid policy-selected review |
-| Provider worker authority | Current writer workflows can act from candidate code | Optional worker consumes exact broker authority and owns no state/policy |
+| Provider worker authority | Current writer workflows can act from candidate code | Exclude FD-007 from brokered Git publication; the sole RP-04-hosted RP-05 effect owns ref mutation. Any non-Git worker claim is separately gated and non-authoritative. |
 | Projection source missing | .github workflow files are live owners, with no accepted .octon generator found | Establish authored .octon source/generator before projection changes |
 | Provider evidence staleness | Rules, Apps, permissions, contexts, and secrets are point-in-time | Refresh at implementation and promotion |
 
@@ -49,6 +49,25 @@ applicable.
   path.
 - Context-name-only trust is demoted to display/projection metadata.
 - Autonomous direct-main remains unreachable.
+
+## Brokered Publication Reassessment Evidence
+
+The planned target addresses `BNP-F-001` through `BNP-F-013`: privileged
+candidate-head execution, self-issued/incomplete no-PR authorization,
+context-name/static and post-main validation, missing true expected-old CAS,
+incomplete PR base/head/review binding, unsafe cleanup, `S != Q`, multi-commit
+history contradiction, in-band evidence, direct/local-main authority ambiguity,
+route switching, unequal-floor proof, and source-ref ownership.
+
+Bounded provider observations refreshed 2026-07-13 show candidate run
+`29249394310` and route run `29249511200` passed required route checks; guard run
+`29249511103` observed after the change; Main Push Safety run `29249511080`
+failed after landing. The range
+`d78ee8b42cb3a39557bbe39b66cb5d156946172a..71df92e0ecae6b07c924872931601d51f107e181`
+contained two commits. Ruleset `12881449` had no bypass actors, required four
+route checks, protected linear/non-fast-forward/deletion behavior, and did not
+require PR universally. These are current evidence, not authority or proof of
+the recommended target; no raw logs are retained in project Git.
 - Invalid authority cannot be converted into a PR effect.
 - Provider dashboards, labels, comments, and checks remain non-authoritative.
 - Current workflow files become derived projections or retire only after an

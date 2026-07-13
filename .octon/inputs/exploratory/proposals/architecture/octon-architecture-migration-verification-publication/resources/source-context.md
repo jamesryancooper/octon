@@ -82,3 +82,12 @@ No unrelated review directory, external source, live provider mutation, or
 unlisted proposal was used. Current provider identity, rules, Apps,
 permissions, environments, secrets, and check producers remain unresolved
 dynamic proof under UE-006 and UE-015.
+
+## Bounded Git Lifecycle Reassessment
+
+Read-only provider refresh on 2026-07-13 referenced candidate run
+`29249394310`, route run `29249511200`, guard run `29249511103`, Main Push
+Safety run `29249511080`, ruleset `12881449`, and landed range
+`d78ee8b42cb3a39557bbe39b66cb5d156946172a..71df92e0ecae6b07c924872931601d51f107e181`.
+These references support current-state gaps only. Raw workflow logs are excluded
+from project Git and the observations do not authorize or prove the target.

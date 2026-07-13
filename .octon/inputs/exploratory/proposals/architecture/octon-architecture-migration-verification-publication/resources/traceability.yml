@@ -5,7 +5,7 @@ decisions:
     ownership: "primary optional-provider-worker boundary"
     proof_id: "PO-FD-007"
     promotion_gate: "PG-06-PROVIDER-WORKER"
-    claim_condition: "required only when the optional worker claim is promoted"
+    claim_condition: "required only when a separately gated non-Git optional-worker claim is promoted; excluded from brokered Git publication"
   - id: "FD-010"
     ownership: "primary"
     proof_id: "PO-FD-010"
@@ -70,8 +70,8 @@ operator_decisions:
     ownership: "RP-06 durable policy-encoding and proof phase"
     accepted_rule: >-
       Encode the intake-accepted A/B/C model, verified eligible-Class-B no-PR
-      publication, deterministic protected PR escalation, protected Class C and
-      trust-root handling, no autonomous direct-main route, and notification
+      publication by default, deterministic review-selected protected PR,
+      protected Class C and trust-root handling, no autonomous direct-main route, and notification
       only for irreducible ambiguity while preserving denial for invalid
       authority.
     remaining_work: "Durable typed encoding and proof; no operator disposition remains."
@@ -107,3 +107,9 @@ claim_effect:
   live_support_widened: false
   implementation_claimed: false
   proof_claimed: false
+brokered_no_pr_revision:
+  primary_findings: ["BNP-F-003", "BNP-F-005", "BNP-F-007", "BNP-F-008"]
+  cross_findings: ["BNP-F-001", "BNP-F-002", "BNP-F-010", "BNP-F-011", "BNP-F-012", "BNP-F-013"]
+  prior_audit_lineage: ["GIT-ENF-002", "GIT-ENF-003", "GIT-ENF-004", "GIT-ENF-005", "GIT-ENF-007", "GIT-ENF-010", "GIT-ENF-012", "GIT-ENF-014", "GIT-LC-001", "GIT-LC-004", "GIT-LC-006", "GIT-LC-007", "GIT-LC-008", "GIT-LC-009", "GIT-LC-010"]
+  semantic_ownership: ["route-policy", "exact-V", "history-shape", "protected-PR-semantics", "S-to-Q-proof", "local-main-mirror-orchestration"]
+  exclusions: ["grant issuance", "Git primitive", "signed evidence", "provider result classification", "UNKNOWN recovery", "cleanup lifecycle"]

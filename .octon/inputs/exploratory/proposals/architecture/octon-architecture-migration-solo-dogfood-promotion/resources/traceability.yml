@@ -19,7 +19,7 @@ operator_decisions:
   - id: "ROD-006"
     status: "accepted"
     relationship: "consumed upstream from RP-00"
-    scope: "no Octon-owned human or agent direct-main route; ordinary human Git remains outside Octon; protected PR is the privileged bridge"
+    scope: "no Octon-owned human or agent direct-main route; ordinary human Git remains outside Octon; eligible Class B defaults to brokered no-PR and PR is review-selected only"
     excludes: "final support wording and optional-capability promotion, which remain evidence-gated"
 engineering_defaults:
   - {id: "ED-007", ownership: "shared audit contribution", implementation_owners: ["RP-00", "RP-06"]}
@@ -34,3 +34,8 @@ dependencies:
     - "octon-architecture-migration-harness-factory"
     - "octon-architecture-migration-extension-supply-chain"
     - "octon-architecture-migration-bounded-child-agents"
+brokered_no_pr_revision:
+  primary_findings: ["BNP-F-012"]
+  integrated_cross_findings: ["BNP-F-001", "BNP-F-002", "BNP-F-003", "BNP-F-004", "BNP-F-005", "BNP-F-006", "BNP-F-007", "BNP-F-008", "BNP-F-009", "BNP-F-010", "BNP-F-011", "BNP-F-013"]
+  prior_audit_lineage: ["GIT-ENF-001", "GIT-ENF-002", "GIT-ENF-003", "GIT-ENF-004", "GIT-ENF-005", "GIT-ENF-007", "GIT-ENF-008", "GIT-ENF-009", "GIT-ENF-010", "GIT-ENF-011", "GIT-ENF-012", "GIT-ENF-014", "GIT-LC-001", "GIT-LC-002", "GIT-LC-004", "GIT-LC-006", "GIT-LC-007", "GIT-LC-008", "GIT-LC-009", "GIT-LC-010", "GIT-LC-011"]
+  boundary: "proof-only; failed proof routes to the semantic owner and never mutates runtime/provider/claims"

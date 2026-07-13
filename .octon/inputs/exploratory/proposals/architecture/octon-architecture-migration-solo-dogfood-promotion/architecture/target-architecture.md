@@ -22,3 +22,12 @@ claim-scoped promotion of passing tuples. A failed or stale proof demotes the
 claim, disables the affected route through its owning child, and preserves the
 lower safe state. RP-14 never edits runtime, workflow, CLI, validator, provider,
 support, or implementation surfaces to change the outcome.
+
+The brokered publication cohort freezes `O`, `S`, `V`, and PR squash `Q`, route
+and history policy, substantive harness/results, operation/attempt, landed
+proof, mirror, cleanup, and preserved-work evidence. No-PR and PR cohorts use an
+equal substantive validation floor. Candidate credential scans, malicious
+candidate-head execution negatives, true expected-old CAS races, one-commit
+default/bounded-series history, PR `S -> Q`, closed-unmerged preservation, and
+provider-protection feasibility are mandatory. If true CAS needs bypass,
+publication remains disabled and the product claim fails.

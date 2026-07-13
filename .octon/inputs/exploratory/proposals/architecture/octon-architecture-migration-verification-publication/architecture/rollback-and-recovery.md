@@ -69,3 +69,9 @@ Recovery succeeds when autonomous publication is disabled or the exact prior
 certified verifier/policy/projection boundary is restored, candidate work is
 preserved, and no unresolved effect is retried. Provider availability alone
 is not recovery proof.
+
+Rollback preserves `O`, `S`, `V`, route, history, operation/attempt, and every
+provider observation. Target/base/head movement invalidates the tuple and
+requires a fresh pre-effect decision; it never changes the frozen attempt to
+PR. Mirror failure leaves hosted landed proof intact. Cleanup failure preserves
+the source candidate and reports `landed/cleanup-deferred`, never `cleaned`.

@@ -28,8 +28,9 @@ normal view.
 
 - Wrong target, stale expected-old, non-ancestor, or invalid authority: deny
   without mutation.
-- Valid work that does not meet no-PR predicates: preserve and route to
-  protected PR through RP-06.
+- Valid work independently selected by RP-06 for review or stable pre-route
+  contention: preserve and use protected PR. Every other noneligible or invalid
+  case denies and preserves work.
 - Provider or adapter outage: preserve work and retry only after safe
   reconciliation.
 - Irreducibly unknown outcome: present one concise actionable intervention,
@@ -66,3 +67,9 @@ RP-05 should add no routine prompts, preserve blocked candidate work, avoid a
 new visible profile, and keep mediation overhead inside the later program's
 60-second p50 budget excluding provider queue time. RP-14 owns final measured
 product claims.
+
+An expected-old collision is shown as `blocked / fresh tuple required`; an
+outage or ambiguous response is `reconciling`; neither is shown as PR. PR status
+appears only when RP-06 selected that route before effect. Source candidate,
+mirror, and conditional-cleanup status remain visible without exposing raw logs
+or credentials.

@@ -31,7 +31,7 @@ Changed or missing inputs deny; they are never refreshed mid-attempt.
 | Class / condition | Behavior | Prompt posture |
 | --- | --- | --- |
 | Admitted Class A | Complete autonomously inside the declared safe local boundary. | No routine prompt. |
-| Eligible admitted Class B | T1, broker effect, T2/reconciliation, signed verdict, automatic no-PR publication. | No routine prompt. |
+| Eligible admitted Class B | T1, broker effect, T2/reconciliation, signed verdict, default `brokered-class-b-no-pr` publication. | No routine prompt. |
 | Valid Class B not eligible for no-PR | Deterministic protected PR using the frozen RP-06 predicate; preserve exact candidate. | No routine prompt unless the effect state is irreducibly ambiguous under the settled ROD-002 rule. |
 | Class C | Require its stronger authorized route; lower-route/no-PR downgrade denies. | Only the stronger route's explicit authority process. |
 | Invalid, stale, revoked, raced, wrong-target, or mismatched authority | Deny and require fresh authorization. Never convert to PR. | One actionable denial, not approval laundering. |
@@ -45,6 +45,7 @@ predicate to improve metrics.
 
 RP-03 atomically verifies/reserves the operation and idempotency identity,
 consumes the single-use authority as defined there, reserves terminal evidence,
+freezes route plus repository/source/target/`O/S/V`/grant/policy/history digests,
 records `ATTEMPTING`, and emits the exact outbox request. If T1 does not commit,
 the broker is not called.
 
@@ -81,7 +82,9 @@ operation before accepting a retry for the same idempotency scope. Each provider
 reconciler uses bounded, read-only, authenticated probes against the exact
 repository/ref/expected-old/desired-new/operation identity:
 
-1. validate current RP-06 route/verdict and RP-07 signed-head/completeness;
+1. authenticate the RP-03 T1-frozen RP-06 route/verdict references and observe
+   expiry or revocation without reclassifying or switching the route; validate
+   RP-07 signed-head/completeness;
 2. fetch authenticated operation receipt/audit identity when available;
 3. observe exact current provider state and target preconditions;
 4. classify evidence strength without inferring causation from equality;
@@ -95,13 +98,29 @@ an attempt-bound receipt/audit identity. Otherwise it yields
 conflicting receipt ends `manual_intervention` unless the provider evidence
 proves a safer terminal. Blind resend is prohibited.
 
-## Deterministic Protected-PR Fallback
+## Policy-Selected Protected-PR Route
 
-Protected PR is a route for valid work that the immutable RP-06 predicate says
-is ineligible for automatic no-PR landing. It uses the same exact candidate,
+Protected PR is a route for valid work that the immutable RP-06 predicate
+selects before effect because review or stable pre-route contention requires
+it. It uses the same exact candidate,
 verdict, signed evidence, and target state. It does not repair invalid authority,
 weaken class, obscure `UNKNOWN`, or treat PR creation as effect success. If PR
 creation itself becomes unknown, it uses the same reconciliation rules.
+
+Source-ref create/update, PR create/update, and merge are separate
+T1/external/T2 operations. Each binds expected base/head and full RP-06 review
+state. A lost result enters `UNKNOWN`; base/head movement invalidates the tuple.
+No retry or route switch occurs until reconciliation. An expected-old collision
+on no-PR is a failed/not-performed result only as direct evidence permits; a
+new attempt needs fresh `O`, grant, `V`, policy decision, and route.
+
+## Mirror And Conditional Cleanup
+
+After independent landed proof, RP-06 orchestrates the fast-forward-only local
+mirror. RP-08 classifies mirror outcome and exclusively owns cleanup
+eligibility/status. Cleanup requires route-specific landed proof plus an RP-05
+expected-tip primitive. A moved tip, closed-unmerged PR, failed delete, or
+unknown delete preserves the candidate and reports `landed/cleanup-deferred`.
 
 ## Narrow Degraded Operation
 
@@ -163,11 +182,11 @@ replays this component with two projects and 30-day burden/product budgets.
 
 Entry is SI-05 plus RP-07 signed evidence/capacity/retention. Required proof is
 unknown reconciliation, target-race/duplicate/lost-response/provider-outage/
-broker-crash handling, deterministic PR escalation, and zero routine prompts.
+broker-crash handling, deterministic PR selection, conditional cleanup, and zero routine prompts.
 Only admitted Class B inside the proved tuple is permitted. Trust-root
 automation and broader support claims are prohibited. Rollback disables Class B,
-preserves work, and uses protected PR without disabling signing while claiming
-autonomous success.
+preserves work and the frozen route without disabling signing or claiming
+autonomous success. A later PR requires a fresh valid pre-effect selection.
 
 ## Simplicity Constraints
 

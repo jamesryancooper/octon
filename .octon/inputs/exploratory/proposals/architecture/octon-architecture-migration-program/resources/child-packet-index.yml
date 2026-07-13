@@ -14,6 +14,9 @@ children:
     write_scopes:
       - ".octon/framework/product/contracts/default-work-unit.yml"
       - ".octon/framework/product/contracts/default-work-unit.md"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh"
       - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
       - ".octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json"
       - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
@@ -251,6 +254,7 @@ children:
       - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
       - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh"
       - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh"
       - ".octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md"
       - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
       - ".octon/framework/assurance/runtime/_ops/tests/sanitized-git/"
@@ -274,6 +278,8 @@ children:
     phase_id: "phase-5-verification-publication"
     rollback_posture: "rollback-route"
     write_scopes:
+      - ".octon/framework/product/contracts/default-work-unit.yml"
+      - ".octon/framework/product/contracts/default-work-unit.md"
       - ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
       - ".octon/framework/engine/runtime/adapters/host/github-control-plane/"
       - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"

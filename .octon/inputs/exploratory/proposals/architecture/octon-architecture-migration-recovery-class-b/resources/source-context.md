@@ -72,3 +72,10 @@ accepted, rejected, superseded, archived, or made a program child here.
 
 Unrelated reviews, chat, generated summaries, provider dashboards, and unscoped
 ideation are excluded semantic inputs.
+
+## Bounded Git Lifecycle Input
+
+Read-only references to runs `29249394310`, `29249511200`, `29249511103`,
+`29249511080`, ruleset `12881449`, and the observed two-commit range support the
+current race/validation/cleanup gaps only. No raw logs were imported. Provider
+observations remain evidence, not authority or future recovery proof.

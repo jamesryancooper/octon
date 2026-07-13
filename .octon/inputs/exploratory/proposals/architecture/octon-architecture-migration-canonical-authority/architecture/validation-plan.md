@@ -11,3 +11,7 @@
 Run proposal structural, architecture, implementation-readiness, authority
 coverage, execution-governance, and packet-owned test validators. Planned tests
 are not evidence until executed against the exact implementation commit.
+
+Publication-scope fixtures substitute wrong issuer, repository, source
+identity/ref, `S`, target ref, `O`, route-policy digest, operation, expiry,
+revocation epoch, and consequence scope. Every mismatch denies before T1.
