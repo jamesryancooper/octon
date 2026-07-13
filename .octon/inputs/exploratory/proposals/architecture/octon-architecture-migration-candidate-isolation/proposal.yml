@@ -63,4 +63,3 @@ explicit_runtime_non_implementation_statement: >-
   Creating this draft does not launch a candidate, create a sandbox, access a
   provider session, read credentials, create or export Git objects, or
   authorize an effect.
-

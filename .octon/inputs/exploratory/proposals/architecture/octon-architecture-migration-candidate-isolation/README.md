@@ -58,4 +58,3 @@ After accepted implementation and direct proof, RP-02 may close only when a
 useful primary-provider task succeeds and every durable-credential,
 canonical-Git, parent-FD, filesystem, network, and process escape test denies.
 Candidate work must remain exportable if automated launch is disabled.
-

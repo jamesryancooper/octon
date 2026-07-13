@@ -30,4 +30,3 @@ provider versions.
   never authority invented by RP-02.
 - Protected PR as the safe candidate-preservation route while privileged
   publication remains disabled.
-

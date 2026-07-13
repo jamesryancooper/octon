@@ -51,4 +51,3 @@ evidence are non-authoritative.
 - Missing sandbox, session, environment, FD, export, cleanup, or positive-task
   proof blocks exit.
 - A new generic adapter or broker/control plane is prohibited.
-

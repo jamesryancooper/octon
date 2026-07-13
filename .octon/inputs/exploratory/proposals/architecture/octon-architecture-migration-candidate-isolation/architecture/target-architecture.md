@@ -85,4 +85,3 @@ effects, sanitized Git publication, immutable verifier identity, Class B
 recovery, trust activation, generic multi-provider conformance, or a live
 secondary-provider claim. Linux remains experimental and native Windows and VM
 infrastructure remain outside the target.
-

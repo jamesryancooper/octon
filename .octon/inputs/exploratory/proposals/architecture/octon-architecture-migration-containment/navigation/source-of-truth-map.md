@@ -51,4 +51,3 @@ surfaces.
   RP-06 publication, RP-07 evidence, or RP-14 product-proof ownership.
 - A durable non-`.octon/**` implementation target requires a linked proposal;
   it may not be silently added here.
-

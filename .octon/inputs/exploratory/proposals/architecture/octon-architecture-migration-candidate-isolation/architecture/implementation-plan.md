@@ -76,4 +76,3 @@ primitives. If a new library is required for sandbox or session integration,
 implementation must add its exact Cargo targets to the packet, retain a
 Dependency Receipt, and re-run completeness review before coding. A dependency
 cannot silently broaden the promotion targets.
-

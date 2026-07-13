@@ -61,4 +61,3 @@ runtime or provider proof conditions.
   RP-04 until the shared provider-session evidence is complete.
 - **AC-15:** Implementation conformance and post-implementation drift/churn
   receipts pass before `implemented` or implemented archival is claimed.
-

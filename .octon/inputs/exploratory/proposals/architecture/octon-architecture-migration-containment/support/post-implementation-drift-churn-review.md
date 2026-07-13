@@ -68,4 +68,3 @@ Draft authoring changes are excluded from implemented-result review.
 Do not close out or archive as implemented. Re-run only after conformance passes
 and all final implementation, projection, and retained-evidence mutations are
 complete.
-

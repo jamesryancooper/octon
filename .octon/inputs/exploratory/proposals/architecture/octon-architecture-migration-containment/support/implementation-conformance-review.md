@@ -57,4 +57,3 @@ Proposal creation itself is not implementation conformance evidence.
 Do not set `implemented`, close out, promote, or archive as implemented. Run
 this gate only after an accepted, authorized implementation produces direct
 evidence and the completeness gate passes.
-

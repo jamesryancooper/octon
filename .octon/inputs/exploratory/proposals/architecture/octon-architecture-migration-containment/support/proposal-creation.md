@@ -42,4 +42,3 @@ The registry is intentionally unchanged because this delegated child-authoring
 task has no registry ownership. The parent integration route must regenerate
 and validate the registry through its canonical generator after all assigned
 packet writes are integrated.
-
