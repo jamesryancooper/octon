@@ -1,0 +1,184 @@
+schema_version: "octon-architecture-migration-packet-contract-v1"
+logical_packet_id: "RP-05"
+workgroup_id: "RWG-05"
+proposal_id: "octon-architecture-migration-sanitized-git"
+parent_program: "octon-architecture-migration-program"
+purpose: >-
+  Perform only an exact broker-authorized Git ref effect without executing
+  candidate-controlled Git behavior.
+problem_statement: >-
+  Current hosted helpers use ambient repository and Git context, bind
+  target-pre through check-then-push, and lack a durable causal-attribution
+  boundary.
+target_state: >-
+  One closed Git adapter inside the RP-04 broker imports exact objects without
+  execution and performs only server-observed expected-old, independently
+  ancestry-proved, fast-forward updates.
+scope:
+  - "broker-owned minimal or bare Git state"
+  - "pinned provider repository identity"
+  - "non-executing candidate object import"
+  - "closed command, config, environment, and transport allowlist"
+  - "expected-old fast-forward effect"
+  - "effect observation and attribution interface"
+non_goals:
+  - "candidate checkout under broker identity"
+  - "generic Git client"
+  - "force update"
+  - "provider verifier"
+  - "publication route policy"
+  - "support admission"
+invariants:
+  - "one broker; no second control plane"
+  - "candidate and broker Git state are independent"
+  - "no candidate Git behavior executes under broker identity"
+  - "request identities remain exact for one attempt"
+  - "ancestry and expected-old are both required"
+  - "non-fast-forward updates are unreachable"
+  - "unknown outcomes reconcile before retry"
+  - "protected PR preserves candidate work"
+planned_durable_source_ownership:
+  broker_git_adapter: ".octon/framework/engine/runtime/crates/local_broker/src/adapters/git/"
+  authorized_effect_types: ".octon/framework/engine/runtime/crates/authorized_effects/"
+  effect_inventory: ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+  authorization_coverage: ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+  hosted_helper_cutover: ".octon/framework/execution-roles/_ops/scripts/git/"
+  git_contracts:
+    - ".octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md"
+    - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+  validation_suite: ".octon/framework/assurance/runtime/_ops/tests/sanitized-git/"
+proposal_lifecycle_ownership:
+  manifests: "this child packet"
+  acceptance_and_implementation: "child-owned lifecycle routes"
+  parent_substitution_allowed: false
+retained_evidence_ownership:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-sanitized-git/"
+  raw_provider_secrets_allowed: false
+components_affected:
+  - "hosted no-PR scripts"
+  - "broker Git adapter"
+  - "Git config and transport boundary"
+  - "provider ref operation"
+contracts_affected:
+  - ".octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md"
+  - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+schemas_affected:
+  - "authorized Git effect request and result types"
+  - "material-side-effect inventory"
+  - "authorization-boundary coverage"
+workflows_and_generated_projections_affected:
+  - "current hosted-no-PR helper call chain"
+  - "RP-06 GitHub workflow projections, affected but not owned"
+provider_configuration_observed:
+  - "GitHub rules and credentials are point-in-time planning evidence only"
+technical_identities_affected:
+  - "RP-04 broker identity"
+  - "operation-scoped provider Git credential"
+  - "RP-06 verifier identity remains distinct"
+trust_boundary_changes:
+  - "privileged Git moves from ambient helper context to broker-owned adapter"
+  - "Git observation remains evidence and never authority"
+migration_preconditions:
+  - "RP-04 verified exit"
+  - "frozen RP-03 operation/attempt interface"
+  - "ED-003 feasibility retained"
+  - "scratch provider repository"
+migration_steps:
+  - "freeze physical ownership and contracts"
+  - "implement independent object import"
+  - "close Git execution and configuration surface"
+  - "prove expected-old fast-forward provider primitive"
+  - "migrate callers and retire ambient writer"
+  - "retain proof and hand interface to RP-06"
+safe_intermediate_states:
+  - "adapter installed without credential"
+  - "scratch credential limited to disposable refs"
+  - "primitive proven while production route remains disabled"
+prohibited_intermediate_states:
+  - "dual ambient and broker writers"
+  - "candidate checkout or config under broker identity"
+  - "candidate provider credential"
+  - "check-then-push claimed as atomic"
+  - "blind retry"
+  - "production Class B before RP-06 through RP-08"
+compatibility_bridges:
+  - "protected PR only"
+deprecations_and_retirements:
+  - "ambient hosted Git mutation"
+  - "autonomous direct-main remains removed"
+rollback_strategy: >-
+  Disable the Git effect route and preserve candidate work for protected PR;
+  restore only a prior certified adapter behind the same broker boundary.
+recovery_strategy: >-
+  Preserve attempt facts, reconcile target state before retry, and distinguish
+  state satisfaction from attempt performance; manual intervention is honest
+  terminality when causation cannot be resolved.
+validation_plan:
+  - "hostile Git extension matrix"
+  - "object import non-execution"
+  - "repository identity pin"
+  - "ancestry, expected-old, and target races"
+  - "lost response and concurrent actor"
+  - "outage and restart"
+adversarial_tests:
+  - "hooks, includes, aliases, helpers, filters, drivers, fsmonitor"
+  - "submodules, alternates, transports, signing, editor, pager, attributes"
+fault_injection:
+  - "before and after import, T1, credential, send, response, observation, T2"
+evidence_to_retain:
+  - "adapter and allowlist digest"
+  - "hostile fixture results"
+  - "scratch effect and observation receipts"
+  - "target-race and attribution results"
+  - "writer inventory"
+support_claim_effect: "none until later proof and promotion"
+operator_experience_effect: >-
+  Zero routine prompts and no new normal command; blocked work is preserved
+  with concise status and protected-PR fallback.
+setup_and_maintenance_effect: >-
+  Reuse RP-04 setup, doctor, repair, credential rotation, and supervision; no
+  additional daemon or store.
+dependencies:
+  - "RP-04"
+parallelization_constraints:
+  - "RP-06 may design in parallel but cannot exit before RP-05 proof"
+  - "no concurrent edit of RP-05-owned Git adapter or helper targets"
+must_not_run_concurrently_with:
+  - "RP-04 broker-interface mutation"
+  - "RP-03 operation-transition mutation"
+operator_decisions: []
+engineering_dispositions:
+  - "ED-003"
+blocking_findings:
+  - "RF-008"
+  - "RF-009"
+  - "RF-018"
+  - "RF-023"
+  - "RF-026"
+entry_criteria:
+  - "RP-04 exits"
+  - "ED-003 applied"
+exit_criteria:
+  - "exact fast-forward succeeds from broker state"
+  - "all candidate extension routes deny"
+  - "wrong identity, expected-old, and ancestry deny"
+  - "observation and causal attribution remain distinct"
+proof_produced:
+  - "PO-FD-009"
+  - "PG-05-SANITIZED-GIT"
+  - "UE-005"
+  - "FD-010 Git primitive interface evidence for RP-06"
+authoritative_promotion_requirements:
+  - "accepted child proposal"
+  - "strict pre-integration architecture review"
+  - "implementation authorization"
+  - "direct adversarial and provider proof"
+  - "rollback proof"
+  - "implementation conformance"
+  - "post-implementation drift and churn review"
+unsupported_remainder:
+  - "generic or force Git"
+  - "provider verifier"
+  - "production autonomous publication"
+  - "universal causal attribution"
+  - "trust activation"

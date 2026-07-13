@@ -1,0 +1,80 @@
+schema_version: "octon-architecture-migration-packet-contract-v1"
+logical_packet_id: "RP-01"
+workgroup_id: "RWG-01"
+purpose: "Create the sole candidate-immutable authority evaluator and exact one-shot launch-guard semantic interface."
+problem_statement: "Current authority and launch seams are not yet proved as one immutable, typed, bypass-free interface suitable for autonomous execution."
+current_repository_state:
+  - "Authority, policy, authorization, and launch seams exist but remain distributed across authority_engine, policy_engine, lifecycle_executor, and kernel call sites."
+current_evidence:
+  classification: "STATICALLY_INSPECTED"
+  limits: "Repository structure is inspected; candidate-immutability, exact dominance, scope negatives, and concurrency behavior remain unexecuted."
+accepted_decisions: ["FD-003", "FD-004"]
+target_state:
+  - "One installed evaluator/policy/bin/config/receipt identity is the only decision source."
+  - "One exact final guard structurally dominates every candidate launch and consumes admission at most once."
+scope:
+  - "Typed authority scope, evaluator identity, policy/config binding, grant/revocation semantics, receipts, guard API, and launch dominance."
+non_goals:
+  - "Credential custody, provider effects, persistence schema, candidate isolation mechanics, child budgets, retirement, publication, or trust activation."
+invariants:
+  - "Candidate-controlled material can never select or modify the evaluator, policy, configuration, revocation state, or final guard."
+  - "Missing, stale, revoked, widened, substituted, or consumed authority denies."
+planned_durable_source_ownership:
+  semantic_owner: "RP-01 owns authority and guard semantics at named modules/symbols."
+  shared_integration: "Shared launcher and registry files are serialized through the parent trusted integration lane."
+  excluded: "RP-03 owns persistence; RP-02 isolation; RP-04 credentials/effects; RP-11 Harness; RP-13 child budgets."
+proposal_lifecycle_ownership: "RP-01 owns its own review, implementation, proof, conformance, promotion, and closeout receipts."
+retained_evidence_ownership: ".octon/state/evidence/validation/proposals/octon-architecture-migration-canonical-authority/"
+components_affected: ["authority_engine", "policy_engine", "lifecycle_executor authorization", "kernel launch integration", "authority assurance"]
+files_expected_to_change:
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/{api,execution,effects,policy,records}.rs"
+  - ".octon/framework/engine/runtime/crates/policy_engine/**"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs"
+  - ".octon/framework/engine/runtime/spec/{execution-authorization-v1.md,policy-interface-v1.md,authorization-boundary-coverage*}"
+contracts_affected: ["grant-bundle-v2", "revocation-v1", "execution authorization", "policy interface"]
+schemas_affected: ["grant-bundle-v2.schema.json", "revocation-v1.schema.json", "authorization-boundary-coverage-v1.schema.json"]
+workflows_and_generated_projections_affected:
+  - "Candidate-launch workflows consume the frozen guard API; generated surfaces remain projections and are not RP-01 authority."
+provider_configuration_observed:
+  - "Provider configuration is observation-only and is not changed or trusted by this packet."
+technical_identities_affected: ["evaluator version/digest", "policy digest", "configuration digest", "candidate digest", "Harness digest", "epoch", "grant id", "guard id"]
+trust_boundary_changes:
+  - "Moves authority evaluation and final launch admission outside candidate control."
+migration_preconditions: ["RP-00 containment complete", "accepted ROD-003 epoch-zero and preauthorization boundary bound"]
+migration_steps: ["census", "specify", "implement", "adversarially test", "freeze interface", "atomic cutover"]
+safe_intermediate_states:
+  - id: "SI-01"
+    state: "Only exact-guarded non-privileged candidate launches are admitted; every privileged route remains disabled."
+prohibited_intermediate_states:
+  - "Two issuers, candidate-tree fallback, log-only guard, direct launcher, or persistence code that redefines authority semantics."
+compatibility_bridges:
+  - "Optional pre-cutover read-only outcome comparison; never an authority source and removed at atomic cutover."
+deprecations_and_retirements:
+  - "Retire legacy authority writers and direct launch bypasses only after census and proof."
+rollback_strategy: "Disable launch and select only a previously certified authority package; otherwise stay fail-closed."
+recovery_strategy: "Preserve candidate work and denial evidence, restore certified package identity, revalidate epoch/revocation, then reconsider launch."
+validation_plan: ["static spawn census", "typed scope matrix", "substitution/revocation matrix", "N-way guard consumption", "crash fault injection", "SI-01 operability"]
+adversarial_tests: ["wrong evaluator/policy/config", "wrong repo/candidate/Harness", "path-ref-URI widening", "stale/revoked/consumed grant", "direct spawn attempt"]
+fault_injection: ["crash before guard", "crash during consumption", "crash before spawn", "concurrent consumers"]
+evidence_to_retain: ["interface digest", "spawn census", "negative matrix", "concurrency/fault receipts", "SI-01 receipt", "rollback rehearsal"]
+support_claim_effect: "None at proposal creation; future proof is necessary but insufficient for any support claim."
+operator_experience_effect: "Zero routine prompts for valid launches; concise fail-closed denial otherwise."
+setup_and_maintenance_effect: "Expose evaluator/policy/epoch/guard health without adding a separate control plane."
+dependencies: ["RP-00"]
+parallelization_constraints:
+  - "RP-01 and RP-02 may proceed in parallel only with module/symbol isolation."
+must_not_run_concurrently_with:
+  - "RP-03 persistence migration until the semantic interface is frozen."
+operator_decisions:
+  - id: "ROD-003"
+    status: "accepted"
+    decision: "Use a small content-addressed semantic epoch-zero inventory, one-time human trust anchor/bootstrap, and exact scope/artifact-version/time/budget/verifier/health/rollback preauthorization."
+    engineering_boundary: "Encoding and detection mechanics, health windows, canaries, and rollback durations remain reversible engineering/proof choices."
+    activation_boundary: "Safe automatic activation remains disabled and unclaimed until proof and later promotion acceptance."
+blocking_findings: ["RF-001", "RF-002", "RF-003"]
+unresolved_evidence: ["UE-001", "UE-002"]
+entry_criteria: ["RP-00 accepted, implemented, and containment proof current", "accepted ROD-003 boundary bound"]
+exit_criteria: ["FD-003/FD-004 proof gates pass", "UE-001/UE-002 resolved", "SI-01 and rollback pass", "frozen handoff accepted by RP-03"]
+proof_produced: ["PG-01-AUTHORITY-DOMINANCE", "PG-01-LAUNCH-GUARDS"]
+authoritative_promotion_requirements:
+  - "Accepted packet and bound ROD-003 baseline, implementation authorization, exact-commit dynamic/adversarial evidence, conformance review, and promotion receipts."

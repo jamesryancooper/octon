@@ -1,0 +1,53 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+proposal_id: "octon-architecture-migration-workspace-projects"
+logical_packet_id: "RP-10"
+workgroup_id: "RWG-10"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+decision_coverage:
+  - decision_id: "FD-019"
+    role: "accepted architecture boundary"
+    disposition: "IMPLEMENT_ACCEPTED_TARGET"
+    packet_coverage:
+      - "architecture/target-architecture.md"
+      - "architecture/acceptance-criteria.md"
+      - "architecture/implementation-plan.md"
+finding_coverage:
+  - finding_id: "RF-015"
+    direct_register_owner: "RP-11"
+    rp10_responsibility: >-
+      Close the Workspace Project half by proving durable multi-project
+      identity and non-authority before RP-11 completes the Harness half.
+    acceptance_refs:
+      - "RP10-AC-001"
+      - "RP10-AC-007"
+proof_coverage:
+  - proof_id: "PO-FD-019"
+    promotion_gate: "PG-10-PROJECT-NONAUTHORITY"
+    required_result: >-
+      Inference, correction, two-project lifecycle, relocation, CLI inbox and
+      resume pass; project and mission metadata cannot mint or widen authority.
+    evidence_classification: "DYNAMICALLY_EXECUTED"
+    proof_method: "dynamic execution and adversarial negative tests"
+unresolved_evidence:
+  - evidence_id: "UE-010"
+    status: "unresolved"
+    relationship: >-
+      RP-10 supplies two project records and exact digests; RP-11 later proves
+      full deterministic compilation and immediate launch binding.
+operator_decisions: []
+engineering_dispositions:
+  - disposition_id: "ED-005"
+    applied_default: >-
+      Strict intake-minimal fields, rejected ambiguous overlap, explicit
+      monorepo parent/child relations, operator correction precedence, and
+      frozen active snapshots.
+dependency_coverage:
+  - logical_packet_id: "RP-01"
+    proposal_id: "octon-architecture-migration-canonical-authority"
+    required_interface: "frozen canonical authority and exact launch-guard semantics"
+downstream_coverage:
+  - logical_packet_id: "RP-11"
+    consumed_interface: "exact Workspace Project and Project Profile refs and digests"
+claim_boundary:
+  current_claim: "none"
+  future_claim: "multi-project Solo Local continuity, only after RP-14 proof"

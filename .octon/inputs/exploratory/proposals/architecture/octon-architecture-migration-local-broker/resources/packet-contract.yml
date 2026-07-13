@@ -1,0 +1,260 @@
+schema_version: "octon-architecture-migration-packet-contract-v1"
+program_id: "octon-architecture-migration-program"
+logical_packet_id: "RP-04"
+workgroup_id: "RWG-04"
+proposal_id: "octon-architecture-migration-local-broker"
+title: "Supervised Local Broker and Credential Custody"
+status: "draft"
+authority_posture:
+  proposal_is_authority: false
+  implementation_authorized: false
+  runtime_implemented: false
+  support_claim_created: false
+purpose: >-
+  Operate one unattended local privilege boundary that validates and consumes
+  existing authority, holds durable credentials, writes the one runtime store,
+  hosts closed effect adapters, and recovers safely without minting authority
+  or verifier verdicts.
+problem_statement: >-
+  No accepted supervised process currently combines same-user-resistant IPC,
+  Keychain custody, exact operation-handle consumption, sole deployed store
+  writing, closed effect hosting, and low-ceremony restart/repair; existing
+  grant helpers do not establish that boundary.
+scope:
+  - "one supervised macOS local broker process and versioned IPC API"
+  - "OS/application identity stronger than same UID and replay-safe requests"
+  - "Keychain credential enrollment, custody, rotation, revocation, and safe deletion"
+  - "one-shot store-bound internal operation handle"
+  - "sole normal RP-03 store writer and closed effect-adapter host"
+  - "auto-start, single-instance, restart scan, status, doctor, repair, upgrade, and uninstall"
+  - "one exact reversible disposable scratch effect"
+  - "broker role inventory, outage substrate, instrumentation, and proof"
+non_goals:
+  - "authority or policy minting, renewal, widening, or self-approval"
+  - "verifier identity or independent effect verdict"
+  - "second store, second broker/control plane, or remote worker"
+  - "production Git/GitHub/provider effect or Class B publication"
+  - "provider-specific outcome classification, reconciliation, or retry policy"
+  - "candidate model-session authentication through the effect broker"
+  - "repurposing policy-grant-broker.sh"
+accepted_decisions:
+  - decision_id: "FD-006"
+    owned_slice: "supervised credential broker and candidate-inaccessible credential/effect boundary"
+    disposition: "REPAIR_BEFORE_PRIVILEGE"
+  - decision_id: "FD-015"
+    owned_slice: "broker physical component and authenticated logical role mapping"
+    disposition: "CONTRIBUTE_TO_INVENTORY_PROOF"
+  - decision_id: "FD-016"
+    owned_slice: "broker auto-restart, fail-closed outage, and work-preservation substrate"
+    disposition: "CONTRIBUTE_TO_DEGRADED_OPERATION_PROOF"
+dependencies:
+  - "octon-architecture-migration-canonical-authority"
+  - "octon-architecture-migration-candidate-isolation"
+  - "octon-architecture-migration-transactional-runtime-store"
+planned_durable_source_ownership:
+  - "local broker process, protocol, config, identity, and host-service binding"
+  - "Keychain credential enrollment and custody contract"
+  - "broker-internal one-shot operation handle and closed effect-host interface"
+  - "broker supervision, restart scan, health, repair, upgrade, and uninstall lifecycle"
+  - "broker CLI client/admin surface and scratch-effect assurance fixtures"
+source_ownership_exclusions:
+  - "RP-01 owns authority minting, exact guard semantics, policy, scope, revocation, and expiry"
+  - "RP-02 owns candidate isolation and primary-provider model session"
+  - "RP-03 owns schema, T1/T2/UNKNOWN/outbox, epoch, backup, and store repair primitives"
+  - "RP-05 owns sanitized Git adapter semantics"
+  - "RP-06 owns verifier identity and verdicts"
+  - "RP-08 owns provider classification, reconciliation, retry, and complete degraded operation"
+proposal_lifecycle_ownership:
+  manifests: "this child packet"
+  acceptance: "human proposal review"
+  architecture_review: "independent pre-integration architecture review"
+retained_evidence_ownership:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-local-broker/"
+  authority: "evidence-only"
+  credential_values_permitted: false
+components_affected:
+  - "new local_broker executable/library"
+  - "kernel broker lifecycle CLI"
+  - "macOS launch service, IPC, code identity, and Keychain integration"
+  - "RP-03 deployed writer and effect-adapter host"
+  - "execution authorization consumer and operation handle"
+  - "material-effect and authorization-boundary inventories"
+  - "broker outage mission posture and assurance"
+contracts_affected:
+  - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+  - ".octon/framework/engine/runtime/spec/local-broker-v1.md"
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+  - ".octon/framework/constitution/contracts/runtime/family.yml"
+  - ".octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json"
+  - ".octon/instance/governance/policies/mission-autonomy.yml"
+schemas_affected:
+  - ".octon/framework/engine/runtime/spec/local-broker-config-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/local-broker-ipc-request-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/local-broker-ipc-response-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/broker-operation-handle-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/broker-credential-enrollment-receipt-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/broker-lifecycle-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/local-broker-config-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/local-broker-ipc-request-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/local-broker-ipc-response-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/broker-operation-handle-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/broker-credential-enrollment-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/broker-lifecycle-receipt-v1.schema.json"
+workflows_and_generated_projections_affected:
+  installed_launch_service: "deployment-local launchd state derived from the repo-owned template"
+  generated_proposal_registry: ".octon/generated/proposals/registry.yml"
+  rule: "installed/generated/status surfaces remain non-authoritative and change only through owners"
+provider_configuration_observed:
+  - "sentinel/disposable provider or scratch credential class and project identity without secret values"
+technical_identities_affected:
+  - "broker binary/application/code-signing identity"
+  - "trusted kernel client application identity"
+  - "launch-service label, endpoint, and single process identity"
+  - "Keychain item/access-policy identity without credential value"
+  - "RP-03 store/schema/epoch/high-water and sole writer identity"
+  - "operation, attempt, internal handle, adapter, target, and receipt identity"
+trust_boundary_changes:
+  - "durable credentials leave candidate, environment, files, and generic CLI processes for broker-bound Keychain custody"
+  - "same UID/socket access is narrowed by OS/application identity and one-shot operation binding"
+  - "one supervised broker becomes sole normal deployed store writer and effect host"
+  - "broker consumes but cannot create/widen authority or author verifier verdicts"
+  - "outage blocks the affected consequence without ambient fallback"
+migration_preconditions:
+  - "RP-01/RP-02/RP-03 accepted implementations and exit evidence"
+  - "ED-001 useful primary-provider session and candidate negatives proved"
+  - "ED-002 Broker IPC/Keychain Design and Dependency Receipt passes"
+  - "ED-007 workflow/visible-surface audit passes"
+  - "accepted proposal, passing completeness gate, and architecture review"
+  - "sentinel credentials and disposable scratch targets only"
+migration_steps:
+  - "pin broker/client/service/IPC/Keychain/dependency tuple"
+  - "install broker disabled and prove identity, endpoint, single instance, status, and restart"
+  - "enroll sentinel credential and prove every prohibited access channel"
+  - "bind exact RP-01 authority to RP-03 T1 and broker-internal one-shot handle"
+  - "atomically make broker the sole normal store writer"
+  - "enable only one disposable scratch adapter and execute one exact effect"
+  - "prove crashes, UNKNOWN preservation, restart, doctor, repair, upgrade, uninstall, and rollback"
+safe_intermediate_states:
+  - state_id: "SI-04"
+    description: >-
+      One supervised local broker owns credential custody, the normal store
+      write connection, and a disposable scratch adapter; production Class B
+      publication remains prohibited.
+prohibited_intermediate_states:
+  - "candidate or arbitrary same-user process can access IPC or credentials"
+  - "same UID, filesystem mode, PID, or caller assertion is sufficient identity"
+  - "two broker instances, endpoints, DB writers, or credentialed effect hosts"
+  - "operation handle creates/widens authority or is reusable"
+  - "external dispatch before committed T1 and consumed internal handle"
+  - "blind retry or provider-specific classification of UNKNOWN"
+  - "broker-authored verifier verdict or remote worker"
+  - "production Git/provider effect before downstream packets"
+  - "policy-grant-broker.sh repurposed as credential/effect broker"
+compatibility_bridges:
+  permitted:
+    - "manual/protected PR with candidate work preserved"
+    - "prior certified broker behind the identical IPC/store/credential boundary"
+  prohibited:
+    - "ambient credential or direct helper fallback"
+    - "candidate/direct provider effect"
+    - "second writer or in-process credential copy"
+    - "remote worker in SI-04"
+deprecations_and_retirements:
+  - "ambient credentialed effect paths leave the supported route"
+  - "normal direct store writers are retired when the broker activates"
+  - "redundant visible broker lifecycle surfaces are removed/hidden by ED-007 owners"
+rollback_strategy: >-
+  Disable broker dispatch, revoke the endpoint, preserve candidate work and
+  pending operation state, use protected PR, and restore only a prior certified
+  broker satisfying the same identity/IPC/Keychain/store boundary.
+recovery_strategy: >-
+  Auto-restart one instance, revalidate identity/config/Keychain/store, scan
+  ATTEMPTING/UNKNOWN/outbox state without resending uncertain effects, expose
+  concise status, and use typed RP-03 repair or remain disabled.
+validation_plan:
+  - "forged/replayed/same-UID/wrong-identity IPC attack suite"
+  - "candidate/client/process/file/store/log/backup credential canary matrix"
+  - "authority and internal-handle missing/stale/revoked/replay/race matrix"
+  - "single-instance, endpoint-owner, store-writer, and effect-host census"
+  - "T1/handle/credential/scratch/T2 crash and restart matrix"
+  - "fresh setup, quiet status, doctor/repair, upgrade/uninstall, and rollback acceptance"
+adversarial_tests:
+  - "forged application identity and same-UID socket caller"
+  - "captured request/response/nonce/handle replay"
+  - "replaced broker/client/config/plist/socket and version downgrade"
+  - "credential export through every host and retained-artifact channel"
+  - "second instance/writer/adapter and arbitrary command injection"
+  - "authority-mint/verifier/remote-worker call reachability"
+fault_injection:
+  - "kill before/during/after IPC auth, T1, handle, Keychain, send, T2, receipt, response, drain, repair, upgrade, and uninstall"
+  - "Keychain locked/missing/revoked, store unavailable/wrong epoch, socket replacement, crash loop, and writer split-brain"
+evidence_to_retain:
+  - "ED-001 binding, ED-002 Design and Dependency Receipt, and ED-007 audit"
+  - "broker install/config/signing/endpoint identity and enrollment receipt without secret"
+  - "IPC/handle/credential attack results and role/writer census"
+  - "scratch-effect, crash/restart, UNKNOWN, doctor/repair, upgrade/uninstall, and cleanup receipts"
+  - "setup/prompt/restart/maintenance measurements and rollback drill"
+  - "PO-FD-006, UE-003, conformance, and drift/churn receipts"
+support_claim_effect: "none at draft; later exact non-production tuple only after full positive and negative proof"
+operator_experience_effect: "one guided setup, quiet healthy supervision, compact status, and no routine effect approval or daemon babysitting"
+setup_and_maintenance_effect: "one local process and Keychain enrollment; no remote worker, second store, or recurring credential handling"
+parallelization_constraints:
+  - "implementation begins only after RP-01/RP-02/RP-03 exit"
+  - "fixtures use sentinel credentials and disposable scratch targets only"
+  - "broker cannot author authority, verifier verdict, or production provider effect"
+must_not_run_concurrently_with:
+  - "RP-01 edits to consumed authority/guard interfaces"
+  - "RP-03 edits to consumed store/write-role interfaces"
+  - "RP-05 edits to the same adapter-host symbols"
+  - "RP-08 edits to the same restart/reconciliation state symbols"
+operator_decisions: []
+engineering_dispositions:
+  - "ED-001 consumed prerequisite"
+  - "ED-002 primary broker mechanism"
+  - "ED-007 workflow and visible-surface audit"
+blocking_findings:
+  owned:
+    - "RF-005"
+    - "RF-025"
+  cross_references:
+    - "RF-004"
+entry_criteria:
+  - "RP-01/RP-02/RP-03 exit"
+  - "ED-001 useful provider session proved"
+  - "ED-002 exact mechanism/dependency receipt passes"
+  - "ED-007 surface audit passes"
+exit_criteria:
+  - "only broker holds durable credentials and the normal DB write connection"
+  - "forged/replayed/same-UID/wrong-identity requests deny"
+  - "broker auto-starts, restarts, scans state, and repairs unattended"
+  - "one-command setup/status/doctor/repair lifecycle passes"
+  - "exact disposable scratch effect completes or reconciles without repeat"
+proof_produced:
+  proof_id: "PO-FD-006"
+  promotion_gate: "PG-04-CREDENTIAL-BOUNDARY"
+  current_state: "planned-not-executed"
+proof_contributions:
+  - proof_id: "PO-FD-015"
+    owned_slice: "broker physical component and authenticated role/interface mapping"
+    promotion_gate_owner: "RP-00"
+    current_state: "planned-not-executed"
+  - proof_id: "PO-FD-016"
+    owned_slice: "broker outage, auto-restart, no-fallback, and work-preservation substrate"
+    promotion_gate_owner: "RP-08"
+    current_state: "planned-not-executed"
+unresolved_evidence:
+  - evidence_id: "UE-003"
+    ownership: "shared-with-RP-02"
+    current_state: "unresolved"
+authoritative_promotion_requirements:
+  - "ED-001 proof and passing ED-002/ED-007 receipts"
+  - "accepted proposal and independent architecture review"
+  - "implemented supervised broker, IPC identity, Keychain custody, sole writer, lifecycle UX, and scratch adapter"
+  - "direct IPC, credential, handle, writer, crash, repair, rollback, and burden proof"
+  - "conformance, drift/churn, promotion, and cleanup receipts"
+unsupported_remainder:
+  - "production Git/provider effects and remote worker"
+  - "verifier identity/verdicts, signed evidence, and autonomous publication"
+  - "provider-specific reconciliation, complete degraded mode, and full Class B"
+  - "trust activation, projects, harness factory, extensions, child agents, and final product proof"

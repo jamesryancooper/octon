@@ -1,0 +1,77 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+proposal_id: "octon-architecture-migration-extension-supply-chain"
+logical_packet_id: "RP-12"
+workgroup_id: "RWG-12"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+decision_coverage:
+  - decision_id: "FD-021"
+    role: "accepted private signed extension supply-chain boundary"
+    disposition: "EXTEND_EXISTING_PRIMITIVES"
+    packet_coverage:
+      - "architecture/target-architecture.md"
+      - "architecture/acceptance-criteria.md"
+      - "architecture/implementation-plan.md"
+finding_coverage:
+  - finding_id: "RF-016"
+    relationship: "primary RP-12 closure"
+    required_closure: >-
+      Preserve publication/quarantine primitives and add signed private import,
+      exact pins, revocation, and safe generation restore after single-agent
+      Harness proof.
+    acceptance_refs:
+      - "RP12-AC-001"
+      - "RP12-AC-002"
+      - "RP12-AC-006"
+      - "RP12-AC-009"
+  - finding_id: "RF-027"
+    relationship: "cross-reference"
+    controlling_packet: "RP-14"
+    required_closure: >-
+      RP-12 encodes and proves the accepted ROD-004 baseline. Later source,
+      signer-material, pin, rotation, recovery, and admission changes are
+      governed configuration updates rather than architecture choices.
+    acceptance_refs:
+      - "RP12-AC-013"
+proof_coverage:
+  - proof_id: "PO-FD-021"
+    ownership: "direct"
+    promotion_gate: "PG-12-SIGNED-CATALOG"
+    required_result: >-
+      Unsigned, wrong-signer, forged, tampered, revoked, incompatible, and
+      capability-mismatched imports reject; import cannot authorize/select;
+      exact pin and Harness generation bind; safe revalidated rollback works.
+    evidence_classification: "ADVERSARIALLY_TESTED"
+    proof_method: "hostile signed-import, authority-boundary, revocation, pin, and retained-generation restore fixtures"
+unresolved_evidence:
+  - evidence_id: "UE-012"
+    status: "unresolved"
+    relationship: >-
+      RP-12 must authenticate private imports and prove revoke/restore exact
+      generations without turning availability or receipts into authority.
+accepted_configuration:
+  - operator_decision_id: "ROD-004"
+    status: "accepted-baseline"
+    fixed_boundary: "private/local signed import, exact pins, revocation, rollback, and non-authoritative availability"
+    baseline:
+      - "one operator-controlled signer family"
+      - "immutable release references and digests"
+      - "explicit capability grants"
+      - "empty deny-by-default initial source allowlist until intentional admission"
+      - "deny unknown, unsigned, revoked, incompatible, mutable, or capability-mismatched sources"
+    future_updates: "governed configuration for admitted sources, signer material, pins, rotation, recovery, and compatibility/capability policy"
+    safe_default_until_admitted_and_proved: "deny all private/external imports"
+engineering_dispositions:
+  - "RP-12 owns schema encoding, verification mechanics, and proof of the accepted baseline; these do not require another operator disposition."
+dependency_coverage:
+  - logical_packet_id: "RP-07"
+    proposal_id: "octon-architecture-migration-signed-evidence"
+    required_interface: "authentic signer/revocation receipt and bounded retention"
+  - logical_packet_id: "RP-11"
+    proposal_id: "octon-architecture-migration-harness-factory"
+    required_interface: "exact extension generation ref/digest compiled and launch-bound"
+downstream_coverage:
+  - logical_packet_id: "RP-14"
+    consumed_interface: "optional signed-extension proof and burden evidence only after RP-12 passes"
+claim_boundary:
+  current_claim: "none"
+  future_claim: "private signed extension import and safe generation recovery only after PO-FD-021 and claim-scoped dogfood"

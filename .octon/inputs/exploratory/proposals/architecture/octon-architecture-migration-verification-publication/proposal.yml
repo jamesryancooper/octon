@@ -1,0 +1,122 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-migration-verification-publication"
+title: "Immutable Verification and Adaptive Publication"
+summary: >-
+  Define a candidate-immutable exact-SHA verifier and one deterministic
+  publication policy that sends eligible Class B work through the broker's
+  expected-old fast-forward primitive, routes valid review-required work to
+  protected PR, and denies invalid authority without prompt or PR laundering.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
+  - ".octon/framework/engine/runtime/adapters/host/github-control-plane/"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/side_effects/mod.rs"
+  - ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs"
+  - ".octon/framework/engine/runtime/spec/exact-sha-verdict-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/publication-route-decision-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/exact-sha-verdict-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+  - ".octon/instance/governance/policies/change-publication.yml"
+  - ".octon/instance/governance/capability-packs/git.yml"
+  - ".octon/framework/execution-roles/practices/standards/github-control-plane-contract.json"
+  - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+  - ".octon/framework/assurance/runtime/_ops/tests/verification-publication/"
+  - ".octon/state/evidence/validation/proposals/octon-architecture-migration-verification-publication/"
+status: "draft"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    After parent review, RP-01/RP-03/RP-05 dependency exit, durable policy
+    encoding of settled/retired ROD-002 lineage, strict architecture review,
+    implementation authorization,
+    provider identity and drift proof, route-matrix proof, conformance, and
+    drift/churn review, promote the child-owned .octon sources and evidence,
+    refresh any host projections only through an accepted authored source or
+    generator, then close and archive this packet. Parent evidence never
+    substitutes for child receipts.
+related_proposals:
+  - "octon-architecture-migration-program"
+  - "octon-architecture-migration-canonical-authority"
+  - "octon-architecture-migration-transactional-runtime-store"
+  - "octon-architecture-migration-sanitized-git"
+change_profile: "atomic"
+release_state: "pre-1.0"
+owner: "octon-maintainers"
+parent_program: "octon-architecture-migration-program"
+dependencies:
+  - "octon-architecture-migration-canonical-authority"
+  - "octon-architecture-migration-transactional-runtime-store"
+  - "octon-architecture-migration-sanitized-git"
+program_child_id: "RP-06"
+program_workgroup_id: "RWG-06"
+sequence:
+  priority: "P0"
+  order: 6
+  dependency_gate: "verified-child-exit"
+  dependencies:
+    - "octon-architecture-migration-canonical-authority"
+    - "octon-architecture-migration-transactional-runtime-store"
+    - "octon-architecture-migration-sanitized-git"
+logical_dependencies:
+  - "RP-01"
+  - "RP-03"
+  - "RP-05"
+selected_implementation_target: >-
+  Candidate-immutable verifier identity and exact-SHA verdict, immutable
+  Class A/B/C and Class-B/PR predicate, deterministic route selector,
+  provider verification/publication specialization, authenticated check
+  binding, and zero-prompt route status.
+scope_statement: >-
+  RP-06 owns verification and publication policy, not generic provider
+  execution, the runtime store, broker credentials, Git effect execution,
+  recovery policy, trust activation, support admission, or .github workflow
+  files. Provider projections may change only after an authored .octon source
+  or generator resolves the target-family boundary.
+authority_class_impact:
+  framework: >-
+    Adds exact verdict and route contracts, a protected provider adapter
+    specialization, runtime request/side-effect integration, provider
+    projection-source ownership, and validation suites.
+  instance: >-
+    Adds the immutable publication policy and narrows the Git capability-pack
+    posture without widening live support.
+  state_control: >-
+    No control truth is created by this proposal. Later runtime operations
+    consume RP-01 authority and RP-03 attempt state.
+  state_evidence: >-
+    Later implementation retains child-owned verifier, route, provider, drift,
+    rollback, conformance, and projection evidence under the declared root.
+  generated: >-
+    No generated/effective or .github host projection is a promotion target;
+    projection refresh requires an owning source/generator and receipt.
+  inputs: >-
+    This packet is non-authoritative proposal input and cannot verify, route,
+    publish, or admit support by itself.
+runtime_behavior_impact: >-
+  None at draft. After governed implementation, an authenticated exact-SHA
+  verdict and immutable predicate route eligible Class B through RP-05, valid
+  review-required work through protected PR, and invalid authority to denial.
+generated_input_authority_impact: >-
+  No proposal, generated output, context name, host check, provider dashboard,
+  or workflow result becomes authority.
+evidence_requirements:
+  - "PO-FD-007 / PG-06-PROVIDER-WORKER."
+  - "PO-FD-010 / PG-06-ADAPTIVE-PUBLICATION."
+  - "PO-FD-011 / PG-06-IMMUTABLE-VERDICT."
+  - "FD-023 specialization conformance consumed by PO-FD-023 / PG-14-PROVIDER-CONFORMANCE."
+  - "UE-006 adversarial verifier and provider-drift matrix."
+  - "UE-015 implementation-time and promotion-time provider refresh."
+  - "Implementation conformance and post-implementation drift/churn receipts."
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "validate-proposal-review-gate.sh"
+  - "validate-architectural-review-receipts.sh"
+  - "candidate-mutation and duplicate-context suite"
+  - "exact verdict and route predicate matrix"
+  - "provider identity, ruleset, App, permission, and drift conformance"

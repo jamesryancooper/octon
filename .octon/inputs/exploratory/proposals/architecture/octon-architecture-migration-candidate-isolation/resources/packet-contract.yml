@@ -1,0 +1,218 @@
+schema_version: "octon-architecture-migration-packet-contract-v1"
+program_id: "octon-architecture-migration-program"
+logical_packet_id: "RP-02"
+workgroup_id: "RWG-02"
+proposal_id: "octon-architecture-migration-candidate-isolation"
+title: "Credentialless Native Candidate Isolation"
+status: "draft"
+authority_posture:
+  proposal_is_authority: false
+  implementation_authorized: false
+  runtime_implemented: false
+  support_claim_created: false
+purpose: >-
+  Run useful primary-provider candidate work inside a native macOS boundary
+  without candidate-readable durable credentials or access to canonical host
+  and Git state, then export only the exact candidate commit.
+problem_statement: >-
+  The current launcher executes from canonical repo_root with inherited host
+  context and no proved independent repository, native policy, provider
+  session, or negative escape boundary, so useful candidate work and durable
+  credential/host/Git denial are not simultaneously established.
+scope:
+  - "native macOS candidate sandbox and pinned support tuple"
+  - "fresh allowed environment and HOME with closed inherited file descriptors"
+  - "useful provider-native non-exportable or short-lived primary-provider session"
+  - "independent disposable repository and object database"
+  - "filesystem, process, IPC, network, credential, host, and Git boundaries"
+  - "non-executing export of the exact candidate commit"
+  - "cancellation, session retirement, quarantine, cleanup, and non-reuse"
+non_goals:
+  - "VM infrastructure"
+  - "Linux production support or native Windows support"
+  - "credential custody or brokered privileged effects"
+  - "authority decisions, grant issuance, or guard semantics"
+  - "generic or multi-provider adapter semantics"
+  - "privileged Git sanitization, verification, or autonomous publication"
+accepted_decisions:
+  - decision_id: "FD-008"
+    owned_slice: "native macOS candidate isolation and independent Git boundary"
+    disposition: "IMPLEMENT_AND_PROVE"
+  - decision_id: "FD-006"
+    owned_slice: "candidate-side credential and privileged-IPC denial only"
+    disposition: "CONTRIBUTE_TO_SHARED_PROOF"
+dependencies:
+  - "octon-architecture-migration-containment"
+planned_durable_source_ownership:
+  - "candidate isolation preparation, execution, cancellation, and cleanup module"
+  - "primary-provider candidate environment and session binding"
+  - "independent candidate repository and non-executing commit-export boundary"
+  - "native macOS candidate host profile and isolation assurance fixtures"
+source_ownership_exclusions:
+  - "RP-01 owns authority, guard semantics, and the guard-owning launch API"
+  - "RP-04 owns credential custody, effect broker, and privileged IPC"
+  - "RP-11 owns generic prepare/launch/observe/cancel/usage/retire adapter semantics"
+proposal_lifecycle_ownership:
+  manifests: "this child packet"
+  acceptance: "human proposal review"
+  architecture_review: "independent pre-integration architecture review"
+retained_evidence_ownership:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-candidate-isolation/"
+  authority: "evidence-only"
+  secrets_permitted: false
+components_affected:
+  - "primary-provider model launcher"
+  - "lifecycle executor isolation integration seam"
+  - "candidate workspace, HOME, process group, and provider session"
+  - "candidate Git object creation and transfer"
+  - "macOS host adapter and isolation assurance"
+contracts_affected:
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md"
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json"
+schemas_affected:
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json"
+workflows_and_generated_projections_affected:
+  generated_proposal_registry: ".octon/generated/proposals/registry.yml"
+  rule: "generated views remain non-authoritative and change only through their owning routes"
+provider_configuration_observed:
+  - "primary-provider client and native session class/version without secret values"
+  - "allowed provider and explicitly declared task destinations"
+  - "session issue, expiry, revocation, and reuse behavior"
+technical_identities_affected:
+  - "candidate process and process-group identity"
+  - "disposable workspace, HOME, repository, object-store, and commit identity"
+  - "provider client and short-lived or non-exportable session identity"
+trust_boundary_changes:
+  - "candidate execution leaves canonical repo_root and inherited HOME/env context"
+  - "candidate repository shares no common directory, refs, objects, config, hooks, index, or worktree state with canonical Git"
+  - "candidate cannot read durable credentials, broker IPC, or parent file descriptors"
+  - "filesystem, process, IPC, executable, and network access become explicit allowlists"
+  - "only the exact candidate commit crosses the non-executing export boundary"
+migration_preconditions:
+  - "octon-architecture-migration-containment exits with fresh evidence"
+  - "ED-001 exact provider-session and native-sandbox mechanism applied"
+  - "RP-01 launch/guard interface frozen and shared symbols allocated"
+  - "accepted proposal, passing completeness gate, and architecture review"
+  - "sentinel credentials and disposable provider/project fixtures"
+migration_steps:
+  - "pin macOS, provider client, session class, and sandbox profile"
+  - "materialize an independent disposable repository and object database"
+  - "construct fresh environment/HOME and close inherited file descriptors"
+  - "apply filesystem, process, IPC, executable, and network policy before launch"
+  - "run a useful task through a candidate-unreadable provider session"
+  - "prove credential, host, Git, process, FD, filesystem, and network denials"
+  - "export the exact commit without trusted candidate-controlled execution"
+  - "cancel or retire the process, session, workspace, HOME, and repository without reuse"
+safe_intermediate_states:
+  - state_id: "SI-02"
+    description: >-
+      Useful credentialless isolated candidate work may export an exact commit
+      for manual/protected PR while canonical Git, credentials, broker IPC, and
+      privileged effects remain inaccessible.
+prohibited_intermediate_states:
+  - "provider execution before the native policy and independent repository checks pass"
+  - "candidate-readable durable token, credential file, Keychain item, helper, or agent socket"
+  - "linked worktree or shared canonical common directory, refs, objects, config, hooks, or index"
+  - "ambient environment, HOME, inherited parent descriptors, or broad egress"
+  - "broker IPC, privileged provider effect, or canonical Git mutation"
+  - "trusted execution of candidate-controlled hooks, filters, helpers, drivers, or checkout behavior during export"
+compatibility_bridges:
+  permitted:
+    - "manual/protected PR using an exact non-executing candidate commit export"
+  prohibited:
+    - "ambient credential fallback"
+    - "canonical-repository launcher fallback"
+    - "linked-worktree-only isolation"
+    - "effect-broker dependency for the initial provider session"
+deprecations_and_retirements:
+  - "ambient canonical-repository execution leaves the supported primary-provider candidate route"
+  - "candidate workspace, HOME, repository, session, and identity are retired or quarantined after every run"
+rollback_strategy: >-
+  Disable automated candidate launch and preserve or export the exact safe
+  candidate commit for manual/protected PR; never restore ambient credentials
+  or canonical-repository execution as a supported fallback.
+recovery_strategy: >-
+  Terminate the full process group, expire/revoke the provider session,
+  quarantine uncertain candidate state, retain redacted evidence, and repair
+  forward from the contained route without reusing identities.
+validation_plan:
+  - "useful primary-provider positive task on the exact admitted tuple"
+  - "environment, Keychain, SSH agent, helper, parent-FD, and host credential canaries"
+  - "filesystem, process, IPC, executable, and network escape matrix"
+  - "canonical Git read/mutation and repository-independence matrix"
+  - "exact commit and non-executing export verification"
+  - "cancellation, descendant termination, cleanup, quarantine, and non-reuse proof"
+adversarial_tests:
+  - "sentinel durable credentials in every known host channel"
+  - "symlink, hardlink, traversal, case, temporary-path, and file-replacement escapes"
+  - "malicious Git includes, hooks, helpers, filters, drivers, alternates, submodules, and transports"
+  - "parent/sibling process observation, signal, debug, and file-descriptor probes"
+  - "loopback privilege service, metadata endpoint, arbitrary egress, and broker IPC probes"
+fault_injection:
+  - "kill before and after repository creation, session attachment, task, commit, export, and cleanup"
+  - "provider expiry, denial, timeout, rate limit, and lost response"
+  - "disk full, permission loss, descendant escape attempt, and cleanup failure"
+evidence_to_retain:
+  - "redacted admitted-tuple and sandbox-profile identity"
+  - "independent repository and exact commit identity"
+  - "positive task and complete negative-canary results"
+  - "FD/process coverage, export, cleanup, quarantine, and non-reuse receipts"
+  - "UE-003 and candidate-side PO-FD-006 disposition"
+  - "PO-FD-008, rollback, conformance, and drift/churn receipts"
+support_claim_effect: "none at draft; later exact-tuple claim only after all positive and negative proof passes"
+operator_experience_effect: "automatic isolation with no routine setup or approval ceremony; one concise protected-PR recovery route"
+setup_and_maintenance_effect: "ephemeral per-run roots and sessions; no daemon, VM fleet, new database, or broker dependency"
+parallelization_constraints:
+  - "may implement beside RP-01 after RP-00, but not in the same launcher module/symbol"
+  - "fixtures use sentinel credentials and disposable targets only"
+  - "the initial provider session remains independent of RP-04 effect broker"
+must_not_run_concurrently_with:
+  - "RP-01 edits to the same guard or launcher symbols"
+  - "RP-11 edits to the same adapter schema or generic adapter symbols"
+  - "RP-04 tests using the same provider session, credential fixture, or privileged IPC target"
+operator_decisions: []
+engineering_dispositions:
+  - "ED-001"
+blocking_findings:
+  owned:
+    - "RF-004"
+    - "RF-023"
+  cross_references:
+    - "RF-025"
+entry_criteria:
+  - "RP-00 exits"
+  - "ED-001 applied to an exact primary-provider session and native sandbox mechanism"
+exit_criteria:
+  - "useful primary supported-provider task succeeds"
+  - "no durable credential or canonical Git/host access"
+  - "candidate repository and object database are independent and disposable"
+  - "exact candidate commit export is non-executing and cleanup proves no reuse"
+proof_produced:
+  proof_id: "PO-FD-008"
+  promotion_gate: "PG-02-MACOS-ISOLATION"
+  current_state: "planned-not-executed"
+proof_contributions:
+  - proof_id: "PO-FD-006"
+    owned_slice: "candidate-side durable-credential and privileged-IPC denial"
+    promotion_gate_owner: "RP-04"
+    current_state: "planned-not-executed"
+unresolved_evidence:
+  - evidence_id: "UE-003"
+    ownership: "shared-with-RP-04"
+    current_state: "unresolved"
+authoritative_promotion_requirements:
+  - "ED-001 mechanism selection and exact support-tuple pinning"
+  - "accepted proposal and independent architecture review"
+  - "implemented durable contracts, isolation module, host profile, and validators"
+  - "useful positive proof plus every negative and lifecycle proof"
+  - "conformance, rollback, drift/churn, promotion, and cleanup receipts"
+unsupported_remainder:
+  - "secondary providers and unproved macOS/provider/client/session tuples"
+  - "Linux production, VMs, and native Windows"
+  - "credential broker, privileged IPC, and provider effects"
+  - "sanitized privileged Git, immutable verification, and autonomous publication"
+  - "generic adapters, signed evidence, recovery, trust activation, projects, harness factory, extensions, child agents, and final product proof"

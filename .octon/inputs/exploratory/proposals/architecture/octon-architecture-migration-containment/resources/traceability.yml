@@ -1,0 +1,63 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+program_id: "octon-architecture-migration-program"
+logical_packet_id: "RP-00"
+proposal_id: "octon-architecture-migration-containment"
+accepted_decisions:
+  - decision_id: "FD-015"
+    ownership: "primary-physical-inventory"
+    proof_id: "PO-FD-015"
+    promotion_gate: "PG-00-WRITER-INVENTORY"
+findings:
+  - finding_id: "RF-003"
+    relationship: "blocking-cross-reference"
+    primary_owner: "RP-01"
+  - finding_id: "RF-007"
+    relationship: "primary-containment-owner"
+    primary_owner: "RP-00"
+  - finding_id: "RF-008"
+    relationship: "contain-now-replace-later"
+    primary_owner: "RP-05"
+  - finding_id: "RF-013"
+    relationship: "primary-claim-correction-owner"
+    primary_owner: "RP-00"
+  - finding_id: "RF-017"
+    relationship: "baseline-contributor"
+    primary_owner: "RP-14"
+  - finding_id: "RF-018"
+    relationship: "primary-safe-rollback-owner"
+    primary_owner: "RP-00"
+  - finding_id: "RF-020"
+    relationship: "supporting-program-readiness"
+    primary_owner: "RP-00"
+  - finding_id: "RF-032"
+    relationship: "primary-corrected-program-sequence-owner"
+    primary_owner: "RP-00"
+proof_obligations:
+  - proof_id: "PO-FD-015"
+    decision_id: "FD-015"
+    test_owner: "TCB inventory owner"
+    workgroup_id: "RWG-00"
+    promotion_gate: "PG-00-WRITER-INVENTORY"
+    state: "planned-not-executed"
+unresolved_evidence: []
+operator_decisions:
+  - operator_decision_id: "ROD-006"
+    status: "accepted"
+    owned_phase: "RP-00 containment exit"
+    disposition: "no Octon-owned human or agent direct-main route; ordinary human Git remains outside Octon; protected PR is the privileged bridge"
+    relationship: "bound input; no remaining operator choice"
+engineering_dispositions:
+  - disposition_id: "ED-007"
+    owned_slice: "RP-00 workflow and visible-surface retirement audit"
+dependencies: []
+safe_state: "SI-00"
+authority_boundary:
+  proposal_authority: false
+  reconciliation_authority: false
+  parent_evidence_satisfies_child_gates: false
+  host_projection_authority: false
+coverage_status:
+  identifiers_mapped: true
+  implementation_proof_complete: false
+  operator_decisions_complete: false
+  architecture_review_complete: false

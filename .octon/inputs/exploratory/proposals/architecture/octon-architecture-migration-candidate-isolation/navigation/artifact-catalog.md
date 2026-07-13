@@ -1,0 +1,25 @@
+# Artifact Catalog
+
+- `README.md` — operator entry point.
+- `proposal.yml` — base lifecycle manifest.
+- `architecture-proposal.yml` — architecture subtype manifest.
+- `navigation/source-of-truth-map.md` — authority and ownership map.
+- `navigation/artifact-catalog.md` — packet inventory.
+- `architecture/target-architecture.md` — SI-02 end state.
+- `architecture/current-state-gap-map.md` — current launcher and host gaps.
+- `architecture/acceptance-criteria.md` — direct positive and negative proof gates.
+- `architecture/implementation-plan.md` — later workstreams and ownership handoffs.
+- `architecture/validation-plan.md` — adversarial and evidence matrix.
+- `architecture/file-change-map.md` — promotion-target changes and owners.
+- `architecture/cutover-plan.md` — atomic native-isolation adoption sequence.
+- `architecture/rollback-and-recovery.md` — candidate-preserving recovery.
+- `architecture/operator-disclosure.md` — zero-ceremony solo-builder experience.
+- `resources/source-context.md` — bounded lineage and current source evidence.
+- `resources/packet-contract.yml` — machine-readable RP-02 contract.
+- `resources/traceability.yml` — FD/RF/PO/PG/UE/ED coverage.
+- `support/profile-selection-receipt.md` — pre-1.0 atomic profile receipt.
+- `support/proposal-creation.md` — direct-template creation fallback receipt.
+- `support/implementation-grade-completeness-review.md` — failing future readiness gate.
+- `support/implementation-conformance-review.md` — failing post-implementation gate.
+- `support/post-implementation-drift-churn-review.md` — failing post-conformance gate.
+

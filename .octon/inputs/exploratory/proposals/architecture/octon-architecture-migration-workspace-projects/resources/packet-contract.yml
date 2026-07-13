@@ -1,0 +1,229 @@
+schema_version: "octon-architecture-migration-child-packet-v1"
+proposal_id: "octon-architecture-migration-workspace-projects"
+logical_packet_id: "RP-10"
+workgroup_id: "RWG-10"
+parent_program: "octon-architecture-migration-program"
+title: "Minimal Workspace Projects"
+purpose: >-
+  Provide durable multiple-project identity and continuity for one operator
+  without creating project authorization, a portfolio control plane, or
+  another runtime.
+problem_statement: >-
+  Octon currently has strong singleton Project Profile and mission primitives,
+  but it lacks stable multi-project identity, explicit project boundaries,
+  correction-preserving inference, frozen project snapshots, and one
+  cross-project mission inbox.
+current_repository_state:
+  - "One active instance/locality/project-profile.yml is consumed directly by engagement and mission runtime paths."
+  - "Project Profile facts and source-fact evidence exist."
+  - "Mission authority, control, continuity, and generated views already exist."
+  - "No durable Workspace Project registry or strict workspace-project schema exists."
+current_evidence:
+  classification: "STATICALLY_INSPECTED"
+  proof_method: "static inspection"
+  limitations:
+    - "No two-project dynamic migration or authority-widening test has run."
+    - "UE-010 remains unresolved until RP-10 and RP-11 are implemented."
+accepted_decisions:
+  - "FD-019"
+target_state:
+  - "Stable project IDs independent of filesystem paths."
+  - "Strict minimal project records with explicit boundaries, lifecycle, Profile refs/digests, defaults, continuity refs, and cross-project relations."
+  - "Operator corrections outrank later inference."
+  - "Each active run retains an immutable project/profile binding."
+  - "A rebuildable location index and read-only cross-project mission inbox remain non-authoritative."
+scope:
+  - "Workspace Project schema, registry, active pointer, and immutable revision records"
+  - "project inference, refresh, relocation, lifecycle, and operator correction"
+  - "Project Profile reference/digest and explicit whitelist into later compilation"
+  - "project-tagged mission continuity and a read-only cross-project CLI inbox"
+non_goals:
+  - "portfolio taxonomy or project-management suite"
+  - "project-level execution authorization or capability grants"
+  - "multi-user or team administration"
+  - "authoritative cross-repository catalog"
+  - "Harness compilation, policy classification, or effect execution"
+invariants:
+  - "Project metadata identifies and narrows; it never authorizes or widens."
+  - "One repository has one Octon control root; nested projects do not create nested .octon roots."
+  - "An active run never silently follows a refreshed project or Profile revision."
+  - "Operator corrections survive future inference and relocation."
+  - "Ambiguous overlap blocks only affected selection."
+planned_durable_source_ownership:
+  workspace_project_contract: "RP-10"
+  project_registry_and_revisions: "RP-10"
+  project_inference_refresh_and_corrections: "RP-10"
+  location_index_read_model: "RP-10"
+  cross_project_mission_inbox: "RP-10"
+  project_profile_facts: "existing Project Profile owner, modified by RP-10 only for the declared binding contract"
+  canonical_authorization: "RP-01/existing authority engine; consumed, not owned"
+  harness_compilation: "RP-11; consumes RP-10 outputs"
+proposal_lifecycle_ownership:
+  manifests:
+    - "proposal.yml"
+    - "architecture-proposal.yml"
+  status: "draft"
+  authority: "proposal-local and non-authoritative"
+retained_evidence_ownership:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-workspace-projects/"
+  required_records:
+    - "schema and negative-fixture report"
+    - "two-project adoption, relocation, and correction report"
+    - "active-snapshot immutability report"
+    - "project-metadata authority-widening denial matrix"
+    - "cross-project mission inbox continuity report"
+components_affected:
+  - "instance locality and Project Profile"
+  - "engagement/project onboarding"
+  - "mission continuity and read-only CLI presentation"
+  - "runtime/constitutional contract registries"
+  - "RP-11 Harness input boundary"
+files_expected_to_change:
+  - ".octon/framework/engine/runtime/spec/workspace-project-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/workspace-project-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/project-profile-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/project-profile-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/family.yml"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/instance/locality/projects/**"
+  - ".octon/instance/locality/project-profile.yml"
+  - ".octon/instance/governance/engagements/path-families.yml"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-engagement-change-package-compiler.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-engagement-change-package-compiler.sh"
+contracts_affected:
+  - "workspace-project-v1, new"
+  - "project-profile-v1, binding and whitelist clarification"
+  - "runtime contract-family and topology registry entries"
+schemas_affected:
+  - ".octon/framework/engine/runtime/spec/workspace-project-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/workspace-project-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/project-profile-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/project-profile-v1.schema.json"
+workflows_and_generated_projections_affected:
+  - "engagement start and Project Profile source-fact capture"
+  - "mission open/status/resume read paths"
+  - "generated mission views and project location read models"
+  - "RP-11 Harness compilation input resolution"
+provider_configuration_observed: []
+technical_identities_affected:
+  - "repository identity"
+  - "workspace project identity and path-safe storage key"
+  - "Project Profile identity and digest"
+  - "mission identity tagged with project identity for presentation"
+trust_boundary_changes:
+  - "Project identity becomes durable while remaining non-authoritative."
+  - "Only an explicit whitelist of project/Profile fields may enter later compilation."
+  - "Location and inbox data become rebuildable read models rather than authority."
+migration_preconditions:
+  - "RP-01 canonical authority and launch-guard interface has exited and is frozen."
+  - "ED-005 strict minimal schema and correction rules are retained."
+  - "Current Project Profile and mission call paths are inventoried at implementation commit."
+migration_steps:
+  - "Publish strict Workspace Project schemas and registry entries."
+  - "Adopt the current repository as the first project without changing active-run authority."
+  - "Preserve singleton Project Profile as the selected Profile revision/compatibility projection."
+  - "Add inference, relocation, refresh, and correction receipts."
+  - "Freeze exact project/Profile refs and digests for each active run and RP-11 input."
+  - "Add project tagging to mission continuity and a read-only mission inbox."
+  - "Exercise two projects, relocation, correction, resume, and authority-negative tests."
+safe_intermediate_states:
+  - "RP-01 frozen; legacy singleton Profile remains the read-only compatibility input."
+  - "Workspace Project schemas and records exist but do not affect active runs."
+  - "One project is adopted and later runs bind its exact record/Profile digests."
+  - "Two projects and inbox are enabled only after overlap and non-authority tests pass."
+prohibited_intermediate_states:
+  - "Project metadata authorizes or widens execution."
+  - "Active runs silently consume refreshed project/Profile data."
+  - "Path-derived identity changes on relocation."
+  - "Two writable project registries or nested .octon control roots exist."
+  - "Generated location or inbox views become control truth."
+compatibility_bridges:
+  - "The current singleton Project Profile remains a read-only, whitelisted compatibility input until every consumer binds a selected project/Profile pair."
+  - "Existing mission continuity remains valid; missing project IDs are classified as legacy-unassigned and cannot widen scope."
+deprecations_and_retirements:
+  - "Retire direct singleton-Profile selection after all consumers bind the Workspace Project registry."
+  - "Retire any path-as-project-identity assumption."
+rollback_strategy: >-
+  Disable inference, refresh, and inbox routing; preserve stable IDs, project
+  records, Profiles, and active-run snapshots; restore singleton Profile
+  consumption as read-only compatibility without granting authority.
+recovery_strategy: >-
+  Rebuild the location index from durable project records and current
+  repository identity, revalidate registry/pointer digests, preserve operator
+  corrections, and block only ambiguous projects until repaired.
+validation_plan:
+  - "strict schema and unknown-field negatives"
+  - "two-project, monorepo nesting, relocation, and correction scenarios"
+  - "active snapshot immutability"
+  - "metadata authority-widening denial"
+  - "cross-project inbox status and resume continuity"
+adversarial_tests:
+  - "parent/sibling prefix and ambiguous overlap"
+  - "symlink, traversal, case, and external path aliases"
+  - "authority-shaped unknown fields"
+  - "copied or relocated path with conflicting identity"
+  - "generated inbox/location data injected as authority"
+fault_injection:
+  - "interruption between project revision publication and active-pointer update"
+  - "stale Profile digest during run start"
+  - "missing or corrupt location index"
+  - "mission continuity record missing project tag"
+evidence_to_retain:
+  - "project schema validation and negative fixtures"
+  - "adoption/inference/correction/relocation receipts"
+  - "two-project continuity and inbox output"
+  - "bound project/Profile digests for active-run immutability"
+  - "authority-widening denial results"
+support_claim_effect: >-
+  Enables later proof of multi-project Solo Local continuity; creates no
+  current support claim and does not independently promote FD-024.
+operator_experience_effect: >-
+  Project selection is inferred, corrections persist, relocation does not
+  create a new identity, and one read-only inbox shows resumable missions
+  across projects without exposing packet vocabulary.
+setup_and_maintenance_effect: >-
+  Conventional onboarding is designed for the later five-minute budget;
+  normal maintenance self-refreshes facts and asks only on irreducible overlap.
+dependencies:
+  - logical_packet_id: "RP-01"
+    proposal_id: "octon-architecture-migration-canonical-authority"
+parallelization_constraints:
+  - "May proceed beside RP-04 through RP-09 after RP-01."
+  - "RP-11 may design in parallel but cannot exit before RP-10."
+must_not_run_concurrently_with:
+  - "Any change that redefines the frozen RP-01 authority/guard semantics consumed by project binding."
+operator_decisions: []
+engineering_dispositions:
+  - "ED-005"
+blocking_findings:
+  - "RF-015, shared Project/Harness finding; RP-10 closes the project half and RP-11 remains final finding owner."
+unresolved_evidence:
+  - "UE-010, shared with RP-11"
+entry_criteria:
+  - "RP-01 exit evidence exists."
+  - "ED-005 is reflected in schemas and tests."
+exit_criteria:
+  - "Two durable distinct project identities exist."
+  - "Relocation and operator corrections preserve continuity."
+  - "Unknown and authority-shaped metadata cannot widen execution."
+  - "Active-run snapshots remain immutable after refresh."
+  - "The CLI inbox distinguishes and resumes missions across projects without becoming authority."
+proof_produced:
+  proof_obligation: "PO-FD-019"
+  promotion_gate: "PG-10-PROJECT-NONAUTHORITY"
+  evidence_target: "DYNAMICALLY_EXECUTED"
+authoritative_promotion_requirements:
+  - "accepted proposal and passing pre-integration architecture review"
+  - "RP-01 dependency and exclusive ownership confirmed"
+  - "implementation, schema, test, and migration evidence retained"
+  - "implementation conformance and post-implementation drift/churn receipts pass"
+unsupported_remainder:
+  - "portfolio or program-management ontology"
+  - "multi-user/team project administration"
+  - "project metadata as authorization"
+  - "arbitrary cross-repository write authority"
+  - "automatic resolution of irreducibly ambiguous project overlap"

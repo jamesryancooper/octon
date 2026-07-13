@@ -1,0 +1,91 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-migration-transactional-runtime-store"
+title: "Transactional Runtime Store and State Migration"
+summary: >-
+  Replace split file and journal concurrency authority with one local
+  SQLite/WAL schema and writer, explicit T1/external/T2 operation and attempt
+  transitions, generic UNKNOWN/outbox state, read-only legacy projections,
+  and crash-consistent migration, capacity, backup, restore, and corruption
+  handling without owning provider-specific outcome classification.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/crates/Cargo.toml"
+  - ".octon/framework/engine/runtime/crates/Cargo.lock"
+  - ".octon/framework/engine/runtime/crates/runtime_bus/Cargo.toml"
+  - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_bus/src/store.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_bus/src/schema.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_bus/src/transactions.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_bus/src/migrations.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_bus/src/projections.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_bus/src/recovery.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_bus/migrations/"
+  - ".octon/framework/engine/runtime/crates/replay_store/Cargo.toml"
+  - ".octon/framework/engine/runtime/crates/replay_store/src/lib.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/Cargo.toml"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/authority.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/records.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/runtime_state.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs"
+  - ".octon/framework/engine/runtime/spec/run-journal-v1.md"
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/engine/runtime/spec/transactional-runtime-store-v1.md"
+  - ".octon/framework/engine/runtime/spec/transactional-runtime-store-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/runtime-store-migration-receipt-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/runtime-store-backup-receipt-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/runtime-store-projection-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/family.yml"
+  - ".octon/framework/constitution/contracts/runtime/transactional-runtime-store-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/runtime-store-migration-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/runtime-store-backup-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/runtime-store-projection-v1.schema.json"
+  - ".octon/framework/constitution/contracts/retention/family.yml"
+  - ".octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-append-boundary.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-contracts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-state-surface-alignment.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-transactional-runtime-store.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-transactional-runtime-store.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/transactional-runtime-store/"
+  - ".octon/state/evidence/validation/proposals/octon-architecture-migration-transactional-runtime-store/"
+status: "draft"
+change_profile: "atomic"
+release_state: "pre-1.0"
+owner: "octon-maintainers"
+parent_program: "octon-architecture-migration-program"
+logical_packet_id: "RP-03"
+workgroup_id: "RWG-03"
+dependencies:
+  - "octon-architecture-migration-canonical-authority"
+program_execution_mode: "gated-parallel"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    After RP-01 freezes versioned authority/guard semantics, bind the accepted
+    ROD-001 evidence/recovery invariants, document conservative reversible
+    engineering defaults for store, backup, and reserve configuration, pass the SQLite design/dependency gate
+    and independent architecture review, obtain proposal acceptance,
+    implement and atomically cut over to one proved store/writer, retain
+    migration, fault, capacity, backup/restore, conformance, rollback, and
+    drift evidence, promote the declared durable targets, then close out and
+    archive through the canonical proposal lifecycle.
+related_proposals:
+  - "octon-architecture-migration-canonical-authority"
+source_lineage:
+  - ".octon/inputs/additive/.incoming/octon-architecture-and-migration-handoff-v2.0.0/"
+  - ".octon/inputs/exploratory/reviews/architecture-migration/reconciliations/architecture-migration-reconciliation-20260712T032411Z-10c3ff/"
+  - ".octon/inputs/exploratory/proposals/architecture/octon-trustworthy-autonomy-solo-developer-revision-2/"
+authority_class_impact:
+  framework: "May add the single-store contract and modify only frozen-semantics persistence call sites, runtime_bus mutation mechanics, read-only replay, and owned validators."
+  instance: "No instance policy is authored; accepted ROD-001 invariants must be bound, and reversible store/backup/reserve engineering defaults must be documented and proved, before implementation readiness."
+  state_control: "Future live runtime authority moves to one activated SQLite/WAL epoch; legacy files become projections, exports, or payload pointers and cannot regain authority."
+  state_evidence: "Future migration, writer, transaction, fault, capacity, backup/restore, rollback, conformance, and drift proof is retained under the packet evidence root."
+  generated: "Generated and legacy read models remain derived and cannot write back to the store or satisfy authority."
+  inputs: "This packet and its reconciliation lineage remain non-authoritative planning inputs."
+explicit_runtime_non_implementation_statement: >-
+  Creating this draft does not add a SQLite dependency, create/open/migrate a
+  database, write a WAL, change an authority epoch, import or project state,
+  reserve capacity, perform an external effect, or authorize implementation.

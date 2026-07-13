@@ -1,0 +1,7 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+logical_packet_id: "RP-01"
+workgroup_id: "RWG-01"
+target_boundary: "candidate-immutable authority evaluation and exact launch admission"
+authority_posture: "PROPOSED_NONAUTHORITATIVE_NOT_IMPLEMENTATION_AUTHORIZATION"

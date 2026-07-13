@@ -1,0 +1,61 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-migration-recovery-class-b"
+title: "Recovery, Reconciliation, and Complete Class B Vertical"
+summary: >-
+  Consume the frozen class-route predicate, transactional attempt API, and
+  signed-evidence contract to reconcile every unknown provider outcome before
+  retry, preserve honest attribution, provide narrow degraded operation and
+  concise status, and prove a zero-routine-prompt Class B vertical with
+  deterministic protected-PR fallback.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
+  - ".octon/framework/engine/runtime/spec/effect-reconciliation-v1.md"
+  - ".octon/framework/engine/runtime/spec/effect-reconciliation-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+  - ".octon/framework/engine/runtime/spec/mission-autonomy-runtime-v2.md"
+  - ".octon/framework/engine/runtime/spec/mission-continuation-v1.md"
+  - ".octon/framework/engine/runtime/spec/mission-runner-v1.md"
+  - ".octon/framework/constitution/contracts/runtime/mission-run-ledger-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/mission-continuation-decision-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/mission-closeout-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/family.yml"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/framework/engine/runtime/crates/effect_reconciler/"
+  - ".octon/framework/engine/runtime/crates/Cargo.toml"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_run_admission.rs"
+  - ".octon/instance/governance/policies/mission-autonomy.yml"
+  - ".octon/instance/governance/policies/mission-continuation.yml"
+  - ".octon/instance/governance/policies/mission-closeout.yml"
+  - ".octon/instance/governance/policies/continuous-operation.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-effect-reconciliation.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/effect-reconciliation/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-run-health-read-model.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/test-mission-autonomy-scenarios.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-autonomy-runtime-v2.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-mission-autonomy-runtime-v2.sh"
+  - ".octon/state/evidence/validation/proposals/octon-architecture-migration-recovery-class-b/"
+status: "draft"
+change_profile: "atomic"
+release_state: "pre-1.0"
+parent_program: "octon-architecture-migration-program"
+dependencies:
+  - "octon-architecture-migration-verification-publication"
+  - "octon-architecture-migration-signed-evidence"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    After operator review, durable encoding of settled/retired ROD-002 lineage,
+    accepted architecture review, dependency exit, retained fault and route
+    proof, durable promotion, and
+    passing conformance and drift/churn receipts, archive this packet without
+    proposal-path dependencies.
+related_proposals:
+  - "octon-architecture-migration-program"
+  - "octon-architecture-migration-verification-publication"
+  - "octon-architecture-migration-signed-evidence"

@@ -1,0 +1,285 @@
+schema_version: "octon-architecture-migration-child-packet-v1"
+proposal_id: "octon-architecture-migration-extension-supply-chain"
+logical_packet_id: "RP-12"
+workgroup_id: "RWG-12"
+parent_program: "octon-architecture-migration-program"
+title: "Private Signed Extension Supply Chain"
+purpose: >-
+  Make private reusable extensions authentic, pinned, revocable, recoverable,
+  and explicitly non-authoritative by extending the current publication,
+  quarantine, catalog, and generation-lock machinery.
+problem_statement: >-
+  Octon already tracks provenance digests, desired trust decisions,
+  compatibility, active/quarantine state, generated catalogs, and publication
+  locks, but a digest field is not signer authentication. External/private
+  import, trusted signer/revocation policy, exact release availability, and
+  revalidated prior-generation restoration are incomplete.
+current_repository_state:
+  - "Raw normalized extension packs live under inputs/additive/extensions and runtime consumes only generated/effective/extensions projections."
+  - "Desired selection/source/trust posture lives in instance/extensions.yml; active and quarantine truth live in state/control/extensions."
+  - "Extension pack provenance carries source locators, digest_sha256, and attestation_refs, but no mandatory canonical signed envelope is verified for private import."
+  - "The publisher validates compatibility, resolves dependencies, quarantines failures, and emits a generated catalog, artifact map, generation lock, and receipts."
+  - "Runtime resolver code binds the generated catalog/lock to active state, but retained signed release restore and revocation-aware rollback are not complete."
+current_evidence:
+  classification: "STATICALLY_INSPECTED"
+  proof_method: "static inspection"
+  limitations:
+    - "No unsigned/wrong-key/forged/tampered/revoked import matrix has run."
+    - "No exact prior-generation restore has been revalidated under a changed trust set."
+    - "UE-012 remains unresolved until adversarial implementation proof exists."
+accepted_decisions:
+  - "FD-021"
+target_state:
+  - "A strict canonical signed envelope binds pack/version, immutable source ref, manifest/payload digests, dependencies, capability declarations, compatibility requirements, signer identity, and signature."
+  - "The accepted ROD-004 baseline uses one operator-controlled signer family, immutable refs/digests, explicit capability grants, and an initially empty deny-by-default source allowlist; unknown, unsigned, revoked, incompatible, mutable, or capability-mismatched sources deny."
+  - "One explicit import verifies source, signature, payload, safe extraction, schema, dependencies, compatibility, and capability declarations before recording exact availability."
+  - "Import never changes desired selection, capability grants, active state, generated runtime projections, or the Harness."
+  - "Desired source/trust/pin/selection, actual availability/active/quarantine state, and generated publisher outputs keep distinct owners and writers."
+  - "Publication selects only an exact desired pin that is currently available, unrevoked, compatible, capability-admissible, and fully dependency-closed."
+  - "The RP-11 Harness binds the exact published extension generation ref and digest for a run."
+  - "Revocation quarantines affected releases and blocks new publication/launch; prior restore revalidates every current rule before atomic activation."
+scope:
+  - "strict signed private extension envelope and canonical verification input"
+  - "governed allowed-source, trusted-signer/key, rotation/recovery, revocation, pin, and admission configuration under the accepted ROD-004 baseline"
+  - "safe explicit local/private Git release or immutable artifact import"
+  - "immutable source ref, manifest digest, canonical payload-tree digest, signature, and dependency closure verification"
+  - "compatibility and requested-capability admission before availability/publication"
+  - "verified availability catalog, exact pins, active/quarantine state, generated catalog/lock projection binding"
+  - "revoke, quarantine, and exact retained prior-generation restore with current revalidation and receipt"
+  - "one-command operator UX for import, status, revoke/repair, and governed restore"
+non_goals:
+  - "public marketplace, public catalog, discovery/search, ratings, payments, or arbitrary-source browsing"
+  - "extension-derived authorization, automatic selection, automatic capability grant, or install-and-run"
+  - "automatic unpinned updates or dependency fetching from unapproved sources"
+  - "new publication service, daemon, scheduler, runtime store, authority source, or control plane"
+  - "general software package manager or language dependency manager"
+  - "child-agent, provider-adapter, Harness compiler, verifier/publication, or effect-recovery ownership"
+invariants:
+  - "Authenticity, availability, selection, publication, Harness binding, and execution authorization are separate gates."
+  - "Import only makes an exact release available; it never selects, activates, grants, routes, or executes."
+  - "Every external/private release and dependency is identified by immutable source ref plus manifest and payload digests and verifies against the current operator trust set."
+  - "Unknown, unsigned, untrusted, revoked, mutable, tampered, incompatible, or capability-mismatched material fails closed."
+  - "Runtime never reads incoming, archived, or normalized raw pack paths directly."
+  - "Generated catalogs and receipts cannot override desired or actual state."
+  - "Rollback never bypasses current source, signer, revocation, compatibility, capability, dependency, or pin checks."
+planned_durable_source_ownership:
+  signed_envelope_contract: "RP-12"
+  allowed_sources_and_trusted_signers: "governed desired config extended by RP-12 under the accepted ROD-004 baseline"
+  verified_availability_state_and_import_receipt: "RP-12 import verifier"
+  desired_selection_and_pins: "existing instance/extensions.yml owner, contract extended by RP-12"
+  actual_active_and_quarantine_state: "existing extension publisher/control-state owner, extended by RP-12"
+  generated_catalog_artifact_map_generation_lock: "existing extension publisher, extended by RP-12"
+  evidence_signer_and_retention_mechanism: "RP-07, consumed not owned"
+  harness_generation_binding: "RP-11, consumes RP-12 published exact ref/digest"
+  capability_authority_and_execution: "existing authority/capability owners, not RP-12"
+proposal_lifecycle_ownership:
+  manifests:
+    - "proposal.yml"
+    - "architecture-proposal.yml"
+  status: "draft"
+  authority: "proposal-local and non-authoritative"
+retained_evidence_ownership:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-extension-supply-chain/"
+  required_records:
+    - "accepted ROD-004 configuration and nonsecret trust-policy digest"
+    - "signed envelope and canonical payload-tree verification fixtures"
+    - "complete invalid import/quarantine matrix"
+    - "availability, desired pin, active/quarantine, generated catalog/lock, and Harness binding comparison"
+    - "revocation propagation and exact prior-generation restore receipts"
+    - "import-does-not-authorize/select/execute state-digest proof"
+components_affected:
+  - "extension governance and raw pack/envelope contracts"
+  - "instance desired extension source/trust/selection/pin configuration"
+  - "actual availability, active, and quarantine control state"
+  - "generated effective catalog, artifact map, generation lock, and published views"
+  - "extension import, publication, resolution, export, and runtime handle verification"
+  - "extension schema, supply-chain, quarantine, publication, and rollback assurance"
+files_expected_to_change:
+  - ".octon/framework/engine/governance/extensions/{README,boundary-contract,trust-and-compatibility}.md"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/README.md"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/{extension-pack,extension-signed-envelope,extension-compatibility-profile}.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/instance/extensions/**"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/**"
+  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-{availability,active,quarantine}-state.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/evidence/validation/{compatibility,publication}/schemas/extension-*.schema.json"
+  - ".octon/framework/engine/runtime/spec/extension-publication-handle-v1.md"
+  - ".octon/instance/extensions.yml"
+  - ".octon/instance/governance/contracts/extension-publication-policy.yml"
+  - ".octon/framework/scaffolding/runtime/templates/octon/{instance/extensions.yml,state/control/extensions/**,generated/effective/extensions/**,state/evidence/validation/**/extensions/README.md}"
+  - ".octon/framework/orchestration/runtime/_ops/scripts/{extensions-common,import-signed-extension-pack,publish-extension-state,resolve-extension-route,resolve-extension-prompt-bundle,export-harness}.sh"
+  - ".octon/framework/engine/runtime/crates/runtime_resolver/src/{handles,lib}.rs"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-*.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-export-profile-contract.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-*extension*.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-export-profile-contract.sh"
+contracts_affected:
+  - "octon-extension-pack, signed-envelope reference and exact content identity"
+  - "new extension-signed-envelope contract"
+  - "instance-extensions, allowed source/trusted signer/revocation/exact pin policy"
+  - "new extension-availability-state actual-state contract"
+  - "active/quarantine/effective-catalog/artifact-map/generation-lock source and signature binding"
+  - "compatibility, import, publication, generation-transition, and rollback evidence"
+schemas_affected:
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-pack.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-signed-envelope.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-compatibility-profile.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/instance/extensions/schemas/instance-extensions.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-effective-catalog.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-generation-lock.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-artifact-map.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-active-state.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-quarantine-state.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-availability-state.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas/extension-compatibility-receipt.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas/extension-import-receipt.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/evidence/validation/publication/schemas/extension-generation-transition-receipt.schema.json"
+workflows_and_generated_projections_affected:
+  - "explicit signed extension import and quarantine"
+  - "existing extension publication and revocation reconciliation"
+  - "exact prior-generation restore through the existing publisher"
+  - "extension route/prompt resolution and pack-bundle export"
+  - "effective catalog, artifact map, generation lock, and published pack views"
+provider_configuration_observed: []
+technical_identities_affected:
+  - "extension pack, source, version, immutable release ref, manifest, payload-tree, and dependency identity"
+  - "trusted signer key ID/fingerprint, signature algorithm/profile, trust-policy version, and revocation identity"
+  - "import receipt, availability entry, desired pin, generation, publication/transition receipt, and Harness input identity"
+trust_boundary_changes:
+  - "Private external content crosses into normalized availability only after current source/signer/signature/payload verification."
+  - "Availability is separated from desired selection and active/generated publication."
+  - "A generation restore is treated as a new current admission/publication, not a blind pointer rollback."
+migration_preconditions:
+  - "RP-07 signed evidence identity, revocation, bounded retention, and checkpoint interface has exited and is frozen."
+  - "RP-11 deterministic Harness accepts an exact extension generation ref/digest and has exited."
+  - "The accepted ROD-004 deny-by-default baseline is encoded; intentional later source, signer-material, pin, rotation, recovery, and admission updates use governed configuration."
+  - "Every current extension raw, desired, actual, generated, resolver, and publisher writer/reader is inventoried at the implementation commit."
+migration_steps:
+  - "Encode the accepted ROD-004 baseline and publish the strict signed envelope, desired trust/pin, availability, receipt, and generation-transition contracts."
+  - "Implement safe staging and canonical signed-envelope/payload/dependency verification for explicit import."
+  - "Record verified exact releases in actual availability or quarantine without changing desired selection or generated state."
+  - "Migrate desired config to exact pins and nonsecret source/signer/revocation identities while preserving current bundled-first-party behavior."
+  - "Extend the existing publisher to require verified availability, current trust, exact pin, compatibility/capability admission, and signed dependency closure."
+  - "Bind signer/source/payload/import/transition refs into active/quarantine and generated catalog/lock projections."
+  - "Bind the exact generated generation ref/digest into RP-11 Harness input and close stale resolver paths."
+  - "Implement revocation reconciliation and retained prior-generation restore through current revalidation and atomic publisher transition."
+  - "Run the complete negative import, non-authority, pin, revoke, export, and rollback matrix."
+safe_intermediate_states:
+  - "Schemas and accepted ROD-004 configuration exist while all private/external import remains denied."
+  - "Signed releases can be verified into availability, but desired selection and publication cannot reference them yet."
+  - "Desired exact pins exist while the publisher remains disabled for private releases."
+  - "The publisher produces signed-bound generated projections, but Harness consumption remains disabled."
+  - "Exact Harness generation binding activates only after import, revocation, rollback, and non-authority proof."
+prohibited_intermediate_states:
+  - "Import edits desired selection, grants capabilities, publishes generated outputs, or launches an extension."
+  - "An unsigned, mutable-ref, unknown-source, wrong-signer, revoked, tampered, incompatible, or capability-mismatched release becomes available or active."
+  - "Raw incoming/archive/normalized pack paths become runtime dependencies."
+  - "Generated catalog or receipt becomes desired or actual truth."
+  - "Rollback flips a generation pointer without current full revalidation."
+  - "A second publisher, catalog service, daemon, marketplace, scheduler, runtime store, or authority surface appears."
+compatibility_bridges:
+  - "Existing bundled-first-party packs remain authenticated by the repository release/integrity boundary and current publisher while private/external releases require the signed envelope; no unsigned external release is grandfathered."
+  - "Current desired/active/quarantine/generated schemas may be read during atomic migration, but new private publication stays disabled until exact pin and envelope fields are complete."
+deprecations_and_retirements:
+  - "Retire digest-only external provenance as sufficient authenticity."
+  - "Retire acknowledgement-only admission for private external releases unless it also satisfies ROD-004 signature/source/capability policy."
+  - "Retire floating or version-range selection for enabled private releases; exact immutable pins are required."
+  - "Retire any direct raw-pack resolver path or restore-by-file-copy behavior."
+rollback_strategy: >-
+  Revoke or quarantine the affected release, withdraw it from new generated
+  generations, and restore only an explicitly selected retained prior release
+  that passes current source, signer, revocation, payload, dependency,
+  compatibility, capability, and pin verification. If none passes, publish the
+  extension-disabled generation and preserve evidence; never fall back to an
+  unsigned or stale generation.
+recovery_strategy: >-
+  Rebuild availability from retained signed envelopes and immutable payloads,
+  compare desired/actual/generated digests, and republish through the single
+  existing publisher. Corrupt or missing generated views are rebuilt; corrupt
+  desired or actual state blocks affected publication. Unknown trust or
+  revocation state denies until the governed ROD-004 configuration is repaired.
+validation_plan:
+  - "strict envelope/config/state/catalog/receipt schemas and mirror/template parity"
+  - "unsigned, unknown/wrong signer, forged, tampered, revoked, mutable-ref, replay/downgrade, unsafe archive, and dependency negatives"
+  - "compatibility and requested-capability mismatch admission"
+  - "import-does-not-select/grant/publish/route/execute state-digest proof"
+  - "exact pin, generated lock, resolver, and Harness generation binding"
+  - "revocation propagation, current-generation withdrawal, and revalidated retained-generation restore"
+  - "pack-bundle export/import envelope and digest preservation"
+adversarial_tests:
+  - "missing signature, unknown key, wrong key, forged signature, signature over different metadata, and revoked key"
+  - "mutable tag/ref, changed release asset, manifest/payload mismatch, dependency substitution, duplicate identity/version, and downgrade replay"
+  - "archive traversal, absolute paths, symlink/hardlink escape, case collision, duplicate entry, device node, decompression/size abuse, and executable boundary violations"
+  - "undeclared/expanded capability, incompatible API/contract/profile, missing signed dependency, and cyclic dependency"
+  - "availability row injected as selection, generated row injected as authority, receipt replay, and raw path runtime bypass"
+fault_injection:
+  - "interruption during download/staging, verification, normalized release commit, or availability update"
+  - "trust/revocation change between import, desired selection, publication, and Harness compile"
+  - "publisher interruption before/after active-state and generated-family swap"
+  - "current generation revoked while a prior generation is missing, corrupt, revoked, or incompatible"
+  - "rollback interruption at each revalidation and atomic transition point"
+evidence_to_retain:
+  - "accepted ROD-004 configuration, trust-policy digest, nonsecret signer fingerprints, and revocation state"
+  - "signed envelope, source/manifest/payload/dependency digests, import receipt, and quarantine outcome"
+  - "desired pin, availability/active/quarantine snapshots, generated catalog/lock, and Harness binding"
+  - "negative matrix, revocation propagation, prior-generation restore, and disabled-generation fallback"
+  - "writer-boundary and no-marketplace/control-plane scan"
+support_claim_effect: >-
+  Enables a later optional private signed-extension claim after PO-FD-021 and
+  integrated dogfood. It creates no current extension, marketplace, automatic
+  update, or broader Solo Local support claim.
+operator_experience_effect: >-
+  Private import begins denied. After an intentional governed source and signer
+  admission, the operator imports an exact release with one command, sees
+  available versus selected versus active state clearly, and receives a concise
+  revoke/repair/restore action without internal schema or packet vocabulary.
+setup_and_maintenance_effect: >-
+  No service or marketplace is administered. Maintenance is bounded to trusted
+  source/signer rotation, explicit imports/pins, compact status, and occasional
+  revocation/restore receipts under RP-07 retention.
+dependencies:
+  - logical_packet_id: "RP-07"
+    proposal_id: "octon-architecture-migration-signed-evidence"
+    required_interface: "frozen signer identity/revocation, authentic receipt/checkpoint, capacity, and retention primitives"
+  - logical_packet_id: "RP-11"
+    proposal_id: "octon-architecture-migration-harness-factory"
+    required_interface: "exact extension-generation ref/digest Harness input and deterministic launch binding"
+parallelization_constraints:
+  - "May implement alongside RP-13 after RP-07 and RP-11 exit."
+  - "RP-12 owns no child, authority, provider-adapter, Harness compiler, or runtime-store source."
+  - "Publisher/resolver shared files are integrated by exact extension-specific symbol/entry ownership."
+must_not_run_concurrently_with:
+  - "Any change redefining RP-07 signer/revocation evidence semantics or RP-11 exact extension-generation Harness binding during activation."
+accepted_configuration:
+  - operator_decision_id: "ROD-004"
+    status: "accepted-baseline"
+    subject: "Trusted private extension sources and signer policy"
+    fixed_boundary: "Private/local only; signed import, exact pins, revocation, rollback; import never authorizes or selects."
+    baseline: "One operator-controlled signer family, immutable release refs/digests, explicit capability grants, and an empty deny-by-default source allowlist until intentional admission."
+    deny_conditions: "Unknown, unsigned, revoked, incompatible, mutable, or capability-mismatched sources deny."
+    future_updates: "Exact admitted sources, signer material, pins, rotation, recovery, and admission policy are governed configuration updates."
+engineering_dispositions:
+  - "RP-12 must encode enforceable schemas and prove verification, revocation, recovery, compatibility, and capability behavior against the accepted baseline."
+blocking_findings:
+  - "RF-016"
+cross_referenced_findings:
+  - "RF-027, the accepted ROD-004 baseline must be encoded and proved at RP-12 design exit; no further architecture disposition remains"
+unresolved_evidence:
+  - "UE-012"
+entry_criteria:
+  - "RP-07 and RP-11 exit evidence exists at exact dependency digests."
+  - "The accepted ROD-004 baseline is encoded in durable governed configuration."
+  - "Current extension source, desired, actual, generated, resolver, publisher, export, and evidence paths are inventoried."
+exit_criteria:
+  - "Every unsigned, wrong-key, forged, tampered, revoked, mutable-ref, incompatible, capability-mismatched, or dependency-invalid case rejects or quarantines."
+  - "Import only makes an exact release available and cannot select, grant, publish, route, or execute."
+  - "Desired exact pin, verified availability, active state, generated generation lock, resolver, and Harness binding agree."
+  - "Revocation blocks new use and exact prior-generation restore succeeds only after current full revalidation; otherwise the extension disables safely."
+  - "No public marketplace, automatic update, second publisher, or new control plane exists."
+proof_produced:
+  proof_obligation: "PO-FD-021"
+  promotion_gate: "PG-12-SIGNED-CATALOG"
+  evidence_target: "ADVERSARIALLY_TESTED"
+authoritative_promotion_requirements:
+  - "accepted proposal and passing pre-integration architecture review"
+  - "accepted ROD-004 configuration digest and dependency exit receipts"
+  - "retained UE-012 adversarial proof at the exact implementation commit"

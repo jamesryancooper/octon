@@ -1,0 +1,7 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+program_role: "lightweight-coordinator"
+logical_packet_count: 15
+workgroup_count: 14
+authority_posture: "PROPOSED_NONAUTHORITATIVE_NOT_IMPLEMENTATION_AUTHORIZATION"

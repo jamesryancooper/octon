@@ -1,0 +1,109 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+proposal_id: "octon-architecture-migration-bounded-child-agents"
+logical_packet_id: "RP-13"
+workgroup_id: "RWG-12"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+decision_coverage:
+  - decision_id: "FD-022"
+    role: "accepted temporary bounded credentialless child architecture"
+    disposition: "PRESERVE_SCHEDULING_REPAIR_TRUST"
+    packet_coverage:
+      - "architecture/target-architecture.md"
+      - "architecture/acceptance-criteria.md"
+      - "architecture/implementation-plan.md"
+  - decision_id: "FD-023"
+    role: "child provider-mapping specialization only"
+    disposition: "COMPONENT_SPECIALIZATION"
+    ownership_split:
+      generic_adapter_and_component_conformance: "RP-11"
+      child_mapping_and_specialization_conformance: "RP-13"
+      integrated_promotion_proof: "RP-14"
+    packet_coverage:
+      - "navigation/source-of-truth-map.md"
+      - "architecture/target-architecture.md"
+      - "architecture/validation-plan.md"
+finding_coverage:
+  - finding_id: "RF-031"
+    relationship: "primary RP-13 owner"
+    required_closure: >-
+      Reuse scheduler/cancel/evidence, add exact guard/scope/isolation/depth/
+      hard-limit/retirement semantics, and distinguish measurement from
+      enforcement.
+    acceptance_refs:
+      - "RP13-AC-001"
+      - "RP13-AC-005"
+      - "RP13-AC-007"
+      - "RP13-AC-011"
+      - "RP13-AC-013"
+  - finding_id: "RF-004"
+    relationship: "cross-reference"
+    required_closure: "consume dynamically proved credentialless independent candidate isolation; do not reopen RP-02/ED-001 mechanics"
+  - finding_id: "RF-016"
+    relationship: "cross-reference"
+    required_closure: "RP-13 closes only bounded child/provider-mapping specialization after RP-11"
+  - finding_id: "RF-025"
+    relationship: "cross-reference"
+    required_closure: "useful credentialless provider session must be dependency proof, otherwise child admission stays disabled"
+  - finding_id: "RF-027"
+    relationship: "cross-reference"
+    controlling_packet: "RP-14"
+    required_closure: "RP-13 binds the accepted ROD-005 conservative baseline to enforceable provisional values; provider-child admission follows conformance and existing proof gates"
+proof_coverage:
+  - proof_id: "PO-FD-022"
+    ownership: "direct"
+    promotion_gate: "PG-13-BOUNDED-CHILDREN"
+    required_result: >-
+      Every child consumes an exact guard, receives narrower scope/budget,
+      cannot access credentials/persist/recruit/delegate past depth, and retires
+      guard/session/task/candidate/identity with evidence and reuse denial.
+    evidence_classification: "ADVERSARIALLY_TESTED"
+    proof_method: "credential/scope/depth/limit/cancel/unknown/retirement/reuse attack and fault matrix"
+  - proof_id: "PO-FD-023"
+    ownership: "child specialization component contribution"
+    promotion_gate: "PG-14-PROVIDER-CONFORMANCE"
+    required_result: >-
+      The conditionally admitted primary child mapping preserves exact child
+      identity/scope/budget/cancel/usage/retirement semantics over the RP-11
+      generic adapter.
+    evidence_classification: "ADVERSARIALLY_TESTED"
+    proof_method: "primary and fake child-mapping conformance plus unknown/cancel/retire fixtures"
+    final_promotion_owner: "RP-14"
+unresolved_evidence:
+  - evidence_id: "UE-013"
+    status: "unresolved"
+    relationship: >-
+      RP-13 must prove credentialless, narrower, depth/budget bounded,
+      cancellable, reconcilable, and irreversibly retired mission children.
+accepted_configuration:
+  - operator_decision_id: "ROD-005"
+    status: "accepted-baseline"
+    fixed_boundary: "temporary credentialless depth-one, exact guard, narrower scope, terminal retirement, no organization/self-recruitment"
+    baseline:
+      - "lowest useful concurrency"
+      - "conservative adjustable wall-clock, step, attempt/retry, token, cost, and evidence ceilings"
+      - "measure during dogfood and widen one dimension only when retained evidence proves benefit"
+    numeric_values: "engineering binds provisional enforceable values; no unsupported numbers are invented"
+    future_updates: "governed configuration, including any additional operator spending or interruption cap"
+    safe_default_until_configured_and_proved: "mission child launch disabled"
+engineering_dispositions:
+  - disposition_id: "ROD-005-ENGINEERING"
+    relationship: "configuration and proof"
+    owner: "RP-13"
+    required_result: "bind enforceable provisional values, classify hard/measured/unsupported dimensions, and prove conformance before launch"
+  - disposition_id: "ED-001"
+    relationship: "premise only"
+    owner: "RP-02/dependency chain"
+    required_result: "useful credentialless short-lived/non-exportable provider session in native sandbox and independent disposable repository"
+dependency_coverage:
+  - logical_packet_id: "RP-08"
+    proposal_id: "octon-architecture-migration-recovery-class-b"
+    required_interface: "cancellation, unknown reconciliation, candidate preservation, and terminal recovery"
+  - logical_packet_id: "RP-11"
+    proposal_id: "octon-architecture-migration-harness-factory"
+    required_interface: "exact Harness/guard binding and generic executor adapter lifecycle"
+downstream_coverage:
+  - logical_packet_id: "RP-14"
+    consumed_interface: "optional bounded-child proof and RP-13 PO-FD-023 specialization receipt"
+claim_boundary:
+  current_claim: "none"
+  future_claim: "temporary bounded mission children only after PO-FD-022, component conformance, and claim-scoped dogfood"

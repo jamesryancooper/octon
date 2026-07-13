@@ -1,0 +1,160 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+proposal_id: "octon-architecture-migration-signed-evidence"
+logical_packet_id: "RP-07"
+workgroup_id: "RWG-07"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+decision_coverage:
+  - decision_id: "FD-013"
+    role: "direct owner of same-transaction logical and fault-proven physical terminal-evidence capacity"
+    disposition: "IMPLEMENT_ACCEPTED_TARGET"
+    ownership_split:
+      transaction_schema_and_reservation_api: "RP-03"
+      terminal_size_policy_physical_reserve_and_fault_proof: "RP-07"
+    packet_coverage:
+      - "architecture/target-architecture.md"
+      - "architecture/acceptance-criteria.md"
+      - "architecture/validation-plan.md"
+  - decision_id: "FD-014"
+    role: "direct owner of producer signatures, signed checkpoints, monotonic anti-rollback, bounded retention, compaction, and honest completeness"
+    disposition: "EXTEND_ACCEPTED_TARGET"
+    packet_coverage:
+      - "navigation/source-of-truth-map.md"
+      - "architecture/target-architecture.md"
+      - "architecture/operator-disclosure.md"
+  - decision_id: "FD-016"
+    role: "evidence-availability and dependency-specific degraded behavior only"
+    disposition: "PARTIAL_PACKET_OWNERSHIP"
+    boundary: "RP-07 blocks evidence-dependent success/publication and preserves work; RP-08 owns full operation recovery and reconciliation."
+    packet_coverage:
+      - "architecture/target-architecture.md"
+      - "architecture/rollback-plan.md"
+finding_coverage:
+  - finding_id: "RF-012"
+    relationship: "direct register owner"
+    required_closure: "cryptographically authentic observations/checkpoints, same-transaction plus physical capacity, bounds, pins, compaction, snapshot defense, and honest completeness"
+    acceptance_refs:
+      - "RP07-AC-003"
+      - "RP07-AC-004"
+      - "RP07-AC-005"
+      - "RP07-AC-007"
+      - "RP07-AC-008"
+      - "RP07-AC-010"
+      - "RP07-AC-011"
+  - finding_id: "RF-013"
+    relationship: "cross-reference and packet-local evidence claim contributor"
+    controlling_packet: "RP-00"
+    required_closure: "every RP-07 signed/executed claim maps to direct verified evidence identity/result; broader inventory hands to RP-00/RP-14"
+    acceptance_refs:
+      - "RP07-AC-006"
+      - "RP07-AC-017"
+  - finding_id: "RF-017"
+    relationship: "cross-reference and component evidence-volume contributor"
+    controlling_packet: "RP-14"
+    required_closure: "bounded local payloads, automatic compaction, no raw tracked growth, and measured 30-day administration"
+    acceptance_refs:
+      - "RP07-AC-010"
+      - "RP07-AC-012"
+      - "RP07-AC-015"
+  - finding_id: "RF-022"
+    relationship: "direct register owner"
+    required_closure: "retain signatures; permit Git only as one signed checkpoint/pointer retention projection"
+    acceptance_refs:
+      - "RP07-AC-003"
+      - "RP07-AC-006"
+      - "RP07-AC-012"
+  - finding_id: "RF-027"
+    relationship: "cross-reference for signer/anchor/retention/reserve mechanism and budget decision"
+    controlling_packet: "RP-14"
+    required_closure: "bind accepted ROD-001 invariants at design exit with safe engineering defaults and mechanism-specific proof"
+    acceptance_refs:
+      - "RP07-AC-015"
+      - "RP07-AC-016"
+  - finding_id: "RF-029"
+    relationship: "direct register owner"
+    required_closure: "off-DB monotonic head, real allocated reserve, one canonical operation model, and minimal projections"
+    acceptance_refs:
+      - "RP07-AC-001"
+      - "RP07-AC-005"
+      - "RP07-AC-008"
+      - "RP07-AC-012"
+proof_coverage:
+  - proof_id: "PO-FD-013"
+    ownership: "direct with RP-03 interface dependency"
+    promotion_gate: "PG-07-EVIDENCE-CAPACITY"
+    required_result: >-
+      Bounded terminal records plus preallocated non-sparse headroom or a proven
+      equivalent retain complete denial, failure, revocation, rollback, and
+      closeout under near-full and ENOSPC faults without a lease service.
+    evidence_classification: "ADVERSARIALLY_TESTED"
+    proof_method: "transaction/concurrency and constrained-volume crash-fault matrix"
+  - proof_id: "PO-FD-014"
+    ownership: "direct"
+    promotion_gate: "PG-07-SIGNED-EVIDENCE"
+    required_result: >-
+      Wrong/revoked key, producer forgery, payload mutation, rechain, older
+      valid snapshot, monotonic-head rollback/fork, unsafe compaction, pin
+      deletion, Git-only substitution, and missing terminal evidence all deny.
+    evidence_classification: "ADVERSARIALLY_TESTED"
+    proof_method: "independent signature verification, rollback, compaction, pin, and completeness fault matrix"
+unresolved_evidence:
+  - evidence_id: "UE-008"
+    status: "unresolved"
+    relationship: >-
+      RP-07 closes producer forgery, full rechain, old-valid-snapshot rollback,
+      candidate-inaccessible head, pin-safe compaction, and low-space terminal
+      evidence only after implementation and retained adversarial proof.
+operator_decisions:
+  - operator_decision_id: "ROD-001"
+    status: "operator-accepted"
+    fixed_boundary: >-
+      One SQLite/WAL source, signed broker/verifier observations,
+      candidate-inaccessible monotonic head, physical terminal reserve, bounded
+      evidence, and no unsigned fallback.
+    accepted_posture: >-
+      Bounded local raw evidence outside project Git; longer-lived signed
+      receipts/checkpoints/rollback references; terminal reserve; no unsigned
+      fallback; deny dependent transitions and preserve work when recovery
+      evidence is not guaranteed.
+    remaining_work: "Bind accepted invariants and prove/tune engineering defaults; no operator disposition remains."
+engineering_dispositions:
+  - disposition_id: "RP07-ENGINEERING-DEFAULTS"
+    status: "design-and-proof-owned"
+    scope: >-
+      Select signer algorithm/provider, candidate-inaccessible monotonic-anchor
+      mechanism, reserve implementation, quota/retention/backup mechanisms, and
+      provisional measurement-adjusted values within narrowed ROD-001 risk
+      tolerances.
+    acceptance: >-
+      Design/Dependency Receipts plus mechanism-specific adversarial, recovery,
+      compaction, key-loss/rotation, and constrained-storage proof.
+dependency_coverage:
+  - logical_packet_id: "RP-03"
+    proposal_id: "octon-architecture-migration-transactional-runtime-store"
+    required_interface: "frozen one-store operation/outbox/logical terminal-capacity API"
+    forbidden_redefinition: "SQL schema, transitions, runtime_bus/replay_store convergence, or writer authority"
+  - logical_packet_id: "RP-04"
+    proposal_id: "octon-architecture-migration-local-broker"
+    required_interface: "frozen broker direct-observation payload and exact evidence adapter module"
+    forbidden_redefinition: "effect authorization, execution, provider request, or outcome semantics"
+  - logical_packet_id: "RP-06"
+    proposal_id: "octon-architecture-migration-verification-publication"
+    required_interface: "frozen verifier direct-observation payload and exact evidence adapter module"
+    forbidden_redefinition: "verdict predicate, identity separation, or publication route semantics"
+downstream_coverage:
+  - logical_packet_id: "RP-08"
+    consumed_interface: "verified producer observations, signed terminal checkpoint, current head, reserve/completeness state, and degraded reason"
+    boundary: "RP-08 owns unknown reconciliation and operation terminal/manual-intervention semantics; it cannot weaken evidence gates."
+  - logical_packet_id: "RP-14"
+    consumed_interface: "PO-FD-013/014 results and bounded evidence volume/maintenance reports for independent integrated promotion proof"
+claim_boundary:
+  current_claim: "none"
+  future_claim: >-
+    authentic bounded local evidence and low-space-safe terminal recording only
+    for separately admitted platform/filesystem/key tuples after RP-07 proof and
+    RP-14 independent integrated promotion
+  exclusions:
+    - "universal tamper-proof or non-repudiation"
+    - "distributed/public transparency"
+    - "raw payload durability beyond selected retention policy"
+    - "Git history as producer authentication"
+    - "authority or causation inferred from signature presence"

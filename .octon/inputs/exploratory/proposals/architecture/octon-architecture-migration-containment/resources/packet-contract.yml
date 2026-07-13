@@ -1,0 +1,174 @@
+schema_version: "octon-architecture-migration-packet-contract-v1"
+program_id: "octon-architecture-migration-program"
+logical_packet_id: "RP-00"
+workgroup_id: "RWG-00"
+proposal_id: "octon-architecture-migration-containment"
+title: "Containment, Baseline, and Claim Correction"
+status: "draft"
+authority_posture:
+  proposal_is_authority: false
+  implementation_authorized: false
+  runtime_implemented: false
+  support_claim_created: false
+purpose: "Create a safe, complete, and truthful boundary before privileged implementation."
+problem_statement: >-
+  Current provider writers, direct-main routing, physical trust-sensitive
+  inventories, proof classification, and support disclosure do not jointly
+  prove the safe truthful Gate 0 required by the reconciled architecture.
+scope:
+  - "normalized exact baseline and provider observation"
+  - "provider/effect containment"
+  - "writer, launcher, credential, policy-input, trust-root, and provider-workflow inventories"
+  - "support and proof claim correction"
+  - "legacy state and workflow burden baseline"
+non_goals:
+  - "target broker or store implementation"
+  - "candidate isolation implementation"
+  - "sanitized Git or autonomous publication"
+  - "signed evidence or trust activation"
+  - "count-based deletion of state or workflows"
+accepted_decisions:
+  - decision_id: "FD-015"
+    owned_slice: "physical writer and role inventory"
+    disposition: "CLARIFY_AND_ENFORCE"
+dependencies: []
+planned_durable_source_ownership:
+  - "TCB physical-writer inventory"
+  - "launch, effect, credential, provider-workflow, and decision-input inventory"
+  - "trust-root inventory skeleton without trust activation"
+  - "claim-correction register and burden baseline"
+proposal_lifecycle_ownership:
+  manifests: "this child packet"
+  acceptance: "human proposal review"
+  architecture_review: "independent pre-integration architecture review"
+retained_evidence_ownership:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-containment/"
+  authority: "evidence-only"
+components_affected:
+  - "default work-unit route"
+  - "material side-effect inventory"
+  - "authorization boundary coverage"
+  - "delegated governance inventory"
+  - "GitHub host projections and provider configuration"
+  - "support targets, admissions, dossiers, and HarnessCard source"
+  - "support and projection validators and generators"
+contracts_affected:
+  - ".octon/framework/product/contracts/default-work-unit.yml"
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/instance/governance/disclosure/harness-card.yml"
+schemas_affected:
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json"
+workflows_and_generated_projections_affected:
+  host_projection: ".github/workflows/**"
+  generated_support_matrix: ".octon/generated/effective/governance/support-target-matrix.yml"
+  generated_proposal_registry: ".octon/generated/proposals/registry.yml"
+  rule: "affected projections are not promotion targets and change only through their owning routes"
+provider_configuration_observed:
+  - "rulesets and branch protection"
+  - "required-check producer identities"
+  - "Apps, token permissions, Actions defaults, environments, and secret consumers"
+  - "secret values are never read"
+technical_identities_affected:
+  - "GitHub Actions workflow identities"
+  - "credentialed provider writer identities"
+  - "required-check producer identities"
+  - "authority and launcher role identities"
+trust_boundary_changes:
+  - "candidate-head provider writers leave the admitted privileged path"
+  - "every Octon-owned human or agent direct-main route becomes unreachable; ordinary human Git remains outside Octon"
+  - "unknown physical writers and launchers fail validation"
+  - "proof and support claims cannot exceed direct retained evidence"
+migration_preconditions:
+  - "accepted ROD-006 no-Octon-direct-main posture bound"
+  - "accepted proposal and passing pre-integration review"
+  - "exact clean repository and provider baselines"
+  - "protected PR recovery bridge verified"
+migration_steps:
+  - "bind baseline and provider snapshot"
+  - "disable candidate-head provider writers and every Octon-owned human or agent direct-main route"
+  - "complete physical inventories"
+  - "correct proof and support claims"
+  - "capture burden baseline"
+  - "run negative controls, rollback drill, conformance, and drift review"
+safe_intermediate_states:
+  - state_id: "SI-00"
+    description: "Contained baseline with observation, candidate work, and protected PR permitted; ordinary human Git remains outside Octon."
+prohibited_intermediate_states:
+  - "privileged autonomous implementation before RP-00 exit"
+  - "candidate-head privileged provider write"
+  - "any Octon-owned human or agent direct-main route"
+  - "unregistered writer, launcher, credential, policy input, trust root, or provider workflow"
+  - "overstated proof or support claim"
+compatibility_bridges:
+  permitted: ["protected PR"]
+  prohibited: ["log-only guards", "ambient credentials", "candidate-head writers", "any Octon-owned human or agent direct-main route"]
+deprecations_and_retirements:
+  - "every Octon-owned human or agent direct-main route leaves the supported path"
+  - "candidate-head credentialed writer paths are disabled pending owned replacement"
+rollback_strategy: "Revert non-safety wording or inventory changes only; unsafe routes remain disabled."
+recovery_strategy: "Preserve candidate output, use protected PR, repair inventories or projections forward, and keep claims narrowed."
+validation_plan:
+  - "writer and launcher inventory validators with unknown-entry fixtures"
+  - "Octon-owned human/agent direct-main and candidate-head writer negative fixtures"
+  - "support proof and live-claim validators"
+  - "GitHub projection alignment and read-only provider observation"
+adversarial_tests:
+  - "unregistered writer and launcher"
+  - "candidate-head write path"
+  - "Octon-owned human or agent direct-main selection"
+  - "referenced-only test mislabeled executed"
+  - "stage-only or stale tuple mislabeled live"
+fault_injection:
+  - "projection mutation interrupted after unsafe routes are disabled"
+  - "provider observation unavailable"
+  - "inventory generator or claim generator failure"
+evidence_to_retain:
+  - "baseline and provider containment receipts"
+  - "inventory coverage and negative-control reports"
+  - "claim correction diff and proof classification results"
+  - "state, workflow, prompt, and operator burden metrics"
+  - "rollback, conformance, and drift/churn receipts"
+support_claim_effect: "narrow-only; no new support claim"
+operator_experience_effect: "preserve candidate work and route privilege through protected PR with one concise explanation"
+setup_and_maintenance_effect: "no new daemon, database, dependency, or routine approval surface"
+parallelization_constraints:
+  - "other packets may design but may not perform privileged changes until RP-00 exits"
+must_not_run_concurrently_with:
+  - "any privileged implementation from RP-01 through RP-14"
+operator_decisions:
+  - id: "ROD-006"
+    status: "accepted"
+    decision: "Octon exposes no human or agent direct-main route; ordinary human Git remains outside Octon and protected PR is the privileged bridge."
+engineering_dispositions:
+  - "ED-007 workflow and visible-surface retirement audit"
+blocking_findings:
+  owned: ["RF-007", "RF-013", "RF-018", "RF-032"]
+  cross_references: ["RF-003", "RF-008", "RF-017"]
+supporting_findings: ["RF-020"]
+entry_criteria:
+  - "clean exact baseline"
+  - "provider observation bound or explicitly stale"
+  - "reconciliation integrity retained"
+exit_criteria:
+  - "no candidate-controlled privileged provider write"
+  - "no Octon-owned human or agent direct-main route"
+  - "no unregistered trust-sensitive physical surface"
+  - "no overstated current proof or support claim"
+proof_produced:
+  proof_id: "PO-FD-015"
+  promotion_gate: "PG-00-WRITER-INVENTORY"
+  current_state: "planned-not-executed"
+authoritative_promotion_requirements:
+  - "operator disposition"
+  - "accepted proposal and architecture review"
+  - "implemented durable contracts and validators"
+  - "direct proof, conformance, drift/churn, and promotion receipts"
+unsupported_remainder:
+  - "candidate-immutable authority and guards"
+  - "credentialless isolation"
+  - "transactional store and broker"
+  - "sanitized Git and immutable verification/publication"
+  - "signed evidence, recovery, trust activation, product layers, and final support proof"

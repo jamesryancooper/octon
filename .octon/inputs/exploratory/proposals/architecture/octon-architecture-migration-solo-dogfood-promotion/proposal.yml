@@ -1,0 +1,31 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-migration-solo-dogfood-promotion"
+title: "Solo Product Dogfood, Claim Reverification, and Promotion Handoff"
+summary: "Run proof-only Solo Local dogfood and independent provider-claim reproduction, measure burden and outcomes, and hand verified claims to the owning promotion route without changing implementation sources."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/state/evidence/validation/proposals/octon-architecture-migration-solo-dogfood-promotion/"
+status: "draft"
+lifecycle:
+  temporary: true
+  exit_expectation: "After every claim-scoped dependency and all RP-14 proof gates pass, hand retained proof to the separately governed promotion route; close and archive this proof-only packet without modifying implementation sources."
+related_proposals:
+  - "octon-architecture-migration-recovery-class-b"
+  - "octon-architecture-migration-self-development-trust-activation"
+  - "octon-architecture-migration-workspace-projects"
+  - "octon-architecture-migration-harness-factory"
+  - "octon-architecture-migration-extension-supply-chain"
+  - "octon-architecture-migration-bounded-child-agents"
+change_profile: "atomic"
+release_state: "pre-1.0"
+created_date: "2026-07-12"
+parent_program: "octon-architecture-migration-program"
+dependencies:
+  - "octon-architecture-migration-recovery-class-b"
+  - "octon-architecture-migration-self-development-trust-activation"
+  - "octon-architecture-migration-workspace-projects"
+  - "octon-architecture-migration-harness-factory"
+program_phase: "integrated-proof-and-promotion-handoff"
+program_group: "RWG-13"
+explicit_runtime_non_implementation_statement: "RP-14 is proof-only. It owns no runtime, workflow, CLI, validator, provider configuration, support-claim authority, or implementation source and changes no behavior during proposal creation."

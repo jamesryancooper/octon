@@ -1,0 +1,57 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-migration-signed-evidence"
+title: "Signed Bounded Evidence, Capacity, and Retention"
+summary: >-
+  Add independently verifiable broker and verifier observations, signed range
+  and terminal checkpoints, a candidate-inaccessible monotonic head, physical
+  and logical terminal-evidence reserves, and bounded local retention with
+  pin-safe compaction and minimal signed projections.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/constitution/contracts/retention/family.yml"
+  - ".octon/framework/constitution/contracts/retention/README.md"
+  - ".octon/framework/constitution/contracts/retention/evidence-retention-contract-v1.schema.json"
+  - ".octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json"
+  - ".octon/framework/constitution/contracts/retention/evidence-classification-v2.schema.json"
+  - ".octon/framework/constitution/contracts/retention/run-evidence-classification-v2.schema.json"
+  - ".octon/framework/constitution/contracts/retention/evidence-disclosure-tiers-v1.yml"
+  - ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/checkpoint-v2.schema.json"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/engine/runtime/spec/signed-evidence-envelope-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/signed-evidence-checkpoint-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/evidence-capacity-retention-v1.md"
+  - ".octon/framework/engine/runtime/crates/evidence_attestation/"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/evidence.rs"
+  - ".octon/framework/engine/runtime/crates/verification_publication/src/evidence.rs"
+  - ".octon/framework/engine/runtime/crates/Cargo.toml"
+  - ".octon/instance/governance/policies/evidence-signing.yml"
+  - ".octon/instance/governance/policies/evidence-retention.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-signed-bounded-evidence.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/signed-bounded-evidence/"
+  - ".octon/framework/assurance/recovery/suites/checkpoint-fault-recovery.yml"
+  - ".octon/framework/assurance/scripts/validate-evidence-retention.sh"
+  - ".octon/state/evidence/validation/proposals/octon-architecture-migration-signed-evidence/"
+status: "draft"
+change_profile: "atomic"
+release_state: "pre-1.0"
+parent_program: "octon-architecture-migration-program"
+dependencies:
+  - "octon-architecture-migration-transactional-runtime-store"
+  - "octon-architecture-migration-local-broker"
+  - "octon-architecture-migration-verification-publication"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    After operator review, binding of accepted ROD-001 invariants plus a proved
+    engineering-default record, accepted architecture review, dependency exit,
+    implementation, retained adversarial proof, durable
+    promotion, and passing conformance and drift/churn receipts, archive this
+    packet without leaving proposal-path dependencies.
+related_proposals:
+  - "octon-architecture-migration-program"
+  - "octon-architecture-migration-transactional-runtime-store"
+  - "octon-architecture-migration-local-broker"
+  - "octon-architecture-migration-verification-publication"

@@ -1,0 +1,82 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-migration-extension-supply-chain"
+title: "Private Signed Extension Supply Chain"
+summary: >-
+  Extend Octon's existing private extension publication and quarantine
+  machinery with signed immutable release envelopes, an operator-owned trust
+  set, exact availability and generation pins, revocation, and revalidated
+  prior-generation restoration while keeping import non-authoritative.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/governance/extensions/README.md"
+  - ".octon/framework/engine/governance/extensions/boundary-contract.md"
+  - ".octon/framework/engine/governance/extensions/trust-and-compatibility.md"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/README.md"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-pack.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-signed-envelope.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-compatibility-profile.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/instance/extensions/README.md"
+  - ".octon/framework/cognition/_meta/architecture/instance/extensions/schemas/instance-extensions.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/README.md"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-effective-catalog.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-generation-lock.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-artifact-map.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-active-state.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-quarantine-state.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-availability-state.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas/extension-compatibility-receipt.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas/extension-import-receipt.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/evidence/validation/publication/schemas/extension-generation-transition-receipt.schema.json"
+  - ".octon/framework/engine/runtime/spec/extension-publication-handle-v1.md"
+  - ".octon/instance/extensions.yml"
+  - ".octon/instance/governance/contracts/extension-publication-policy.yml"
+  - ".octon/framework/scaffolding/runtime/templates/octon/instance/extensions.yml"
+  - ".octon/framework/scaffolding/runtime/templates/octon/state/control/extensions/active.yml"
+  - ".octon/framework/scaffolding/runtime/templates/octon/state/control/extensions/quarantine.yml"
+  - ".octon/framework/scaffolding/runtime/templates/octon/state/control/extensions/available.yml"
+  - ".octon/framework/scaffolding/runtime/templates/octon/generated/effective/extensions/catalog.effective.yml"
+  - ".octon/framework/scaffolding/runtime/templates/octon/generated/effective/extensions/artifact-map.yml"
+  - ".octon/framework/scaffolding/runtime/templates/octon/generated/effective/extensions/generation.lock.yml"
+  - ".octon/framework/scaffolding/runtime/templates/octon/state/evidence/validation/compatibility/extensions/README.md"
+  - ".octon/framework/scaffolding/runtime/templates/octon/state/evidence/validation/publication/extensions/README.md"
+  - ".octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh"
+  - ".octon/framework/orchestration/runtime/_ops/scripts/import-signed-extension-pack.sh"
+  - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+  - ".octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh"
+  - ".octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh"
+  - ".octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh"
+  - ".octon/framework/engine/runtime/crates/runtime_resolver/src/handles.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_resolver/src/lib.rs"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-active-state-compactness.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-supply-chain.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-export-profile-contract.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-extension-pack-contract.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-extension-publication-state.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-extension-quarantine-hard-gate.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-extension-compatibility-cache.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-extension-supply-chain.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-resolve-extension-route.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-resolve-extension-prompt-bundle.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-export-profile-contract.sh"
+  - ".octon/state/evidence/validation/proposals/octon-architecture-migration-extension-supply-chain/"
+status: "draft"
+change_profile: "atomic"
+release_state: "pre-1.0"
+parent_program: "octon-architecture-migration-program"
+dependencies:
+  - "octon-architecture-migration-signed-evidence"
+  - "octon-architecture-migration-harness-factory"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    After the accepted ROD-004 baseline is encoded, operator and architecture
+    review accept the packet, dependencies exit, implementation and adversarial proof pass,
+    durable promotion completes, and conformance/drift receipts pass, archive
+    this packet without proposal-path dependencies.
+related_proposals:
+  - "octon-architecture-migration-program"
+  - "octon-architecture-migration-signed-evidence"
+  - "octon-architecture-migration-harness-factory"

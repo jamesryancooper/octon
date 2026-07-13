@@ -1,0 +1,105 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-migration-local-broker"
+title: "Supervised Local Broker and Credential Custody"
+summary: >-
+  Introduce one supervised macOS-local broker that validates existing
+  authority, authenticates clients more strongly than same UID, holds durable
+  credentials in Keychain, consumes one-shot store-bound operation handles,
+  is the sole deployed runtime-store writer and effect-adapter host, restarts
+  and repairs unattended, and never mints authority or verifier verdicts.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/crates/Cargo.toml"
+  - ".octon/framework/engine/runtime/crates/Cargo.lock"
+  - ".octon/framework/engine/runtime/crates/local_broker/Cargo.toml"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/main.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/lib.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/config.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/ipc.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/identity.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/keychain.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/operation.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/store.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/effects.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/supervision.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/recovery.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/health.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/receipts.rs"
+  - ".octon/framework/engine/runtime/crates/local_broker/tests/broker.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/Cargo.toml"
+  - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/broker.rs"
+  - ".octon/framework/engine/runtime/config/local-broker.yml"
+  - ".octon/framework/engine/runtime/config/macos/com.octon.local-broker.plist"
+  - ".octon/framework/engine/runtime/adapters/host/macos-local-broker.yml"
+  - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+  - ".octon/framework/engine/runtime/spec/local-broker-v1.md"
+  - ".octon/framework/engine/runtime/spec/local-broker-config-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/local-broker-ipc-request-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/local-broker-ipc-response-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/broker-operation-handle-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/broker-credential-enrollment-receipt-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/broker-lifecycle-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/family.yml"
+  - ".octon/framework/constitution/contracts/runtime/local-broker-config-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/local-broker-ipc-request-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/local-broker-ipc-response-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/broker-operation-handle-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/broker-credential-enrollment-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/broker-lifecycle-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json"
+  - ".octon/instance/governance/policies/mission-autonomy.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-local-broker.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-local-broker.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/local-broker/"
+  - ".octon/state/evidence/validation/proposals/octon-architecture-migration-local-broker/"
+status: "draft"
+change_profile: "atomic"
+release_state: "pre-1.0"
+owner: "octon-maintainers"
+parent_program: "octon-architecture-migration-program"
+logical_packet_id: "RP-04"
+workgroup_id: "RWG-04"
+dependencies:
+  - "octon-architecture-migration-canonical-authority"
+  - "octon-architecture-migration-candidate-isolation"
+  - "octon-architecture-migration-transactional-runtime-store"
+program_execution_mode: "gated-parallel"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    After RP-01/RP-02/RP-03 exit, ED-001 useful isolation is proved, ED-002's
+    exact IPC/identity/supervision/Keychain mechanism and dependencies pass
+    design review, ED-007 surface audit passes, proposal acceptance and
+    independent review complete, implement and prove the sole supervised
+    broker with one disposable scratch effect, retain attack, credential,
+    restart, repair, rollback, conformance, and drift evidence, promote the
+    declared durable targets, then close out and archive canonically.
+related_proposals:
+  - "octon-architecture-migration-canonical-authority"
+  - "octon-architecture-migration-candidate-isolation"
+  - "octon-architecture-migration-transactional-runtime-store"
+source_lineage:
+  - ".octon/inputs/additive/.incoming/octon-architecture-and-migration-handoff-v2.0.0/"
+  - ".octon/inputs/exploratory/reviews/architecture-migration/reconciliations/architecture-migration-reconciliation-20260712T032411Z-10c3ff/"
+  - ".octon/inputs/exploratory/proposals/architecture/octon-trustworthy-autonomy-solo-developer-revision-2/"
+authority_class_impact:
+  framework: "May add one local broker process, protocol, host-service binding, operator lifecycle commands, and owned validators; the broker consumes but never creates or widens authority."
+  instance: "May narrow mission outage posture to the proved broker route with no ambient fallback; no new operator policy decision is created."
+  state_control: "Future broker is the sole normal deployed SQLite writer and records exact operation/attempt state through RP-03; its socket, service, and Keychain state are deployment-local."
+  state_evidence: "Future enrollment, IPC attack, credential denial, single-instance/writer, scratch-effect, restart/repair, rollback, conformance, and drift proof is retained under the packet evidence root."
+  generated: "Generated host/service views remain derived; launchd state and status output cannot authorize an operation."
+  inputs: "This packet and reconciliation lineage remain non-authoritative planning inputs."
+explicit_runtime_non_implementation_statement: >-
+  Creating this draft does not add IPC or Keychain dependencies, build/install
+  or start a service, create a socket, read/store/enroll a credential, open a
+  database write connection, mint/consume authority, execute an effect, or
+  mutate launchd, provider, control, or Keychain state.

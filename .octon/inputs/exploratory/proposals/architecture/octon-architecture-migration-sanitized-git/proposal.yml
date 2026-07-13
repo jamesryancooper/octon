@@ -1,0 +1,103 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-migration-sanitized-git"
+title: "Sanitized Privileged Git Adapter"
+summary: >-
+  Define the smallest broker-owned Git adapter that can import an exact
+  candidate object without execution and perform only a pinned,
+  server-observed expected-old fast-forward ref update while denying every
+  candidate-controlled Git extension surface.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/crates/local_broker/src/adapters/git/"
+  - ".octon/framework/engine/runtime/crates/authorized_effects/"
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+  - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
+  - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh"
+  - ".octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh"
+  - ".octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md"
+  - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+  - ".octon/framework/assurance/runtime/_ops/tests/sanitized-git/"
+  - ".octon/state/evidence/validation/proposals/octon-architecture-migration-sanitized-git/"
+status: "draft"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    After parent-program review, RP-04 dependency exit, accepted architecture
+    review, implementation authorization, atomic implementation, hostile-Git
+    and provider-race proof, conformance, and drift/churn review, promote the
+    durable adapter and evidence to the declared targets, then close and
+    archive this temporary packet. Parent evidence never substitutes for this
+    child's receipts.
+related_proposals:
+  - "octon-architecture-migration-program"
+  - "octon-architecture-migration-local-broker"
+  - "octon-architecture-migration-verification-publication"
+change_profile: "atomic"
+release_state: "pre-1.0"
+owner: "octon-maintainers"
+parent_program: "octon-architecture-migration-program"
+dependencies:
+  - "octon-architecture-migration-local-broker"
+program_child_id: "RP-05"
+program_workgroup_id: "RWG-05"
+sequence:
+  priority: "P0"
+  order: 5
+  dependency_gate: "verified-child-exit"
+  dependencies:
+    - "octon-architecture-migration-local-broker"
+logical_dependencies:
+  - "RP-04"
+selected_implementation_target: >-
+  Broker-owned sanitized Git request/result, non-executing candidate-object
+  transfer, closed Git configuration and transport policy, and atomic
+  expected-old fast-forward execution.
+scope_statement: >-
+  RP-05 owns the Git effect primitive inside the RP-04 broker boundary. It does
+  not own broker authority, credentials, the runtime store, provider verdicts,
+  route classification, support admission, GitHub workflow projections, or
+  provider-specific outcome classification.
+authority_class_impact:
+  framework: >-
+    Adds a broker Git adapter and typed effect contract, updates current
+    hosted-no-PR helper boundaries and authorization inventories, and adds
+    hostile-Git validation fixtures.
+  instance: >-
+    No instance authority or support-target admission is changed by this
+    packet.
+  state_control: >-
+    No control truth is created by this proposal. Later implementation
+    consumes RP-03/RP-04 operation state through frozen interfaces.
+  state_evidence: >-
+    Later implementation retains child-owned proof under the declared
+    proposal validation evidence root.
+  generated: >-
+    No generated/effective or GitHub host projection is a promotion target.
+  inputs: >-
+    This packet remains non-authoritative proposal input and cannot authorize
+    an effect.
+runtime_behavior_impact: >-
+  None at draft. After governed implementation, the broker can perform one
+  exact fast-forward ref effect without evaluating candidate-controlled Git
+  behavior; unavailable or denied execution preserves candidate work and
+  routes to protected PR.
+generated_input_authority_impact: >-
+  No input, generated output, host check, provider observation, or proposal
+  artifact becomes authority.
+evidence_requirements:
+  - "PO-FD-009 and PG-05-SANITIZED-GIT proof bundle."
+  - "UE-005 hostile extension and scratch-provider expected-old proof."
+  - "Cross-reference evidence for the FD-010 Git primitive consumed by RP-06."
+  - "Atomic change profile and rollback receipts."
+  - "Implementation conformance and post-implementation drift/churn receipts."
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "validate-proposal-implementation-readiness.sh"
+  - "validate-proposal-review-gate.sh"
+  - "validate-architectural-review-receipts.sh"
+  - "hostile Git extension matrix"
+  - "candidate object-import non-execution suite"
+  - "expected-old, ancestry, target-race, and attribution suite"

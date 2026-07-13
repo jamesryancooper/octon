@@ -1,0 +1,299 @@
+schema_version: "octon-architecture-migration-child-packet-v1"
+proposal_id: "octon-architecture-migration-harness-factory"
+logical_packet_id: "RP-11"
+workgroup_id: "RWG-11"
+parent_program: "octon-architecture-migration-program"
+title: "Deterministic Harness Factory and Generic Executor Adapter"
+purpose: >-
+  Compile the complete approved per-run envelope deterministically, bind its
+  exact sources and effective digest to canonical authorization and immediate
+  spawn, and dispatch only through one strict provider-neutral executor seam.
+problem_statement: >-
+  Octon has useful task-harness, route-bundle, resolver, context, adapter, and
+  lifecycle-executor primitives, but the current global route bundle does not
+  compile the full run envelope and `request.executor` still selects hardcoded
+  provider branches. Structural manifests therefore do not yet prove
+  deterministic launch binding or semantics-preserving provider replacement.
+current_repository_state:
+  - "Task-specific Harness and compile-receipt runtime/constitutional contracts already exist."
+  - "Generated route bundles, runtime handles, context packs, and lifecycle execution requests/results already provide reusable compilation and observation primitives."
+  - "LifecycleRouteExecutor exists, but adapter dispatch still matches executor strings such as mock, codex, claude, and auto."
+  - "Live adapter manifests declare non-authority and replacement intent, but strict schema drift and runtime identity consumption are not fully closed."
+current_evidence:
+  classification: "STATICALLY_INSPECTED"
+  proof_method: "static inspection"
+  limitations:
+    - "No complete each-input byte-determinism or launch-denial matrix has run."
+    - "No real-primary plus fake-adapter lifecycle conformance report exists."
+    - "UE-010 and UE-011 remain unresolved until implementation and integrated dynamic proof."
+accepted_decisions:
+  - "FD-020"
+  - "FD-023, generic implementation and component-conformance portion only"
+target_state:
+  - "One canonical Harness Factory compiles every approved project, mission, run, policy, extension, context, model, tool, validation, evidence, and rollback input."
+  - "Canonical schema-validated serialization produces identical bytes and digest for identical complete inputs."
+  - "Every direct and transitive input has a stable identity, version/ref, digest, precedence class, and required/optional disposition in one ordered source manifest."
+  - "A strict compile receipt binds compiler identity, source-manifest digest, effective-manifest digest, schema result, and authorization binding."
+  - "Canonical authorization and the one-shot launch path revalidate the exact source/effective digests immediately before spawn."
+  - "One generic adapter identity and prepare/launch/observe/cancel/usage/retire interface is the only provider dispatch seam."
+  - "One real primary-provider adapter and fake conformance adapters prove the RP-11 component contract."
+  - "Generated route, manifest, and receipt instances remain projections/evidence rather than authority."
+scope:
+  - "canonical Harness Factory compiler and complete authority-first input precedence"
+  - "schema validation, path/ref normalization, canonical serialization, full source enumeration, and invalidation"
+  - "effective per-run manifest, ordered input-source manifest, and compile receipt contracts"
+  - "exact manifest/source digest binding into RP-01 authorization consumption and immediate one-shot spawn"
+  - "generic model/host executor adapter identity, registry, lifecycle interface, typed outcomes, and bypass prevention"
+  - "strict live adapter schemas/manifests and reusable component conformance suite"
+  - "one real primary-provider implementation plus fake positive, negative, timeout, cancel, usage, and retire adapters"
+non_goals:
+  - "new scheduler, runtime, durable execution store, or control plane"
+  - "new policy engine, authority source, capability grant, or support admission"
+  - "provider-specific verifier, publication, effect, or recovery semantics"
+  - "child-agent identity, delegation, scope, budget, depth, or provider mapping"
+  - "live secondary-provider support without a separate support claim and admission receipt"
+  - "manual provider or internal route selection in the normal operator path"
+invariants:
+  - "Compilation is pure with respect to authority and side effects: it validates and narrows approved inputs but never approves, grants, launches, or mutates them."
+  - "No input may be omitted merely because its value is inherited, defaulted, generated, or transitively referenced."
+  - "A source-manifest or effective-manifest digest mismatch denies authorization consumption and spawn."
+  - "Generated route/manifests/receipts are projections and cannot be fed back as canonical authority."
+  - "Every live provider launch passes through the same generic adapter registry and lifecycle contract."
+  - "Adapter results are observations; canonical mission, authority, evidence, recovery, and effect owners interpret them."
+  - "An unclaimed live secondary remains unavailable even if provider-specific code or a manifest exists."
+planned_durable_source_ownership:
+  harness_factory_compiler: "RP-11"
+  input_precedence_and_normalization: "RP-11"
+  effective_manifest_and_compile_receipt_contracts: "RP-11"
+  authorization_and_spawn_digest_binding: "RP-11 owns the binding fields/revalidation integration; RP-01 owns authority semantics and decisions"
+  generic_executor_adapter_interface_and_registry: "RP-11"
+  generic_component_conformance_suite: "RP-11"
+  primary_provider_adapter: "RP-11, one real primary implementation only"
+  fake_conformance_adapters: "RP-11"
+  verifier_and_publication_specialization: "RP-06"
+  recovery_and_effect_specialization: "RP-08"
+  child_semantics_and_provider_mapping: "RP-13"
+  integrated_provider_equivalence_and_support_claim: "RP-14"
+proposal_lifecycle_ownership:
+  manifests:
+    - "proposal.yml"
+    - "architecture-proposal.yml"
+  status: "draft"
+  authority: "proposal-local and non-authoritative"
+retained_evidence_ownership:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-harness-factory/"
+  required_records:
+    - "compiler identity, ordered source manifest, canonical bytes, digests, and compile receipts"
+    - "complete each-input invalidation matrix"
+    - "stale, self-widened, wrong-project, wrong-run, and changed-source launch denial matrix"
+    - "adapter schema validation and negative-fixture report"
+    - "primary-provider and fake-adapter prepare/launch/observe/cancel/usage/retire conformance report"
+    - "direct-provider-bypass and second-runtime absence report"
+components_affected:
+  - "task-specific execution Harness contracts"
+  - "runtime route bundle and resolver handles"
+  - "context and bound-input enumeration"
+  - "model/host adapter contracts and live manifests"
+  - "lifecycle executor request, dispatch, observation, and provider implementations"
+  - "execution-governance and adapter assurance"
+files_expected_to_change:
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md"
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-compile-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/task-specific-execution-harness-compile-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/family.yml"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/framework/engine/runtime/spec/executor-profile-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/model-adapter-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/adapter-conformance-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/family.yml"
+  - ".octon/framework/engine/runtime/adapters/model/*.yml"
+  - ".octon/framework/engine/runtime/adapters/host/**"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/{adapter,authorization,context_pack,generated,input_binding,request,result,observer,codex,claude,auto,mock,lib}.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_resolver/src/{handles,lib}.rs"
+  - ".octon/instance/governance/policies/model-call-routing.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-workflow-statechart-harness.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-agent-node-model-call-contract.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh"
+contracts_affected:
+  - "task-specific-execution-harness-v1, full input/source binding"
+  - "task-specific-execution-harness-compile-receipt-v1, compiler/source/effective digest binding"
+  - "model-adapter-v1 and host-adapter-v1, strict identity and lifecycle capability declarations"
+  - "adapter-conformance-v1, executable lifecycle fixture/result requirements"
+  - "executor-profile-v1, adapter identity reference rather than provider-name dispatch"
+schemas_affected:
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-compile-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/task-specific-execution-harness-compile-receipt-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/executor-profile-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/model-adapter-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/adapter-conformance-v1.schema.json"
+workflows_and_generated_projections_affected:
+  - "route-bundle and runtime-handle generation/verification"
+  - "per-run effective Harness and ordered source-manifest generation"
+  - "compile-receipt and lifecycle observation generation"
+  - "model-call route resolution before generic adapter lookup"
+provider_configuration_observed: []
+technical_identities_affected:
+  - "Harness compiler implementation/version identity"
+  - "Workspace Project, Project Profile, mission, Run Contract, policy, extension generation, context, model, tool, validation, evidence, and rollback input identities"
+  - "effective Harness manifest and ordered source-manifest digests"
+  - "generic adapter identity, version, schema digest, and conformance profile"
+  - "primary-provider operation and observation identities"
+trust_boundary_changes:
+  - "The exact compiled source/effective digests become mandatory inputs to existing authorization and one-shot spawn boundaries."
+  - "Provider selection moves from hardcoded executor-name branching to strict adapter identity and registry resolution."
+  - "Compiler and adapter outputs remain non-authoritative observations/projections."
+migration_preconditions:
+  - "RP-01 canonical authority and launch-guard interface has exited and is frozen."
+  - "RP-02 candidate-isolation and disposable execution interface has exited and is frozen."
+  - "RP-10 Workspace Project and Project Profile exact-ref/digest interface has exited and is frozen."
+  - "ED-006 canonical serialization, complete digesting, and provider-breadth default is retained."
+  - "Every current Harness, route, resolver, adapter, and lifecycle dispatch consumer is inventoried at the implementation commit."
+migration_steps:
+  - "Publish strict complete Harness/source/compile-receipt contract changes and exact registry entries."
+  - "Define the authority-first precedence table and enumerate every direct/transitive source before serialization."
+  - "Implement one pure canonical compiler over existing route, context, project, mission, Run Contract, policy, extension, model, tool, validation, evidence, and rollback sources."
+  - "Emit canonical effective bytes, ordered source manifest, digests, and compile receipt; reject missing, extra, ambiguous, stale, or unvalidated sources."
+  - "Bind source/effective digests into existing authority consumption and revalidate immediately at one-shot spawn without changing authority semantics."
+  - "Replace executor string and hardcoded provider branches with strict adapter identity, registry lookup, and the generic lifecycle interface."
+  - "Convert one real primary provider and fake fixtures to the interface; keep all unclaimed secondary providers inactive."
+  - "Validate live manifests, every input invalidation, launch negatives, lifecycle conformance, bypass absence, and no-new-runtime posture."
+safe_intermediate_states:
+  - "Existing route and Harness primitives remain read-only compatibility inputs while the new compiler is inert."
+  - "The compiler emits and validates complete manifests/receipts but no launch consumes them."
+  - "Canonical authorization records the expected digest while launch remains on the legacy path and autonomous use stays disabled."
+  - "One primary adapter and fake adapters pass conformance while direct dispatch remains disabled."
+  - "The new compiler and generic adapter launch path activates atomically after digest binding, bypass, and rollback tests pass."
+prohibited_intermediate_states:
+  - "A second scheduler, runtime store, policy evaluator, or authority source is introduced."
+  - "A compile succeeds without every relevant direct/transitive source and digest."
+  - "Authorization checks one digest while spawn uses or re-resolves another."
+  - "Generated route/manifests/receipts become authority or writable source truth."
+  - "Provider-specific code bypasses the adapter registry or generic lifecycle interface."
+  - "A live secondary provider is admitted because code or a manifest exists rather than a separate support claim and proof."
+  - "RP-11 implements verifier/publication, recovery/effect, or child specialization."
+compatibility_bridges:
+  - "Legacy route-bundle and executor-name inputs may be read only to compile/compare fixtures during the bounded cutover; they never authorize or directly dispatch once the new path activates."
+  - "Existing provider modules may be wrapped temporarily behind the generic trait, but direct call sites are removed before activation."
+deprecations_and_retirements:
+  - "Retire executor-name match dispatch and any direct provider launch call outside the generic registry."
+  - "Retire the global route bundle as a sufficient per-run Harness claim; keep it only as a generated/narrowing compiler input where still required."
+  - "Retire permissive or drifted live adapter-manifest fields that do not validate against the strict contract."
+rollback_strategy: >-
+  Disable the Factory/generic-adapter launch path, preserve legacy route inputs
+  as non-authoritative read-only data, retain candidate work and complete
+  manifests/receipts for diagnosis, and require protected/manual recovery
+  through existing canonical routes; never restore direct provider dispatch or
+  create a fallback runtime.
+recovery_strategy: >-
+  Recompute from retained immutable sources, compare the ordered source
+  manifest and compiler identity, revalidate strict adapter identity and
+  schema, and retry only through a fresh authorization/one-shot spawn binding.
+  Missing or changed sources, unknown provider outcome, or retirement failure
+  remains blocked for the owning recovery semantics in RP-08.
+validation_plan:
+  - "canonical byte determinism and compiler-version binding"
+  - "complete one-at-a-time input invalidation matrix"
+  - "stale, self-widened, wrong-project, wrong-run, wrong-adapter, and changed-source launch denial"
+  - "immediate authorization/spawn digest and time-of-check binding"
+  - "strict adapter schema and live-manifest negatives"
+  - "primary-provider and fake-adapter prepare/launch/observe/cancel/usage/retire conformance"
+  - "direct-provider bypass and no-second-runtime scan"
+adversarial_tests:
+  - "reordered maps/lists, path aliases, symlinks, traversal, locale, timezone, line endings, and nondeterministic timestamps"
+  - "omitted transitive source, duplicate identity, digest substitution, stale ref, and self-widened generated manifest"
+  - "wrong project, mission, Run Contract, policy, extension generation, context, model, tool, validation, evidence, or rollback binding"
+  - "unknown adapter identity, schema/version drift, undeclared lifecycle capability, provider-name injection, and direct module call"
+  - "provider lost response, cancel race, malformed usage, duplicate terminal observation, and failed retire"
+fault_injection:
+  - "source changes between compile, authorization, and immediate spawn"
+  - "compiler interruption before and after receipt publication"
+  - "adapter prepare succeeds then launch fails"
+  - "launch response is lost before observation"
+  - "cancel and terminal observation race"
+  - "usage or retirement observation is missing or malformed"
+evidence_to_retain:
+  - "compiler version, exact source identities/refs/digests, canonical bytes, effective digest, and compile receipt"
+  - "complete invalidation and launch-denial matrices"
+  - "strict schema/live-manifest validation"
+  - "primary/fake lifecycle conformance and bypass scan"
+  - "cutover, rollback rehearsal, and generated-projection freshness receipts"
+support_claim_effect: >-
+  Produces component evidence required for deterministic single-agent launch and
+  provider replacement, but creates no current support claim. A live secondary
+  requires a separately proposed support tuple, and integrated FD-023/FD-024
+  promotion remains RP-14-owned.
+operator_experience_effect: >-
+  Compilation and provider adaptation are invisible on the normal path. The
+  operator states intent, sees a concise deterministic block/repair reason when
+  required, and never chooses an internal route, adapter, or provider.
+setup_and_maintenance_effect: >-
+  One compiler and adapter contract replace provider branches and implicit
+  input inheritance. Normal maintenance regenerates projections through their
+  owners and reports drift without creating another service or control plane.
+dependencies:
+  - logical_packet_id: "RP-01"
+    proposal_id: "octon-architecture-migration-canonical-authority"
+    required_interface: "frozen canonical authority and exact one-shot launch-guard semantics"
+  - logical_packet_id: "RP-02"
+    proposal_id: "octon-architecture-migration-candidate-isolation"
+    required_interface: "frozen isolated execution boundary and guarded spawn interface"
+  - logical_packet_id: "RP-10"
+    proposal_id: "octon-architecture-migration-workspace-projects"
+    required_interface: "exact Workspace Project and Project Profile refs and digests"
+parallelization_constraints:
+  - "Compiler design may proceed while dependencies implement, but RP-11 cannot activate or exit before RP-01, RP-02, and RP-10 exit."
+  - "RP-11 consumes RP-01 authority but cannot redefine it."
+  - "RP-06, RP-08, and RP-13 retain their provider specializations; shared-file integration is serialized by exact symbol/entry ownership."
+must_not_run_concurrently_with:
+  - "Any change redefining the frozen RP-01 authority/guard semantics consumed by digest binding."
+  - "Any change redefining the RP-02 isolation/spawn interface or RP-10 project/Profile binding during activation."
+operator_decisions: []
+engineering_dispositions:
+  - "ED-006"
+blocking_findings:
+  - "RF-015"
+  - "RF-024"
+  - "RF-030"
+cross_referenced_findings:
+  - "RF-016, RP-11 closes generic provider conformance only; extension and child trust remain RP-12/RP-13-owned"
+unresolved_evidence:
+  - "UE-010"
+  - "UE-011"
+entry_criteria:
+  - "RP-01, RP-02, and RP-10 exit evidence exists at exact dependency digests."
+  - "ED-006 is reflected in the serialization and conformance design."
+  - "Current Harness, route, resolver, adapter, authorization-consumer, and provider call paths are inventoried at the implementation commit."
+exit_criteria:
+  - "Identical complete inputs yield byte-identical effective manifests and equal digests."
+  - "Changing any direct or transitive input changes the source/effective digest and invalidates prior authorization."
+  - "The exact source/effective digest is revalidated immediately before one-shot spawn."
+  - "Stale, self-widened, wrong-project, wrong-run, wrong-adapter, and changed-source launch attempts deny."
+  - "Every live adapter manifest validates strictly and no provider bypasses the generic lifecycle interface."
+  - "One real primary provider plus fake adapters pass prepare/launch/observe/cancel/usage/retire component conformance."
+  - "No new scheduler, runtime, store, policy engine, authority source, or control plane exists."
+proof_produced:
+  primary:
+    proof_obligation: "PO-FD-020"
+    promotion_gate: "PG-11-HARNESS-BINDING"
+    evidence_target: "DYNAMICALLY_EXECUTED"
+  component_contribution:
+    proof_obligation: "PO-FD-023"
+    promotion_gate: "PG-14-PROVIDER-CONFORMANCE"
+    evidence_target: "DYNAMICALLY_EXECUTED"
+    boundary: >-
+      RP-11 supplies generic implementation and component conformance only;
+      RP-14 independently reproduces integrated equivalence after RP-06,
+      RP-08, and RP-13 specializations.
+authoritative_promotion_requirements:
+  - "accepted proposal and passing pre-integration architecture review"
+  - "dependency exits and exclusive shared-symbol/entry assignment"
+  - "retained UE-010 and RP-11 component portion of UE-011 dynamic proof"

@@ -1,0 +1,295 @@
+schema_version: "octon-architecture-migration-child-packet-v1"
+proposal_id: "octon-architecture-migration-signed-evidence"
+logical_packet_id: "RP-07"
+workgroup_id: "RWG-07"
+parent_program: "octon-architecture-migration-program"
+title: "Signed Bounded Evidence, Capacity, and Retention"
+purpose: >-
+  Produce authentic, rollback-detecting, bounded proof that remains operable
+  under low space, signer/anchor failure, and crash-safe compaction without an
+  unsigned fallback or another control plane.
+problem_statement: >-
+  Octon currently has hash-linked evidence, checkpoint and retention contracts,
+  and honest completeness concepts, but unkeyed recomputable hashes do not
+  authenticate producer identity, DB-local checkpoints cannot detect restoration
+  of an older valid snapshot, logical accounting does not reserve physical
+  terminal writes, and raw retention/compaction is not bounded and fault-proven.
+current_repository_state:
+  - "Hash links and digest checks exist, but no cryptographic producer-signing primitive is active."
+  - "checkpoint-v2 lacks a key-bound signature and candidate-inaccessible monotonic latest-head binding."
+  - "Evidence-store and retention contracts describe useful completeness/locality concepts without an executable quota/pin/compaction path."
+  - "No same-transaction plus physical terminal reserve proves denial, failure, revocation, rollback, and closeout survive ENOSPC."
+  - "runtime_bus and replay_store expose journal concepts whose single-store convergence is RP-03-owned."
+current_evidence:
+  classification: "STATICALLY_INSPECTED"
+  proof_method: "static inspection and reconciled review evidence"
+  limitations:
+    - "No RP-07 signing, monotonic anchor, physical reserve, or compaction implementation exists."
+    - "No wrong-key, producer-forgery, rechain, old-snapshot, anchor-rollback, ENOSPC, or compaction fault matrix has run."
+    - "ROD-001 is operator-accepted; invariant binding and the separate reversible engineering-default/proof record remain pending at design exit."
+accepted_decisions:
+  - "FD-013"
+  - "FD-014"
+  - "FD-016, evidence availability and dependency-specific degraded behavior only"
+target_state:
+  - "Broker and verifier use distinct candidate-inaccessible role-bound identities to sign canonical direct observations."
+  - "Signed range and terminal checkpoints bind ordered observations, prior head, key epochs, pins, completeness, reserve state, and terminal outcome."
+  - "A candidate-inaccessible compare-and-advance latest head outside the RP-03 DB rollback unit rejects older snapshots, forks, and head rollback."
+  - "RP-03 T1 reserves a logical RP-07 terminal size class while RP-07 maintains fault-proven real allocated physical terminal headroom."
+  - "Quotas, age/count/byte/inode bounds, pins, and verify-checkpoint-anchor-delete compaction bound raw local evidence."
+  - "Raw provider/model payloads remain local/outside project Git; only classified minimal signed checkpoints/pointers are project-Git eligible."
+  - "Missing signer, anchor, reserve, evidence, or compaction proof blocks the dependent transition, preserves candidate/raw work, and never falls back unsigned."
+scope:
+  - "canonical signed-evidence envelope and independent verifier"
+  - "producer-direct broker/verifier observation adapters and role/key-epoch binding"
+  - "signed range and terminal checkpoints with completeness, pins, and prior-head binding"
+  - "candidate-inaccessible monotonic latest-head compare-and-advance interface and receipts"
+  - "logical terminal capacity policy over RP-03 frozen API and real physical terminal reserve"
+  - "evidence quotas, retention windows, pins, compaction state machine, and raw locality"
+  - "minimal signed projection/publishability rules and truthful claim vocabulary"
+  - "signer/storage/anchor/compaction degraded behavior, recovery, operator status, and retained adversarial proof"
+non_goals:
+  - "signing every event or informational log line"
+  - "distributed transparency, federation, multi-operator quorum, or remote key-management service"
+  - "standalone capacity lease, evidence daemon, scheduler, runtime store, or second control plane"
+  - "plain Git anchoring, an unkeyed digest, or a hash-valued signature field as substitute for cryptographic verification"
+  - "RP-03 SQL schema, operation transition, runtime_bus, replay_store, or writer-authority ownership"
+  - "RP-04 broker effect semantics or RP-06 verdict/publication semantics"
+  - "automatic proof recovery after irretrievable key and monotonic-anchor loss"
+invariants:
+  - "A signature binds canonical bytes, admitted producer role, stable identity, key id/epoch, algorithm, scope, sequence, prior head, and exact direct observation."
+  - "Broker and verifier private identities are distinct and inaccessible to the candidate; verification does not require the producer private key."
+  - "No signer may claim facts outside its direct observation, and signature presence cannot upgrade unknown causation or incomplete evidence."
+  - "The monotonic latest head lives outside the candidate and outside the rollback unit of the RP-03 database."
+  - "Logical reservation and real allocated physical headroom both pass before consequential admission; terminal reserve is not consumed by discretionary diagnostics."
+  - "Compaction cannot delete before producer/checkpoint verification, independent re-verification, head advance, and durable receipt, and cannot delete active pins."
+  - "Raw payloads are bounded local data outside project Git by default; signed projections remain evidence, never authority."
+  - "Missing or unverifiable evidence blocks success/publication honestly, preserves work, and has no unsigned, Git-only, or stale-head fallback."
+planned_durable_source_ownership:
+  signed_envelope_checkpoint_and_verification: "RP-07"
+  signer_role_key_epoch_and_revocation_policy: "RP-07 after accepted ROD-001 invariant binding and engineering mechanism proof"
+  monotonic_latest_head_interface_receipts_and_policy: "RP-07 after accepted ROD-001 invariant binding and engineering mechanism proof"
+  terminal_size_classes_physical_reserve_and_admission_threshold: "RP-07; RP-03 owns transactional reservation implementation"
+  retention_quotas_pins_compaction_and_locality: "RP-07"
+  broker_direct_observation_adapter: "RP-07 exact local_broker/src/evidence.rs; RP-04 owns all effect semantics"
+  verifier_direct_observation_adapter: "RP-07 exact verification_publication/src/evidence.rs; RP-06 owns all verdict/publication semantics"
+  sqlite_schema_operation_transitions_outbox_and_runtime_bus: "RP-03, frozen and consumed by RP-07"
+  unknown_outcome_reconciliation_and_class_b_behavior: "RP-08"
+  final_integrated_burden_and_claim_reverification: "RP-14"
+proposal_lifecycle_ownership:
+  manifests:
+    - "proposal.yml"
+    - "architecture-proposal.yml"
+  status: "draft"
+  authority: "proposal-local and non-authoritative"
+retained_evidence_ownership:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-signed-evidence/"
+  required_records:
+    - "public signer identities, roles, algorithms, key epochs, rotations/revocations, and recovery-test metadata without private keys"
+    - "monotonic anchor identity, compare-and-advance receipts, old-snapshot/fork/rollback results"
+    - "logical and physical reserve policy, allocation verification, ENOSPC/terminal-class fault matrix, and replenishment results"
+    - "canonical direct observations, signed range/terminal checkpoint fixtures, and wrong-key/forgery/rechain negatives"
+    - "quota/pin/compaction policies, crash receipts, coverage manifests, and bounded 30-day volume report"
+    - "raw-local/project-Git projection scan, one-screen status snapshots, cutover, rollback, and degraded-operation receipts"
+components_affected:
+  - "constitutional retention, evidence classification/disclosure, checkpoint, and publishability contracts"
+  - "runtime evidence-store and new signed-evidence/capacity-retention specifications"
+  - "evidence_attestation runtime library"
+  - "exact broker and verification/publication evidence adapter modules"
+  - "instance evidence signing and retention policies"
+  - "evidence retention, checkpoint recovery, and signed-evidence assurance"
+files_expected_to_change:
+  - ".octon/framework/constitution/contracts/retention/{family.yml,README.md,evidence-retention-contract-v1.schema.json,evidence-store-v1.schema.json,evidence-classification-v2.schema.json,run-evidence-classification-v2.schema.json,evidence-disclosure-tiers-v1.yml,publishable-evidence-receipt-v1.schema.json}"
+  - ".octon/framework/constitution/contracts/runtime/checkpoint-v2.schema.json"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/framework/engine/runtime/spec/{evidence-store-v1.md,signed-evidence-envelope-v1.schema.json,signed-evidence-checkpoint-v1.schema.json,evidence-capacity-retention-v1.md}"
+  - ".octon/framework/engine/runtime/crates/evidence_attestation/**"
+  - ".octon/framework/engine/runtime/crates/local_broker/src/evidence.rs"
+  - ".octon/framework/engine/runtime/crates/verification_publication/src/evidence.rs"
+  - ".octon/framework/engine/runtime/crates/Cargo.toml"
+  - ".octon/instance/governance/policies/{evidence-signing.yml,evidence-retention.yml}"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-signed-bounded-evidence.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/signed-bounded-evidence/**"
+  - ".octon/framework/assurance/recovery/suites/checkpoint-fault-recovery.yml"
+  - ".octon/framework/assurance/scripts/validate-evidence-retention.sh"
+contracts_affected:
+  - "signed-evidence-envelope-v1, canonical producer-direct observation"
+  - "signed-evidence-checkpoint-v1, range/terminal checkpoint and anchor receipt"
+  - "checkpoint-v2, signed head/range/key/pin/completeness/reserve binding"
+  - "evidence-retention-contract-v1, executable quotas/windows/pins/compaction"
+  - "evidence-store-v1, signed-source completeness, locality, capacity and projection refs"
+  - "publishable-evidence-receipt-v1, verified signed source and freshness"
+schemas_affected:
+  - ".octon/framework/constitution/contracts/retention/evidence-retention-contract-v1.schema.json"
+  - ".octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json"
+  - ".octon/framework/constitution/contracts/retention/evidence-classification-v2.schema.json"
+  - ".octon/framework/constitution/contracts/retention/run-evidence-classification-v2.schema.json"
+  - ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/checkpoint-v2.schema.json"
+  - ".octon/framework/engine/runtime/spec/signed-evidence-envelope-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/signed-evidence-checkpoint-v1.schema.json"
+workflows_and_generated_projections_affected:
+  - "RP-03 evidence outbox drain and logical capacity reservation consumption"
+  - "broker/verifier direct-observation signing and signed range/terminal checkpoint creation"
+  - "candidate-inaccessible latest-head compare-and-advance"
+  - "quota/pin selection and verify-checkpoint-anchor-delete compaction"
+  - "minimal signed checkpoint/pointer publication and local raw-evidence indexing"
+provider_configuration_observed:
+  - "platform protected-credential and candidate-inaccessible anchor availability are engineering deployment inputs constrained by ROD-001 risk tolerances, not authority sources"
+technical_identities_affected:
+  - "broker signer role, stable identity, key id, epoch, algorithm, revocation state"
+  - "verifier signer role, stable identity, key id, epoch, algorithm, revocation state"
+  - "repository/project/run/operation/attempt/evidence identities"
+  - "observation sequence, payload digest, prior signed head, checkpoint range and terminal identity"
+  - "monotonic anchor scope/identity/sequence/checkpoint digest"
+  - "logical terminal reservation, physical reserve slot/class, pin, compaction, and projection identities"
+trust_boundary_changes:
+  - "Producer identity becomes cryptographically bound to canonical direct observations rather than inferred from writable local files."
+  - "Latest accepted evidence state moves outside the candidate and DB snapshot rollback unit through a narrow compare-and-advance anchor."
+  - "Physical terminal headroom becomes an admission precondition in addition to RP-03 logical reservation."
+  - "Raw evidence remains local and bounded; project-Git checkpoints/pointers are non-authoritative verified projections."
+migration_preconditions:
+  - "RP-03 exits with frozen operation/outbox/logical-capacity API and single canonical SQL operation model."
+  - "RP-04 exits with frozen direct broker observation input and exact evidence adapter module boundary."
+  - "RP-06 exits with frozen direct verifier observation input and exact evidence adapter module boundary."
+  - "Accepted ROD-001 fixes bounded local raw evidence outside Git, longer-lived signed recovery references, terminal reserve, no unsigned fallback, and deny/preserve-work behavior; a separate engineering record fixes signer, anchor, reserve, backup mechanisms and provisional values."
+  - "Every current evidence/checkpoint writer and cryptographic claim is inventoried at the implementation commit."
+migration_steps:
+  - "Freeze dependency digests and ROD-001 policy; assign exact shared entries/modules."
+  - "Publish strict signed-envelope/checkpoint, retention, checkpoint, capacity, locality, and projection contracts/policies."
+  - "Implement one evidence_attestation library over the frozen RP-03 outbox/capacity API with protected signer, head, reserve, pin, and compaction interfaces."
+  - "Integrate exact broker/verifier evidence modules that sign only direct observations with distinct identities."
+  - "Preallocate/verify terminal headroom and bind logical reservations to bounded physical size classes."
+  - "Shadow-sign, produce/reverify checkpoints, advance head, and rehearse compaction with deletion disabled."
+  - "Execute UE-008 plus PO-FD-013/014 fault matrices and truthful status/locality/burden checks."
+  - "Atomically require verified signatures, current head, reserve, and retention for dependent success/publication; retire unsigned/duplicate live paths."
+safe_intermediate_states:
+  - "Contracts and policies validate while all new runtime behavior remains inert."
+  - "Shadow signatures write isolated non-live evidence while autonomous publication remains disabled."
+  - "Signed checkpoints and head advancement run with raw deletion disabled."
+  - "Reserve integration runs deny-only in fixtures; failure reduces autonomy and preserves candidate work."
+  - "Compaction rehearses against copies/no-delete until all pin/crash/rollback proofs pass."
+  - "All four live gates activate atomically after retained proof."
+prohibited_intermediate_states:
+  - "Unsigned and signed evidence are both accepted for live success/publication."
+  - "A DB-local or Git record is treated as the candidate-inaccessible monotonic head."
+  - "Logical reservation is claimed sufficient without real allocated terminal capacity."
+  - "Compaction deletes before independent checkpoint verification and durable anchor/receipt commit, or deletes an active pin."
+  - "Candidate, broker, and verifier can alias/access private identities."
+  - "Two canonical journal/checkpoint/signature truth paths remain live."
+  - "Missing evidence causes false success, wider authority, or an unsigned/Git-only fallback."
+compatibility_bridges:
+  - "Current hash-linked records may be read as unsigned historical inputs during isolated shadow comparison; they cannot satisfy the activated signed-evidence gate."
+  - "Current checkpoint-v2 fixtures may be migrated to the new strict contract in a bounded no-live-claim conversion; no permissive reader survives activation."
+  - "Current compact indexes may be reused only as derived selection aids after their source digests are verified; they never authorize deletion."
+deprecations_and_retirements:
+  - "Retire unkeyed hash-valued signature/attestation claims or rename them accurately where they remain digest-only."
+  - "Retire unsigned success/publication evidence and any candidate-writable latest-head interpretation."
+  - "Retire duplicate canonical runtime_bus/replay_store journal truth after RP-03 convergence; RP-07 retains only signed projections over the one model."
+  - "Retire raw project-Git evidence payloads by classification/localization after verified signed checkpoints preserve required proof."
+rollback_strategy: >-
+  Disable new consequential admission and dependent autonomous
+  success/publication, preserve candidate work, raw evidence, pins, reserve,
+  and last trusted signed head, and restore only a prior certified RP-07
+  implementation behind the same producer-signature, monotonic-head, physical
+  reserve, and compaction boundaries. Never restore unsigned or Git-only proof.
+recovery_strategy: >-
+  Recover/rotate signer and anchor only through the ROD-001 posture, reverify
+  exact producer/key epochs and last trusted head, drain RP-03 outbox
+  idempotently, replenish/verify physical reserve before admission, and resume
+  compaction from durable checkpoint/anchor/receipt coverage. Irrecoverable
+  ambiguity remains blocked/manual intervention with work preserved.
+validation_plan:
+  - "strict schema, canonical serialization, role/key epoch/revocation, algorithm downgrade, and independent verification"
+  - "wrong/revoked key, producer forgery, payload mutation, rechain, non-canonical bytes, identity alias, and Git-only negative fixtures"
+  - "older valid snapshot, equal-sequence fork, lower head, anchor rollback, key rotation/loss, and backup/restore"
+  - "same-transaction logical reservation, concurrent double-spend, real allocated reserve, ENOSPC terminal classes, partial-write, and replenish faults"
+  - "quota/window/count/byte/inode bounds, active/unknown/rollback/latest/operator pins, compaction crash at every boundary, and coverage mutation"
+  - "raw project-Git absence, minimal signed pointer freshness, evidence-not-authority, one-screen status, zero routine prompt, and 30-day burden"
+evidence_to_retain:
+  - "exact implementation commit and dependency/policy digests"
+  - "public signer role/key/epoch/algorithm/revocation metadata and negative fixtures without private material"
+  - "canonical observations/checkpoints, verification results, head/anchor receipts, rollback/fork/snapshot results"
+  - "reserve allocation, ENOSPC/terminal-class, atomic-write, and replenishment results"
+  - "quota/pin/compaction/crash coverage, raw-local/project-Git scans, bounded volume and maintenance metrics"
+  - "status/degraded snapshots, cutover receipt, rollback rehearsal, conformance and drift/churn receipts"
+support_claim_effect: >-
+  Produces component proof needed for authentic bounded local evidence and
+  low-space-safe terminal records, but creates no current support claim. Live
+  claims remain bounded to separately admitted platform/filesystem/key tuples
+  and RP-14 independent integrated promotion proof.
+operator_experience_effect: >-
+  Healthy evidence signing, checkpointing, reserve maintenance, and compaction
+  are automatic and zero-prompt. One status view explains signer/head/reserve/
+  quota/pin health, preserved work, and a single safe repair route when blocked.
+setup_and_maintenance_effect: >-
+  One library and two exact producer adapters reuse the transactional store,
+  platform credential protection, and existing retention roots. Automatic
+  quotas/compaction prevent raw/tracked growth; ROD-001 and 30-day proof must
+  keep recovery and administration inside the solo-builder burden budget.
+dependencies:
+  - logical_packet_id: "RP-03"
+    proposal_id: "octon-architecture-migration-transactional-runtime-store"
+    required_interface: "frozen SQL operation/outbox/logical terminal-capacity API and single canonical journal model"
+  - logical_packet_id: "RP-04"
+    proposal_id: "octon-architecture-migration-local-broker"
+    required_interface: "frozen broker direct-observation payload and exact evidence adapter module without effect-semantic transfer"
+  - logical_packet_id: "RP-06"
+    proposal_id: "octon-architecture-migration-verification-publication"
+    required_interface: "frozen verifier direct-observation payload and exact evidence adapter module without verdict/publication-semantic transfer"
+parallelization_constraints:
+  - "Contract and test design may proceed while dependencies implement, but RP-07 cannot activate or exit before RP-03, RP-04, and RP-06 exit."
+  - "RP-07 cannot redefine RP-03 schema/transitions/runtime_bus, RP-04 effect behavior, or RP-06 verdict/publication behavior."
+  - "Broker and verifier private identities remain distinct; compaction cannot delete before checkpoint verification and head commit."
+  - "Shared contract-registry/Cargo entries and exact evidence adapter modules are serialized at integration."
+must_not_run_concurrently_with:
+  - "Any change redefining the frozen RP-03 outbox/logical-capacity or canonical operation model consumed by RP-07."
+  - "Any change redefining RP-04/RP-06 direct-observation payloads or the exact evidence adapter modules during activation."
+  - "Any key rotation, anchor migration, reserve resize, or retention-policy change while its recovery/fault proof is running."
+operator_decisions:
+  - operator_decision_id: "ROD-001"
+    status: "operator-accepted"
+    subject: "Evidence/storage recovery and retention policy"
+    fixed_boundary: "One SQLite/WAL source, signed broker/verifier observations, candidate-inaccessible monotonic head, physical terminal reserve, bounded evidence, no unsigned fallback."
+    accepted_posture: "Bounded local raw evidence outside project Git; longer-lived signed receipts/checkpoints/rollback references; terminal reserve; no unsigned fallback; deny dependent transitions and preserve work when recovery evidence is not guaranteed."
+    recommended_default: "Separate platform Keychain identities; candidate-inaccessible latest head; bounded local raw evidence; preallocated terminal headroom; Git-retained signed checkpoints/pointers; no raw project-Git payloads."
+    remaining_work: "Bind accepted invariants and complete engineering mechanism/default records and proof; no operator disposition remains."
+engineering_dispositions:
+  - "Select signer algorithm/provider, monotonic-anchor mechanism, reserve implementation and provisional size, quota/retention defaults, and backup mechanism/generations through conservative reversible defaults and mechanism-specific proof."
+blocking_findings:
+  - "RF-012"
+  - "RF-013"
+  - "RF-017"
+  - "RF-022"
+  - "RF-027"
+  - "RF-029"
+unresolved_evidence:
+  - "UE-008"
+entry_criteria:
+  - "RP-03, RP-04, and RP-06 exit evidence exists at exact dependency digests."
+  - "Accepted ROD-001 invariants are bound without reopening the fixed no-unsigned/no-Git-substitute/no-lease boundary."
+  - "Every current evidence/checkpoint writer and signing/attestation claim is inventoried at the implementation commit."
+  - "Strict packet completeness and pre-integration architecture-review receipts pass."
+exit_criteria:
+  - "Broker/verifier direct observations verify under distinct admitted keys and every wrong/revoked/forged/rechained/aliased fixture denies."
+  - "Signed range/terminal checkpoints plus candidate-inaccessible monotonic head reject old valid snapshot and anchor rollback/fork."
+  - "Logical and real physical terminal reserves preserve complete denial/failure/revocation/rollback/closeout under constrained-volume ENOSPC faults."
+  - "Quotas/pins bound evidence; crash-safe compaction never deletes before verified checkpoint/head/receipt and never deletes pinned data."
+  - "Raw payloads remain local/outside project Git; only minimal verified signed checkpoints/pointers project."
+  - "Missing signer/evidence blocks dependent transitions, preserves work, and exposes no unsigned/Git-only fallback."
+  - "UE-008 and PO-FD-013/014 retained evidence pass with honest limitations and solo-maintenance measurements."
+proof_produced:
+  - proof_obligation: "PO-FD-013"
+    promotion_gate: "PG-07-EVIDENCE-CAPACITY"
+    evidence_target: "ADVERSARIALLY_TESTED"
+    required_result: "Bounded terminal records plus real allocated headroom preserve all terminal classes under near-full/ENOSPC faults without a lease subsystem."
+  - proof_obligation: "PO-FD-014"
+    promotion_gate: "PG-07-SIGNED-EVIDENCE"
+    evidence_target: "ADVERSARIALLY_TESTED"
+    required_result: "Wrong/revoked key, producer forgery, rechain, older valid snapshot, anchor rollback, unsafe compaction, pin deletion, and missing terminal evidence all deny."
+authoritative_promotion_requirements:
+  - "accepted proposal, passing completeness gate, and passing strict pre-integration architecture review"
+  - "dependency exits and exclusive shared entry/module ownership"
+  - "accepted ROD-001 lineage binding and UE-008 adversarial closure"
+  - "retained PO-FD-013/PG-07-EVIDENCE-CAPACITY and PO-FD-014/PG-07-SIGNED-EVIDENCE results"
+  - "passing implementation conformance and post-implementation drift/churn receipts before closeout"

@@ -1,0 +1,36 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+logical_packet_id: "RP-14"
+decisions:
+  primary: ["FD-001", "FD-024"]
+  contributions:
+    - {id: "FD-023", role: "integrated promotion proof owner; RP-11 owns generic implementation/conformance"}
+findings:
+  primary: ["RF-017", "RF-019", "RF-027", "RF-033"]
+  cross_references: ["RF-013", "RF-024"]
+proof_obligations:
+  - {id: "PO-FD-001", gate: "PG-14-SOLO-BUDGETS"}
+  - {id: "PO-FD-023", gate: "PG-14-PROVIDER-CONFORMANCE"}
+  - {id: "PO-FD-024", gate: "PG-14-COMPLETE-VERTICAL"}
+unresolved_evidence:
+  primary: ["UE-014", "UE-015"]
+  cross_references:
+    - {id: "UE-011", component_owner: "RP-11", integrated_promotion_owner: "RP-14"}
+operator_decisions:
+  - id: "ROD-006"
+    status: "accepted"
+    relationship: "consumed upstream from RP-00"
+    scope: "no Octon-owned human or agent direct-main route; ordinary human Git remains outside Octon; protected PR is the privileged bridge"
+    excludes: "final support wording and optional-capability promotion, which remain evidence-gated"
+engineering_defaults:
+  - {id: "ED-007", ownership: "shared audit contribution", implementation_owners: ["RP-00", "RP-06"]}
+safe_intermediate_states: ["SI-08"]
+dependencies:
+  core: ["RP-08", "RP-09", "RP-10", "RP-11"]
+  program_closeout: ["RP-12", "RP-13"]
+  proposals:
+    - "octon-architecture-migration-recovery-class-b"
+    - "octon-architecture-migration-self-development-trust-activation"
+    - "octon-architecture-migration-workspace-projects"
+    - "octon-architecture-migration-harness-factory"
+    - "octon-architecture-migration-extension-supply-chain"
+    - "octon-architecture-migration-bounded-child-agents"

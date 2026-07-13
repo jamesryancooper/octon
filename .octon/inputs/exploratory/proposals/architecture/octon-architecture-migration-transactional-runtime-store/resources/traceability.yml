@@ -1,0 +1,90 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+program_id: "octon-architecture-migration-program"
+logical_packet_id: "RP-03"
+proposal_id: "octon-architecture-migration-transactional-runtime-store"
+accepted_decisions:
+  - decision_id: "FD-005"
+    ownership: "primary-single-store-owner"
+    proof_id: "PO-FD-005"
+    promotion_gate: "PG-03-SINGLE-STORE"
+  - decision_id: "FD-012"
+    ownership: "transaction-substrate-contributor"
+    proof_id: "PO-FD-012"
+    promotion_gate: "PG-08-EFFECT-RECOVERY"
+  - decision_id: "FD-013"
+    ownership: "capacity-substrate-contributor"
+    proof_id: "PO-FD-013"
+    promotion_gate: "PG-07-EVIDENCE-CAPACITY"
+findings:
+  - finding_id: "RF-006"
+    relationship: "primary-single-transactional-store-owner"
+    primary_owner: "RP-03"
+  - finding_id: "RF-021"
+    relationship: "primary-full-store-not-narrow-cas-owner"
+    primary_owner: "RP-03"
+  - finding_id: "RF-011"
+    relationship: "cross-reference-durable-attempt-and-unknown-substrate"
+    primary_owner: "RP-08"
+    contributing_owner: "RP-03"
+  - finding_id: "RF-012"
+    relationship: "cross-reference-evidence-capacity-substrate"
+    primary_owner: "RP-07"
+    contributing_owner: "RP-03"
+  - finding_id: "RF-017"
+    relationship: "cross-reference-state-maintenance-burden-reduction"
+    primary_owner: "RP-14"
+    contributing_owner: "RP-03"
+proof_obligations:
+  - proof_id: "PO-FD-005"
+    decision_id: "FD-005"
+    test_owner: "runtime-store owner"
+    workgroup_id: "RWG-03"
+    promotion_gate: "PG-03-SINGLE-STORE"
+    state: "planned-not-executed"
+  - proof_id: "PO-FD-012"
+    decision_id: "FD-012"
+    test_owner: "reconciliation owner"
+    workgroup_id: "RWG-08"
+    proposal_packet: "RP-08"
+    owned_slice: "generic T1/T2, operation/attempt/UNKNOWN, and no-retry substrate"
+    promotion_gate: "PG-08-EFFECT-RECOVERY"
+    state: "planned-not-executed"
+  - proof_id: "PO-FD-013"
+    decision_id: "FD-013"
+    test_owner: "store/evidence owners"
+    workgroup_id: "RWG-07"
+    proposal_packet: "RP-07"
+    owned_slice: "same-transaction capacity reservation and physical reserve integration"
+    promotion_gate: "PG-07-EVIDENCE-CAPACITY"
+    state: "planned-not-executed"
+unresolved_evidence:
+  - evidence_id: "UE-004"
+    relationship: "shared-store-and-reconciliation-dynamic-proof"
+    primary_packet: "RP-03"
+    collaborating_packet: "RP-08"
+    evidence_target: "ADVERSARIALLY_TESTED"
+    state: "unresolved"
+operator_decisions:
+  - operator_decision_id: "ROD-001"
+    status: "operator-accepted"
+    accepted_posture: "Bounded local raw evidence outside Git; longer-lived signed receipts/checkpoints/rollback references; terminal reserve; no unsigned fallback; deny the dependent transition and preserve work when recovery evidence is not guaranteed."
+    remaining_work: "Bind accepted invariants and complete engineering mechanism/default records and proof; no operator disposition remains."
+engineering_dispositions:
+  - disposition: "Select store path, backup mechanism, provisional cadence/generations, and physical reserve implementation/size with conservative reversible defaults."
+    proof_rule: "Measure constrained-volume and restore behavior and adjust without weakening terminal evidence or anti-resurrection invariants."
+dependencies:
+  - "octon-architecture-migration-canonical-authority"
+safe_state: "SI-03"
+authority_boundary:
+  proposal_authority: false
+  reconciliation_authority: false
+  parent_evidence_satisfies_child_gates: false
+  backup_authority_without_certification: false
+  projection_authority: false
+  host_database_files_are_promotion_targets: false
+coverage_status:
+  identifiers_mapped: true
+  implementation_proof_complete: false
+  operator_decisions_complete: false
+  dependency_design_complete: false
+  architecture_review_complete: false

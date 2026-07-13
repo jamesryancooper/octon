@@ -1,0 +1,26 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+logical_packet_id: "RP-09"
+decisions: {primary: ["FD-017", "FD-018"]}
+findings:
+  primary: ["RF-014"]
+  cross_references:
+    - {id: "RF-003", controlling_packet: "RP-01"}
+    - {id: "RF-018", controlling_packet: "RP-00"}
+    - {id: "RF-027", controlling_packet: "RP-14"}
+proof_obligations:
+  - {id: "PO-FD-017", gate: "PG-09-INERT-SELF-DEVELOPMENT"}
+  - {id: "PO-FD-018", gate: "PG-09-TRUST-ACTIVATION"}
+unresolved_evidence:
+  primary: ["UE-009"]
+  cross_references:
+    - {id: "UE-001", controlling_packet: "RP-01"}
+    - {id: "UE-015", role: "implementation-time provider-refresh contributor", final_promotion_owner: "RP-14"}
+operator_decisions:
+  - id: "ROD-003"
+    status: "accepted"
+    relationship: "bound input; no remaining operator choice"
+engineering_defaults: []
+safe_intermediate_states: ["SI-07"]
+dependencies:
+  logical: ["RP-06", "RP-07", "RP-08"]
+  proposals: ["octon-architecture-migration-verification-publication", "octon-architecture-migration-signed-evidence", "octon-architecture-migration-recovery-class-b"]

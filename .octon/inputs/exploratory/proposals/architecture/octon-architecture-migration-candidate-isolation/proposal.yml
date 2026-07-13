@@ -1,0 +1,66 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-migration-candidate-isolation"
+title: "Credentialless Native Candidate Isolation"
+summary: >-
+  Establish a useful primary-provider candidate execution boundary on macOS
+  with a fresh allowed environment and HOME, closed inherited file
+  descriptors, an independent disposable repository and object database,
+  candidate-unreadable durable credentials, bounded filesystem, network, and
+  process access, and non-executing export of the exact candidate commit.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/auto.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/candidate_isolation.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs"
+  - ".octon/framework/engine/runtime/adapters/host/macos-candidate.yml"
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md"
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-candidate-isolation.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-candidate-isolation.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/candidate-isolation/"
+  - ".octon/state/evidence/validation/proposals/octon-architecture-migration-candidate-isolation/"
+status: "draft"
+change_profile: "atomic"
+release_state: "pre-1.0"
+owner: "octon-maintainers"
+parent_program: "octon-architecture-migration-program"
+logical_packet_id: "RP-02"
+workgroup_id: "RWG-02"
+dependencies:
+  - "octon-architecture-migration-containment"
+program_execution_mode: "gated-parallel"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    After RP-00 containment, resolve the ED-001 provider session and macOS
+    boundary design, pass implementation-grade and pre-integration review,
+    obtain proposal acceptance, implement and adversarially prove useful
+    credentialless candidate execution, retain rollback and conformance
+    evidence, promote the declared durable targets, then close out and archive
+    through the canonical proposal lifecycle.
+related_proposals:
+  - "octon-architecture-migration-containment"
+source_lineage:
+  - ".octon/inputs/additive/.incoming/octon-architecture-and-migration-handoff-v2.0.0/"
+  - ".octon/inputs/exploratory/reviews/architecture-migration/reconciliations/architecture-migration-reconciliation-20260712T032411Z-10c3ff/"
+  - ".octon/inputs/exploratory/proposals/architecture/octon-trustworthy-autonomy-solo-developer-revision-2/"
+authority_class_impact:
+  framework: "May add the candidate-isolation module and macOS host adapter, and modify only isolation-owned launcher mechanics behind RP-01's frozen guard API."
+  instance: "No instance authority or support widening; provider sessions remain non-authoritative execution facilities."
+  state_control: "Candidate workspace and session state cannot become run authority or canonical Git state."
+  state_evidence: "Future positive-task, escape, credential-canary, repository-identity, export, and cleanup proof is retained under the packet evidence root."
+  generated: "No generated view or host state becomes authority; generated manifests remain derived."
+  inputs: "This packet and its reconciliation lineage remain non-authoritative planning inputs."
+explicit_runtime_non_implementation_statement: >-
+  Creating this draft does not launch a candidate, create a sandbox, access a
+  provider session, read credentials, create or export Git objects, or
+  authorize an effect.
+

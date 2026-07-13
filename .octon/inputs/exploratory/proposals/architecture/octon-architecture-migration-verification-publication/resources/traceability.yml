@@ -1,0 +1,109 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+logical_packet_id: "RP-06"
+decisions:
+  - id: "FD-007"
+    ownership: "primary optional-provider-worker boundary"
+    proof_id: "PO-FD-007"
+    promotion_gate: "PG-06-PROVIDER-WORKER"
+    claim_condition: "required only when the optional worker claim is promoted"
+  - id: "FD-010"
+    ownership: "primary"
+    proof_id: "PO-FD-010"
+    promotion_gate: "PG-06-ADAPTIVE-PUBLICATION"
+  - id: "FD-011"
+    ownership: "primary"
+    proof_id: "PO-FD-011"
+    promotion_gate: "PG-06-IMMUTABLE-VERDICT"
+  - id: "FD-023"
+    ownership: "verifier/publication specialization only"
+    controlling_packet: "RP-11 for generic adapter; RP-14 for integrated promotion proof"
+findings:
+  - id: "RF-007"
+    ownership: "cross-reference"
+    controlling_packet: "RP-00"
+    role: "replace candidate-influenced provider effect planes"
+  - id: "RF-009"
+    ownership: "cross-reference"
+    controlling_packet: "RP-05"
+    role: "consume atomic expected-old target binding from RP-05"
+  - id: "RF-010"
+    ownership: "primary"
+    role: "remove candidate-controlled verifier and ambiguous identity"
+  - id: "RF-024"
+    ownership: "cross-reference"
+    controlling_packet: "RP-11"
+    role: "bound provider specialization claim and avoid generic overclaim"
+proof_obligations:
+  - id: "PO-FD-007"
+    ownership: "primary when optional worker is present"
+    test_owner: "provider adapter owner"
+    workgroup: "RWG-06"
+    gate: "PG-06-PROVIDER-WORKER"
+  - id: "PO-FD-010"
+    ownership: "primary"
+    test_owner: "publication owner"
+    workgroup: "RWG-06"
+    gate: "PG-06-ADAPTIVE-PUBLICATION"
+  - id: "PO-FD-011"
+    ownership: "primary"
+    test_owner: "verifier owner"
+    workgroup: "RWG-06"
+    gate: "PG-06-IMMUTABLE-VERDICT"
+unresolved_evidence:
+  - id: "UE-006"
+    ownership: "primary"
+    required_result: >-
+      Candidate changes, ambiguous contexts, wrong identities, wrong tuple
+      values, expiry, revocation, and provider drift all deny; accepted
+      verdicts carry authenticated identity/version and complete binding.
+  - id: "UE-015"
+    ownership: "cross-reference and implementation-time provider-refresh contributor"
+    controlling_packet: "RP-14"
+    final_promotion_owner: "RP-14"
+    required_result: >-
+      Implementation-time and promotion-time redacted provider observations
+      match the exact verifier, publisher, ruleset, App, environment, secret,
+      and check-producer assumptions or block/demote the route.
+operator_decisions:
+  - id: "ROD-002"
+    status: "settled-retired-lineage"
+    ownership: "RP-06 durable policy-encoding and proof phase"
+    accepted_rule: >-
+      Encode the intake-accepted A/B/C model, verified eligible-Class-B no-PR
+      publication, deterministic protected PR escalation, protected Class C and
+      trust-root handling, no autonomous direct-main route, and notification
+      only for irreducible ambiguity while preserving denial for invalid
+      authority.
+    remaining_work: "Durable typed encoding and proof; no operator disposition remains."
+engineering_dispositions:
+  - id: "ED-004"
+    ownership: "primary"
+    default: >-
+      Provider-native GitHub App or protected external verifier identity with
+      narrow read/check permissions and no custom verifier daemon.
+  - id: "ED-007"
+    ownership: "shared workflow-retirement owner"
+    default: >-
+      Remove or merge redundant workflows and keep advanced controls under
+      admin/internal surfaces without adding normal command concepts.
+dependencies:
+  - logical_packet_id: "RP-01"
+    proposal_id: "octon-architecture-migration-canonical-authority"
+  - logical_packet_id: "RP-03"
+    proposal_id: "octon-architecture-migration-transactional-runtime-store"
+  - logical_packet_id: "RP-05"
+    proposal_id: "octon-architecture-migration-sanitized-git"
+target_family_split:
+  affected_projection_family: ".github/**"
+  promotion_target_family: ".octon/**"
+  required_resolution: >-
+    Accept a durable .octon source/generator and receipted publisher before
+    any host workflow projection changes; no direct .github child target.
+safe_state_transition:
+  from: "SI-05 sanitized Git precondition"
+  to: "SI-05 sanitized Git plus immutable verification"
+  production_class_b_enabled: false
+claim_effect:
+  live_support_widened: false
+  implementation_claimed: false
+  proof_claimed: false

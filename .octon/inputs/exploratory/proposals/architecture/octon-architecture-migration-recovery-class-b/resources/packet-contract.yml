@@ -1,0 +1,271 @@
+schema_version: "octon-architecture-migration-child-packet-v1"
+proposal_id: "octon-architecture-migration-recovery-class-b"
+logical_packet_id: "RP-08"
+workgroup_id: "RWG-08"
+parent_program: "octon-architecture-migration-program"
+title: "Recovery, Reconciliation, and Complete Class B Vertical"
+purpose: >-
+  Prove that admitted consequential work completes or converges safely without
+  routine operator intervention by reconciling every unknown before retry,
+  preserving honest attribution and work, and exercising one complete SI-06
+  Class B vertical.
+problem_statement: >-
+  Existing risk routes, effect records, post-effect observations, missions, and
+  status projections do not form one crash-safe T1/send/T2 behavior. Remote
+  state equality can be mistaken for causal performance, retries can occur
+  without complete reconciliation, and provider/broker/verifier/evidence
+  outages lack full zero-prompt work-preserving proof.
+current_repository_state:
+  - "Risk/route and mission-autonomy concepts exist, but explicit immutable A/B/C zero-prompt behavior is not fully proved."
+  - "Effect-token and observation paths exist without a complete provider-specific ATTEMPTING/UNKNOWN/reconcile behavior."
+  - "Provider desired-state observation cannot by itself attribute an effect to this attempt."
+  - "Run-health projections and mission continuation exist but do not expose the complete Class B attempt/degraded model."
+  - "No complete scheduled-maintenance plus reversible-effect SI-06 fault proof exists."
+current_evidence:
+  classification: "STATICALLY_INSPECTED"
+  proof_method: "static inspection and reconciled review evidence"
+  limitations:
+    - "No scratch-provider full transition, race, lost-response, or attribution matrix exists."
+    - "No immutable 20-case A/B/C zero-prompt/PR/downgrade matrix has run."
+    - "Settled/retired ROD-002 rules are not yet durably encoded and proved; no operator vote remains pending."
+accepted_decisions:
+  - "FD-002"
+  - "FD-012"
+  - "FD-016"
+target_state:
+  - "Every run binds exact RP-03/RP-05/RP-06/RP-07 interface and policy digests."
+  - "RP-03 commits T1 ATTEMPTING/outbox before send and T2 result/UNKNOWN/terminal afterward; RP-08 selects only legal transitions."
+  - "Every ATTEMPTING/UNKNOWN operation is scanned and reconciled before retry."
+  - "Provider evidence yields honest attempt_performed, state_satisfied, not_performed, failed, unknown, or manual_intervention outcomes."
+  - "Class A and admitted B are zero-routine-prompt; valid no-PR-ineligible B routes to protected PR; C/invalid authority cannot downgrade."
+  - "Dependency outages block only affected consequence, preserve candidate/Class A/evidence, automatically restart/reconcile where supported, and expose no credentials."
+  - "One fresh non-authoritative status view and bounded scheduled/reversible scratch effect establish SI-06."
+scope:
+  - "provider-specific result observation, classification, and UNKNOWN reconciliation"
+  - "legal consumption of RP-03 T1/outbox/T2 API and restart scan"
+  - "attempt_performed/state_satisfied/not_performed/failed/unknown/manual_intervention semantics"
+  - "exact immutable RP-06 class and no-PR/protected-PR route consumption and reproduction"
+  - "ED-003 expected-old/receipt/attribution targeted proof"
+  - "dependency-specific degraded operation and broker restart/reconcile"
+  - "run status and continuous-operation policy over existing mission/Run Contract machinery"
+  - "scheduled maintenance, one reversible scratch effect, zero-prompt/PR/fault proof, and RP-14 metrics handoff"
+non_goals:
+  - "universal atomic transaction between SQLite and provider"
+  - "universal exactly-once or blind retry"
+  - "modification or AI interpretation of the RP-06 class/route predicate"
+  - "new store, scheduler, policy engine, credential service, or workflow platform"
+  - "trust-root activation, production effect proof, or full UE-014 product acceptance"
+  - "PR routing for invalid, stale, revoked, raced, or mismatched authority"
+invariants:
+  - "No external send occurs without committed RP-03 T1 and exact idempotency/authority/evidence bindings."
+  - "No retry occurs while the idempotency scope has ATTEMPTING or UNKNOWN state."
+  - "Desired-state equality without attempt-bound provider evidence cannot be labeled attempt_performed."
+  - "A retry after proved not_performed is a new attempt requiring fresh authority; no silent reuse."
+  - "The exact RP-06 predicate/version/digest remains immutable throughout proof and runtime."
+  - "Class C and invalid authority never take Class A/B or PR fallback."
+  - "RP-07 signed evidence/current head/completeness is mandatory for dependent success; no unsigned fallback."
+  - "Provider/broker/verifier/store/signer/evidence failure preserves candidate work and exposes no ambient credentials."
+  - "Status and scheduling are projections/orchestration inputs, not authority or substitutes for Run Contracts."
+planned_durable_source_ownership:
+  operation_schema_transitions_outbox_and_capacity: "RP-03, frozen and consumed"
+  expected_old_effect_and_provider_observation_primitive: "RP-05 under ED-003"
+  class_route_predicate_exact_verdict_and_publication_route: "RP-06, immutable and consumed"
+  signatures_head_reserve_and_completeness: "RP-07, mandatory and consumed"
+  provider_result_classifier_unknown_reconciler_and_attempt_outcomes: "RP-08"
+  run_status_continuous_operation_and_si06_fixture: "RP-08"
+  trust_root_activation: "RP-09"
+  complete_two_project_30_day_product_proof: "RP-14"
+proposal_lifecycle_ownership:
+  manifests: ["proposal.yml", "architecture-proposal.yml"]
+  status: "draft"
+  authority: "proposal-local and non-authoritative"
+retained_evidence_ownership:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-recovery-class-b/"
+  required_records:
+    - "exact dependency, predicate, verdict, signer/head, provider adapter, and policy digests"
+    - "T1/outbox/send/T2/restart transition and fault traces"
+    - "provider receipt/state observations and honest attribution decisions"
+    - "20-case A/B/C/no-PR/PR/downgrade/invalid-authority route and prompt matrix"
+    - "provider/broker/verifier/store/signer/evidence outage and recovery receipts"
+    - "run-status snapshots, scheduled maintenance, reversible scratch effect, rollback, metrics, conformance, and drift/churn"
+components_affected:
+  - "run lifecycle and effect reconciliation contracts/runtime"
+  - "mission autonomy, continuation, runner, ledger, and closeout integration"
+  - "run-health/operator read models"
+  - "continuous-operation policy over existing missions/runs"
+  - "route, effect-recovery, degraded-mode, and SI-06 assurance"
+files_expected_to_change:
+  - ".octon/framework/engine/runtime/spec/{run-lifecycle-v1.md,effect-reconciliation-v1.md,effect-reconciliation-v1.schema.json,run-health-read-model-v1.schema.json,operator-read-models-v1.md,mission-autonomy-runtime-v2.md,mission-continuation-v1.md,mission-runner-v1.md}"
+  - ".octon/framework/constitution/contracts/runtime/{mission-run-ledger-v1.schema.json,mission-continuation-decision-v1.schema.json,mission-closeout-v1.schema.json,family.yml}"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/framework/engine/runtime/crates/effect_reconciler/**"
+  - ".octon/framework/engine/runtime/crates/Cargo.toml"
+  - ".octon/framework/engine/runtime/crates/kernel/src/{commands/mission.rs,lifecycle_run_admission.rs}"
+  - ".octon/instance/governance/policies/{mission-autonomy.yml,mission-continuation.yml,mission-closeout.yml,continuous-operation.yml}"
+  - ".octon/framework/assurance/runtime/_ops/scripts/{validate-effect-reconciliation.sh,validate-run-health-read-model.sh,generate-run-health-read-model.sh,test-mission-autonomy-scenarios.sh,validate-mission-autonomy-runtime-v2.sh}"
+  - ".octon/framework/assurance/runtime/_ops/tests/{effect-reconciliation/**,test-run-health-read-model.sh,test-mission-autonomy-runtime-v2.sh}"
+contracts_affected:
+  - "effect-reconciliation-v1 provider observation/classification/decision/receipt"
+  - "run-lifecycle-v1 unknown/reconcile/manual-intervention semantics"
+  - "mission run ledger, continuation decision, and closeout attribution/status bindings"
+  - "run-health-read-model-v1 fresh non-authoritative operator status"
+  - "continuous-operation policy for bounded scheduled governed runs"
+schemas_affected:
+  - ".octon/framework/engine/runtime/spec/effect-reconciliation-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/mission-run-ledger-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/mission-continuation-decision-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/mission-closeout-v1.schema.json"
+workflows_and_generated_projections_affected:
+  - "T1 outbox delivery, external call, T2, startup scan, bounded provider probe, and retry admission"
+  - "immutable Class A/B/C and B/no-PR/protected-PR route consumption"
+  - "run-health generation/validation and mission maintenance/closeout"
+  - "scheduled maintenance and reversible scratch-effect proof"
+provider_configuration_observed:
+  - "single-repository GitHub App and expected-old provider behavior are observed under ED-003; configuration is evidence/input, not authority"
+technical_identities_affected:
+  - "operation, attempt, idempotency, outbox, provider request/receipt, repository/ref/expected-old/desired-new"
+  - "class predicate, verdict, route decision, policy version/digest, authorization, signer/head/checkpoint"
+  - "observation, classification, reconciliation decision, probe, manual-intervention, PR, schedule, maintenance, and reversal"
+trust_boundary_changes:
+  - "Unknown provider outcomes become a durable no-retry boundary rather than an implicit retry condition."
+  - "Provider observations are classified by explicit evidence strength; state equality no longer implies causation."
+  - "The immutable class/route predicate is consumed by exact digest, preventing policy tuning during proof."
+  - "Degraded operation preserves candidates and credentials remain broker-confined."
+migration_preconditions:
+  - "RP-06 and RP-07 exit at exact digests; transitive RP-03 T1/T2 and RP-05 ED-003 effect/observation are frozen."
+  - "Settled/retired ROD-002 lineage is encoded as the immutable irreducible-ambiguity-only notification/manual-intervention rule."
+  - "Current retry/provider/PR/status/scheduling call paths are inventoried."
+  - "Accepted proposal, completeness, and strict architecture review pass."
+migration_steps:
+  - "Freeze exact interfaces/predicate, encode settled ROD-002 lineage, and apply ED-003."
+  - "Publish reconciliation/outcome/status/continuous-operation contracts and exact registry entries."
+  - "Implement one credentialless effect_reconciler library over frozen RP-03/RP-05/RP-06/RP-07 interfaces."
+  - "Bind route digest, classify provider observations, scan ATTEMPTING/UNKNOWN, and prohibit retry until proved not_performed."
+  - "Integrate deterministic protected PR for valid ineligible B and deny invalid/C downgrade."
+  - "Extend fresh non-authoritative status and dependency-specific degraded behavior."
+  - "Run scheduled maintenance/reversible scratch effect plus full route/fault/attribution proof."
+  - "Atomically activate SI-06, retire blind/direct retry, and hand evidence to RP-09/RP-14."
+safe_intermediate_states:
+  - "Contracts validate with reconciler inert."
+  - "Shadow classification reads copied scratch observations and cannot transition/provider-call."
+  - "Restart scanner reports ATTEMPTING/UNKNOWN with retry disabled."
+  - "Scratch T1/send/T2/reconcile runs while production Class B remains disabled."
+  - "Status/continuous-operation projections report but do not authorize."
+  - "SI-06 activates only after full retained proof."
+prohibited_intermediate_states:
+  - "Two live retry/classification behaviors or a second operation store."
+  - "Changing the RP-06 predicate while measuring it."
+  - "Send before T1, blind retry while unknown, or attempt_performed inferred from state equality."
+  - "Invalid/stale/revoked/raced authority routed to PR or lower class."
+  - "Production/trust-root target, ambient credential, unsigned evidence, or candidate verifier fallback."
+  - "Generated status or schedule used as authority."
+compatibility_bridges:
+  - "Existing post-effect equality checks may feed shadow classification as state observations only; they cannot prove causation or authorize retry."
+  - "Existing run-health and mission surfaces may be extended as projections/orchestration, but cannot replace canonical operation/route/evidence records."
+  - "Existing protected PR remains a valid-work fallback only after exact RP-06 route selection."
+deprecations_and_retirements:
+  - "Retire any direct/blind provider retry and shell-only canonical outcome."
+  - "Retire ambiguous success wording that conflates state satisfaction with attempt performance."
+  - "Retire PR fallback that accepts invalid authority or changes candidate/verdict/evidence."
+  - "Retire duplicate/legacy status sources after fresh canonical projection cutover."
+rollback_strategy: >-
+  Disable autonomous Class B/no-PR, preserve exact candidate, operation intent,
+  unknown state, and signed evidence, and use protected PR only when the frozen
+  predicate says authority remains valid. Restore only a prior certified
+  reconciler behind the same authority/store/broker/verifier/signer boundaries.
+recovery_strategy: >-
+  Restart broker and scanner, reconcile every ATTEMPTING/UNKNOWN through bounded
+  authenticated probes, record honest attribution or manual intervention, and
+  require fresh authority for any proved-not-performed retry. Never expose
+  credentials or restore blind/unsigned/candidate-controlled paths.
+validation_plan:
+  - "20-case immutable A/B/C/no-PR/PR/downgrade/invalid-authority zero-prompt route matrix"
+  - "kill before/during/after T1/outbox/send/provider/T2/checkpoint/status/PR/reversal"
+  - "lost/duplicate/timeout/target-race/concurrent-actor/expected-old/provider-outage attribution and retry tests"
+  - "provider/broker/verifier/store/signer/head/reserve/evidence/PR outage and restart/reconcile"
+  - "status freshness/non-authority, scheduled maintenance, reversible scratch effect, no-production/no-trust-root"
+  - "predicate digest immutability, no direct provider/blind retry/ambient credential/universal exactly-once scans"
+evidence_to_retain:
+  - "exact commit and dependency/predicate/policy digests"
+  - "transition/fault traces, provider observations/receipts, attribution/reconciliation decisions, signed checkpoints"
+  - "route/prompt/unauthorized-effect/PR matrix and no-policy-mutation result"
+  - "degraded/restart/recovery/status/scheduled/reversible-effect/rollback receipts and component metrics"
+support_claim_effect: >-
+  Produces component proof for one admitted SI-06 Class B tuple but creates no
+  new live support claim. RP-14 independently proves the full two-project,
+  30-day, speed, recovery, setup, and maintenance envelope.
+operator_experience_effect: >-
+  Routine A/B work completes or routes to protected PR without questions. One
+  fresh status view shows exact outcome, attribution, preserved work, and next
+  automatic action; only an irreducibly ambiguous effect state asks one
+  actionable question under the settled ROD-002 rule.
+setup_and_maintenance_effect: >-
+  One reconciler library reuses the store, broker, verifier, signatures,
+  missions, and read models. Scheduled maintenance is a bounded governed run,
+  not a new scheduler or persistent agent loop.
+dependencies:
+  - logical_packet_id: "RP-06"
+    proposal_id: "octon-architecture-migration-verification-publication"
+    required_interface: "frozen immutable A/B/C and B/no-PR/protected-PR predicate, exact verdict, and publication route"
+  - logical_packet_id: "RP-07"
+    proposal_id: "octon-architecture-migration-signed-evidence"
+    required_interface: "verified direct observations/checkpoints, current head, reserve/completeness, and degraded evidence state"
+parallelization_constraints:
+  - "Design/tests may proceed, but activation/exit waits for RP-06/RP-07 and frozen transitive RP-03/RP-05 interfaces."
+  - "RP-08 must not modify the predicate while proving it and exits before RP-09 activation enablement."
+  - "Tests use scratch provider targets until RP-14 final dogfood."
+  - "Shared registry/Cargo/policy entries are serialized; exact semantic ownership remains with source packets."
+must_not_run_concurrently_with:
+  - "Any change to frozen RP-03 transition API, RP-05 effect/observation, RP-06 predicate/verdict, or RP-07 evidence semantics during proof."
+  - "Any trust-root activation or production effect using the candidate SI-06 implementation."
+operator_decisions:
+  - operator_decision_id: "ROD-002"
+    status: "settled-retired-lineage"
+    subject: "Autonomy risk, protected-scope, PR, and ambiguity posture"
+    fixed_boundary: "Deterministic policy classifies; AI cannot authorize; invalid/stale/revoked/raced authority denies and requires fresh authorization rather than PR laundering."
+    accepted_rule: "Use the frozen intake predicates; eligible Class B publishes through verified no-PR, deterministic protected PR handles review-required valid work, Class C/trust roots remain protected, agents never work directly on main, and one concise action appears only for irreducible ambiguity."
+    remaining_work: "Durably encode and prove the accepted rule by RP-08 design exit; do not request another operator vote."
+engineering_dispositions:
+  - disposition_id: "ED-003"
+    relationship: "shared RP-05/RP-08"
+    applied_default: "Single-repository GitHub App, atomic expected-old fast-forward provider operation, authenticated receipt when available, explicit state_satisfied versus attempt_performed semantics."
+    escalation_condition: "Escalate only if provider capability cannot satisfy atomicity/attribution boundary; targeted proof narrows claims before changing fixed safety."
+blocking_findings: ["RF-011", "RF-018", "RF-026", "RF-028"]
+unresolved_evidence:
+  - evidence_id: "UE-004"
+    ownership: "shared RP-03 substrate and RP-08 behavior proof"
+  - evidence_id: "UE-007"
+    ownership: "RP-08 attribution proof over RP-05 provider primitive"
+  - evidence_id: "UE-014"
+    ownership: "RP-14 cross-reference; RP-08 contributes SI-06 fixtures and component metrics only"
+entry_criteria:
+  - "RP-06/RP-07 exit evidence and frozen transitive RP-03/RP-05 interface digests exist."
+  - "Settled ROD-002 lineage is durably encoded and ED-003 is recorded without changing the frozen predicate/safety boundary."
+  - "Current retries, provider probes, PR routes, status generators, and schedules are inventoried."
+  - "Completeness and strict review receipts pass."
+exit_criteria:
+  - "No external send lacks T1 and no retry occurs before UNKNOWN reconciliation."
+  - "Every operation/attempt reaches honest terminal or manual_intervention with correct attribution strength."
+  - "A/B routine prompts are zero, valid PR fallback deterministic, C/invalid authority cannot downgrade, and predicate digest is unchanged."
+  - "Failures preserve work/Class A/evidence, expose no credentials, and broker restart/reconcile meets the admitted recovery target."
+  - "Status is concise/fresh/non-authoritative and scheduled maintenance plus reversible scratch effect complete/recover."
+  - "PO-FD-002/012/016 and UE-004/007 pass; UE-014 handoff is complete."
+proof_produced:
+  - proof_obligation: "PO-FD-002"
+    promotion_gate: "PG-08-CLASS-ROUTES"
+    evidence_target: "ADVERSARIALLY_TESTED"
+    required_result: "Representative A/B missions are zero-prompt and C/ambiguity/invalid-authority lower routes deny under an unchanged predicate."
+  - proof_obligation: "PO-FD-012"
+    promotion_gate: "PG-08-EFFECT-RECOVERY"
+    evidence_target: "ADVERSARIALLY_TESTED"
+    required_result: "T1/send/T2 fault matrix never repeats while unknown and preserves honest state_satisfied/attempt_performed attribution."
+  - proof_obligation: "PO-FD-016"
+    promotion_gate: "PG-08-DEGRADED-MODE"
+    evidence_target: "ADVERSARIALLY_TESTED"
+    required_result: "Provider/broker/verifier/store/signing/evidence outages block only affected consequences, preserve work/Class A, and expose no ambient credentials."
+authoritative_promotion_requirements:
+  - "accepted proposal, passing completeness, and strict architecture review"
+  - "frozen dependency/predicate digests, settled ROD-002 policy encoding, ED-003, and exclusive shared entry ownership"
+  - "retained PG-08-CLASS-ROUTES/EFFECT-RECOVERY/DEGRADED-MODE and UE-004/007 results"
+  - "passing conformance and drift/churn receipts before closeout"

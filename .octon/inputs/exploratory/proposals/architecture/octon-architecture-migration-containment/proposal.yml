@@ -1,0 +1,69 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-migration-containment"
+title: "Containment, Baseline, and Claim Correction"
+summary: >-
+  Establish the safe and truthful Gate 0 boundary for the Octon architecture
+  migration by disabling candidate-controlled privileged provider writes and
+  every Octon-owned human or agent direct-main route, completing physical writer, launcher,
+  credential, policy, trust, and provider-workflow inventories, correcting
+  overstated support and proof claims, and measuring the current state and
+  workflow burden before privileged implementation begins.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/product/contracts/default-work-unit.yml"
+  - ".octon/framework/product/contracts/default-work-unit.md"
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json"
+  - ".octon/framework/orchestration/governance/delegated-governance-inventory-v1.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-live-claims.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-harness-card.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-support-target-matrix.sh"
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/instance/governance/disclosure/harness-card.yml"
+  - ".octon/instance/governance/support-target-admissions/"
+  - ".octon/instance/governance/support-dossiers/"
+  - ".octon/state/evidence/validation/proposals/octon-architecture-migration-containment/"
+status: "draft"
+change_profile: "atomic"
+release_state: "pre-1.0"
+owner: "octon-maintainers"
+parent_program: "octon-architecture-migration-program"
+logical_packet_id: "RP-00"
+workgroup_id: "RWG-00"
+dependencies: []
+program_execution_mode: "gated-parallel"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Bind the accepted ROD-006 no-Octon-direct-main posture, pass
+    implementation-grade and pre-integration architecture review, obtain
+    proposal acceptance, implement the contained Gate 0 change, retain direct
+    proof and rollback evidence,
+    pass conformance and drift/churn review, promote the declared durable
+    targets, then close out and archive this packet through the canonical
+    proposal lifecycle.
+related_proposals:
+  - "octon-architecture-migration-program"
+source_lineage:
+  - ".octon/inputs/additive/.incoming/octon-architecture-and-migration-handoff-v2.0.0/"
+  - ".octon/inputs/exploratory/reviews/architecture-migration/reconciliations/architecture-migration-reconciliation-20260712T032411Z-10c3ff/"
+  - ".octon/inputs/exploratory/proposals/architecture/octon-trustworthy-autonomy-solo-developer-revision-2/"
+authority_class_impact:
+  framework: "May narrow Change routing, complete runtime writer and launcher inventories, and strengthen deterministic validators after acceptance."
+  instance: "May narrow support declarations and disclosure claims to directly retained proof after acceptance."
+  state_control: "No control truth is changed by this draft; later containment must not mint authority from evidence or projections."
+  state_evidence: "Later implementation retains baseline, containment, inventory, claim-correction, and burden receipts under the declared packet evidence root."
+  generated: "GitHub workflows and generated support views remain derived projections and are not promotion targets."
+  inputs: "This proposal, its parent, the intake, reconciliation, and Revision 2 are non-authoritative planning lineage."
+explicit_runtime_non_implementation_statement: >-
+  Creating this draft packet does not disable a route, mutate provider state,
+  correct a live claim, authorize implementation, or establish support proof.

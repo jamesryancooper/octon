@@ -1,0 +1,236 @@
+schema_version: "octon-architecture-migration-packet-contract-v1"
+logical_packet_id: "RP-06"
+workgroup_id: "RWG-06"
+proposal_id: "octon-architecture-migration-verification-publication"
+parent_program: "octon-architecture-migration-program"
+purpose: >-
+  Authenticate exact candidate proof outside candidate control and apply one
+  deterministic policy that denies invalid authority, routes eligible Class B
+  to the RP-05 no-PR primitive, and routes valid review-required work to PR.
+problem_statement: >-
+  Current provider workflows can combine candidate-influenced verification,
+  ambiguous check identity, and effect execution, while publication policy is
+  spread across routes and host projections without one immutable source.
+target_state: >-
+  One authenticated candidate-immutable verifier emits a complete exact-SHA
+  verdict, one frozen typed predicate selects the route, one distinct
+  publisher consumes RP-01/RP-03/RP-05 interfaces, and any host workflow is a
+  receipted projection from an accepted .octon source.
+scope:
+  - "candidate-immutable verifier identity and version"
+  - "exact-SHA verdict schema and authenticated check binding"
+  - "immutable Class A/B/C and Class-B/PR predicate"
+  - "deterministic publication route selector"
+  - "GitHub verifier/publication specialization"
+  - "optional exact stateless provider worker"
+  - "workflow keep/merge/retire and .octon projection-source ownership"
+  - "initial zero-prompt route and blocker status"
+non_goals:
+  - "generic executor adapter"
+  - "runtime store or operation transition ownership"
+  - "broker credential custody or Git execution"
+  - "recovery and unknown-outcome reconciliation"
+  - "trust-root activation"
+  - "same identity verifying and publishing"
+  - "direct .github promotion"
+  - "support admission"
+invariants:
+  - "candidate cannot alter the only accepted verdict or predicate used to judge it"
+  - "verifier and publisher identities and credentials remain distinct"
+  - "context name alone is never identity"
+  - "verdict binds exact repository, source, target, target-pre, policy, harness, evidence, and time"
+  - "invalid authority denies and cannot be laundered through PR"
+  - "eligible Class B uses only the RP-05 expected-old fast-forward primitive"
+  - "agent direct-main remains unreachable"
+  - "candidate work is preserved when publication blocks"
+  - "provider state and host projections remain evidence, never authority"
+  - "production Class B stays disabled until RP-07 and RP-08 exit"
+planned_durable_source_ownership:
+  provider_adapter_manifest: ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
+  provider_projection_source: ".octon/framework/engine/runtime/adapters/host/github-control-plane/"
+  kernel_integration:
+    - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
+    - ".octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs"
+    - ".octon/framework/engine/runtime/crates/kernel/src/side_effects/mod.rs"
+  authorized_effect_data: ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs"
+  verdict_schema: ".octon/framework/engine/runtime/spec/exact-sha-verdict-v1.schema.json"
+  route_schema: ".octon/framework/engine/runtime/spec/publication-route-decision-v1.schema.json"
+  constitutional_verdict_contract: ".octon/framework/constitution/contracts/adapters/exact-sha-verdict-v1.schema.json"
+  effect_inventory: ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+  authorization_coverage: ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+  publication_policy: ".octon/instance/governance/policies/change-publication.yml"
+  git_capability_projection: ".octon/instance/governance/capability-packs/git.yml"
+  provider_contract: ".octon/framework/execution-roles/practices/standards/github-control-plane-contract.json"
+  change_route_projection: ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+  validation_suite: ".octon/framework/assurance/runtime/_ops/tests/verification-publication/"
+proposal_lifecycle_ownership:
+  manifests: "this child packet"
+  acceptance_and_implementation: "child-owned lifecycle routes"
+  parent_substitution_allowed: false
+retained_evidence_ownership:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-verification-publication/"
+  raw_provider_secrets_allowed: false
+components_affected:
+  - "GitHub ruleset and required-check producers"
+  - "change-route projection"
+  - "auto-merge and release workflow projections"
+  - "broker publication route"
+  - "CLI status"
+contracts_affected:
+  - ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
+  - ".octon/framework/product/contracts/default-work-unit.yml, consumed not owned"
+  - ".octon/instance/governance/support-targets.yml, consumed not owned"
+  - ".octon/framework/execution-roles/practices/standards/github-control-plane-contract.json"
+  - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+schemas_affected:
+  - "exact-SHA verdict"
+  - "publication route decision"
+  - "material-side-effect inventory"
+  - "authorization-boundary coverage"
+workflows_and_generated_projections_affected:
+  - "candidate writer and verifier workflows classified keep/merge/retire"
+  - ".github workflow projections affected but never directly owned"
+  - "generated proposal registry affected later through its owner"
+provider_configuration_observed:
+  - "rulesets and branch protection"
+  - "required-check producer identities"
+  - "Apps, permissions, Actions defaults, environments, and secret consumers"
+  - "provider observations remain point-in-time evidence"
+technical_identities_affected:
+  - "protected verifier identity and version"
+  - "authenticated check producer"
+  - "distinct publisher identity"
+  - "optional narrow provider App worker"
+trust_boundary_changes:
+  - "accepted verification moves outside candidate control"
+  - "publication consumes but cannot mint verdict authority"
+  - "workflow projections acquire an authored .octon source and receipt"
+migration_preconditions:
+  - "RP-01, RP-03, and RP-05 verified exits"
+  - "settled/retired ROD-002 lineage durably encoded as the immutable autonomy/PR predicate"
+  - "ED-004 protected verifier disposition remains feasible"
+  - "read-only provider refresh under UE-015"
+  - "accepted .octon workflow source/generator before projection changes"
+migration_steps:
+  - "define exact verdict and route schemas"
+  - "install protected verifier in shadow mode"
+  - "bind authenticated check in scratch provider"
+  - "publish immutable predicate and deterministic route"
+  - "prove identity and permission separation"
+  - "establish projection source and classify workflows"
+  - "retain proof and hand frozen predicate to downstream packets"
+safe_intermediate_states:
+  - "shadow verifier with no required check"
+  - "authenticated check in scratch provider only"
+  - "SI-05 immutable verification with production Class B disabled"
+prohibited_intermediate_states:
+  - "shared verifier/publisher identity or credential"
+  - "candidate-controlled accepted verifier"
+  - "context-name-only trust"
+  - "invalid authority routed to PR"
+  - "agent direct-main"
+  - "production Class B before RP-07/RP-08"
+  - "direct .github target or unreceipted projection"
+compatibility_bridges:
+  - "protected PR for valid policy-selected work only"
+deprecations_and_retirements:
+  - "candidate-head verifier and writer ownership on the supported automatic path"
+  - "context-name-only trust"
+  - "autonomous direct-main remains removed"
+rollback_strategy: >-
+  Disable autonomous publication, preserve candidate work and valid protected
+  PR, and restore only a prior certified verifier behind the same identity.
+recovery_strategy: >-
+  Treat missing, stale, conflicting, or drifted verification as route-local
+  failure; never self-verify, retry unresolved effects, or weaken authority.
+validation_plan:
+  - "candidate verifier mutation and duplicate/conflicting context"
+  - "wrong repository/source/target/policy/time/expiry/revocation"
+  - "same-credential and publisher-self-verification negatives"
+  - "immutable route predicate matrix"
+  - "provider identity, ruleset, permission, and drift conformance"
+  - "projection generation and freshness"
+  - "zero-prompt route status"
+adversarial_tests:
+  - "candidate modifies verifier or workflow"
+  - "duplicate producer and ambiguous context"
+  - "stale, revoked, raced, wrong-SHA, wrong-target, and wrong-scope authority"
+  - "Class C downgrade and invalid-authority PR laundering"
+fault_injection:
+  - "verifier unavailable before and after check emission"
+  - "provider worker duplicate, delayed, or lost result"
+  - "ruleset, App permission, check producer, and projection drift"
+evidence_to_retain:
+  - "verifier identity/version and permission receipt"
+  - "exact verdict fixtures and adversarial matrix"
+  - "route policy source/digest and route matrix"
+  - "provider configuration observations"
+  - "workflow disposition and projection source/output receipts"
+  - "rollback, conformance, and drift/churn receipts"
+support_claim_effect: "none until RP-14 independent proof and promotion"
+operator_experience_effect: >-
+  Zero routine prompts and no new normal command; eligible Class B completes,
+  valid review-required work routes to PR, and invalid authority denies with
+  concise status while candidate work is preserved.
+setup_and_maintenance_effect: >-
+  Reuse existing product setup/status/doctor/repair surfaces; no custom
+  verifier daemon, store, broker, profile, or credential ceremony.
+dependencies:
+  - "RP-01"
+  - "RP-03"
+  - "RP-05"
+parallelization_constraints:
+  - "candidate cannot modify the verifier or policy judging it"
+  - "projection-source and verifier work require non-overlapping ownership"
+  - "RP-11 generic adapter work remains independent"
+must_not_run_concurrently_with:
+  - "RP-01 authority-interface mutation"
+  - "RP-03 operation-transition mutation"
+  - "RP-05 Git-primitive mutation"
+  - "direct mutation of current .github projections"
+operator_decisions:
+  - "ROD-002 settled/retired lineage; no open operator vote"
+engineering_dispositions:
+  - "ED-004"
+  - "ED-007"
+blocking_findings:
+  - "RF-007"
+  - "RF-009"
+  - "RF-010"
+  - "RF-024"
+entry_criteria:
+  - "RP-01/RP-03/RP-05 exit"
+  - "ED-004 verifier disposition applied"
+  - "settled/retired ROD-002 autonomy/PR policy durably encoded and traceable"
+  - "workflow target-family split resolved by accepted .octon source/generator"
+exit_criteria:
+  - "candidate cannot alter its only verdict"
+  - "verifier cannot publish and publisher cannot mint a verdict"
+  - "eligible Class B obtains the exact authenticated verdict"
+  - "valid review-required work routes to PR and invalid authority denies"
+  - "agent direct-main is unreachable"
+  - "initial route is zero-prompt and explainable"
+  - "provider and projection drift disables the affected route"
+proof_produced:
+  - "PO-FD-007 / PG-06-PROVIDER-WORKER when optional worker is claimed"
+  - "PO-FD-010 / PG-06-ADAPTIVE-PUBLICATION"
+  - "PO-FD-011 / PG-06-IMMUTABLE-VERDICT"
+  - "UE-006"
+  - "UE-015"
+  - "FD-023 verifier/publication specialization conformance for RP-14"
+authoritative_promotion_requirements:
+  - "accepted child proposal"
+  - "strict pre-integration architecture review"
+  - "implementation authorization"
+  - "direct adversarial, provider, route, and projection proof"
+  - "rollback proof"
+  - "implementation conformance"
+  - "post-implementation drift and churn review"
+unsupported_remainder:
+  - "generic executor adapter"
+  - "runtime store, authority issuer, broker, or Git primitive"
+  - "signed evidence and recovery"
+  - "trust-root activation"
+  - "secondary-provider or optional-worker support without separate proof"
+  - "production autonomous Class B before RP-07/RP-08"
+  - "direct .github ownership"

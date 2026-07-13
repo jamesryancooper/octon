@@ -1,0 +1,50 @@
+schema_version: "octon-architecture-migration-packet-contract-v1"
+logical_packet_id: "RP-09"
+workgroup_id: "RWG-09"
+purpose: "Permit inert Octon self-change landing while making trust activation prior-version-verified, atomic, healthy, and reversible."
+problem_statement: "Self-development can become same-change self-authorization unless classification, verification, activation, and rollback remain outside candidate control."
+current_repository_state: ["Evolution and promotion substrates exist but complete semantic closure and fault-proved prior-version activation are not established."]
+current_evidence: {classification: "STATICALLY_INSPECTED", limits: "Structure is observed; activation safety and provider assumptions remain unexecuted."}
+accepted_decisions: ["FD-017", "FD-018"]
+target_state: ["Ordinary changes use normal delivery; trust changes install inert and activate only through exact prior-version verification and rollback."]
+scope: ["trust inventory", "epoch zero", "classification", "inert install", "activation envelope", "selector", "health", "rollback"]
+non_goals: ["federation", "distributed rollout", "candidate self-certification", "automatic activation without its separate proof"]
+invariants: ["Candidate code never selects the classifier/verifier/activator/health/rollback rules that authorize it.", "RP-09 cannot mint, widen, substitute, or self-satisfy activation-authority-v1; only an exact RP-01-issued envelope is admissible.", "One exact active version and monotonic epoch exist at every recoverable boundary."]
+planned_durable_source_ownership:
+  owner: "RP-09 owns evolution classification/install/activation/health/rollback modules and exact contract entries."
+  consumed: "RP-01 alone issues the exact-version activation-authority-v1 decision/grant envelope and owns authority/epoch semantics; RP-09 only consumes it. RP-06 publication, RP-07 evidence, and RP-08 recovery remain frozen owners."
+proposal_lifecycle_ownership: "RP-09 owns its review, proof, conformance, promotion, and closeout; parent evidence is not a substitute."
+retained_evidence_ownership: ".octon/state/evidence/validation/proposals/octon-architecture-migration-self-development-trust-activation/"
+components_affected: ["kernel evolution", "promotion runtime/activation", "trust contracts", "instance evolution", "host tool resolution", "self-evolution assurance"]
+files_expected_to_change: ["kernel/src/commands/evolution.rs", "promotion-runtime-v1.md", "promotion-activation-v1.md", "trust/install/selector schemas", "instance/governance/evolution/**", "self-evolution validator/tests"]
+contracts_affected: ["promotion runtime", "promotion activation", "authority epoch", "trust inventory", "activation envelope", "selector/health/rollback"]
+schemas_affected: ["trust-inventory-v1", "inert-install-v1", "activation-envelope-v1", "active-selector-v1"]
+workflows_and_generated_projections_affected: ["Release/host projections are observed; any future `.github` change requires its owning `.octon` source and is outside this target family."]
+provider_configuration_observed: ["Provider behavior is refreshed and recorded but not mutated or made authority."]
+technical_identities_affected: ["old/new version digest", "inventory digest", "epoch", "classifier/verifier identity", "provider identity", "selector generation", "rollback version"]
+trust_boundary_changes: ["Moves trust-change classification and activation proof to the installed prior version."]
+migration_preconditions: ["RP-06", "RP-07", "RP-08", "frozen RP-01 epoch semantics", "accepted ROD-003 boundary bound"]
+migration_steps: ["census", "contract", "inert install", "prior-version verification", "atomic selector", "health/rollback", "proof", "cutover"]
+safe_intermediate_states: [{id: "SI-07", state: "Trust changes may land inert; activation is disabled or operator-confirmed until safe-automatic proof passes."}]
+prohibited_intermediate_states: ["candidate-HEAD authority", "same-change classifier/verifier/activator/rollback mutation", "post-merge-only prevention", "unverified rollback", "mixed active versions"]
+compatibility_bridges: ["Side-by-side immutable versions are recovery assets, not simultaneous authority writers."]
+deprecations_and_retirements: ["Retire legacy same-tree/self-selected activation paths after census and proof."]
+rollback_strategy: "Restore the pre-registered exact prior certified version and preserve candidate inert."
+recovery_strategy: "Resolve selector/receipt to one certified version, revalidate epoch/evidence, restore prior version or remain disabled."
+validation_plan: ["semantic closure", "classification mutations", "inert install", "wrong envelope", "all switch faults", "reboot/disk-full", "provider refresh"]
+adversarial_tests: ["direct/indirect rename/build/provider trust change", "candidate self-widening", "prove no RP-09 code path can issue activation authority", "wrong or absent RP-01 issuer/artifact/approval/epoch/provider", "revoked rollback"]
+fault_injection: ["install kill", "selector kill", "health kill", "receipt kill", "reboot", "disk full"]
+evidence_to_retain: ["inventory/classification", "install digest", "activation envelope", "fault matrix", "health/rollback", "provider observation", "accepted ROD-003 lineage"]
+support_claim_effect: "No claim at creation; ordinary and activation claims remain claim-scoped and proof-gated."
+operator_experience_effect: "Ordinary path unchanged; trust change is visibly inert with concise status and automatic certified rollback."
+setup_and_maintenance_effect: "Reuse side-by-side deployment and existing diagnostics; add no separate service/control plane."
+dependencies: ["RP-06", "RP-07", "RP-08"]
+parallelization_constraints: ["RP-09 starts only after dependency interfaces and evidence identities freeze."]
+must_not_run_concurrently_with: ["Mutation of RP-01 authority/epoch, RP-06 predicate, RP-07 evidence identity, or RP-08 recovery semantics."]
+operator_decisions: [{id: "ROD-003", status: "accepted", decision: "Small content-addressed semantic epoch-zero inventory, one-time human trust anchor/bootstrap, and exact scope/artifact-version/time/budget/verifier/health/rollback preauthorization.", engineering_boundary: "Encoding/detection, health windows, canaries, and rollback durations remain reversible engineering/proof.", activation_boundary: "Safe automatic activation remains disabled and unclaimed until proof and later promotion acceptance."}]
+blocking_findings: ["RF-003", "RF-014", "RF-018", "RF-027"]
+unresolved_evidence: ["UE-001", "UE-009", "UE-015"]
+entry_criteria: ["Dependencies verified", "trust inventory census complete", "accepted ROD-003 boundary bound"]
+exit_criteria: ["FD-017/018 gates pass", "UE-001/009/015 resolved", "SI-07 and rollback pass", "safe-automatic accurately disabled or separately proved"]
+proof_produced: ["PG-09-INERT-SELF-DEVELOPMENT", "PG-09-TRUST-ACTIVATION"]
+authoritative_promotion_requirements: ["Accepted packet, bound ROD-003 baseline, prior-version exact proof, current provider observation, conformance/drift reviews, later promotion acceptance, and atomic promotion receipt."]

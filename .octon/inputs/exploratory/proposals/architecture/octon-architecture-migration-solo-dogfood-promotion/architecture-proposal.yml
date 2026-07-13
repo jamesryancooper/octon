@@ -1,0 +1,7 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+logical_packet_id: "RP-14"
+workgroup_id: "RWG-13"
+target_boundary: "proof-only integrated dogfood, independent reproduction, claim map, and promotion handoff"
+authority_posture: "PROPOSED_NONAUTHORITATIVE_NOT_IMPLEMENTATION_AUTHORIZATION"

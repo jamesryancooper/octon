@@ -1,0 +1,160 @@
+schema_version: "octon-architecture-migration-program-traceability-v1"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+primary_ownership:
+  decisions:
+    FD-001: "RP-14"
+    FD-002: "RP-08"
+    FD-003: "RP-01"
+    FD-004: "RP-01"
+    FD-005: "RP-03"
+    FD-006: "RP-04"
+    FD-007: "RP-06"
+    FD-008: "RP-02"
+    FD-009: "RP-05"
+    FD-010: "RP-06"
+    FD-011: "RP-06"
+    FD-012: "RP-08"
+    FD-013: "RP-07"
+    FD-014: "RP-07"
+    FD-015: "RP-00"
+    FD-016: "RP-08"
+    FD-017: "RP-09"
+    FD-018: "RP-09"
+    FD-019: "RP-10"
+    FD-020: "RP-11"
+    FD-021: "RP-12"
+    FD-022: "RP-13"
+    FD-023: "RP-14"
+    FD-024: "RP-14"
+  findings:
+    RF-001: "RP-01"
+    RF-002: "RP-01"
+    RF-003: "RP-01"
+    RF-004: "RP-02"
+    RF-005: "RP-04"
+    RF-006: "RP-03"
+    RF-007: "RP-00"
+    RF-008: "RP-05"
+    RF-009: "RP-05"
+    RF-010: "RP-06"
+    RF-011: "RP-08"
+    RF-012: "RP-07"
+    RF-013: "RP-00"
+    RF-014: "RP-09"
+    RF-015: "RP-11"
+    RF-016: "RP-12"
+    RF-017: "RP-14"
+    RF-018: "RP-00"
+    RF-019: "RP-14"
+    RF-020: "RP-00"
+    RF-021: "RP-03"
+    RF-022: "RP-07"
+    RF-023: "RP-02"
+    RF-024: "RP-11"
+    RF-025: "RP-04"
+    RF-026: "RP-08"
+    RF-027: "RP-14"
+    RF-028: "RP-08"
+    RF-029: "RP-07"
+    RF-030: "RP-11"
+    RF-031: "RP-13"
+    RF-032: "RP-00"
+    RF-033: "RP-14"
+  proof_obligations:
+    PO-FD-001: {packet: "RP-14", gate: "PG-14-SOLO-BUDGETS"}
+    PO-FD-002: {packet: "RP-08", gate: "PG-08-CLASS-ROUTES"}
+    PO-FD-003: {packet: "RP-01", gate: "PG-01-AUTHORITY-DOMINANCE"}
+    PO-FD-004: {packet: "RP-01", gate: "PG-01-LAUNCH-GUARDS"}
+    PO-FD-005: {packet: "RP-03", gate: "PG-03-SINGLE-STORE"}
+    PO-FD-006: {packet: "RP-04", gate: "PG-04-CREDENTIAL-BOUNDARY"}
+    PO-FD-007: {packet: "RP-06", gate: "PG-06-PROVIDER-WORKER"}
+    PO-FD-008: {packet: "RP-02", gate: "PG-02-MACOS-ISOLATION"}
+    PO-FD-009: {packet: "RP-05", gate: "PG-05-SANITIZED-GIT"}
+    PO-FD-010: {packet: "RP-06", gate: "PG-06-ADAPTIVE-PUBLICATION"}
+    PO-FD-011: {packet: "RP-06", gate: "PG-06-IMMUTABLE-VERDICT"}
+    PO-FD-012: {packet: "RP-08", gate: "PG-08-EFFECT-RECOVERY"}
+    PO-FD-013: {packet: "RP-07", gate: "PG-07-EVIDENCE-CAPACITY"}
+    PO-FD-014: {packet: "RP-07", gate: "PG-07-SIGNED-EVIDENCE"}
+    PO-FD-015: {packet: "RP-00", gate: "PG-00-WRITER-INVENTORY"}
+    PO-FD-016: {packet: "RP-08", gate: "PG-08-DEGRADED-MODE"}
+    PO-FD-017: {packet: "RP-09", gate: "PG-09-INERT-SELF-DEVELOPMENT"}
+    PO-FD-018: {packet: "RP-09", gate: "PG-09-TRUST-ACTIVATION"}
+    PO-FD-019: {packet: "RP-10", gate: "PG-10-PROJECT-NONAUTHORITY"}
+    PO-FD-020: {packet: "RP-11", gate: "PG-11-HARNESS-BINDING"}
+    PO-FD-021: {packet: "RP-12", gate: "PG-12-SIGNED-CATALOG"}
+    PO-FD-022: {packet: "RP-13", gate: "PG-13-BOUNDED-CHILDREN"}
+    PO-FD-023: {packet: "RP-14", gate: "PG-14-PROVIDER-CONFORMANCE"}
+    PO-FD-024: {packet: "RP-14", gate: "PG-14-COMPLETE-VERTICAL"}
+  unresolved_evidence:
+    UE-001: {primary: "RP-01", cross: ["RP-09"]}
+    UE-002: {primary: "RP-01", cross: []}
+    UE-003: {primary: "RP-02", cross: ["RP-04"]}
+    UE-004: {primary: "RP-03", cross: ["RP-08"]}
+    UE-005: {primary: "RP-05", cross: []}
+    UE-006: {primary: "RP-06", cross: []}
+    UE-007: {primary: "RP-08", cross: ["RP-05"]}
+    UE-008: {primary: "RP-07", cross: []}
+    UE-009: {primary: "RP-09", cross: []}
+    UE-010: {primary: "RP-11", cross: ["RP-01", "RP-02", "RP-10"]}
+    UE-011: {primary: "RP-14", cross: ["RP-11"]}
+    UE-012: {primary: "RP-12", cross: []}
+    UE-013: {primary: "RP-13", cross: []}
+    UE-014: {primary: "RP-14", cross: ["RP-08"]}
+    UE-015: {primary: "RP-14", cross: ["RP-06", "RP-09"]}
+  operator_decisions:
+    ROD-001:
+      primary: "RP-07"
+      cross: ["RP-03"]
+      status: "operator-accepted-adaptive-policy"
+      operator_scope: "Accepted conservative bounded recovery/evidence posture with reversible measurement-adjusted values and no unsigned fallback."
+      engineering_scope: "Store path, backup mechanism, signer/anchor/reserve mechanism, and provisional measurement-adjusted values."
+    ROD-002:
+      primary: "RP-06"
+      cross: ["RP-08"]
+      status: "settled-retired-open-decision"
+      operator_scope: "none"
+      engineering_scope: "Encode and prove the accepted deterministic publication, protection, and irreducible-ambiguity policy."
+    ROD-003:
+      primary: "RP-09"
+      cross: ["RP-01"]
+      status: "operator-accepted-trust-bootstrap"
+      operator_scope: "Accepted small content-addressed semantic epoch-zero inventory, one-time human anchor/bootstrap, and exact bounded activation preauthorization."
+      engineering_scope: "Inventory encoding/detection, health/canary/rollback mechanisms, and provisional reversible timing values."
+    ROD-004:
+      primary: "RP-12"
+      cross: []
+      status: "operator-accepted-deny-by-default-config"
+      operator_scope: "Accepted one operator-controlled signer family, immutable references, explicit capabilities, and an initially empty source allowlist."
+      engineering_scope: "Signed-envelope, immutable-reference, verification, and rollback mechanisms."
+    ROD-005:
+      primary: "RP-13"
+      cross: []
+      status: "operator-accepted-adaptive-resource-policy"
+      operator_scope: "Accepted lowest useful concurrency and conservative adjustable time, attempt, token/cost, and evidence ceilings, widened only by dogfood evidence."
+      engineering_scope: "Enforcement mapping, provisional values, provider conformance, and admission proof."
+    ROD-006:
+      primary: "RP-00"
+      cross: []
+      status: "operator-accepted-no-octon-direct-main"
+      operator_scope: "No Octon-owned human or agent direct-main route; ordinary human Git remains outside Octon."
+      engineering_scope: "Autonomous route unreachability and disclosure proof."
+  engineering_dispositions:
+    ED-001: {primary: "RP-02", cross: ["RP-13"]}
+    ED-002: {primary: "RP-04", cross: []}
+    ED-003: {primary: "RP-05", cross: ["RP-08"]}
+    ED-004: {primary: "RP-06", cross: []}
+    ED-005: {primary: "RP-10", cross: []}
+    ED-006: {primary: "RP-11", cross: []}
+    ED-007: {primary: "RP-00", cross: ["RP-04", "RP-06", "RP-14"]}
+  promotion_acceptance:
+    core_solo_local_support: {primary: "RP-14", proof: ["RP-08", "RP-09", "RP-10", "RP-11"], status: "later-evidence-gated"}
+    signed_extension_support: {primary: "RP-14", proof: ["RP-12"], status: "later-evidence-gated"}
+    bounded_child_support: {primary: "RP-14", proof: ["RP-13"], status: "later-evidence-gated"}
+    secondary_provider_support: {primary: "RP-14", proof: ["RP-11"], status: "later-evidence-gated"}
+    safe_automatic_trust: {primary: "RP-14", proof: ["RP-09"], status: "later-evidence-gated"}
+specialization_splits:
+  FD-006: {candidate_side: "RP-02", broker_primary: "RP-04"}
+  FD-012: {transaction_substrate: "RP-03", outcome_primary: "RP-08"}
+  FD-013: {capacity_substrate: "RP-03", evidence_primary: "RP-07"}
+  FD-016: {broker_and_evidence_substrate: ["RP-04", "RP-07"], vertical_primary: "RP-08"}
+  FD-023: {generic_component: "RP-11", specializations: ["RP-06", "RP-08", "RP-13"], integrated_promotion_primary: "RP-14"}

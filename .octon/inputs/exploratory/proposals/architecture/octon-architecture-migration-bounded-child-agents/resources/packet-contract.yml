@@ -1,0 +1,314 @@
+schema_version: "octon-architecture-migration-child-packet-v1"
+proposal_id: "octon-architecture-migration-bounded-child-agents"
+logical_packet_id: "RP-13"
+workgroup_id: "RWG-12"
+parent_program: "octon-architecture-migration-program"
+title: "Bounded Mission Child Agents"
+purpose: >-
+  Reuse existing lifecycle scheduling and RP-11/RP-08 execution/recovery seams
+  to run temporary credentialless depth-one mission children with strict scope,
+  limits, evidence, cancellation, reconciliation, and irreversible retirement.
+problem_statement: >-
+  Octon has proposal-program child scheduling, locks, concurrency, retries,
+  timeouts, cancellation tokens, process-group termination, token measurement,
+  and terminal evidence. Those useful primitives do not establish a temporary
+  credentialless MissionChildRun with exact authority/Harness/isolation
+  binding, depth, enforceable budgets, provider-child mapping, or permanent
+  terminal identity retirement.
+current_repository_state:
+  - "Kernel lifecycle-program code schedules ProgramChild work with dependency batches, locks, concurrency, retry/recovery, cancellation, and terminal evidence."
+  - "Lifecycle executor requests carry child_id/cancellation context; the primary provider implementation supports timeout and process-group termination."
+  - "Token Budget Ledger records child/stage/source/model estimates and provider usage when supplied, but explicitly remains measurement evidence rather than enforcement."
+  - "Agent Node and Task-Specific Harness contracts provide bounded model activity and fail-closed authority boundaries."
+  - "ProgramChild identity represents proposal/program work, not a mission-scoped provider child, credentialless session, depth bound, or retired agent identity."
+current_evidence:
+  classification: "STATICALLY_INSPECTED"
+  proof_method: "static inspection"
+  limitations:
+    - "No credential/canonical-Git/sibling denial matrix exists for mission children."
+    - "No guard/scope/depth/budget/cancel/unknown/retirement/id-reuse matrix has run."
+    - "UE-013 remains unresolved until adversarial implementation proof exists."
+accepted_decisions:
+  - "FD-022"
+  - "FD-023, child provider-mapping specialization only"
+target_state:
+  - "Every child is a new temporary MissionChildRun with exact parent, mission, project, run, Harness, provider mapping, candidate/session, budget, and guard identity."
+  - "Effective child scope and budget are the strict intersection of parent/mission/project/Harness/isolation/role and remaining limits."
+  - "Initial depth is exactly one and the child has no spawn/recruit/delegate API."
+  - "The child is credentialless, cannot access canonical Git or sibling areas, and uses an independent disposable candidate repository/session."
+  - "One one-shot guard is consumed only for the exact child binding and can never be reused."
+  - "Existing scheduler primitives enforce declared concurrency, steps, attempts/retries, and timeout without a new scheduler."
+  - "Token/cost/evidence limits are classified hard, measured, or unsupported; every declared hard limit is enforced or admission denies."
+  - "A child-specific provider mapping consumes RP-11 generic adapter operations and proves its specialization without redefining the generic trait."
+  - "Cancel, provider/process termination, unknown reconciliation, output preservation, and terminal retirement complete before identity/session/guard reuse is impossible."
+scope:
+  - "temporary MissionChildRun, budget, provider-mapping, and terminal-retirement contracts"
+  - "exact parent/mission/Workspace Project/Harness/role/isolation scope intersection"
+  - "one-shot child launch guard and exact launch binding through RP-11"
+  - "fresh independent credentialless candidate repository and short-lived/non-exportable provider session premise"
+  - "fixed initial depth one and no child spawn surface"
+  - "declared concurrency, step, timeout, attempt/retry, token, cost, and evidence ceilings with enforcement classification"
+  - "reuse of lifecycle scheduler, locks, cancellation, process supervision, terminal observations, and RP-08 reconciliation"
+  - "child-specific provider-native mapping and conformance contribution to FD-023"
+  - "terminal output/evidence reconciliation, guard/session/task/candidate revocation, identity tombstone, and no reuse"
+non_goals:
+  - "persistent agents, accounts, organizations, teams, swarms, or standing workers"
+  - "self-recruitment, grandchildren, recursive delegation, or dynamic role creation"
+  - "credentialed children, canonical Git access, direct publication, durable external effects, or sibling access"
+  - "new scheduler, queue, runtime, store, authority source, policy engine, broker, or recovery controller"
+  - "generic provider adapter/interface changes owned by RP-11"
+  - "changing RP-08 recovery semantics or treating proposal ProgramChild records as permanent agents"
+invariants:
+  - "A child is temporary, mission-bound, depth one, credentialless, strictly narrower, and candidate-only."
+  - "Child scope is an intersection; missing, incomparable, ambiguous, or widening inputs deny."
+  - "No child can mint authority, grants, effect tokens, credentials, policy, mission transitions, or another child."
+  - "Every child launch consumes one exact one-shot guard and isolated session/repository binding."
+  - "Every declared hard limit is mechanically enforced; measurement-only evidence is never described as hard enforcement."
+  - "Unknown provider/process outcome remains unknown until RP-08 reconciliation; no blind retry or identity reuse."
+  - "Terminal status is not retirement until guard/session/provider task/candidate ownership are revoked/released and the identity is tombstoned."
+  - "Child output/evidence can inform parent reconciliation but cannot mutate parent authority or canonical state directly."
+planned_durable_source_ownership:
+  mission_child_contract_identity_and_tombstone: "RP-13"
+  scope_depth_budget_derivation_and_admission: "RP-13"
+  role_templates_and_child_policy: "RP-13 contract; engineering binds accepted ROD-005 resource limits and later tuning is governed configuration"
+  scheduler_locks_retries_timeout: "existing lifecycle-program scheduler, reused not replaced"
+  authority_and_one_shot_guard_semantics: "existing/RP-11 dependency interface, consumed not owned"
+  candidate_isolation_and_provider_session: "dependency premise from RP-11/RP-08 chain and ED-001/RP-02, consumed not owned"
+  generic_executor_adapter: "RP-11"
+  child_provider_mapping_and_specialization_conformance: "RP-13"
+  unknown_outcome_recovery_and_store_truth: "RP-08"
+  integrated_provider_promotion_proof: "RP-14"
+proposal_lifecycle_ownership:
+  manifests:
+    - "proposal.yml"
+    - "architecture-proposal.yml"
+  status: "draft"
+  authority: "proposal-local and non-authoritative"
+retained_evidence_ownership:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-bounded-child-agents/"
+  required_records:
+    - "accepted ROD-005 provisional configuration, child policy digest, and supported enforcement matrix"
+    - "child contract/parent/mission/project/Harness/guard/isolation/provider/budget digests"
+    - "credential/canonical-Git/sibling/scope/depth/recruitment denial matrix"
+    - "concurrency/step/timeout/retry/token/cost/evidence enforcement-or-denial matrix"
+    - "provider child prepare/launch/observe/cancel/usage/retire specialization conformance"
+    - "cancel/process-group/lost-response/unknown reconciliation and replacement-child evidence"
+    - "terminal retirement/revocation/tombstone and identity/session/guard reuse denial"
+components_affected:
+  - "run lifecycle, Agent Node, Harness, child budget, provider mapping, and retirement contracts"
+  - "lifecycle-program scheduler mapping and mission child orchestration"
+  - "lifecycle executor child mapping, primary-provider child specialization, and token posture"
+  - "mission child policy and existing mission status/cancel UX"
+  - "runtime/adapter contract registries"
+  - "child scope, credential, budget, cancel, unknown, retirement, and reuse assurance"
+files_expected_to_change:
+  - ".octon/framework/engine/runtime/spec/{run-lifecycle-v1,task-specific-execution-harness-v1,agent-node-v1,mission-child-run-v1,token-budget-ledger-v1}.md"
+  - ".octon/framework/engine/runtime/spec/{task-specific-execution-harness-v1,agent-node-v1,mission-child-run-v1,mission-child-budget-v1,mission-child-terminal-retirement-v1,mission-child-provider-mapping-v1,token-budget-ledger-v1}.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/{task-specific-execution-harness-v1,agent-node-v1,mission-child-run-v1,mission-child-budget-v1,mission-child-terminal-retirement-v1}.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/mission-child-provider-mapping-v1.schema.json"
+  - ".octon/framework/constitution/contracts/{runtime/family.yml,adapters/family.yml,registry.yml}"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/instance/governance/policies/{mission-child-agents,token-budgets}.yml"
+  - ".octon/framework/scaffolding/runtime/templates/octon/instance/governance/policies/mission-child-agents.yml"
+  - ".octon/framework/engine/runtime/adapters/children/**"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/{child,child_codex,lib,token_budget}.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/child.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/{lifecycle_program,mission_child,main}.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/tests/mission_child.rs"
+  - ".octon/framework/assurance/runtime/_ops/scripts/{validate-mission-child-agent-contract,validate-workflow-statechart-harness,validate-agent-node-model-call-contract,validate-execution-governance,validate-token-budget-ledger}.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/{test-mission-child-agent-contract,test-token-budget-ledger}.sh"
+contracts_affected:
+  - "new mission-child-run-v1 temporary identity/scope/guard/isolation contract"
+  - "new mission-child-budget-v1 enforcement classification and ceilings"
+  - "new mission-child-terminal-retirement-v1 reconciliation/revocation/tombstone contract"
+  - "new mission-child-provider-mapping-v1 child specialization contract"
+  - "Agent Node, Task Harness, Run Lifecycle, and Token Budget Ledger child bindings"
+schemas_affected:
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/agent-node-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/agent-node-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/mission-child-run-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/mission-child-run-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/mission-child-budget-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/mission-child-budget-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/mission-child-terminal-retirement-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/mission-child-terminal-retirement-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/mission-child-provider-mapping-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/mission-child-provider-mapping-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/token-budget-ledger-v1.schema.json"
+workflows_and_generated_projections_affected:
+  - "mission plan/run child admission and automatic scheduling"
+  - "temporary child candidate repository/session launch and lifecycle"
+  - "mission status/inbox child summary and cancel propagation"
+  - "child token/usage and terminal retirement evidence"
+  - "generated mission/run status views"
+provider_configuration_observed: []
+technical_identities_affected:
+  - "parent mission/run/project and child run/attempt/role identity"
+  - "child Harness/source manifest, guard, candidate repository, session, provider task/mapping, and cancellation identity"
+  - "concurrency/step/attempt/retry/timeout/token/cost/evidence budget identity"
+  - "terminal observation, reconciliation, retirement, revocation, and tombstone identity"
+trust_boundary_changes:
+  - "A provider-native child can be launched only through RP-11 generic adapter after strict child scope/budget/guard/isolation admission."
+  - "Child output crosses back only as candidate/evidence for parent reconciliation, never direct canonical mutation."
+  - "Terminal child resources become irreversibly non-reusable after reconciliation."
+migration_preconditions:
+  - "RP-08 unknown-outcome reconciliation, cancellation, and complete Class B recovery interface has exited and is frozen."
+  - "RP-11 deterministic single-agent Harness and generic adapter interface/conformance has exited and is frozen."
+  - "The ED-001 useful credentialless short-lived/non-exportable provider session, native sandbox, and independent disposable repository premise is dynamically proved by its owner/dependency chain."
+  - "Engineering binds the accepted ROD-005 lowest-useful-concurrency baseline to conservative provisional wall-clock/step/attempt/retry/token/cost/evidence values; no unsupported numbers are invented."
+  - "Existing ProgramChild scheduler primitives are inventoried and semantically separated from MissionChildRun identity."
+migration_steps:
+  - "Encode the accepted ROD-005 baseline with enforceable provisional values and publish strict MissionChildRun/budget/provider-mapping/retirement contracts and policy."
+  - "Expose only the existing scheduler primitives required for temporary mission child jobs without altering ProgramChild semantics."
+  - "Implement strict parent/mission/project/Harness/role/isolation scope and remaining-budget intersection; deny empty/incomparable/widening results."
+  - "Bind child identity, exact guard, isolated candidate repository/session, provider mapping, budgets, and cancellation to one RP-11 Harness/launch."
+  - "Implement a separate child mapping over RP-11 prepare/launch/observe/cancel/usage/retire; conditionally admit the primary provider only while current conformance and the existing proof and promotion gates pass."
+  - "Enforce depth one and remove every spawn/recruit/delegate/grandchild path."
+  - "Map scheduler concurrency/steps/retries/timeout and hard/measurement/unsupported token-cost-evidence posture; deny unsupported declared hard limits."
+  - "Propagate cancel/revoke/timeout/budget triggers, supervise process group, reconcile unknown outcome through RP-08, preserve output/evidence, and retire/tombstone all child resources."
+  - "Integrate concise child summary/cancel state into existing mission UX and execute the full UE-013 matrix."
+safe_intermediate_states:
+  - "Contracts and accepted ROD-005 provisional configuration exist while all mission child launch remains disabled."
+  - "Scope/budget derivation runs in dry mode and produces denial/admission evidence without guard or provider task."
+  - "One-shot guard and isolated candidate/session bindings stage but cannot launch."
+  - "Fake child mappings pass scheduler/cancel/retirement proof while live primary mapping remains disabled."
+  - "Primary child mapping activates only after credential, scope, depth, budget, cancel, unknown, and retirement proof."
+prohibited_intermediate_states:
+  - "MissionChildRun is represented as a persistent agent/account or proposal ProgramChild."
+  - "A child receives credentials, canonical Git, sibling control/evidence/candidate access, or direct durable external effect capability."
+  - "Scope/budget defaults widen parent, mission, project, Harness, or remaining limits."
+  - "Depth exceeds one or any child spawn/recruit/delegate API exists."
+  - "Measured token/cost/evidence usage is claimed as a hard enforced ceiling."
+  - "Unknown/cancelled provider outcome is retried or identity reused before RP-08 reconciliation."
+  - "Terminal process exit is treated as retirement before guard/session/task/candidate revocation/tombstone."
+  - "A new scheduler, queue, runtime/store, authority, broker, or generic adapter is introduced."
+compatibility_bridges:
+  - "Existing proposal ProgramChild scheduling remains unchanged and supplies only reusable batch/lock/retry/cancel primitives; it never becomes MissionChildRun identity."
+  - "Single-agent RP-11 execution remains the supported fallback while mission child launch is disabled or unsupported."
+deprecations_and_retirements:
+  - "Retire any claim that current ProgramChild scheduling alone satisfies FD-022."
+  - "Retire measurement-only token/cost language that implies hard enforcement."
+  - "Retire child identity/session/guard reuse and process-exit-only retirement assumptions."
+rollback_strategy: >-
+  Disable new child admission/launch, propagate cancellation to active children,
+  reconcile provider/process outcomes through RP-08, preserve parent and child
+  candidate output plus terminal evidence, retire/tombstone each child identity,
+  and continue the parent via the single-agent RP-11 path. Never restore
+  credentials, depth, reuse, or a second scheduler.
+recovery_strategy: >-
+  Reconstruct child status from parent control, exact guard/Harness/provider
+  observations, process/session state, and retained evidence. Unknown remains
+  blocked until RP-08 reconciliation. A replacement child receives a new
+  identity, guard, session, candidate area, and budgets only after the prior
+  child is terminally reconciled and retired.
+validation_plan:
+  - "strict child/budget/provider-mapping/retirement schemas and mirror/registry validation"
+  - "parent/mission/project/Harness/role/isolation scope intersection and widening denial"
+  - "credential, environment/HOME/Keychain, canonical Git, sibling area, and direct effect denial"
+  - "guard expired/revoked/reused/wrong-child/wrong-Harness/wrong-session denial"
+  - "depth, spawn/recruit/delegate/grandchild denial"
+  - "concurrency, step, timeout, attempt/retry, token, cost, and evidence enforce-or-deny matrix"
+  - "provider mapping, cancel/process-group, lost response, unknown reconciliation, retirement, and identity reuse denial"
+adversarial_tests:
+  - "parent/project/Harness scope widening, sibling traversal/symlink/alias, canonical repository remote/config access, and credential probes"
+  - "forged/stale/expired/revoked/replayed guard, changed child identity/session/candidate root/provider mapping, and double launch"
+  - "self-recruitment prompt/tool/provider API, nested/grandchild launch, role-template authority injection, and persistent-agent record creation"
+  - "concurrency race, step/attempt overflow, retry amplification, timeout/cancel race, unsupported hard token/cost limit, and forged usage"
+  - "lost launch/cancel/terminal response, orphan process group, late output, duplicate terminal receipt, failed retirement, and tombstoned ID reuse"
+fault_injection:
+  - "interruption before/after guard consumption, candidate/session creation, provider prepare/launch, and scheduler lock acquisition"
+  - "parent/mission revoke, timeout, budget exhaustion, and operator cancel at every child state"
+  - "provider cancel failure, process-group kill failure, lost response, machine restart, and unknown task observation"
+  - "interruption while preserving output/evidence, revoking session/guard/task, deleting candidate area, or writing tombstone"
+evidence_to_retain:
+  - "accepted ROD-005 configuration and enforcement capability matrix"
+  - "exact scope/budget derivation and child/parent/mission/project/Harness/guard/isolation/provider digests"
+  - "credential/Git/sibling/depth/recruitment negative results"
+  - "limit enforcement/unsupported denials and provider usage provenance"
+  - "cancel/process-group/unknown/reconcile/replacement traces"
+  - "terminal output preservation, revocation, retirement/tombstone, and reuse denial"
+support_claim_effect: >-
+  Enables a later optional bounded-child support claim after PO-FD-022, RP-13's
+  child-mapping component contribution to PO-FD-023, and integrated dogfood. It
+  creates no current multi-agent, provider, or autonomy claim.
+operator_experience_effect: >-
+  After engineering binds the accepted ROD-005 baseline and proof-driven
+  admission is current, Octon may schedule admitted parallel child work invisibly within a mission.
+  Normal operation has zero routine prompts; mission status shows concise child
+  progress/blocker/cancel/retirement facts and preserves the single-agent route
+  when child work is unsupported.
+setup_and_maintenance_effect: >-
+  No agent organization, account, queue, or worker fleet is administered.
+  Maintenance is bounded to one policy, provider-child conformance, compact
+  status/evidence, and safe disable/reconcile/retire behavior.
+dependencies:
+  - logical_packet_id: "RP-08"
+    proposal_id: "octon-architecture-migration-recovery-class-b"
+    required_interface: "frozen cancellation, unknown-outcome reconciliation, candidate preservation, and terminal recovery semantics"
+  - logical_packet_id: "RP-11"
+    proposal_id: "octon-architecture-migration-harness-factory"
+    required_interface: "frozen exact Harness/one-shot launch binding and generic prepare/launch/observe/cancel/usage/retire adapter"
+parallelization_constraints:
+  - "May implement alongside RP-12 after RP-08 and RP-11 exits."
+  - "RP-13 owns no extension, core authority/store, recovery, candidate-isolation, or generic-adapter source."
+  - "Shared scheduler, registry, Harness, mission, and lifecycle-executor files are integrated by exact symbol/entry ownership."
+must_not_run_concurrently_with:
+  - "Any change redefining RP-08 recovery/store truth or RP-11 guard/Harness/generic-adapter semantics."
+  - "Any isolation/session change that invalidates the ED-001 credential-negative premise."
+accepted_configuration:
+  - operator_decision_id: "ROD-005"
+    status: "accepted-baseline"
+    subject: "Child-agent resource and concurrency limits"
+    fixed_boundary: "Temporary credentialless depth-one children, exact guard, narrower scope, terminal retirement; no persistent organization or self-recruitment."
+    baseline: "Lowest useful concurrency and conservative adjustable wall-clock, step/attempt/retry, token, cost, and evidence ceilings."
+    adjustment_rule: "Measure dogfood and widen one dimension only when retained evidence proves benefit."
+    numeric_values: "Engineering binds provisional enforceable values; no unsupported numbers are invented."
+    future_updates: "Governed configuration, including any additional operator spending or interruption cap."
+engineering_dispositions:
+  - disposition_id: "ROD-005-ENGINEERING"
+    role: "configuration and proof"
+    owner: "RP-13"
+    required_result: "bind enforceable provisional values and prove hard/measured/unsupported enforcement posture before launch"
+  - disposition_id: "ED-001"
+    role: "dependency premise only"
+    premise: "useful non-exportable/short-lived primary-provider session, native sandbox, and independent disposable repository"
+    owner: "RP-02/dependency chain, not RP-13"
+blocking_findings:
+  - "RF-031"
+cross_referenced_findings:
+  - "RF-004, credential and shared candidate context is closed by the isolation/session dependency premise"
+  - "RF-016, RP-13 closes bounded-child specialization only"
+  - "RF-025, useful credentialless provider session must be proved before child admission"
+  - "RF-027, the accepted ROD-005 baseline requires engineering-bound provisional limits at RP-13 design exit; provider admission is proof-driven"
+unresolved_evidence:
+  - "UE-013"
+entry_criteria:
+  - "RP-08 and RP-11 exit evidence exists at exact dependency digests."
+  - "The accepted ROD-005 baseline is bound to provisional values and every declared hard limit maps to an enforcement mechanism or unsupported admission."
+  - "ED-001 premise is dynamically proved by the owning dependency chain."
+  - "Single-agent Harness and shared reconciler proof is current."
+exit_criteria:
+  - "Children are credentialless, depth one, strictly narrower, and cannot access canonical Git, siblings, persistent identity, or direct effects."
+  - "Every launch consumes an exact one-shot child guard/Harness/isolation/provider/budget binding."
+  - "No child spawn/recruit/delegate/grandchild path exists."
+  - "Every declared hard concurrency/step/attempt/retry/timeout/token/cost/evidence limit is enforced or admission denies unsupported."
+  - "Cancel/process termination and unknown outcomes reconcile through RP-08 without blind retry."
+  - "Terminal output/evidence is preserved and identity/session/guard/task/candidate area cannot be reused."
+  - "No new scheduler, runtime/store, authority source, or generic adapter exists."
+proof_produced:
+  primary:
+    proof_obligation: "PO-FD-022"
+    promotion_gate: "PG-13-BOUNDED-CHILDREN"
+    evidence_target: "ADVERSARIALLY_TESTED"
+  component_contribution:
+    proof_obligation: "PO-FD-023"
+    promotion_gate: "PG-14-PROVIDER-CONFORMANCE"
+    evidence_target: "ADVERSARIALLY_TESTED"
+    boundary: "child provider-mapping specialization only; RP-11 owns generic adapter and RP-14 owns integrated promotion proof"
+authoritative_promotion_requirements:
+  - "accepted proposal and passing pre-integration architecture review"
+  - "accepted ROD-005 configuration, ED-001 premise, and dependency exit receipts"
+  - "retained UE-013 and child provider-specialization adversarial proof"

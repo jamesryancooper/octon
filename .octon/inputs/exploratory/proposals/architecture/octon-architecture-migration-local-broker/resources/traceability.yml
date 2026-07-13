@@ -1,0 +1,89 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+program_id: "octon-architecture-migration-program"
+logical_packet_id: "RP-04"
+proposal_id: "octon-architecture-migration-local-broker"
+accepted_decisions:
+  - decision_id: "FD-006"
+    ownership: "primary-credential-broker-owner"
+    proof_id: "PO-FD-006"
+    promotion_gate: "PG-04-CREDENTIAL-BOUNDARY"
+  - decision_id: "FD-015"
+    ownership: "broker-role-inventory-contributor"
+    proof_id: "PO-FD-015"
+    promotion_gate: "PG-00-WRITER-INVENTORY"
+  - decision_id: "FD-016"
+    ownership: "broker-outage-substrate-contributor"
+    proof_id: "PO-FD-016"
+    promotion_gate: "PG-08-DEGRADED-MODE"
+findings:
+  - finding_id: "RF-005"
+    relationship: "primary-accepted-broker-boundary-owner"
+    primary_owner: "RP-04"
+  - finding_id: "RF-025"
+    relationship: "primary-useful-credentialless-session-completion-owner"
+    primary_owner: "RP-04"
+    collaborating_owner: "RP-02"
+  - finding_id: "RF-004"
+    relationship: "cross-reference-candidate-credential-context"
+    primary_owner: "RP-02"
+    contributing_owner: "RP-04"
+proof_obligations:
+  - proof_id: "PO-FD-006"
+    decision_id: "FD-006"
+    test_owner: "isolation and broker owners"
+    workgroup_id: "RWG-04"
+    promotion_gate: "PG-04-CREDENTIAL-BOUNDARY"
+    state: "planned-not-executed"
+  - proof_id: "PO-FD-015"
+    decision_id: "FD-015"
+    test_owner: "TCB inventory owner"
+    workgroup_id: "RWG-00"
+    proposal_packet: "RP-00"
+    owned_slice: "broker physical role and authenticated interface mapping"
+    promotion_gate: "PG-00-WRITER-INVENTORY"
+    state: "planned-not-executed"
+  - proof_id: "PO-FD-016"
+    decision_id: "FD-016"
+    test_owner: "vertical recovery owner"
+    workgroup_id: "RWG-08"
+    proposal_packet: "RP-08"
+    owned_slice: "broker outage, restart, work preservation, and no ambient fallback"
+    promotion_gate: "PG-08-DEGRADED-MODE"
+    state: "planned-not-executed"
+unresolved_evidence:
+  - evidence_id: "UE-003"
+    relationship: "shared-useful-positive-and-credential-negative-proof"
+    primary_packet: "RP-02"
+    collaborating_packet: "RP-04"
+    evidence_target: "ADVERSARIALLY_TESTED"
+    state: "unresolved"
+operator_decisions: []
+engineering_dispositions:
+  - disposition_id: "ED-001"
+    ownership: "consumed-RP-02-prerequisite"
+    state: "unproved"
+  - disposition_id: "ED-002"
+    ownership: "primary-broker-mechanism"
+    state: "mechanism-not-selected-or-proved"
+  - disposition_id: "ED-007"
+    ownership: "RP-04-workflow-and-visible-surface-audit-slice"
+    state: "audit-not-run"
+dependencies:
+  - "octon-architecture-migration-canonical-authority"
+  - "octon-architecture-migration-candidate-isolation"
+  - "octon-architecture-migration-transactional-runtime-store"
+safe_state: "SI-04"
+authority_boundary:
+  proposal_authority: false
+  reconciliation_authority: false
+  parent_evidence_satisfies_child_gates: false
+  broker_mints_authority: false
+  operation_handle_is_authority: false
+  broker_observation_is_verifier_verdict: false
+  installed_service_or_keychain_state_is_promotion_target: false
+coverage_status:
+  identifiers_mapped: true
+  implementation_proof_complete: false
+  operator_decisions_complete: true
+  engineering_dispositions_complete: false
+  architecture_review_complete: false

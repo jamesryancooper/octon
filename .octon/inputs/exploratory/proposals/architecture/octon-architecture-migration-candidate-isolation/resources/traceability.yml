@@ -1,0 +1,68 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+program_id: "octon-architecture-migration-program"
+logical_packet_id: "RP-02"
+proposal_id: "octon-architecture-migration-candidate-isolation"
+accepted_decisions:
+  - decision_id: "FD-008"
+    ownership: "primary-native-isolation-owner"
+    proof_id: "PO-FD-008"
+    promotion_gate: "PG-02-MACOS-ISOLATION"
+  - decision_id: "FD-006"
+    ownership: "candidate-side-boundary-contributor"
+    proof_id: "PO-FD-006"
+    promotion_gate: "PG-04-CREDENTIAL-BOUNDARY"
+findings:
+  - finding_id: "RF-004"
+    relationship: "primary-credential-capable-context-owner"
+    primary_owner: "RP-02"
+  - finding_id: "RF-023"
+    relationship: "primary-independent-repository-owner"
+    primary_owner: "RP-02"
+  - finding_id: "RF-025"
+    relationship: "cross-reference-useful-credentialless-session"
+    primary_owner: "RP-04"
+    contributing_owner: "RP-02"
+proof_obligations:
+  - proof_id: "PO-FD-008"
+    decision_id: "FD-008"
+    test_owner: "isolation owner"
+    workgroup_id: "RWG-02"
+    promotion_gate: "PG-02-MACOS-ISOLATION"
+    state: "planned-not-executed"
+  - proof_id: "PO-FD-006"
+    decision_id: "FD-006"
+    test_owner: "isolation and broker owners"
+    workgroup_id: "RWG-04"
+    proposal_packet: "RP-04"
+    owned_slice: "candidate credential, host, Git, process, network, and privileged-IPC denial"
+    promotion_gate: "PG-04-CREDENTIAL-BOUNDARY"
+    state: "planned-not-executed"
+unresolved_evidence:
+  - evidence_id: "UE-003"
+    relationship: "shared-dynamic-proof"
+    primary_packet: "RP-02"
+    collaborating_packet: "RP-04"
+    evidence_target: "ADVERSARIALLY_TESTED"
+    state: "unresolved"
+operator_decisions: []
+engineering_dispositions:
+  - disposition_id: "ED-001"
+    owned_slice: "native macOS sandbox and useful primary-provider session"
+    default_applied_in_plan: true
+    dynamic_proof_complete: false
+dependencies:
+  - "octon-architecture-migration-containment"
+safe_state: "SI-02"
+authority_boundary:
+  proposal_authority: false
+  reconciliation_authority: false
+  parent_evidence_satisfies_child_gates: false
+  provider_session_authority: false
+  candidate_repository_authority: false
+  host_projection_authority: false
+coverage_status:
+  identifiers_mapped: true
+  implementation_proof_complete: false
+  operator_decisions_complete: true
+  engineering_dispositions_complete: false
+  architecture_review_complete: false

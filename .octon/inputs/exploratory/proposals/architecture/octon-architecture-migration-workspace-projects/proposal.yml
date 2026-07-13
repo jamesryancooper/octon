@@ -1,0 +1,42 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-migration-workspace-projects"
+title: "Minimal Workspace Projects"
+summary: >-
+  Introduce strict, durable multi-project identity and continuity records,
+  operator-correctable inference, frozen per-run project snapshots, and a
+  non-authoritative cross-project mission inbox without creating project-level
+  authorization or portfolio administration.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/workspace-project-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/workspace-project-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/project-profile-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/project-profile-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/family.yml"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/instance/locality/projects/"
+  - ".octon/instance/locality/project-profile.yml"
+  - ".octon/instance/governance/engagements/path-families.yml"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-engagement-change-package-compiler.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-engagement-change-package-compiler.sh"
+  - ".octon/state/evidence/validation/proposals/octon-architecture-migration-workspace-projects/"
+status: "draft"
+change_profile: "atomic"
+release_state: "pre-1.0"
+parent_program: "octon-architecture-migration-program"
+dependencies:
+  - "octon-architecture-migration-canonical-authority"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    After operator review, accepted architecture review, implementation,
+    validation, durable promotion, and passing conformance and drift/churn
+    receipts, archive this packet without leaving proposal-path dependencies.
+related_proposals:
+  - "octon-architecture-migration-program"
+  - "octon-architecture-migration-canonical-authority"

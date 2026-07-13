@@ -1,0 +1,70 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-migration-harness-factory"
+title: "Deterministic Harness Factory and Generic Executor Adapter"
+summary: >-
+  Extend Octon's existing route, context, and task-harness primitives into one
+  canonical deterministic per-run compiler, bind its complete source digest to
+  authorization and immediate spawn, and replace provider-name dispatch with a
+  strict non-authoritative executor-adapter interface and component conformance
+  suite.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md"
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-compile-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/task-specific-execution-harness-compile-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/family.yml"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/framework/engine/runtime/spec/executor-profile-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/model-adapter-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/adapter-conformance-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/family.yml"
+  - ".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml"
+  - ".octon/framework/engine/runtime/adapters/model/frontier-governed.yml"
+  - ".octon/framework/engine/runtime/adapters/host/"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/context_pack.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/generated.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/input_binding.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/result.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/observer.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/auto.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/mock.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_resolver/src/handles.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_resolver/src/lib.rs"
+  - ".octon/instance/governance/policies/model-call-routing.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-workflow-statechart-harness.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-agent-node-model-call-contract.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh"
+  - ".octon/state/evidence/validation/proposals/octon-architecture-migration-harness-factory/"
+status: "draft"
+change_profile: "atomic"
+release_state: "pre-1.0"
+parent_program: "octon-architecture-migration-program"
+dependencies:
+  - "octon-architecture-migration-canonical-authority"
+  - "octon-architecture-migration-candidate-isolation"
+  - "octon-architecture-migration-workspace-projects"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    After operator review, accepted architecture review, dependency exit,
+    implementation, retained dynamic proof, durable promotion, and passing
+    conformance and drift/churn receipts, archive this packet without leaving
+    proposal-path dependencies.
+related_proposals:
+  - "octon-architecture-migration-program"
+  - "octon-architecture-migration-canonical-authority"
+  - "octon-architecture-migration-candidate-isolation"
+  - "octon-architecture-migration-workspace-projects"

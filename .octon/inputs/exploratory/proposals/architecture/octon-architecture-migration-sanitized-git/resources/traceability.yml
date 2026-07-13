@@ -1,0 +1,66 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+logical_packet_id: "RP-05"
+decisions:
+  - id: "FD-009"
+    ownership: "primary"
+    proof_id: "PO-FD-009"
+    promotion_gate: "PG-05-SANITIZED-GIT"
+  - id: "FD-010"
+    ownership: "Git primitive only"
+    proof_id: "PO-FD-010"
+    promotion_gate: "PG-06-ADAPTIVE-PUBLICATION"
+    controlling_packet: "RP-06"
+findings:
+  - id: "RF-008"
+    ownership: "primary"
+    role: "ambient Git replacement and direct-main non-restoration"
+  - id: "RF-009"
+    ownership: "primary"
+    role: "atomic expected-old target binding"
+  - id: "RF-018"
+    ownership: "cross-reference"
+    controlling_packet: "RP-00"
+    role: "prohibited hazardous rollback bridges"
+  - id: "RF-023"
+    ownership: "cross-reference"
+    controlling_packet: "RP-02"
+    role: "independent repository and object database requirement"
+  - id: "RF-026"
+    ownership: "cross-reference"
+    controlling_packet: "RP-08"
+    role: "provider CAS and attribution reverification"
+proof_obligations:
+  - id: "PO-FD-009"
+    ownership: "primary"
+    test_owner: "Git adapter owner"
+    workgroup: "RWG-05"
+    gate: "PG-05-SANITIZED-GIT"
+  - id: "PO-FD-010"
+    ownership: "contributor"
+    contribution: "expected-old fast-forward Git primitive"
+    controlling_packet: "RP-06"
+unresolved_evidence:
+  - id: "UE-005"
+    ownership: "primary"
+    required_result: >-
+      No hostile Git sentinel executes and only the exact expected-old
+      ancestor update succeeds against a scratch provider.
+operator_decisions: []
+engineering_dispositions:
+  - id: "ED-003"
+    ownership: "shared with RP-08"
+    default: >-
+      Single-repository GitHub App, atomic expected-old fast-forward provider
+      operation, authenticated receipt when available, and explicit
+      state-satisfied versus attempt-performed semantics.
+dependencies:
+  - logical_packet_id: "RP-04"
+    proposal_id: "octon-architecture-migration-local-broker"
+safe_state_transition:
+  from: "SI-04"
+  to: "SI-05 Git primitive only"
+  production_class_b_enabled: false
+claim_effect:
+  live_support_widened: false
+  implementation_claimed: false
+  proof_claimed: false

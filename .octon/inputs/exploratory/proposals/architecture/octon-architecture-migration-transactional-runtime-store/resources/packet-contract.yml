@@ -1,0 +1,246 @@
+schema_version: "octon-architecture-migration-packet-contract-v1"
+program_id: "octon-architecture-migration-program"
+logical_packet_id: "RP-03"
+workgroup_id: "RWG-03"
+proposal_id: "octon-architecture-migration-transactional-runtime-store"
+title: "Transactional Runtime Store and State Migration"
+status: "draft"
+authority_posture:
+  proposal_is_authority: false
+  implementation_authorized: false
+  runtime_implemented: false
+  support_claim_created: false
+purpose: >-
+  Make one local SQLite/WAL schema and writer authoritative for all
+  consequential runtime lifecycle state, with crash-safe operation/attempt,
+  migration, projection, capacity, backup, restore, and corruption behavior.
+problem_statement: >-
+  Current grants, revocations, journals, runtime state, attempts, checkpoints,
+  outbox-like evidence, and recovery records span file-shaped models and
+  independent writes, so concurrency, crash boundaries, terminal capacity,
+  backup restore, and no-resurrection cannot be proved as one transaction
+  system.
+scope:
+  - "canonical SQLite operation, attempt, authority, outbox, and recovery schema"
+  - "single mutation API and one normal deployed writer identity"
+  - "T1 reserve-consume-capacity-ATTEMPTING and T2 result-or-UNKNOWN substrate"
+  - "legacy state inventory, import, comparison, projection, and writer retirement"
+  - "authority epoch, monotonic high-water, migration, backup, restore, and corruption policy"
+  - "physical terminal capacity substrate and bounded payload pointers"
+  - "runtime_bus/replay_store model convergence and tracked-state reduction"
+non_goals:
+  - "generic project metadata database"
+  - "external provider transaction or universal exactly-once claim"
+  - "provider-specific outcome classification, attribution, reconciliation, or retry policy"
+  - "credential custody, broker IPC, broker supervision, or effect adapters"
+  - "signed evidence, retention windows, quotas, pins, or compaction policy"
+  - "multiple writers, dual canonical journals, remote database, or ORM control plane"
+accepted_decisions:
+  - decision_id: "FD-005"
+    owned_slice: "one SQLite/WAL authoritative runtime store and writer contract"
+    disposition: "IMPLEMENT_ACCEPTED_TARGET"
+  - decision_id: "FD-012"
+    owned_slice: "generic transaction and durable operation/attempt/UNKNOWN substrate only"
+    disposition: "CONTRIBUTE_TO_SHARED_PROOF"
+  - decision_id: "FD-013"
+    owned_slice: "same-transaction terminal capacity reservation substrate only"
+    disposition: "CONTRIBUTE_TO_SHARED_PROOF"
+dependencies:
+  - "octon-architecture-migration-canonical-authority"
+planned_durable_source_ownership:
+  - "runtime SQLite schema and ordered checksum-bound migrations"
+  - "runtime_bus single mutation API and generic operation/attempt state transitions"
+  - "legacy-state import, projection, writer retirement, and parity contract"
+  - "store authority epoch, backup/restore certification, and corruption policy"
+  - "replay_store read-only reconstruction and projection verification boundary"
+source_ownership_exclusions:
+  - "RP-01 owns authority, revocation, exact guard semantics, and their versioned interface"
+  - "RP-04 owns the sole normal deployed writer process, credentials, IPC, and broker operations"
+  - "RP-07 owns signed evidence, monotonic checkpoint strengthening, quotas, pins, compaction, and retention"
+  - "RP-08 owns provider outcome classification, reconciliation, retry, attribution, and manual-intervention behavior"
+proposal_lifecycle_ownership:
+  manifests: "this child packet"
+  acceptance: "human proposal review"
+  architecture_review: "independent pre-integration architecture review"
+retained_evidence_ownership:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-transactional-runtime-store/"
+  authority: "evidence-only"
+components_affected:
+  - "runtime_bus canonical mutation path"
+  - "replay_store read-only reconstruction"
+  - "authority_engine persistence seams"
+  - "run journal and runtime-state projections"
+  - "state/control and state/evidence import/projection boundary"
+  - "future broker store access"
+contracts_affected:
+  - ".octon/framework/engine/runtime/spec/run-journal-v1.md"
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/engine/runtime/spec/transactional-runtime-store-v1.md"
+  - ".octon/framework/constitution/contracts/runtime/family.yml"
+  - ".octon/framework/constitution/contracts/retention/family.yml"
+schemas_affected:
+  - ".octon/framework/engine/runtime/spec/transactional-runtime-store-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/runtime-store-migration-receipt-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/runtime-store-backup-receipt-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/runtime-store-projection-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/transactional-runtime-store-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/runtime-store-migration-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/runtime-store-backup-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/runtime-store-projection-v1.schema.json"
+  - ".octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json"
+workflows_and_generated_projections_affected:
+  legacy_runtime_files: ".octon/state/control/** and selected .octon/state/evidence/** read models"
+  generated_proposal_registry: ".octon/generated/proposals/registry.yml"
+  rule: "state projections and generated views are derived, non-authoritative, and never write back"
+provider_configuration_observed: []
+technical_identities_affected:
+  - "trusted one-use migration writer before epoch activation"
+  - "RP-04 supervised broker as sole normal deployed store writer"
+  - "authority_engine and replay_store as non-write-capable clients"
+  - "database, WAL, schema, authority epoch, high-water, backup, and projection identities"
+trust_boundary_changes:
+  - "file journals and control records leave the live authority boundary"
+  - "all consequential mutation passes through runtime_bus transactions"
+  - "one normal deployed identity can hold a write connection"
+  - "replay, projection, generated, input, backup, and evidence surfaces cannot advance authority"
+  - "unknown external outcomes become durable and non-retryable until owned reconciliation"
+migration_preconditions:
+  - "RP-01 versioned authority/guard semantic interface frozen"
+  - "accepted ROD-001 evidence/recovery invariants bound; conservative reversible store/backup/reserve engineering defaults documented"
+  - "exhaustive writer/state inventory and exact clean baseline"
+  - "passing SQLite Design and Dependency Receipt"
+  - "accepted proposal, passing completeness gate, and architecture review"
+migration_steps:
+  - "select and pin the SQLite integration through a dependency/design gate"
+  - "implement one schema, migration chain, and runtime_bus mutation API"
+  - "implement generic T1/external/T2 and capacity/outbox substrate"
+  - "make replay_store and file surfaces read-only consumers/projections"
+  - "freeze, digest, import, and compare every legacy authority source"
+  - "quiesce effects and atomically activate one authority epoch/high-water"
+  - "retire migration and legacy writers"
+  - "prove races, kill points, ENOSPC, corruption, backup/restore, and no resurrection"
+safe_intermediate_states:
+  - state_id: "SI-03"
+    description: >-
+      One SQLite/WAL store is authoritative with legacy files read-only;
+      consequential effects may remain disabled until downstream broker and
+      recovery owners integrate.
+prohibited_intermediate_states:
+  - "authority semantics changing concurrently with persistence migration"
+  - "two normal write identities, two databases, dual journal authority, or bidirectional projection"
+  - "external send before committed T1"
+  - "retry while an attempt is UNKNOWN"
+  - "logical capacity row without fault-proven physical terminal headroom"
+  - "direct activation of an older backup or re-promotion of file authority"
+  - "provider-specific classification or reconciliation policy inside RP-03"
+compatibility_bridges:
+  permitted:
+    - "offline read-only legacy comparison before activation"
+    - "post-commit read-only legacy projections and exports"
+    - "manual/protected PR while consequential effects remain disabled"
+  prohibited:
+    - "dual write or shadow authority"
+    - "file lock, atomic rename, append journal, or narrow CAS as final authority"
+    - "write-back from projection or backup"
+deprecations_and_retirements:
+  - "raw NDJSON/YAML/JSON append and rewrite paths leave live authority"
+  - "replay_store competing journal semantics are retired"
+  - "per-run project-Git raw/detail state is reduced to bounded projections/pointers"
+rollback_strategy: >-
+  Before the first effect, restore the immutable certified cutover DB/WAL
+  snapshot at the same epoch/high-water; after an effect, keep effects disabled
+  and reconcile/advance epoch or repair forward, never activate an older
+  database directly or restore file authority.
+recovery_strategy: >-
+  Preserve DB/WAL and attempt evidence, validate integrity/schema/epoch/high-
+  water offline, enumerate ATTEMPTING/UNKNOWN/outbox obligations, revoke
+  uncertainty or advance epoch, and certify any restore before activation.
+validation_plan:
+  - "schema, migration, constraint, and exhaustive state-coverage validation"
+  - "static/dynamic single-writer and no-file-bypass census"
+  - "N-way consume/revocation/idempotency and busy-lock races"
+  - "every T1/external/T2/outbox kill point"
+  - "legacy import, semantic parity, epoch activation, and projection freshness"
+  - "ENOSPC, physical reserve, backup/restore, corruption, and no-resurrection drills"
+adversarial_tests:
+  - "second writer and direct legacy-file mutation"
+  - "duplicate idempotency/attempt and consume-versus-revoke races"
+  - "stale/tampered/wrong-epoch projection or backup"
+  - "malformed/conflicting legacy imports and post-freeze source write"
+  - "unknown retry and provider-policy injection through generic APIs"
+fault_injection:
+  - "kill before/during/after T1, external send, T2, outbox, checkpoint, backup, and projection"
+  - "busy/corrupt/truncated/missing DB or WAL and failed schema migration"
+  - "ENOSPC, quota, short write, fsync/I/O failure, permission loss, and interrupted repair"
+evidence_to_retain:
+  - "accepted ROD-001 lineage binding, engineering-default record, and SQLite Design and Dependency Receipts"
+  - "schema/migration digests, writer inventory, and import/parity receipts"
+  - "authority epoch/high-water and writer-retirement receipts"
+  - "race, kill-point, outbox, capacity, corruption, and backup/restore results"
+  - "projection/tracked-state delta and rollback/no-resurrection drill"
+  - "PO-FD-005, UE-004, conformance, and drift/churn receipts"
+support_claim_effect: "none at draft; no live store or recovery support claim until direct proof passes"
+operator_experience_effect: "one invisible local store, no routine database prompts, concise fail-closed status and recovery"
+setup_and_maintenance_effect: "one-time migration and governed backup policy; no remote DB, daemon fleet, or manual file reconciliation"
+parallelization_constraints:
+  - "may proceed beside RP-02 only after RP-01 freezes semantics"
+  - "no guard-semantic and persistence mutation in the same concurrent lane"
+  - "no privileged external effect until cutover and full fault proof"
+must_not_run_concurrently_with:
+  - "RP-01 changes to the consumed authority/guard semantic interface"
+  - "RP-04 changes to the same store-write interface or connection ownership"
+  - "RP-07 changes to the same retention schema symbols"
+  - "RP-08 changes to the same operation/attempt transition symbols"
+operator_decisions:
+  - "ROD-001 accepted: bounded local raw evidence outside Git; longer-lived signed recovery references; terminal reserve; no unsigned fallback; deny and preserve work when recovery evidence is not guaranteed"
+engineering_dispositions:
+  - "Store path, backup mechanism, provisional cadence/generations, and physical reserve implementation/size use conservative reversible defaults, measurement-and-adjustment, and mechanism-specific proof."
+blocking_findings:
+  owned:
+    - "RF-006"
+    - "RF-021"
+  cross_references:
+    - "RF-011"
+    - "RF-012"
+    - "RF-017"
+entry_criteria:
+  - "RP-01 semantic interface frozen"
+  - "accepted ROD-001 invariants and separate RP-03 engineering defaults recorded"
+  - "writer/state inventory complete"
+  - "SQLite design/dependency receipt passes"
+exit_criteria:
+  - "one authoritative schema, mutation API, and normal deployed writer"
+  - "no dual authority or journal"
+  - "every T1/external/T2 kill point reaches explicit durable state"
+  - "terminal state survives constrained volume"
+  - "legacy projections are read-only and store-fresh"
+  - "backup/restore cannot resurrect older authority"
+proof_produced:
+  proof_id: "PO-FD-005"
+  promotion_gate: "PG-03-SINGLE-STORE"
+  current_state: "planned-not-executed"
+proof_contributions:
+  - proof_id: "PO-FD-012"
+    owned_slice: "generic durable transaction and operation/attempt/UNKNOWN substrate"
+    promotion_gate_owner: "RP-08"
+    current_state: "planned-not-executed"
+  - proof_id: "PO-FD-013"
+    owned_slice: "same-transaction terminal capacity reservation substrate"
+    promotion_gate_owner: "RP-07"
+    current_state: "planned-not-executed"
+unresolved_evidence:
+  - evidence_id: "UE-004"
+    ownership: "shared-with-RP-08"
+    current_state: "unresolved"
+authoritative_promotion_requirements:
+  - "accepted ROD-001 lineage binding and RP-03 engineering-default proof record"
+  - "accepted SQLite design/dependency receipt"
+  - "accepted proposal and independent architecture review"
+  - "implemented schema, single writer, migration, projections, and recovery"
+  - "direct race, fault, capacity, backup/restore, rollback, and no-resurrection proof"
+  - "conformance, drift/churn, promotion, and cleanup receipts"
+unsupported_remainder:
+  - "credentials, broker IPC/supervision, and privileged effect adapters"
+  - "provider-specific outcome classification, reconciliation, retry, and complete Class B behavior"
+  - "signed evidence identity, final capacity/retention/compaction policy, and anti-rollback checkpoints"
+  - "sanitized Git, immutable verification, autonomous publication, trust activation, product layers, extensions, child agents, and final product proof"

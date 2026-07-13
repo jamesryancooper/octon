@@ -1,0 +1,7 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+logical_packet_id: "RP-09"
+workgroup_id: "RWG-09"
+target_boundary: "inert self-change landing and prior-version trust activation"
+authority_posture: "PROPOSED_NONAUTHORITATIVE_NOT_IMPLEMENTATION_AUTHORIZATION"

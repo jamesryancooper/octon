@@ -1,0 +1,115 @@
+schema_version: "octon-architecture-migration-traceability-v1"
+proposal_id: "octon-architecture-migration-harness-factory"
+logical_packet_id: "RP-11"
+workgroup_id: "RWG-11"
+reconciliation_id: "architecture-migration-reconciliation-20260712T032411Z-10c3ff"
+decision_coverage:
+  - decision_id: "FD-020"
+    role: "accepted Harness Factory architecture boundary"
+    disposition: "EXTEND_EXISTING_PRIMITIVES"
+    packet_coverage:
+      - "architecture/target-architecture.md"
+      - "architecture/acceptance-criteria.md"
+      - "architecture/implementation-plan.md"
+  - decision_id: "FD-023"
+    role: "generic executor adapter implementation and component conformance"
+    disposition: "EXTEND_AND_PROVE_COMPONENT_ONLY"
+    ownership_split:
+      generic_interface_and_component_conformance: "RP-11"
+      verifier_publication_specialization: "RP-06"
+      recovery_effect_specialization: "RP-08"
+      child_semantics_and_mapping: "RP-13"
+      integrated_promotion_proof: "RP-14"
+    packet_coverage:
+      - "navigation/source-of-truth-map.md"
+      - "architecture/target-architecture.md"
+      - "architecture/validation-plan.md"
+finding_coverage:
+  - finding_id: "RF-015"
+    relationship: "direct register owner"
+    required_closure: "extend existing route/Harness primitives into one deterministic full per-run compiler"
+    acceptance_refs:
+      - "RP11-AC-001"
+      - "RP11-AC-002"
+      - "RP11-AC-003"
+  - finding_id: "RF-024"
+    relationship: "direct register owner"
+    required_closure: "replace structural completion claims with end-to-end compile, binding, and component proof"
+    acceptance_refs:
+      - "RP11-AC-004"
+      - "RP11-AC-011"
+  - finding_id: "RF-030"
+    relationship: "direct register owner"
+    required_closure: "close live schema drift and hardcoded provider dispatch"
+    acceptance_refs:
+      - "RP11-AC-005"
+      - "RP11-AC-006"
+      - "RP11-AC-007"
+      - "RP11-AC-008"
+  - finding_id: "RF-016"
+    relationship: "cross-reference"
+    required_closure: >-
+      RP-11 supplies generic adapter conformance; RP-12 and RP-13 retain signed
+      extension and bounded-child trust work.
+proof_coverage:
+  - proof_id: "PO-FD-020"
+    ownership: "direct"
+    promotion_gate: "PG-11-HARNESS-BINDING"
+    required_result: >-
+      Complete identical inputs compile to identical bytes/digest; each input
+      mutation invalidates; stale, widened, wrong-project, wrong-run, and
+      changed-source launch attempts deny at authorization and immediate spawn.
+    evidence_classification: "DYNAMICALLY_EXECUTED"
+    proof_method: "deterministic compilation, adversarial mutation, and launch binding tests"
+  - proof_id: "PO-FD-023"
+    ownership: "component contribution"
+    promotion_gate: "PG-14-PROVIDER-CONFORMANCE"
+    required_result: >-
+      One real primary-provider adapter plus fake adapters pass strict
+      prepare/launch/observe/cancel/usage/retire component conformance with no
+      direct dispatch bypass.
+    evidence_classification: "DYNAMICALLY_EXECUTED"
+    proof_method: "strict schema validation and provider-neutral lifecycle fixtures"
+    final_promotion_owner: "RP-14"
+unresolved_evidence:
+  - evidence_id: "UE-010"
+    status: "unresolved"
+    relationship: >-
+      RP-11 closes the full deterministic compile and immediate launch-binding
+      question after RP-01, RP-02, and RP-10 implementations exist.
+  - evidence_id: "UE-011"
+    status: "unresolved"
+    relationship: >-
+      RP-11 closes strict live-manifest and generic primary/fake component
+      conformance; specialization and integrated support proof continue in
+      RP-06, RP-08, RP-13, and RP-14.
+operator_decisions: []
+engineering_dispositions:
+  - disposition_id: "ED-006"
+    applied_default: >-
+      Canonical schema-validated serialization; digest every direct and
+      transitive input; one real primary provider plus fake conformance
+      adapters; live secondary only for a separately proposed support claim.
+dependency_coverage:
+  - logical_packet_id: "RP-01"
+    proposal_id: "octon-architecture-migration-canonical-authority"
+    required_interface: "frozen canonical authority and immediate one-shot launch-guard binding"
+  - logical_packet_id: "RP-02"
+    proposal_id: "octon-architecture-migration-candidate-isolation"
+    required_interface: "frozen candidate isolation and guarded spawn interface"
+  - logical_packet_id: "RP-10"
+    proposal_id: "octon-architecture-migration-workspace-projects"
+    required_interface: "exact Workspace Project and Project Profile refs/digests"
+downstream_coverage:
+  - logical_packet_id: "RP-12"
+    consumed_interface: "exact admitted extension-generation ref/digest input slot"
+  - logical_packet_id: "RP-13"
+    consumed_interface: "generic adapter trait and exact Harness binding; child semantics remain RP-13-owned"
+  - logical_packet_id: "RP-14"
+    consumed_interface: "PO-FD-020 proof and RP-11 component receipt for PO-FD-023"
+claim_boundary:
+  current_claim: "none"
+  future_claim: >-
+    deterministic single-agent Harness binding and primary-provider component
+    conformance, with integrated and secondary-provider claims only after their
+    separately owned proof
