@@ -14,8 +14,8 @@ mod support;
 pub use octon_authorized_effects::{
     AuthorizedEffect, AuthorizedEffectPayload, AuthorizedEffectScope, CapabilityPackActivation,
     EffectKind, EvidenceMutation, ExecutorLaunch, ExtensionActivation,
-    GeneratedEffectivePublication, ProtectedCiCheck, RepoMutation, ServiceInvocation,
-    StateControlMutation, VerifiedEffect,
+    GeneratedEffectivePublication, ProtectedCiCheck, ProviderRepositoryMutation, RepoMutation,
+    ServiceInvocation, StateControlMutation, VerifiedEffect,
 };
 
 // Compatibility note for validator readers:
@@ -29,10 +29,11 @@ pub use effects::{
     authorized_effect_reference, issue_capability_pack_activation_effect,
     issue_evidence_mutation_effect, issue_execution_artifact_effects, issue_executor_launch_effect,
     issue_extension_activation_effect, issue_generated_effective_publication_effect,
-    issue_protected_ci_check_effect, issue_repo_mutation_effect,
-    issue_repo_mutation_effect_with_mode, issue_service_invocation_effect,
-    verify_authorized_effect, verify_authorized_effect_verification_bundle,
-    write_authorized_effect_verification_bundle, AuthorizedEffectVerificationBundle,
+    issue_protected_ci_check_effect, issue_provider_repository_mutation_effect,
+    issue_repo_mutation_effect, issue_repo_mutation_effect_with_mode,
+    issue_service_invocation_effect, verify_authorized_effect,
+    verify_authorized_effect_verification_bundle, write_authorized_effect_verification_bundle,
+    AuthorizedEffectVerificationBundle,
 };
 pub use execution::{
     artifact_root_from_relative, authorize_execution, default_autonomy_context, finalize_execution,

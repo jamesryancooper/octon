@@ -1,0 +1,52 @@
+schema_version: owner-lane-prerequisite-repair-v1
+repair_id: owner-lane-lifecycle-baseline-repair-20260717
+recorded_at: "2026-07-17T13:12:18Z"
+result: pass
+execution_class: inert-local-hermetic
+provider_effects_performed: false
+credential_effects_performed: false
+base_commit: 40fe9d0b4d1f41c69c4d2e3585c772c96a324023
+authorization_basis: explicit-human-authorization-in-current-run
+authorization_scope: >-
+  Repair the eight base-existing lifecycle_program failures in their owning
+  runtime scope, then revalidate the owner-lane candidate.
+root_cause:
+  - shared program fixtures omitted the canonical rollback plan now required
+    before packet implementation admission
+  - after rollback posture materialization, the inert mock executor attempted
+    to re-enter the Rust test binary as the owning Octon CLI
+repair:
+  - path: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    scope_class: existing-owner-lane-promotion-target
+    change: add a canonical rollback plan to the shared program child fixture
+  - path: .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs
+    scope_class: separately-authorized-owning-scope
+    change: >-
+      exempt only the explicitly inert mock executor from owning-runtime
+      subprocess admission after delegation proof and rollback posture checks
+  - path: .octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs
+    scope_class: separately-authorized-owning-scope
+    change: add canonical rollback posture to the shared executor fixture
+production_boundary_invariants:
+  - every non-mock run-packet-implementation executor still requires owning-runtime admission
+  - the mock executor remains inert and performs no provider or credential effect
+  - delegation proof and rollback posture validation still precede the mock exemption
+validation:
+  - command: cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_lifecycle_executor
+    exit_code: 0
+    unit_tests_passed: 18
+    integration_tests_passed: 46
+  - command: cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel lifecycle_program
+    exit_code: 0
+    tests_passed: 315
+    tests_failed: 0
+  - command: cargo fmt --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml --all --check
+    exit_code: 0
+  - command: git diff --check
+    exit_code: 0
+source_digests:
+  lifecycle_authorization_sha256: 503038ce7bea2846ff4153ea7dffcde102414f66f452e06c1ba3e51e1a100597
+  lifecycle_executor_adapter_test_sha256: ab0779fde47e51faffe04682688832e9eef2d8a3cf847f220d6b93f598958fc9
+  lifecycle_program_sha256: 39499c2c4ad17755fca1b3eaa22dab8d2b28d63f3297e6d13dbe1c7aaac8dbfe
+dependency_changes: none
+remaining_risk: none

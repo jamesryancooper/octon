@@ -1,0 +1,29 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: rp00-owner-lane-promotion-20260717
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/octon-rp00-owner-lane-runtime
+current_state: closeout-packet
+current_phase: closeout-and-hygiene
+completed_states: []
+last_route: closeout-packet
+loop_counts: {}
+phase_counts:
+  closeout-and-hygiene: 1
+  promotion: 3
+last_phase_transition: phase-entered:closeout-and-hygiene
+phase_blockers:
+  final_verdict: blocked-max-steps
+receipt_digests:
+  proposal-review: sha256:efdbb050d9504783808c5cb1268540b70af2730f149355359c38dff109dbe991
+last_validator_results: []
+run_inputs:
+  promotion_evidence: .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs,.octon/framework/constitution/contracts/authority/owner-lane-operation-manifest-v1.schema.json,.octon/framework/assurance/runtime/_ops/tests/test-owner-lane-runtime.sh
+interaction_request_refs: []
+interaction_return_refs: []
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: blocked-max-steps
+resume_instruction: octon lifecycle resume --run-id rp00-owner-lane-promotion-20260717

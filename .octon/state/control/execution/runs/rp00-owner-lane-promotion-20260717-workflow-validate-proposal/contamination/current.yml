@@ -1,0 +1,12 @@
+approved_by: null
+contamination_class: none
+contamination_id: rp00-owner-lane-promotion-20260717-workflow-validate-proposal-current
+contamination_state: clean
+invalidated_artifacts: []
+notes: No contamination or reset event was recorded for the retained run bundle.
+recorded_at: 2026-07-17T13:50:18.225318Z
+replay_continuity: preserved
+reset_action: No reset required; canonical run evidence remained coherent.
+run_id: rp00-owner-lane-promotion-20260717-workflow-validate-proposal
+schema_version: run-contamination-record-v1
+subject_ref: .octon/state/control/execution/runs/rp00-owner-lane-promotion-20260717-workflow-validate-proposal/checkpoints/bound.yml

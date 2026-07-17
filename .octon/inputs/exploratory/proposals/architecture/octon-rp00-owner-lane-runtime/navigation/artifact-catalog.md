@@ -1,0 +1,28 @@
+# Artifact Catalog
+
+- `proposal.yml` — packet identity, lifecycle, and exact promotion targets.
+- `architecture-proposal.yml` — architecture subtype.
+- `architecture/target-architecture.md` — controlling design.
+- `architecture/current-state-gap-map.md` — why existing routes are inadequate.
+- `architecture/implementation-plan.md` — atomic work and rollback boundary.
+- `architecture/validation-plan.md` — current proof floor.
+- `architecture/acceptance-criteria.md` — terminal acceptance criteria.
+- `architecture/file-change-map.md` — ownership by target family.
+- `architecture/cutover-plan.md` — precursor landing and RP-00 regeneration.
+- `architecture/rollback-and-recovery.md` — no-resend recovery.
+- `architecture/operator-disclosure.md` — secret and blocked-state disclosure.
+- `RISK-REGISTER.md` — risks and controls.
+- `navigation/artifact-catalog.md` — packet inventory.
+- `navigation/source-of-truth-map.md` — controlling-artifact routing.
+- `navigation/traceability-map.md` — source-to-acceptance mapping.
+- `resources/source-context.md` — preserved request and observed blocker.
+- `resources/traceability.yml` — machine-readable traceability.
+- `resources/packet-contract.yml` — bounded packet contract.
+- `resources/traceability.yml` — source-to-decision mapping.
+- `support/proposal-creation.md` — packet creation receipt.
+- `support/proposal-review.md` — accepted packet review receipt.
+- `support/pre-integration-architecture-review.yml` — strict architecture review receipt.
+- `support/evidence-plan.md` — retained evidence obligations.
+- `support/implementation-grade-completeness-review.md` — readiness receipt.
+- `support/implementation-conformance-review.md` — conformance scaffold.
+- `support/post-implementation-drift-churn-review.md` — drift scaffold.

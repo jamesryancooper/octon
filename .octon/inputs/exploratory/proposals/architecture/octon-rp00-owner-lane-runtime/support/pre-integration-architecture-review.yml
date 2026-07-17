@@ -1,0 +1,52 @@
+schema_version: architectural-review-support-receipt-v1
+receipt_id: octon-rp00-owner-lane-runtime-pre-integration-architecture-review-20260717T113821Z
+proposal_path: .octon/inputs/exploratory/proposals/architecture/octon-rp00-owner-lane-runtime
+packet_digest: sha256:efdbb050d9504783808c5cb1268540b70af2730f149355359c38dff109dbe991
+review_mode: pre-integration-architecture-review
+verdict: pass
+unresolved_count: 0
+non_authority_classification: retained-evidence-only
+evidence_refs:
+  - .octon/inputs/exploratory/proposals/architecture/octon-rp00-owner-lane-runtime/proposal.yml
+  - .octon/inputs/exploratory/proposals/architecture/octon-rp00-owner-lane-runtime/architecture/target-architecture.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-rp00-owner-lane-runtime/architecture/implementation-plan.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-rp00-owner-lane-runtime/architecture/acceptance-criteria.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-rp00-owner-lane-runtime/architecture/validation-plan.md
+  - .octon/instance/governance/support-target-admissions/live/github-repo-consequential-en.yml
+  - .octon/instance/governance/support-dossiers/live/github-repo-consequential-en/dossier.yml
+  - .octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml
+validator_refs:
+  - validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/octon-rp00-owner-lane-runtime --skip-registry-check
+  - validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/octon-rp00-owner-lane-runtime
+  - validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/octon-rp00-owner-lane-runtime
+  - validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/octon-rp00-owner-lane-runtime --print-digest
+blockers: []
+mode_specific_coverage:
+  authority_boundaries:
+    verdict: pass
+    notes:
+      - The owner lane consumes existing runtime authority and a new exact provider-repository mutation token; it never derives authority from the proposal, host adapter, credential, or support proof.
+      - Provider execution remains separately authorized after this inert implementation lands.
+  credential_and_secret_boundary:
+    verdict: pass
+    notes:
+      - The design excludes token bytes from chat, argv, environment, persistent storage, logs, evidence, gh, SSH, and ambient helpers.
+      - FD capture, stdin-only curl transport, one-use FIFO askpass, zeroization, and secret-census negatives are mandatory.
+  lifecycle_and_recovery:
+    verdict: pass
+    notes:
+      - Pre-send journaling and outcome-unknown state prevent blind resend.
+      - The same-token revocation/401/destruction/retirement sequence owns credential terminalization across every reached phase.
+  support_admission:
+    verdict: pass
+    notes:
+      - Review found and corrected the original bootstrap gap: the protected-CI-only GitHub claim may expand only to the exact rp00-owner-lane-cutover operation after current retained full hermetic runtime and denial proof.
+      - No connector, new tuple, adapter, pack, arbitrary API client, or recurring provider automation is admitted.
+  external_tool_integrity:
+    verdict: pass
+    notes:
+      - Canonical path and SHA-256 bindings for curl, git, mkfifo, and askpass are checked before credential capture and rechecked before launch.
+  promotion_target_fit:
+    verdict: pass
+    notes:
+      - The target set covers contracts, authority, runtime, lifecycle, inventory, coverage, fixed secret transport, GitHub contract/runbook, exact support proof, and hermetic tests without generated or provider-state targets.

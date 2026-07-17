@@ -1,6 +1,7 @@
 use crate::context::KernelContext;
 use crate::lifecycle_run_admission;
 use crate::orchestration;
+use crate::owner_lane;
 use crate::pipeline;
 use crate::request_builders as request;
 use crate::run_binding;
@@ -13,8 +14,9 @@ use octon_authority_engine::{
     finalize_execution, issue_capability_pack_activation_effect, issue_evidence_mutation_effect,
     issue_execution_artifact_effects, issue_executor_launch_effect,
     issue_extension_activation_effect, issue_generated_effective_publication_effect,
-    issue_protected_ci_check_effect, issue_repo_mutation_effect, issue_service_invocation_effect,
-    now_rfc3339, validate_run_lifecycle_operation, verify_authorized_effect,
+    issue_protected_ci_check_effect, issue_provider_repository_mutation_effect,
+    issue_repo_mutation_effect, issue_service_invocation_effect, now_rfc3339,
+    validate_run_lifecycle_operation, verify_authorized_effect,
     verify_authorized_effect_verification_bundle, write_authorized_effect_verification_bundle,
     write_execution_start, AuthorizedEffectReference, AuthorizedEffectVerificationBundle,
     ExecutionArtifactEffects, ExecutionOutcome, ExecutionRequest, ExecutorLaunch, GrantBundle,
@@ -46,9 +48,9 @@ use super::{
     ArmCmd, CapabilityCmd, Command, ConnectorAdmitCmd, ConnectorCmd, ConnectorDecisionCmd,
     ConnectorInspectCmd, ConnectorListCmd, ConnectorOperationCmd, ContinueCmd, DecideCmd,
     DecisionListCmd, DecisionResolveCmd, MissionCmd, MissionOpenCmd, OrchestrationCmd,
-    OrchestrationIncidentCmd, PlanCmd, ProfileCmd, ProtectedCiCmd, PublicationInternalCmd,
-    PublishCmd, RunCmd, ServiceCmd, ServicesCmd, StartCmd, StatusCmd, SupportCmd,
-    SupportProofSubject, WorkflowCmd,
+    OrchestrationIncidentCmd, OwnerLaneCmd, PlanCmd, ProfileCmd, ProtectedCiCmd,
+    PublicationInternalCmd, PublishCmd, RunCmd, ServiceCmd, ServicesCmd, StartCmd, StatusCmd,
+    SupportCmd, SupportProofSubject, WorkflowCmd,
 };
 
 fn artifact_effects_for_root(root: &Path, grant: &GrantBundle) -> Result<ExecutionArtifactEffects> {
@@ -1412,6 +1414,7 @@ fn gh_output(gh_bin: &str, repo_root: &Path, args: &[&str]) -> Result<String> {
 
 fn cmd_protected_ci(cmd: ProtectedCiCmd) -> Result<()> {
     match cmd {
+        ProtectedCiCmd::OwnerLane { cmd } => cmd_owner_lane(cmd),
         ProtectedCiCmd::AutoMerge {
             repo,
             pr_number,
@@ -1692,6 +1695,150 @@ fn cmd_protected_ci(cmd: ProtectedCiCmd) -> Result<()> {
                         .unwrap_or_else(|| "protected CI merge failed".to_string())
                 )
             }
+        }
+    }
+}
+
+fn cmd_owner_lane(cmd: OwnerLaneCmd) -> Result<()> {
+    match cmd {
+        OwnerLaneCmd::Execute {
+            authorization,
+            issuance_outcome,
+            lifecycle_envelope,
+            admission_receipt,
+            manifest,
+            attestation,
+            evidence_root,
+            credential_fd,
+        } => {
+            let ctx = KernelContext::load()?;
+            let absolute = |path: PathBuf| {
+                if path.is_absolute() {
+                    path
+                } else {
+                    ctx.cfg.repo_root.join(path)
+                }
+            };
+            let paths = owner_lane::ArtifactPaths {
+                authorization: absolute(authorization),
+                issuance_outcome: absolute(issuance_outcome),
+                lifecycle_envelope: absolute(lifecycle_envelope),
+                admission_receipt: absolute(admission_receipt),
+                manifest: absolute(manifest),
+                attestation: absolute(attestation),
+                evidence_root: absolute(evidence_root),
+            };
+            let prepared = owner_lane::prepare(&ctx.cfg.repo_root, &paths)?;
+            let target_scope = prepared.authority_scope();
+            let mut metadata_input = BTreeMap::new();
+            metadata_input.insert(
+                "support_capability_packs".to_string(),
+                "repo,git,shell,telemetry".to_string(),
+            );
+            metadata_input.insert(
+                "owner_lane_operation".to_string(),
+                "rp00-owner-lane-cutover".to_string(),
+            );
+            metadata_input.insert(
+                "typed_exception_boundary".to_string(),
+                "external-irreversible-effect".to_string(),
+            );
+            let (intent_ref, execution_role_ref, metadata) = request::bind_request(
+                &ctx.cfg,
+                metadata_input,
+                request::DEFAULT_WORKLOAD_TIER,
+                "github-control-plane",
+            )?;
+            let request = ExecutionRequest {
+                request_id: prepared.run_id().to_string(),
+                caller_path: "kernel".to_string(),
+                action_type: "rp00_owner_lane_cutover".to_string(),
+                target_id: "github-owner-lane:jamesryancooper/octon".to_string(),
+                requested_capabilities: vec![
+                    "github.repo.owner-lane".to_string(),
+                    "git.https.push".to_string(),
+                    "github.credential.retire".to_string(),
+                ],
+                side_effect_flags: SideEffectFlags {
+                    shell: true,
+                    network: true,
+                    ..SideEffectFlags::default()
+                },
+                risk_tier: "critical".to_string(),
+                workflow_mode: request::role_mediated_mode(),
+                intent_ref: Some(intent_ref),
+                execution_role_ref: Some(execution_role_ref),
+                review_requirements: ReviewRequirements {
+                    human_approval: true,
+                    quorum: false,
+                    rollback_metadata: true,
+                },
+                scope_constraints: ScopeConstraints {
+                    read: vec![ctx.cfg.repo_root.display().to_string()],
+                    write: vec![target_scope.clone()],
+                    executor_profile: Some("scoped_repo_mutation".to_string()),
+                    locality_scope: None,
+                },
+                policy_mode_requested: Some("hard-enforce".to_string()),
+                metadata,
+                ..ExecutionRequest::default()
+            };
+            let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
+            run_binding::ensure_canonical_run_binding(&ctx.cfg, &request, &grant, "owner-lane")?;
+            let artifact_root = artifact_root_from_relative(
+                &ctx.cfg.repo_root,
+                &ctx.cfg.execution_governance.receipt_roots.kernel,
+                &request.request_id,
+            );
+            let artifact_effects = artifact_effects_for_root(&artifact_root, &grant)?;
+            let artifacts =
+                write_execution_start(&artifact_root, &request, &grant, &artifact_effects)?;
+            let started_at = now_rfc3339()?;
+            let effect = issue_provider_repository_mutation_effect(
+                &artifact_root,
+                &grant,
+                target_scope.clone(),
+                true,
+            )?;
+            let verified_effect = verify_authorized_effect(
+                &artifact_root,
+                &grant,
+                &effect,
+                ".octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs::execute_with_verified_effect",
+                target_scope.clone(),
+            )?;
+            let execution = owner_lane::execute_with_verified_effect(
+                &ctx.cfg.repo_root,
+                &prepared,
+                credential_fd,
+                &verified_effect,
+            );
+            let outcome = ExecutionOutcome {
+                status: if execution.is_ok() {
+                    "succeeded"
+                } else {
+                    "failed"
+                }
+                .to_string(),
+                started_at: started_at.clone(),
+                completed_at: now_rfc3339()?,
+                error: execution.as_ref().err().map(ToString::to_string),
+            };
+            finalize_execution(
+                &artifacts,
+                &request,
+                &grant,
+                &artifact_effects,
+                &started_at,
+                &outcome,
+                &SideEffectSummary {
+                    touched_scope: vec![target_scope],
+                    executor_profile: Some("scoped_repo_mutation".to_string()),
+                    authorized_effects: vec![authorized_effect_reference(&verified_effect)],
+                    ..SideEffectSummary::default()
+                },
+            )?;
+            execution
         }
     }
 }

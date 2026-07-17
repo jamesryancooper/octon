@@ -268,6 +268,28 @@ paths:
       - "token bypass denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-protected-ci-live-wrapper.sh"
+  - path_id: owner-lane-provider-cutover
+    authorized_effect_token_type: "AuthorizedEffect<ProviderRepositoryMutation>"
+    entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs::execute_with_verified_effect"
+    side_effect_class: "provider-repository-mutation"
+    affected_root: "github://repo/jamesryancooper/octon/**"
+    authorize_execution_ref: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::authorize_execution"
+    token_consumer_api_ref: ".octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs::execute_with_verified_effect"
+    request_builder: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs::cmd_owner_lane"
+    grant_artifact_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-<run-id>.yml"
+    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "missing, forged, stale, wrong-scope, or consumed token denial"
+      - "manifest canonicalization, allowlist, reorder, duplicate, and replay denial"
+      - "external tool path, digest, symlink, and PATH substitution denial"
+      - "credential argv, environment, file, log, receipt, and evidence leak denial"
+      - "unknown outcome resend denial"
+      - "duplicate askpass or credential revoke denial"
+      - "false terminal 401 or missing prior authenticated 200 denial"
+      - "provider approval run, candidate, and operation tuple drift denial"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-owner-lane-runtime.sh"
   - path_id: orchestration-report-write
     authorized_effect_token_type: "AuthorizedEffect<EvidenceMutation>"
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"

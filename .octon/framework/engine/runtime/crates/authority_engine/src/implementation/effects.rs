@@ -3,8 +3,8 @@ use octon_authorized_effects::authority_mint::{mint_authorized_effect, mint_veri
 use octon_authorized_effects::{
     AuthorizedEffect, AuthorizedEffectPayload, AuthorizedEffectScope, CapabilityPackActivation,
     EffectKind, EvidenceMutation, ExecutorLaunch, ExtensionActivation,
-    GeneratedEffectivePublication, ProtectedCiCheck, RepoMutation, ServiceInvocation,
-    StateControlMutation, VerifiedEffect,
+    GeneratedEffectivePublication, ProtectedCiCheck, ProviderRepositoryMutation, RepoMutation,
+    ServiceInvocation, StateControlMutation, VerifiedEffect,
 };
 use octon_core::errors::{ErrorCode, KernelError, Result as CoreResult};
 use octon_runtime_bus::{
@@ -205,6 +205,20 @@ pub fn issue_protected_ci_check_effect(
     single_use: bool,
 ) -> CoreResult<AuthorizedEffect<ProtectedCiCheck>> {
     issue_authorized_effect::<ProtectedCiCheck>(runtime_path, grant, scope_ref.into(), single_use)
+}
+
+pub fn issue_provider_repository_mutation_effect(
+    runtime_path: &Path,
+    grant: &GrantBundle,
+    scope_ref: impl Into<String>,
+    single_use: bool,
+) -> CoreResult<AuthorizedEffect<ProviderRepositoryMutation>> {
+    issue_authorized_effect::<ProviderRepositoryMutation>(
+        runtime_path,
+        grant,
+        scope_ref.into(),
+        single_use,
+    )
 }
 
 pub fn verify_authorized_effect<T: EffectKind>(
@@ -783,6 +797,9 @@ pub fn verify_authorized_effect_verification_bundle(
         ProtectedCiCheck::KIND => {
             verify_bundle_for_kind::<ProtectedCiCheck>(bundle_path, &grant, &bundle)
         }
+        ProviderRepositoryMutation::KIND => {
+            verify_bundle_for_kind::<ProviderRepositoryMutation>(bundle_path, &grant, &bundle)
+        }
         ExtensionActivation::KIND => {
             verify_bundle_for_kind::<ExtensionActivation>(bundle_path, &grant, &bundle)
         }
@@ -1046,7 +1063,7 @@ fn token_id_for<T: EffectKind>(grant: &GrantBundle, scope_ref: &str, recorded_at
     format!("effect-token-{}-{}", T::KIND, &digest[..12])
 }
 
-fn authorized_effect_type<T: EffectKind>() -> String {
+pub(super) fn authorized_effect_type<T: EffectKind>() -> String {
     match T::KIND {
         "repo-mutation" => "AuthorizedEffect<RepoMutation>".to_string(),
         "generated-effective-publication" => {
@@ -1057,6 +1074,9 @@ fn authorized_effect_type<T: EffectKind>() -> String {
         "executor-launch" => "AuthorizedEffect<ExecutorLaunch>".to_string(),
         "service-invocation" => "AuthorizedEffect<ServiceInvocation>".to_string(),
         "protected-ci-check" => "AuthorizedEffect<ProtectedCiCheck>".to_string(),
+        "provider-repository-mutation" => {
+            "AuthorizedEffect<ProviderRepositoryMutation>".to_string()
+        }
         "extension-activation" => "AuthorizedEffect<ExtensionActivation>".to_string(),
         "capability-pack-activation" => "AuthorizedEffect<CapabilityPackActivation>".to_string(),
         other => format!("AuthorizedEffect<{other}>"),

@@ -405,6 +405,12 @@ impl EffectKind for ProtectedCiCheck {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ProviderRepositoryMutation;
+impl EffectKind for ProviderRepositoryMutation {
+    const KIND: &'static str = "provider-repository-mutation";
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExtensionActivation;
 impl EffectKind for ExtensionActivation {
     const KIND: &'static str = "extension-activation";

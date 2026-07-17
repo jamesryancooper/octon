@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "octon://contracts/authority/owner-lane-operation-construction-receipt-v1",
+  "title": "Owner-lane operation construction receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "manifest_digest", "lifecycle_digest", "operation_id", "sequence", "request_digest", "prior_observation_digest", "cycle_free", "constructed_at"],
+  "properties": {
+    "schema_version": {"const": "owner-lane-operation-construction-receipt-v1"},
+    "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"},
+    "manifest_digest": {"$ref": "#/$defs/digest"},
+    "lifecycle_digest": {"$ref": "#/$defs/digest"},
+    "operation_id": {"type": "string", "minLength": 1},
+    "sequence": {"type": "integer", "minimum": 1, "maximum": 32},
+    "request_digest": {"$ref": "#/$defs/digest"},
+    "prior_observation_digest": {"$ref": "#/$defs/digest"},
+    "cycle_free": {"const": true},
+    "constructed_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {"digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}

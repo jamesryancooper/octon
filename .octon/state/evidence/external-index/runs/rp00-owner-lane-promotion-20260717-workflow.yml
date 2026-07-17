@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:4cb6efc94d3eaadbb355f667d51af01665063347728b8b6fb9cc6948e9f7704c
+  entry_id: rp00-owner-lane-promotion-20260717-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/rp00-owner-lane-promotion-20260717-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/rp00-owner-lane-promotion-20260717-workflow/replay/manifest.yml
+  recorded_at: 2026-07-17T13:50:27.980312Z
+  run_id: rp00-owner-lane-promotion-20260717-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:878377fdc64a6681c830dde17f93a0140005735c59342f0be43cc9672e1b0575
+  entry_id: rp00-owner-lane-promotion-20260717-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/rp00-owner-lane-promotion-20260717-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/rp00-owner-lane-promotion-20260717-workflow/replay/manifest.yml
+  recorded_at: 2026-07-17T13:50:27.980312Z
+  run_id: rp00-owner-lane-promotion-20260717-workflow
+  storage_class: external-immutable
+index_id: external-replay-rp00-owner-lane-promotion-20260717-workflow
+run_id: rp00-owner-lane-promotion-20260717-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-07-17T13:50:27.980312Z

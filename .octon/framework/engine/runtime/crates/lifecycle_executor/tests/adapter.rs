@@ -399,6 +399,10 @@ fn request(
     let target = root.join("packet");
     write_file(&target.join("proposal.yml"), "status: draft\n");
     write_file(&target.join("README.md"), "# Mock Packet\n");
+    write_file(
+        &target.join("architecture/rollback-plan.md"),
+        "# Rollback Plan\n\n## Rollback\n\nRestore the fixture checkpoint and revert fixture-owned files.\n",
+    );
     LifecycleRouteExecutionRequest {
         schema_version: "octon-lifecycle-route-execution-request-v1".to_string(),
         run_id: "test-run".to_string(),

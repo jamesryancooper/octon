@@ -115,6 +115,7 @@ fn temp_runtime_config() -> RuntimeConfig {
     copy_rel(".octon/framework/constitution/obligations/fail-closed.yml");
     copy_rel(".octon/framework/engine/runtime/spec/context-pack-builder-v1.md");
     copy_rel(".octon/framework/engine/runtime/spec/execution-authorization-v1.md");
+    copy_rel(".octon/framework/engine/runtime/adapters/host/github-control-plane.yml");
     copy_rel(".octon/instance/charter/workspace.md");
     copy_rel(".octon/instance/governance/runtime-resolution.yml");
     copy_rel(".octon/instance/governance/policies/context-packing.yml");
@@ -1246,6 +1247,111 @@ fn invoke_service_requests_always_grant_service_invocation_effects() {
             .any(|kind| kind == ServiceInvocation::KIND),
         "invoke_service requests must always carry the service-invocation effect grant"
     );
+}
+
+#[test]
+fn owner_lane_action_grants_only_its_provider_mutation_effect_class() {
+    let mut request = minimal_request();
+    request.action_type = "rp00_owner_lane_cutover".to_string();
+    request.target_id = "github-owner-lane:jamesryancooper/octon".to_string();
+    request.side_effect_flags.network = true;
+    request.support_target_tuple_ref = Some(
+        "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane"
+            .to_string(),
+    );
+    request.metadata.insert(
+        "support_host_adapter".to_string(),
+        "github-control-plane".to_string(),
+    );
+    request.metadata.insert(
+        "support_capability_packs".to_string(),
+        "repo,git,shell,telemetry".to_string(),
+    );
+
+    let kinds = execution::granted_effect_kinds_for_request(&request);
+    assert!(kinds.iter().any(|kind| kind == ProviderRepositoryMutation::KIND));
+    assert!(kinds.iter().any(|kind| kind == ServiceInvocation::KIND));
+    assert!(!kinds.iter().any(|kind| kind == ProtectedCiCheck::KIND));
+    assert_eq!(
+        effects::authorized_effect_type::<ProviderRepositoryMutation>(),
+        "AuthorizedEffect<ProviderRepositoryMutation>"
+    );
+    assert!(!execution::granted_effect_kinds_for_request(&minimal_request())
+        .iter()
+        .any(|kind| kind == ProviderRepositoryMutation::KIND));
+}
+
+#[test]
+fn owner_lane_provider_mutation_effect_issues_verifies_and_is_consumed_once() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "req-owner-lane-provider-effect".to_string();
+    request.action_type = "rp00_owner_lane_cutover".to_string();
+    request.target_id = "github-owner-lane:jamesryancooper/octon".to_string();
+    request.side_effect_flags.network = true;
+    request.support_target_tuple_ref = Some(
+        "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane"
+            .to_string(),
+    );
+    request.metadata.insert(
+        "support_host_adapter".to_string(),
+        "github-control-plane".to_string(),
+    );
+    request.metadata.insert(
+        "support_capability_packs".to_string(),
+        "repo,git,shell,telemetry".to_string(),
+    );
+    let soft_error = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("owner-lane action must deny outside hard-enforce");
+    assert!(soft_error.to_string().contains("hard-enforce"));
+    request.policy_mode_requested = Some("hard-enforce".to_string());
+    request.review_requirements.human_approval = true;
+    request.metadata.insert(
+        "typed_exception_boundary".to_string(),
+        "external-irreversible-effect".to_string(),
+    );
+    let staged = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("owner-lane action must stage until typed approval exists");
+    assert!(staged.details["reason_codes"]
+        .as_array()
+        .expect("reason codes")
+        .iter()
+        .any(|code| code.as_str() == Some("HUMAN_APPROVAL_REQUIRED")));
+    write_typed_approval_grant(
+        &cfg,
+        &request.request_id,
+        "external-irreversible-effect",
+    );
+
+    let grant = authorize_execution(&cfg, &policy, &request, None)
+        .expect("owner-lane request should authorize in the fixture");
+    assert!(grant
+        .granted_effect_kinds
+        .iter()
+        .any(|kind| kind == ProviderRepositoryMutation::KIND));
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let scope = "github-owner-lane:jamesryancooper/octon";
+    let effect = issue_provider_repository_mutation_effect(&runtime_path, &grant, scope, true)
+        .expect("provider mutation effect should mint");
+    let verified = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "octon::protected_ci::owner_lane",
+        scope,
+    )
+    .expect("provider mutation effect should verify");
+    assert_eq!(verified.token_id(), effect.token_id());
+    let replay = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "octon::protected_ci::owner_lane",
+        scope,
+    )
+    .expect_err("single-use provider mutation effect must not verify twice");
+    assert!(replay.to_string().contains("already consumed"));
 }
 
 #[test]

@@ -346,7 +346,7 @@ fn authority_provenance_ref_is_retained(cfg: &RuntimeConfig, reference: &str) ->
     cfg.repo_root.join(path_ref).exists()
 }
 
-fn granted_effect_kinds_for_request(request: &ExecutionRequest) -> Vec<String> {
+pub(super) fn granted_effect_kinds_for_request(request: &ExecutionRequest) -> Vec<String> {
     let mut effect_kinds = vec![
         EvidenceMutation::KIND.to_string(),
         StateControlMutation::KIND.to_string(),
@@ -378,6 +378,9 @@ fn granted_effect_kinds_for_request(request: &ExecutionRequest) -> Vec<String> {
     }
     if request.action_type == "protected_ci_auto_merge" {
         effect_kinds.push(ProtectedCiCheck::KIND.to_string());
+    }
+    if request.action_type == "rp00_owner_lane_cutover" {
+        effect_kinds.push(ProviderRepositoryMutation::KIND.to_string());
     }
     if effect_kinds.is_empty() {
         effect_kinds.push(ServiceInvocation::KIND.to_string());
@@ -435,6 +438,71 @@ fn ensure_context_evidence_binding(
     request.context_evidence_binding = Some(binding.clone());
     publish_context_binding_metadata(request, &binding);
     Ok(Some(binding))
+}
+
+fn load_existing_context_evidence_binding(
+    cfg: &RuntimeConfig,
+    bound: &BoundRunLifecycle,
+) -> CoreResult<Option<ContextEvidenceBinding>> {
+    let context_root = bound.evidence_root.join("context");
+    let context_pack_path = context_root.join("context-pack.json");
+    let receipt_path = context_root.join("context-pack-receipt.json");
+    let model_visible_path = context_root.join("model-visible-context.json");
+    if !context_pack_path.is_file() || !receipt_path.is_file() || !model_visible_path.is_file() {
+        return Ok(None);
+    }
+    let receipt_bytes = fs::read(&receipt_path).map_err(anyhow::Error::from)?;
+    let receipt: serde_json::Value = serde_json::from_slice(&receipt_bytes).map_err(|error| {
+        KernelError::new(
+            ErrorCode::CapabilityDenied,
+            format!("existing context receipt is invalid: {error}"),
+        )
+        .with_details(json!({"reason_codes":["CONTEXT_EVIDENCE_INVALID"]}))
+    })?;
+    let string_at = |pointer: &str| {
+        receipt
+            .pointer(pointer)
+            .and_then(serde_json::Value::as_str)
+            .map(ToOwned::to_owned)
+    };
+    let required_string = |pointer: &str| {
+        string_at(pointer).ok_or_else(|| {
+            KernelError::new(
+                ErrorCode::CapabilityDenied,
+                format!("existing context receipt lacks {pointer}"),
+            )
+            .with_details(json!({"reason_codes":["CONTEXT_EVIDENCE_INVALID"]}))
+        })
+    };
+    Ok(Some(ContextEvidenceBinding {
+        context_pack_ref: path_tail(&cfg.repo_root, &context_pack_path),
+        context_pack_receipt_ref: path_tail(&cfg.repo_root, &receipt_path),
+        context_pack_sha256: sha256_file_prefixed(&context_pack_path)?,
+        receipt_sha256: sha256_file_prefixed(&receipt_path)?,
+        builder_spec_ref: required_string("/builder_spec_ref")?,
+        builder_version: required_string("/builder_version")?,
+        verification_status: required_string("/verification_status")?,
+        freshness_status: required_string("/freshness/freshness_status")?,
+        valid_until: string_at("/freshness/valid_until"),
+        context_policy_ref: string_at("/context_policy_ref"),
+        model_visible_context_ref: Some(path_tail(&cfg.repo_root, &model_visible_path)),
+        model_visible_context_sha256: string_at("/model_visible_context_sha256"),
+        context_validity_state: string_at("/validity_state"),
+        context_rebuild_ref: None,
+        context_invalidation_ref: None,
+        source_count: receipt
+            .pointer("/source_summary/required_source_count")
+            .and_then(serde_json::Value::as_u64)
+            .unwrap_or(0),
+        failed_required_source_count: receipt
+            .pointer("/source_summary/failed_required_source_count")
+            .and_then(serde_json::Value::as_u64)
+            .unwrap_or(u64::MAX),
+        subordinate_to_authorize_execution: receipt
+            .pointer("/authority_boundary/subordinate_to_authorize_execution")
+            .and_then(serde_json::Value::as_bool)
+            .unwrap_or(false),
+    }))
 }
 
 fn validate_context_evidence_binding(
@@ -2189,7 +2257,8 @@ pub fn authorize_execution(
         }
     }
 
-    if is_critical_action(cfg, &request, executor_profile)
+    if (is_critical_action(cfg, &request, executor_profile)
+        || request.action_type == "rp00_owner_lane_cutover")
         && effective_policy_mode != cfg.execution_governance.protected_policy_mode
     {
         return Err(KernelError::new(
@@ -2200,6 +2269,8 @@ pub fn authorize_execution(
     }
 
     let bound_run = bind_run_lifecycle(cfg, &request, autonomy_state.as_ref())?;
+    let runtime_state: RuntimeStateRecord = read_yaml_file(&bound_run.runtime_state_path)?;
+    let authority_state_before = runtime_state.status;
     let run_root = bound_run.evidence_root.clone();
     let run_root_rel = bound_run.evidence_root_rel.clone();
     let run_contract = load_run_contract_record(cfg, &request, autonomy_state.as_ref())?;
@@ -2207,6 +2278,9 @@ pub fn authorize_execution(
     let support_tier =
         resolve_support_tier_posture(cfg, &request, &run_contract, autonomy_state.as_ref())?;
     let context_evidence_required = context_evidence_required_for_request(&request, &run_contract);
+    if request.context_evidence_binding.is_none() && authority_state_before == "staged" {
+        request.context_evidence_binding = load_existing_context_evidence_binding(cfg, &bound_run)?;
+    }
     let context_evidence_binding = ensure_context_evidence_binding(
         cfg,
         &bound_run,
@@ -2383,6 +2457,7 @@ pub fn authorize_execution(
     let explicit_approval_grants = load_explicit_approval_grants(cfg, &request)?;
     let approval_required = profile_requires_human_review
         || request.review_requirements.human_approval
+        || request.action_type == "rp00_owner_lane_cutover"
         || autonomy_requires_approval
         || explicit_approval_request_ref.is_some()
         || !explicit_approval_grants.is_empty()
@@ -2525,7 +2600,7 @@ pub fn authorize_execution(
                 replay_disposition: "not-applicable".to_string(),
             },
             JournalLifecycle {
-                state_before: Some("bound".to_string()),
+                state_before: Some(authority_state_before.clone()),
                 state_after: Some(runtime_status.to_string()),
             },
             authority_refs,
@@ -3227,7 +3302,7 @@ pub fn authorize_execution(
             replay_disposition: "requires-fresh-authorization".to_string(),
         },
         JournalLifecycle {
-            state_before: Some("bound".to_string()),
+            state_before: Some(authority_state_before),
             state_after: Some("authorized".to_string()),
         },
         authority_resolution_journal_refs(

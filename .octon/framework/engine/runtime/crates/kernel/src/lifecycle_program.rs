@@ -134,6 +134,7 @@ const APPROVAL_POSTURE_DENY: &str = "deny";
 const BLOCKER_AUTHORITY_ZONE_DENIED: &str = "authority-zone-denied";
 const BLOCKER_AUTHORITY_ZONE_AMBIGUOUS: &str = "authority-zone-ambiguous";
 const BLOCKER_DURABLE_AUTHORITY_APPROVAL_REQUIRED: &str = "scope-expansion";
+const BLOCKER_PROVIDER_AUTHORITY_REQUIRED: &str = "provider-authority-required";
 const BLOCKER_PROTECTED_ARTIFACT_APPROVAL_REQUIRED: &str = "scope-expansion";
 const BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED: &str = "lifecycle-residue-cleanup-needed";
 const BLOCKER_PLANNER_STALE_REPLAN_LOOP: &str = "planner-stale-state/replan-loop";
@@ -1099,6 +1100,15 @@ pub(crate) struct ProgramApprovalBlocker {
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub blocker_class: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub provider_run_id: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub provider_candidate_sha: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub provider_operation_digest: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -2369,6 +2379,15 @@ pub(crate) struct ProgramApprovalGrant {
     source_authority_digest: Option<String>,
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
+    provider_run_id: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    provider_candidate_sha: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    provider_operation_digest: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     grant_scope_digest: Option<String>,
     reason: String,
     recorded_at: String,
@@ -2381,6 +2400,7 @@ fn human_only_boundary_for_blocker_class(blocker_class: Option<&str>) -> &'stati
         Some("governance-mutation") => "governance-mutation",
         Some("unsafe-resume") => "unsafe-resume",
         Some("external-irreversible-effect") => "external-irreversible-effect",
+        Some(BLOCKER_PROVIDER_AUTHORITY_REQUIRED) => "external-irreversible-effect",
         Some("stale-receipt") | Some("publication-drift") => "stale-evidence-acceptance",
         Some("authority-zone-ambiguous")
         | Some("authority-boundary-ambiguous")
@@ -3673,6 +3693,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_run_inputs_and_c
         checkpoint,
     )?;
     apply_recovery_approval_blockers(
+        &repo_root,
         program,
         &context.registry_digest,
         &mut child_states,
@@ -7238,7 +7259,7 @@ pub(crate) fn approve_program_lifecycle_child_route(
     fs::write(
         &evidence_path,
         format!(
-            "schema_version: octon-program-lifecycle-human-exception-grant-v1\nrun_id: {sanitized_run_id}\nchild_id: {child_id}\nroute_id: {route_id}\nhuman_only_boundary: {human_only_boundary}\nblocker_class: {}\nregistry_digest: {}\nauthority_zone: {}\noperation_class: {}\nartifact_class: {}\nwrite_scope_digest: {}\nauthority_zone_decision: {}\nreason: {reason}\nrecorded_at: {recorded_at}\nresume_instruction: octon lifecycle resume --run-id {sanitized_run_id}\nretry_instruction: octon lifecycle program retry --run-id {sanitized_run_id} --child {child_id}\n",
+            "schema_version: octon-program-lifecycle-human-exception-grant-v1\nrun_id: {sanitized_run_id}\nchild_id: {child_id}\nroute_id: {route_id}\nhuman_only_boundary: {human_only_boundary}\nblocker_class: {}\nregistry_digest: {}\nauthority_zone: {}\noperation_class: {}\nartifact_class: {}\nwrite_scope_digest: {}\nauthority_zone_decision: {}\nprovider_run_id: {}\nprovider_candidate_sha: {}\nprovider_operation_digest: {}\nreason: {reason}\nrecorded_at: {recorded_at}\nresume_instruction: octon lifecycle resume --run-id {sanitized_run_id}\nretry_instruction: octon lifecycle program retry --run-id {sanitized_run_id} --child {child_id}\n",
             approval_blocker
                 .blocker_class
                 .as_deref()
@@ -7260,7 +7281,16 @@ pub(crate) fn approve_program_lifecycle_child_route(
                 .as_ref()
                 .and_then(|decision| decision.write_scope_digest.as_deref())
                 .unwrap_or(""),
-            authority_decision_path.as_deref().unwrap_or("")
+            authority_decision_path.as_deref().unwrap_or(""),
+            approval_blocker.provider_run_id.as_deref().unwrap_or(""),
+            approval_blocker
+                .provider_candidate_sha
+                .as_deref()
+                .unwrap_or(""),
+            approval_blocker
+                .provider_operation_digest
+                .as_deref()
+                .unwrap_or("")
         ),
     )?;
     let grant = ProgramApprovalGrant {
@@ -7284,6 +7314,9 @@ pub(crate) fn approve_program_lifecycle_child_route(
         source_authority_digest: authority_decision
             .as_ref()
             .and_then(|decision| decision.source_authority_digest.clone()),
+        provider_run_id: approval_blocker.provider_run_id.clone(),
+        provider_candidate_sha: approval_blocker.provider_candidate_sha.clone(),
+        provider_operation_digest: approval_blocker.provider_operation_digest.clone(),
         grant_scope_digest: Some(plan.child_registry_digest.clone()),
         reason: reason.to_string(),
         recorded_at,
@@ -11584,6 +11617,73 @@ fn receipt_passed(receipts: &BTreeMap<String, ReceiptPlanState>, receipt_id: &st
         .unwrap_or(false)
 }
 
+#[derive(Clone, Debug, Eq, PartialEq)]
+struct ProviderAuthorityBinding {
+    run_id: String,
+    candidate_sha: String,
+    operation_digest: String,
+}
+
+fn provider_authority_binding_from_target(
+    child_target_abs: &Path,
+) -> Option<ProviderAuthorityBinding> {
+    let receipt = child_target_abs.join("support/implementation-run.md");
+    let fields = parse_receipt_fields(&receipt).ok()?;
+    if fields.get("verdict").map(String::as_str) != Some("blocked")
+        || fields.get("provider_disposition").map(String::as_str)
+            != Some("owner-lane-unavailable-not-attempted")
+        || fields.get("next_route").map(String::as_str)
+            != Some("trusted-owner-lane-provisioning-before-credential-issuance")
+    {
+        return None;
+    }
+    let run_id = fields.get("run_id")?.trim().to_string();
+    let candidate_sha = fields
+        .get("current_source_candidate_commit")?
+        .trim()
+        .to_string();
+    let candidate_tree = fields
+        .get("current_source_candidate_tree")?
+        .trim()
+        .to_string();
+    let reviewed_packet_digest = fields.get("reviewed_packet_digest")?.trim().to_string();
+    if run_id.is_empty()
+        || !is_lower_hex_len(&candidate_sha, 40)
+        || !is_lower_hex_len(&candidate_tree, 40)
+        || !reviewed_packet_digest
+            .strip_prefix("sha256:")
+            .is_some_and(|digest| is_lower_hex_len(digest, 64))
+    {
+        return None;
+    }
+    let operation_digest = sha256_digest(
+        format!(
+            "owner-lane-provider-authority-binding-v1\nrun_id={run_id}\ncandidate_sha={candidate_sha}\ncandidate_tree={candidate_tree}\nreviewed_packet_digest={reviewed_packet_digest}\nnext_route=trusted-owner-lane-provisioning-before-credential-issuance\n"
+        )
+        .as_bytes(),
+    );
+    Some(ProviderAuthorityBinding {
+        run_id,
+        candidate_sha,
+        operation_digest,
+    })
+}
+
+fn provider_authority_binding_for_state(
+    repo_root: &Path,
+    state: &ProgramChildPlanState,
+) -> Option<ProviderAuthorityBinding> {
+    let target = resolve_lifecycle_target_path(repo_root, Path::new(&state.target)).ok()?;
+    provider_authority_binding_from_target(&target)
+}
+
+fn is_lower_hex_len(value: &str, length: usize) -> bool {
+    value.len() == length
+        && value
+            .bytes()
+            .all(|byte| matches!(byte, b'0'..=b'9' | b'a'..=b'f'))
+}
+
 fn child_implementation_blocker_class(
     plan: &LifecyclePlanResult,
     child_target_abs: &Path,
@@ -11593,6 +11693,9 @@ fn child_implementation_blocker_class(
         "implementation-run",
         &["blocked", "fail"],
     ) {
+        if provider_authority_binding_from_target(child_target_abs).is_some() {
+            return Some(BLOCKER_PROVIDER_AUTHORITY_REQUIRED);
+        }
         return Some(
             if child_receipts_report_projection_drift(child_target_abs) {
                 "publication-drift"
@@ -11623,6 +11726,9 @@ fn child_implementation_blocker_class(
 
 fn child_implementation_blocker_message(blocker_class: &str) -> String {
     match blocker_class {
+        BLOCKER_PROVIDER_AUTHORITY_REQUIRED => {
+            "child implementation is locally complete and requires exact provider authority bound to the retained run, candidate, and operation digest".to_string()
+        }
         "publication-drift" => publication_drift_blocker_message(),
         "implementation-blocked" => {
             "child implementation receipt reports a blocked implementation run".to_string()
@@ -13292,6 +13398,7 @@ fn apply_closeout_worktree_handoff_route_unblocks(
 }
 
 fn apply_recovery_approval_blockers(
+    repo_root: &Path,
     program: &ProgramSpec,
     registry_digest: &str,
     child_states: &mut BTreeMap<String, ProgramChildPlanState>,
@@ -13318,13 +13425,26 @@ fn apply_recovery_approval_blockers(
             let Some(route_id) = recovery_route_for_blocker(program, &blocker) else {
                 continue;
             };
-            if approval_granted(
-                approvals,
-                &state.child_id,
-                route_id,
-                Some(registry_digest),
-                Some(&blocker.blocker_class),
-            ) {
+            let approval_granted = if blocker.blocker_class == BLOCKER_PROVIDER_AUTHORITY_REQUIRED {
+                provider_authority_binding_for_state(repo_root, state).is_some_and(|binding| {
+                    provider_approval_granted(
+                        approvals,
+                        &state.child_id,
+                        route_id,
+                        Some(registry_digest),
+                        &binding,
+                    )
+                })
+            } else {
+                approval_granted(
+                    approvals,
+                    &state.child_id,
+                    route_id,
+                    Some(registry_digest),
+                    Some(&blocker.blocker_class),
+                )
+            };
+            if approval_granted {
                 continue;
             }
             if state.blockers.iter().any(|existing| {
@@ -14001,6 +14121,9 @@ fn collect_approval_blockers(
                         route_id: route.route_id.clone(),
                         blocker_class: Some("authority-ambiguity".to_string()),
                         reason: "child route lacks a machine-provable delegation contract or targets a protected authority zone".to_string(),
+                        provider_run_id: None,
+                        provider_candidate_sha: None,
+                        provider_operation_digest: None,
                     });
                 }
             }
@@ -14024,14 +14147,30 @@ fn collect_approval_blockers(
                 recovery_route,
                 OPERATION_CLASS_RETRY_CHILD_ROUTE,
             );
-            if approval_granted_for_authority_decision(
-                approvals,
-                &state.child_id,
-                recovery_route,
-                Some(registry_digest),
-                Some(&blocker.blocker_class),
-                &authority_decision,
-            ) {
+            let provider_binding = (blocker.blocker_class == BLOCKER_PROVIDER_AUTHORITY_REQUIRED)
+                .then(|| provider_authority_binding_for_state(&repo_root, state))
+                .flatten();
+            let approval_granted = if blocker.blocker_class == BLOCKER_PROVIDER_AUTHORITY_REQUIRED {
+                provider_binding.as_ref().is_some_and(|binding| {
+                    provider_approval_granted(
+                        approvals,
+                        &state.child_id,
+                        recovery_route,
+                        Some(registry_digest),
+                        binding,
+                    )
+                })
+            } else {
+                approval_granted_for_authority_decision(
+                    approvals,
+                    &state.child_id,
+                    recovery_route,
+                    Some(registry_digest),
+                    Some(&blocker.blocker_class),
+                    &authority_decision,
+                )
+            };
+            if approval_granted {
                 continue;
             }
             if invocation_authority == "unattended"
@@ -14049,6 +14188,15 @@ fn collect_approval_blockers(
                     blocker.blocker_class
                 ),
                 blocker_class: Some(blocker.blocker_class.clone()),
+                provider_run_id: provider_binding
+                    .as_ref()
+                    .map(|binding| binding.run_id.clone()),
+                provider_candidate_sha: provider_binding
+                    .as_ref()
+                    .map(|binding| binding.candidate_sha.clone()),
+                provider_operation_digest: provider_binding
+                    .as_ref()
+                    .map(|binding| binding.operation_digest.clone()),
             });
         }
     }
@@ -14998,6 +15146,28 @@ fn approval_granted(
         .unwrap_or(false)
 }
 
+fn provider_approval_granted(
+    approvals: Option<&Vec<ProgramApprovalGrant>>,
+    child_id: &str,
+    route_id: &str,
+    registry_digest: Option<&str>,
+    binding: &ProviderAuthorityBinding,
+) -> bool {
+    approvals.is_some_and(|approvals| {
+        approvals.iter().any(|grant| {
+            grant.child_id == child_id
+                && grant.route_id == route_id
+                && grant.blocker_class.as_deref() == Some(BLOCKER_PROVIDER_AUTHORITY_REQUIRED)
+                && registry_digest
+                    .is_none_or(|digest| grant.registry_digest.as_deref() == Some(digest))
+                && grant.provider_run_id.as_deref() == Some(binding.run_id.as_str())
+                && grant.provider_candidate_sha.as_deref() == Some(binding.candidate_sha.as_str())
+                && grant.provider_operation_digest.as_deref()
+                    == Some(binding.operation_digest.as_str())
+        })
+    })
+}
+
 fn authority_grant_requires_zone_binding(decision: &AuthorityZoneDecision) -> bool {
     matches!(
         decision.authority_zone.as_str(),
@@ -15076,29 +15246,36 @@ fn invocation_authority_for_child_route(
     route_id: &str,
     registry_digest: Option<&str>,
     blocker_class: Option<&str>,
+    provider_binding: Option<&ProviderAuthorityBinding>,
     delegation_safe: bool,
     authority_decision: Option<&AuthorityZoneDecision>,
 ) -> String {
-    let grant_bound = authority_decision
-        .map(|decision| {
-            approval_granted_for_authority_decision(
-                approvals,
-                child_id,
-                route_id,
-                registry_digest,
-                blocker_class,
-                decision,
-            )
+    let grant_bound = if blocker_class == Some(BLOCKER_PROVIDER_AUTHORITY_REQUIRED) {
+        provider_binding.is_some_and(|binding| {
+            provider_approval_granted(approvals, child_id, route_id, registry_digest, binding)
         })
-        .unwrap_or_else(|| {
-            approval_granted(
-                approvals,
-                child_id,
-                route_id,
-                registry_digest,
-                blocker_class,
-            )
-        });
+    } else {
+        authority_decision
+            .map(|decision| {
+                approval_granted_for_authority_decision(
+                    approvals,
+                    child_id,
+                    route_id,
+                    registry_digest,
+                    blocker_class,
+                    decision,
+                )
+            })
+            .unwrap_or_else(|| {
+                approval_granted(
+                    approvals,
+                    child_id,
+                    route_id,
+                    registry_digest,
+                    blocker_class,
+                )
+            })
+    };
     if default_policy == "unattended" {
         if delegation_safe {
             "unattended".to_string()
@@ -15122,6 +15299,7 @@ fn write_program_approval_execution_evidence(
     route_id: &str,
     registry_digest: Option<&str>,
     blocker_class: Option<&str>,
+    provider_binding: Option<&ProviderAuthorityBinding>,
     approvals: Option<&Vec<ProgramApprovalGrant>>,
 ) -> Result<()> {
     let grant = approvals
@@ -15147,6 +15325,13 @@ fn write_program_approval_execution_evidence(
                                 .unwrap_or(true)
                         })
                         .unwrap_or(true)
+                    && provider_binding.is_none_or(|binding| {
+                        grant.provider_run_id.as_deref() == Some(binding.run_id.as_str())
+                            && grant.provider_candidate_sha.as_deref()
+                                == Some(binding.candidate_sha.as_str())
+                            && grant.provider_operation_digest.as_deref()
+                                == Some(binding.operation_digest.as_str())
+                    })
             })
         })
         .with_context(|| {
@@ -15157,9 +15342,12 @@ fn write_program_approval_execution_evidence(
     fs::write(
         path,
         format!(
-            "schema_version: octon-program-lifecycle-grant-consumption-v1\nprogram_run_id: {program_run_id}\nchild_id: {child_id}\nroute_id: {route_id}\nblocker_class: {}\nregistry_digest: {}\nhuman_exception_grant_ref: {}\nhuman_exception_reason: {}\nrecorded_at: {}\nauthorization_source: typed-human-exception-grant\n",
+            "schema_version: octon-program-lifecycle-grant-consumption-v1\nprogram_run_id: {program_run_id}\nchild_id: {child_id}\nroute_id: {route_id}\nblocker_class: {}\nregistry_digest: {}\nprovider_run_id: {}\nprovider_candidate_sha: {}\nprovider_operation_digest: {}\nhuman_exception_grant_ref: {}\nhuman_exception_reason: {}\nrecorded_at: {}\nauthorization_source: typed-human-exception-grant\n",
             grant.blocker_class.as_deref().unwrap_or("route-approval"),
             grant.registry_digest.as_deref().unwrap_or("legacy-grant"),
+            grant.provider_run_id.as_deref().unwrap_or(""),
+            grant.provider_candidate_sha.as_deref().unwrap_or(""),
+            grant.provider_operation_digest.as_deref().unwrap_or(""),
             grant.evidence_path,
             grant.reason,
             now_rfc3339()?
@@ -15234,6 +15422,11 @@ fn classify_program_blocker_class(blocker_class: &str) -> ProgramBlockerDisposit
 
 fn normalize_program_blocker_class(blocker_class: &str) -> ProgramBlockerNormalization {
     let (normalized_blocker_class, normalized_category, autonomy_basis) = match blocker_class {
+        BLOCKER_PROVIDER_AUTHORITY_REQUIRED => (
+            BLOCKER_PROVIDER_AUTHORITY_REQUIRED,
+            ProgramNormalizedCategory::Human,
+            "provider mutation is an external irreversible boundary requiring an exact current human grant",
+        ),
         "policy-override" => (
             "policy-override",
             ProgramNormalizedCategory::Recoverable,
@@ -17128,6 +17321,10 @@ fn build_child_execution_jobs(
                 &route.route_id,
                 operation_class,
             );
+            let provider_binding = (blocker_class.as_deref()
+                == Some(BLOCKER_PROVIDER_AUTHORITY_REQUIRED))
+            .then(|| provider_authority_binding_for_state(repo_root, state))
+            .flatten();
             let invocation_authority = invocation_authority_for_child_route(
                 &options.invocation_authority,
                 approvals,
@@ -17135,6 +17332,7 @@ fn build_child_execution_jobs(
                 &route.route_id,
                 Some(&plan.child_registry_digest),
                 blocker_class.as_deref(),
+                provider_binding.as_ref(),
                 delegation_contract_basis.is_some(),
                 Some(&authority_decision),
             );
@@ -17491,6 +17689,7 @@ fn build_child_execution_jobs(
                     &route.route_id,
                     Some(&plan.child_registry_digest),
                     blocker_class.as_deref(),
+                    provider_binding.as_ref(),
                     approvals,
                 )?;
             }
@@ -19931,6 +20130,9 @@ fn recovery_attempt_budget(program: &ProgramSpec, blocker_class: &str) -> Option
 }
 
 fn recovery_requires_approval(program: &ProgramSpec, blocker_class: &str) -> bool {
+    if blocker_class == BLOCKER_PROVIDER_AUTHORITY_REQUIRED {
+        return true;
+    }
     program
         .recovery_policy
         .recipes
@@ -22520,6 +22722,7 @@ fn execute_atomic_route_phase(
         route_id,
         None,
         None,
+        None,
         route_spec_delegation_contract_basis(route_id, route).is_some(),
         Some(&authority_decision),
     );
@@ -22589,6 +22792,7 @@ fn execute_atomic_route_phase(
             program_run_id,
             &state.child_id,
             route_id,
+            None,
             None,
             None,
             approvals,
@@ -24615,7 +24819,9 @@ fn unsupported_child_closeout_worktree_request_without_classifier(
         Ok(value) => value,
         Err(_) => return Ok(false),
     };
-    if value.get("schema_version").and_then(|schema| schema.as_str())
+    if value
+        .get("schema_version")
+        .and_then(|schema| schema.as_str())
         != Some(LIFECYCLE_INTERACTION_REQUEST_SCHEMA)
     {
         return Ok(false);
@@ -31234,7 +31440,117 @@ mod tests {
             route_id: "review-proposal".to_string(),
             reason: "approval required".to_string(),
             blocker_class: Some("authority-ambiguity".to_string()),
+            provider_run_id: None,
+            provider_candidate_sha: None,
+            provider_operation_digest: None,
         }
+    }
+
+    fn provider_binding_fixture(name: &str, provider_disposition: &str) -> PathBuf {
+        let stamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let root = std::env::temp_dir().join(format!(
+            "octon-provider-binding-{}-{name}-{stamp}",
+            std::process::id()
+        ));
+        fs::create_dir_all(root.join("support")).unwrap();
+        fs::write(
+            root.join("support/implementation-run.md"),
+            format!(
+                "verdict: blocked\nrun_id: provider-run-1\ncurrent_source_candidate_commit: c11b73b38c3825bb177b269826677b8255ab1445\ncurrent_source_candidate_tree: 9c6002867ea0f5ae7e76d4d90f1edeabeb0d4ea9\nreviewed_packet_digest: sha256:d516219d2b0a3f8ea0f9cbe95f99550493b6971f5e05ea03cc51147af084e621\nprovider_disposition: {provider_disposition}\nnext_route: trusted-owner-lane-provisioning-before-credential-issuance\n"
+            ),
+        )
+        .unwrap();
+        root
+    }
+
+    #[test]
+    fn provider_authority_binding_requires_the_exact_explicit_receipt_tuple() {
+        let exact = provider_binding_fixture("exact", "owner-lane-unavailable-not-attempted");
+        let binding = provider_authority_binding_from_target(&exact)
+            .expect("exact owner-lane receipt should produce a binding");
+        assert_eq!(binding.run_id, "provider-run-1");
+        assert_eq!(
+            binding.candidate_sha,
+            "c11b73b38c3825bb177b269826677b8255ab1445"
+        );
+        assert!(binding.operation_digest.starts_with("sha256:"));
+
+        let ordinary = provider_binding_fixture("ordinary", "not-applicable");
+        assert!(provider_authority_binding_from_target(&ordinary).is_none());
+    }
+
+    #[test]
+    fn provider_authority_approval_replay_and_tuple_drift_are_denied() {
+        let root = provider_binding_fixture("grant", "owner-lane-unavailable-not-attempted");
+        let binding = provider_authority_binding_from_target(&root).unwrap();
+        let grant = ProgramApprovalGrant {
+            child_id: "rp00".to_string(),
+            route_id: "run-packet-implementation".to_string(),
+            human_only_boundary: "external-irreversible-effect".to_string(),
+            blocker_class: Some(BLOCKER_PROVIDER_AUTHORITY_REQUIRED.to_string()),
+            registry_digest: Some("sha256:registry".to_string()),
+            authority_zone: None,
+            operation_class: None,
+            artifact_class: None,
+            write_scope_digest: None,
+            source_authority_digest: None,
+            provider_run_id: Some(binding.run_id.clone()),
+            provider_candidate_sha: Some(binding.candidate_sha.clone()),
+            provider_operation_digest: Some(binding.operation_digest.clone()),
+            grant_scope_digest: Some("sha256:registry".to_string()),
+            reason: "fixture approval".to_string(),
+            recorded_at: "2026-07-17T00:00:00Z".to_string(),
+            evidence_path: "fixture.yml".to_string(),
+        };
+        let approvals = vec![grant];
+        assert!(provider_approval_granted(
+            Some(&approvals),
+            "rp00",
+            "run-packet-implementation",
+            Some("sha256:registry"),
+            &binding,
+        ));
+        assert!(!provider_approval_granted(
+            Some(&approvals),
+            "other-child",
+            "run-packet-implementation",
+            Some("sha256:registry"),
+            &binding,
+        ));
+        let drifted = ProviderAuthorityBinding {
+            run_id: binding.run_id.clone(),
+            candidate_sha: "634a20b8ee0c0ed551992044cb3aacba9036b44e".to_string(),
+            operation_digest: sha256_digest(b"drifted-operation"),
+        };
+        assert!(!provider_approval_granted(
+            Some(&approvals),
+            "rp00",
+            "run-packet-implementation",
+            Some("sha256:registry"),
+            &drifted,
+        ));
+    }
+
+    #[test]
+    fn provider_authority_is_human_only_without_reclassifying_missing_evidence() {
+        let program = test_program_spec();
+        assert!(recovery_requires_approval(
+            &program,
+            BLOCKER_PROVIDER_AUTHORITY_REQUIRED
+        ));
+        assert!(!recovery_requires_approval(&program, "missing-evidence"));
+        let normalized = normalize_program_blocker_class(BLOCKER_PROVIDER_AUTHORITY_REQUIRED);
+        assert_eq!(
+            normalized.normalized_category,
+            ProgramNormalizedCategory::Human
+        );
+        assert_eq!(
+            human_only_boundary_for_blocker_class(Some(BLOCKER_PROVIDER_AUTHORITY_REQUIRED)),
+            "external-irreversible-effect"
+        );
     }
 
     fn test_program_spec() -> ProgramSpec {
@@ -31600,6 +31916,9 @@ mod tests {
             artifact_class: None,
             write_scope_digest: None,
             source_authority_digest: None,
+            provider_run_id: None,
+            provider_candidate_sha: None,
+            provider_operation_digest: None,
             grant_scope_digest: None,
             reason: "unbound grant".to_string(),
             recorded_at: "2026-05-17T00:00:00Z".to_string(),
@@ -35869,6 +36188,10 @@ routes:
             self.write(
                 &format!("children/{id}/proposal.yml"),
                 &format!("status: {status}\npromotion_targets:\n  - \"{promotion_target}\"\n"),
+            );
+            self.write(
+                &format!("children/{id}/architecture/rollback-plan.md"),
+                "# Rollback Plan\n\n## Rollback\n\nRestore the fixture checkpoint and revert fixture-owned files.\n",
             );
             if is_safe_repo_relative(promotion_target) {
                 let target = self.root.join(promotion_target.trim_end_matches('/'));

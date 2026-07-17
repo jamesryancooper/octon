@@ -154,7 +154,7 @@ fn admit_existing_lifecycle_run(
     repo_root: &Path,
     request: &LifecycleRouteExecutionRequest,
 ) -> Result<(), LifecycleExecutionError> {
-    if request.route.route_id != "run-packet-implementation" {
+    if !requires_owning_runtime_admission(&request.route.route_id, &request.executor) {
         return Ok(());
     }
     let rollback_ref = format!(
@@ -194,6 +194,15 @@ fn admit_existing_lifecycle_run(
         ));
     }
     Ok(())
+}
+
+/// The mock executor is explicitly inert and exists only for hermetic lifecycle
+/// fixtures. It still reaches this point only after delegation proof and
+/// rollback posture validation, but it must not re-enter the current test
+/// binary as though that binary were the owning Octon CLI. Every non-mock
+/// packet implementation executor remains subject to owning-runtime admission.
+fn requires_owning_runtime_admission(route_id: &str, executor: &str) -> bool {
+    route_id == "run-packet-implementation" && executor != "mock"
 }
 
 /// Materializes the rollback prerequisite owned by consequential lifecycle
@@ -958,5 +967,28 @@ mod tests {
             .unwrap_or_default()
             .contains("required receipt proposal-closeout"));
         let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn mock_packet_implementation_skips_owning_runtime_admission() {
+        assert!(!requires_owning_runtime_admission(
+            "run-packet-implementation",
+            "mock"
+        ));
+    }
+
+    #[test]
+    fn real_packet_implementation_requires_owning_runtime_admission() {
+        for executor in ["codex", "claude", "command"] {
+            assert!(requires_owning_runtime_admission(
+                "run-packet-implementation",
+                executor
+            ));
+        }
+    }
+
+    #[test]
+    fn non_implementation_routes_do_not_require_owning_runtime_admission() {
+        assert!(!requires_owning_runtime_admission("review-packet", "codex"));
     }
 }

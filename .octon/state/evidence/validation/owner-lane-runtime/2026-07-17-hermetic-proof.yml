@@ -1,0 +1,50 @@
+schema_version: owner-lane-hermetic-proof-v1
+proof_id: owner-lane-hermetic-20260717
+recorded_at: "2026-07-17T00:00:00Z"
+result: pass
+execution_class: inert-local-hermetic
+provider_effects_performed: false
+credential_effects_performed: false
+base_commit: 40fe9d0b4d1f41c69c4d2e3585c772c96a324023
+commands:
+  - command: bash .octon/framework/assurance/runtime/_ops/tests/test-owner-lane-runtime.sh
+    exit_code: 0
+    full_log_sha256: 363d5daf3e6b59531f7931f15d22a375c16347797f90a424be27486e55cdce30
+  - command: cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel owner_lane --no-fail-fast
+    exit_code: 0
+    tests_passed: 9
+  - command: cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel provider_authority --no-fail-fast
+    exit_code: 0
+    tests_passed: 3
+  - command: cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_authority_engine owner_lane --no-fail-fast
+    exit_code: 0
+    tests_passed: 2
+source_digests:
+  owner_lane_runtime_sha256: f9846f7293724a06dd33233d03ffd212d77dde27853f0ff4119fbdbaf212b07c
+  owner_lane_test_sha256: 15efd5c913f312a751b16699d6993c639280a409cc43195c155caea45eb880e2
+covered_positive_paths:
+  - exact 13-operation closed manifest
+  - identity and repository admission
+  - provider and Git mutation ordering
+  - append-and-fsync pre-send and response journal
+  - unauthenticated same-token revocation acceptance at 202
+  - same-token terminal identity response at 401
+  - full evidence-root secret census
+  - in-protocol buffer zeroization and retirement receipt
+  - staged typed authority grant retry bound to the artifact run id
+covered_negative_paths:
+  - duplicate JSON key
+  - floating-point JSON value
+  - non-interoperable integer
+  - cross-repository URL escape
+  - external tool substitution after validation
+  - unknown send outcome replay
+  - false terminal identity response
+  - duplicate askpass password read
+  - provider approval child, run, candidate, and operation drift
+  - ordinary missing-evidence non-conversion
+  - soft-enforce owner-lane authority request
+  - owner-lane authority request without typed human grant
+fixture_secret_class: syntactic-noncredential-test-value
+retained_secret_bytes: false
+remaining_live_boundary: fresh exact provider authorization and eligible fine-grained PAT are separately required

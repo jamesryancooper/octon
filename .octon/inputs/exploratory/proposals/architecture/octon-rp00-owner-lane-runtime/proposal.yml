@@ -1,0 +1,67 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-rp00-owner-lane-runtime"
+title: "RP-00 Owner-Lane Runtime Boundary"
+summary: >-
+  Implement the missing token-enforced, single-flight GitHub owner lane required
+  by RP-00, including strict lifecycle artifacts, secret-safe credential
+  capture, an exact allowlisted HTTPS/Git executor, durable no-resend journaling,
+  same-token terminalization, and lifecycle approval-blocker routing.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/framework/constitution/contracts/authority/owner-lane-credential-admission-authorization-v1.schema.json"
+  - ".octon/framework/constitution/contracts/authority/owner-lane-credential-issuance-outcome-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/authority/owner-lane-credential-lifecycle-envelope-v1.schema.json"
+  - ".octon/framework/constitution/contracts/authority/owner-lane-credential-admission-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/authority/owner-lane-operation-manifest-v1.schema.json"
+  - ".octon/framework/constitution/contracts/authority/owner-lane-attestation-v1.schema.json"
+  - ".octon/framework/constitution/contracts/authority/owner-lane-completed-prefix-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/authority/owner-lane-operation-construction-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/authority/owner-lane-credential-retirement-receipt-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/owner-lane-execution-v1.md"
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+  - ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/side_effects/mod.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+  - ".octon/framework/execution-roles/_ops/scripts/git/git-owner-lane-askpass.sh"
+  - ".octon/framework/execution-roles/practices/standards/github-control-plane-contract.json"
+  - ".octon/framework/execution-roles/practices/github-autonomy-runbook.md"
+  - ".octon/instance/governance/support-target-admissions/live/github-repo-consequential-en.yml"
+  - ".octon/instance/governance/support-dossiers/live/github-repo-consequential-en/dossier.yml"
+  - ".octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-owner-lane-runtime.sh"
+status: implemented
+change_profile: "atomic"
+release_state: "pre-1.0"
+owner: "octon-maintainers"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Accept and implement the inert runtime boundary, retain direct positive and
+    adversarial proof, promote it separately, then use a fresh exact provider
+    authorization for the RP-00 cutover and archive this packet after closeout.
+related_proposals:
+  - "octon-architecture-migration-containment"
+  - "octon-architecture-migration-program"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/"
+  - ".octon/state/evidence/runs/workflows/20260716-architecture-migration-program-orchestration-resume-leased-codex/children/octon-architecture-migration-containment/owner-lane-readiness-20260717T033921Z.md"
+authority_class_impact:
+  framework: "Adds one exact provider-repository mutation effect and its runtime consumer; corrects approval routing for provider-authority blockers."
+  instance: "Expands the existing GitHub repo-consequential tuple only to the exact owner-lane operation after retained direct runtime proof; no adapter, pack, or general API surface is admitted."
+  state_control: "Future authorized runs create run-bound control records only through the existing authority boundary."
+  state_evidence: "Future runs retain redacted lifecycle, request, response, no-resend, and retirement evidence."
+  generated: "Support projections may refresh only through owning generators; no generated projection becomes authority or a promotion target."
+  inputs: "This packet remains non-authoritative planning lineage."
+explicit_runtime_non_implementation_statement: >-
+  Packet creation and acceptance do not issue a credential, authorize a
+  provider request, execute the owner lane, or resume RP-00.

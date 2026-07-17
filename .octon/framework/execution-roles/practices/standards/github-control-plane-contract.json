@@ -1,5 +1,5 @@
 {
-  "version": "2026-05-02",
+  "version": "2026-07-17",
   "default_work_unit_policy_ref": ".octon/framework/product/contracts/default-work-unit.yml",
   "change_receipt_schema_ref": ".octon/framework/product/contracts/change-receipt-v1.schema.json",
   "scope": {
@@ -153,5 +153,25 @@
       "cleanup disposition",
       "origin/main equals landed ref"
     ]
+  },
+  "rp00_owner_lane_cutover": {
+    "operation_id": "rp00-owner-lane-cutover",
+    "repository": "jamesryancooper/octon",
+    "runtime_action": "rp00_owner_lane_cutover",
+    "runtime_contract_ref": ".octon/framework/engine/runtime/spec/owner-lane-execution-v1.md",
+    "consumer_api_ref": ".octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs::execute_with_verified_effect",
+    "authorized_effect_token_type": "AuthorizedEffect<ProviderRepositoryMutation>",
+    "credential_class": "fine-grained-personal-access-token",
+    "credential_capture": "inherited-fd-once",
+    "http_secret_transport": "curl-config-via-stdin",
+    "git_secret_transport": "one-use-fifo-via-fixed-askpass",
+    "prohibited_clients": ["gh", "ssh", "ambient credential helper", "general API client"],
+    "unknown_outcome_resend_allowed": false,
+    "revocation_endpoint": "https://api.github.com/credentials/revoke",
+    "revocation_authenticated": false,
+    "revocation_acceptance_status": 202,
+    "terminal_identity_status": 401,
+    "retained_hermetic_proof_ref": ".octon/state/evidence/validation/owner-lane-runtime/2026-07-17-hermetic-proof.yml",
+    "live_execution_requires_fresh_exact_authorization": true
   }
 }

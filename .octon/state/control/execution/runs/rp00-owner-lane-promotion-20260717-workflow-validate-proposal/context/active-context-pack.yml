@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/rp00-owner-lane-promotion-20260717-workflow-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/rp00-owner-lane-promotion-20260717-workflow-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:1cefe1cc53821f66580db2dfe94029c0010da2bde1a113faf08164f70f6ce99f
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/rp00-owner-lane-promotion-20260717-workflow-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:49a52aeb435f1af7e9f57af56fca3635d2f8f6654d8bdba6b1d01a74b9720fe1
+receipt_sha256: sha256:1e41e1158496dd533ece12fe27c47909abde99d849f4d8eefcf9471b84b0d23a
+run_id: rp00-owner-lane-promotion-20260717-workflow-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-07-17T13:50:18.243881Z
+validity_state: valid

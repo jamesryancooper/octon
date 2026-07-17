@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:5dcb60fbda2dbb3f74b96a7b4209bf10c96bc30f8352d7de6ec32244586b2085
+  entry_id: rp00-owner-lane-promotion-20260717-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/rp00-owner-lane-promotion-20260717-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/rp00-owner-lane-promotion-20260717-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-07-17T13:50:23.225627Z
+  run_id: rp00-owner-lane-promotion-20260717-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:a57b43d34530551f8ae4a02b3d526a2deabc32206c8cf7c6f933fe46687708c6
+  entry_id: rp00-owner-lane-promotion-20260717-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/rp00-owner-lane-promotion-20260717-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/rp00-owner-lane-promotion-20260717-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-07-17T13:50:23.225627Z
+  run_id: rp00-owner-lane-promotion-20260717-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-rp00-owner-lane-promotion-20260717-workflow-validate-proposal
+run_id: rp00-owner-lane-promotion-20260717-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-07-17T13:50:23.225627Z

@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: rp00-owner-lane-promotion-20260717-workflow
+ledger_ref: .octon/state/control/execution/runs/rp00-owner-lane-promotion-20260717-workflow/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/rp00-owner-lane-promotion-20260717-workflow/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:121cbea17407d4bc7bfe03057e9902feed6956d5b913c13164d8ff492b75775f
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-rp00-owner-lane-promotion-20260717-workflow
+  sequence: 1
+  event_hash: sha256:6df6bc1f65c929dbed62f2c10fbebb62b41794808783c71ba59a7e9a2204ba5e
+last_event_ref:
+  event_id: evt-run-closed-rp00-owner-lane-promotion-20260717-workflow
+  sequence: 29
+  event_hash: sha256:1b7c40d37eb25224a0ac5e50db2ce5d176a0355f0be20da0e2a5e4f692a0218b
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:6df6bc1f65c929dbed62f2c10fbebb62b41794808783c71ba59a7e9a2204ba5e
+  tail_event_hash: sha256:1b7c40d37eb25224a0ac5e50db2ce5d176a0355f0be20da0e2a5e4f692a0218b
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-rp00-owner-lane-promotion-20260717-workflow
+  context_pack_ref: evt-context-pack-bound-rp00-owner-lane-promotion-20260717-workflow
+  disclosure_ref: evt-run-closed-rp00-owner-lane-promotion-20260717-workflow
+  evidence_snapshot_ref: evt-evidence-snapshot-created-rp00-owner-lane-promotion-20260717-workflow
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-aede09c481c5
+  run_contract_ref: evt-001-run-created-rp00-owner-lane-promotion-20260717-workflow
+  run_manifest_ref: evt-002-run-bound-rp00-owner-lane-promotion-20260717-workflow
+  runtime_state_ref: evt-run-closed-rp00-owner-lane-promotion-20260717-workflow
+  stage_attempt_ref: evt-stage-started-rp00-owner-lane-promotion-20260717-workflow
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/rp00-owner-lane-promotion-20260717-workflow/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/rp00-owner-lane-promotion-20260717-workflow/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/rp00-owner-lane-promotion-20260717-workflow/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/rp00-owner-lane-promotion-20260717-workflow/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/rp00-owner-lane-promotion-20260717-workflow/runtime-state.yml
+  last_applied_event_id: evt-run-closed-rp00-owner-lane-promotion-20260717-workflow
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:1b7c40d37eb25224a0ac5e50db2ce5d176a0355f0be20da0e2a5e4f692a0218b
+  materialized_at: 2026-07-17T13:50:27.980312Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-07-17T13:50:28.74521Z

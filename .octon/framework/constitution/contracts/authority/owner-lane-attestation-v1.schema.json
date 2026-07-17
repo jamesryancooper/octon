@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "octon://contracts/authority/owner-lane-attestation-v1",
+  "title": "Owner-lane attestation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "repository", "base_sha", "candidate_sha", "candidate_tree", "principal", "accepted_review_digest", "attested", "recorded_at"],
+  "properties": {
+    "schema_version": {"const": "owner-lane-attestation-v1"},
+    "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"},
+    "repository": {"const": "jamesryancooper/octon"},
+    "base_sha": {"$ref": "#/$defs/gitSha"},
+    "candidate_sha": {"$ref": "#/$defs/gitSha"},
+    "candidate_tree": {"$ref": "#/$defs/gitSha"},
+    "principal": {"$ref": "#/$defs/principal"},
+    "accepted_review_digest": {"$ref": "#/$defs/digest"},
+    "attested": {"const": true},
+    "recorded_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "gitSha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "principal": {"type": "object", "additionalProperties": false, "required": ["login", "id"], "properties": {"login": {"type": "string", "minLength": 1}, "id": {"type": "integer", "minimum": 1, "maximum": 9007199254740991}}}
+  }
+}

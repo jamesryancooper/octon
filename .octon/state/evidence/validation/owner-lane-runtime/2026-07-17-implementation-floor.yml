@@ -1,0 +1,82 @@
+schema_version: owner-lane-implementation-validation-v1
+validation_id: owner-lane-implementation-floor-20260717
+recorded_at: "2026-07-17T13:12:18Z"
+result: pass
+execution_class: inert-local-hermetic
+provider_effects_performed: false
+credential_effects_performed: false
+base_commit: 40fe9d0b4d1f41c69c4d2e3585c772c96a324023
+reviewed_packet_digest: sha256:efdbb050d9504783808c5cb1268540b70af2730f149355359c38dff109dbe991
+passing_checks:
+  - check: proposal-standard
+    result: pass-with-one-artifact-catalog-warning
+  - check: architecture-proposal
+    result: pass
+  - check: pre-integration-architecture-review
+    result: pass
+  - check: implementation-authorization-review-gate
+    result: pass
+  - check: implementation-readiness
+    result: pass
+  - check: owner-lane-schema-json
+    result: pass
+  - check: cargo-format
+    result: pass
+  - check: lifecycle-executor
+    result: pass
+    tests_passed: 64
+  - check: authorized-effects-crate
+    result: pass
+    tests_passed: 0
+  - check: authority-engine-crate
+    result: pass
+    tests_passed: 77
+  - check: kernel-owner-lane
+    result: pass
+    tests_passed: 9
+  - check: kernel-provider-authority
+    result: pass
+    tests_passed: 3
+  - check: kernel-lifecycle-program
+    result: pass
+    tests_passed: 315
+    evidence_ref: .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-lifecycle-baseline-repair.yml
+  - check: owner-lane-hermetic-protocol
+    result: pass
+    evidence_ref: .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-hermetic-proof.yml
+  - check: material-side-effect-inventory
+    result: pass
+  - check: authorization-boundary-coverage
+    result: pass
+  - check: support-target-proofing
+    result: pass
+  - check: support-target-live-claims
+    result: pass
+  - check: support-dossier-parity
+    result: pass
+  - check: support-dossier-evidence-depth
+    result: pass-with-authorized-historical-restoration
+  - check: historical-release-evidence-preservation
+    result: pass
+    assessment: validator-generated 4-of-4 rewrite restored to the base 6-of-6 release record under explicit authorization
+  - check: live-support-review-freshness
+    result: pass
+    review_due_at: "2026-09-30T00:00:00Z"
+  - check: git-diff-check
+    result: pass
+  - check: proposal-implementation-conformance
+    result: pass
+    unresolved_items_count: 0
+  - check: proposal-post-implementation-drift
+    result: pass-with-one-registry-warning
+    unresolved_items_count: 0
+blocking_checks: []
+resolved_checks:
+  - blocker_id: VAL-01
+    resolution: separately authorized owning-scope repair
+    evidence_ref: .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-lifecycle-baseline-repair.yml
+  - blocker_id: SCOPE-01
+    resolution: historical release evidence restored to its base 6-of-6 content after validator execution
+  - blocker_id: GOV-01
+    resolution: authored admission and dossier review_due_at aligned to 2026-09-30 and proof digest refreshed
+remaining_live_boundary: fresh exact provider authorization and an eligible fine-grained PAT are still mandatory; this route performed neither

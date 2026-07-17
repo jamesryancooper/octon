@@ -20,6 +20,31 @@ GitHub autonomy workflows:
 
 Use this document when setting up or rotating `AUTONOMY_PAT`.
 
+## RP-00 owner-lane boundary
+
+The one-shot `rp00-owner-lane-cutover` is separate from `AUTONOMY_PAT` and the
+protected-CI merge wrapper. Its only executable entrypoint is `octon
+protected-ci owner-lane execute`, governed by
+`.octon/framework/engine/runtime/spec/owner-lane-execution-v1.md` and a
+single-use `AuthorizedEffect<ProviderRepositoryMutation>`.
+
+The lane accepts only a separately authorized fine-grained PAT for
+`jamesryancooper/octon`, captured once through an inherited file descriptor.
+It must not use an Actions secret, `GH_TOKEN`, `GITHUB_TOKEN`, `gh`, SSH,
+browser state, a credential helper, or the ambient process environment. Curl
+receives authentication through stdin configuration; Git receives it through
+the fixed one-use FIFO askpass helper. A request with an unknown outcome is
+never resent.
+
+The lane terminalizes the same credential through one unauthenticated
+`POST /credentials/revoke`, treats `202` as acceptance only, and requires a
+subsequent same-token `/user` response of `401` plus local zeroization, FIFO
+removal, an empty scoped secret census, and a retirement receipt. The retained
+hermetic proof is
+`.octon/state/evidence/validation/owner-lane-runtime/2026-07-17-hermetic-proof.yml`.
+That proof admits the runtime shape; it does not authorize live credential
+issuance or provider mutation.
+
 ---
 
 ## Secret Contract

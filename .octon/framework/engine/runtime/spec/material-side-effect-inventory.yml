@@ -98,6 +98,18 @@ classes:
     owner: "Octon governance"
     risk_tier: "high"
     material: true
+  - id: provider-repository-mutation
+    token_type: "AuthorizedEffect<ProviderRepositoryMutation>"
+    roots:
+      - "github://repo/jamesryancooper/octon/**"
+    examples:
+      - "exact RP-00 owner-lane provider cutover"
+      - "closed Git HTTPS candidate push"
+      - "same-credential retirement"
+    required_boundary: ".octon/framework/engine/runtime/spec/owner-lane-execution-v1.md"
+    owner: "Octon governance"
+    risk_tier: "critical"
+    material: true
   - id: extension-activation
     token_type: "AuthorizedEffect<ExtensionActivation>"
     roots:
@@ -238,6 +250,15 @@ paths:
     owner_ref: ".github/workflows/pr-auto-merge.yml"
     consumer_api_ref: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs::cmd_protected_ci_auto_merge"
     negative_bypass_test_ref: ".octon/framework/assurance/runtime/_ops/tests/test-protected-ci-live-wrapper.sh"
+    consumption_receipt_required: true
+    journal_event_required: true
+    token_required: true
+    coverage_state: live
+  - path_id: owner-lane-provider-cutover
+    class_id: provider-repository-mutation
+    owner_ref: ".octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs"
+    consumer_api_ref: ".octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs::execute_with_verified_effect"
+    negative_bypass_test_ref: ".octon/framework/assurance/runtime/_ops/tests/test-owner-lane-runtime.sh"
     consumption_receipt_required: true
     journal_event_required: true
     token_required: true

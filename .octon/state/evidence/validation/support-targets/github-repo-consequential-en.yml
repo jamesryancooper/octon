@@ -12,10 +12,10 @@ claim_effect: admitted-live-claim
 support_target_ref: .octon/instance/governance/support-targets.yml
 admission_ref: .octon/instance/governance/support-target-admissions/live/github-repo-consequential-en.yml
 support_dossier_ref: .octon/instance/governance/support-dossiers/live/github-repo-consequential-en/dossier.yml
-generated_at: "2026-04-23T14:06:35Z"
+generated_at: "2026-07-17T00:00:00Z"
 freshness:
   status: current
-  reviewed_at: "2026-07-07T00:00:00Z"
+  reviewed_at: "2026-07-17T00:00:00Z"
   review_due_at: "2026-09-30T00:00:00Z"
 command_or_evaluator: validator://validate-proof-bundle-executability
 evaluator_version: executable-proof-bundle-v1
@@ -23,16 +23,20 @@ execution:
   mode: replay
   replay_ref: .octon/state/evidence/runs/protected-ci-1776956405637-68212/replay/manifest.yml
 input_digests:
-  support_targets_sha256: 4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
-  support_dossier_sha256: e1d281ba840120f87f32e2562bc6a0e86222dbb3538e9b47643d9aa495d923e2
+  support_targets_sha256: 3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+  support_dossier_sha256: fdf9b161fe34a29058b65767886eeb43ae2fb7e9d59fa15d0c75cb55b054f779
 output_digests:
   primary_run_card_sha256: b09e61ff6eab15ac4132a8e13f1afd83545f446acd04fc3769260810026d53a5
+  owner_lane_hermetic_proof_sha256: 668671e49f9571e2ed02fe37f2384d917992a34e452c4de7b869e21c9835f033
+  owner_lane_runtime_sha256: f9846f7293724a06dd33233d03ffd212d77dde27853f0ff4119fbdbaf212b07c
 pass_fail_criteria:
   - "github consequential tuple remains narrowly admitted-live for token-enforced protected-CI merge operations"
   - "negative controls, representative disclosure, and authorized-effect-token proof continue to resolve"
+  - "the exact rp00-owner-lane-cutover remains bound to its typed effect, fixed repository, hermetic protocol proof, and separate live authorization"
 receipt_refs:
   - .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proofing.yml
   - .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proof-refresh.yml
+  - .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-hermetic-proof.yml
 run_journal_validation_refs:
   - .octon/state/evidence/validation/run-journal-runtime-hardening/support-target-admission/github-repo-consequential-en.yml
 result: pass
@@ -58,13 +62,18 @@ proof_planes:
 scenario_evidence:
   required_scenarios:
     - projection-receipt-baseline
+    - owner-lane-hermetic-protocol
   replay_refs:
     - .octon/state/evidence/runs/protected-ci-1776956405637-68212/replay/manifest.yml
   representative_run_refs:
     - .octon/state/control/execution/runs/protected-ci-1776956405637-68212/run-contract.yml
+    - .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-hermetic-proof.yml
   negative_control_refs:
     - .octon/instance/governance/exclusions/action-classes.yml
     - .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/support-universe-coverage.yml
+    - .octon/framework/assurance/runtime/_ops/tests/test-owner-lane-runtime.sh
+  lab_refs:
+    - .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-hermetic-proof.yml
 authority_evidence:
   decision_refs:
     - .octon/state/evidence/control/execution/authority-decision-protected-ci-1776956405637-68212.yml
@@ -78,10 +87,11 @@ disclosure_evidence:
   proof_plane_coverage_ref: .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/proof-plane-coverage.yml
 sufficiency:
   minimum_retained_runs: 1
-  current_retained_runs: 1
+  current_retained_runs: 2
   status: qualified
   notes:
-    - Narrow live claim is limited to token-enforced protected-CI merge operations; broader API-client and frontier GitHub surfaces remain unadmitted.
+    - Narrow live claim is limited to token-enforced protected-CI merge and the exact rp00-owner-lane-cutover operation; broader API-client and frontier GitHub surfaces remain unadmitted.
 notes:
   - Derived SupportCard: .octon/generated/cognition/projections/materialized/support-cards/github-repo-consequential-en.yml
   - A branch-published GitHub Actions observation of the wrapperized workflow remains external to this local closeout; the retained representative run here proves the token-enforced runtime path itself.
+  - Owner-lane evidence is hermetic and inert; a fresh exact provider authorization remains mandatory before any live credential or provider effect.

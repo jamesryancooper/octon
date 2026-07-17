@@ -17,6 +17,7 @@ pub enum MaterialSideEffectClass {
     ControlMutation,
     GeneratedEffectivePublication,
     ProtectedCiCheck,
+    ProviderRepositoryMutation,
     ExtensionActivation,
     CapabilityPackActivation,
     ExecutorLaunch,
@@ -32,6 +33,7 @@ impl MaterialSideEffectClass {
             Self::ControlMutation => "control-mutation",
             Self::GeneratedEffectivePublication => "generated-effective-publication",
             Self::ProtectedCiCheck => "protected-ci-check",
+            Self::ProviderRepositoryMutation => "provider-repository-mutation",
             Self::ExtensionActivation => "extension-activation",
             Self::CapabilityPackActivation => "capability-pack-activation",
             Self::ExecutorLaunch => "executor-launch",
@@ -108,6 +110,13 @@ const INVENTORY: &[MaterialSideEffectInventoryEntry] = &[
         material: true,
     },
     MaterialSideEffectInventoryEntry {
+        id: "kernel.owner-lane.cutover",
+        class: MaterialSideEffectClass::ProviderRepositoryMutation,
+        affected_roots: &["github://repo/jamesryancooper/octon/**"],
+        required_boundary: AUTHORIZATION_BOUNDARY_REF,
+        material: true,
+    },
+    MaterialSideEffectInventoryEntry {
         id: "kernel.extension.activation",
         class: MaterialSideEffectClass::ExtensionActivation,
         affected_roots: &[
@@ -165,6 +174,9 @@ pub fn classify_execution_request(
     }
     if action_type == "protected_ci_auto_merge" {
         return MaterialSideEffectClass::ProtectedCiCheck;
+    }
+    if action_type == "rp00_owner_lane_cutover" {
+        return MaterialSideEffectClass::ProviderRepositoryMutation;
     }
     if action_type == "publish_extension_activation" {
         return MaterialSideEffectClass::ExtensionActivation;

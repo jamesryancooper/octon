@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "octon://contracts/authority/owner-lane-completed-prefix-receipt-v1",
+  "title": "Owner-lane completed prefix receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "manifest_digest", "operation_digest", "completed_operation_ids", "last_sequence", "journal_digest", "terminal_state", "recorded_at"],
+  "properties": {
+    "schema_version": {"const": "owner-lane-completed-prefix-receipt-v1"},
+    "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"},
+    "manifest_digest": {"$ref": "#/$defs/digest"},
+    "operation_digest": {"$ref": "#/$defs/digest"},
+    "completed_operation_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "last_sequence": {"type": "integer", "minimum": 0, "maximum": 32},
+    "journal_digest": {"$ref": "#/$defs/digest"},
+    "terminal_state": {"enum": ["in-progress", "outcome-unknown", "terminalized", "failed-closed"]},
+    "recorded_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {"digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}
