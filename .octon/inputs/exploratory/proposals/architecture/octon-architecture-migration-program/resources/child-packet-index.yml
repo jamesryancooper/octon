@@ -677,3 +677,1831 @@ children:
     parent_contract_refs:
       - ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/child-packet-contract.md"
       - ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md"
+write_scope_collision_ledger:
+  schema_version: octon-program-write-scope-collision-ledger-v1
+  registry_write_scopes_digest: sha256:4e572b846a9df01180c32eb252d890a6da438be1edd2deaf3545f0c564fcb835
+  derived_counts:
+    child_count: 15
+    scope_entries: 409
+    unique_paths: 337
+    exact_records: 115
+    directory_prefix_records: 5
+    total_records: 120
+  records:
+    - collision_id: WSC-001
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-agent-node-model-call-contract.sh
+          contribution: bounded child-agent semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-agent-node-model-call-contract.sh; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-agent-node-model-call-contract.sh
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-agent-node-model-call-contract.sh; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-002
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: bounded child-agent semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-003
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: bounded child-agent semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-004
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: bounded child-agent semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-005
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: bounded child-agent semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: local-broker and host-boundary semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-006
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-workflow-statechart-harness.sh
+          contribution: bounded child-agent semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-workflow-statechart-harness.sh; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-workflow-statechart-harness.sh
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-workflow-statechart-harness.sh; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-007
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/cognition/_meta/architecture/contract-registry.yml
+          contribution: bounded child-agent semantics only within .octon/framework/cognition/_meta/architecture/contract-registry.yml; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/cognition/_meta/architecture/contract-registry.yml
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/cognition/_meta/architecture/contract-registry.yml; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-008
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/cognition/_meta/architecture/contract-registry.yml
+          contribution: bounded child-agent semantics only within .octon/framework/cognition/_meta/architecture/contract-registry.yml; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/cognition/_meta/architecture/contract-registry.yml
+          contribution: workspace-project lifecycle semantics only within .octon/framework/cognition/_meta/architecture/contract-registry.yml; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-workspace-projects
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-009
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/constitution/contracts/adapters/family.yml
+          contribution: bounded child-agent semantics only within .octon/framework/constitution/contracts/adapters/family.yml; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/adapters/family.yml
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/adapters/family.yml; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-010
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: bounded child-agent semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-011
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: bounded child-agent semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: Class-B recovery semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-recovery-class-b
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-012
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: bounded child-agent semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-signed-evidence semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-signed-evidence
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: signed-evidence semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-signed-evidence
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-013
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: bounded child-agent semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: workspace-project lifecycle semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-workspace-projects
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-014
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: bounded child-agent semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-015
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: bounded child-agent semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-016
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: bounded child-agent semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: Class-B recovery semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-recovery-class-b
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-017
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: bounded child-agent semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: transactional runtime-state storage semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-transactional-runtime-store
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-018
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: bounded child-agent semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: workspace-project lifecycle semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-workspace-projects
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-019
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json
+          contribution: bounded child-agent semantics only within .octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json
+          contribution: candidate execution-isolation semantics only within .octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-020
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json
+          contribution: bounded child-agent semantics only within .octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-021
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+          contribution: bounded child-agent semantics only within .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+          contribution: Class-B recovery semantics only within .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-recovery-class-b
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-022
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+          contribution: bounded child-agent semantics only within .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+          contribution: workspace-project lifecycle semantics only within .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-workspace-projects
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-024
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/main.rs
+          contribution: bounded child-agent semantics only within .octon/framework/engine/runtime/crates/kernel/src/main.rs; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/main.rs
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/crates/kernel/src/main.rs; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-025
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/main.rs
+          contribution: bounded child-agent semantics only within .octon/framework/engine/runtime/crates/kernel/src/main.rs; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/main.rs
+          contribution: workspace-project lifecycle semantics only within .octon/framework/engine/runtime/crates/kernel/src/main.rs; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-workspace-projects
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-026
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs
+          contribution: bounded child-agent semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-027
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs
+          contribution: bounded child-agent semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-028
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/engine/runtime/spec/run-lifecycle-v1.md
+          contribution: bounded child-agent semantics only within .octon/framework/engine/runtime/spec/run-lifecycle-v1.md; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/engine/runtime/spec/run-lifecycle-v1.md
+          contribution: Class-B recovery semantics only within .octon/framework/engine/runtime/spec/run-lifecycle-v1.md; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-recovery-class-b
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-029
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md
+          contribution: bounded child-agent semantics only within .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-030
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md
+          contribution: bounded child-agent semantics only within .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-031
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json
+          contribution: bounded child-agent semantics only within .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-032
+      participants:
+        - child_id: octon-architecture-migration-bounded-child-agents
+          write_scope: .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json
+          contribution: bounded child-agent semantics only within .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json; preserve octon-architecture-migration-bounded-child-agents semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-bounded-child-agents
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-bounded-child-agents
+    - collision_id: WSC-033
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json
+          contribution: candidate execution-isolation semantics only within .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-034
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json
+          contribution: candidate sandbox, direct-provider-denial, and frozen RP-04 gateway-binding semantics only within .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json; preserve octon-architecture-migration-local-broker credential, gateway, budget, and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json
+          contribution: local-broker host boundary, real-credential custody, sole provider egress, authenticated local gateway, and pre-effect budget specialization only within .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json; preserve octon-architecture-migration-candidate-isolation sandbox and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-035
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json
+          contribution: candidate execution-isolation semantics only within .octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-036
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/adapters/host/macos-candidate.yml
+          contribution: Candidate-isolation capabilities, denials, version floor, and evidence bindings only; preserve RP-11 generic host conformance fields.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/adapters/host/
+          contribution: Existing host-manifest identity, lifecycle, and exact conformance-reference fields only; exclude child-specific route, isolation, broker, GitHub control-plane, projection-source, generator, publisher, freshness, and provider-effect semantics.
+      collision_kind: directory-prefix
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-037
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-038
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/auto.rs
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/auto.rs; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/auto.rs
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/auto.rs; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-039
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-040
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-041
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-042
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-043
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-044
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-045
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-candidate-isolation
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-046
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-canonical-authority
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-canonical-authority
+    - collision_id: WSC-047
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+          contribution: local-broker and host-boundary semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-048
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-canonical-authority
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-canonical-authority
+    - collision_id: WSC-049
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-050
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: local-broker and host-boundary semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-051
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs
+          contribution: transactional runtime-state storage semantics only within .octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-transactional-runtime-store
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-transactional-runtime-store
+    - collision_id: WSC-052
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs
+          contribution: transactional runtime-state storage semantics only within .octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-transactional-runtime-store
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-transactional-runtime-store
+    - collision_id: WSC-053
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/crates/authority_engine/src/implementation/records.rs
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/engine/runtime/crates/authority_engine/src/implementation/records.rs; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/engine/runtime/crates/authority_engine/src/implementation/records.rs
+          contribution: transactional runtime-state storage semantics only within .octon/framework/engine/runtime/crates/authority_engine/src/implementation/records.rs; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-transactional-runtime-store
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-transactional-runtime-store
+    - collision_id: WSC-054
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-055
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-canonical-authority
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-canonical-authority
+    - collision_id: WSC-056
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-canonical-authority
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-canonical-authority
+    - collision_id: WSC-057
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-canonical-authority
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-canonical-authority
+    - collision_id: WSC-058
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-059
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-sanitized-git semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-sanitized-git
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: sanitized Git primitive semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-sanitized-git
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-sanitized-git
+    - collision_id: WSC-060
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-verification-publication semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: verification and publication semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-verification-publication
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-verification-publication
+    - collision_id: WSC-061
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/spec/execution-authorization-v1.md
+          contribution: canonical authority and objective-binding semantics only within .octon/framework/engine/runtime/spec/execution-authorization-v1.md; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/spec/execution-authorization-v1.md
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/spec/execution-authorization-v1.md; preserve octon-architecture-migration-canonical-authority semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-062
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+          contribution: local-broker and host-boundary semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-063
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-064
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: local-broker and host-boundary semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-065
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh
+          contribution: local-broker and host-boundary semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-067
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-068
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-sanitized-git semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-sanitized-git
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: sanitized Git primitive semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-sanitized-git
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-sanitized-git
+    - collision_id: WSC-069
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-verification-publication semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: verification and publication semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-verification-publication
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-verification-publication
+    - collision_id: WSC-070
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-071
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml; preserve octon-architecture-migration-sanitized-git semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-sanitized-git
+          write_scope: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+          contribution: sanitized Git primitive semantics only within .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-sanitized-git
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-sanitized-git
+    - collision_id: WSC-072
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml; preserve octon-architecture-migration-verification-publication semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+          contribution: verification and publication semantics only within .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-verification-publication
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-verification-publication
+    - collision_id: WSC-074
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh; preserve octon-architecture-migration-sanitized-git semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-sanitized-git
+          write_scope: .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh
+          contribution: sanitized Git primitive semantics only within .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-sanitized-git
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-sanitized-git
+    - collision_id: WSC-075
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh; preserve octon-architecture-migration-sanitized-git semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-sanitized-git
+          write_scope: .octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh
+          contribution: sanitized Git primitive semantics only within .octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-sanitized-git
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-sanitized-git
+    - collision_id: WSC-080
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/product/contracts/default-work-unit.md
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/product/contracts/default-work-unit.md; preserve octon-architecture-migration-verification-publication semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/product/contracts/default-work-unit.md
+          contribution: verification and publication semantics only within .octon/framework/product/contracts/default-work-unit.md; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-verification-publication
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-verification-publication
+    - collision_id: WSC-081
+      participants:
+        - child_id: octon-architecture-migration-containment
+          write_scope: .octon/framework/product/contracts/default-work-unit.yml
+          contribution: Gate-0 containment and deny-first route semantics only within .octon/framework/product/contracts/default-work-unit.yml; preserve octon-architecture-migration-verification-publication semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/product/contracts/default-work-unit.yml
+          contribution: verification and publication semantics only within .octon/framework/product/contracts/default-work-unit.yml; preserve octon-architecture-migration-containment semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-verification-publication
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-containment
+          - octon-architecture-migration-verification-publication
+    - collision_id: WSC-083
+      participants:
+        - child_id: octon-architecture-migration-extension-supply-chain
+          write_scope: .octon/framework/engine/runtime/crates/runtime_resolver/src/handles.rs
+          contribution: extension supply-chain semantics only within .octon/framework/engine/runtime/crates/runtime_resolver/src/handles.rs; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/runtime_resolver/src/handles.rs
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/crates/runtime_resolver/src/handles.rs; preserve octon-architecture-migration-extension-supply-chain semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-extension-supply-chain
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-extension-supply-chain
+    - collision_id: WSC-084
+      participants:
+        - child_id: octon-architecture-migration-extension-supply-chain
+          write_scope: .octon/framework/engine/runtime/crates/runtime_resolver/src/lib.rs
+          contribution: extension supply-chain semantics only within .octon/framework/engine/runtime/crates/runtime_resolver/src/lib.rs; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/runtime_resolver/src/lib.rs
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/crates/runtime_resolver/src/lib.rs; preserve octon-architecture-migration-extension-supply-chain semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-extension-supply-chain
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-harness-factory
+          - octon-architecture-migration-extension-supply-chain
+    - collision_id: WSC-085
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
+          contribution: local-broker and host-boundary semantics only within .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-harness-factory
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-086
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/cognition/_meta/architecture/contract-registry.yml
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/cognition/_meta/architecture/contract-registry.yml; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/cognition/_meta/architecture/contract-registry.yml
+          contribution: workspace-project lifecycle semantics only within .octon/framework/cognition/_meta/architecture/contract-registry.yml; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-workspace-projects
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-087
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json
+          contribution: local-broker and host-boundary semantics only within .octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-harness-factory
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-088
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: Class-B recovery semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-recovery-class-b
+          - octon-architecture-migration-harness-factory
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-089
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-signed-evidence semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-signed-evidence
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: signed-evidence semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-signed-evidence
+          - octon-architecture-migration-harness-factory
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-090
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: workspace-project lifecycle semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-workspace-projects
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-091
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-harness-factory
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-092
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: Class-B recovery semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-recovery-class-b
+          - octon-architecture-migration-harness-factory
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-093
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: transactional runtime-state storage semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-transactional-runtime-store
+          - octon-architecture-migration-harness-factory
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-094
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: workspace-project lifecycle semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-workspace-projects
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-095
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/adapters/host/
+          contribution: Existing host-manifest identity, lifecycle, and exact conformance-reference fields only; exclude child-specific route, isolation, broker, GitHub control-plane, projection-source, generator, publisher, freshness, and provider-effect semantics.
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/adapters/host/macos-local-broker.yml
+          contribution: Broker identity, IPC, Keychain, supervision, store, and unsupported-capability specialization only; preserve RP-11 generic host conformance fields.
+      collision_kind: directory-prefix
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-harness-factory
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-096
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/adapters/host/
+          contribution: Existing host-manifest identity, lifecycle, and exact conformance-reference fields only; exclude child-specific route, isolation, broker, GitHub control-plane, projection-source, generator, publisher, freshness, and provider-effect semantics.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/engine/runtime/adapters/host/github-control-plane.yml
+          contribution: GitHub verifier and publication specialization plus the inert signature-consumer seam only; preserve RP-11 generic host identity, lifecycle, and conformance fields.
+      collision_kind: directory-prefix
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-verification-publication
+          - octon-architecture-migration-harness-factory
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-097
+      participants:
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/adapters/host/
+          contribution: Existing host-manifest identity, lifecycle, and exact conformance-reference fields only; exclude child-specific route, isolation, broker, GitHub control-plane, projection-source, generator, publisher, freshness, and provider-effect semantics.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/engine/runtime/adapters/host/github-control-plane/
+          contribution: GitHub projection source or templates, generation inputs, digests, publisher identity, and freshness semantics only; exclude RP-11 generic family conformance.
+      collision_kind: directory-prefix
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-verification-publication
+          - octon-architecture-migration-harness-factory
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-098
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: Class-B recovery semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-recovery-class-b
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-recovery-class-b
+    - collision_id: WSC-099
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: transactional runtime-state storage semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-transactional-runtime-store
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-100
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: workspace-project lifecycle semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-workspace-projects
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-workspace-projects
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-101
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.lock
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/crates/Cargo.lock; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.lock
+          contribution: transactional runtime-state storage semantics only within .octon/framework/engine/runtime/crates/Cargo.lock; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-transactional-runtime-store
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-102
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.toml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/crates/Cargo.toml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.toml
+          contribution: Class-B recovery semantics only within .octon/framework/engine/runtime/crates/Cargo.toml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-recovery-class-b
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-recovery-class-b
+    - collision_id: WSC-103
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.toml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/crates/Cargo.toml; preserve octon-architecture-migration-signed-evidence semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-signed-evidence
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.toml
+          contribution: signed-evidence semantics only within .octon/framework/engine/runtime/crates/Cargo.toml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-signed-evidence
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-signed-evidence
+    - collision_id: WSC-104
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.toml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/crates/Cargo.toml; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.toml
+          contribution: transactional runtime-state storage semantics only within .octon/framework/engine/runtime/crates/Cargo.toml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-local-broker
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-transactional-runtime-store
+          - octon-architecture-migration-local-broker
+    - collision_id: WSC-105
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs; preserve octon-architecture-migration-verification-publication semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs
+          contribution: verification and publication semantics only within .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-verification-publication
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-verification-publication
+    - collision_id: WSC-106
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/main.rs
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/crates/kernel/src/main.rs; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/main.rs
+          contribution: workspace-project lifecycle semantics only within .octon/framework/engine/runtime/crates/kernel/src/main.rs; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-workspace-projects
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-workspace-projects
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-107
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-sanitized-git semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-sanitized-git
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: sanitized Git primitive semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-sanitized-git
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-sanitized-git
+    - collision_id: WSC-108
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-verification-publication semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: verification and publication semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-verification-publication
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-verification-publication
+    - collision_id: WSC-109
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml; preserve octon-architecture-migration-sanitized-git semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-sanitized-git
+          write_scope: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+          contribution: sanitized Git primitive semantics only within .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-sanitized-git
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-sanitized-git
+    - collision_id: WSC-110
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+          contribution: local-broker and host-boundary semantics only within .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml; preserve octon-architecture-migration-verification-publication semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+          contribution: verification and publication semantics only within .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-verification-publication
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-verification-publication
+    - collision_id: WSC-111
+      participants:
+        - child_id: octon-architecture-migration-local-broker
+          write_scope: .octon/instance/governance/policies/mission-autonomy.yml
+          contribution: local-broker and host-boundary semantics only within .octon/instance/governance/policies/mission-autonomy.yml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/instance/governance/policies/mission-autonomy.yml
+          contribution: Class-B recovery semantics only within .octon/instance/governance/policies/mission-autonomy.yml; preserve octon-architecture-migration-local-broker semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-recovery-class-b
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-local-broker
+          - octon-architecture-migration-recovery-class-b
+    - collision_id: WSC-112
+      participants:
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: Class-B recovery semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-signed-evidence semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-signed-evidence
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: signed-evidence semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-recovery-class-b
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-signed-evidence
+          - octon-architecture-migration-recovery-class-b
+    - collision_id: WSC-113
+      participants:
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: Class-B recovery semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: workspace-project lifecycle semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-workspace-projects
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-recovery-class-b
+          - octon-architecture-migration-workspace-projects
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-114
+      participants:
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: Class-B recovery semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: transactional runtime-state storage semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-recovery-class-b
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-transactional-runtime-store
+          - octon-architecture-migration-recovery-class-b
+    - collision_id: WSC-115
+      participants:
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: Class-B recovery semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: workspace-project lifecycle semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-workspace-projects
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-recovery-class-b
+          - octon-architecture-migration-workspace-projects
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-116
+      participants:
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.toml
+          contribution: Class-B recovery semantics only within .octon/framework/engine/runtime/crates/Cargo.toml; preserve octon-architecture-migration-signed-evidence semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-signed-evidence
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.toml
+          contribution: signed-evidence semantics only within .octon/framework/engine/runtime/crates/Cargo.toml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-recovery-class-b
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-signed-evidence
+          - octon-architecture-migration-recovery-class-b
+    - collision_id: WSC-117
+      participants:
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.toml
+          contribution: Class-B recovery semantics only within .octon/framework/engine/runtime/crates/Cargo.toml; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.toml
+          contribution: transactional runtime-state storage semantics only within .octon/framework/engine/runtime/crates/Cargo.toml; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-recovery-class-b
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-transactional-runtime-store
+          - octon-architecture-migration-recovery-class-b
+    - collision_id: WSC-118
+      participants:
+        - child_id: octon-architecture-migration-recovery-class-b
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+          contribution: Class-B recovery semantics only within .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+          contribution: workspace-project lifecycle semantics only within .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs; preserve octon-architecture-migration-recovery-class-b semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-workspace-projects
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-recovery-class-b
+          - octon-architecture-migration-workspace-projects
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-119
+      participants:
+        - child_id: octon-architecture-migration-sanitized-git
+          write_scope: .octon/framework/engine/runtime/crates/authorized_effects/
+          contribution: Sealed sanitized-Git request/result and expected-old or expected-tip primitive data only; exclude route, verdict, publication, and cryptographic semantics.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs
+          contribution: Sealed verdict, route, inert verification state, PR, S-to-Q, mirror, and landed-fact data only; preserve RP-05 Git primitives and exclude cryptography.
+      collision_kind: directory-prefix
+      integration_owner_child_id: octon-architecture-migration-verification-publication
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-sanitized-git
+          - octon-architecture-migration-verification-publication
+    - collision_id: WSC-120
+      participants:
+        - child_id: octon-architecture-migration-sanitized-git
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: sanitized Git primitive semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-verification-publication semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+          contribution: verification and publication semantics only within .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml; preserve octon-architecture-migration-sanitized-git semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-verification-publication
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-sanitized-git
+          - octon-architecture-migration-verification-publication
+    - collision_id: WSC-121
+      participants:
+        - child_id: octon-architecture-migration-sanitized-git
+          write_scope: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+          contribution: sanitized Git primitive semantics only within .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml; preserve octon-architecture-migration-verification-publication semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+          contribution: verification and publication semantics only within .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml; preserve octon-architecture-migration-sanitized-git semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-verification-publication
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-sanitized-git
+          - octon-architecture-migration-verification-publication
+    - collision_id: WSC-122
+      participants:
+        - child_id: octon-architecture-migration-sanitized-git
+          write_scope: .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+          contribution: sanitized Git primitive semantics only within .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml; preserve octon-architecture-migration-verification-publication semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-verification-publication
+          write_scope: .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+          contribution: verification and publication semantics only within .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml; preserve octon-architecture-migration-sanitized-git semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-verification-publication
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-sanitized-git
+          - octon-architecture-migration-verification-publication
+    - collision_id: WSC-123
+      participants:
+        - child_id: octon-architecture-migration-signed-evidence
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: signed-evidence semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/constitution/contracts/registry.yml
+          contribution: workspace-project lifecycle semantics only within .octon/framework/constitution/contracts/registry.yml; preserve octon-architecture-migration-signed-evidence semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-workspace-projects
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-signed-evidence
+          - octon-architecture-migration-workspace-projects
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-124
+      participants:
+        - child_id: octon-architecture-migration-signed-evidence
+          write_scope: .octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json
+          contribution: signed-evidence semantics only within .octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json
+          contribution: transactional runtime-state storage semantics only within .octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json; preserve octon-architecture-migration-signed-evidence semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-signed-evidence
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-transactional-runtime-store
+          - octon-architecture-migration-signed-evidence
+    - collision_id: WSC-125
+      participants:
+        - child_id: octon-architecture-migration-signed-evidence
+          write_scope: .octon/framework/constitution/contracts/retention/family.yml
+          contribution: signed-evidence semantics only within .octon/framework/constitution/contracts/retention/family.yml; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/constitution/contracts/retention/family.yml
+          contribution: transactional runtime-state storage semantics only within .octon/framework/constitution/contracts/retention/family.yml; preserve octon-architecture-migration-signed-evidence semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-signed-evidence
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-transactional-runtime-store
+          - octon-architecture-migration-signed-evidence
+    - collision_id: WSC-126
+      participants:
+        - child_id: octon-architecture-migration-signed-evidence
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.toml
+          contribution: signed-evidence semantics only within .octon/framework/engine/runtime/crates/Cargo.toml; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/engine/runtime/crates/Cargo.toml
+          contribution: transactional runtime-state storage semantics only within .octon/framework/engine/runtime/crates/Cargo.toml; preserve octon-architecture-migration-signed-evidence semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-signed-evidence
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-transactional-runtime-store
+          - octon-architecture-migration-signed-evidence
+    - collision_id: WSC-127
+      participants:
+        - child_id: octon-architecture-migration-signed-evidence
+          write_scope: .octon/framework/engine/runtime/spec/evidence-store-v1.md
+          contribution: signed-evidence semantics only within .octon/framework/engine/runtime/spec/evidence-store-v1.md; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/engine/runtime/spec/evidence-store-v1.md
+          contribution: transactional runtime-state storage semantics only within .octon/framework/engine/runtime/spec/evidence-store-v1.md; preserve octon-architecture-migration-signed-evidence semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-signed-evidence
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-transactional-runtime-store
+          - octon-architecture-migration-signed-evidence
+    - collision_id: WSC-128
+      participants:
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: transactional runtime-state storage semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-workspace-projects semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-workspace-projects
+          write_scope: .octon/framework/constitution/contracts/runtime/family.yml
+          contribution: workspace-project lifecycle semantics only within .octon/framework/constitution/contracts/runtime/family.yml; preserve octon-architecture-migration-transactional-runtime-store semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-workspace-projects
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-transactional-runtime-store
+          - octon-architecture-migration-workspace-projects
+        lock_id: octon-architecture-migration-program-write-scope-integration
