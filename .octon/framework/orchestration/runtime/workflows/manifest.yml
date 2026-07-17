@@ -93,7 +93,7 @@ workflows:
     domain: change-closeout
     path: meta/closeout/
     execution_profile: core
-    summary: Resolve Change closeout route before direct-main, branch-only, PR-backed, or stage-only action.
+    summary: Resolve SI-00 Change closeout to preservation or stable pre-effect denial.
     status: active
     triggers:
       - "closeout"

@@ -4,282 +4,126 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
-
-POLICY="$OCTON_DIR/framework/product/contracts/default-work-unit.yml"
-CLOSEOUT_CHANGE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
-HOSTED_PREFLIGHT_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh"
-GITHUB_CONTROL_CONTRACT="$OCTON_DIR/framework/execution-roles/practices/standards/github-control-plane-contract.json"
-
-EXPECTATION="target-route-neutral"
+CONTRACT="$OCTON_DIR/framework/execution-roles/practices/standards/github-control-plane-contract.json"
+EXPECTATION="si00-pr-required-bootstrap"
 RULESET_JSON=""
+SNAPSHOT_JSON=""
+BASE_SHA=""
 STRICT_LIVE=0
-REMOTE="origin"
-TARGET_BRANCH="main"
 errors=0
 
 usage() {
   cat <<'USAGE'
 usage:
-  validate-github-main-ruleset-alignment.sh [--expect current-pr-required|target-route-neutral] [--ruleset-json <path>] [--strict-live]
+  validate-github-main-ruleset-alignment.sh [--expect si00-pr-required-bootstrap] [--ruleset-json <path>] [--snapshot-json <path>] [--base-sha <sha>] [--strict-live]
 
-Validates GitHub main ruleset posture against Octon's hybrid landing model.
-The default expectation documents the current repository state after accepted
-route-neutral live migration. Use --expect current-pr-required only for
-rollback snapshots or pre-migration fixtures.
+Validates the SI-00 PR-required two-check bootstrap topology. This validator
+is read-only. --strict-live requires a retained snapshot; it never queries or
+mutates GitHub directly.
 USAGE
 }
 
 pass() { echo "[OK] $1"; }
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
 
-require_file() {
-  local file="$1"
-  [[ -f "$file" ]] && pass "found ${file#$ROOT_DIR/}" || fail "missing ${file#$ROOT_DIR/}"
-}
-
-require_literal() {
-  local file="$1"
-  local needle="$2"
-  local ok_msg="$3"
-  local fail_msg="$4"
-  grep -Fq -- "$needle" "$file" && pass "$ok_msg" || fail "$fail_msg"
-}
-
-require_yq() {
-  local file="$1"
-  local expr="$2"
-  local ok_msg="$3"
-  local fail_msg="$4"
-  yq -e "$expr" "$file" >/dev/null 2>&1 && pass "$ok_msg" || fail "$fail_msg"
-}
-
-repo_from_remote() {
-  local url path
-  url="$(git -C "$ROOT_DIR" remote get-url "$REMOTE" 2>/dev/null || true)"
-  case "$url" in
-    git@github.com:*)
-      path="${url#git@github.com:}"
-      ;;
-    https://github.com/*)
-      path="${url#https://github.com/}"
-      ;;
-    http://github.com/*)
-      path="${url#http://github.com/}"
-      ;;
-    *)
-      return 1
-      ;;
-  esac
-  path="${path%.git}"
-  [[ "$path" == */* ]] || return 1
-  printf '%s\n' "$path"
-}
-
-rules_require_pr() {
-  local file="$1"
-  jq -e '.. | objects | select(.type? == "pull_request")' "$file" >/dev/null 2>&1
-}
-
-rules_require_checks() {
-  local file="$1"
-  jq -e '.. | objects | select(.type? == "required_status_checks")' "$file" >/dev/null 2>&1
-}
-
-rules_have_type() {
-  local file="$1"
-  local type="$2"
-  jq -e --arg type "$type" '.. | objects | select(.type? == $type)' "$file" >/dev/null 2>&1
-}
-
-rules_require_strict_checks() {
-  local file="$1"
-  jq -e '
-    .. | objects
-    | select(.type? == "required_status_checks")
-    | .parameters.strict_required_status_checks_policy == true
-  ' "$file" >/dev/null 2>&1
-}
-
-rules_required_check_contexts() {
-  local file="$1"
-  jq -r '
-    [
-      .. | objects
-      | select(.type? == "required_status_checks")
-      | .parameters.required_status_checks[]?.context
-    ]
-    | unique
-    | .[]
-  ' "$file" 2>/dev/null || true
-}
-
-validate_forbidden_universal_pr_checks() {
-  local file="$1"
-  local forbidden actual_contexts found
-  mapfile -t actual_contexts < <(rules_required_check_contexts "$file")
-  while IFS= read -r forbidden; do
-    [[ -n "$forbidden" ]] || continue
-    found=0
-    if printf '%s\n' "${actual_contexts[@]}" | grep -Fxq -- "$forbidden"; then
-      found=1
-    fi
-    if [[ "$found" -eq 1 ]]; then
-      fail "target route-neutral ruleset must not require PR-only check ${forbidden}"
-    else
-      pass "target route-neutral ruleset does not universally require PR-only check ${forbidden}"
-    fi
-  done < <(jq -r '.rulesets.target_route_neutral_main.pr_specific_checks[]?' "$GITHUB_CONTROL_CONTRACT")
-}
-
-validate_static_policy() {
-  require_file "$POLICY"
-  require_file "$CLOSEOUT_CHANGE"
-  require_file "$HOSTED_PREFLIGHT_SCRIPT"
-  require_file "$GITHUB_CONTROL_CONTRACT"
-  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "provider_ruleset_blocks_requested_hosted_no_pr_landing")' "policy fails closed when provider blocks hosted no-PR landing" "policy must fail closed when provider blocks hosted no-PR landing"
-  require_yq "$POLICY" '.pr_required_predicates[]? | select(. == "provider_ruleset_requires_pr")' "policy treats provider PR rule as PR-required predicate" "policy must treat provider PR rule as PR-required predicate"
-  require_literal "$CLOSEOUT_CHANGE" 'If the provider ruleset requires PR for `main`, report a blocker' "closeout-change reports PR-required no-PR blocker" "closeout-change must report PR-required no-PR blocker"
-  require_literal "$HOSTED_PREFLIGHT_SCRIPT" "Provider ruleset requires PR; hosted branch-no-pr landing unavailable." "preflight produces clear PR-required blocker" "preflight must produce clear PR-required blocker"
-  jq -e '.rulesets.current_live_main.expectation == "target-route-neutral"' "$GITHUB_CONTROL_CONTRACT" >/dev/null 2>&1 \
-    && pass "control contract records current live route-neutral posture" \
-    || fail "control contract must record current live route-neutral posture"
-  jq -e '(.rulesets.current_live_main.required_checks | index("route_neutral_closeout_validation") != null) and (.rulesets.current_live_main.required_checks | index("branch_naming_validation") != null) and (.rulesets.current_live_main.required_checks | index("route_aware_autonomy_validation") != null) and (.rulesets.current_live_main.required_checks | index("exact_source_sha_validation") != null)' "$GITHUB_CONTROL_CONTRACT" >/dev/null 2>&1 \
-    && pass "control contract records current live route-neutral checks" \
-    || fail "control contract must record current live route-neutral checks"
-  jq -e '.rulesets.target_route_neutral_main.live_mutation_performed_by_this_projection == false' "$GITHUB_CONTROL_CONTRACT" >/dev/null 2>&1 \
-    && pass "control contract states repo-local projection does not mutate live rulesets" \
-    || fail "control contract must state live ruleset mutation was not performed"
-
-  local mutating_methods mutation_hits
-  mutating_methods="PATCH|POST|PUT|DELETE"
-  mutation_hits="$(rg -n -- "--method[[:space:]]+(${mutating_methods})|-X[[:space:]]+(${mutating_methods})" "$0" 2>/dev/null || true)"
-  if [[ -n "$mutation_hits" ]]; then
-    printf '%s\n' "$mutation_hits"
-    fail "validator must not contain live GitHub mutation calls"
-  else
-    pass "validator contains no live GitHub mutation calls"
-  fi
-}
-
-validate_rules_file() {
-  local file="$1"
-  [[ -f "$file" ]] || { fail "ruleset JSON exists: $file"; return; }
-  jq -e '.' "$file" >/dev/null 2>&1 || { fail "ruleset JSON parses"; return; }
-
-  case "$EXPECTATION" in
-    current-pr-required)
-      if rules_require_pr "$file"; then
-        pass "PR-required ruleset blocks hosted branch-no-pr landing"
-      else
-        fail "current expectation requires a pull_request rule"
-      fi
-      ;;
-    target-route-neutral)
-      if rules_require_pr "$file"; then
-        fail "target route-neutral ruleset must not require PR for main"
-      else
-        pass "target route-neutral ruleset does not require PR"
-      fi
-      if rules_require_checks "$file"; then
-        pass "target route-neutral ruleset retains required checks"
-      else
-        fail "target route-neutral ruleset must retain required checks"
-      fi
-      if rules_require_strict_checks "$file"; then
-        pass "target route-neutral ruleset uses strict required status checks"
-      else
-        fail "target route-neutral ruleset must use strict required status checks"
-      fi
-      for required_rule in deletion non_fast_forward required_linear_history; do
-        if rules_have_type "$file" "$required_rule"; then
-          pass "target route-neutral ruleset retains ${required_rule}"
-        else
-          fail "target route-neutral ruleset missing ${required_rule}"
-        fi
-      done
-      local expected_check actual_contexts missing_check
-      mapfile -t actual_contexts < <(rules_required_check_contexts "$file")
-      while IFS= read -r expected_check; do
-        [[ -n "$expected_check" ]] || continue
-        if printf '%s\n' "${actual_contexts[@]}" | grep -Fxq -- "$expected_check"; then
-          pass "target route-neutral ruleset includes required check ${expected_check}"
-        else
-          missing_check=1
-          fail "target route-neutral ruleset missing required check ${expected_check}"
-        fi
-      done < <(jq -r '.rulesets.target_route_neutral_main.universal_required_checks[]?' "$GITHUB_CONTROL_CONTRACT")
-      validate_forbidden_universal_pr_checks "$file"
-      ;;
-    *)
-      fail "unknown expectation: $EXPECTATION"
-      ;;
-  esac
-}
-
-validate_live_rules() {
-  if ! command -v gh >/dev/null 2>&1; then
-    [[ "$STRICT_LIVE" -eq 1 ]] && fail "gh is required for strict live ruleset validation" || pass "live ruleset validation skipped; gh unavailable"
-    return
-  fi
-
-  local repo tmp
-  repo="$(repo_from_remote)" || {
-    [[ "$STRICT_LIVE" -eq 1 ]] && fail "unable to resolve GitHub repo from remote" || pass "live ruleset validation skipped; GitHub remote unavailable"
-    return
-  }
-  tmp="$(mktemp)"
-  if gh api "repos/${repo}/rules/branches/${TARGET_BRANCH}" >"$tmp" 2>/dev/null; then
-    validate_rules_file "$tmp"
-  elif [[ "$STRICT_LIVE" -eq 1 ]]; then
-    fail "unable to query live GitHub branch rules"
-  else
-    pass "live ruleset validation skipped; GitHub API unavailable"
-  fi
-  rm -f -- "$tmp"
-}
-
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --expect)
-      shift
-      [[ $# -gt 0 ]] || { usage >&2; exit 2; }
-      EXPECTATION="$1"
-      ;;
-    --ruleset-json)
-      shift
-      [[ $# -gt 0 ]] || { usage >&2; exit 2; }
-      RULESET_JSON="$1"
-      ;;
-    --strict-live)
-      STRICT_LIVE=1
-      ;;
-    -h|--help)
-      usage
-      exit 0
-      ;;
-    *)
-      usage >&2
-      exit 2
-      ;;
+    --expect) shift; EXPECTATION="${1:-}" ;;
+    --ruleset-json) shift; RULESET_JSON="${1:-}" ;;
+    --snapshot-json) shift; SNAPSHOT_JSON="${1:-}" ;;
+    --base-sha) shift; BASE_SHA="${1:-}" ;;
+    --strict-live) STRICT_LIVE=1 ;;
+    -h|--help) usage; exit 0 ;;
+    *) usage >&2; exit 2 ;;
   esac
   shift
 done
 
-if [[ -n "$RULESET_JSON" && "$RULESET_JSON" != /* ]]; then
-  RULESET_JSON="$ROOT_DIR/$RULESET_JSON"
-fi
+[[ "$EXPECTATION" == "si00-pr-required-bootstrap" ]] || fail "only si00-pr-required-bootstrap is a current expectation"
+[[ -f "$CONTRACT" ]] && pass "GitHub control-plane contract exists" || fail "GitHub control-plane contract missing"
+jq -e . "$CONTRACT" >/dev/null 2>&1 && pass "GitHub control-plane contract parses" || fail "GitHub control-plane contract must parse"
 
-command -v jq >/dev/null 2>&1 || { echo "[ERROR] jq is required" >&2; exit 1; }
-command -v yq >/dev/null 2>&1 || { echo "[ERROR] yq is required" >&2; exit 1; }
+jq -e '
+  .si00_containment.current_effect_routes == [] and
+  (.si00_containment.denied_routes | index("direct-main") != null) and
+  (.si00_containment.denied_routes | index("hosted-branch-no-pr-landing") != null) and
+  .si00_containment.provider_mutation_requires_separate_authorization == true and
+  .si00_containment.repo_local_projection_performs_provider_mutation == false
+' "$CONTRACT" >/dev/null 2>&1 \
+  && pass "SI-00 provider effects are denied locally" \
+  || fail "SI-00 provider-effect denial is incomplete"
 
-echo "== GitHub Main Ruleset Alignment Validation =="
-validate_static_policy
-if [[ -n "$RULESET_JSON" ]]; then
-  validate_rules_file "$RULESET_JSON"
+jq -e '
+  .rulesets.si00_bootstrap_main.expectation == "pr-required-two-check-bootstrap" and
+  .rulesets.si00_bootstrap_main.required_checks == ["PR Quality Standards", "Validate branch naming"] and
+  .rulesets.si00_bootstrap_main.strict_required_status_checks_policy == true and
+  .rulesets.si00_bootstrap_main.bypass_actors == [] and
+  .rulesets.si00_bootstrap_main.exact_base_binding_required == true and
+  .rulesets.si00_bootstrap_main.exact_head_conditional_merge_required == true and
+  .rulesets.si00_bootstrap_main.hosted_no_pr_required == false and
+  .rulesets.si00_bootstrap_main.live_mutation_performed_by_this_projection == false
+' "$CONTRACT" >/dev/null 2>&1 \
+  && pass "contract defines the exact SI-00 bootstrap ruleset" \
+  || fail "contract SI-00 bootstrap ruleset is incomplete"
+
+if rg -n -- '--method[[:space:]]+(PATCH|POST|PUT|DELETE)|-X[[:space:]]+(PATCH|POST|PUT|DELETE)|gh[[:space:]]+api.*--method' "$0" >/dev/null 2>&1; then
+  fail "validator contains a provider mutation command"
 else
-  validate_live_rules
+  pass "validator contains no provider mutation command"
 fi
 
-echo
+if [[ -n "$RULESET_JSON" ]]; then
+  [[ -f "$RULESET_JSON" ]] || fail "ruleset JSON missing: $RULESET_JSON"
+  if [[ -f "$RULESET_JSON" ]] && jq -e . "$RULESET_JSON" >/dev/null 2>&1; then
+    pass "ruleset JSON parses"
+    jq -e '[.. | objects | select(.type? == "pull_request")] | length == 1' "$RULESET_JSON" >/dev/null 2>&1 \
+      && pass "ruleset requires PR exactly once" || fail "ruleset must require PR exactly once"
+    jq -e '[.. | objects | select(.type? == "required_status_checks")] | length == 1' "$RULESET_JSON" >/dev/null 2>&1 \
+      && pass "ruleset has one required-status-check rule" || fail "ruleset must have one required-status-check rule"
+    jq -e '
+      [.. | objects | select(.type? == "required_status_checks") | .parameters.required_status_checks[]?.context] | unique | sort
+      == ["PR Quality Standards", "Validate branch naming"]
+    ' "$RULESET_JSON" >/dev/null 2>&1 \
+      && pass "ruleset requires exactly the two bootstrap-safe checks" || fail "ruleset check topology must be exact"
+    jq -e '[.. | objects | select(.type? == "required_status_checks") | .parameters.strict_required_status_checks_policy] == [true]' "$RULESET_JSON" >/dev/null 2>&1 \
+      && pass "ruleset requires strict latest-base checks" || fail "ruleset must require strict latest-base checks"
+    for rule_type in deletion non_fast_forward required_linear_history; do
+      jq -e --arg rule_type "$rule_type" '[.. | objects | select(.type? == $rule_type)] | length == 1' "$RULESET_JSON" >/dev/null 2>&1 \
+        && pass "ruleset retains $rule_type" || fail "ruleset must retain $rule_type"
+    done
+    jq -e '[(.. | objects | .bypass_actors? // empty)[]?] | length == 0' "$RULESET_JSON" >/dev/null 2>&1 \
+      && pass "ruleset has no bypass actors" || fail "ruleset must have no bypass actors"
+  else
+    fail "ruleset JSON must parse"
+  fi
+fi
+
+if [[ -n "$SNAPSHOT_JSON" ]]; then
+  [[ -f "$SNAPSHOT_JSON" ]] || fail "snapshot JSON missing: $SNAPSHOT_JSON"
+  if [[ -f "$SNAPSHOT_JSON" ]] && jq -e '.schema_version == "github-control-plane-snapshot-v2" and .capture_complete == true' "$SNAPSHOT_JSON" >/dev/null 2>&1; then
+    pass "snapshot is complete and current"
+    snapshot_base="$(jq -r '.binding.base_sha // ""' "$SNAPSHOT_JSON")"
+    if [[ -n "$BASE_SHA" && "$snapshot_base" != "$BASE_SHA" ]]; then
+      fail "snapshot base SHA does not match --base-sha"
+    elif [[ "$snapshot_base" =~ ^[0-9a-f]{40}$ ]]; then
+      pass "snapshot binds an exact base SHA"
+    else
+      fail "snapshot base SHA is not exact"
+    fi
+    jq -e '
+      [.derived.check_run_producers.base[]? | select(.conclusion == "success") | .name] | unique | sort
+      | index("PR Quality Standards") != null and index("Validate branch naming") != null
+    ' "$SNAPSHOT_JSON" >/dev/null 2>&1 \
+      && pass "snapshot proves both safe producers at the base" \
+      || fail "snapshot lacks both safe producer proofs at the base"
+  else
+    fail "snapshot must be complete github-control-plane-snapshot-v2"
+  fi
+fi
+
+if [[ "$STRICT_LIVE" -eq 1 && -z "$SNAPSHOT_JSON" ]]; then
+  fail "strict-live requires --snapshot-json; direct live queries are not an authority path"
+fi
+
 echo "Validation summary: errors=$errors"
 [[ "$errors" -eq 0 ]]

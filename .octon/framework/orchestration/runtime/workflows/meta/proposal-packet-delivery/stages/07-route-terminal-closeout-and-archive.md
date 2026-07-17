@@ -1,32 +1,19 @@
-# Stage 07: Route Terminal Closeout And Archive
+# Stage 07: Resolve Terminal Readiness And Stop Before Archive
 
-Route terminal readiness through `proposal-packet-terminal-closeout`, then route
-implemented archive through the separate `archive-proposal` lifecycle.
+Route terminal-readiness validation through
+`proposal-packet-terminal-closeout`, then stop at `archive-ready`. This stage
+does not invoke `archive-proposal` or relocate the packet during SI-00.
 
 Required checks:
 
-- Pre-archive packets are routed to `proposal-packet-terminal-closeout` and
-  `archive-proposal` rather than moved directly by the delivery wrapper.
-- Already-archived packets do not rerun archive relocation; missing or stale
-  archive evidence blocks with `archive-proposal` as the next owning lifecycle.
-- `support/proposal-terminal-closeout.yml` reports a passing terminal verdict.
-- Archive-ready terminal closeout requires either strict worktree hygiene pass
-  or a validating partition-clean archive readiness order override; the latter
-  is limited to readiness for the next archive route and is not archive,
-  cleanup, Git, hosted landing, branch cleanup, or `cleaned` authority.
-- Terminal closeout does not move the packet to archive.
-- `archive-proposal` owns archive relocation and archive metadata.
-- Archive relocation is followed by generated proposal registry/artifact
-  freshness validation.
-- Fresh archive mutations block Change closeout until revalidated.
-- Before terminal closeout or archive handoff, generated-input freshness scope
-  records one of: generated freshness not in scope; generated-input scope
-  detected and owner-routed; generated refresh needed but not authorized;
-  generated output present but stale; generated output fresh but
-  non-authoritative.
-- Stale generated output or missing owning-validator freshness evidence blocks
-  the terminal delivery claim and names the owning generator or authorization
-  route as the next lifecycle.
-- Fresh generated output may support operator understanding and validator
-  evidence only; it must not authorize closeout, archive, cleanup, publication,
-  parent lifecycle state, or Change closeout.
+- Packet closeout and terminal-closeout evidence is fresh and target-owned.
+- `support/proposal-terminal-closeout.yml` reports a passing readiness verdict.
+- The current target is `archive-ready`; implemented requests may stop earlier.
+- Exact work, candidate refs, worktrees, rollback handles, and unrelated work
+  remain preserved.
+- Archive relocation, Git/GitHub mutation, hosted landing, final sync, cleanup,
+  branch deletion, and generated direct publication are not performed.
+- If later archive or publication is requested, record the separate owning
+  lifecycle and `RP00_CONTAINMENT_PUBLICATION_DISABLED`; do not dispatch it.
+- Generated freshness remains validator evidence only and never authorizes
+  archive, publication, cleanup, or Change closeout.

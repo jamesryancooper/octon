@@ -5,8 +5,7 @@ adapter_registry_ref: ".octon/framework/assurance/evaluators/adapters/registry.y
 default_work_unit_policy_ref: ".octon/framework/product/contracts/default-work-unit.yml"
 run_requirements:
   route_requirements:
-    direct-main: "not_required_unless_selected_validation_floor_requires_review"
-    branch-no-pr: "not_required_unless_selected_validation_floor_requires_review"
+    branch-no-pr: "not_required_for_preservation_only; landing_and_cleanup_are_denied_during_SI-00"
     branch-pr: "required_when_hosted_review_or_ai_gate_policy_selects_it"
     stage-only-escalate: "record_blocker_without_claiming_review_completion"
   support_tiers_require_approved_review:

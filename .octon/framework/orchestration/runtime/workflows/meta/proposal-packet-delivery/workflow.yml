@@ -1,6 +1,6 @@
 schema_version: workflow-contract-v2
 name: proposal-packet-delivery
-description: Coordinate an accepted proposal packet through implementation, promotion, packet closeout, terminal closeout, archive handoff, Change closeout, hosted landing, final sync, branch cleanup, terminal proof, and final hygiene.
+description: Coordinate an accepted proposal packet through implementation or archive readiness while RP-00 disables publication, landing, sync, and cleanup effects.
 version: 1.0.0
 entry_mode: human
 execution_profile: core
@@ -161,14 +161,13 @@ stages:
     authorization: *repo_mutation_authorization
   - id: route-change-closeout
     asset: stages/08-route-change-closeout.md
-    kind: mutation
+    kind: verification
     consumes:
       - stage:route-terminal-closeout-and-archive
     produces:
       - stage:route-change-closeout
-    mutation_scope:
-      - workflow-scope
-    authorization: *repo_mutation_authorization
+    mutation_scope: []
+    authorization: *read_evidence_authorization
   - id: validate-cleanup-sync-proof
     asset: stages/09-validate-cleanup-sync-proof.md
     kind: verification
@@ -220,7 +219,8 @@ artifacts:
     description: Evidence-only feature-catalog-drift-receipt-v1 output validated by validate-feature-catalog-drift-closeout.sh.
 done_gate:
   checks:
-    - "/proposal-packet-delivery outcome=cleaned route=branch-no-pr is the outer orchestrator and PR fallback forbidden"
+    - "/proposal-packet-delivery admits only outcome=implemented or outcome=archive-ready with route=stage-only"
+    - "effectful or omitted/default requests stop with RP00_CONTAINMENT_PUBLICATION_DISABLED and preserve exact work"
     - "profile validates with validate-proposal-packet-delivery-profile.sh before any delivery claim"
     - "profile records pre-archive and already-archived packet state routing"
     - "proposal review/readiness gates and implementation authorization are fresh before implementation"
@@ -235,16 +235,11 @@ done_gate:
     - "proposal-packet-terminal-closeout owns proposal-terminal-closeout.yml"
     - "archive-proposal owns archive relocation"
     - "pre-archive packet state routes through closeout-packet, proposal-packet-terminal-closeout, and archive-proposal"
-    - "already-archived packet state skips archive relocation and routes to closeout-change for landing, sync, cleanup, and terminal proof"
+    - "already-archived packet state skips archive relocation and remains preserved without a publication route"
     - "generated publication remains owner-routed through owning publisher scripts"
     - "generated-input freshness scope is classified before terminal closeout/archive routing"
     - "generated freshness outcomes record not-in-scope, owner-routed, refresh-needed-not-authorized, stale, or fresh-non-authoritative"
-    - "closeout-change or closeout-worktree owns Change closeout and any hosted mutation"
-    - "branch landing authorization exists before landed, synced, or cleaned claims"
-    - "branch cleanup authorization exists before source branch cleanup claims"
-    - "repo-hygiene-cleanup owns any local residue deletion"
-    - "terminal current-state proof shows local main, origin/main, and landed ref equality"
-    - "terminal proof is emitted only after landing evidence, final sync proof, cleanup authorization, cleanup disposition, rollback posture, and validation proof exist"
+    - "Change closeout, hosted mutation, final sync, and cleanup delegation are disabled during RP-00"
     - "terminal proof distinguishes landed ref from proof sink or receipt path and performs no source-branch, local main, origin/main, or landed-ref mutation"
     - "aggregate receipt summarizes target-owned receipts, requires explicit blockers for blocked outcomes, and records next owning lifecycle"
     - "aggregate receipt may summarize terminal proof but cannot replace target-owned terminal proof, cleanup, sync, validation, or closeout receipts"
@@ -253,8 +248,11 @@ constraints:
   fail_closed: true
   require_relative_local_assets: true
   outer_orchestrator_command: "/proposal-packet-delivery"
-  required_target_outcome: cleaned
-  required_route: branch-no-pr
+  required_target_outcomes: [implemented, archive-ready]
+  required_route: stage-only
+  containment_reason_code: RP00_CONTAINMENT_PUBLICATION_DISABLED
+  publication_effects_enabled: false
+  exact_work_preserved: true
   pr_fallback_allowed: false
   aggregate_receipt_only: true
   target_receipts_remain_target_owned: true
@@ -278,8 +276,8 @@ workflow:
   status: active
   purpose: >
     Coordinate an accepted proposal packet through implementation, promotion,
-    packet closeout, terminal closeout, archive handoff, Change closeout,
-    hosted landing, final sync, branch cleanup, terminal proof, and final hygiene.
+    packet closeout, terminal closeout, and archive readiness while publication,
+    hosted landing, final sync, branch cleanup, and cleanup remain disabled.
   authority:
     aggregate_receipt_only: true
     target_receipts_remain_target_owned: true
@@ -289,12 +287,12 @@ workflow:
     packet_closeout_owner: closeout-packet
     terminal_closeout_owner: proposal-packet-terminal-closeout
     archive_owner: archive-proposal
-    git_mutation_owner: closeout-change
-    final_sync_owner: closeout-change
-    branch_cleanup_owner: closeout-change
-    terminal_current_state_proof_owner: closeout-change
-    terminal_evidence_sink_owner: closeout-change
-    worktree_hygiene_owner: closeout-change
+    git_mutation_owner: disabled-during-rp00
+    final_sync_owner: disabled-during-rp00
+    branch_cleanup_owner: disabled-during-rp00
+    terminal_current_state_proof_owner: disabled-during-rp00
+    terminal_evidence_sink_owner: disabled-during-rp00
+    worktree_hygiene_owner: preservation-only
     partition_clean_archive_readiness_owner: proposal-packet-delivery-order-override
     hygiene_cleanup_owner: repo-hygiene-cleanup
     generated_publication_owner: owning-publisher-scripts
@@ -332,11 +330,9 @@ workflow:
       blocked_when_missing_evidence: true
       blocked_next_owning_lifecycle: closeout-packet
     already-archived:
-      description: Packet archive evidence exists and archive relocation must not be rerun by the wrapper.
+      description: Packet archive evidence exists; preserve exact work and do not enter a publication route.
       owner_sequence:
         - archive-proposal
-        - closeout-change
-        - repo-hygiene-cleanup
       skip_archive_relocation: true
       blocked_when_missing_archive_receipt: true
       blocked_next_owning_lifecycle: archive-proposal
@@ -480,15 +476,18 @@ workflow:
         - generated_output_present_but_stale
         - generated_freshness_required_without_owner_validator
     - id: route-change-closeout
-      title: Route Change closeout
+      title: Enforce publication containment
       asset: stages/08-route-change-closeout.md
       required: true
       fail_closed_on:
+        - publication_effect_requested
+        - omitted_or_default_outcome
+        - direct_main_requested
         - branch_no_pr_landing_without_authorization
         - pr_fallback_when_profile_forbids_pr
         - unsupported_hosted_mutation
     - id: validate-cleanup-sync-proof
-      title: Validate cleanup, final sync, and terminal proof
+      title: Validate preservation and absence of publication effects
       asset: stages/09-validate-cleanup-sync-proof.md
       required: true
       fail_closed_on:
@@ -529,25 +528,3 @@ workflow:
         - terminal_closeout_pass
         - worktree_hygiene_pass_or_partition_clean_order_override_pass
         - partition_clean_does_not_authorize_archive_or_cleaned_claim
-    landed:
-      requires:
-        - archive_proposal_pass
-        - change_closeout_pass
-        - hosted_landing_evidence
-    synced:
-      requires:
-        - local_main_equals_origin_main
-        - origin_main_equals_landed_ref
-        - final_sync_proof_pass
-    cleaned:
-      requires:
-        - branch_cleanup_authorized_and_done
-        - cleanup_disposition_recorded
-        - rollback_posture_retained
-        - validation_proof_current
-        - repo_hygiene_cleanup_authorized_and_done_or_not_needed
-        - terminal_current_state_proof_pass
-        - terminal_proof_sink_distinct_from_landed_ref
-        - terminal_proof_non_mutating_after_landing
-        - worktree_hygiene_pass
-        - partition_clean_not_substituted_for_worktree_hygiene

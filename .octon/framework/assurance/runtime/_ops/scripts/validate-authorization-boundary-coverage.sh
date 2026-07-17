@@ -5,8 +5,18 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
+DISCOVERY_ROOT_DIR="${OCTON_DISCOVERY_ROOT_DIR:-$ROOT_DIR}"
 source "$SCRIPT_DIR/validator-result-common.sh"
 RECEIPT="$OCTON_DIR/state/evidence/validation/architecture/10of10-target-transition/authorization-boundary/coverage.yml"
+COVERAGE_SCHEMA="$OCTON_DIR/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json"
+CANONICAL_COVERAGE_MAP="$OCTON_DIR/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+MATERIAL_INVENTORY="$OCTON_DIR/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+DISCOVERY_SCANNER="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/discover-material-effect-entrypoints.sh"
+if [[ -n "${OCTON_DISCOVERY_ROOT_DIR:-}" ]]; then
+  [[ -f "$COVERAGE_SCHEMA" ]] || COVERAGE_SCHEMA="$DISCOVERY_ROOT_DIR/.octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json"
+  [[ -f "$DISCOVERY_SCANNER" ]] || DISCOVERY_SCANNER="$DISCOVERY_ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/discover-material-effect-entrypoints.sh"
+fi
+DISCOVERY_TREEISH="${OCTON_DISCOVERY_TREEISH:-HEAD}"
 TOKEN_CONTRACT="$(pick_existing_file "$OCTON_DIR/framework/engine/runtime/spec/authorized-effect-token-v1.md" || true)"
 
 errors=0
@@ -95,6 +105,9 @@ path_has_token_negative_control() {
 
 reset_validator_result_metadata
 validator_result_add_evidence \
+  ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml" \
+  ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml" \
+  ".octon/framework/assurance/runtime/_ops/scripts/discover-material-effect-entrypoints.sh" \
   ".octon/state/evidence/validation/architecture/10of10-target-transition/authorization-boundary/coverage.yml"
 validator_result_add_runtime_test \
   ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh" \
@@ -115,6 +128,31 @@ main() {
 
   require_yq
   [[ -f "$RECEIPT" ]] && pass "authorization coverage receipt present" || { fail "missing receipt $RECEIPT"; echo "Validation summary: errors=$errors"; exit 1; }
+  [[ -f "$COVERAGE_SCHEMA" ]] && pass "authorization coverage schema present" || fail "missing authorization coverage schema"
+  [[ -f "$CANONICAL_COVERAGE_MAP" ]] && pass "authorization coverage map present" || fail "missing authorization coverage map"
+  [[ -f "$MATERIAL_INVENTORY" ]] && pass "material inventory present" || fail "missing material inventory"
+  [[ -f "$DISCOVERY_SCANNER" ]] && pass "closed-world discovery scanner present" || fail "missing closed-world discovery scanner"
+
+  if command -v python3 >/dev/null 2>&1 && python3 - "$COVERAGE_SCHEMA" "$CANONICAL_COVERAGE_MAP" <<'PY'
+import json
+import sys
+
+import jsonschema
+import yaml
+
+schema_path, coverage_path = sys.argv[1:3]
+with open(schema_path, encoding="utf-8") as handle:
+    schema = json.load(handle)
+with open(coverage_path, encoding="utf-8") as handle:
+    coverage = yaml.safe_load(handle)
+jsonschema.Draft202012Validator.check_schema(schema)
+jsonschema.Draft202012Validator(schema).validate(coverage)
+PY
+  then
+    pass "authorization coverage map validates against its schema"
+  else
+    fail "authorization coverage map must validate against its schema"
+  fi
 
   case "$(yq -r '.schema_version // ""' "$RECEIPT")" in
     authorization-boundary-coverage-v1|authorization-boundary-coverage-v2)
@@ -135,6 +173,19 @@ main() {
     pass "authorized-effect token validation active"
   else
     validator_result_add_limitation "authorized-effect token contract is not active in the current authorization coverage map"
+  fi
+
+  if [[ "$coverage_map_file" == "$CANONICAL_COVERAGE_MAP" ]] && \
+    bash "$DISCOVERY_SCANNER" \
+      --repo "$DISCOVERY_ROOT_DIR" \
+      --treeish "$DISCOVERY_TREEISH" \
+      --inventory "$MATERIAL_INVENTORY" \
+      --coverage "$coverage_map_file" \
+      --check \
+      --format summary >/dev/null; then
+    pass "closed-world launcher coverage proves D_l=M_l=A_l"
+  else
+    fail "closed-world launcher authorization equality failed"
   fi
 
   if [[ -n "$spec_ref" && -f "$(resolve_repo_path "$spec_ref")" ]]; then

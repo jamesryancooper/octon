@@ -39,13 +39,15 @@ token, permissions, and control-plane drift operations.
 
 ## Core Model
 
-Octon's default work unit is a Change; branch worktrees are selected only for branch-no-pr or branch-pr routes.
+Octon's default work unit is a Change. During SI-00, branch worktrees support
+candidate preservation for branch-no-pr or branch-pr routes; no Octon route
+selects direct-main, hosted no-PR landing, or cleanup.
 
 - **Primary `main` worktree or clone**
   - Keep this clean.
   - Use it for `fetch`, `pull --ff-only`, repo-wide inspection, conflict
-    investigation, eligible `direct-main` Changes, and creating new branch
-    worktrees.
+    investigation and creating new branch worktrees. Do not implement or close
+    out a Change directly on `main` during SI-00.
   - Never open a PR from `main`.
 - **Branch worktree**
   - One task or PR per worktree.
@@ -63,9 +65,8 @@ Octon's default work unit is a Change; branch worktrees are selected only for br
 - Git supports linked worktrees or an equivalent worktree-capable interface.
 - A clean primary `main` worktree or clone exists and is treated as the
   integration anchor.
-- New work starts with Change route selection. Use `direct-main` on clean
-  current `main` only when the direct-main predicates are satisfied; otherwise
-  use a branch worktree for `branch-no-pr` or `branch-pr`.
+- New work starts with Change route selection. Use a branch worktree for
+  `branch-no-pr` or `branch-pr`, or preserve through `stage-only-escalate`.
 - `gh auth status` is healthy for the target account when using GitHub helper
   commands.
 - Branch naming and commit conventions remain governed by:
@@ -85,19 +86,16 @@ Octon's default work unit is a Change; branch worktrees are selected only for br
 state to the correct next Git, branch, or PR action. Depending on state,
 closeout may mean:
 
-- validate, commit on clean current `main`, record a Change receipt, retain
-  rollback evidence, push `main` to origin, and verify `origin/main` contains
-  the landed ref for eligible `direct-main`, then fetch and sync local `main`
-  to `origin/main` before declaring closeout complete
+- inventory clean current `main` only as the integration anchor; do not commit
+  or push it through an Octon closeout route during SI-00
 - branch the work off `main` into a branch worktree when the selected route
   needs branch isolation
 - stage, commit, validate, receipt, and push the source branch for
   branch-no-pr closeout or open a draft PR only for branch-pr
 - mark a draft PR ready and request squash auto-merge
 - mark a draft PR ready for human review with auto-merge off
-- after landed `branch-no-pr` or `branch-pr` work, verify containment in
-  `origin/main`, clean up obsolete safe local and remote source branches or
-  record deferred cleanup evidence, and sync local `main` to `origin/main`
+- after independently landed work, observe containment read-only and record
+  cleanup deferred with `RP00_CONTAINMENT_CLEANUP_DISABLED`
 - report blockers and continue implementation with no closeout mutation
 
 `git-pr-ship.sh` is a helper for requesting the ready or merge-lane
@@ -203,63 +201,42 @@ Core loop:
    the manual lane only when a concrete blocker requires authorized human
    action
 
-### 4. Enforce local cleanup state on demand
+### 4. Inspect the cleanup containment stop
 
 ```bash
 .octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh
 ```
 
-Behavior:
+Behavior during SI-00:
 
-- Deletes local branches whose latest PR is already closed or merged.
-- Deletes matching origin branches when no open PR references the branch.
-- Checks out and fast-forwards `main` to `origin/main`.
-- Supports `--watch-pr <number>` to wait for closure, then clean branch state.
-- Prunes safe linked worktree directories for closed branches automatically
-  when possible.
-- If the current worktree or a dirty or in-use linked worktree cannot be
-  removed automatically, prints the exact manual `git worktree remove <path>`
-  follow-up step.
+- Denies before worktree, local-ref, remote-ref, checkout, or sync mutation.
+- Returns `RP00_CONTAINMENT_CLEANUP_DISABLED`.
 
-### 4A. Clean up a landed branch-no-pr source branch
+### 4A. Inventory a retained branch-no-pr source branch
 
 ```bash
 .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh \
+  --dry-run \
   --branch chore/example-no-pr \
   --landed-ref <sha> \
-  --retained-rollback-ref <receipt-or-rollback-ref> \
-  --delete-remote \
-  --confirm
+  --retained-rollback-ref <receipt-or-rollback-ref>
 ```
 
 Behavior:
 
-- Fetches and prunes origin before safety checks.
-- Refuses protected branch names, active or dirty work branches, unmerged refs,
-  open-PR branches, and cleanup without retained rollback posture.
-- Deletes only refs proven contained in `origin/main`.
-- Syncs local `main` to `origin/main` after cleanup unless `--no-sync-main` is
-  used for an explicit deferred-sync blocker.
+- Performs read-only inventory only.
+- Preserves every worktree and ref.
+- A non-dry-run invocation stops with
+  `RP00_CONTAINMENT_CLEANUP_DISABLED` before mutation.
 
-### 5. Install non-blocking local cleanup hooks
-
-```bash
-.octon/framework/execution-roles/_ops/scripts/git/git-autonomy-hooks-install.sh
-```
-
-Behavior:
-
-- Installs managed `post-merge` and `post-checkout` hooks.
-- Triggers `.octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh --no-sync-main`
-  in the background.
-- Uses lock and throttle controls to avoid duplicate runs.
-- Skips safely when the working tree is dirty.
-
-Uninstall:
+### 5. Keep cleanup hooks disabled
 
 ```bash
 .octon/framework/execution-roles/_ops/scripts/git/git-autonomy-hooks-uninstall.sh
 ```
+
+Behavior: removes any managed hook path that could invoke cleanup. Do not
+install cleanup automation during SI-00.
 
 ### 6. Sync required GitHub labels
 
@@ -300,9 +277,9 @@ file-changing turn.
 ### Standard prompt set
 
 - **Primary `main` worktree**
-  - "This work is on the main worktree. I will first check whether it qualifies
-    for direct-main; if it needs isolation or PR-backed review, I will report
-    the route and next mutation."
+  - "This work is on the main worktree. SI-00 forbids direct-main; I will
+    preserve it or move the candidate to a route-owned branch without
+    publishing or cleaning up."
 - **Branch worktree, no PR yet**
   - "This branch worktree looks ready for Change closeout. Should I stage,
     commit, validate, record a Change receipt, and open a draft PR only if
@@ -508,7 +485,7 @@ Manual-lane flow:
 ## Safety and Exceptions
 
 - Do not bypass required checks or branch rules via local scripts.
-- Keep `main` clean; direct-main is allowed only for low-risk solo Changes with validation, receipt, and rollback.
+- Keep `main` clean; direct-main is denied during SI-00.
 - If a PR has red required checks or unresolved author action items, keep
   working instead of invoking closeout.
 - Cleanup hooks are non-blocking and must not interrupt local work.

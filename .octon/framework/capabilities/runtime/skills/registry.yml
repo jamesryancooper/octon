@@ -3742,7 +3742,7 @@ skills:
         tech_tags: []
         language_tags: []
   closeout-change:
-    version: 1.0.2
+    version: 1.1.0
     commands:
     - /closeout-change
     parameters:
@@ -3753,11 +3753,11 @@ skills:
     - name: route
       type: text
       required: false
-      description: Optional preselected route; must be one of direct-main, branch-no-pr, branch-pr, stage-only-escalate
+      description: Optional preselected SI-00 route; must be branch-no-pr, branch-pr, or stage-only-escalate
     - name: target_lifecycle_outcome
       type: text
       required: false
-      description: Optional requested lifecycle target; omitted generic closeout requests default to cleaned and must be resolved separately from actual lifecycle outcome
+      description: Optional requested lifecycle target; omitted SI-00 closeout requests default to preserved
     - name: receipt_ref
       type: text
       required: false
@@ -3900,7 +3900,7 @@ skills:
     - name: target_lifecycle_outcome
       type: text
       required: false
-      description: Optional requested lifecycle target applied to candidate Changes; omitted generic worktree closeout requests default to cleaned
+      description: Optional requested lifecycle target applied to candidate Changes; omitted SI-00 worktree closeout requests default to preserved and never authorize cleanup
     - name: candidate_limit
       type: number
       required: false

@@ -1,201 +1,94 @@
 ---
 title: Change Lifecycle Routing Quickstart
-description: Operator quickstart for selecting Change routes, recording lifecycle outcomes, and collecting closeout evidence.
+description: SI-00 route selection and preservation guide for one Change.
 status: active
 ---
 
 # Change Lifecycle Routing Quickstart
 
-Use this as the first maintainer-facing entry point when closing, publishing,
-or landing Octon work. The authoritative policy remains
-`.octon/framework/product/contracts/default-work-unit.yml`; this document is
-the operator path through that policy.
+The canonical policy is
+`.octon/framework/product/contracts/default-work-unit.yml`. During SI-00,
+closeout is preservation-first and cannot publish or clean up candidate work.
 
-## Mental Model
+## Current Route Set
 
-- Change = durable unit of intent, scope, validation, review, rollback, and
-  closeout.
-- Route = how the Change proceeds: `direct-main`, `branch-no-pr`, `branch-pr`,
-  or `stage-only-escalate`.
-- Target lifecycle outcome = what the operator or agent is trying to achieve:
-  cleaned closeout by default, or an explicit narrower handoff, landing,
-  preservation, blocker recording, or denial target.
-- Lifecycle outcome = how far the Change actually got: preserved, branch-local,
-  published, ready, landed, cleaned, blocked, escalated, or denied.
-- PR = optional publication and review output only after `branch-pr` is
-  selected.
-- Change receipt = durable evidence record. It may be projected into a PR, but
-  the PR is not the authority source.
-- Route transition = a separate authority-backed event when `selected_route`
-  differs from the initially selected route.
+- `branch-no-pr`: classify and preserve branch-isolated work without PR
+  metadata. Local validation, checkpointing, and separately authorized branch
+  commits remain possible. Local/hosted landing and cleanup are denied.
+- `branch-pr`: coordinate a PR-backed candidate only when an independent PR
+  predicate exists. Ordinary closeout may reach `published` or `ready`; RP-00
+  provider cutover remains separately authorized.
+- `stage-only-escalate`: preserve exact state and report the missing authority,
+  proof, rollback, validation, or ownership decision.
 
-Route selection, target lifecycle outcome, and actual lifecycle outcome are
-separate decisions. A route never proves landing, publication, cleanup, or
-completion by itself. A blocked direct-main push or blocked hosted
-`branch-no-pr` landing is not itself a `branch-pr` predicate.
+Direct-main is not an active route. Historical receipts may contain that label
+for compatibility parsing only.
 
-## Executable Path
+## Selection
 
-1. Resolve Change identity, intent, scope, touched paths, and existing branch or
-   PR context.
-2. Select exactly one route from `direct-main`, `branch-no-pr`, `branch-pr`, or
-   `stage-only-escalate`, using the fastest safe solo route rule below.
-3. Select target lifecycle outcome separately from the selected route. If the
-   operator only asked to close out the Change or worktree, use `cleaned`.
-4. Select actual lifecycle outcome from the evidence.
-5. Validate route-specific evidence at the selected validation floor.
-6. If a route change is required, record route transition authority before
-   taking route-specific actions. A transition to `branch-pr` also requires
-   `branch_pr_predicate`.
-7. Record or update a Change receipt shaped by
-   `.octon/framework/product/contracts/change-receipt-v1.schema.json`.
-8. Perform only the mutation authorized by the selected route. For
-   `direct-main` and `branch-no-pr` closeout, include the route-appropriate
-   push to origin unless the operator explicitly requested local-only closeout
-   or a concrete blocker prevents it.
-9. For landed `branch-no-pr` or `branch-pr` work, verify containment in
-   `origin/main`, complete safe branch cleanup or record explicit deferred
-   cleanup evidence, fetch from origin, and sync local `main` to `origin/main`.
-   For `direct-main`, fetch and sync local `main` after the push and post-push
-   checks.
-10. Verify every landing, publication, cleanup, rollback, origin-push, and
-   local-main sync claim.
-11. Report closeout status or the exact blocker, evidence gathered, attempted
-   remediation, and smallest human decision needed.
+1. Resolve the Change identity and exact include/exclude boundaries.
+2. Inventory branch, HEAD, staged, unstaged, untracked, remote, and worktree
+   state without mutating them.
+3. Select `branch-pr` only for an explicit or independently governed PR
+   predicate.
+4. Otherwise use `branch-no-pr` for branch isolation/preservation, or
+   `stage-only-escalate` when any required fact is missing.
+5. Resolve a generic closeout target to `preserved`.
+6. Run local validation and write truthful evidence without claiming landing,
+   sync, cleanup, or publication.
 
-## Fastest Safe Solo Route
+Clean current `main`, low risk, provider capability, a blocked push, or
+operator convenience does not create a direct-main or hosted no-PR route.
 
-For solo Changes, choose the fastest route that still satisfies evidence,
-validation, rollback, cleanup, and protected-main controls.
+## Outcomes
 
-1. Check hard blockers and PR-required predicates first: hosted review,
-   external signoff, unresolved PR review context, PR-required provider rules,
-   preview publication, release automation, existing PR/review context, or
-   explicit operator PR request.
-2. If no hard PR or branch predicate applies, select `direct-main` when `main`
-   is clean and current, the Change is low-risk and locally understandable,
-   local validation is sufficient, rollback is straightforward from the
-   resulting commit, and a Change receipt can be recorded.
-3. Select `branch-no-pr` when the solo Change needs branch/worktree isolation,
-   pause/resume safety, multiple commits, backup, or handoff, but no PR
-   predicate applies. Branch isolation, high-impact scope, protected-surface
-   scope, provider caution, or blocked landing evidence alone does not create a
-   PR predicate.
-4. Resolve target lifecycle outcome before mutating hosted refs or deleting
-   branches. If the operator did not explicitly request handoff, local-only,
-   landing-only, preservation, blocker recording, or escalation, default to
-   `cleaned`.
-5. Select `branch-pr` only when a PR predicate applies or the operator
-   explicitly chooses PR-backed review/publication. Record that predicate as
-   `branch_pr_predicate` and record matching `branch_pr_predicate_evidence` in
-   the Change receipt.
-6. Select `stage-only-escalate` only when evidence, authority, rollback,
-   validation, or route choice is genuinely blocked or ambiguous.
+`branch-no-pr` may report `preserved`, `branch-local-complete`,
+`published-branch`, `deferred`, `blocked`, `escalated`, or `denied` when the
+evidence supports it. A pre-existing independently established landing may be
+observed as `landed` only with exact ref evidence and
+`cleanup_status: deferred`; closeout does not perform that effect.
 
-Provider route-neutral capability is a hosted `branch-no-pr` landing
-precondition. It is not a reason to skip an otherwise eligible `direct-main`
-route.
+`branch-pr` may report `preserved`, `published`, `ready`, `deferred`,
+`blocked`, `escalated`, or `denied`. A draft/open/ready PR is never landed or
+completed closeout.
 
-Blocked direct push, GH013, required checks, and blocked hosted no-PR landing
-are blocker evidence, not implicit PR authority. A PR route after one of those
-events requires either explicit operator reroute or policy reroute after new
-evidence, both recorded in the Change receipt.
+No current route may report `cleaned`.
 
-Branch-PR predicate evidence must include `predicate`, `requirement_ref`,
-`evidence_refs`, and `branch_no_pr_rejection_reason`. `explicit-operator-pr-request`
-also requires `operator_request_ref`; `existing-pr-context` requires
-`existing_pr_or_review_ref`; provider PR-required routing requires
-`provider_ruleset_ref`; and `protected-or-high-impact-remote-review-required`
-requires both `scope_classification_ref` and
-`governing_review_requirement_ref`.
+## Stable Stops
 
-## Route Matrix
+- A request to select direct-main, authorize or perform no-PR landing, update
+  hosted `main`, or claim publication stops with
+  `RP00_CONTAINMENT_PUBLICATION_DISABLED`.
+- A request to remove a worktree, delete/prune a branch or ref, authorize
+  cleanup, or claim cleanup stops with
+  `RP00_CONTAINMENT_CLEANUP_DISABLED`.
 
-| route | select when | allowed outcomes | required evidence | forbidden claims | handoff or escalation point |
-|---|---|---|---|---|---|
-| `direct-main` | Low-risk solo Change on clean, current `main`; local validation and rollback are straightforward; no branch, PR, documented review/signoff, protection, or operator predicate requires another route. | `landed`, `cleaned` | Change receipt, landed commit on `main`, local validation evidence, rollback handle, target branch ref, landed ref, cleanup status, push to `origin/main`, proof `origin/main` contains the landed ref, post-push fetch, and proof local `main`, `origin/main`, and `landed_ref` align. If a direct update claims `hosted-main-updated` or hosted protected-main checks apply, route-neutral check evidence must bind to the exact `landed_ref`. | PR metadata as required evidence; PR-only checks; completion from an unstaged patch; protected-main bypass; missing validation, rollback, origin push, or final local-main sync. | Escalate to `stage-only-escalate` when risk, ownership, validation, rollback, authority, origin push, or local-main sync is blocked; reroute only by explicit authority. |
-| `branch-no-pr` | The Change needs branch or worktree isolation, pause/resume, multiple commits, handoff, backup, or hosted no-PR landing, and no concrete PR predicate is proven. | `preserved`, `branch-local-complete`, `published-branch`, `landed`, `cleaned`, `deferred`, `blocked`, `escalated`, `denied` | Branch/worktree identity, no-PR rationale, target lifecycle outcome, local validation or recorded blocker, durable commit/patch/checkpoint, lifecycle outcome, rollback or discard plan, and origin source-branch push evidence for closeout. Hosted `landed` additionally requires landing evaluation, route-neutral provider ruleset evidence, a governed `branch-landing-authorization-v1` receipt matching the pushed source ref and `origin/main` pre-ref, exact source SHA check refs, fast-forward integration, target post-ref equals landed ref, proof `origin/main` equals landed ref, rollback handle, safe branch cleanup completed or explicitly deferred, and final proof local `main`, `origin/main`, and `landed_ref` align. | PR URL, PR number, or PR metadata; pushed-only branch claiming `landed`; `published-branch` claiming completed closeout; branch-local commit claiming `landed` or full closeout without origin push; hosted landing while provider ruleset requires PR; hosted `origin/main` mutation without current governed landing authorization; target `landed` or `cleaned` downgraded without landing evaluation and blocker reason; full closeout while branch cleanup is pending. | If provider rules require PR for `main`, hosted no-PR landing is blocked. If governed landing authorization is missing, stale, denied, or the runtime still requires external approval, record the blocker and do not overclaim. If safe branch cleanup or local-main sync is blocked, record deferred cleanup or sync blocker evidence; do not silently convert routes. |
-| `branch-pr` | The Change needs hosted review, external signoff, unresolved review discussion, release automation, preview publication, existing PR context, explicit operator PR request, provider ruleset PR handling for requested PR-backed landing, or protected/high-impact work whose governing evidence requires hosted review or remote validation. | `preserved`, `published`, `ready`, `landed`, `cleaned`, `deferred`, `blocked`, `escalated`, `denied` | Branch identity, `branch_pr_predicate`, `branch_pr_predicate_evidence`, PR URL/number when published or ready, Change receipt or PR closeout evidence, PR body evidence, hosted checks when required, review or waiver evidence, rollback handle, and route transition authority when selected after another initial route. `ready` requires open draft PR in the autonomous `branch-pr` lane, green required checks, `AI Review Gate / decision` when required, PR quality, branch naming, clean-state, autonomy checks, no unresolved author-action threads, no blocking labels, no requested changes, no merge conflicts, no stale head state, and high-impact self-review when applicable. `landed`/`cleaned` additionally require merge containment in `origin/main`, safe branch cleanup completed or explicitly deferred, and final proof local `main`, `origin/main`, and `landed_ref` align. | Draft/open/ready PR reported as landed or full closeout; bypassing GitHub protections; treating blocked direct push, GH013, required checks, blocked no-PR landing, labels, comments, helper output, branch isolation, high-impact scope, protected-surface scope, provider caution, or PR metadata alone as authority; full closeout while branch cleanup is pending. | Escalate only for concrete blockers: missing `branch_pr_predicate`, missing `branch_pr_predicate_evidence`, missing route transition authority, human-only approval, unsafe failing checks, product/security/legal/architecture judgment, unsafe rollback, unsafe branch cleanup, unprovable mergeability, unprovable local-main sync, or ambiguous authority. High-impact alone is not a manual-lane blocker. |
-| `stage-only-escalate` | Required decision, validation, rollback, authorization, review, ownership, support posture, or route authority is missing or ambiguous. | `preserved`, `deferred`, `blocked`, `escalated`, `denied` | Preserved patch/checkpoint/branch state, blocker reason, missing item, next route condition, rollback or discard plan. | `landed`, `complete`, `publication_ready`, or cleanup completion without evidence. | Resume only after the missing evidence or authority is supplied and route selection is re-run. |
+Preserve exact candidate refs, worktrees, rollback handles, and validation
+evidence at either stop. Do not silently reroute to a different effectful path.
 
-## Ruleset State
+## Receipt Floor
 
-| concern | current live state | repo-local target | operator rule |
-|---|---|---|---|
-| `main` protection posture | Route-neutral protected `main`; universal PR-required merging has been removed while required status checks, linear history, non-fast-forward protection, and deletion protection remain. | Same as current live state. | Do not claim live route-neutral migration from repo-local projection alone. Require accepted migration evidence and strict-live validation. |
-| Universal route-neutral checks | `route_neutral_closeout_validation`, `branch_naming_validation`, `route_aware_autonomy_validation`, `exact_source_sha_validation`. | Same route-neutral check set. | These checks must be runnable against the exact source SHA intended for hosted no-PR landing. |
-| PR-only checks | Remain scoped to `branch-pr`: `AI Review Gate / decision`, `PR Quality Standards`, PR auto-merge, clean-state, PR template quality, and PR review projections. | Same PR-specific scope. | Do not add PR-only checks as universal `main` requirements for `direct-main` or hosted `branch-no-pr`. |
-| Live migration evidence | Proven by accepted live ruleset migration, durable provider export, and `.octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh --expect target-route-neutral --strict-live`. | `current_live_main` must stay aligned with strict-live provider evidence. | Update `current_live_main` only after strict-live target validation passes and durable evidence is retained. |
+Record:
 
-For hosted `branch-no-pr` pushes, `Main Change Route Guard` classifies the
-main update from provider-hosted evidence at the landed SHA: a pushed non-main
-source branch, route-neutral live rules, exact-SHA check refs, fast-forward
-ancestry from the previous `main`, rollback ref, and cleanup-pending source
-branch disposition. Durable closeout evidence still has to be retained after
-landing.
+- Change identity and selected active route;
+- target and actual lifecycle outcome;
+- exact candidate/branch/worktree observations;
+- include/exclude boundaries;
+- validation evidence;
+- rollback or discard posture;
+- publication and cleanup denial reasons when requested; and
+- the next owning route or missing authority.
 
-## Receipt Examples
+Generated projections, proposal files, chat, host UI, provider metadata, and
+historical receipt fields never authorize an effect.
 
-Example receipts live in
-`.octon/framework/product/contracts/examples/change-receipts/`.
+## Verification
 
-- `valid-direct-main-landed.json`: valid low-risk solo `direct-main` landing.
-- `valid-branch-pr-ready.json`: valid `branch-pr` ready state. It is not
-  landed and uses `closeout_outcome: continued`.
-- `valid-branch-no-pr-branch-local-complete.json`: valid branch-local
-  completion without hosted landing or PR metadata.
-- `valid-branch-no-pr-published-branch.json`: valid pushed-branch handoff. It
-  is not landed and uses `closeout_outcome: continued`.
-- `valid-hosted-branch-no-pr-landed.json`: valid hosted no-PR landing evidence
-  with governed `branch-landing-authorization-v1` authorization.
-- `invalid-pushed-only-branch-claimed-landed.json`: invalid overclaim; a pushed
-  branch alone is not hosted landing.
-- `invalid-published-branch-completed-closeout.json`: invalid overclaim; a
-  pushed branch handoff is not completed closeout.
-- `invalid-stale-remote-branch-ref.json`: invalid overclaim; the recorded
-  remote branch ref does not match the durable branch head.
-- `invalid-draft-pr-claimed-full-closeout.json`: invalid overclaim; draft/open
-  or ready PR state is not full closeout.
+Run:
 
-Validate examples with:
-
-```bash
-.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh --receipt .octon/framework/product/contracts/examples/change-receipts/valid-direct-main-landed.json
-.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh --receipt .octon/framework/product/contracts/examples/change-receipts/valid-branch-pr-ready.json
-.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh --receipt .octon/framework/product/contracts/examples/change-receipts/valid-branch-no-pr-branch-local-complete.json
-.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh --receipt .octon/framework/product/contracts/examples/change-receipts/valid-branch-no-pr-published-branch.json
-.octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh --receipt .octon/framework/product/contracts/examples/change-receipts/valid-hosted-branch-no-pr-landed.json --skip-live-remote
+```sh
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
 ```
-
-The invalid examples are expected to fail the same validators.
-
-## Closeout Checks
-
-Before reporting completion:
-
-- Verify the selected route is explicit.
-- Verify the target lifecycle outcome is explicit; an unspecified closeout
-  request defaults to `cleaned`.
-- Verify lifecycle outcome is route-compatible.
-- Verify validation evidence matches the selected floor.
-- Verify rollback handle exists and is usable.
-- Verify cleanup status is `completed`, `deferred`, `pending`, or
-  `not_applicable` with route-appropriate evidence.
-- Verify `cleaned` uses `cleanup_status: completed` or `deferred` with
-  evidence; `pending` cleanup can support `landed`, but not `cleaned`.
-- Verify landed `branch-no-pr` and `branch-pr` full closeout uses
-  `cleanup_status: completed` or `deferred`; `pending` cleanup means closeout
-  is still continued or blocked.
-- Verify obsolete branch cleanup deletes only refs already contained in
-  `origin/main` and skips protected branches, active work branches, unmerged
-  branches, open-PR branches, and refs without retained evidence and rollback
-  posture.
-- Verify local `main`, `origin/main`, and the recorded `landed_ref` are aligned
-  after the final fetch/sync step.
-- Verify no branch-local commit, pushed-only branch, draft PR, or ready PR is
-  being described as landed.
-- Verify no `published-branch`, `branch-local-complete`, `published`, or
-  `ready` outcome is described as completed closeout.
-- Verify target `landed` or `cleaned` outcomes that do not land record landing
-  evaluation evidence and `not_landed_reason`.
-- Verify current live GitHub rulesets allow the intended hosted mutation.

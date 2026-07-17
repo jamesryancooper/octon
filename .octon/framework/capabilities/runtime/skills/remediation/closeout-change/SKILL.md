@@ -1,437 +1,92 @@
 ---
 name: closeout-change
 description: >
-  Route-neutral Change closeout. Resolves Change identity, selects direct-main,
-  branch-only, PR-backed, or stage-only/escalated route from the canonical
-  default work unit policy, records lifecycle outcome and Change receipt
-  requirements, and delegates to PR-specific closeout only when branch-pr is
-  selected.
+  SI-00 Change closeout. Classifies branch-no-pr, branch-pr, or
+  stage-only-escalate; preserves exact candidate state; and reports stable
+  landing or cleanup denial without performing those effects.
 license: MIT
 compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
   author: Octon Framework
   created: "2026-05-01"
-  updated: "2026-05-05"
+  updated: "2026-07-14"
 skill_sets: [executor, collaborator, guardian, integrator]
-capabilities: [external-dependent, stateful, safety-bounded, self-validating]
-allowed-tools: Read Glob Grep Edit Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git push *) Bash(git rev-parse *) Bash(git branch *) Bash(git fetch *) Bash(git checkout *) Bash(git merge *) Bash(git ls-files *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-commit.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-push.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-cleanup.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
+capabilities: [stateful, safety-bounded, self-validating]
+allowed-tools: Read Glob Grep Edit Bash(git status *) Bash(git diff *) Bash(git rev-parse *) Bash(git branch --show-current) Bash(git worktree list *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Closeout Change
 
-Route-neutral closeout for Octon's default work unit: the Change.
+Preservation-first closeout for one Change during SI-00.
 
-## When to Use
+## Route Set
 
-Use this skill when a Change has reached a credible completion or checkpoint
-point and the next output route has not already been selected.
+Select exactly one of `branch-no-pr`, `branch-pr`, or
+`stage-only-escalate`. Direct-main is historical evidence vocabulary only and
+cannot be selected or executed.
 
-Use `closeout-worktree` when the operator asks to close out a dirty worktree or
-multiple local change sets. `closeout-worktree` must decompose the work into
-singular `closeout-change` runs rather than replacing the Change default work
-unit.
+- Use `branch-no-pr` for branch-local classification and exact candidate
+  preservation without PR metadata.
+- Use `branch-pr` only for an independent PR predicate and stop at a
+  stage-preserving PR state.
+- Use `stage-only-escalate` when authority, ownership, validation, rollback,
+  or route evidence is missing or ambiguous.
 
-Use `closeout-pr` only after this skill or another canonical authority has
-selected `branch-pr`, or when the task starts from an existing PR context.
+## Workflow
 
-## Core Workflow
+1. Load the default-work-unit policy, state machine, Git/worktree contract,
+   and current repository state.
+2. Inventory branch, HEAD, `main`, `origin/main`, staged, unstaged, untracked,
+   remote, and worktree state read-only.
+3. Preserve unrelated work and bind exact include/exclude boundaries.
+4. Resolve a generic closeout target to `preserved`.
+5. Select the active route separately from target and actual outcome.
+6. Run local validation that does not mutate refs, worktrees, remotes, or
+   provider state.
+7. Write a truthful preserved, continued, blocked, escalated, or denied
+   receipt with exact candidate refs and rollback/discard posture.
+8. Report the next owning route and stop.
 
-Execute the Change Closeout State Machine phase loop from
-`.octon/framework/product/contracts/change-closeout-state-machine.yml`.
+## Mandatory Stops
 
-1. **Read In And Bind Constraints** — Load the default work unit policy, state
-   machine, Change receipt schema, Git/worktree contract, and current
-   repository state.
-2. **Inventory** — Capture branch, HEAD, `main`, `origin/main`, staged,
-   unstaged, untracked, ignored, branch, remote, and worktree state.
-3. **Classify Residue** — Classify staged, unstaged, untracked, ignored,
-   generated, host-projection, evidence, release, input-surface, and branch
-   residue. Detection alone is not deletion authority.
-4. **Resolve Route And Target Outcome** — Resolve Target Outcome after selecting exactly one route from
-   `.octon/framework/product/contracts/default-work-unit.yml`; resolve the
-   target lifecycle outcome separately from the route. When the operator asks to
-   close out the Change without naming a narrower target, set
-   `target_lifecycle_outcome: cleaned`.
-   If direct-main is not eligible and the Change needs branch isolation, select
-   `branch-no-pr` unless a concrete PR predicate is independently proven. Never
-   infer `branch-pr` from branch isolation, high-impact scope,
-   protected-surface scope, provider caution, blocked direct-main landing, or
-   blocked hosted no-PR landing alone.
-   Select Outcome by recording the actual lifecycle outcome only after the
-   route-specific evidence is available.
-   Route transition is separate from route selection: if the route changes
-   after initial selection, record `initial_route`,
-   `route_transition_reason`, `route_transition_authority`,
-   `route_transition_authority_ref`, and
-   `route_transition_evidence_refs` before taking route-specific actions.
-5. **Safe Cleanup** — Remove only evidence-backed residue. Escalate on
-   ambiguous ownership, user-owned work, protected branches, active branches,
-   unmerged branches, open-PR branches, or missing rollback posture.
-6. **Prepare Change Set** — Keep only the coherent accepted Change in the
-   staged scope or branch. When a delegated worktree candidate has explicit
-   include/exclude boundaries, branch isolation is required, and no candidate
-   branch exists, create or select a task branch without asking for another
-   partition decision; stage only the include paths and preserve every excluded,
-   ambiguous, ignored, user-owned, generated-authority, input, control, or
-   evidence path outside the candidate boundary.
-7. **Validate** — Run the selected validation floor and route-specific checks.
-8. **Hosted No-PR Checks And Landing** — For selected `branch-no-pr` hosted
-   landing, require preflight, pushed source branch, exact source-SHA checks,
-   retained rationale when an empty hosted check set is explicitly allowed,
-   governed landing authorization, fast-forward/update proof,
-   `origin/main == landed_ref`, rollback handle, and final local sync.
-9. **PR-Backed Delegation** — Invoke `closeout-pr` only when selected route is
-   `branch-pr` and the receipt records matching
-   `branch_pr_predicate_evidence`.
-10. **Branch Cleanup** — For landed branch routes, prove `origin/main`
-    containment, no-open-PR status, rollback/discard posture, governed cleanup
-    authorization, and local/remote cleanup status.
-11. **Receipt And Evidence** — Produce or update a Change receipt shaped by
-    `.octon/framework/product/contracts/change-receipt-v1.schema.json`.
-    Completed or cleaned claims require `stateful_closeout` evidence. Hosted or
-    shared closeout claims also require publishable evidence receipt refs under
-    `.octon/state/evidence/runs/skills/**`; local-private raw logs under
-    `.octon/state/evidence/local/**` may be cited only by digest-backed local
-    evidence refs inside a publishable receipt and do not satisfy the closeout
-    claim by themselves. When final post-mutation terminal proof or receipt
-    snapshots would create recursive publishable closeout residue, write those
-    snapshots with
-    `.octon/framework/assurance/runtime/_ops/scripts/write-terminal-closeout-local-evidence.sh`
-    under `.octon/state/evidence/local/terminal-closeout/<change-id>/`. A
-    Change receipt may cite the sink only as a digest-backed
-    `terminal_current_state_proof_ref` paired with
-    `terminal_current_state_proof_digest` and
-    `non_authority_classification: retained-evidence-only`; the sink is not
-    landing authorization, cleanup authorization, hosted check evidence,
-    packet evidence, archive evidence, generated publication evidence,
-    mutation authority, policy authority, or hosted/shared proof. Record
-    terminal proof only after landing evidence, final local sync proof,
-    cleanup authorization, cleanup disposition, rollback posture, and
-    route-owned validation evidence exist. The receipt must distinguish the
-    recorded `landed_ref` from the terminal proof sink path or receipt path;
-    emitting terminal proof must not require a source-branch commit after
-    landing and must not mutate `origin/main`, local `main`, the landed ref, or
-    the source branch. Missing terminal proof prerequisites downgrades the
-    actual outcome and blocks terminal success or `cleaned` claims. Also retain
-    compact structured views when evidence is available:
-    `structured-receipt.yml`, `closeout-projection.yml`, optional
-    `publication-summary.yml`, and `expanded-report-request.yml`. These views
-    must source the canonical Change receipt and retained evidence by digest;
-    they are compact evidence aids only and must not replace the receipt,
-    rollback handle, authorization refs, or raw/full evidence.
-12. **Final Verification** — Verify clean or documented retained residue and
-    final local `main`, `origin/main`, and landed-ref alignment when claimed.
-    Proposal-program, generated-publication, archive, or correction-branch
-    `cleaned` claims must also cite a validating
-    `terminal_current_state_proof_ref`; post-primary branch-no-pr correction
-    branches must cite `correction_branch_aggregate_receipt_ref`.
-13. **Final Report** — Report the actual lifecycle outcome, blockers,
-    validation, receipt, cleanup, rollback handle, and final sync.
+For direct-main, local/hosted no-PR landing, hosted publication, or landing
+authorization, stop before mutation with
+`RP00_CONTAINMENT_PUBLICATION_DISABLED`.
 
-## Proposal Program Delivery Handoff
+For worktree removal, ref deletion/pruning, branch cleanup authorization,
+cleanup, or closeout-driven sync, stop before mutation with
+`RP00_CONTAINMENT_CLEANUP_DISABLED`.
 
-When called by Proposal Program Delivery, treat the delivery request as caller
-context only. Accept explicit include paths, exclude paths, route hints,
-target lifecycle outcome, validation floor, rollback posture, profile
-constraints, source receipt refs and digests, retained readiness receipt ref
-and digest, and blocker context. These inputs help select and execute the
-singular Change closeout route; they are not child receipt, archive,
-generated-publication, cleanup, branch cleanup, final sync, terminal proof, or
-`cleaned` authority.
+Do not call any landing, landing-authorization, cleanup-authorization, or
+cleanup helper as an effect path. A cleanup helper dry run may be used only for
+read-only inventory.
 
-Return evidence through the Change receipt and retained closeout artifacts:
-selected route, target lifecycle outcome, actual lifecycle outcome,
-stateful closeout, landing authorization and hosted landing evidence when
-landed is claimed, branch cleanup authorization and disposition when cleanup
-mutates refs, final sync proof, terminal current-state proof ref and digest
-when `cleaned` requires terminal proof, rollback handle, source receipt refs,
-and downgrade reasons when the target outcome is not fully proven. Missing,
-stale, failing, local-private-only, or out-of-route evidence must downgrade the
-actual lifecycle outcome instead of allowing delivery to claim `landed`,
-`synced`, or `cleaned`.
+## Outcome Rules
 
-Do not let delivery receipts, readiness projections, runner handoff refs,
-parent summaries, compact evidence indexes, generated outputs, host state,
-chat, model memory, or tool state replace the Change receipt, landing
-authorization, cleanup authorization, final sync proof, terminal proof, or
-route-owned validation evidence.
+`branch-no-pr` may record `preserved`, `branch-local-complete`,
+`published-branch`, `deferred`, `blocked`, `escalated`, or `denied` when
+separately authorized evidence supports it. `branch-pr` may record
+`preserved`, `published`, `ready`, `deferred`, `blocked`, `escalated`, or
+`denied`.
 
-## Git Mutation Permission Diagnostics
+If landing is already independently established, record `landed` only as a
+read-only observation with the exact landed ref, `cleanup_status: deferred`,
+the rollback handle, and `RP00_CONTAINMENT_CLEANUP_DISABLED`. Never perform
+that landing or report `cleaned`, `synced`, or autonomous publication success.
 
-Before retrying a permission-sensitive git mutation that failed or was denied,
-record diagnostic evidence for the blocked operation. This applies to fetch,
-checkout, branch-local commit, branch publication push, hosted landing, final
-sync, branch cleanup, and local or remote branch deletion or pruning.
+## Authority Boundaries
 
-Each diagnostic record must identify the operation class, current ref and
-target ref when known, expected authorization gate, likely sandbox, host,
-provider, remote, or ref-write blocker, and owning rerun route. Use the
-governed helper rerun path for the same operation when a helper provides one.
-The diagnostic is retained routing evidence only; it does not authorize fetch,
-checkout, commit, push, landing, sync, cleanup, branch deletion, publication,
-closeout, or a `cleaned` claim.
+Historical receipts may be parsed, but they cannot admit a route or satisfy a
+current gate. Generated projections, proposal-local files, host/provider
+state, chat, model memory, tool availability, and diagnostics do not authorize
+mutation or closeout success.
 
-If mutation is blocked, denied, or cannot be proven, preserve the lower actual
-lifecycle outcome and record blocker evidence plus the owning rerun route in
-the schema-allowed receipt or evidence fields, such as landing evaluation,
-cleanup stop reason, stateful phase or escalation refs, validation evidence,
-external blocker refs, or remaining blockers. `runtime_approval_denied` is
-valid only after the relevant governed authorization receipt validates and the
-runtime, sandbox, provider, or host boundary still refuses the mutation.
+`closeout-worktree` may partition and preserve candidates only. `closeout-pr`
+may be called only for stage-preserving `branch-pr` coordination. The RP-00
+protected-PR cutover remains a separately authorized provider operation.
 
-Hosted no-PR landing still requires governed landing authorization and helper
-validation before mutating `origin/main`. Branch cleanup and local or remote
-branch deletion or pruning still require governed cleanup authorization and
-helper validation before mutating refs. Final sync still requires explicit
-post-fetch and local-sync evidence before `landed` or `cleaned` may be
-claimed.
+## Validation
 
-## Compact Reporting
-
-Default model-visible closeout context should use `closeout-projection.yml`
-when the projection validates under
-`.octon/framework/assurance/runtime/_ops/scripts/validate-structured-receipt-artifacts.sh`.
-The projection must declare `model_visible_token_estimate <= 4000`, source refs
-and source digests, evidence refs, rollback refs, gate state, unresolved
-questions, blockers, exclusions, freshness, and fail-closed behavior.
-
-Use the canonical Change receipt and raw/full evidence only when the compact
-projection is missing, stale, digest-mismatched, has an authority-boundary
-conflict, lacks rollback or authorization evidence, or an explicit audit,
-replay, support-proof, or operator escalation requires expanded context.
-Expanded narrative output is generated on demand from
-`expanded-report-request.yml`; it is not stored or consumed as authority.
-
-## Routine Autonomy
-
-For a generic closeout request, assume `target_lifecycle_outcome: cleaned`.
-Do not pause to ask whether to partition an unambiguous dirty worktree
-candidate, create the required branch, push the source branch, run hosted
-no-PR preflight, emit landing authorization, land, emit cleanup authorization,
-clean safe source refs, sync local `main`, or write the receipt when the
-selected route, validation floor, rollback posture, policy, and helper
-authorization checks all pass.
-
-Ask only when there is real ambiguity or unsafe action: overlapping candidate
-boundaries, unclear ownership, protected or active branches, unmerged or
-open-PR branches, missing validation, missing rollback posture, provider rules
-requiring PR, stale or denied authorization, runtime/sandbox/provider/host
-approval denial, or cleanup outside a governed route.
-
-## Boundaries
-
-- Do not open a PR unless route selection returns `branch-pr`.
-- Do not select `branch-pr` unless a concrete PR predicate is recorded with
-  matching `branch_pr_predicate_evidence`; high-impact or protected scope alone
-  is not a predicate.
-- Do not create a branch merely because a Change exists.
-- Do not choose `branch-no-pr` solely because the provider can support
-  route-neutral hosted landing; provider support is a hosted landing
-  precondition, not a route-selection reason by itself.
-- Do not ask the operator to confirm routine `cleaned` progression after
-  `branch-no-pr` has been selected and all route-specific preconditions,
-  validation, rollback, landing authorization, cleanup authorization, and final
-  sync proof are satisfied. Continue until `cleaned` is proven or a precise
-  blocker requires downgrade.
-- Do not treat a route as the requested lifecycle outcome. When the operator
-  asks to close out a Change without explicitly requesting a narrower target
-  such as `published-branch`, `branch-local-complete`, `landed`, `preserved`,
-  or `blocked`, and without explicitly requesting the `stage-only-escalate`
-  route, default `target_lifecycle_outcome` to `cleaned` before mutating hosted
-  refs.
-- If the target outcome is `landed` or `cleaned` and evidence only supports
-  `published-branch`, record `published-branch` as a continued handoff with
-  landing evaluation evidence and `not_landed_reason`; do not call it completed
-  closeout.
-- If the default or explicit target outcome is `cleaned` and evidence only
-  supports a lower actual outcome, record the lower route-compatible
-  `lifecycle_outcome`, `closeout_outcome: continued`, `blocked`, or `escalated`,
-  and the exact `not_landed_reason`, `not_cleaned_reason`, blocker, or
-  next-route condition.
-- `branch-local-complete` and `published-branch` are continuation or handoff
-  outcomes only. They must report `closeout_outcome: continued`, `blocked`, or
-  escalated/denied as appropriate, never completed.
-- Do not claim direct-main completion without a commit, local validation
-  evidence, Change receipt, rollback handle, push to `origin/main`, and proof
-  that `origin/main` contains the landed ref plus post-push fetch/sync proof
-  that local `main`, `origin/main`, and the landed ref align, unless the
-  operator explicitly asks for local-only closeout or a concrete push blocker
-  is reported.
-- Do not claim `branch-no-pr` as `landed` without branch commit evidence, main
-  integration evidence, landed ref, rollback handle, and cleanup disposition.
-- Do not claim proposal-program, generated-publication, archive, or
-  correction-branch `cleaned` closeout without validated
-  `terminal_current_state_proof_ref` evidence retained after the last mutation.
-  If post-primary branch-no-pr correction branches occurred, do not claim
-  terminal closeout without a validated
-  `correction_branch_aggregate_receipt_ref`.
-- When the operator asks for closeout and the selected route is `branch-no-pr`,
-  push the source branch to origin for branch-publication closeout or complete
-  hosted no-PR landing for `landed`. Without an origin push, report a local
-  checkpoint, local-only result, or blocker instead of full closeout.
-- For hosted `branch-no-pr` landing, run hosted no-PR landing preflight before
-  mutation, emit or reference a `branch-landing-authorization-v1` receipt, and
-  require the mutating helper to validate that authorization before it can
-  update `origin/main`. The authorization must bind provider ruleset evidence,
-  a pushed source branch, exact source SHA required checks or explicit
-  empty-check policy plus retained rationale, the current target pre-ref,
-  rollback/discard posture, and no-PR eligibility. It does not bypass platform,
-  sandbox, or host safety controls.
-- Hosted `branch-no-pr` landing uses `--execute-authorized-landing` as an
-  explicit receipt-consumption signal. It is not a human approval grant and does
-  not mint landing authority. Use it only when the selected route is
-  `branch-no-pr`, the target lifecycle outcome is `landed` or `cleaned`, a
-  current approved `branch-landing-authorization-v1` receipt matches the exact
-  source ref, remote source ref, target branch, target pre-ref, provider
-  ruleset, required check refs or authorized empty-check sentinel, rollback
-  handle, and no-PR proof, and an execution-environment lane is current for the
-  exact hosted mutation.
-- Successful hosted `branch-no-pr` landing receipts must record
-  `hosted_landing_execution.signal: --execute-authorized-landing`,
-  `authorization_consumed: true`, the consumed `landing_authorization_ref`,
-  execution-lane evidence, source ref, target pre-ref, target post-ref, rollback
-  handle, final sync evidence, and `host_controls_not_bypassed: true`. Chat
-  text, host UI state, GitHub labels/comments, dashboards, generated
-  projections, parent summaries, proposal files, and `--confirm` alone cannot
-  satisfy the execution signal or execution-lane evidence.
-- If Octon authorization validates but the runtime, sandbox, provider, host,
-  remote, or ref-write boundary denies the mutation, record the lower actual
-  outcome with `landing_stop_reason: runtime_approval_denied`,
-  `hosted_landing_execution.execution_lane_status: denied`, blocker evidence,
-  and no `landed`, `cleaned`, or completed-closeout overclaim.
-- When a governed helper reports a runtime, sandbox, provider, host, remote,
-  fetch, push, or ref-write boundary, use the helper's governed rerun path in
-  an environment authorized for that same operation. Do not bypass platform,
-  sandbox, provider, or host controls.
-- Post-Landing Cleanup And Sync: after landed `branch-no-pr` or `branch-pr` work is merged, fast-forwarded, or
-  otherwise verified as contained in `origin/main`, clean up obsolete local and
-  remote source branches only after emitting or referencing a validating
-  `branch-cleanup-authorization-v1` receipt. Never delete protected branches,
-  active work branches, unmerged branches, open-PR branches, or branches whose
-  evidence and rollback posture are not retained.
-- Branch cleanup reports must label local branch roles as
-  `source-dirty-anchor`, `route-owned-delivery-branch`, `correction`,
-  `cleanup`, `retained-protected`, or `retired-stale` so similarly named dirty
-  anchors are never confused with route-owned delivery branches. A
-  `retired-stale` label requires current ref evidence, not postmortem prose or
-  prior summaries.
-- Completed or `cleaned` Change receipts must include `retained_state_report`
-  rows for delivered branch, route-owned delivery branch, dirty-anchor branches,
-  retained local branches, retained worktrees, retained required evidence,
-  local-private evidence, generated diagnostics, deleted residue, excluded
-  residue, manual-review residue, remote mutation status, archive authorization,
-  and final current-state proof. Broad language such as "source branches
-  deleted" is invalid unless the retained and deleted branch rows name the exact
-  refs and current evidence.
-- Branch cleanup authorization must prove the source branch changes are
-  integrated into `origin/main`, local `main` is synchronized to `origin/main`,
-  the recorded `landed_ref` is contained in both refs, the source branch is not
-  protected, no open PR exists, rollback/discard posture is retained, cleanup
-  policy allows the mutation, and host/platform safety controls are not
-  bypassed.
-- Stale local branch retirement must additionally prove the candidate branch
-  has zero unique commits relative to the surviving branch, no unresolved
-  upstream, local remote-ref, PR, protected-name/status, active-worktree, or
-  dirty-residue blocker, and a retained rollback note to recreate the local
-  branch from the recorded stale ref. Checked-out dirty stale branches route
-  through local-worktree retirement before any switch or delete action.
-- Before reporting a stale local branch as `retired-stale`, emit or reference a
-  branch-retirement authorization and post-delete verification proving the
-  local branch is absent and the surviving branch/ref remains aligned. Remote
-  deletion remains `not-authorized` unless a separate current receipt
-  authorizes the exact remote ref mutation.
-- If branch cleanup authorization is missing, malformed, stale, denied, or
-  mismatched, do not delete or prune refs. Report `landed`, `deferred`, or
-  `blocked` with blocker evidence instead of `cleaned`.
-- If branch cleanup cannot be completed safely, keep the branch, record the
-  exact blocker, and set cleanup disposition to deferred or blocked instead of
-  claiming cleaned/full closeout.
-- `cleaned` is route-bound: it proves only the selected Change route cleanup,
-  branch cleanup, retained residue, and sync requirements that this singular
-  closeout owns. It does not assert global worktree hygiene. Unrelated or
-  global local artifact residue must be routed through `closeout-worktree` or
-  `repo-hygiene-cleanup`, and unresolved repo-hygiene cleanup candidates block
-  a full-worktree cleanliness claim.
-- Closeout evidence generated after route cleanup and landing is outside the
-  already-landed Change route. When a wrapper-level Git-clean terminal state is
-  required, final terminal snapshots should be retained in the ignored terminal
-  local evidence sink through `write-terminal-closeout-local-evidence.sh`
-  rather than folded into the completed route receipt or emitted as fresh
-  publishable residue. Hosted/shared claims still require governed
-  authorization receipts, live ref proof, source branch cleanup proof, and
-  publishable evidence where policy requires it. Terminal proof is route-owned
-  retained evidence emitted after landing, final sync, cleanup authorization,
-  cleanup disposition, rollback posture, and validation proof exist; it may
-  summarize those refs but cannot replace them or authorize mutation.
-- Terminal proof after branch-no-PR landing is not a source-branch commit
-  requirement. Do not write terminal proof by mutating `origin/main`, local
-  `main`, the landed ref, or the source branch. If the proof sink or receipt
-  path cannot be distinguished from `landed_ref`, or if landing, final sync,
-  cleanup authorization, cleanup disposition, rollback posture, or validation
-  proof is missing, report the lower actual outcome with explicit blocker
-  evidence instead of terminal success or `cleaned`.
-- Eligible local Octon run/artifact residue is not branch cleanup. Route it to
-  `repo-hygiene-cleanup` and its validating
-  `repo-hygiene-cleanup-authorization-v1` receipt flow; generated run-health
-  projections remain generator-owned and stale detached Git worktrees require
-  explicit Git worktree cleanup proof.
-- If the target outcome is `cleaned` and cleanup or local-main sync cannot be
-  proven, record `not_cleaned_reason` and `cleanup_stop_reason`, then report a
-  lower actual outcome such as `landed`, `deferred`, or `blocked` instead of
-  completed cleaned closeout.
-- If a target of `landed` or `cleaned` stops before `origin/main` mutation,
-  record `landing_stop_reason` with `not_landed_reason`. Use
-  `runtime_approval_denied` only when Octon governance authorization exists and
-  validates but the runtime, sandbox, provider, or host approval boundary still
-  refuses the mutation.
-- Branch-based `landed` or `cleaned` full closeout requires receipt evidence
-  that the source branch changes are integrated into `origin/main`; a
-  post-landing fetch occurred; local `main` was updated to match
-  `origin/main`; the recorded `landed_ref` is contained in both local `main`
-  and `origin/main`; and branch cleanup is completed with governed cleanup
-  authorization when claiming `cleaned`.
-- After cleanup is completed, fetch from origin, sync local `main` to
-  `origin/main`, verify local `main`, `origin/main`, and the recorded
-  `landed_ref` are aligned, and record containment evidence before declaring
-  branch-based cleaned closeout complete. Deferred cleanup is a lower actual
-  outcome, not `cleaned`.
-- If the provider ruleset requires PR for `main`, report a blocker for
-  `branch-no-pr` hosted landing. Do not silently convert `branch-no-pr` to
-  `branch-pr`; PR mutation requires selected route `branch-pr` with
-  `branch_pr_predicate` and `branch_pr_predicate_evidence`, or explicit
-  operator/policy reroute recorded through route transition authority.
-- A blocked direct-main push, GH013, required checks, or blocked hosted
-  no-PR landing is not itself a `branch-pr` predicate.
-- Do not claim `branch-pr` as full closeout when the PR is only draft, open, or
-  ready; full PR-backed closeout requires merge evidence or a precise external
-  blocker.
-- Do not treat stage-only evidence as completed durable history.
-- Do not claim completed or cleaned closeout without `stateful_closeout`
-  receipt evidence from the Change Closeout State Machine.
-- Do not claim hosted/shared closeout, including hosted `branch-no-pr`
-  `cleaned`, from raw repo-hygiene logs or local-private evidence. Require
-  publishable evidence receipt refs and keep raw local helper output outside
-  hosted/shared closeout payloads.
-- Do not treat `closeout-projection.yml`, `publication-summary.yml`,
-  `structured-receipt.yml`, or `expanded-report-request.yml` as the Change
-  receipt, runtime authority, policy, support proof, or closure proof. Missing,
-  stale, digest-mismatched, or authority-conflicting compact views fail closed
-  and require canonical evidence inspection or correction before a concise
-  closeout claim can be reported.
-- Do not use proposal-local packet paths as runtime or policy dependencies.
-- A `lifecycle-interaction-request-v1` may provide scoped advisory context for
-  why Change Closeout was requested, but it is not landing, cleanup, hosted,
-  rollback, scope, validation, or closeout authority. Continue to require the
-  Change receipt, landing authorization, cleanup authorization, hosted checks,
-  rollback posture, exact SHA evidence, final sync, and target-owned gates
-  before claiming any lifecycle outcome.
-
-## References
-
-- [Phases](references/phases.md)
-- [Decisions](references/decisions.md)
-- [Checkpoints](references/checkpoints.md)
-- [I/O contract](references/io-contract.md)
-- [Safety](references/safety.md)
-- [Validation](references/validation.md)
-- [Dependencies](references/dependencies.md)
+Run the default-work-unit, state-machine, lifecycle, hosted-no-PR containment,
+and worktree-wrapper validators. Any validator failure preserves the candidate
+and produces a blocked result; it never widens the route.

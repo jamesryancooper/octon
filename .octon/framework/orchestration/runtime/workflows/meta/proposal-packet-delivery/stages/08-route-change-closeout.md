@@ -1,26 +1,22 @@
-# Stage 08: Route Change Closeout
+# Stage 08: Enforce Publication Containment
 
-Route the coherent Change through `closeout-change` or `closeout-worktree`.
+This is a read-only containment barrier. It never routes to Change closeout,
+dirty-worktree closeout, a hosted provider, or a cleanup owner during SI-00.
 
 Required checks:
 
-- Already-archived packets with fresh archive evidence route to
-  `closeout-change` or `closeout-worktree` for hosted landing, final sync,
-  branch cleanup authorization, terminal current-state proof, and worktree
-  hygiene.
-- Branch-no-pr landing requires a materialized landing authorization receipt
-  before hosted mutation.
-- PR fallback is rejected when the profile forbids PR creation.
-- Git mutation authority remains with Change closeout.
-- Partition-clean archive readiness evidence from prior stages is preserved as
-  evidence only; `closeout-change` remains the owner of commit, push, hosted
-  no-PR landing, final sync, rollback handle, branch cleanup authorization,
-  terminal current-state proof, and the final `cleaned` claim.
-- Rollback handles are recorded before landing claims.
-- Landing proof names the landed ref.
-- Terminal proof is retained by `closeout-change` after landing, final sync,
-  cleanup authorization, cleanup disposition, rollback posture, and validation
-  proof exist.
-- Terminal proof does not require a source-branch commit after landing and
-  does not mutate `origin/main`, local `main`, the landed ref, or the source
-  branch.
+- Admit only `target_outcome: implemented` or `target_outcome: archive-ready`
+  with `route=stage-only` and a matching containment-bound profile.
+- Reject `direct-main`, hosted `branch-no-pr`, `landed`, `synced`, `cleaned`,
+  cleanup, and omitted/default effectful requests with
+  `RP00_CONTAINMENT_PUBLICATION_DISABLED`.
+- Preserve the exact candidate refs, worktrees, branch state, unrelated work,
+  rollback handles, and retained evidence.
+- Emit no Git, GitHub, provider, publication, final-sync, branch-cleanup,
+  worktree-cleanup, or residue-deletion request.
+- Name RP-06/RP-08 as the later owning route when an operator requests a
+  publication or cleanup outcome.
+
+Historical receipt values may be parsed by receipt-only compatibility
+validators, but they cannot authorize this current request or satisfy this
+stage.

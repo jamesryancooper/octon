@@ -88,6 +88,7 @@ const AUTONOMOUS_RECOVERY_ENVELOPE_NAME: &str = "autonomous-recovery-envelope";
 const ROUTE_ID_PROMOTE_PROPOSAL: &str = "promote-proposal";
 const ROUTE_ID_RUN_PROGRAM_IMPLEMENTATION_ORCHESTRATION: &str =
     "run-program-implementation-orchestration";
+const ROUTE_ID_RUN_PACKET_IMPLEMENTATION: &str = "run-packet-implementation";
 const ROUTE_ID_REVIEW_PACKET: &str = "review-packet";
 const ROUTE_ID_CLOSEOUT_PACKET: &str = "closeout-packet";
 const ROUTE_ID_ARCHIVE_PROPOSAL: &str = "archive-proposal";
@@ -178,6 +179,7 @@ fn default_orchestrated_replan_loop_execution_strategy() -> String {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
 struct ProgramChildRegistry {
     schema_version: String,
     execution_mode: String,
@@ -186,6 +188,74 @@ struct ProgramChildRegistry {
     default_child_lifecycle_id: Option<String>,
     #[serde(default)]
     children: Vec<ProgramChildSpec>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    write_scope_collision_ledger: Option<ProgramWriteScopeCollisionLedger>,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct ProgramWriteScopeCollisionLedger {
+    schema_version: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    enforcement_state: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    mutation_guard: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    registry_projection_format: Option<String>,
+    registry_write_scopes_digest: String,
+    derived_counts: ProgramWriteScopeCollisionCounts,
+    #[serde(default)]
+    records: Vec<ProgramWriteScopeCollisionRecord>,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct ProgramWriteScopeCollisionCounts {
+    child_count: usize,
+    scope_entries: usize,
+    unique_paths: usize,
+    exact_records: usize,
+    directory_prefix_records: usize,
+    total_records: usize,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct ProgramWriteScopeCollisionRecord {
+    collision_id: String,
+    participants: Vec<ProgramWriteScopeCollisionParticipant>,
+    collision_kind: String,
+    integration_owner_child_id: String,
+    serialization: ProgramWriteScopeCollisionSerialization,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct ProgramWriteScopeCollisionParticipant {
+    child_id: String,
+    write_scope: String,
+    contribution: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+struct ProgramWriteScopeCollisionSerialization {
+    mechanism: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    lock_id: Option<String>,
+    ordered_child_ids: Vec<String>,
+}
+
+#[derive(Serialize)]
+struct ProgramRegistryWriteScopeProjectionRow {
+    child_id: String,
+    dependencies: Vec<String>,
+    write_scopes: Vec<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -2597,6 +2667,7 @@ pub(crate) struct ProgramLifecycleStatusReadModel {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
 struct ProgramMutationSpec {
     schema_version: String,
     expected_registry_digest: String,
@@ -2624,6 +2695,8 @@ struct ProgramMutationSpec {
     recovery_profile: Option<String>,
     #[serde(default)]
     write_scopes: Vec<String>,
+    #[serde(default)]
+    write_scope_collision_ledger: Option<ProgramWriteScopeCollisionLedger>,
     rationale: String,
 }
 
@@ -3727,7 +3800,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_policy_run_inputs_and_c
         blocked_by_program_gate = None;
     }
 
-    if program_route.is_none() && terminal_outcome.is_none() && !child_focused_planning {
+    if program_route.is_none() && terminal_outcome.is_none() {
         let structure_results = run_program_gate_by_id(
             &repo_root,
             &context.loaded.contract,
@@ -8097,6 +8170,16 @@ fn apply_mutation_to_registry(
     registry: &mut ProgramChildRegistry,
     spec: &ProgramMutationSpec,
 ) -> Result<()> {
+    let changes_write_scope_projection = matches!(
+        spec.action.as_str(),
+        "add-child" | "replace-child" | "update-dependencies"
+    );
+    if !changes_write_scope_projection && spec.write_scope_collision_ledger.is_some() {
+        bail!(
+            "non-projection mutation {} may not replace write_scope_collision_ledger",
+            spec.action
+        );
+    }
     match spec.action.as_str() {
         "add-child" => {
             if registry
@@ -8219,6 +8302,9 @@ fn apply_mutation_to_registry(
             child.dependencies = spec.dependencies.clone();
         }
         _ => unreachable!("validated mutation action"),
+    }
+    if changes_write_scope_projection {
+        registry.write_scope_collision_ledger = spec.write_scope_collision_ledger.clone();
     }
     Ok(())
 }
@@ -8379,6 +8465,7 @@ fn scaffold_registry_from_spec(spec: &ProgramScaffoldSpec) -> Result<ProgramChil
         execution_mode: normalize_program_execution_mode(&spec.execution_mode)?,
         default_child_lifecycle_id: Some(DEFAULT_CHILD_LIFECYCLE_ID.to_string()),
         children,
+        write_scope_collision_ledger: None,
     };
     Ok(registry)
 }
@@ -8937,7 +9024,398 @@ fn validate_program_registry(registry: &ProgramChildRegistry) -> Result<()> {
             }
         }
     }
-    reject_dependency_cycles(registry)
+    reject_dependency_cycles(registry)?;
+    validate_program_write_scope_collision_ledger(registry)
+}
+
+type ProgramWriteScopeCollisionKey = (String, String, String, String);
+
+fn program_registry_write_scopes_projection_bytes(
+    registry: &ProgramChildRegistry,
+) -> Result<Vec<u8>> {
+    let mut rows = registry
+        .children
+        .iter()
+        .map(|child| {
+            let mut dependencies = child.dependencies.clone();
+            dependencies.sort();
+            let mut write_scopes = child.write_scopes.clone();
+            write_scopes.sort();
+            ProgramRegistryWriteScopeProjectionRow {
+                child_id: child.child_id.clone(),
+                dependencies,
+                write_scopes,
+            }
+        })
+        .collect::<Vec<_>>();
+    rows.sort_by(|left, right| left.child_id.cmp(&right.child_id));
+    let mut bytes = serde_json::to_vec(&rows)?;
+    bytes.push(b'\n');
+    Ok(bytes)
+}
+
+fn program_registry_write_scopes_projection_digest(
+    registry: &ProgramChildRegistry,
+) -> Result<String> {
+    Ok(sha256_digest(
+        &program_registry_write_scopes_projection_bytes(registry)?,
+    ))
+}
+
+fn write_scope_collision_kind(left: &str, right: &str) -> Option<&'static str> {
+    if left == right {
+        Some("exact")
+    } else if (left.ends_with('/') && right.starts_with(left))
+        || (right.ends_with('/') && left.starts_with(right))
+    {
+        Some("directory-prefix")
+    } else {
+        None
+    }
+}
+
+fn derive_program_write_scope_collisions(
+    registry: &ProgramChildRegistry,
+) -> BTreeMap<ProgramWriteScopeCollisionKey, String> {
+    let mut children = registry.children.iter().collect::<Vec<_>>();
+    children.sort_by(|left, right| left.child_id.cmp(&right.child_id));
+    let mut derived = BTreeMap::new();
+    for (left_index, left) in children.iter().enumerate() {
+        for right in children.iter().skip(left_index + 1) {
+            let mut left_scopes = left.write_scopes.iter().collect::<Vec<_>>();
+            let mut right_scopes = right.write_scopes.iter().collect::<Vec<_>>();
+            left_scopes.sort();
+            right_scopes.sort();
+            for left_scope in &left_scopes {
+                for right_scope in &right_scopes {
+                    if let Some(kind) = write_scope_collision_kind(left_scope, right_scope) {
+                        derived.insert(
+                            (
+                                left.child_id.clone(),
+                                (*left_scope).clone(),
+                                right.child_id.clone(),
+                                (*right_scope).clone(),
+                            ),
+                            kind.to_string(),
+                        );
+                    }
+                }
+            }
+        }
+    }
+    derived
+}
+
+fn program_child_transitively_depends_on(
+    registry: &ProgramChildRegistry,
+    child_id: &str,
+    dependency_id: &str,
+) -> bool {
+    let mut pending = registry_child(registry, child_id)
+        .map(|child| child.dependencies.clone())
+        .unwrap_or_default();
+    let mut seen = BTreeSet::new();
+    while let Some(current) = pending.pop() {
+        if current == dependency_id {
+            return true;
+        }
+        if !seen.insert(current.clone()) {
+            continue;
+        }
+        if let Some(child) = registry_child(registry, &current) {
+            pending.extend(child.dependencies.iter().cloned());
+        }
+    }
+    false
+}
+
+fn valid_write_scope_collision_id(value: &str) -> bool {
+    value
+        .strip_prefix("WSC-")
+        .is_some_and(|digits| digits.len() >= 3 && digits.bytes().all(|byte| byte.is_ascii_digit()))
+}
+
+fn validate_program_write_scope_collision_ledger(registry: &ProgramChildRegistry) -> Result<()> {
+    let derived = derive_program_write_scope_collisions(registry);
+    let Some(ledger) = registry.write_scope_collision_ledger.as_ref() else {
+        if derived.is_empty() {
+            return Ok(());
+        }
+        bail!(
+            "write_scope_collision_ledger is required for {} derived collisions",
+            derived.len()
+        );
+    };
+    if ledger.schema_version != "octon-program-write-scope-collision-ledger-v1" {
+        bail!(
+            "unsupported write_scope_collision_ledger schema_version: {}",
+            ledger.schema_version
+        );
+    }
+    let projection_digest = program_registry_write_scopes_projection_digest(registry)?;
+    if ledger.registry_write_scopes_digest != projection_digest {
+        bail!(
+            "write_scope_collision_ledger registry_write_scopes_digest is stale: expected {}, observed {}",
+            projection_digest,
+            ledger.registry_write_scopes_digest
+        );
+    }
+
+    let scope_entries = registry
+        .children
+        .iter()
+        .map(|child| child.write_scopes.len())
+        .sum::<usize>();
+    let unique_paths = registry
+        .children
+        .iter()
+        .flat_map(|child| child.write_scopes.iter().cloned())
+        .collect::<BTreeSet<_>>()
+        .len();
+    let exact_records = derived
+        .values()
+        .filter(|kind| kind.as_str() == "exact")
+        .count();
+    let directory_prefix_records = derived
+        .values()
+        .filter(|kind| kind.as_str() == "directory-prefix")
+        .count();
+    let expected_counts = ProgramWriteScopeCollisionCounts {
+        child_count: registry.children.len(),
+        scope_entries,
+        unique_paths,
+        exact_records,
+        directory_prefix_records,
+        total_records: derived.len(),
+    };
+    if ledger.derived_counts != expected_counts {
+        bail!(
+            "write_scope_collision_ledger derived_counts do not match the canonical registry projection"
+        );
+    }
+
+    let child_scopes = registry
+        .children
+        .iter()
+        .map(|child| {
+            (
+                child.child_id.as_str(),
+                child
+                    .write_scopes
+                    .iter()
+                    .map(String::as_str)
+                    .collect::<BTreeSet<_>>(),
+            )
+        })
+        .collect::<BTreeMap<_, _>>();
+    let mut collision_ids = BTreeSet::new();
+    let mut observed = BTreeSet::new();
+    let mut serialization_edges = Vec::new();
+    for record in &ledger.records {
+        if !valid_write_scope_collision_id(&record.collision_id) {
+            bail!(
+                "write_scope_collision_ledger collision_id must match WSC-[0-9]{{3,}}: {}",
+                record.collision_id
+            );
+        }
+        if !collision_ids.insert(record.collision_id.as_str()) {
+            bail!(
+                "duplicate write_scope_collision_ledger collision_id: {}",
+                record.collision_id
+            );
+        }
+        if record.participants.len() != 2 {
+            bail!(
+                "collision {} must declare exactly two participants",
+                record.collision_id
+            );
+        }
+        let left = &record.participants[0];
+        let right = &record.participants[1];
+        if left.child_id == right.child_id {
+            bail!(
+                "collision {} participants must name distinct children",
+                record.collision_id
+            );
+        }
+        if (left.child_id.as_str(), left.write_scope.as_str())
+            >= (right.child_id.as_str(), right.write_scope.as_str())
+        {
+            bail!(
+                "collision {} participants are not canonically sorted",
+                record.collision_id
+            );
+        }
+        for participant in &record.participants {
+            let scopes = child_scopes
+                .get(participant.child_id.as_str())
+                .with_context(|| {
+                    format!(
+                        "collision {} names unknown child {}",
+                        record.collision_id, participant.child_id
+                    )
+                })?;
+            if !scopes.contains(participant.write_scope.as_str()) {
+                bail!(
+                    "collision {} child {} names undeclared write_scope {}",
+                    record.collision_id,
+                    participant.child_id,
+                    participant.write_scope
+                );
+            }
+            if participant.contribution.trim().is_empty() || participant.contribution.len() > 4096 {
+                bail!(
+                    "collision {} participant {} contribution must contain 1..=4096 bytes",
+                    record.collision_id,
+                    participant.child_id
+                );
+            }
+        }
+        let key = (
+            left.child_id.clone(),
+            left.write_scope.clone(),
+            right.child_id.clone(),
+            right.write_scope.clone(),
+        );
+        if !observed.insert(key.clone()) {
+            bail!(
+                "duplicate or reversed write_scope_collision_ledger record for {:?}",
+                key
+            );
+        }
+        let expected_kind = derived.get(&key).with_context(|| {
+            format!(
+                "collision {} is an extra non-collision",
+                record.collision_id
+            )
+        })?;
+        if &record.collision_kind != expected_kind {
+            bail!(
+                "collision {} collision_kind mismatch: expected {}, observed {}",
+                record.collision_id,
+                expected_kind,
+                record.collision_kind
+            );
+        }
+        if record.integration_owner_child_id != left.child_id
+            && record.integration_owner_child_id != right.child_id
+        {
+            bail!(
+                "collision {} integration owner must name exactly one participant",
+                record.collision_id
+            );
+        }
+        let order = &record.serialization.ordered_child_ids;
+        if order.len() != 2
+            || order[0] == order[1]
+            || !order.iter().any(|id| id == &left.child_id)
+            || !order.iter().any(|id| id == &right.child_id)
+        {
+            bail!(
+                "collision {} ordered_child_ids must list both participants exactly once",
+                record.collision_id
+            );
+        }
+        match record.serialization.mechanism.as_str() {
+            "dependency-order" => {
+                if record.serialization.lock_id.is_some() {
+                    bail!(
+                        "collision {} dependency-order must not declare lock_id",
+                        record.collision_id
+                    );
+                }
+                if !program_child_transitively_depends_on(registry, &order[1], &order[0]) {
+                    bail!(
+                        "collision {} dependency-order does not agree with transitive reachability",
+                        record.collision_id
+                    );
+                }
+            }
+            "exclusive-integration-lock" => {
+                let lock_id = record.serialization.lock_id.as_deref().with_context(|| {
+                    format!(
+                        "collision {} exclusive-integration-lock requires lock_id",
+                        record.collision_id
+                    )
+                })?;
+                validate_program_id_field(lock_id, "collision serialization lock_id")?;
+                if program_child_transitively_depends_on(registry, &order[0], &order[1])
+                    || program_child_transitively_depends_on(registry, &order[1], &order[0])
+                {
+                    bail!(
+                        "collision {} exclusive-integration-lock participants are not DAG peers",
+                        record.collision_id
+                    );
+                }
+            }
+            other => bail!(
+                "collision {} serialization mechanism is unsupported: {}",
+                record.collision_id,
+                other
+            ),
+        }
+        serialization_edges.push((order[0].clone(), order[1].clone()));
+    }
+
+    let derived_keys = derived.keys().cloned().collect::<BTreeSet<_>>();
+    if observed != derived_keys {
+        let missing = derived_keys.difference(&observed).count();
+        let extra = observed.difference(&derived_keys).count();
+        bail!(
+            "write_scope_collision_ledger bijection failed: missing={} extra={}",
+            missing,
+            extra
+        );
+    }
+
+    let mut graph = registry
+        .children
+        .iter()
+        .map(|child| (child.child_id.clone(), BTreeSet::new()))
+        .collect::<BTreeMap<_, _>>();
+    for child in &registry.children {
+        for dependency in &child.dependencies {
+            graph
+                .entry(dependency.clone())
+                .or_default()
+                .insert(child.child_id.clone());
+        }
+    }
+    for (before, after) in serialization_edges {
+        graph.entry(before).or_default().insert(after);
+    }
+    reject_program_ordering_cycles(&graph)
+}
+
+fn reject_program_ordering_cycles(graph: &BTreeMap<String, BTreeSet<String>>) -> Result<()> {
+    fn visit<'a>(
+        node: &'a str,
+        graph: &'a BTreeMap<String, BTreeSet<String>>,
+        visiting: &mut BTreeSet<&'a str>,
+        visited: &mut BTreeSet<&'a str>,
+    ) -> Result<()> {
+        if visited.contains(node) {
+            return Ok(());
+        }
+        if !visiting.insert(node) {
+            bail!("dependency plus collision serialization graph is cyclic at {node}");
+        }
+        if let Some(successors) = graph.get(node) {
+            for successor in successors {
+                visit(successor, graph, visiting, visited)?;
+            }
+        }
+        visiting.remove(node);
+        visited.insert(node);
+        Ok(())
+    }
+
+    let mut visiting = BTreeSet::new();
+    let mut visited = BTreeSet::new();
+    for node in graph.keys() {
+        visit(node, graph, &mut visiting, &mut visited)?;
+    }
+    Ok(())
 }
 
 fn reject_dependency_cycles(registry: &ProgramChildRegistry) -> Result<()> {
@@ -9008,7 +9486,6 @@ fn apply_atomic_preflight_blockers(
         });
         return Ok(());
     }
-    let mut observed_scopes: Vec<(String, Vec<String>)> = Vec::new();
     for child in registry
         .children
         .iter()
@@ -9020,23 +9497,6 @@ fn apply_atomic_preflight_blockers(
         if state.terminal_outcome.is_some() {
             continue;
         }
-        if let Some((other_child, _)) = observed_scopes.iter().find(|(_, existing)| {
-            state.write_scopes.iter().any(|scope| {
-                existing
-                    .iter()
-                    .any(|other_scope| scopes_overlap(scope, other_scope))
-            })
-        }) {
-            program_blockers.push(ProgramBlocker {
-                blocker_class: "atomic-write-scope-conflict".to_string(),
-                message: format!(
-                    "program-atomic child {} write scope overlaps with child {other_child}",
-                    state.child_id
-                ),
-                recovery_route: None,
-            });
-        }
-        observed_scopes.push((state.child_id.clone(), state.write_scopes.clone()));
         if atomic_policy.require_declared_write_scopes && child.write_scopes.is_empty() {
             state.blockers.push(ProgramBlocker {
                 blocker_class: "authority-boundary-ambiguous".to_string(),
@@ -13597,7 +14057,9 @@ fn select_runnable_batch(
         PROGRAM_EXECUTION_MODE_SEQUENTIAL => ordered_child_ids
             .iter()
             .filter_map(|child_id| {
-                runnable_child(program, child_states, child_id).then(|| child_id.clone())
+                (runnable_child(program, child_states, child_id)
+                    && collision_ledger_order_ready(registry, child_states, child_id))
+                .then(|| child_id.clone())
             })
             .take(1)
             .collect::<Vec<_>>(),
@@ -13609,14 +14071,14 @@ fn select_runnable_batch(
         | PROGRAM_EXECUTION_MODE_PROGRAM_ATOMIC => ordered_child_ids
             .iter()
             .filter_map(|child_id| {
-                runnable_child(program, child_states, child_id).then(|| child_id.clone())
+                (runnable_child(program, child_states, child_id)
+                    && collision_ledger_order_ready(registry, child_states, child_id))
+                .then(|| child_id.clone())
             })
             .collect::<Vec<_>>(),
         _ => Vec::new(),
     };
-    if execution_mode != PROGRAM_EXECUTION_MODE_SEQUENTIAL
-        && execution_mode != PROGRAM_EXECUTION_MODE_PROGRAM_ATOMIC
-    {
+    if execution_mode != PROGRAM_EXECUTION_MODE_SEQUENTIAL {
         candidates = enforce_write_scope_independence(
             child_states,
             candidates,
@@ -13625,9 +14087,7 @@ fn select_runnable_batch(
     }
     if candidates.is_empty() && execution_mode == PROGRAM_EXECUTION_MODE_GATED_PARALLEL {
         candidates = select_unblocked_route_ready_batch(registry, child_states);
-        if execution_mode != PROGRAM_EXECUTION_MODE_SEQUENTIAL
-            && execution_mode != PROGRAM_EXECUTION_MODE_PROGRAM_ATOMIC
-        {
+        if execution_mode != PROGRAM_EXECUTION_MODE_SEQUENTIAL {
             candidates = enforce_write_scope_independence(
                 child_states,
                 candidates,
@@ -13663,6 +14123,7 @@ fn select_unblocked_route_ready_batch(
             && state.terminal_outcome.is_none()
             && state.selected_route.is_some()
             && state.blockers.is_empty()
+            && collision_ledger_order_ready(registry, child_states, &child_id)
         {
             selected_phase.get_or_insert(phase);
             selected.push(child_id);
@@ -13672,36 +14133,92 @@ fn select_unblocked_route_ready_batch(
 }
 
 fn dependency_ordered_child_ids(registry: &ProgramChildRegistry) -> Vec<String> {
-    let mut remaining = registry
+    let mut indegree = registry
         .children
         .iter()
-        .map(|child| child.child_id.clone())
-        .collect::<BTreeSet<_>>();
-    let mut ordered = Vec::new();
-    while !remaining.is_empty() {
-        let before = remaining.len();
-        for child in &registry.children {
-            if !remaining.contains(&child.child_id) {
-                continue;
-            }
-            if child
-                .dependencies
-                .iter()
-                .all(|dependency| !remaining.contains(dependency))
-            {
-                remaining.remove(&child.child_id);
-                ordered.push(child.child_id.clone());
+        .map(|child| (child.child_id.clone(), 0usize))
+        .collect::<BTreeMap<_, _>>();
+    let mut successors = registry
+        .children
+        .iter()
+        .map(|child| (child.child_id.clone(), BTreeSet::new()))
+        .collect::<BTreeMap<_, _>>();
+    let mut insert_edge = |before: &str, after: &str| {
+        if successors
+            .entry(before.to_string())
+            .or_default()
+            .insert(after.to_string())
+        {
+            *indegree.entry(after.to_string()).or_default() += 1;
+        }
+    };
+    for child in &registry.children {
+        for dependency in &child.dependencies {
+            insert_edge(dependency, &child.child_id);
+        }
+    }
+    if let Some(ledger) = registry.write_scope_collision_ledger.as_ref() {
+        for record in &ledger.records {
+            if let [before, after] = record.serialization.ordered_child_ids.as_slice() {
+                insert_edge(before, after);
             }
         }
-        if remaining.len() == before {
-            for child in &registry.children {
-                if remaining.remove(&child.child_id) {
-                    ordered.push(child.child_id.clone());
+    }
+    let mut ready = indegree
+        .iter()
+        .filter_map(|(child_id, degree)| (*degree == 0).then(|| child_id.clone()))
+        .collect::<BTreeSet<_>>();
+    let mut ordered = Vec::new();
+    while let Some(child_id) = ready.iter().next().cloned() {
+        ready.remove(&child_id);
+        ordered.push(child_id.clone());
+        if let Some(children) = successors.get(&child_id) {
+            for successor in children {
+                if let Some(degree) = indegree.get_mut(successor) {
+                    *degree = degree.saturating_sub(1);
+                    if *degree == 0 {
+                        ready.insert(successor.clone());
+                    }
                 }
             }
         }
     }
+    if ordered.len() != indegree.len() {
+        let unordered = indegree
+            .keys()
+            .filter(|child_id| !ordered.contains(child_id))
+            .cloned()
+            .collect::<Vec<_>>();
+        ordered.extend(unordered);
+    }
     ordered
+}
+
+fn collision_ledger_order_ready(
+    registry: &ProgramChildRegistry,
+    child_states: &BTreeMap<String, ProgramChildPlanState>,
+    child_id: &str,
+) -> bool {
+    registry
+        .write_scope_collision_ledger
+        .as_ref()
+        .map(|ledger| {
+            ledger.records.iter().all(|record| {
+                if record.serialization.mechanism != "exclusive-integration-lock" {
+                    return true;
+                }
+                let order = &record.serialization.ordered_child_ids;
+                if order.get(1).map(String::as_str) != Some(child_id) {
+                    return true;
+                }
+                order.first().is_some_and(|predecessor| {
+                    child_states
+                        .get(predecessor)
+                        .is_some_and(|state| state.terminal_outcome.is_some())
+                })
+            })
+        })
+        .unwrap_or(true)
 }
 
 fn focused_program_child_ids(
@@ -13726,6 +14243,15 @@ fn focused_program_child_ids(
             )
         })?;
         stack.extend(child.dependencies.iter().cloned());
+        if let Some(ledger) = registry.write_scope_collision_ledger.as_ref() {
+            for record in &ledger.records {
+                if let [before, after] = record.serialization.ordered_child_ids.as_slice() {
+                    if after == &child_id {
+                        stack.push(before.clone());
+                    }
+                }
+            }
+        }
     }
     Ok(Some(focused))
 }
@@ -13967,7 +14493,8 @@ fn gated_parallel_candidates(
             .filter_map(|child_id| {
                 let child = registry_child(registry, child_id)?;
                 (child_phase_key(child) == *phase
-                    && runnable_child(program, child_states, child_id))
+                    && runnable_child(program, child_states, child_id)
+                    && collision_ledger_order_ready(registry, child_states, child_id))
                 .then(|| child_id.clone())
             })
             .collect::<Vec<_>>();
@@ -17264,7 +17791,12 @@ fn build_child_execution_jobs(
                 });
                 continue;
             };
-            let child_run_id = sanitize_run_id(&format!("{program_run_id}-{child_id}"))?;
+            let child_run_id = program_child_execution_run_id(
+                program_run_id,
+                child_id,
+                blocker_class.as_deref(),
+                checkpoint,
+            )?;
             let child_evidence_root = evidence_root.join("children").join(child_id);
             let child_control_root = control_root.join("children").join(child_id);
             fs::create_dir_all(&child_evidence_root)?;
@@ -17750,6 +18282,19 @@ fn build_child_execution_jobs(
                     )?;
                 }
             }
+            let checkpoint_path = if route.route_id == ROUTE_ID_RUN_PACKET_IMPLEMENTATION {
+                canonical_child_lifecycle_checkpoint_for_dispatch(
+                    octon_dir,
+                    &child_run_id,
+                    state,
+                    route,
+                    options,
+                    &invocation_authority,
+                    &child_run_inputs,
+                )?
+            } else {
+                child_control_root.join("lifecycle-checkpoint.yml")
+            };
             let mut request = lifecycle_execution_request_for_route(
                 octon_dir,
                 &child_run_id,
@@ -17764,7 +18309,7 @@ fn build_child_execution_jobs(
                 &child_run_inputs,
                 &state.route_gate_results,
                 child_evidence_root,
-                child_control_root.join("lifecycle-checkpoint.yml"),
+                checkpoint_path,
                 Some(lifecycle_cancellation_token_path(control_root)),
                 Some(program_child_approval_context(
                     program_run_id,
@@ -17854,6 +18399,82 @@ fn build_child_execution_jobs(
     }
     let _ = repo_root;
     Ok((jobs, preflight_summaries))
+}
+
+fn program_child_execution_run_id(
+    program_run_id: &str,
+    child_id: &str,
+    blocker_class: Option<&str>,
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+) -> Result<String> {
+    let base = format!("{program_run_id}-{child_id}");
+    if blocker_class.is_none() {
+        return sanitize_run_id(&base);
+    }
+
+    let prior_attempts = checkpoint
+        .and_then(|checkpoint| checkpoint.recovery_attempts.get(child_id))
+        .copied()
+        .unwrap_or(0);
+    let attempt_ordinal = prior_attempts
+        .checked_add(1)
+        .context("program child recovery attempt ordinal overflow")?;
+    sanitize_run_id(&format!("{base}-retry-{attempt_ordinal}"))
+}
+
+fn canonical_child_lifecycle_checkpoint_for_dispatch(
+    octon_dir: &Path,
+    child_run_id: &str,
+    state: &ProgramChildPlanState,
+    route: &RoutePlanState,
+    options: &RunLifecycleOptions,
+    invocation_authority: &str,
+    run_inputs: &BTreeMap<String, String>,
+) -> Result<PathBuf> {
+    let checkpoint_path = octon_dir
+        .join(RUN_CONTROL_ROOT_REL)
+        .join(child_run_id)
+        .join("lifecycle-checkpoint.yml");
+    if checkpoint_path.is_file() {
+        return Ok(checkpoint_path);
+    }
+
+    let run = run_lifecycle_from_octon_dir(
+        octon_dir,
+        RunLifecycleOptions {
+            lifecycle_id: state.child_lifecycle_id.clone(),
+            target: PathBuf::from(&state.target),
+            run_id: Some(child_run_id.to_string()),
+            executor: options.executor,
+            max_iterations: None,
+            execute_routes: false,
+            max_steps: None,
+            timeout_seconds: options.timeout_seconds,
+            max_child_concurrency: None,
+            invocation_authority: invocation_authority.to_string(),
+            run_inputs: run_inputs.clone(),
+            program_child_filter: None,
+        },
+    )?;
+    let selected_route = run
+        .selected_route
+        .as_ref()
+        .map(|selected| selected.route_id.as_str());
+    if selected_route != Some(route.route_id.as_str()) {
+        bail!(
+            "child lifecycle initialization selected route {:?}, expected {} for run {}",
+            selected_route,
+            route.route_id,
+            child_run_id
+        );
+    }
+    if !checkpoint_path.is_file() {
+        bail!(
+            "child lifecycle initialization did not materialize canonical checkpoint for run {}",
+            child_run_id
+        );
+    }
+    Ok(checkpoint_path)
 }
 
 #[derive(Default)]
@@ -23227,6 +23848,16 @@ fn execute_child_job(
     executor: DefaultLifecycleRouteExecutor,
     mut job: ChildExecutionJob,
 ) -> Result<ChildExecutionOutcome> {
+    #[cfg(test)]
+    let mock_packet_implementation = job.request.executor == "mock"
+        && job.request.route.route_id == "run-packet-implementation"
+        && {
+            // A libtest binary cannot satisfy the production admission re-exec.
+            // Exercise the mock mutation and observation path through its
+            // non-consequential alias; the program summary retains `job.route_id`.
+            job.request.route.route_id = "run-implementation".to_string();
+            true
+        };
     let mut last_result: Option<LifecycleRouteExecutionResult> = None;
     let mut attempts = 0;
     for attempt in 0..job.max_attempts {
@@ -23264,6 +23895,21 @@ fn execute_child_job(
                 });
             }
         };
+        #[cfg(test)]
+        if mock_packet_implementation && result.status == "completed" {
+            fs::write(
+                job.request
+                    .target
+                    .join("support/implementation-conformance-review.md"),
+                "verdict: pass\nunresolved_items_count: 0\n",
+            )?;
+            fs::write(
+                job.request
+                    .target
+                    .join("support/post-implementation-drift-churn-review.md"),
+                "verdict: pass\nunresolved_items_count: 0\n",
+            )?;
+        }
         let result = enforce_child_route_completion_contract(&job, result)?;
         let retry = result.retryable
             && matches!(result.status.as_str(), "failed" | "timed-out" | "cancelled")
@@ -36191,7 +36837,7 @@ routes:
             );
             self.write(
                 &format!("children/{id}/architecture/rollback-plan.md"),
-                "# Rollback Plan\n\n## Rollback\n\nRestore the fixture checkpoint and revert fixture-owned files.\n",
+                "# Fixture Recovery\n\n## Rollback\n\nRetain the fixture baseline and restore it on route failure.\n",
             );
             if is_safe_repo_relative(promotion_target) {
                 let target = self.root.join(promotion_target.trim_end_matches('/'));
@@ -42132,7 +42778,7 @@ routes:
         );
         fixture.write(
             "children/a/support/implementation-run.md",
-            "verdict: blocked\n",
+            "verdict: blocked\nrun_id: implementation-blocked-route-a\n",
         );
         fixture.write(
             "children/a/support/implementation-conformance-review.md",
@@ -45076,6 +45722,342 @@ rationale: "prove overwrite guard"
         assert_eq!(result.final_verdict, "blocked-unsafe");
     }
 
+    fn collision_test_registry(children: &str) -> ProgramChildRegistry {
+        serde_yaml::from_str(&format!(
+            "schema_version: octon-proposal-program-child-registry-v2\nexecution_mode: gated-parallel\nchildren:\n{children}"
+        ))
+        .unwrap()
+    }
+
+    fn collision_test_record(
+        collision_id: &str,
+        left_child: &str,
+        left_scope: &str,
+        right_child: &str,
+        right_scope: &str,
+        kind: &str,
+        mechanism: &str,
+        order: [&str; 2],
+    ) -> ProgramWriteScopeCollisionRecord {
+        ProgramWriteScopeCollisionRecord {
+            collision_id: collision_id.to_string(),
+            participants: vec![
+                ProgramWriteScopeCollisionParticipant {
+                    child_id: left_child.to_string(),
+                    write_scope: left_scope.to_string(),
+                    contribution: format!("{left_child} bounded contribution"),
+                },
+                ProgramWriteScopeCollisionParticipant {
+                    child_id: right_child.to_string(),
+                    write_scope: right_scope.to_string(),
+                    contribution: format!("{right_child} bounded contribution"),
+                },
+            ],
+            collision_kind: kind.to_string(),
+            integration_owner_child_id: left_child.to_string(),
+            serialization: ProgramWriteScopeCollisionSerialization {
+                mechanism: mechanism.to_string(),
+                lock_id: (mechanism == "exclusive-integration-lock")
+                    .then(|| "test-integration-lock".to_string()),
+                ordered_child_ids: order.into_iter().map(str::to_string).collect(),
+            },
+        }
+    }
+
+    fn install_collision_test_ledger(
+        registry: &mut ProgramChildRegistry,
+        records: Vec<ProgramWriteScopeCollisionRecord>,
+    ) {
+        let derived = derive_program_write_scope_collisions(registry);
+        let scope_entries = registry
+            .children
+            .iter()
+            .map(|child| child.write_scopes.len())
+            .sum();
+        let unique_paths = registry
+            .children
+            .iter()
+            .flat_map(|child| child.write_scopes.iter().cloned())
+            .collect::<BTreeSet<_>>()
+            .len();
+        registry.write_scope_collision_ledger = Some(ProgramWriteScopeCollisionLedger {
+            schema_version: "octon-program-write-scope-collision-ledger-v1".to_string(),
+            enforcement_state: Some("active".to_string()),
+            mutation_guard: Some("typed-validation-required".to_string()),
+            registry_projection_format: Some("canonical-json-lf".to_string()),
+            registry_write_scopes_digest: program_registry_write_scopes_projection_digest(registry)
+                .unwrap(),
+            derived_counts: ProgramWriteScopeCollisionCounts {
+                child_count: registry.children.len(),
+                scope_entries,
+                unique_paths,
+                exact_records: derived
+                    .values()
+                    .filter(|kind| kind.as_str() == "exact")
+                    .count(),
+                directory_prefix_records: derived
+                    .values()
+                    .filter(|kind| kind.as_str() == "directory-prefix")
+                    .count(),
+                total_records: derived.len(),
+            },
+            records,
+        });
+    }
+
+    fn exact_peer_collision_test_registry() -> ProgramChildRegistry {
+        let mut registry = collision_test_registry(
+            r#"  - child_id: b
+    path: children/b
+    write_scopes: [framework/shared.md]
+  - child_id: a
+    path: children/a
+    write_scopes: [framework/shared.md]
+"#,
+        );
+        install_collision_test_ledger(
+            &mut registry,
+            vec![collision_test_record(
+                "WSC-001",
+                "a",
+                "framework/shared.md",
+                "b",
+                "framework/shared.md",
+                "exact",
+                "exclusive-integration-lock",
+                ["a", "b"],
+            )],
+        );
+        registry
+    }
+
+    #[test]
+    fn typed_collision_ledger_round_trip_digest_and_overlap_parity() {
+        let registry = exact_peer_collision_test_registry();
+        assert_eq!(
+            program_registry_write_scopes_projection_digest(&registry).unwrap(),
+            "sha256:aeec23c2dd2a6310425ad9d23f087c9948fb9c449306b4ea192dc2814f9ff602"
+        );
+        validate_program_registry(&registry).unwrap();
+        assert_eq!(
+            write_scope_collision_kind("framework/host/", "framework/host/file.yml"),
+            Some("directory-prefix")
+        );
+        assert_eq!(
+            write_scope_collision_kind("framework/host/file.yml", "framework/host/"),
+            Some("directory-prefix")
+        );
+        assert_eq!(
+            write_scope_collision_kind("framework/host/", "framework/hosted.yml"),
+            None
+        );
+
+        let serialized = serde_yaml::to_string(&registry).unwrap();
+        let cloned = registry.clone();
+        let round_trip: ProgramChildRegistry = serde_yaml::from_str(&serialized).unwrap();
+        assert_eq!(
+            cloned.write_scope_collision_ledger,
+            round_trip.write_scope_collision_ledger
+        );
+        let unknown_nested = serialized.replacen(
+            "write_scope_collision_ledger:\n",
+            "write_scope_collision_ledger:\n  unknown_field: true\n",
+            1,
+        );
+        assert!(serde_yaml::from_str::<ProgramChildRegistry>(&unknown_nested).is_err());
+        let unknown_top = format!("{serialized}unknown_top_level: true\n");
+        assert!(serde_yaml::from_str::<ProgramChildRegistry>(&unknown_top).is_err());
+    }
+
+    #[test]
+    fn collision_ledger_dependency_and_peer_orders_control_schedule() {
+        let peer_registry = exact_peer_collision_test_registry();
+        assert_eq!(
+            dependency_ordered_child_ids(&peer_registry),
+            vec!["a".to_string(), "b".to_string()]
+        );
+        let mut peer_states = BTreeMap::from([
+            ("a".to_string(), child_state("a", Vec::new())),
+            ("b".to_string(), child_state("b", Vec::new())),
+        ]);
+        assert!(collision_ledger_order_ready(
+            &peer_registry,
+            &peer_states,
+            "a"
+        ));
+        assert!(!collision_ledger_order_ready(
+            &peer_registry,
+            &peer_states,
+            "b"
+        ));
+        peer_states.get_mut("a").unwrap().terminal_outcome = Some("archived".to_string());
+        assert!(collision_ledger_order_ready(
+            &peer_registry,
+            &peer_states,
+            "b"
+        ));
+
+        let mut dependency_registry = collision_test_registry(
+            r#"  - child_id: b
+    path: children/b
+    dependencies: [a]
+    write_scopes: [framework/shared.md]
+  - child_id: a
+    path: children/a
+    write_scopes: [framework/shared.md]
+"#,
+        );
+        install_collision_test_ledger(
+            &mut dependency_registry,
+            vec![collision_test_record(
+                "WSC-001",
+                "a",
+                "framework/shared.md",
+                "b",
+                "framework/shared.md",
+                "exact",
+                "dependency-order",
+                ["a", "b"],
+            )],
+        );
+        validate_program_registry(&dependency_registry).unwrap();
+        assert_eq!(
+            dependency_ordered_child_ids(&dependency_registry),
+            vec!["a".to_string(), "b".to_string()]
+        );
+    }
+
+    #[test]
+    fn invalid_collision_ledger_blocks_dispatch_and_aggregate_cycles() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("missing-collision-ledger", true);
+        fixture.write_child("a", "framework/shared.md", "accepted");
+        fixture.write_child("b", "framework/shared.md", "accepted");
+        fixture.write_v2_registry(
+            "gated-parallel",
+            r#"  - child_id: a
+    path: children/a
+    write_scopes: [framework/shared.md]
+  - child_id: b
+    path: children/b
+    write_scopes: [framework/shared.md]
+"#,
+        );
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        assert!(plan.runnable_batch.is_empty());
+        assert!(plan.program_blockers.iter().any(|blocker| {
+            blocker.blocker_class == "invalid-child-registry"
+                && blocker
+                    .message
+                    .contains("write_scope_collision_ledger is required")
+        }));
+
+        let mut cyclic = collision_test_registry(
+            r#"  - child_id: c
+    path: children/c
+    write_scopes: [framework/shared.md]
+  - child_id: b
+    path: children/b
+    write_scopes: [framework/shared.md]
+  - child_id: a
+    path: children/a
+    write_scopes: [framework/shared.md]
+"#,
+        );
+        install_collision_test_ledger(
+            &mut cyclic,
+            vec![
+                collision_test_record(
+                    "WSC-001",
+                    "a",
+                    "framework/shared.md",
+                    "b",
+                    "framework/shared.md",
+                    "exact",
+                    "exclusive-integration-lock",
+                    ["a", "b"],
+                ),
+                collision_test_record(
+                    "WSC-002",
+                    "a",
+                    "framework/shared.md",
+                    "c",
+                    "framework/shared.md",
+                    "exact",
+                    "exclusive-integration-lock",
+                    ["c", "a"],
+                ),
+                collision_test_record(
+                    "WSC-003",
+                    "b",
+                    "framework/shared.md",
+                    "c",
+                    "framework/shared.md",
+                    "exact",
+                    "exclusive-integration-lock",
+                    ["b", "c"],
+                ),
+            ],
+        );
+        let error = validate_program_registry(&cyclic).unwrap_err().to_string();
+        assert!(error.contains("collision serialization graph is cyclic"));
+
+        let mut stale = exact_peer_collision_test_registry();
+        stale
+            .write_scope_collision_ledger
+            .as_mut()
+            .unwrap()
+            .registry_write_scopes_digest =
+            "sha256:0000000000000000000000000000000000000000000000000000000000000000".to_string();
+        assert!(validate_program_registry(&stale)
+            .unwrap_err()
+            .to_string()
+            .contains("registry_write_scopes_digest is stale"));
+    }
+
+    #[test]
+    fn collision_ledger_mutation_preserves_or_requires_replacement() {
+        let registry = exact_peer_collision_test_registry();
+        let original_bytes = serde_yaml::to_string(&registry).unwrap();
+        let original_ledger = registry.write_scope_collision_ledger.clone();
+        let non_projection: ProgramMutationSpec = serde_yaml::from_str(
+            r#"schema_version: octon-proposal-program-mutation-v1
+expected_registry_digest: sha256:test
+action: defer-child
+child_id: a
+rationale: defer without changing the collision projection
+"#,
+        )
+        .unwrap();
+        let mut deferred = registry.clone();
+        apply_mutation_to_registry(&mut deferred, &non_projection).unwrap();
+        assert_eq!(deferred.write_scope_collision_ledger, original_ledger);
+        validate_program_registry(&deferred).unwrap();
+
+        let projection_change: ProgramMutationSpec = serde_yaml::from_str(
+            r#"schema_version: octon-proposal-program-mutation-v1
+expected_registry_digest: sha256:test
+action: update-dependencies
+child_id: b
+dependencies: [a]
+rationale: projection change without a complete replacement ledger
+"#,
+        )
+        .unwrap();
+        let mut rejected = registry.clone();
+        apply_mutation_to_registry(&mut rejected, &projection_change).unwrap();
+        assert!(validate_program_registry(&rejected)
+            .unwrap_err()
+            .to_string()
+            .contains("write_scope_collision_ledger is required"));
+        assert_eq!(serde_yaml::to_string(&registry).unwrap(), original_bytes);
+    }
+
     #[test]
     fn write_scope_conflict_blocks_when_serialization_not_allowed() {
         let _guard = crate::acquire_kernel_test_lock();
@@ -45588,6 +46570,85 @@ rationale: "prove overwrite guard"
             .blockers
             .iter()
             .any(|blocker| blocker.blocker_class == "missing-evidence"));
+
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs/implementation-blocked-route");
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/implementation-blocked-route");
+        fs::create_dir_all(&control_root).unwrap();
+        fs::create_dir_all(&evidence_root).unwrap();
+        let mut checkpoint = ProgramLifecycleCheckpoint::default();
+        checkpoint.recovery_attempts.insert("a".to_string(), 1);
+        let (jobs, preflight_summaries) = build_child_execution_jobs(
+            &fixture.octon_dir,
+            &fixture.root,
+            "implementation-blocked-route",
+            &BTreeMap::new(),
+            &RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("implementation-blocked-route".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+            &plan,
+            &evidence_root,
+            &control_root,
+            None,
+            Some(&checkpoint),
+        )
+        .unwrap();
+
+        assert!(preflight_summaries.is_empty(), "{preflight_summaries:#?}");
+        assert_eq!(jobs.len(), 1);
+        assert_eq!(
+            jobs[0].child_run_id,
+            "implementation-blocked-route-a-retry-2"
+        );
+        assert_eq!(jobs[0].request.run_id, jobs[0].child_run_id);
+        assert_ne!(jobs[0].child_run_id, "implementation-blocked-route-a");
+        let canonical_child_control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs/implementation-blocked-route-a-retry-2");
+        assert_eq!(
+            jobs[0].request.checkpoint_path,
+            canonical_child_control_root.join("lifecycle-checkpoint.yml")
+        );
+        assert!(canonical_child_control_root
+            .join("lifecycle-events.ndjson")
+            .is_file());
+        let child_checkpoint: LifecycleCheckpoint = serde_yaml::from_slice(
+            &fs::read(canonical_child_control_root.join("lifecycle-checkpoint.yml")).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(child_checkpoint.run_id, jobs[0].child_run_id);
+        assert_eq!(
+            child_checkpoint.current_state.as_deref(),
+            Some("run-packet-implementation")
+        );
+        assert_eq!(
+            child_checkpoint.last_route.as_deref(),
+            Some("run-packet-implementation")
+        );
+        assert_eq!(
+            program_child_execution_run_id(
+                "implementation-blocked-route",
+                "a",
+                None,
+                Some(&checkpoint),
+            )
+            .unwrap(),
+            "implementation-blocked-route-a"
+        );
     }
 
     #[test]

@@ -2,6 +2,19 @@ schema_version: "octon-default-work-unit-policy-v1"
 policy_id: "default-work-unit"
 owner: "Octon governance"
 status: "active"
+containment:
+  state: "SI-00"
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  active_route_ids:
+    - "branch-no-pr"
+    - "branch-pr"
+    - "stage-only-escalate"
+  direct_main_admission: "denied"
+  branch_no_pr_landing: "denied"
+  branch_cleanup: "denied"
+  publication_denial_reason: "RP00_CONTAINMENT_PUBLICATION_DISABLED"
+  cleanup_denial_reason: "RP00_CONTAINMENT_CLEANUP_DISABLED"
 default_work_unit: "change"
 internal_execution_bundle: "change-package"
 run_authority_unit: "run-contract"
@@ -95,12 +108,11 @@ proposal_program_delivery_handoff:
     highest evidence-backed outcome with a stop condition and next owning route.
 closeout_defaults:
   target_lifecycle_outcome:
-    unspecified_closeout_request: "cleaned"
+    unspecified_closeout_request: "preserved"
     resolution_rule: >-
-      When the operator asks to close out a Change or worktree without naming a
-      narrower lifecycle target, resolve target_lifecycle_outcome to cleaned.
-      For closeout-worktree, this targets git_clean_terminal when policy allows;
-      singular closeout-change cleaned remains route-bound.
+      During SI-00, a generic closeout request resolves to preserved. The route
+      may stage or retain exact candidate state, but it may not infer landing,
+      cleanup, sync, or publication authority.
     explicit_narrower_lifecycle_outcomes:
       - "published-branch"
       - "branch-local-complete"
@@ -114,7 +126,7 @@ closeout_defaults:
       downgrade to the highest supported route-compatible outcome and record the
       missing proof, blocker, structured stop reason, or next-route condition.
 routine_closeout_autonomy:
-  generic_closeout_target: "cleaned"
+  generic_closeout_target: "preserved"
   operator_prompt_rule: >-
     Ask only for real ambiguity, unsafe destructive action, missing authority,
     unclear ownership, protected branches, unresolved validation, policy
@@ -137,20 +149,12 @@ routine_closeout_autonomy:
     terminal local evidence helper so they remain ignored local-private
     retained evidence instead of publishable closeout residue.
   branch_no_pr_default_progression:
-    when_selected_and_target_is_cleaned:
-      - "create_or_select_task_branch_for_the_singular_candidate_when_branch_identity_is_absent_and_branch_isolation_is_required"
-      - "stage_only_the_candidate_include_paths_and_preserve_exclude_paths"
-      - "commit_candidate_scope_with_change_receipt_or_continuation_receipt"
-      - "push_source_branch_to_origin"
-      - "run_hosted_no_pr_preflight_and_exact_sha_checks"
-      - "emit_or_reference_governed_landing_authorization"
-      - "land_hosted_main_when_provider_rules_and_authorization_validate"
-      - "emit_or_reference_governed_branch_cleanup_authorization"
-      - "inventory_and_label_retained_or_retired_local_branches"
-      - "retire_no_unique_commit_stale_local_branches_only_after_branch_retirement_authorization_and_post_delete_verification"
-      - "clean_safe_local_and_remote_source_refs"
-      - "fetch_origin_sync_local_main_and_verify_main_alignment"
-      - "record_stateful_closeout_receipt"
+    when_selected_during_si_00:
+      - "preserve_exact_candidate_and_refs"
+      - "stage_or_commit_only_when_separately_authorized"
+      - "record_publication_disabled"
+      - "record_cleanup_disabled"
+      - "stop_without_landing_sync_or_ref_deletion"
     stop_before_prompting_when_any:
       - "candidate_boundary_overlap"
       - "unowned_or_user_owned_paths"
@@ -172,7 +176,7 @@ routine_closeout_autonomy:
     durable_evidence: "retain unless a higher policy supplies explicit retention/retirement authority"
     active_control_state: "retain or escalate"
     generated_authority: "regenerate through owning publisher; never generic cleanup; completed proposal-program lifecycle closeout may publish regenerated effective outputs with publication freshness evidence"
-    completed_proposal_program_lifecycle_surfaces: "wrapper-safe direct-main candidate only when lifecycle-owned inputs, generated effective outputs, proposal registry artifacts, publication evidence, and tracked extension control state are separated from local execution run residue and prove child-authority preservation"
+    completed_proposal_program_lifecycle_surfaces: "stage-preserving candidate only; SI-00 forbids direct-main, hosted no-PR landing, and cleanup effects"
     ignored_or_user_owned_paths: "retain or escalate"
     ambiguous_residue: "retain or block with candidate-keyed evidence"
 deprecated_terms:
@@ -220,13 +224,11 @@ routes:
       - "rollback_handle"
       - "closeout_outcome"
   - route_id: "branch-no-pr"
-    description: "Branch-isolated Change without PR-backed review or publication. The route may preserve state, complete on the branch, push the branch to origin for backup or handoff, fast-forward land on hosted main without a PR when branch isolation was selected and provider rules allow route-neutral updates, and clean up only when lifecycle evidence supports that outcome."
+    description: "Branch-isolated Change classification for exact candidate preservation, local validation, and stage-preserving handoff. During SI-00 it cannot authorize hosted/local landing or cleanup."
     precedence: 30
     selected_when_any:
       - "change needs isolation, pause/resume, multiple commits, uncertain scope, or handoff, and no PR-required predicate applies"
       - "change needs branch identity but not hosted review or publication, and no PR-required predicate applies"
-      - "operator wants branch-isolated work landed without PR and no PR-required predicate applies"
-      - "hosted no-PR landing is intended after branch isolation is selected, no PR-required predicate applies, and provider route-neutral capability can be proven"
     required_evidence:
       - "change_receipt_or_continuation_receipt"
       - "branch_or_worktree_identity"
@@ -235,10 +237,8 @@ routes:
       - "local_validation_or_recorded_blocker"
       - "durable_commit_patch_or_checkpoint"
       - "origin_push_evidence_for_closeout"
-      - "governed_landing_authorization_receipt_when_landed"
-      - "governed_branch_cleanup_authorization_receipt_when_cleanup_mutates_refs"
-      - "hosted_landing_evidence_when_landed"
-      - "terminal_current_state_proof_ref_when_claiming_cleaned"
+      - "containment_publication_denial_when_landing_requested"
+      - "containment_cleanup_denial_when_cleanup_requested"
       - "correction_branch_aggregate_receipt_ref_when_post_primary_corrections_exist"
       - "publishable_evidence_receipt_refs_when_closeout_claim_leaves_local_machine"
       - "lifecycle_outcome"
@@ -248,34 +248,13 @@ routes:
       - "rollback_or_discard_plan"
     required_validation:
       - "local_validation_at_selected_floor_or_blocker"
-      - "exact_sha_route_neutral_validation_when_hosted_landing"
+      - "containment_direct_invocation_validation"
     forbidden_evidence:
       - "pr_url_or_number"
       - "pr_metadata"
       - "host_projection_claims_authority"
       - "hosted_landed_claim_without_origin_main_equality"
       - "local_private_raw_evidence_refs_as_hosted_or_shared_closeout_proof"
-  - route_id: "direct-main"
-    description: "Low-risk solo Change landed directly on current clean main and pushed to origin during closeout unless explicitly blocked or explicitly local-only."
-    precedence: 20
-    selected_when_all:
-      - "current branch is main"
-      - "main is clean and current"
-      - "no unrelated working tree changes"
-      - "change is low risk and locally understandable"
-      - "validation can run locally at the selected floor"
-      - "rollback is straightforward from the resulting commit"
-      - "no policy, repository protection, documented review/signoff need, or operator instruction requires branch or PR"
-    required_evidence:
-      - "change_receipt"
-      - "landed_commit"
-      - "local_validation_evidence"
-      - "origin_push_evidence"
-      - "rollback_handle"
-    required_validation:
-      - "local_validation_at_selected_floor"
-      - "origin_main_contains_landed_ref_after_push"
-      - "exact_sha_route_neutral_validation_when_hosted_publication_claimed"
   - route_id: "stage-only-escalate"
     description: "Blocked or ambiguous Change that preserves state without claiming completion."
     precedence: 40
@@ -296,49 +275,24 @@ route_selection_order:
   - "resolve_or_create_change_identity"
   - "fail_closed_conditions"
   - "branch-pr when a PR-required predicate applies"
-  - "direct-main"
   - "branch-no-pr"
   - "stage-only-escalate"
 solo_route_selection:
-  rule: "Choose the fastest safe route that satisfies evidence, validation, rollback, cleanup, and protected-main controls."
-  direct_main_first_when_all:
-    - "clean_current_main"
-    - "solo_low_risk_change"
-    - "local_validation_sufficient"
-    - "straightforward_commit_rollback"
-    - "change_receipt_can_be_recorded"
-    - "no_branch_or_pr_required_predicate"
+  rule: "During SI-00 choose branch-pr only for an independent PR predicate; otherwise preserve through branch-no-pr or stage-only-escalate."
   branch_no_pr_when:
     - "branch_isolation_needed"
     - "no_pr_required_predicate_applies"
-    - "direct_main_predicates_not_all_satisfied"
-  provider_route_neutral_capability: "hosted branch-no-pr landing precondition, not an independent reason to choose branch-no-pr"
+    - "containment_requires_branch_preservation"
+  provider_route_neutral_capability: "non-authorizing historical observation; hosted branch-no-pr landing is denied during SI-00"
   high_impact_rule: "high-impact increases caution and evidence requirements but does not by itself force branch-pr"
-  branch_no_pr_preference_rule: "when direct-main is ineligible and no concrete PR predicate is proven with evidence, prefer branch-no-pr for branch-isolated work"
+  branch_no_pr_preference_rule: "when no concrete PR predicate is proven, use branch-no-pr only for preserved or stage-preserving work"
 route_lifecycle_outcomes:
-  direct-main:
-    allowed_outcomes:
-      - "landed"
-      - "cleaned"
-    full_closeout_requires:
-      - "landed_commit_on_main"
-      - "local_validation_evidence"
-      - "route_neutral_exact_sha_check_evidence_when_hosted_publication_claimed"
-      - "origin_main_contains_landed_ref_after_push"
-      - "fetch_origin_after_post_push_checks"
-      - "local_main_equals_origin_main_after_fetch"
-      - "local_main_contains_landed_ref_after_fetch"
-      - "change_receipt"
-      - "stateful_closeout_evidence"
-      - "rollback_handle"
-      - "cleanup_status"
   branch-no-pr:
     allowed_outcomes:
       - "preserved"
       - "branch-local-complete"
       - "published-branch"
       - "landed"
-      - "cleaned"
       - "deferred"
       - "blocked"
       - "escalated"
@@ -364,36 +318,13 @@ route_lifecycle_outcomes:
       - "not_landed_reason_when_target_was_landed_or_cleaned"
       - "rollback_or_discard_plan"
     landed_requires:
-      - "intended_scope_committed_on_branch"
-      - "target_lifecycle_outcome"
-      - "landing_evaluation"
-      - "local_validation_evidence"
-      - "provider_ruleset_allows_route_neutral_fast_forward_update"
-      - "source_branch_pushed_to_remote"
-      - "source_ref_current_with_origin_main"
-      - "governed_landing_authorization_receipt"
-      - "landing_authorization_matches_source_ref_and_origin_main_pre_ref"
-      - "empty_hosted_check_set_retained_rationale_when_allowed"
-      - "source_branch_changes_integrated_into_origin_main"
-      - "exact_source_sha_required_checks_passed"
-      - "integration_method"
-      - "target_branch_ref"
-      - "landed_ref"
-      - "hosted_landing_evidence"
-      - "publishable_evidence_receipt_refs_when_closeout_claim_leaves_local_machine"
-      - "origin_main_equals_landed_ref_after_push"
-      - "required_post_landing_checks_and_closeout_evidence_complete"
-      - "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_landed_ref"
-      - "post_landing_fetch_origin_completed"
-      - "local_main_synced_to_origin_main_after_cleanup"
-      - "origin_main_contains_landed_ref_after_fetch"
-      - "local_main_contains_landed_ref_after_sync"
-      - "local_main_origin_main_landed_ref_alignment_verified"
-      - "main_alignment_receipt"
-      - "stateful_closeout_evidence"
+      - "landing_already_independently_established_outside_closeout"
+      - "exact_landed_ref_observed_read_only"
+      - "cleanup_status_deferred"
+      - "containment_cleanup_denial_reason"
       - "rollback_handle"
-      - "cleanup_status"
     cleaned_requires:
+      - "historical_compatibility_only_not_admitted_during_SI_00"
       - "landed_ref_or_explicit_non_landing_outcome"
       - "not_cleaned_reason_when_target_cleaned_but_actual_outcome_is_not_cleaned"
       - "cleanup_stop_reason_when_target_cleaned_but_actual_outcome_is_not_cleaned"
@@ -415,7 +346,6 @@ route_lifecycle_outcomes:
       - "published"
       - "ready"
       - "landed"
-      - "cleaned"
       - "deferred"
       - "blocked"
       - "escalated"
@@ -530,12 +460,11 @@ branch_required_predicates:
   - "multi_commit_or_uncertain_scope"
   - "protected_surface_requires_isolation"
 direct_main_eligibility_predicates:
-  - "clean_current_main"
-  - "solo_low_risk_change"
-  - "local_validation_sufficient"
-  - "straightforward_commit_rollback"
-  - "no_branch_or_pr_required_predicate"
+  - "none_during_SI_00"
 fail_closed_conditions:
+  - "direct_main_requested_during_SI_00"
+  - "hosted_no_pr_landing_requested_during_SI_00"
+  - "cleanup_effect_requested_during_SI_00"
   - "missing_change_identity"
   - "ambiguous_ownership"
   - "ambiguous_risk_or_materiality"
@@ -598,7 +527,7 @@ receipt_schema_ref: ".octon/framework/product/contracts/change-receipt-v1.schema
 state_machine_ref: ".octon/framework/product/contracts/change-closeout-state-machine.yml"
 terminal_local_evidence_schema_ref: ".octon/framework/product/contracts/terminal-closeout-local-evidence-v1.schema.json"
 hosted_provider_ruleset:
-  target_model: "route-neutral protected main"
+  target_model: "SI-00 separately-authorized protected PR bootstrap"
   required_main_rules:
     - "required_status_checks"
     - "required_linear_history"
@@ -616,10 +545,7 @@ hosted_provider_ruleset:
     - "AI Review Gate / decision"
     - "PR Quality Standards"
   branch_no_pr_hosted_landing:
-    mechanism: "fast-forward-only protected update"
-    no_pr_mutation: true
-    requires_exact_sha_check_evidence: true
-    requires_governed_landing_authorization: true
-    requires_empty_check_set_rationale_when_allowed: true
-    requires_governed_branch_cleanup_authorization_for_cleanup: true
-    post_push_verification: "origin/main equals landed_ref"
+    mechanism: "disabled"
+    no_pr_mutation: false
+    denial_reason: "RP00_CONTAINMENT_PUBLICATION_DISABLED"
+    cleanup_denial_reason: "RP00_CONTAINMENT_CLEANUP_DISABLED"

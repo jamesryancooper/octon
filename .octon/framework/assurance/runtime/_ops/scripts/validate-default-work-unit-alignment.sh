@@ -3,378 +3,43 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
-ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
-
-POLICY_MD="$OCTON_DIR/framework/product/contracts/default-work-unit.md"
-POLICY_YML="$OCTON_DIR/framework/product/contracts/default-work-unit.yml"
-RECEIPT_SCHEMA="$OCTON_DIR/framework/product/contracts/change-receipt-v1.schema.json"
-AUTHORIZATION_SCHEMA="$OCTON_DIR/framework/product/contracts/branch-landing-authorization-v1.schema.json"
-QUICKSTART="$OCTON_DIR/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md"
-RECEIPT_EXAMPLES_DIR="$OCTON_DIR/framework/product/contracts/examples/change-receipts"
-RECEIPT_EXAMPLES_README="$RECEIPT_EXAMPLES_DIR/README.md"
-VALID_BRANCH_PR_READY="$RECEIPT_EXAMPLES_DIR/valid-branch-pr-ready.json"
-VALID_DIRECT_MAIN_LANDED="$RECEIPT_EXAMPLES_DIR/valid-direct-main-landed.json"
-VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE="$RECEIPT_EXAMPLES_DIR/valid-branch-no-pr-branch-local-complete.json"
-VALID_BRANCH_NO_PR_PUBLISHED_BRANCH="$RECEIPT_EXAMPLES_DIR/valid-branch-no-pr-published-branch.json"
-VALID_HOSTED_BRANCH_NO_PR_LANDED="$RECEIPT_EXAMPLES_DIR/valid-hosted-branch-no-pr-landed.json"
-INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED="$RECEIPT_EXAMPLES_DIR/invalid-pushed-only-branch-claimed-landed.json"
-INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT="$RECEIPT_EXAMPLES_DIR/invalid-published-branch-completed-closeout.json"
-INVALID_STALE_REMOTE_BRANCH_REF="$RECEIPT_EXAMPLES_DIR/invalid-stale-remote-branch-ref.json"
-INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT="$RECEIPT_EXAMPLES_DIR/invalid-draft-pr-claimed-full-closeout.json"
-SOLO_ROUTE_FIXTURES="$OCTON_DIR/framework/assurance/runtime/_ops/fixtures/change-route-selection/solo-route-selection.yml"
-CONTRACT_REGISTRY="$OCTON_DIR/framework/constitution/contracts/registry.yml"
-ARCH_REGISTRY="$OCTON_DIR/framework/cognition/_meta/architecture/contract-registry.yml"
-NORMATIVE="$OCTON_DIR/framework/constitution/precedence/normative.yml"
-WORKTREE_CONTRACT="$OCTON_DIR/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
-WORKFLOW="$OCTON_DIR/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml"
-SKILL_MANIFEST="$OCTON_DIR/framework/capabilities/runtime/skills/manifest.yml"
-SKILL_REGISTRY="$OCTON_DIR/framework/capabilities/runtime/skills/registry.yml"
-CAPABILITY_ROUTING="$OCTON_DIR/generated/effective/capabilities/routing.effective.yml"
-CLOSEOUT_CHANGE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
-CLOSEOUT_WORKTREE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
-CLOSEOUT_PR="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
-CODEX_CLOSEOUT_CHANGE="$ROOT_DIR/.codex/skills/closeout-change/SKILL.md"
-CODEX_CLOSEOUT_WORKTREE="$ROOT_DIR/.codex/skills/closeout-worktree/SKILL.md"
-CODEX_CLOSEOUT_PR="$ROOT_DIR/.codex/skills/closeout-pr/SKILL.md"
-LIFECYCLE_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh"
-HOSTED_NO_PR_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
-GITHUB_RULESET_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh"
-GITHUB_PROJECTION_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh"
-WRAPPER_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh"
-CHANGE_PACKAGE_SCHEMA="$OCTON_DIR/framework/engine/runtime/spec/change-package-v1.schema.json"
-CHANGE_PACKAGE_CONSTITUTIONAL_SCHEMA="$OCTON_DIR/framework/constitution/contracts/runtime/change-package-v1.schema.json"
-CHANGE_PACKAGE_COMPILER="$OCTON_DIR/framework/engine/runtime/spec/engagement-change-package-compiler-v1.md"
-COMMIT_PR_STANDARDS="$OCTON_DIR/framework/execution-roles/practices/standards/commit-pr-standards.json"
-GITHUB_CONTROL_CONTRACT="$OCTON_DIR/framework/execution-roles/practices/standards/github-control-plane-contract.json"
-AI_GATE_POLICY="$OCTON_DIR/framework/execution-roles/practices/standards/ai-gate-policy.json"
-REVIEW_ROUTING="$OCTON_DIR/framework/assurance/evaluators/review-routing.yml"
-
 errors=0
 
-pass() {
-  echo "[OK] $1"
-}
+ok() { echo "[OK] $1"; }
+fail() { echo "[ERROR] $1" >&2; errors=$((errors + 1)); }
+check() { local label="$1"; shift; if "$@"; then ok "$label"; else fail "$label"; fi; }
 
-fail() {
-  echo "[ERROR] $1"
-  errors=$((errors + 1))
-}
+POLICY="$OCTON_DIR/framework/product/contracts/default-work-unit.yml"
+POLICY_DOC="$OCTON_DIR/framework/product/contracts/default-work-unit.md"
+ADMISSION="$OCTON_DIR/instance/capabilities/runtime/packs/admissions/git.yml"
+GOVERNANCE="$OCTON_DIR/instance/governance/capability-packs/git.yml"
+STANDARDS="$OCTON_DIR/framework/execution-roles/practices/standards/commit-pr-standards.json"
+REVIEW="$OCTON_DIR/framework/assurance/evaluators/review-routing.yml"
+CLEANUP_SCHEMA="$OCTON_DIR/framework/product/contracts/branch-cleanup-authorization-v1.schema.json"
 
-require_file() {
-  local file="$1"
-  [[ -f "$file" ]] && pass "found ${file#$ROOT_DIR/}" || fail "missing ${file#$ROOT_DIR/}"
-}
+for file in "$POLICY" "$POLICY_DOC" "$ADMISSION" "$GOVERNANCE" "$STANDARDS" "$REVIEW" "$CLEANUP_SCHEMA"; do
+  [[ -f "$file" ]] && ok "found ${file#$OCTON_DIR/}" || fail "missing ${file#$OCTON_DIR/}"
+done
 
-require_literal() {
-  local file="$1"
-  local needle="$2"
-  local ok_msg="$3"
-  local fail_msg="$4"
-  grep -Fq -- "$needle" "$file" && pass "$ok_msg" || fail "$fail_msg"
-}
+command -v yq >/dev/null 2>&1 || { echo "[ERROR] yq is required" >&2; exit 1; }
+command -v jq >/dev/null 2>&1 || { echo "[ERROR] jq is required" >&2; exit 1; }
 
-require_absent_literal() {
-  local file="$1"
-  local needle="$2"
-  local ok_msg="$3"
-  local fail_msg="$4"
-  if grep -Fq -- "$needle" "$file"; then
-    fail "$fail_msg"
-  else
-    pass "$ok_msg"
-  fi
-}
+check "policy is SI-00 atomic containment" yq -e '.containment.state == "SI-00" and .containment.change_profile == "atomic"' "$POLICY"
+check "policy has exactly three active routes" yq -e '(.routes | length) == 3 and (.containment.active_route_ids | length) == 3' "$POLICY"
+check "policy includes branch-no-pr" yq -e '.routes[].route_id | select(. == "branch-no-pr")' "$POLICY"
+check "policy includes branch-pr" yq -e '.routes[].route_id | select(. == "branch-pr")' "$POLICY"
+check "policy includes stage-only-escalate" yq -e '.routes[].route_id | select(. == "stage-only-escalate")' "$POLICY"
+check "active policy routes exclude direct-main" bash -c '! yq -e '\'' .routes[].route_id | select(. == "direct-main") '\'' "$1" >/dev/null 2>&1' _ "$POLICY"
+check "generic closeout preserves" yq -e '.closeout_defaults.target_lifecycle_outcome.unspecified_closeout_request == "preserved" and .routine_closeout_autonomy.generic_closeout_target == "preserved"' "$POLICY"
+check "branch-no-pr cannot claim cleaned" bash -c '! yq -e '\'' .route_lifecycle_outcomes."branch-no-pr".allowed_outcomes[] | select(. == "cleaned") '\'' "$1" >/dev/null 2>&1' _ "$POLICY"
+check "branch-no-pr landing is disabled" yq -e '.hosted_provider_ruleset.branch_no_pr_hosted_landing.mechanism == "disabled" and .hosted_provider_ruleset.branch_no_pr_hosted_landing.denial_reason == "RP00_CONTAINMENT_PUBLICATION_DISABLED"' "$POLICY"
+check "Git admission excludes direct-main" bash -c '! yq -e '\'' .admitted_change_routes[] | select(. == "direct-main") '\'' "$1" >/dev/null 2>&1 && yq -e '\'' .containment.cleanup_denial_reason == "RP00_CONTAINMENT_CLEANUP_DISABLED" '\'' "$1" >/dev/null' _ "$ADMISSION"
+check "Git governance denies effect routes" yq -e '(.route_posture."direct-main" == null) and .containment.branch_no_pr_landing == "denied" and .containment.branch_cleanup == "denied"' "$GOVERNANCE"
+check "commit standards exclude direct-main" jq -e '(.change.route_ids | index("direct-main")) == null and .change.containment.direct_main == "denied"' "$STANDARDS"
+check "review routing has no direct-main selector" yq -e '.run_requirements.route_requirements."direct-main" == null' "$REVIEW"
+check "cleanup schema admits denial only" jq -e '.properties.authorization_result.const == "denied" and .properties.denial_reason.const == "RP00_CONTAINMENT_CLEANUP_DISABLED" and .properties.mutation_permitted.const == false' "$CLEANUP_SCHEMA"
+check "policy documentation states both stable stops" grep -Fq 'RP00_CONTAINMENT_PUBLICATION_DISABLED' "$POLICY_DOC"
+check "policy documentation states cleanup stop" grep -Fq 'RP00_CONTAINMENT_CLEANUP_DISABLED' "$POLICY_DOC"
 
-require_yq() {
-  local file="$1"
-  local expr="$2"
-  local ok_msg="$3"
-  local fail_msg="$4"
-  if yq -e "$expr" "$file" >/dev/null 2>&1; then
-    pass "$ok_msg"
-  else
-    fail "$fail_msg"
-  fi
-}
-
-require_jq() {
-  local file="$1"
-  local expr="$2"
-  local ok_msg="$3"
-  local fail_msg="$4"
-  if jq -e "$expr" "$file" >/dev/null 2>&1; then
-    pass "$ok_msg"
-  else
-    fail "$fail_msg"
-  fi
-}
-
-check_core_contracts() {
-  require_file "$POLICY_MD"
-  require_file "$POLICY_YML"
-  require_file "$RECEIPT_SCHEMA"
-  require_file "$AUTHORIZATION_SCHEMA"
-  require_file "$QUICKSTART"
-  require_file "$RECEIPT_EXAMPLES_README"
-  require_file "$VALID_DIRECT_MAIN_LANDED"
-  require_file "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE"
-  require_file "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH"
-  require_file "$VALID_BRANCH_PR_READY"
-  require_file "$VALID_HOSTED_BRANCH_NO_PR_LANDED"
-  require_file "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED"
-  require_file "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT"
-  require_file "$INVALID_STALE_REMOTE_BRANCH_REF"
-  require_file "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT"
-  require_file "$SOLO_ROUTE_FIXTURES"
-  require_file "$CHANGE_PACKAGE_SCHEMA"
-  require_file "$CHANGE_PACKAGE_CONSTITUTIONAL_SCHEMA"
-  require_file "$CHANGE_PACKAGE_COMPILER"
-  require_file "$LIFECYCLE_VALIDATOR"
-  require_file "$COMMIT_PR_STANDARDS"
-  require_file "$GITHUB_CONTROL_CONTRACT"
-  require_file "$AI_GATE_POLICY"
-  require_file "$HOSTED_NO_PR_VALIDATOR"
-  require_file "$GITHUB_RULESET_VALIDATOR"
-  require_file "$GITHUB_PROJECTION_VALIDATOR"
-
-  require_yq "$POLICY_YML" '.default_work_unit == "change"' "machine policy declares Change as default work unit" "machine policy must declare Change as default work unit"
-  require_yq "$POLICY_YML" '.internal_execution_bundle == "change-package"' "machine policy declares Change Package as internal bundle" "machine policy must declare Change Package as internal bundle"
-  require_yq "$POLICY_YML" '.worktree_wrapper.id == "closeout-worktree" and .worktree_wrapper.default_work_unit_replacement == false' "machine policy defines Closeout Worktree as non-replacement wrapper" "machine policy must define Closeout Worktree as non-replacement wrapper"
-  for route in direct-main branch-no-pr branch-pr stage-only-escalate; do
-    require_yq "$POLICY_YML" ".routes[]? | select(.route_id == \"$route\")" "machine policy exposes route $route" "machine policy missing route $route"
-    require_jq "$RECEIPT_SCHEMA" ".properties.selected_route.enum[] | select(. == \"$route\")" "receipt schema accepts route $route" "receipt schema missing route $route"
-  done
-  require_jq "$RECEIPT_SCHEMA" '.required[] | select(. == "rollback_handle")' "receipt schema requires rollback handle" "receipt schema must require rollback_handle"
-  require_jq "$RECEIPT_SCHEMA" '.properties.target_lifecycle_outcome.default == "cleaned"' "receipt schema defaults unspecified closeout target to cleaned" "receipt schema must default unspecified closeout target to cleaned"
-  require_jq "$RECEIPT_SCHEMA" '.properties.landing_authorization_ref' "receipt schema models governed landing authorization" "receipt schema must model landing_authorization_ref"
-  require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "landing_authorization_ref")' "receipt schema requires governed authorization for no-PR landing" "receipt schema must require landing_authorization_ref for branch-no-pr landed/cleaned claims"
-  require_jq "$AUTHORIZATION_SCHEMA" '.properties.schema_version.const == "branch-landing-authorization-v1"' "authorization schema has stable version" "authorization schema must define branch-landing-authorization-v1"
-  require_jq "$AUTHORIZATION_SCHEMA" '.properties.no_pr_required.const == true' "authorization schema requires no-PR proof" "authorization schema must require no_pr_required true"
-  require_jq "$AUTHORIZATION_SCHEMA" '.properties.host_controls_not_bypassed.const == true' "authorization schema preserves host controls" "authorization schema must preserve host controls"
-  for field in lifecycle_outcome integration_status publication_status cleanup_status; do
-    require_jq "$RECEIPT_SCHEMA" ".required[] | select(. == \"$field\")" "receipt schema requires $field" "receipt schema must require $field"
-  done
-  require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "provider_ruleset_ref")' "receipt schema requires hosted landing provider evidence" "receipt schema must require hosted landing provider evidence"
-  require_jq "$RECEIPT_SCHEMA" '.properties.source_branch_integration.required[] | select(. == "evidence_refs")' "receipt schema requires source branch integration evidence" "receipt schema must require source branch integration evidence"
-  require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.local_main_sync_evidence_ref' "receipt schema models local main sync evidence" "receipt schema must model local main sync evidence"
-  require_jq "$RECEIPT_SCHEMA" '.properties.publication_status.enum[] | select(. == "hosted-main-updated")' "receipt schema models hosted main update status" "receipt schema must model hosted main update status"
-  require_jq "$RECEIPT_SCHEMA" '([.allOf[]? | select(.if.properties.lifecycle_outcome.const == "cleaned") | select(.then.properties.cleanup_status.const == "completed")] | length == 1) and ([.allOf[]? | select(.if.properties.lifecycle_outcome.const == "cleaned") | (.then.properties.cleanup_status.enum? // [])[]? | select(. == "deferred" or . == "pending")] | length == 0)' "receipt schema requires completed cleanup for cleaned outcome" "receipt schema must require completed cleanup for cleaned outcome"
-  require_jq "$RECEIPT_SCHEMA" '[.allOf[]? | select(.if.properties.closeout_outcome.const == "completed") | select(.if.properties.integration_status.const == "landed") | select((.if.properties.selected_route.enum | index("branch-no-pr")) != null) | select((.if.properties.selected_route.enum | index("branch-pr")) != null) | select((.then.properties.cleanup_status.enum | index("completed")) != null) | select((.then.properties.cleanup_status.enum | index("deferred")) != null) | select((.then.properties.cleanup_status.enum | index("pending")) == null)] | length == 1' "receipt schema blocks completed landed branch closeout with pending cleanup" "receipt schema must block completed landed branch closeout with pending cleanup"
-  for outcome in preserved branch-local-complete published-branch published ready landed cleaned deferred blocked escalated denied; do
-    require_jq "$RECEIPT_SCHEMA" ".properties.lifecycle_outcome.enum[] | select(. == \"$outcome\")" "receipt schema accepts lifecycle outcome $outcome" "receipt schema missing lifecycle outcome $outcome"
-  done
-  require_yq "$POLICY_YML" '.closeout_defaults.target_lifecycle_outcome.unspecified_closeout_request == "cleaned"' "machine policy defaults unspecified closeout target to cleaned" "machine policy must default unspecified closeout target to cleaned"
-  require_yq "$POLICY_YML" '.closeout_defaults.target_lifecycle_outcome.explicit_narrower_lifecycle_outcomes[]? | select(. == "published-branch")' "machine policy models explicit narrower lifecycle outcomes" "machine policy must model explicit narrower lifecycle outcomes separately from routes"
-  require_yq "$POLICY_YML" '.closeout_defaults.target_lifecycle_outcome.explicit_narrower_route_requests[]? | select(. == "stage-only-escalate")' "machine policy models explicit stage-only route request separately" "machine policy must model stage-only-escalate as an explicit route request"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-no-pr".allowed_outcomes[]? | select(. == "landed")' "machine policy allows no-PR branch landing outcome" "machine policy must model no-PR branch landing as branch-no-pr outcome"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "governed_landing_authorization_receipt")' "machine policy requires governed no-PR landing authorization" "machine policy must require governed no-PR landing authorization"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "landing_authorization_matches_source_ref_and_origin_main_pre_ref")' "machine policy requires current authorization source and target refs" "machine policy must require authorization to match source and origin/main pre-ref"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "origin_main_equals_landed_ref_after_push")' "machine policy requires origin/main equality for no-PR landing" "machine policy must require origin/main equality for no-PR landing"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "source_branch_changes_integrated_into_origin_main")' "machine policy requires source branch integration for no-PR landing" "machine policy must require source branch integration for no-PR landing"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "post_landing_fetch_origin_completed")' "machine policy requires post-landing fetch for no-PR landing" "machine policy must require post-landing fetch for no-PR landing"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_landed_ref")' "machine policy requires branch cleanup or deferred cleanup after no-PR landing" "machine policy must require branch cleanup or deferred cleanup after no-PR landing"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "local_main_contains_landed_ref_after_sync")' "machine policy requires local main containment after no-PR landing" "machine policy must require local main containment after no-PR landing"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "local_main_origin_main_landed_ref_alignment_verified")' "machine policy requires no-PR local/main/origin alignment" "machine policy must require no-PR local/main/origin alignment"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".landed_requires[]? | select(. == "source_branch_changes_integrated_into_origin_main")' "machine policy requires source branch integration after PR merge" "machine policy must require source branch integration after PR merge"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".landed_requires[]? | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_merged_result")' "machine policy requires branch cleanup or deferred cleanup after PR merge" "machine policy must require branch cleanup or deferred cleanup after PR merge"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."direct-main".full_closeout_requires[]? | select(. == "origin_main_contains_landed_ref_after_push")' "machine policy requires origin/main containment for direct-main closeout" "machine policy must require origin/main containment for direct-main closeout"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."direct-main".full_closeout_requires[]? | select(. == "local_main_equals_origin_main_after_fetch")' "machine policy requires direct-main local main sync after push" "machine policy must require direct-main local main sync after push"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."direct-main".full_closeout_requires[]? | select(. == "local_main_contains_landed_ref_after_fetch")' "machine policy requires direct-main landed ref containment after fetch" "machine policy must require direct-main landed ref containment after fetch"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-no-pr".branch_local_complete_requires[]? | select(. == "origin_branch_contains_change_ref_or_explicit_local_only_blocker")' "machine policy requires origin branch evidence or local-only blocker for branch-no-pr closeout" "machine policy must require origin branch evidence or local-only blocker for branch-no-pr closeout"
-  require_yq "$POLICY_YML" '.fail_closed_conditions[]? | select(. == "provider_ruleset_blocks_requested_hosted_no_pr_landing")' "machine policy fails closed when ruleset blocks no-PR landing" "machine policy must fail closed when ruleset blocks no-PR landing"
-  require_yq "$POLICY_YML" '.fail_closed_conditions[]? | select(. == "direct_main_closeout_without_origin_push")' "machine policy fails closed on direct-main closeout without origin push" "machine policy must fail closed on direct-main closeout without origin push"
-  require_yq "$POLICY_YML" '.fail_closed_conditions[]? | select(. == "branch_no_pr_closeout_without_origin_push")' "machine policy fails closed on branch-no-pr closeout without origin push" "machine policy must fail closed on branch-no-pr closeout without origin push"
-  require_yq "$POLICY_YML" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_without_valid_governed_authorization")' "machine policy fails closed without governed landing authorization" "machine policy must fail closed without governed landing authorization"
-  require_yq "$POLICY_YML" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_with_stale_or_denied_authorization")' "machine policy fails closed on stale or denied authorization" "machine policy must fail closed on stale or denied landing authorization"
-  require_yq "$POLICY_YML" '.fail_closed_conditions[]? | select(. == "unspecified_closeout_target_not_resolved_to_cleaned")' "machine policy fails closed when unspecified closeout target is not cleaned" "machine policy must fail closed when unspecified closeout target is not cleaned"
-  require_yq "$POLICY_YML" '.fail_closed_conditions[]? | select(. == "landed_branch_closeout_without_safe_branch_cleanup_or_deferred_cleanup_record")' "machine policy fails closed on landed branch closeout without cleanup disposition" "machine policy must fail closed on landed branch closeout without cleanup disposition"
-  require_yq "$POLICY_YML" '.fail_closed_conditions[]? | select(. == "landed_branch_closeout_without_source_branch_integration_evidence")' "machine policy fails closed on landed branch closeout without source integration" "machine policy must fail closed on landed branch closeout without source integration"
-  require_yq "$POLICY_YML" '.fail_closed_conditions[]? | select(. == "landed_branch_closeout_without_post_landing_fetch_and_local_main_sync_evidence")' "machine policy fails closed on landed branch closeout without fetch/sync evidence" "machine policy must fail closed on landed branch closeout without fetch/sync evidence"
-  require_yq "$POLICY_YML" '.fail_closed_conditions[]? | select(. == "post_landing_local_main_not_synced_to_origin_main")' "machine policy fails closed on missing post-landing local main sync" "machine policy must fail closed on missing post-landing local main sync"
-  require_yq "$POLICY_YML" '.hosted_provider_ruleset.target_model == "route-neutral protected main"' "machine policy defines route-neutral hosted ruleset target" "machine policy must define route-neutral hosted ruleset target"
-  require_yq "$POLICY_YML" '.hosted_provider_ruleset.universal_required_checks[]? | select(. == "exact_source_sha_validation")' "machine policy includes exact source SHA route-neutral check" "machine policy must include exact source SHA route-neutral check"
-  require_yq "$POLICY_YML" '.hosted_provider_ruleset.pr_specific_checks[]? | select(. == "AI Review Gate / decision")' "machine policy keeps AI review gate PR-specific" "machine policy must keep AI review gate PR-specific"
-  require_yq "$POLICY_YML" '.solo_route_selection.rule == "Choose the fastest safe route that satisfies evidence, validation, rollback, cleanup, and protected-main controls."' "machine policy defines fastest safe solo route rule" "machine policy must define fastest safe solo route rule"
-  require_yq "$POLICY_YML" '.solo_route_selection.direct_main_first_when_all[]? | select(. == "clean_current_main")' "machine policy evaluates direct-main first for eligible solo work" "machine policy must evaluate direct-main first for eligible solo work"
-  require_yq "$POLICY_YML" '.solo_route_selection.provider_route_neutral_capability == "hosted branch-no-pr landing precondition, not an independent reason to choose branch-no-pr"' "machine policy treats provider route-neutral support as landing precondition" "machine policy must not treat provider route-neutral support as an independent branch-no-pr reason"
-  require_yq "$POLICY_YML" '.solo_route_selection.high_impact_rule == "high-impact increases caution and evidence requirements but does not by itself force branch-pr"' "machine policy says high-impact alone does not force branch-pr" "machine policy must say high-impact alone does not force branch-pr"
-  require_yq "$POLICY_YML" '.solo_route_selection.branch_no_pr_preference_rule == "when direct-main is ineligible and no concrete PR predicate is proven with evidence, prefer branch-no-pr for branch-isolated work"' "machine policy prefers branch-no-pr absent proven PR predicate" "machine policy must prefer branch-no-pr when no PR predicate is proven"
-  require_yq "$POLICY_YML" '.branch_pr_predicates[]? | select(. == "preview-publication-required")' "machine policy defines preview publication as branch-pr predicate" "machine policy must define preview-publication-required branch-pr predicate"
-  require_yq "$POLICY_YML" '.branch_pr_predicate_evidence_requirements."protected-or-high-impact-remote-review-required"[]? | select(. == "governing_review_requirement_ref")' "machine policy requires governing review evidence for protected/high-impact PR predicate" "machine policy must require governing review evidence for protected/high-impact PR predicate"
-  require_yq "$SOLO_ROUTE_FIXTURES" '.cases[]? | select(.id == "solo-low-risk-clean-main-selects-direct-main" and .expected_route == "direct-main")' "solo route fixtures cover direct-main default for low-risk clean main" "solo route fixtures must cover direct-main low-risk clean-main case"
-  require_yq "$SOLO_ROUTE_FIXTURES" '.cases[]? | select(.id == "solo-branch-isolation-without-pr-selects-branch-no-pr" and .expected_route == "branch-no-pr")' "solo route fixtures cover branch-no-pr isolation" "solo route fixtures must cover branch-no-pr isolation"
-  require_yq "$SOLO_ROUTE_FIXTURES" '.cases[]? | select(.id == "provider-pr-required-blocks-requested-hosted-no-pr" and .expected_route == "stage-only-escalate")' "solo route fixtures block PR-required hosted no-PR landing" "solo route fixtures must block PR-required hosted no-PR landing"
-  require_yq "$SOLO_ROUTE_FIXTURES" '.cases[]? | select(.id == "high-impact-alone-does-not-force-branch-pr" and .expected_route == "branch-no-pr")' "solo route fixtures prove high-impact alone does not force branch-pr" "solo route fixtures must prove high-impact alone does not force branch-pr"
-  require_yq "$SOLO_ROUTE_FIXTURES" '.cases[]? | select(.id == "protected-surface-alone-does-not-force-branch-pr" and .expected_route == "branch-no-pr")' "solo route fixtures prove protected surface alone does not force branch-pr" "solo route fixtures must prove protected surface alone does not force branch-pr"
-  require_yq "$SOLO_ROUTE_FIXTURES" '.cases[]? | select(.id == "protected-high-impact-governing-review-selects-branch-pr" and .expected_route == "branch-pr")' "solo route fixtures cover governing review branch-pr predicate" "solo route fixtures must cover governing review branch-pr predicate"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".allowed_outcomes[]? | select(. == "ready")' "machine policy distinguishes PR ready outcome" "machine policy must distinguish PR ready outcome"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "high_impact_diff_policy_evidence_rollback_self_review_when_applicable")' "machine policy requires high-impact self-review before PR ready" "machine policy must require high-impact self-review before PR ready"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "AI Review Gate / decision passing when required")' "machine policy requires AI gate when required before PR ready" "machine policy must require AI gate when required before PR ready"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "PR Quality Standards passing")' "machine policy requires PR quality before PR ready" "machine policy must require PR quality before PR ready"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "PR Clean State Enforcer passing")' "machine policy requires clean-state check before PR ready" "machine policy must require clean-state check before PR ready"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "no_requested_changes")' "machine policy requires no requested changes before PR ready" "machine policy must require no requested changes before PR ready"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "no_merge_conflicts")' "machine policy requires no merge conflicts before PR ready" "machine policy must require no merge conflicts before PR ready"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "Change receipt or PR closeout evidence")' "machine policy requires receipt or closeout evidence before PR ready" "machine policy must require receipt or closeout evidence before PR ready"
-  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".landed_requires[]? | select(. == "origin_main_contains_merged_result")' "machine policy requires origin/main verification for PR landed outcome" "machine policy must require origin/main verification for PR landed outcome"
-  if yq -e '.routes[]? | select(.route_id == "branch-land-no-pr")' "$POLICY_YML" >/dev/null 2>&1; then
-    fail "machine policy must not add branch-land-no-pr top-level route"
-  else
-    pass "machine policy keeps no-PR branch landing as lifecycle outcome, not top-level route"
-  fi
-  require_jq "$CHANGE_PACKAGE_SCHEMA" '.properties.schema_version.const == "change-package-v1"' "runtime Change Package schema has target schema version" "runtime Change Package schema must use change-package-v1"
-  require_jq "$COMMIT_PR_STANDARDS" '.change.default_work_unit == "change" and (.change.pr_required_routes[]? == "branch-pr")' "commit/PR standards bind to Change routes" "commit/PR standards must bind to Change routes"
-  require_jq "$GITHUB_CONTROL_CONTRACT" '.scope.projection_host_for == "route-aware Change lifecycle GitHub projection" and .direct_main_projection.github_pr_metadata_required == false' "GitHub control contract is route-aware and projection-only" "GitHub control contract must be route-aware and projection-only"
-  require_jq "$GITHUB_CONTROL_CONTRACT" '(.rulesets.target_route_neutral_main.universal_required_checks | index("AI Review Gate / decision") | not) and (.rulesets.target_route_neutral_main.pr_specific_checks | index("AI Review Gate / decision") != null)' "GitHub control contract keeps AI gate out of universal target checks" "GitHub control contract must keep AI gate out of universal target checks"
-  require_jq "$GITHUB_CONTROL_CONTRACT" '.rulesets.current_live_main.expectation == "target-route-neutral"' "GitHub control contract records current live route-neutral posture" "GitHub control contract must record current live route-neutral posture"
-  require_jq "$GITHUB_CONTROL_CONTRACT" '.rulesets.target_route_neutral_main.live_mutation_performed_by_this_projection == false' "GitHub control contract does not claim repo-local projection mutated live rulesets" "GitHub control contract must not claim repo-local projection mutated live rulesets"
-  require_jq "$AI_GATE_POLICY" '.route_scope.hosted_gate_route == "branch-pr" and .route_scope.no_pr_change_gate_required == false' "AI gate policy is scoped to hosted PR route" "AI gate policy must be scoped to hosted PR route"
-  require_yq "$REVIEW_ROUTING" '.default_work_unit_policy_ref == ".octon/framework/product/contracts/default-work-unit.yml"' "review routing references default work unit policy" "review routing must reference default work unit policy"
-}
-
-check_quickstart_and_examples() {
-  require_literal "$POLICY_MD" "change-lifecycle-routing-quickstart.md" "policy docs link Change Lifecycle Routing quickstart" "policy docs must link Change Lifecycle Routing quickstart"
-  require_literal "$POLICY_MD" '`Closeout Worktree` is the optional wrapper for dirty worktrees.' "policy docs describe Closeout Worktree wrapper" "policy docs must describe Closeout Worktree wrapper"
-  require_literal "$POLICY_MD" 'the default target lifecycle outcome is `cleaned`' "policy docs define cleaned as default closeout target" "policy docs must define cleaned as default closeout target"
-  require_literal "$QUICKSTART" "Route selection, target lifecycle outcome, and actual lifecycle outcome are" "quickstart separates route selection, target outcome, and actual outcome" "quickstart must separate route selection, target outcome, and actual outcome"
-  require_literal "$QUICKSTART" 'use `cleaned`' "quickstart defaults unspecified closeout target to cleaned" "quickstart must default unspecified closeout target to cleaned"
-  require_literal "$QUICKSTART" "## Route Matrix" "quickstart includes route matrix" "quickstart must include route matrix"
-  require_literal "$QUICKSTART" "## Fastest Safe Solo Route" "quickstart includes fastest safe solo route rule" "quickstart must include fastest safe solo route rule"
-  require_literal "$QUICKSTART" 'select `direct-main` when `main`' "quickstart makes direct-main the first eligible solo route" "quickstart must make direct-main the first eligible solo route"
-  require_literal "$QUICKSTART" 'Provider route-neutral capability is a hosted `branch-no-pr` landing' "quickstart treats provider route-neutral capability as landing precondition" "quickstart must treat provider capability as landing precondition"
-  require_literal "$QUICKSTART" "| route | select when | allowed outcomes | required evidence | forbidden claims | handoff or escalation point |" "quickstart route matrix has required columns" "quickstart route matrix must have required columns"
-  for route in direct-main branch-no-pr branch-pr stage-only-escalate; do
-    require_literal "$QUICKSTART" "\`$route\`" "quickstart documents route $route" "quickstart must document route $route"
-  done
-  require_literal "$QUICKSTART" "branch-local commit claiming \`landed\`" "quickstart forbids branch-local landed overclaim" "quickstart must forbid branch-local landed overclaim"
-  require_literal "$QUICKSTART" "Draft/open/ready PR reported as landed or full closeout" "quickstart forbids ready PR full closeout overclaim" "quickstart must forbid ready PR full closeout overclaim"
-  require_literal "$QUICKSTART" "full closeout while branch cleanup is pending" "quickstart forbids full closeout with pending branch cleanup" "quickstart must forbid full closeout with pending branch cleanup"
-  require_literal "$QUICKSTART" 'local `main`, `origin/main`, and the recorded `landed_ref` are aligned' "quickstart requires final local main alignment" "quickstart must require final local main alignment"
-  require_literal "$QUICKSTART" "## Ruleset State" "quickstart includes live-vs-target ruleset table" "quickstart must include live-vs-target ruleset table"
-  require_literal "$QUICKSTART" "current live state" "quickstart labels current live ruleset state" "quickstart must label current live ruleset state"
-  require_literal "$QUICKSTART" "repo-local target" "quickstart labels repo-local target ruleset state" "quickstart must label repo-local target ruleset state"
-  require_literal "$QUICKSTART" "Do not claim live route-neutral migration from repo-local projection alone." "quickstart blocks live migration overclaim" "quickstart must block live migration overclaim"
-  require_literal "$QUICKSTART" "Update \`current_live_main\` only after" "quickstart defines post-migration current_live_main update rule" "quickstart must define current_live_main post-migration rule"
-  require_literal "$QUICKSTART" "AI Review Gate / decision" "quickstart keeps AI gate visible as PR-only check" "quickstart must mention PR-only AI gate"
-  require_literal "$QUICKSTART" "PR Quality Standards" "quickstart keeps PR quality visible as PR-only check" "quickstart must mention PR-only PR quality"
-  require_literal "$RECEIPT_EXAMPLES_README" "valid-direct-main-landed.json" "receipt examples README lists valid direct-main landed example" "receipt examples README must list valid direct-main landed example"
-  require_literal "$RECEIPT_EXAMPLES_README" "valid-branch-pr-ready.json" "receipt examples README lists valid branch-pr ready example" "receipt examples README must list valid branch-pr ready example"
-  require_literal "$RECEIPT_EXAMPLES_README" "valid-branch-no-pr-branch-local-complete.json" "receipt examples README lists valid branch-local complete example" "receipt examples README must list valid branch-local complete example"
-  require_literal "$RECEIPT_EXAMPLES_README" "valid-branch-no-pr-published-branch.json" "receipt examples README lists valid pushed-branch handoff example" "receipt examples README must list valid pushed-branch handoff example"
-  require_literal "$RECEIPT_EXAMPLES_README" "valid-hosted-branch-no-pr-landed.json" "receipt examples README lists valid hosted no-PR landing example" "receipt examples README must list valid hosted no-PR landing example"
-  require_literal "$RECEIPT_EXAMPLES_README" "invalid-pushed-only-branch-claimed-landed.json" "receipt examples README lists pushed-only invalid example" "receipt examples README must list pushed-only invalid example"
-  require_literal "$RECEIPT_EXAMPLES_README" "invalid-published-branch-completed-closeout.json" "receipt examples README lists pushed-branch completed invalid example" "receipt examples README must list pushed-branch completed invalid example"
-  require_literal "$RECEIPT_EXAMPLES_README" "invalid-stale-remote-branch-ref.json" "receipt examples README lists stale remote branch ref invalid example" "receipt examples README must list stale remote branch ref invalid example"
-  require_literal "$RECEIPT_EXAMPLES_README" "invalid-draft-pr-claimed-full-closeout.json" "receipt examples README lists draft PR invalid example" "receipt examples README must list draft PR invalid example"
-  require_jq "$VALID_DIRECT_MAIN_LANDED" '.selected_route == "direct-main" and .lifecycle_outcome == "landed" and .integration_method == "direct-commit" and .publication_status == "none" and .integration_status == "landed" and .durable_history.kind == "commit"' "valid direct-main example has direct landed semantics" "valid direct-main example must have direct landed semantics"
-  require_jq "$VALID_BRANCH_PR_READY" '.selected_route == "branch-pr" and .lifecycle_outcome == "ready" and .publication_status == "pr-ready" and .integration_status == "not_landed" and .closeout_outcome == "continued"' "valid branch-pr ready example has ready-not-landed semantics" "valid branch-pr ready example must be ready, not landed"
-  require_jq "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "branch-local-complete" and .publication_status == "none" and .integration_status == "not_landed" and .closeout_outcome == "continued" and (.durable_history.pr_url? | not)' "valid branch-local complete example has not-landed no-PR semantics" "valid branch-local complete example must be not-landed and no-PR"
-  require_jq "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" '.selected_route == "branch-no-pr" and .target_lifecycle_outcome == "published-branch" and .lifecycle_outcome == "published-branch" and .publication_status == "pushed-branch" and .integration_status == "not_landed" and .closeout_outcome == "continued"' "valid pushed-branch example has continued handoff semantics" "valid pushed-branch example must be continued handoff"
-  require_jq "$VALID_HOSTED_BRANCH_NO_PR_LANDED" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "landed" and .integration_method == "fast-forward" and .publication_status == "hosted-main-updated" and (.landing_authorization_ref | type == "string" and length > 0) and .hosted_landing.source_ref == .hosted_landing.validated_ref and .hosted_landing.target_post_ref == .landed_ref' "valid hosted no-PR example has exact-SHA landing semantics" "valid hosted no-PR example must have exact-SHA landing semantics"
-  require_jq "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "landed" and .publication_status == "pushed-branch"' "invalid pushed-only example encodes landed overclaim" "invalid pushed-only example must encode landed overclaim"
-  require_jq "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "published-branch" and .closeout_outcome == "completed"' "invalid pushed-branch completed example encodes handoff overclaim" "invalid pushed-branch completed example must encode handoff overclaim"
-  require_jq "$INVALID_STALE_REMOTE_BRANCH_REF" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "published-branch" and .remote_branch_ref != ("origin/" + .source_branch_ref + "@" + .durable_history.ref)' "invalid stale remote ref example encodes stale publication evidence" "invalid stale remote ref example must encode stale publication evidence"
-  require_jq "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" '.selected_route == "branch-pr" and .lifecycle_outcome == "ready" and .publication_status == "pr-ready" and .closeout_outcome == "completed"' "invalid draft PR example encodes full-closeout overclaim" "invalid draft PR example must encode full-closeout overclaim"
-}
-
-check_discovery_and_routing() {
-  require_yq "$CONTRACT_REGISTRY" '.integration_surfaces.default_work_unit_policy.machine_contract == ".octon/framework/product/contracts/default-work-unit.yml"' "constitutional registry exposes default work unit policy" "constitutional registry missing default work unit policy"
-  require_yq "$ARCH_REGISTRY" '.path_families.default_work_unit_policy.canonical_paths[]? | select(. == ".octon/framework/product/contracts/default-work-unit.yml")' "architecture registry exposes machine policy contract" "architecture registry missing default work unit policy"
-  require_yq "$NORMATIVE" '.layers[]? | select(.authority == "product-and-repo-governance-declarations") | .surfaces[]? | select(. == ".octon/framework/product/contracts/default-work-unit.yml")' "normative precedence includes default work unit policy" "normative precedence missing default work unit policy"
-  require_yq "$WORKTREE_CONTRACT" '.policy_refs.default_work_unit_policy_ref == ".octon/framework/product/contracts/default-work-unit.yml"' "Git/worktree contract defers to default work unit policy" "Git/worktree contract must defer to default work unit policy"
-  require_yq "$WORKFLOW" '.policy_refs.owner_surface_ref == ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"' "closeout workflow owner is closeout-change" "closeout workflow must use closeout-change as owner"
-  require_yq "$SKILL_MANIFEST" '.skills[]? | select(.id == "closeout-change")' "skill manifest exposes closeout-change" "skill manifest missing closeout-change"
-  require_yq "$SKILL_MANIFEST" '.skills[]? | select(.id == "closeout-worktree")' "skill manifest exposes closeout-worktree" "skill manifest missing closeout-worktree"
-  require_yq "$SKILL_MANIFEST" '.skills[]? | select(.id == "closeout-pr")' "skill manifest exposes closeout-pr" "skill manifest missing closeout-pr"
-  require_yq "$SKILL_REGISTRY" '.skills | has("closeout-change")' "skill registry exposes closeout-change" "skill registry missing closeout-change"
-  require_yq "$SKILL_REGISTRY" '.skills | has("closeout-worktree")' "skill registry exposes closeout-worktree" "skill registry missing closeout-worktree"
-  require_yq "$SKILL_REGISTRY" '.skills | has("closeout-pr")' "skill registry exposes closeout-pr" "skill registry missing closeout-pr"
-  require_yq "$SKILL_REGISTRY" '.skills."closeout-change".host_adapters[]? | select(. == "codex")' "closeout-change is registered for Codex host projection" "closeout-change must be registered for Codex host projection"
-  require_yq "$SKILL_REGISTRY" '.skills."closeout-worktree".host_adapters[]? | select(. == "codex")' "closeout-worktree is registered for Codex host projection" "closeout-worktree must be registered for Codex host projection"
-  require_yq "$SKILL_REGISTRY" '.skills."closeout-pr".host_adapters[]? | select(. == "codex")' "closeout-pr is registered for Codex host projection" "closeout-pr must be registered for Codex host projection"
-  require_yq "$SKILL_REGISTRY" '.skills."closeout-pr".parameters[]? | select(.name == "target_lifecycle_outcome")' "closeout-pr accepts target lifecycle outcome" "closeout-pr must accept target lifecycle outcome"
-  require_file "$CAPABILITY_ROUTING"
-  require_file "$WRAPPER_VALIDATOR"
-  require_yq "$CAPABILITY_ROUTING" '.routing_candidates[]? | select(.effective_id == "framework.skill.closeout-change") | .host_adapters[]? | select(. == "codex")' "effective routing projects closeout-change to Codex" "effective routing must project closeout-change to Codex"
-  require_yq "$CAPABILITY_ROUTING" '.routing_candidates[]? | select(.effective_id == "framework.skill.closeout-worktree") | .host_adapters[]? | select(. == "codex")' "effective routing projects closeout-worktree to Codex" "effective routing must project closeout-worktree to Codex"
-  require_yq "$CAPABILITY_ROUTING" '.routing_candidates[]? | select(.effective_id == "framework.skill.closeout-pr") | .host_adapters[]? | select(. == "codex")' "effective routing projects closeout-pr to Codex" "effective routing must project closeout-pr to Codex"
-  require_file "$CODEX_CLOSEOUT_CHANGE"
-  require_file "$CODEX_CLOSEOUT_WORKTREE"
-  require_file "$CODEX_CLOSEOUT_PR"
-  require_literal "$CODEX_CLOSEOUT_CHANGE" "name: closeout-change" "Codex projection exposes closeout-change skill" "Codex projection must expose closeout-change skill"
-  require_literal "$CODEX_CLOSEOUT_WORKTREE" "name: closeout-worktree" "Codex projection exposes closeout-worktree skill" "Codex projection must expose closeout-worktree skill"
-  require_literal "$CODEX_CLOSEOUT_PR" "name: closeout-pr" "Codex projection exposes closeout-pr skill" "Codex projection must expose closeout-pr skill"
-  require_literal "$CLOSEOUT_CHANGE" 'Do not open a PR unless route selection returns `branch-pr`.' "closeout-change forbids PR before branch-pr route" "closeout-change must forbid PR before branch-pr route"
-  require_literal "$CLOSEOUT_CHANGE" 'Select Outcome' "closeout-change resolves lifecycle outcome" "closeout-change must resolve lifecycle outcome separately"
-  require_literal "$CLOSEOUT_WORKTREE" "Dirty-worktree wrapper for decomposing multiple local change sets" "closeout-worktree decomposes dirty worktrees" "closeout-worktree must decompose dirty worktrees"
-  require_literal "$CLOSEOUT_WORKTREE" 'Do not create a `Closeout Changes` model' "closeout-worktree forbids Closeout Changes model" "closeout-worktree must forbid Closeout Changes model"
-  require_literal "$WRAPPER_VALIDATOR" "multiple observed change sets must be partitioned into multiple candidates" "closeout-worktree validator enforces multi-candidate partitioning" "closeout-worktree validator must enforce multi-candidate partitioning"
-  require_literal "$CLOSEOUT_PR" 'selected route `branch-pr`' "closeout-pr requires branch-pr route" "closeout-pr must require upstream branch-pr route"
-  require_literal "$CLOSEOUT_PR" 'Draft/open PR state is `published`, not full closeout' "closeout-pr distinguishes published from full closeout" "closeout-pr must not treat draft/open PR as full closeout"
-}
-
-check_no_active_legacy_or_default_drift() {
-  local drift
-  drift="$(
-    cd "$OCTON_DIR"
-    rg -n "Work Package|WorkPackage|work package|work-package|work_package|WORK_PACKAGE" framework instance \
-      -g '!framework/product/contracts/default-work-unit.*' \
-      -g '!framework/scaffolding/practices/prompts/**' \
-      -g '!framework/scaffolding/governance/patterns/proposal-standard.md' \
-      -g '!framework/orchestration/runtime/workflows/meta/audit-post-implementation-drift/**' \
-      -g '!framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh' \
-      -g '!framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh' \
-      -g '!framework/assurance/runtime/_ops/tests/test-validate-proposal-post-implementation-drift.sh' \
-      -g '!instance/cognition/decisions/**' 2>/dev/null || true
-  )"
-  if [[ -n "$drift" ]]; then
-    printf '%s\n' "$drift"
-    fail "active framework/instance surfaces must not retain legacy Change Package predecessor terminology"
-  else
-    pass "active framework/instance surfaces avoid legacy Change Package predecessor terminology"
-  fi
-
-  local legacy_paths
-  legacy_paths="$(find "$OCTON_DIR/framework" "$OCTON_DIR/instance" \( -iname '*work-package*' -o -iname '*work_package*' \) -print 2>/dev/null || true)"
-  if [[ -n "$legacy_paths" ]]; then
-    printf '%s\n' "$legacy_paths"
-    fail "active framework/instance paths must not retain legacy Change Package predecessor filenames"
-  else
-    pass "active framework/instance paths avoid legacy Change Package predecessor filenames"
-  fi
-
-  local default_drift
-  default_drift="$(
-    cd "$OCTON_DIR"
-    rg -n "PR-first|main remains PR-first|default execution unit is one branch|one branch worktree per task or PR|Stage, commit, push, and open a draft PR|New work starts in a branch worktree|all new work starts in a branch|Should I branch it into a feature worktree and prepare a draft PR" framework instance \
-      -g '!framework/scaffolding/practices/prompts/**' \
-      -g '!framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh' \
-      -g '!framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh' \
-      -g '!framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh' \
-      -g '!framework/assurance/runtime/_ops/tests/test-solo-route-selection.sh' \
-      -g '!framework/assurance/runtime/_ops/tests/test-github-projection-alignment.sh' \
-      -g '!instance/cognition/decisions/**' 2>/dev/null || true
-  )"
-  if [[ -n "$default_drift" ]]; then
-    printf '%s\n' "$default_drift"
-    fail "active surfaces must not reintroduce PR or branch as the default work unit"
-  else
-    pass "active surfaces avoid PR/branch default-work-unit drift"
-  fi
-}
-
-main() {
-  echo "== Default Work Unit Alignment Validation =="
-  command -v yq >/dev/null 2>&1 || { echo "[ERROR] yq is required" >&2; exit 1; }
-  command -v jq >/dev/null 2>&1 || { echo "[ERROR] jq is required" >&2; exit 1; }
-
-  check_core_contracts
-  check_quickstart_and_examples
-  check_discovery_and_routing
-  check_no_active_legacy_or_default_drift
-
-  echo
-  echo "Validation summary: errors=$errors"
-  [[ "$errors" -eq 0 ]]
-}
-
-main "$@"
+echo "Validation summary: errors=$errors"
+[[ "$errors" -eq 0 ]]

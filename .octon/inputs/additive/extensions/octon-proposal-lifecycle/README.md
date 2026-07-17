@@ -3,6 +3,17 @@
 First-party additive extension pack for proposal lifecycle automation across
 proposal packets and proposal programs.
 
+## RP-00 Containment
+
+Current packet/program delivery admits only `implemented` or `archive-ready`
+with `route=stage-only`. Direct-main, hosted branch-no-PR, landing, sync,
+cleanup, landed/synced/cleaned, and omitted/default effectful requests stop
+before dispatch with `RP00_CONTAINMENT_PUBLICATION_DISABLED`. Exact work is
+preserved. Clean-delivery is unregistered, dirty-worktree closeout and
+lifecycle-residue cleanup are classification/preservation only, and no
+publication, Git/GitHub, provider, archive-relocation, or cleanup handoff is
+emitted.
+
 This pack composes existing Octon proposal standards, proposal workflows,
 concept-integration routes, impact-map routing, validators, publication
 scripts, and host projection publishing into a governed operator flow. Packet
@@ -23,9 +34,8 @@ The pack owns reusable routes for:
 - closing out individual proposal packets,
 - terminalizing implemented proposal packets as archive-ready or blocked
   without archiving them,
-- coordinating accepted proposal program delivery through target-owned child
-  lifecycles, packet closeout, archive handoff, Change closeout, final sync,
-  cleanup, and terminal proof,
+- coordinating accepted proposal program implementation/archive readiness
+  through target-owned child lifecycles without publication effects,
 - creating, explaining, reviewing, revising, and operating proposal programs
   across canonical child packets,
 - generating program implementation, verification, correction, and closeout
@@ -108,25 +118,20 @@ new `proposal.yml` statuses.
 between proposal closeout and `archive-proposal`. It can report
 `archive-ready` or `blocked`, but archive relocation remains a separate
 explicitly authorized workflow route.
-`proposal-program-delivery` adds a durable delivery coordination receipt for
-accepted proposal programs. It can aggregate target-owned child packet
-evidence, packet closeout results, archive handoff evidence, Change closeout
-evidence, final sync proof, branch cleanup proof, and terminal hygiene proof,
-but it does not replace child receipts or own archive, Git, hosted mutation,
-branch cleanup, residue deletion, or generated publication authority.
+`proposal-program-delivery` adds a durable contained coordination receipt for
+accepted proposal programs. It aggregates target-owned child implementation or
+archive-readiness evidence without replacing child receipts or invoking later
+archive, Git, hosted mutation, branch cleanup, residue deletion, or publication
+owners.
 
 `/octon-proposal-run-program-lifecycle` wraps
 `octon lifecycle run --lifecycle proposal-program --target
 <program-packet-path>`. It is an orchestration wrapper only, not a dispatcher
 route or prompt bundle. Its contract uses
 `execution_strategy: orchestrated-replan-loop`. By default it stops at a planned
-`program-route-handoff`; full selected-route automation requires
-`--execute-routes` plus bounded execution options such as `--max-steps` and
-`--max-child-concurrency`. With `--execute-routes`, the program runner loops
-through plan, one parent-route or child-batch dispatch, and live replan until
-completion, blocker, approval pause, failure, timeout, cancellation, or
-max-step exhaustion. One child batch is one step no matter how many child
-routes run inside that batch. When `octon` is not installed on PATH, use the
+`program-route-handoff`; during RP-00, any execute-routes request that would
+produce publication or cleanup effects is denied before adapter dispatch. When
+`octon` is not installed on PATH, use the
 repo-local development launcher `.octon/framework/engine/runtime/run lifecycle
 ...`; the launcher routes `lifecycle` through the current source-backed kernel
 instead of a stale packaged binary.

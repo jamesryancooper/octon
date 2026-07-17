@@ -87,21 +87,20 @@ main() {
     fail "closeout skills carry cleanup or broad git mutation authority"
   fi
 
-  if rg -n 'cleanup-local-run-artifacts|Bash\(git (add|commit|push|merge|checkout -b)' \
+  if rg -n 'classify-proposal-worktree-hygiene|Classify And Preserve Lifecycle Residue' \
     "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null; then
-    pass "dedicated cleanup skill carries cleanup route authority"
+    pass "dedicated residue skill carries classification-only route authority"
   else
-    fail "dedicated cleanup skill is missing cleanup route authority"
+    fail "dedicated residue skill is missing classification-only route authority"
   fi
 
   if rg -n 'cleanup-local-run-artifacts\.sh' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
     && rg -n 'classification evidence only' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
     && rg -n 'repo-hygiene-cleanup' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
-    && rg -n 'repo-hygiene-cleanup-authorization-v1' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
-    && rg -n 'Do not invoke the helper with `--confirm`, `--authorize`, or `--authorization`' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
+    && rg -n 'RP00_CONTAINMENT_PUBLICATION_DISABLED' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
     && rg -n 'protected, referenced, ambiguous, manual-review, user-owned' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
     && rg -n 'active implementation artifacts|active implementation work' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
-    && rg -n 'push-safe disposition receipt' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
+    && rg -n 'cleaned_claim: false' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
     && rg -n 'classify-proposal-worktree-hygiene\.sh' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null; then
     pass "cleanup route behavior contract preserves residue boundaries"
   else

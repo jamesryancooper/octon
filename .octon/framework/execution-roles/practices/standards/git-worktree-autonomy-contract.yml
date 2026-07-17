@@ -2,6 +2,13 @@ schema_version: "git-worktree-autonomy-contract-v2"
 workflow_id: "octon-change-git-github-routing"
 status: "active"
 owner: "Octon governance"
+containment:
+  state: "SI-00"
+  direct_main: "denied"
+  branch_no_pr_landing: "denied"
+  branch_cleanup: "denied"
+  publication_denial_reason: "RP00_CONTAINMENT_PUBLICATION_DISABLED"
+  cleanup_denial_reason: "RP00_CONTAINMENT_CLEANUP_DISABLED"
 purpose: >-
   Bind Git, worktree, branch, and GitHub mechanics to the canonical
   Change-first default work unit policy without making branches or Pull
@@ -23,38 +30,23 @@ operating_model:
   internal_execution_bundle: "Change Package"
   route_selection_required_before_git_mutation: true
   route_ids:
-    - "direct-main"
     - "branch-no-pr"
     - "branch-pr"
     - "stage-only-escalate"
   primary_integration_anchor: "one clean current main worktree or clone"
-  stale_or_dirty_source_default: "select a route-owned clean worktree from current origin/main before reconstruction, staging, commit, push, landing, sync, cleanup, or branch deletion"
+  stale_or_dirty_source_default: "select a route-owned clean worktree from current origin/main before reconstruction, staging, or commit; preserve refs and stop before landing, sync, cleanup, or branch deletion during SI-00"
   include_path_classification_required_before_broad_stage_all: true
   branch_role: "isolation mechanism selected by Change route"
   branch_role_labels:
     source-dirty-anchor: "dirty or stale source branch used only as an anchor until residue is classified and dispositioned"
-    route-owned-delivery-branch: "selected Change route branch that owns delivery, landing, cleanup, and sync evidence"
+    route-owned-delivery-branch: "selected Change route branch that owns candidate preservation and validation evidence"
     correction: "post-primary correction branch with route-owned aggregate receipt evidence"
-    cleanup: "branch used only for authorized cleanup or hygiene delivery"
+    cleanup: "historical branch role; cleanup effects are disabled during SI-00"
     retained-protected: "local branch retained because protected name/status or equivalent blocker makes deletion unsafe"
     retired-stale: "local branch deleted only after current no-unique-commit proof, ownership blocker checks, authorization, verification, and rollback evidence"
   pr_role: "optional publication and review output selected by Change route"
   github_authority: "projection-only"
   route_requirements:
-    direct-main:
-      required:
-        - "clean current main"
-        - "no unrelated working tree changes"
-        - "local validation at selected floor"
-        - "landed commit on main"
-        - "Change receipt"
-        - "rollback handle"
-        - "push to origin/main"
-        - "post-push fetch and local main sync"
-      forbidden:
-        - "protected-branch mutation without admitted safety route"
-        - "claiming completion with only an unstaged patch"
-        - "bypassing required validation"
     branch-no-pr:
       required:
         - "branch or worktree identity"
@@ -69,10 +61,8 @@ operating_model:
         - "cleanup status"
         - "Change receipt or continuation receipt"
         - "rollback or discard plan"
-        - "provider route-neutral ruleset evidence when claiming hosted landing"
-        - "pushed source branch, exact source SHA checks, and origin/main equality when claiming hosted landing"
-        - "safe branch cleanup completed or deferred after hosted landing"
-        - "post-cleanup fetch and local main sync after hosted landing"
+        - "publication denial evidence when landing is requested"
+        - "cleanup denial evidence when cleanup is requested"
       forbidden:
         - "opening a PR only because a branch exists"
         - "claiming PR-backed publication"
@@ -83,6 +73,8 @@ operating_model:
         - "downgrading landed or cleaned target without landing evaluation and blocker reason"
         - "claiming full closeout while branch cleanup is pending"
         - "PR URL, PR number, or PR metadata"
+        - "local or hosted no-PR landing during SI-00"
+        - "branch, ref, or worktree cleanup during SI-00"
     branch-pr:
       required:
         - "branch identity"
@@ -92,9 +84,7 @@ operating_model:
         - "hosted checks required by the selected lane"
         - "review or solo-maintainer exception evidence when policy requires it"
         - "Change receipt that treats PR metadata as output"
-        - "lifecycle outcome distinguishing published, ready, landed, and cleaned"
-        - "safe branch cleanup completed or deferred after merge"
-        - "post-cleanup fetch and local main sync after merge"
+        - "lifecycle outcome distinguishing preserved, published, ready, and independently observed landed/cleanup-deferred"
       final_merge_authority:
         system: "GitHub"
         requirements:
@@ -118,9 +108,8 @@ closeout:
     - "ship"
     - "closeout"
   prompt_contexts:
-    direct_main_eligible: "Validate, commit on main, write a Change receipt, and record rollback."
-    branch_no_pr: "Preserve, commit, push, land, or clean up the branch without opening a PR only when lifecycle evidence supports the claimed outcome."
-    branch_pr: "Invoke PR-backed publication/review mechanics through closeout-pr after Change routing selects branch-pr, and distinguish published, ready, landed, and cleaned outcomes."
+    branch_no_pr: "Preserve or stage exact branch state; landing and cleanup are disabled during SI-00."
+    branch_pr: "Invoke only stage-preserving PR-backed coordination after Change routing selects branch-pr; provider cutover authority remains separate."
     stage_only_escalate: "Preserve state and report blockers without claiming completion."
   suppressions:
     - "active_implementation_continues"
@@ -130,9 +119,9 @@ closeout:
     - "blocked_waiting_on_reviewer_confirmation"
     - "blocked_waiting_on_solo_maintainer_exception_evidence"
   post_landing_cleanup:
-    applies_to_routes:
-      - "branch-no-pr"
-      - "branch-pr"
+    applies_to_routes: []
+    containment_status: "disabled"
+    denial_reason: "RP00_CONTAINMENT_CLEANUP_DISABLED"
     required_before_completed_closeout:
       - "origin/main contains landed commit or merge ref"
       - "required post-landing checks and closeout evidence are complete"
@@ -143,7 +132,6 @@ closeout:
       - "origin is fetched after cleanup"
       - "local main is fast-forwarded to origin/main"
       - "local main, origin/main, and landed_ref are aligned"
-    direct_main_requirement: "fetch origin after push and post-push checks, sync local main to origin/main, and verify local main, origin/main, and landed_ref are aligned"
   residue_classification:
     read_only: true
     detection_is_deletion_authority: false
@@ -186,7 +174,9 @@ helpers:
       - "--request-automerge"
     request_only: true
   git_pr_cleanup:
-    route_guard: "PR-backed cleanup unless branch-only cleanup is explicitly selected"
+    route_guard: "denied during SI-00"
+    posture: "fails before worktree or ref mutation"
+    denial_reason: "RP00_CONTAINMENT_CLEANUP_DISABLED"
   git_branch_commit:
     route_guard: "branch-no-pr or branch-pr only"
     posture: "branch-local commit helper"
@@ -203,19 +193,23 @@ helpers:
     posture: "exact-SHA hosted check evidence helper"
   git_branch_hosted_preflight:
     route_guard: "branch-no-pr only"
-    posture: "hosted no-PR landing preflight helper"
+    posture: "historical read-only compatibility helper; cannot authorize landing"
   git_branch_authorize_hosted_no_pr:
-    route_guard: "branch-no-pr only"
-    posture: "governed hosted no-PR landing authorization helper"
+    route_guard: "denied during SI-00"
+    posture: "fails before authorization emission"
+    denial_reason: "RP00_CONTAINMENT_PUBLICATION_DISABLED"
   git_branch_land:
-    route_guard: "branch-no-pr only"
-    posture: "local no-PR branch landing helper"
+    route_guard: "denied during SI-00"
+    posture: "fails before checkout or merge"
+    denial_reason: "RP00_CONTAINMENT_PUBLICATION_DISABLED"
   git_branch_land_hosted_no_pr:
-    route_guard: "branch-no-pr only"
-    posture: "fast-forward-only hosted no-PR landing helper requiring governed authorization"
+    route_guard: "denied during SI-00"
+    posture: "fails before fetch or push"
+    denial_reason: "RP00_CONTAINMENT_PUBLICATION_DISABLED"
   git_branch_authorize_cleanup:
-    route_guard: "branch-no-pr or branch-pr only"
-    posture: "governed branch cleanup authorization helper"
+    route_guard: "denied during SI-00"
+    posture: "emits only a containment-denied receipt"
+    denial_reason: "RP00_CONTAINMENT_CLEANUP_DISABLED"
     safety:
       - "performs no cleanup mutation"
       - "requires source branch changes integrated into origin/main"
@@ -225,8 +219,9 @@ helpers:
       - "requires retained rollback posture"
       - "requires no unique commits and no unresolved upstream, local remote-ref, PR, protected, active-worktree, or dirty-residue blocker before stale local branch retirement"
   git_branch_cleanup:
-    route_guard: "branch-no-pr or branch-pr only"
-    posture: "branch and worktree cleanup helper requiring governed branch-cleanup authorization"
+    route_guard: "denied during SI-00"
+    posture: "dry-run may inventory; every mutating invocation fails before worktree or ref mutation"
+    denial_reason: "RP00_CONTAINMENT_CLEANUP_DISABLED"
     safety:
       - "refuses protected branch names"
       - "requires retained rollback posture for mutating cleanup"
@@ -265,7 +260,6 @@ validation:
     - "dirty or stale source branch proceeds without route-owned clean worktree selection"
     - "broad stage-all, reconstruction, staging, or commit occurs without include-path classification"
   scenario_lanes:
-    - "direct-main"
     - "branch-no-pr"
     - "branch-pr"
     - "stage-only-escalate"

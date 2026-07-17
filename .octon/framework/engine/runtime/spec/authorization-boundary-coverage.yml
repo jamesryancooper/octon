@@ -1,4 +1,16 @@
 schema_version: authorization-boundary-coverage-v1
+closed_world_discovery:
+  authority_ref: ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml#closed_world_discovery"
+  scanner_ref: ".octon/framework/assurance/runtime/_ops/scripts/discover-material-effect-entrypoints.sh"
+  enumerator: "git ls-tree -rz --full-tree <commit>"
+  ambient_worktree_scan: false
+  launcher_authorization_set:
+    count: 919
+    sha256: "sha256:706b44172e1907469d6a4fd75ef51fc804eb09637042f57924c227755174b706"
+  equality: "D_l = M_l = A_l"
+  failure_rule: >-
+    Unknown, stale, duplicate, ambiguous, unsupported, parse-failed, unowned,
+    or selection-inconsistent candidates deny authorization coverage.
 paths:
   - path_id: kernel-tool-invoke
     authorized_effect_token_type: "AuthorizedEffect<ServiceInvocation>"

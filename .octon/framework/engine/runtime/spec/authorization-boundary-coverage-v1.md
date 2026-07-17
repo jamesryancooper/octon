@@ -52,6 +52,37 @@ Each family below is claim-critical and must be inventoried explicitly:
 - outbound HTTP, model-backed execution, and runtime-service writes
 - support-target-affecting or disclosure-affecting promotion/activation flows
 
+## Closed-World Discovery
+
+Declared rows are not completeness proof by themselves. The canonical scanner
+enumerates one immutable commit with
+`git ls-tree -rz --full-tree <commit>`; it never treats ambient worktree
+contents as the review basis. It scans the framework, instance, additive-input,
+GitHub action, and GitHub workflow roots with the grammar and exclusion
+contract owned by
+`material-side-effect-inventory.yml#closed_world_discovery`.
+
+Discovery emits canonical LF-delimited keys in the form
+`kind|repo-relative-posix-path|stable-anchor|grammar-id`, sorted bytewise and
+deduplicated. Authorization coverage is valid only when both exact equalities
+hold:
+
+- discovered writers equal the material writer set: `D_w = M_w`; and
+- discovered launchers equal both the material and authorized launcher sets:
+  `D_l = M_l = A_l`.
+
+Active additive selection is resolved from the same commit. An inactive or
+quarantined pack is excluded only with exact selection-state proof and no
+active consumer. Excluded executable or runtime-command surfaces reached by
+active/effective routing block.
+
+Unknown, stale, duplicate, unowned, unsupported, ambiguous, dynamically
+constructed, or parse-failed candidates fail closed. The sole exception is an
+exact normalized key with one declared owner, bounded disposition, and expiry
+in the material inventory. Discovery summaries retain the commit, tree,
+contract, result-set, and additive-selection digests as non-authoritative
+evidence.
+
 ## Coverage Requirements
 
 Every inventoried path must bind:

@@ -6,6 +6,10 @@ DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 ROOT_MANIFEST="$OCTON_DIR/octon.yml"
+MATERIAL_INVENTORY="$OCTON_DIR/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+AUTHORIZATION_COVERAGE="$OCTON_DIR/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+DISCOVERY_SCANNER="$SCRIPT_DIR/discover-material-effect-entrypoints.sh"
+DISCOVERY_TREEISH="${OCTON_DISCOVERY_TREEISH:-HEAD}"
 
 errors=0
 
@@ -82,6 +86,9 @@ main() {
   require_file "$OCTON_DIR/framework/engine/_ops/scripts/record-authority-revocation.sh"
   require_file "$OCTON_DIR/framework/assurance/runtime/_ops/tests/test-authority-control-tooling.sh"
   require_file "$SCRIPT_DIR/assert-protected-execution-posture.sh"
+  require_file "$MATERIAL_INVENTORY"
+  require_file "$AUTHORIZATION_COVERAGE"
+  require_file "$DISCOVERY_SCANNER"
 
   if [[ -f "$OCTON_DIR/state/control/execution/exception-leases.yml" ]]; then
     fail "legacy flat exception-leases.yml must be deleted once the canonical lease family is live"
@@ -210,6 +217,18 @@ main() {
     fail "protected GitHub workflows must not hardcode OCTON_EFFECTIVE_POLICY_MODE"
   else
     pass "protected GitHub workflows derive effective policy mode instead of hardcoding it"
+  fi
+
+  if bash "$DISCOVERY_SCANNER" \
+    --repo "$ROOT_DIR" \
+    --treeish "$DISCOVERY_TREEISH" \
+    --inventory "$MATERIAL_INVENTORY" \
+    --coverage "$AUTHORIZATION_COVERAGE" \
+    --check \
+    --format summary >/dev/null; then
+    pass "execution governance binds exact closed-world writer and launcher sets"
+  else
+    fail "execution governance closed-world discovery gate failed"
   fi
 
   run_test \

@@ -10,6 +10,7 @@
     "created_at",
     "packet",
     "target_outcome",
+    "containment_policy",
     "route_preference",
     "pr_policy",
     "publication_freshness_policy",
@@ -54,8 +55,18 @@
     "target_outcome": {
       "enum": ["archive-ready", "blocked"]
     },
+    "containment_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason_code", "publication_effects_enabled", "exact_work_preserved"],
+      "properties": {
+        "reason_code": {"const": "RP00_CONTAINMENT_PUBLICATION_DISABLED"},
+        "publication_effects_enabled": {"const": false},
+        "exact_work_preserved": {"const": true}
+      }
+    },
     "route_preference": {
-      "enum": ["branch-no-pr", "branch-pr", "direct-main", "stage-only-escalate", "none-closeout-only"]
+      "enum": ["stage-only-escalate", "none-closeout-only"]
     },
     "pr_policy": {
       "type": "object",
@@ -66,7 +77,7 @@
           "type": "boolean"
         },
         "allow_branch_no_pr": {
-          "type": "boolean"
+          "const": false
         },
         "exact_sha_required": {
           "type": "boolean"
@@ -109,7 +120,7 @@
           "const": true
         },
         "cleanup_authorization_required": {
-          "const": true
+          "const": false
         }
       }
     },
@@ -164,16 +175,16 @@
       ],
       "properties": {
         "delegate_to_closeout_routes": {
-          "const": true
+          "const": false
         },
         "exact_sha_required_when_hosted": {
           "const": true
         },
         "landing_authorization_required": {
-          "const": true
+          "const": false
         },
         "branch_cleanup_authorization_required": {
-          "const": true
+          "const": false
         }
       }
     },

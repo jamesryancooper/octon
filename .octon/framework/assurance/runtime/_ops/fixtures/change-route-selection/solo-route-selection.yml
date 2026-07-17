@@ -1,7 +1,8 @@
 schema_version: "octon-change-route-selection-fixtures-v1"
+containment_state: "SI-00"
 cases:
-  - id: "solo-low-risk-clean-main-selects-direct-main"
-    description: "Clean current main plus low-risk solo evidence selects direct-main."
+  - id: "solo-low-risk-clean-main-selects-branch-no-pr-preservation"
+    description: "Clean current main never selects direct-main; SI-00 isolates and preserves the Change through branch-no-pr."
     facts:
       change_identity_resolved: true
       current_branch_main: true
@@ -18,8 +19,8 @@ cases:
       provider_ruleset_requires_pr: false
       release_automation_requires_pr: false
       existing_pr_context: false
-    expected_route: "direct-main"
-    expected_reason: "fastest safe solo route"
+    expected_route: "branch-no-pr"
+    expected_reason: "SI-00 direct-main denial requires preserved branch isolation"
   - id: "solo-branch-isolation-without-pr-selects-branch-no-pr"
     description: "Branch isolation with no PR predicate selects branch-no-pr."
     facts:

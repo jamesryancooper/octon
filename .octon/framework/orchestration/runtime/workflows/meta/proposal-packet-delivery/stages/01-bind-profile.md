@@ -5,10 +5,13 @@ before any delivery claim.
 
 Required checks:
 
-- The requested command shape is `/proposal-packet-delivery outcome=cleaned
-  route=branch-no-pr`.
+- The requested command shape uses `outcome=implemented` or
+  `outcome=archive-ready` with `route=stage-only`.
 - `target_packet_path` resolves to an accepted proposal packet.
-- `target_outcome` is one of the supported terminal outcomes.
+- `target_outcome` is `implemented` or `archive-ready`; effectful and
+  omitted/default requests fail with `RP00_CONTAINMENT_PUBLICATION_DISABLED`.
+- The profile requires exact-work preservation and disables publication
+  effects, Change-closeout delegation, final sync, and cleanup.
 - `pr_policy.mode: forbid-pr` rejects PR creation and PR fallback.
 - `packet_state_routing` declares pre-archive and already-archived packet
   state routes.

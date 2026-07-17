@@ -1,14 +1,15 @@
-# Stage 08: Validate Cleanup, Sync, And Terminal Proof
+# Stage 08: Validate Preservation And No Publication Effect
 
-Validate branch cleanup, repo hygiene cleanup, final sync, terminal current-state proof, and worktree hygiene after the last mutation.
+Validate that contained program coordination stopped without an effect.
 
 Required checks:
 
-- Branch cleanup requires branch cleanup authorization.
-- Git mutation preflight evidence is non-authorizing and cannot grant archive authorization, delivery success, landing, sync, cleanup, or branch deletion authority.
-- Repo hygiene deletion requires cleanup authorization and uses `repo-hygiene-cleanup`.
-- Local `main`, `origin/main`, and `landed_ref` equality is proven before `synced`.
-- Terminal current-state proof is fresh after the final mutation.
-- `cleaned` is rejected when the worktree is dirty.
-- Cleaned claims record the clean-worktree route, include-path classification status, and whether a route-owned clean worktree was required.
-- Local/private evidence used as hosted proof emits `SC-007-publishable-evidence-gap`; missing final sync, cleanup, or terminal proof emits `SC-010-cleaned-proof-gap`.
+- No child or parent outcome exceeds `implemented` or `archive-ready`.
+- Candidate refs, branches, worktrees, rollback handles, and unrelated changes
+  remain exactly preserved.
+- No landing, sync, cleanup, branch deletion, provider mutation, or false
+  success evidence exists.
+- Effectful or omitted/default requests carry
+  `RP00_CONTAINMENT_PUBLICATION_DISABLED` and the later RP-06/RP-08 owner.
+- Parent summaries and compatibility receipts do not replace child-owned
+  evidence or authorize publication.

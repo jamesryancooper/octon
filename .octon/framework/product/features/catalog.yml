@@ -12,9 +12,9 @@ features:
     summary: >-
       Route-neutral closeout for the singular Change default work unit,
       including dirty-worktree decomposition, singular closeout-change route
-      execution, PR-backed subflow delegation, governed branch landing and
-      cleanup authorization, truthful receipts, wrapper evidence, and
-      repo-hygiene handoff for non-material residue.
+      classification, PR-backed stage-preserving coordination, contained
+      branch landing and cleanup denial, truthful receipts, wrapper evidence,
+      and repo-hygiene handoff for non-material residue during SI-00.
     primary_audiences:
       - "agents"
       - "operators"
@@ -134,10 +134,10 @@ features:
         role: "singular Change closeout receipt"
         authority_class: "retained-evidence-pattern"
       - path_pattern: ".octon/state/evidence/runs/skills/closeout-change/<run-id>/branch-landing-authorization.json"
-        role: "retained governed branch landing authorization receipt"
+        role: "historical compatibility receipt; cannot authorize current SI-00 landing"
         authority_class: "retained-evidence-pattern"
       - path_pattern: ".octon/state/evidence/runs/skills/closeout-change/<run-id>/branch-cleanup-authorization.json"
-        role: "retained governed branch cleanup authorization receipt"
+        role: "retained SI-00 cleanup-denial receipt"
         authority_class: "retained-evidence-pattern"
       - path_pattern: ".octon/state/evidence/runs/skills/closeout-worktree/<run-id>.md"
         role: "closeout-worktree wrapper run log"

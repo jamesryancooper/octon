@@ -90,7 +90,11 @@ schema_version: proposal-program-delivery-profile-v1
 profile_id: test-proposal-program-delivery-profile
 created_at: "2026-06-14T00:00:00Z"
 target_program_path: .octon/inputs/exploratory/proposals/architecture/example-proposal-program-delivery
-target_outcome: cleaned
+target_outcome: implemented
+containment_policy:
+  reason_code: RP00_CONTAINMENT_PUBLICATION_DISABLED
+  publication_effects_enabled: false
+  exact_work_preserved: true
 execution_order_policy:
   canonical_order_required: true
   canonical_order_ref: child-before-parent-delivery
@@ -99,8 +103,8 @@ execution_order_policy:
   override_required_when_order_differs: true
   override_receipt_ref: not-applicable
 route_preference:
-  work_unit_route: branch-no-pr
-  landing_route: branch-no-pr
+  work_unit_route: stage-only
+  landing_route: not-applicable
   pr_creation_allowed: false
 pr_policy:
   mode: forbid-pr
@@ -142,16 +146,16 @@ mechanism_integration_checks:
 closeout_requirements:
   packet_closeout_required: true
   archive_lifecycle_required: true
-  change_closeout_required: true
-  delegate_git_mutation_to_change_closeout: true
+  change_closeout_required: false
+  delegate_git_mutation_to_change_closeout: false
 hygiene_requirements:
-  cleanup_authorization_required: true
+  cleanup_authorization_required: false
   classification_alone_authorizes_deletion: false
 terminal_proof_requirements:
-  terminal_current_state_proof_required: true
-  worktree_hygiene_required: true
+  terminal_current_state_proof_required: false
+  worktree_hygiene_required: false
 final_sync_requirements:
-  main_origin_landed_ref_equality_required: true
+  main_origin_landed_ref_equality_required: false
 non_authority_boundaries:
   proposal_local_files: non-authority
   generated_prompts: non-authority
@@ -499,22 +503,22 @@ mutate_text_fixture_expect_workflow_fail \
   "workflow rejects optional command admission inputs" \
   "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/proposal-program-delivery.md" \
   "OCTON_PROPOSAL_PROGRAM_DELIVERY_COMMAND_PATH" \
-  's|/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>|/proposal-program-delivery target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]|'
+  's#/proposal-program-delivery target=<proposal-program-path> outcome=implemented\|archive-ready route=stage-only profile=<profile-path> run-id=<id>#/proposal-program-delivery target=<proposal-program-path> [outcome=implemented|archive-ready] [route=stage-only] [profile=<profile-path>] [run-id=<id>]#'
 mutate_text_fixture_expect_workflow_fail \
   "workflow rejects optional additive alias admission inputs" \
   "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-delivery.md" \
   "OCTON_PROPOSAL_PROGRAM_DELIVERY_ALIAS_COMMAND_PATH" \
-  's|/octon-proposal-run-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>|/octon-proposal-run-program-delivery target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]|'
+  's#/octon-proposal-run-program-delivery target=<proposal-program-path> outcome=implemented\|archive-ready route=stage-only profile=<profile-path> run-id=<id>#/octon-proposal-run-program-delivery target=<proposal-program-path> [outcome=implemented|archive-ready] [route=stage-only] [profile=<profile-path>] [run-id=<id>]#'
 mutate_text_fixture_expect_workflow_fail \
   "workflow rejects optional skill admission inputs" \
   "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/operations/proposal-program-delivery/SKILL.md" \
   "OCTON_PROPOSAL_PROGRAM_DELIVERY_SKILL_PATH" \
-  's|/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>|/proposal-program-delivery target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]|'
+  's#/proposal-program-delivery target=<proposal-program-path> outcome=implemented\|archive-ready route=stage-only profile=<profile-path> run-id=<id>#/proposal-program-delivery target=<proposal-program-path> [outcome=implemented|archive-ready] [route=stage-only] [profile=<profile-path>] [run-id=<id>]#'
 mutate_text_fixture_expect_workflow_fail \
   "workflow rejects optional command manifest admission inputs" \
   "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/manifest.yml" \
   "OCTON_PROPOSAL_PROGRAM_DELIVERY_COMMAND_MANIFEST_PATH" \
-  's|target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>|target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]|'
+  's#target=<proposal-program-path> outcome=implemented\|archive-ready route=stage-only profile=<profile-path> run-id=<id>#target=<proposal-program-path> [outcome=implemented|archive-ready] [route=stage-only] [profile=<profile-path>] [run-id=<id>]#'
 mutate_yaml_fixture_expect_workflow_fail \
   "workflow rejects native command manifest alias registration" \
   "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/manifest.yml" \
@@ -529,7 +533,7 @@ mutate_text_fixture_expect_workflow_fail \
   "workflow rejects missing bundle matrix alias hook" \
   "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/bundle-matrix.md" \
   "OCTON_PROPOSAL_LIFECYCLE_BUNDLE_MATRIX_PATH" \
-  's|; alias `octon-proposal-run-program-delivery`||; s|The optional operator-facing command alias is\n`octon-proposal-run-program-delivery` with display label\n`Run Program to Clean Delivery`. It delegates to `proposal-program-delivery`\nand does not create an independent workflow, lifecycle mode, closeout, archive,\ncleanup, Git mutation, branch cleanup, generated publication, receipt schema,\nprofile schema, or terminal proof rule.\n||'
+  's|; alias `octon-proposal-run-program-delivery`||; s|The optional operator-facing command alias is\n`octon-proposal-run-program-delivery` with display label\n`Run Program Contained Delivery`. It delegates to `proposal-program-delivery`\nand does not create an independent workflow, lifecycle mode, closeout, archive,\ncleanup, Git mutation, branch cleanup, generated publication, receipt schema,\nprofile schema, or terminal proof rule.\n||'
 mutate_text_fixture_expect_workflow_fail \
   "workflow rejects missing lifecycle delivery_run_id input hook" \
   "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml" \

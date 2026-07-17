@@ -14,11 +14,11 @@ usage() {
 usage:
   validate-run-program-clean-delivery.sh [--receipt <proposal-program-delivery-receipt.yml>] [--compact-receipt <compact-blocker-remediation-receipt.yml>] [--no-dispatch-ledger <no-dispatch-attempt-ledger.yml>]
 
-Without --receipt, validates that the clean-delivery validator chain is present
-and statically healthy. With --receipt, also requires a validated
-proposal-program-delivery receipt whose actual outcome is cleaned. With
---compact-receipt, validates compact blocker-remediation budget evidence. With
---no-dispatch-ledger, validates bounded no-dispatch attempt ledger evidence.
+Without --receipt, validates that the current containment denial chain is
+present and statically healthy. Current clean-delivery certification is
+disabled. Any receipt, compact receipt, or dispatch-ledger attempt fails with
+RP00_CONTAINMENT_PUBLICATION_DISABLED; historical receipt parsers remain
+separate compatibility surfaces only.
 USAGE
 }
 
@@ -453,12 +453,7 @@ validate_stale_branch_retirement() {
 
 required_validators=(
   ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh"
-  ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh"
-  ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh"
-  ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh"
-  ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh"
-  ".octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
-  ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh"
+  ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh"
 )
 
 for validator in "${required_validators[@]}"; do
@@ -466,12 +461,12 @@ for validator in "${required_validators[@]}"; do
 done
 
 run_static_validator "proposal-program-delivery-profile" "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-profile.sh"
-run_static_validator "proposal-program-delivery-receipt" "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-receipt.sh"
-run_static_validator "proposal-program-delivery-evidence-index" "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh"
-run_static_validator "change-closeout-state-machine" "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh"
-run_static_validator "change-closeout-lifecycle-alignment" "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh"
-run_static_validator "hosted-no-pr-landing" "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
-run_static_validator "evidence-disclosure-tiers" "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh"
+run_static_validator "proposal-program-delivery-workflow" "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-workflow.sh"
+
+if [[ -n "$RECEIPT_PATH" || -n "$COMPACT_RECEIPT_PATH" || -n "$NO_DISPATCH_LEDGER_PATH" ]]; then
+  echo "[ERROR] RP00_CONTAINMENT_PUBLICATION_DISABLED: clean-delivery certification is disabled during SI-00"
+  exit 1
+fi
 
 if [[ -n "$COMPACT_RECEIPT_PATH" ]]; then
   validate_compact_remediation_receipt "$COMPACT_RECEIPT_PATH"

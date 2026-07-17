@@ -123,7 +123,7 @@ candidates:
     residue_routing_class: publishable_change
     ownership: coherent delivery change candidate
     route_hint: closeout-change branch-no-pr after archive authorization
-    target_lifecycle_outcome: cleaned
+    target_lifecycle_outcome: preserved
     rollback_or_discard_posture: preserve for later branch-no-pr closeout
     boundaries:
       include_paths:
@@ -343,10 +343,14 @@ schema_version: proposal-packet-delivery-profile-v1
 profile_id: test-proposal-packet-delivery-profile
 created_at: "2026-06-16T00:00:00Z"
 target_packet_path: .octon/inputs/exploratory/proposals/architecture/example-proposal-packet-delivery
-target_outcome: cleaned
+target_outcome: implemented
+containment_policy:
+  reason_code: RP00_CONTAINMENT_PUBLICATION_DISABLED
+  publication_effects_enabled: false
+  exact_work_preserved: true
 route_preference:
-  work_unit_route: branch-no-pr
-  landing_route: branch-no-pr
+  work_unit_route: stage-only
+  landing_route: not-applicable
   pr_creation_allowed: false
 pr_policy:
   mode: forbid-pr
@@ -384,16 +388,16 @@ closeout_requirements:
   packet_closeout_required: true
   terminal_closeout_required: true
   archive_lifecycle_required: true
-  change_closeout_required: true
-  delegate_git_mutation_to_change_closeout: true
+  change_closeout_required: false
+  delegate_git_mutation_to_change_closeout: false
 hygiene_requirements:
-  cleanup_authorization_required: true
+  cleanup_authorization_required: false
   classification_alone_authorizes_deletion: false
 terminal_proof_requirements:
-  terminal_current_state_proof_required: true
-  worktree_hygiene_required: true
+  terminal_current_state_proof_required: false
+  worktree_hygiene_required: false
 final_sync_requirements:
-  main_origin_landed_ref_equality_required: true
+  main_origin_landed_ref_equality_required: false
 non_authority_boundaries:
   proposal_local_files: non-authority
   generated_prompts: non-authority
@@ -568,27 +572,27 @@ mutate_text_fixture_expect_workflow_fail \
   "workflow rejects optional command admission inputs" \
   "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/proposal-packet-delivery.md" \
   "OCTON_PROPOSAL_PACKET_DELIVERY_COMMAND_PATH" \
-  's|/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>|/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]|'
+  's#/proposal-packet-delivery target=<proposal-packet-path> outcome=implemented\|archive-ready route=stage-only profile=<profile-path> run-id=<id>#/proposal-packet-delivery target=<proposal-packet-path> outcome=implemented|archive-ready route=stage-only [profile=<profile-path>] [run-id=<id>]#'
 mutate_text_fixture_expect_workflow_fail \
   "workflow rejects optional skill admission inputs" \
   "$ROOT_DIR/.octon/framework/capabilities/runtime/skills/operations/proposal-packet-delivery/SKILL.md" \
   "OCTON_PROPOSAL_PACKET_DELIVERY_SKILL_PATH" \
-  's|/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>|/proposal-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]|'
+  's#/proposal-packet-delivery target=<proposal-packet-path> outcome=implemented\|archive-ready route=stage-only profile=<profile-path> run-id=<id>#/proposal-packet-delivery target=<proposal-packet-path> outcome=implemented|archive-ready route=stage-only [profile=<profile-path>] [run-id=<id>]#'
 mutate_text_fixture_expect_workflow_fail \
   "workflow rejects optional command manifest admission inputs" \
   "$ROOT_DIR/.octon/framework/capabilities/runtime/commands/manifest.yml" \
   "OCTON_PROPOSAL_PACKET_DELIVERY_COMMAND_MANIFEST_PATH" \
-  's|target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>|target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]|'
+  's#target=<proposal-packet-path> outcome=implemented\|archive-ready route=stage-only profile=<profile-path> run-id=<id>#target=<proposal-packet-path> outcome=implemented|archive-ready route=stage-only [profile=<profile-path>] [run-id=<id>]#'
 mutate_text_fixture_expect_workflow_fail \
   "workflow rejects optional extension command admission inputs" \
   "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-packet-delivery.md" \
   "OCTON_PROPOSAL_PACKET_DELIVERY_EXTENSION_COMMAND_PATH" \
-  's|/octon-proposal-run-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>|/octon-proposal-run-packet-delivery target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]|'
+  's#/octon-proposal-run-packet-delivery target=<proposal-packet-path> outcome=implemented\|archive-ready route=stage-only profile=<profile-path> run-id=<id>#/octon-proposal-run-packet-delivery target=<proposal-packet-path> outcome=implemented|archive-ready route=stage-only [profile=<profile-path>] [run-id=<id>]#'
 mutate_text_fixture_expect_workflow_fail \
   "workflow rejects optional extension manifest admission inputs" \
   "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/manifest.fragment.yml" \
   "OCTON_PROPOSAL_PACKET_DELIVERY_EXTENSION_COMMAND_MANIFEST_PATH" \
-  's|target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>|target=<proposal-packet-path> outcome=cleaned route=branch-no-pr [profile=<profile-path>] [run-id=<id>]|'
+  's#target=<proposal-packet-path> outcome=implemented\|archive-ready route=stage-only profile=<profile-path> run-id=<id>#target=<proposal-packet-path> outcome=implemented|archive-ready route=stage-only [profile=<profile-path>] [run-id=<id>]#'
 mutate_text_fixture_expect_workflow_fail \
   "workflow rejects missing lifecycle delivery_run_id input hook" \
   "$ROOT_DIR/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml" \

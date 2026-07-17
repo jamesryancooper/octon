@@ -1,158 +1,209 @@
 {
   "version": "2026-07-17",
+  "schema_version": "github-control-plane-contract-v2",
   "default_work_unit_policy_ref": ".octon/framework/product/contracts/default-work-unit.yml",
   "change_receipt_schema_ref": ".octon/framework/product/contracts/change-receipt-v1.schema.json",
   "scope": {
-    "projection_host_for": "route-aware Change lifecycle GitHub projection",
+    "projection_host_for": "SI-00 contained GitHub provider preparation and observation",
+    "authority_status": "repo-local contract; not proof of live provider state",
     "not_authority_for": [
-      "default work unit",
-      "Change route selection",
-      "lifecycle outcome authority",
-      "direct-main eligibility",
-      "branch-only completion",
-      "live GitHub ruleset mutation"
+      "live GitHub ruleset state",
+      "workflow disablement",
+      "provider mutation",
+      "credential issuance or possession",
+      "landing, merge, cleanup, or SI-00 completion"
     ]
   },
-  "change_routes": {
-    "hosted_pr_route": "branch-pr",
-    "no_pr_routes": [
-      "direct-main",
-      "branch-no-pr",
-      "stage-only-escalate"
+  "si00_containment": {
+    "state_id": "SI-00",
+    "current_effect_routes": [],
+    "classification_only_routes": ["branch-no-pr", "branch-pr", "stage-only-escalate"],
+    "denied_routes": ["direct-main", "hosted-branch-no-pr-landing", "auto-merge", "cleanup"],
+    "publication_denial_reason": "RP00_CONTAINMENT_PUBLICATION_DISABLED",
+    "cleanup_denial_reason": "RP00_CONTAINMENT_CLEANUP_DISABLED",
+    "unsafe_workflow_policy": "disabled before candidate presentation and retained disabled through RP-06",
+    "provider_mutation_requires_separate_authorization": true,
+    "repo_local_projection_performs_provider_mutation": false,
+    "partial_capture_behavior": "fail-closed",
+    "unknown_provider_outcome_behavior": "reconcile by authoritative read; never blindly retry"
+  },
+  "workflow_disposition": {
+    "unsafe_until_rp06": [
+      ".github/workflows/change-route-projection.yml",
+      ".github/workflows/main-change-route-guard.yml",
+      ".github/workflows/pr-auto-merge.yml",
+      ".github/workflows/pr-clean-state-enforcer.yml",
+      ".github/workflows/pr-autonomy-policy.yml"
     ],
-    "landing_routes": [
-      "direct-main",
-      "branch-no-pr",
-      "branch-pr"
-    ]
+    "bootstrap_safe_producers": [
+      {
+        "context": "Validate branch naming",
+        "workflow_path": ".github/workflows/commit-and-branch-standards.yml",
+        "requirements": ["no checkout", "no candidate code", "no repository secret", "exact base SHA"]
+      },
+      {
+        "context": "PR Quality Standards",
+        "workflow_path": ".github/workflows/pr-quality.yml",
+        "requirements": ["no checkout", "no candidate code", "no repository secret", "exact base SHA"]
+      }
+    ],
+    "all_other_workflows": "captured with exact id/path/name/state and no active unsafe run"
   },
-  "default_branch": "main",
   "rulesets": {
-    "current_live_main": {
-      "expectation": "target-route-neutral",
-      "migration_status": "post-route-neutral-live-cutover",
-      "applies_to_routes": [
-        "direct-main",
-        "branch-no-pr",
-        "branch-pr"
-      ],
-      "required_checks": [
-        "route_neutral_closeout_validation",
-        "branch_naming_validation",
-        "route_aware_autonomy_validation",
-        "exact_source_sha_validation"
-      ],
-      "require_review_thread_resolution": false,
-      "migration_evidence_ref": ".octon/state/evidence/control/execution/github-rulesets/2026-05-04-route-neutral-main-migration/",
-      "note": "Documents the live post-migration posture proven by accepted ruleset migration and strict-live validation. PR review-thread requirements remain branch-pr route behavior, not universal main rules."
-    },
-    "target_route_neutral_main": {
-      "expectation": "target-route-neutral",
-      "migration_status": "accepted-live-posture",
-      "applies_to_routes": [
-        "direct-main",
-        "branch-no-pr",
-        "branch-pr"
-      ],
-      "required_main_rules": [
-        "required_status_checks",
-        "required_linear_history",
-        "non_fast_forward",
-        "deletion_protection"
-      ],
-      "forbidden_universal_rules": [
-        "pull_request_required_for_all_main_updates"
-      ],
-      "universal_required_checks": [
-        "route_neutral_closeout_validation",
-        "branch_naming_validation",
-        "route_aware_autonomy_validation",
-        "exact_source_sha_validation"
-      ],
-      "pr_specific_checks": [
-        "AI Review Gate / decision",
-        "PR Quality Standards",
-        "Validate autonomy policy",
-        "PR Auto Merge",
-        "PR Clean State Enforcer",
-        "Codex PR Review"
-      ],
-      "hosted_no_pr_evidence_required": [
-        "provider_ruleset_ref",
-        "pushed_source_branch",
-        "remote_branch_ref",
-        "source_ref_equals_validated_ref",
-        "required_check_refs_bind_exact_source_ref",
-        "integration_method_fast_forward",
-        "rollback_handle",
-        "cleanup_status",
-        "target_post_ref_equals_landed_ref_equals_github_sha",
-        "origin_main_equals_landed_ref_after_push"
-      ],
+    "live_state_authority": "fresh provider snapshot only",
+    "si00_bootstrap_main": {
+      "expectation": "pr-required-two-check-bootstrap",
+      "target_branch": "main",
+      "required_rules": ["pull_request", "required_status_checks", "required_linear_history", "non_fast_forward", "deletion"],
+      "required_checks": ["PR Quality Standards", "Validate branch naming"],
+      "strict_required_status_checks_policy": true,
+      "bypass_actors": [],
+      "exact_base_binding_required": true,
+      "exact_head_conditional_merge_required": true,
+      "hosted_no_pr_required": false,
+      "protection_weakening_allowed": false,
       "live_mutation_performed_by_this_projection": false
-    }
-  },
-  "repository_settings": {
-    "allow_auto_merge": true,
-    "allow_squash_merge": true,
-    "allow_merge_commit": false,
-    "allow_rebase_merge": false,
-    "delete_branch_on_merge": true
-  },
-  "branch_pr_autonomous_completion": {
-    "route": "branch-pr",
-    "allowed_for_open_draft_prs": true,
-    "requires_autonomous_lane": true,
-    "high_impact_posture": {
-      "classification": "risk:high",
-      "autonomy_model": "elevated-autonomy",
-      "manual_default": false,
-      "requires_explicit_self_review": true,
-      "requires_post_merge_origin_main_verification": true,
-      "escalate_only_for_concrete_blockers": true
     },
-    "required_checks": [
-      "AI Review Gate / decision when required",
-      "PR Quality Standards",
-      "Validate branch naming",
-      "PR Clean State Enforcer",
-      "Validate autonomy policy"
-    ],
-    "requires_no_unresolved_author_action_threads": true,
-    "requires_no_blocking_labels": true,
-    "requires_no_requested_changes": true,
-    "requires_no_merge_conflicts": true,
-    "requires_no_stale_head_state": true,
-    "requires_change_receipt_or_closeout_evidence": true,
-    "merge_path": "current live protected-main ruleset",
-    "protected_main_bypass_allowed": false,
-    "live_ruleset_mutation_allowed": false
-  },
-  "actions_permissions": {
-    "workflow": {
-      "can_approve_pull_request_reviews": true
+    "receipt_compatibility_only": {
+      "historical_route_neutral_checks": [
+        "route_neutral_closeout_validation",
+        "branch_naming_validation",
+        "route_aware_autonomy_validation",
+        "exact_source_sha_validation"
+      ],
+      "authorizes_current_effect": false
     }
   },
-  "direct_main_projection": {
-    "github_pr_metadata_required": false,
-    "required_local_evidence": [
-      "change_receipt",
-      "local_validation",
-      "rollback_handle",
-      "landed_commit"
-    ]
+  "snapshot_contract": {
+    "schema_version": "github-control-plane-snapshot-v2",
+    "base_sha_required": true,
+    "candidate_sha_required": true,
+    "canonicalization": "RFC 8785 compatible sorted-key JSON with SHA-256 domain-separated artifact digests",
+    "pagination": "every list endpoint must be exhaustively paginated; partial or malformed output denies",
+    "required_captures": [
+      "repository settings",
+      "whole ruleset objects",
+      "Actions and workflow-token permissions",
+      "workflow id/path/name/state",
+      "active queued/requested/waiting/pending/in_progress runs",
+      "required-check contexts",
+      "exact-base and exact-candidate check-run producers",
+      "allowed non-secret variable values",
+      "secret names without values",
+      "App installation ids/slugs and permission summaries",
+      "environment ids/names/protection and deployment rules",
+      "deploy-key and admitted automation identity census",
+      "advisory lease-marker expected-absence or exact readback"
+    ],
+    "forbidden_output": [
+      "secret values",
+      "raw credential bytes",
+      "Authorization headers",
+      "claimed provider token or session fingerprints"
+    ],
+    "comparison": "pre/post comparison binds exact base, candidate, canonical capture digests, and changed capture families"
   },
-  "hosted_branch_no_pr_projection": {
-    "github_pr_metadata_required": false,
-    "required_hosted_evidence": [
-      "route-neutral provider ruleset compatibility",
-      "pushed source branch",
-      "exact source SHA required checks",
-      "fast-forward-only protected update",
-      "rollback handle",
-      "cleanup disposition",
-      "origin/main equals landed ref"
-    ]
+  "owner_lane": {
+    "repository": "jamesryancooper/octon",
+    "owner_operator_login": "jamesryancooper",
+    "owner_operator_id": 800837,
+    "relationship": "personal repository owner equals sole one-shot operator",
+    "accepted_residual": "a same-owner action indistinguishable from the next exact permitted step cannot be isolated without a different organization/App trust domain or provider compare-and-set primitive",
+    "out_of_lane_behavior": "break-glass abort, terminalize credential, and perform no merge or mutation retry"
+  },
+  "credential_lifecycle": {
+    "pre_issuance_authority_schema": "octon-owner-lane-credential-admission-authorization-v1",
+    "capture_metadata_schema": "octon-owner-lane-credential-capture-metadata-v1",
+    "operation_plan_schema": "octon-owner-lane-operation-plan-v1",
+    "issuance_outcome_schema": "octon-owner-lane-credential-issuance-outcome-receipt-v1",
+    "lifecycle_envelope_schema": "octon-owner-lane-credential-lifecycle-envelope-v1",
+    "admission_receipt_schema": "octon-owner-lane-credential-admission-receipt-v1",
+    "operation_manifest_schema": "octon-owner-lane-operation-manifest-v1",
+    "owner_lane_attestation_schema": "octon-owner-lane-attestation-v1",
+    "prefix_receipt_schema": "octon-owner-lane-completed-prefix-receipt-v1",
+    "construction_receipt_schema": "octon-owner-lane-operation-construction-receipt-v1",
+    "retirement_receipt_schema": "octon-owner-lane-credential-retirement-receipt-v1",
+    "ordering": [
+      "immutable operation plan before credential or provider observation",
+      "admission authorization binding plan, candidate, credential tuple, budgets, and replacement/bootstrap lock",
+      "nonsecret capture metadata after one issuance attempt and before credential capture",
+      "exact inherited-descriptor capture followed by runtime-generated issuance outcome and lifecycle envelope before network",
+      "journaled identity and repository admission reads followed by runtime-generated admission receipt",
+      "runtime-generated operation manifest and realized owner-lane attestation",
+      "workflow safing, HTTPS candidate push, PR create, and exactly one authoritative PR reconcile read",
+      "completed-prefix receipt binding canonical PR identity",
+      "typed suffix construction from manifest, attestation, completed-prefix, and canonical PR number with a durable receipt before send",
+      "ruleset/check/conditional sha=head merge/post-read suffix followed by phase-independent credential terminalization and retirement receipt"
+    ],
+    "credential_class": {
+      "type": "GitHub fine-grained personal access token",
+      "prefix": "github_pat_",
+      "issuer": "GitHub.com",
+      "resource_owner": "jamesryancooper",
+      "selected_write_capable_repositories": ["jamesryancooper/octon"],
+      "anonymous_equivalent_public_read_only": true,
+      "permissions": {
+        "Administration": "write",
+        "Actions": "write",
+        "Variables": "write",
+        "Contents": "write",
+        "Pull requests": "write",
+        "Checks": "read",
+        "Commit statuses": "read",
+        "Metadata": "read"
+      },
+      "api_version": "2026-03-10",
+      "provider_lifetime": "P1D",
+      "local_deadline_minutes": 60,
+      "issuance_attempts": 1,
+      "fallback_credentials": 0
+    },
+    "issuance_outcomes": ["proved-not-issued", "exact-token-received", "issuance-unknown"],
+    "pre_admission_allowed_requests": ["sealed identity admission read", "sealed repository admission read", "credential terminalization"],
+    "terminalization": {
+      "authority": "lifecycle envelope in every token-present phase",
+      "preprobe_count": 1,
+      "revoke_request_max": 1,
+      "revoke_endpoint": "POST /credentials/revoke",
+      "revoke_authentication": "none",
+      "post_request_wait_seconds": 5,
+      "postprobe_count": 1,
+      "connect_timeout_seconds": 5,
+      "total_timeout_seconds": 15,
+      "terminal_provider_proof": "genuine same-token GitHub GET /user HTTP 401",
+      "later_phase_requires_prior_200": true,
+      "revoke_202_is_terminal": false,
+      "no_resend_after_sent_or_unknown": true,
+      "local_completion": ["close", "unset", "unlink", "empty scoped secret census", "retirement receipt"]
+    },
+    "unresolved_state": "RP00-CREDENTIAL-UNRESOLVED",
+    "unresolved_phase_tags": [
+      "issuance-unknown",
+      "post-capture-pre-envelope",
+      "admission",
+      "pre-manifest",
+      "prefix",
+      "post-pr-reconcile",
+      "suffix",
+      "terminal"
+    ],
+    "unresolved_blocks": ["provider mutation", "candidate mutation", "replacement credential", "another bootstrap", "SI-00", "handoff", "closeout"]
+  },
+  "operation_construction": {
+    "canonical_bytes": "RFC 8785",
+    "hash": "SHA-256",
+    "domain_separation_required": true,
+    "acyclic_order": ["operation plan", "admission authorization", "capture metadata", "issuance outcome", "lifecycle envelope", "admission receipt", "manifest", "attestation", "mutation prefix and PR reconcile", "completed-prefix receipt", "typed suffix construction receipts", "terminal observations and retirement"],
+    "manifest_self_digest_forbidden": true,
+    "later_artifact_backreference_forbidden": true,
+    "suffix_binding_sources": ["manifest_digest", "attestation_digest", "completed_prefix_digest", "canonical_pr_number"],
+    "authoritative_pr_reconcile_count": 1,
+    "suffix_template_normalization_required": true,
+    "construction_receipt_required_before_send": true,
+    "marker_operation": "typed canonical-PR issue-comment create",
+    "marker_is_provider_enforced_merge_predicate": false,
+    "marker_resend_allowed": false,
+    "post_marker_failure_retry_authorized": false
   },
   "rp00_owner_lane_cutover": {
     "operation_id": "rp00-owner-lane-cutover",

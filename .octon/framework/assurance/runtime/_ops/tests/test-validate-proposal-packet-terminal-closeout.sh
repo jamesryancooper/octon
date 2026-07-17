@@ -120,7 +120,7 @@ candidates:
     residue_routing_class: publishable_change
     ownership: coherent delivery change candidate
     route_hint: closeout-change branch-no-pr after archive authorization
-    target_lifecycle_outcome: cleaned
+    target_lifecycle_outcome: preserved
     rollback_or_discard_posture: preserve for later branch-no-pr closeout
     boundaries:
       include_paths:
@@ -344,10 +344,14 @@ packet:
   path: .octon/inputs/exploratory/proposals/architecture/example-terminal-closeout
   expected_status: implemented
 target_outcome: archive-ready
-route_preference: branch-no-pr
+containment_policy:
+  reason_code: RP00_CONTAINMENT_PUBLICATION_DISABLED
+  publication_effects_enabled: false
+  exact_work_preserved: true
+route_preference: none-closeout-only
 pr_policy:
   allow_pr_creation: false
-  allow_branch_no_pr: true
+  allow_branch_no_pr: false
   exact_sha_required: true
 publication_freshness_policy:
   canonical_publisher_only: true
@@ -359,7 +363,7 @@ publication_freshness_policy:
 hygiene_policy:
   repo_hygiene_delegation_only: true
   worktree_foreign_residue_blocks_archive_ready: true
-  cleanup_authorization_required: true
+  cleanup_authorization_required: false
 expected_retained_evidence:
   - .octon/state/evidence/validation/proposals/example-terminal-closeout/20260613T000000Z/validation.log
 required_validators_by_target_family:
@@ -374,10 +378,10 @@ packet_terminal_evaluator_policy:
     - blocked
   evidence_only: true
 git_github_hosted_check_policy:
-  delegate_to_closeout_routes: true
+  delegate_to_closeout_routes: false
   exact_sha_required_when_hosted: true
-  landing_authorization_required: true
-  branch_cleanup_authorization_required: true
+  landing_authorization_required: false
+  branch_cleanup_authorization_required: false
 blocker_reporting:
   required: true
   allowed_blocker_classes:

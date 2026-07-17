@@ -11,6 +11,7 @@
     "created_at",
     "target_program_path",
     "target_outcome",
+    "containment_policy",
     "execution_order_policy",
     "route_preference",
     "pr_policy",
@@ -47,11 +48,18 @@
       "description": "Requested delivery outcome admitted by the workflow; downstream delivery claims require owning evidence.",
       "enum": [
         "implemented",
-        "archive-ready",
-        "landed",
-        "synced",
-        "cleaned"
+        "archive-ready"
       ]
+    },
+    "containment_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason_code", "publication_effects_enabled", "exact_work_preserved"],
+      "properties": {
+        "reason_code": {"const": "RP00_CONTAINMENT_PUBLICATION_DISABLED"},
+        "publication_effects_enabled": {"const": false},
+        "exact_work_preserved": {"const": true}
+      }
     },
     "execution_order_policy": {
       "type": "object",
@@ -96,21 +104,10 @@
       ],
       "properties": {
         "work_unit_route": {
-          "enum": [
-            "direct-main",
-            "branch-only",
-            "branch-no-pr",
-            "branch-pr",
-            "stage-only"
-          ]
+          "const": "stage-only"
         },
         "landing_route": {
-          "enum": [
-            "direct-main",
-            "branch-no-pr",
-            "branch-pr",
-            "not-applicable"
-          ]
+          "const": "not-applicable"
         },
         "pr_creation_allowed": {
           "type": "boolean"
@@ -302,10 +299,10 @@
           "type": "boolean"
         },
         "change_closeout_required": {
-          "type": "boolean"
+          "const": false
         },
         "delegate_git_mutation_to_change_closeout": {
-          "type": "boolean"
+          "const": false
         }
       }
     },
@@ -318,7 +315,7 @@
       ],
       "properties": {
         "cleanup_authorization_required": {
-          "type": "boolean"
+          "const": false
         },
         "classification_alone_authorizes_deletion": {
           "type": "boolean"
@@ -334,10 +331,10 @@
       ],
       "properties": {
         "terminal_current_state_proof_required": {
-          "type": "boolean"
+          "const": false
         },
         "worktree_hygiene_required": {
-          "type": "boolean"
+          "const": false
         }
       }
     },
@@ -349,7 +346,7 @@
       ],
       "properties": {
         "main_origin_landed_ref_equality_required": {
-          "type": "boolean"
+          "const": false
         }
       }
     },

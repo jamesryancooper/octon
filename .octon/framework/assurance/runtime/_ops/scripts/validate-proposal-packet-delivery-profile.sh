@@ -104,7 +104,7 @@ fi
 for token in \
   '"proposal-packet-delivery-profile-v1"' \
   '"target_outcome"' \
-  '"cleaned"' \
+  '"RP00_CONTAINMENT_PUBLICATION_DISABLED"' \
   '"pr_policy"' \
   '"stash_policy"' \
   '"packet_execution"' \
@@ -139,20 +139,24 @@ if [[ -n "$PROFILE_PATH" ]]; then
   require_scalar '.target_packet_path' "target_packet_path"
   require_scalar '.target_outcome' "target_outcome"
   case "$(scalar '.target_outcome')" in
-    implemented|archive-ready|landed|synced|cleaned)
+    implemented|archive-ready)
       pass "target_outcome allowed"
       ;;
     *)
-      fail "target_outcome must be implemented, archive-ready, landed, synced, or cleaned"
+      fail "RP00_CONTAINMENT_PUBLICATION_DISABLED: target_outcome must be implemented or archive-ready"
       ;;
   esac
+
+  require_value '.containment_policy.reason_code' 'RP00_CONTAINMENT_PUBLICATION_DISABLED' "containment reason code"
+  require_bool_false '.containment_policy.publication_effects_enabled' "publication effects enabled"
+  require_bool_true '.containment_policy.exact_work_preserved' "exact work preserved"
 
   [[ "$(scalar '.target_packet_path')" == .octon/inputs/exploratory/proposals/* ]] \
     && pass "target_packet_path under proposal inputs" \
     || fail "target_packet_path must be under .octon/inputs/exploratory/proposals/"
 
-  require_value '.route_preference.work_unit_route' 'branch-no-pr' "work unit route"
-  require_value '.route_preference.landing_route' 'branch-no-pr' "landing route"
+  require_value '.route_preference.work_unit_route' 'stage-only' "work unit route"
+  require_value '.route_preference.landing_route' 'not-applicable' "landing route"
   require_bool_false '.route_preference.pr_creation_allowed' "route PR creation allowed"
 
   require_value '.pr_policy.mode' 'forbid-pr' "PR policy mode"
@@ -185,15 +189,15 @@ if [[ -n "$PROFILE_PATH" ]]; then
   require_bool_true '.closeout_requirements.packet_closeout_required' "packet closeout required"
   require_bool_true '.closeout_requirements.terminal_closeout_required' "terminal closeout required"
   require_bool_true '.closeout_requirements.archive_lifecycle_required' "archive lifecycle required"
-  require_bool_true '.closeout_requirements.change_closeout_required' "Change closeout required"
-  require_bool_true '.closeout_requirements.delegate_git_mutation_to_change_closeout' "delegate Git mutation to Change closeout"
+  require_bool_false '.closeout_requirements.change_closeout_required' "Change closeout required"
+  require_bool_false '.closeout_requirements.delegate_git_mutation_to_change_closeout' "delegate Git mutation to Change closeout"
 
-  require_bool_true '.hygiene_requirements.cleanup_authorization_required' "cleanup authorization required"
+  require_bool_false '.hygiene_requirements.cleanup_authorization_required' "cleanup authorization required"
   require_bool_false '.hygiene_requirements.classification_alone_authorizes_deletion' "classification alone authorizes deletion"
 
-  require_bool_true '.terminal_proof_requirements.terminal_current_state_proof_required' "terminal current-state proof required"
-  require_bool_true '.terminal_proof_requirements.worktree_hygiene_required' "worktree hygiene required"
-  require_bool_true '.final_sync_requirements.main_origin_landed_ref_equality_required' "main/origin/landed ref equality required"
+  require_bool_false '.terminal_proof_requirements.terminal_current_state_proof_required' "terminal current-state proof required"
+  require_bool_false '.terminal_proof_requirements.worktree_hygiene_required' "worktree hygiene required"
+  require_bool_false '.final_sync_requirements.main_origin_landed_ref_equality_required' "main/origin/landed ref equality required"
 
   require_value '.non_authority_boundaries.proposal_local_files' 'non-authority' "proposal-local files authority"
   require_value '.non_authority_boundaries.generated_prompts' 'non-authority' "generated prompts authority"
