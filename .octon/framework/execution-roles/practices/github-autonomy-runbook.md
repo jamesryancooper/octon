@@ -30,11 +30,26 @@ single-use `AuthorizedEffect<ProviderRepositoryMutation>`.
 
 The lane accepts only a separately authorized fine-grained PAT for
 `jamesryancooper/octon`, captured once through an inherited file descriptor.
+Its only pre-capture file inputs are the admission authorization, nonsecret
+capture metadata, immutable operation plan, and evidence root. The runtime
+must generate issuance, lifecycle, admission, manifest, attestation,
+completed-prefix, suffix-construction, and retirement evidence after the
+corresponding observations; operators must not preconstruct those artifacts.
+
+After the exact push and PR creation, the lane performs one authoritative PR
+reconcile read and requires exactly one create-consistent repository/base/head/
+branch identity. Only then may it resolve the four sealed suffix bindings:
+manifest digest, attestation digest, completed-prefix digest, and canonical PR
+number. Every resolved suffix request is normalized back to its typed template
+and its construction receipt is durable before send.
+
 It must not use an Actions secret, `GH_TOKEN`, `GITHUB_TOKEN`, `gh`, SSH,
 browser state, a credential helper, or the ambient process environment. Curl
 receives authentication through stdin configuration; Git receives it through
 the fixed one-use FIFO askpass helper. A request with an unknown outcome is
-never resent.
+never resent. Capture metadata is trusted issuance evidence for owner,
+repository selection, permissions, issue time, provider expiry, and local
+deadline; it is not presented as a provider introspection result.
 
 The lane terminalizes the same credential through one unauthenticated
 `POST /credentials/revoke`, treats `202` as acceptance only, and requires a

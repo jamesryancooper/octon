@@ -1,0 +1,22 @@
+schema_version: "1.0"
+run_id: rp00-owner-lane-live-protocol-20260717T182324Z
+target_mode: observed
+scope_roots:
+  - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs
+excluded_roots: []
+total_files: 1
+scanned_files: 1
+summarized_sampled_files: 0
+excluded_files: 0
+unaccounted_files: 0
+direct_reviewed_files:
+  - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/main.rs
+  - .octon/framework/engine/runtime/spec/owner-lane-execution-v1.md
+  - .octon/framework/constitution/contracts/authority/owner-lane-credential-admission-authorization-v1.schema.json
+  - .octon/framework/constitution/contracts/authority/owner-lane-credential-admission-receipt-v1.schema.json
+  - .octon/framework/constitution/contracts/authority/owner-lane-operation-manifest-v1.schema.json
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/architecture/implementation-plan.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/architecture/acceptance-criteria.md
+note: Exact-file observed audit with cross-surface contract evidence.

@@ -1,27 +1,24 @@
 # RP-00 Owner-Lane Runtime Boundary
 
-This packet implements the missing trusted executor required by the accepted
-RP-00 containment protocol. It extends the existing authority engine and GitHub
-control-plane contract; it does not create a connector, daemon, credential
-broker, parallel control plane, or broad GitHub automation surface.
+This packet implements the trusted executor required by the accepted RP-00
+containment protocol. The corrected runtime is a staged authority consumer: it
+seals pre-issuance intent, captures one fine-grained PAT through an inherited
+descriptor, writes token-specific lifecycle evidence before authenticated use,
+performs admission-only reads, seals the admitted manifest and attestation,
+executes the provider prefix, derives the provider-assigned PR binding, then
+constructs and executes the typed suffix.
 
-Because the current live GitHub tuple is explicitly proven only for protected-
-CI merge, this packet also performs one bounded evidence-backed expansion of
-that same tuple. The expansion names only the exact owner-lane operation and is
-invalid unless a retained full runtime run against a hermetic GitHub fixture,
-all denial cases, and support validators pass. It does not admit a general API
-client.
+The packet extends the existing authority engine and GitHub control-plane
+contract. It does not create a connector, daemon, credential broker, parallel
+control plane, general GitHub client, recurring automation surface, or ambient
+credential fallback.
 
-The runtime accepts only a strict, review-bound manifest and an exact
-fine-grained PAT supplied through an inherited file descriptor. It removes
-ambient GitHub credentials, `gh`, SSH, token arguments, token environment
-variables, and persistent secret storage from the eligible path. Every
-provider mutation consumes `AuthorizedEffect<ProviderRepositoryMutation>` and
-is journaled before send. An unknown outcome blocks resend and enters
-reconciliation. Terminalization uses GitHub's unauthenticated exposed-
-credential revocation endpoint, then requires a genuine same-token `401`, local
-destruction, and a retirement receipt.
+Every provider request is journaled before send. Unknown outcomes permanently
+deny resend. Token bytes remain outside chat, argv, environment, URLs, durable
+files, logs, evidence, `gh`, SSH, and credential helpers. Terminalization uses
+the same token, requires provider `401`, local destruction, an empty secret
+census, and a retirement receipt.
 
 Start with `navigation/source-of-truth-map.md`, then review the architecture,
 validation, risk, and acceptance artifacts. Proposal artifacts are planning
-inputs only.
+inputs only and authorize no live provider action.

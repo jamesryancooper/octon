@@ -2,15 +2,15 @@
 
 | Target family | Change | Owner |
 |---|---|---|
-| authority lifecycle schemas and registry | add the nine strict packet-named artifact contracts and register them | Constitution contracts |
-| authorized effects and authority engine | add exact provider-repository mutation kind and grant/verify path | Authority engine |
-| kernel command, side effects, owner-lane module | implement the closed state machine and CLI | Engine runtime |
-| lifecycle program | make an exact provider-authority blocker approvable | Engine runtime |
-| material inventory and authorization coverage | declare the new live path and negative proof | Runtime assurance |
-| fixed askpass helper | consume a one-use FIFO without ambient helpers | Execution roles |
-| GitHub contract and runbook | bind the executable boundary and secret/no-resend rules | Execution roles |
-| existing GitHub support admission, dossier, and proof bundle | add the exact owner-lane operation only after retained direct runtime and denial proof | Instance governance and assurance evidence |
-| owner-lane integration test | hermetic positive, fault, replay, and leak fixtures | Runtime assurance |
+| authority lifecycle schemas and registry | correct the nine existing contracts; add capture-metadata and operation-plan contracts; register all eleven | Constitution contracts |
+| authorized effects and authority engine | preserve exact provider-repository mutation issuance and verification; update only if staged scope encoding requires it | Authority engine |
+| kernel command and owner-lane module | replace all-artifacts input with staged generation, PR reconciliation, and typed suffix construction | Engine runtime |
+| lifecycle program | preserve exact provider-authority blocker approval behavior | Engine runtime |
+| material inventory and authorization coverage | keep one owner-lane entrypoint and refresh digests/claims if source identity changes | Runtime assurance |
+| fixed askpass helper | preserve one-use FIFO transport without ambient helpers | Execution roles |
+| GitHub contract and runbook | document staged inputs, observed/trusted facts, template construction, and recovery | Execution roles |
+| existing GitHub support admission, dossier, and proof bundle | refresh only after retained corrected hermetic proof | Instance governance and assurance evidence |
+| owner-lane integration test | cover staged positive, temporal forgery, tuple mismatch, PR reconciliation, typed bindings, fault, replay, and leaks | Runtime assurance |
 
 No new support tuple, adapter, capability pack, generated projection, connector,
-workflow, or provider-state path is a promotion target.
+workflow, daemon, credential proxy, or provider-state path is a promotion target.

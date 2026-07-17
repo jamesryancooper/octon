@@ -7,25 +7,32 @@ conditional provider mutations, durable completed-prefix and owner-lane
 attestation artifacts, no-resend recovery, credential terminalization, and a
 retirement receipt before SI-00.
 
-On 2026-07-17 the implementation sequence froze the exact current 135-target
-candidate as commit `c11b73b38c3825bb177b269826677b8255ab1445`, tree
-`9c6002867ea0f5ae7e76d4d90f1edeabeb0d4ea9`, parent
-`40fe9d0b4d1f41c69c4d2e3585c772c96a324023`. Closed-world discovery reported
-531 writers and 918 launchers with exact `D_w = M_w` and `D_l = M_l = A_l`.
-The commit was deliberately left unreferenced and the primary HEAD/index/
-worktree remained unchanged.
+On 2026-07-17 the implementation sequence froze an exact 135-target candidate,
+then landed the first inert owner-lane precursor and rebased/refroze RP-00 as
+commit `46e9900ce8a8b0c9f9d2e6ed1f5239985807f0cc`, tree
+`5dfc97a4eda2b6d91503761b7b7dbe362d736b52`, parent
+`66a226b7751822ea8becf431dafeb5b4f5900d99`. The candidate remains
+unreferenced; the primary HEAD, index, and dirty worktree remain unchanged.
 
-The provider phase stopped before credential issuance. The live repository had
-the artifact names only in proposal prose and control-plane documentation; it
-had no executable trusted credential capture or owner-lane consumer. The
-GitHub host adapter remained a non-authoritative protected-CI projection, live
-connector effects were denied, and the only protected-CI command used ambient
-`gh`. The program controller classified the child as `missing-evidence`, so
-`lifecycle program approve` had no current approval blocker to consume.
+The provider phase stopped before credential issuance. A live preflight against
+the landed precursor proved that its preserved safety mechanisms were usable,
+but that its artifact order was impossible to satisfy truthfully: authorization
+depended on a post-admission manifest, the complete credential tuple was not
+bound, and fixed suffix requests required the provider-assigned pull-request
+number before creation. The retained blocker receipt is
+`.octon/state/evidence/runs/workflows/20260716-architecture-migration-program-orchestration-resume-leased-codex/children/octon-architecture-migration-containment/owner-lane-live-preflight-20260717T175757Z.md`.
 
-The user then selected the durable fix: implement a separately reviewed
-precursor inside Octon's existing runtime/authority boundary, not an ad hoc
-script or parallel connector, and continue with that fix.
+A subsequent domain-architecture audit recorded the same three critical
+findings as `RP00-OWNER-LANE-TEMPORAL-BINDING-001`,
+`RP00-OWNER-LANE-CREDENTIAL-BINDING-002`, and
+`RP00-OWNER-LANE-POST-PR-CONSTRUCTION-003`. Its report is
+`.octon/state/evidence/validation/analysis/2026-07-17-domain-architecture-audit-rp00-owner-lane-live-protocol-20260717T182324Z.md`.
+
+The user then selected and separately authorized the durable correction: a
+staged executor inside Octon's existing runtime/authority boundary, with an
+independent pre-issuance operation plan, explicit nonsecret capture metadata,
+runtime-generated observed evidence, and completed-prefix-bound typed suffix
+construction. No credential or provider effect is authorized by this packet.
 
 GitHub's official credential-revocation API accepts fine-grained PATs in an
 unauthenticated `POST /credentials/revoke`, returns `202` on acceptance, and

@@ -1,0 +1,81 @@
+schema_version: change-include-path-classification-v1
+change_id: rp00-owner-lane-live-protocol-correction
+selected_route: branch-no-pr
+classified_at: "2026-07-17T20:20:03Z"
+repo_root: /private/tmp/octon-rp00-owner-lane-correction-20260717
+base_ref: origin/main
+base_sha: 66a226b7751822ea8becf431dafeb5b4f5900d99
+source_branch: chore/rp00-owner-lane-live-protocol
+classification: exact-route-owned-worktree
+include:
+  - path: .octon/framework/assurance/runtime/_ops/tests/test-owner-lane-runtime.sh
+    family: hermetic-assurance
+  - path: .octon/framework/constitution/contracts/authority/
+    family: owner-lane-contracts
+  - path: .octon/framework/constitution/contracts/registry.yml
+    family: contract-registry
+  - path: .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs
+    family: owner-lane-runtime
+  - path: .octon/framework/engine/runtime/crates/kernel/src/main.rs
+    family: owner-lane-runtime
+  - path: .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs
+    family: owner-lane-runtime
+  - path: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+    family: runtime-governance
+  - path: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+    family: runtime-governance
+  - path: .octon/framework/engine/runtime/spec/owner-lane-execution-v1.md
+    family: runtime-governance
+  - path: .octon/framework/execution-roles/practices/github-autonomy-runbook.md
+    family: github-control-plane
+  - path: .octon/framework/execution-roles/practices/standards/github-control-plane-contract.json
+    family: github-control-plane
+  - path: .octon/inputs/exploratory/proposals/architecture/octon-rp00-owner-lane-runtime/
+    family: accepted-packet-and-route-receipts
+  - path: .octon/instance/governance/support-dossiers/live/github-repo-consequential-en/dossier.yml
+    family: support-governance
+  - path: .octon/instance/governance/support-target-admissions/live/github-repo-consequential-en.yml
+    family: support-governance
+  - path: .octon/state/evidence/runs/skills/audit-domain-architecture/
+    family: architecture-audit-evidence
+  - path: .octon/state/evidence/runs/skills/closeout-change/
+    family: change-route-evidence
+  - path: .octon/state/evidence/validation/analysis/2026-07-17-domain-architecture-audit-rp00-owner-lane-live-protocol-20260717T182324Z.md
+    family: architecture-audit-evidence
+  - path: .octon/state/evidence/validation/analysis/2026-07-17-domain-architecture-audit-rp00-owner-lane-live-protocol-post-remediation-20260717T201123Z.md
+    family: architecture-audit-evidence
+  - path: .octon/state/evidence/validation/audits/2026-07-17-rp00-owner-lane-live-protocol/
+    family: architecture-audit-evidence
+  - path: .octon/state/evidence/validation/audits/2026-07-17-rp00-owner-lane-live-protocol-post-remediation/
+    family: architecture-audit-evidence
+  - path: .octon/state/evidence/validation/assurance/results/contract-coverage-latest.md
+    family: baseline-validation-evidence
+  - path: .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-hermetic-proof.yml
+    family: owner-lane-validation-evidence
+  - path: .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-implementation-floor.yml
+    family: owner-lane-validation-evidence
+  - path: .octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml
+    family: support-governance
+exclude:
+  - path: /Users/jamesryancooper/Projects/octon
+    reason: primary user worktree is foreign and dirty
+  - path: .octon/framework/engine/runtime/crates/target/
+    reason: ignored build output
+  - path: .octon/framework/engine/runtime/crates/wasm_host/target/
+    reason: ignored build output
+  - path: .octon/generated/.tmp/
+    reason: ignored temporary generator output
+  - path: .octon/framework/engine/runtime/crates/authority_engine/.octon/
+    reason: ignored test-local state
+  - path: .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-staged-hermetic-proof.log
+    reason: ignored raw log bound by digest in retained proof
+  - path: /private/tmp/octon-rp00-baseline-check
+    reason: disposable baseline comparison worktree
+  - path: /private/tmp/octon-rp00-rebase-20260717
+    reason: frozen candidate rebase worktree owned by later route
+  - path: /private/tmp/octon-rp00-owner-lane-runtime
+    reason: precursor branch worktree
+  - path: /private/tmp/octon-architecture-migration-rp01-20260717
+    reason: separate frozen candidate worktree
+stage_policy: stage only the include entries; verify no nonignored residue remains
+rollback_handle: reset the route branch to 66a226b7751822ea8becf431dafeb5b4f5900d99 before publication, or revert the resulting commit after publication

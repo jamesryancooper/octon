@@ -1,5 +1,6 @@
 # Artifact Catalog
 
+- `README.md` — packet purpose, scope, and current lifecycle route.
 - `proposal.yml` — packet identity, lifecycle, and exact promotion targets.
 - `architecture-proposal.yml` — architecture subtype.
 - `architecture/target-architecture.md` — controlling design.
@@ -18,11 +19,12 @@
 - `resources/source-context.md` — preserved request and observed blocker.
 - `resources/traceability.yml` — machine-readable traceability.
 - `resources/packet-contract.yml` — bounded packet contract.
-- `resources/traceability.yml` — source-to-decision mapping.
 - `support/proposal-creation.md` — packet creation receipt.
-- `support/proposal-review.md` — accepted packet review receipt.
+- `support/proposal-review.md` — current accepted packet review receipt.
 - `support/pre-integration-architecture-review.yml` — strict architecture review receipt.
 - `support/evidence-plan.md` — retained evidence obligations.
 - `support/implementation-grade-completeness-review.md` — readiness receipt.
-- `support/implementation-conformance-review.md` — conformance scaffold.
-- `support/post-implementation-drift-churn-review.md` — drift scaffold.
+- `support/implementation-run.md` — superseded prior implementation run; refresh required after correction.
+- `support/implementation-conformance-review.md` — prior implementation conformance evidence; must be refreshed after correction.
+- `support/post-implementation-drift-churn-review.md` — prior drift evidence; must be refreshed after correction.
+- `support/revisions/revision-20260717T183800Z.md` — packet-local live-protocol correction receipt.

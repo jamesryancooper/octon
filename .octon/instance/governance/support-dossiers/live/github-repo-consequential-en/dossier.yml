@@ -92,4 +92,4 @@ sufficiency:
 notes:
   - Narrow live claim is limited to token-enforced protected-CI merge and the exact one-shot rp00-owner-lane-cutover operation; broader API-client and frontier GitHub surfaces remain unadmitted.
   - The representative retained run is the local token-enforced protected-CI execution path. A branch-published GitHub Actions observation of the wrapperized workflow remains the only external evidence gap.
-  - The owner-lane proof is an inert hermetic 13-operation run with denial, replay, terminalization, and secret-census coverage; it does not authorize live credential issuance or provider mutation.
+  - The owner-lane proof is an inert hermetic staged 14-operation run with runtime-generated artifact order, create/reconcile PR identity, typed suffix normalization, denial, replay, terminalization, and secret-census coverage; it does not authorize live credential issuance or provider mutation.

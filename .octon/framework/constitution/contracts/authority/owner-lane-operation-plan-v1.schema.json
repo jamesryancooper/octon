@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "octon://contracts/authority/owner-lane-operation-plan-v1",
+  "title": "Owner-lane operation plan v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "plan_id", "run_id", "repository", "base_sha", "head_sha", "candidate_tree", "branch", "accepted_review_digest", "one_attempt_lock", "replacement_lock", "tools", "attestation_template", "operations"],
+  "properties": {
+    "schema_version": {"const": "owner-lane-operation-plan-v1"},
+    "plan_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"},
+    "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"},
+    "repository": {"const": "jamesryancooper/octon"},
+    "base_sha": {"$ref": "#/$defs/gitSha"},
+    "head_sha": {"$ref": "#/$defs/gitSha"},
+    "candidate_tree": {"$ref": "#/$defs/gitSha"},
+    "branch": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]{0,127}$"},
+    "accepted_review_digest": {"$ref": "#/$defs/digest"},
+    "one_attempt_lock": {"const": "locked"},
+    "replacement_lock": {"const": "locked-until-retired"},
+    "tools": {"$ref": "#/$defs/tools"},
+    "attestation_template": {"$ref": "#/$defs/attestationTemplate"},
+    "operations": {"type": "array", "minItems": 14, "maxItems": 14, "items": {"$ref": "#/$defs/operation"}}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "gitSha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "principal": {"type": "object", "additionalProperties": false, "required": ["login", "id"], "properties": {"login": {"const": "jamesryancooper"}, "id": {"const": 800837}}},
+    "tool": {"type": "object", "additionalProperties": false, "required": ["canonical_path", "sha256"], "properties": {"canonical_path": {"type": "string", "pattern": "^/"}, "sha256": {"$ref": "#/$defs/digest"}}},
+    "tools": {"type": "object", "additionalProperties": false, "required": ["curl", "git", "mkfifo", "askpass"], "properties": {"curl": {"$ref": "#/$defs/tool"}, "git": {"$ref": "#/$defs/tool"}, "mkfifo": {"$ref": "#/$defs/tool"}, "askpass": {"$ref": "#/$defs/tool"}}},
+    "attestationTemplate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["repository", "base_sha", "candidate_sha", "candidate_tree", "principal", "accepted_review_digest", "attested"],
+      "properties": {"repository": {"const": "jamesryancooper/octon"}, "base_sha": {"$ref": "#/$defs/gitSha"}, "candidate_sha": {"$ref": "#/$defs/gitSha"}, "candidate_tree": {"$ref": "#/$defs/gitSha"}, "principal": {"$ref": "#/$defs/principal"}, "accepted_review_digest": {"$ref": "#/$defs/digest"}, "attested": {"const": true}}
+    },
+    "binding": {"type": "object", "additionalProperties": false, "required": ["$owner_lane_binding"], "properties": {"$owner_lane_binding": {"enum": ["manifest_digest", "attestation_digest", "completed_prefix_digest", "canonical_pr_number"]}}},
+    "urlTemplate": {"type": "object", "additionalProperties": false, "required": ["prefix", "binding", "suffix"], "properties": {"prefix": {"type": "string", "pattern": "^https://api\\.github\\.com/repos/jamesryancooper/octon/(issues|pulls)/$"}, "binding": {"const": {"$owner_lane_binding": "canonical_pr_number"}}, "suffix": {"enum": ["/comments", "/merge"]}}},
+    "operation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "sequence", "stage", "kind", "method", "url", "authenticated", "no_resend", "expected_statuses", "template_digest"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 14},
+        "stage": {"enum": ["admission", "prefix", "suffix", "terminal"]},
+        "kind": {"enum": ["identity_probe", "repository_probe", "workflow_disable", "workflow_run_cancel", "git_push", "pull_request_create", "pull_request_reconcile", "marker_create", "ruleset_update", "check_trigger", "pull_request_merge", "main_post_read", "credential_revoke", "terminal_identity_probe"]},
+        "method": {"enum": ["GET", "POST", "PUT", "PUSH"]},
+        "url": {"oneOf": [{"type": "string", "pattern": "^https://(api\\.github\\.com|github\\.com)/"}, {"$ref": "#/$defs/urlTemplate"}]},
+        "authenticated": {"type": "boolean"},
+        "no_resend": {"const": true},
+        "expected_statuses": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "integer", "minimum": 100, "maximum": 599}},
+        "body": {},
+        "refspec": {},
+        "template_digest": {"$ref": "#/$defs/digest"}
+      }
+    }
+  }
+}

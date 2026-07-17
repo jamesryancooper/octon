@@ -11,9 +11,11 @@ promotion_scope: "octon-internal"
 promotion_targets:
   - ".octon/framework/constitution/contracts/registry.yml"
   - ".octon/framework/constitution/contracts/authority/owner-lane-credential-admission-authorization-v1.schema.json"
+  - ".octon/framework/constitution/contracts/authority/owner-lane-credential-capture-metadata-v1.schema.json"
   - ".octon/framework/constitution/contracts/authority/owner-lane-credential-issuance-outcome-receipt-v1.schema.json"
   - ".octon/framework/constitution/contracts/authority/owner-lane-credential-lifecycle-envelope-v1.schema.json"
   - ".octon/framework/constitution/contracts/authority/owner-lane-credential-admission-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/authority/owner-lane-operation-plan-v1.schema.json"
   - ".octon/framework/constitution/contracts/authority/owner-lane-operation-manifest-v1.schema.json"
   - ".octon/framework/constitution/contracts/authority/owner-lane-attestation-v1.schema.json"
   - ".octon/framework/constitution/contracts/authority/owner-lane-completed-prefix-receipt-v1.schema.json"
@@ -39,7 +41,7 @@ promotion_targets:
   - ".octon/instance/governance/support-dossiers/live/github-repo-consequential-en/dossier.yml"
   - ".octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml"
   - ".octon/framework/assurance/runtime/_ops/tests/test-owner-lane-runtime.sh"
-status: implemented
+status: accepted
 change_profile: "atomic"
 release_state: "pre-1.0"
 owner: "octon-maintainers"

@@ -3,11 +3,13 @@ proposal_id: "octon-rp00-owner-lane-runtime"
 scenario: "highest-leverage-next-step-packet"
 authority_posture:
   proposal_is_authority: false
-  implementation_authorized: false
+  implementation_authorized: true
   provider_effect_authorized: false
 scope:
   owns:
-    - "inert RP-00 owner-lane runtime and lifecycle artifact contracts"
+    - "inert staged RP-00 owner-lane runtime and lifecycle artifact contracts"
+    - "pre-issuance plan/capture contract and post-admission artifact generation"
+    - "completed-prefix-bound typed post-PR construction"
     - "provider-repository mutation effect-token boundary"
     - "provider-authority lifecycle blocker correction"
     - "evidence-backed exact-operation expansion of the existing GitHub repo-consequential tuple"
@@ -17,7 +19,7 @@ scope:
     - "new support tuple, general GitHub API admission, or connector admission"
     - "generated projection edits"
 review_floor:
-  proposal_review: "accepted"
-  strict_pre_integration_architecture_review: "pass"
-  implementation_readiness: "pass"
+  proposal_review: "accepted at the exact reviewed packet digest"
+  strict_pre_integration_architecture_review: "pass with zero unresolved findings"
+  implementation_readiness: "pass for the inert staged correction only"
   reviewed_digest_fresh: true

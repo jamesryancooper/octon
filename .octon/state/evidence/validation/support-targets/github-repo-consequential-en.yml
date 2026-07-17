@@ -24,15 +24,15 @@ execution:
   replay_ref: .octon/state/evidence/runs/protected-ci-1776956405637-68212/replay/manifest.yml
 input_digests:
   support_targets_sha256: 3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
-  support_dossier_sha256: fdf9b161fe34a29058b65767886eeb43ae2fb7e9d59fa15d0c75cb55b054f779
+  support_dossier_sha256: 629f7a9c243e5cb79757a6e6177aaf74c1c07a03ba25deeac0f8dfac66150c5a
 output_digests:
   primary_run_card_sha256: b09e61ff6eab15ac4132a8e13f1afd83545f446acd04fc3769260810026d53a5
-  owner_lane_hermetic_proof_sha256: 668671e49f9571e2ed02fe37f2384d917992a34e452c4de7b869e21c9835f033
-  owner_lane_runtime_sha256: f9846f7293724a06dd33233d03ffd212d77dde27853f0ff4119fbdbaf212b07c
+  owner_lane_hermetic_proof_sha256: abf29868b07622ce43d4016304710555680a31480a31fb00979d3d7eae726fec
+  owner_lane_runtime_sha256: 8984e0270c6d3c0574d964b040c4a254dbdf4737d7fd79479c6ff8621843a590
 pass_fail_criteria:
   - "github consequential tuple remains narrowly admitted-live for token-enforced protected-CI merge operations"
   - "negative controls, representative disclosure, and authorized-effect-token proof continue to resolve"
-  - "the exact rp00-owner-lane-cutover remains bound to its typed effect, fixed repository, hermetic protocol proof, and separate live authorization"
+  - "the exact rp00-owner-lane-cutover remains bound to its typed effect, fixed repository, staged 14-operation hermetic protocol proof, create/reconcile PR identity, typed suffix normalization, and separate live authorization"
 receipt_refs:
   - .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proofing.yml
   - .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proof-refresh.yml

@@ -2,40 +2,72 @@
 
 ## Preconditions
 
-- Keep the implementation on a clean branch rooted at the exact current
-  `origin/main`; do not mutate the dirty primary worktree or frozen candidate.
-- Require accepted proposal review, strict pre-integration architecture review,
-  and a fresh reviewed packet digest before code changes.
-- Reconcile every durable edit to the manifest promotion targets.
+- Work from an isolated branch rooted at exact current `origin/main`.
+- Preserve the dirty primary worktree and frozen RP-00 candidate.
+- Require the revision receipt, fresh passing architecture review, accepted
+  proposal review, and implementation authorization at one packet digest.
+- Perform no credential or provider effect during implementation or review.
 
-## Atomic work
+## Workstream 1 — Correct contracts and digest graph
 
-1. Define and register the nine strict owner-lane lifecycle schemas. Share
-   common identifiers through duplicated strict definitions only where JSON
-   Schema `$ref` resolution would introduce runtime network or path ambiguity.
-2. Add the provider-repository mutation effect kind, authority issuance and
-   verification, material inventory, and authorization coverage.
-3. Implement `owner_lane.rs` as a closed state machine with pure validation and
-   injectable process/HTTP boundaries. Add the kernel CLI and fixed askpass
-   helper.
-4. Add pre-send/response journaling, request digests, conditional observations,
-   outcome-unknown reconciliation, terminalization, local destruction, and
-   secret census.
-5. Correct only the provider-authority lifecycle blocker path; preserve generic
-   missing-evidence behavior.
-6. Extend the GitHub control-plane contract/runbook to point to the executable
-   boundary and its non-authority/support constraints.
-7. Execute the full owner-lane runtime against a hermetic GitHub/Git fixture,
-   retain its run and denial evidence, then update the existing live GitHub
-   admission, dossier, and proof bundle to name only the exact owner-lane
-   operation and those current proofs.
-8. Run formatting, unit tests, shell fault fixtures, proposal validators,
-   contract registry validation, material inventory/coverage validation,
-   support proof/live-claim validation, conformance, drift, and diff hygiene.
+1. Add strict `owner-lane-credential-capture-metadata-v1` and
+   `owner-lane-operation-plan-v1` schemas and register them.
+2. Remove manifest and operation digests from pre-issuance authorization; bind
+   the independent plan digest and the complete intended credential tuple.
+3. Extend issuance, lifecycle, admission, manifest, attestation,
+   completed-prefix, construction, and retirement schemas for staged lineage.
+4. Require unknown-field rejection, RFC 8785-compatible values, exact digest
+   domains, no upstream backreference, and no observation asserted before its
+   stage.
 
-## Rollback
+## Workstream 2 — Implement staged runtime
 
-Before first live use, rollback is a file-level revert of this packet's durable
-targets. After any issuance attempt or provider request, code rollback cannot
-erase credential or provider state; recovery follows the retained journal,
-never resends an unknown request, and terminalizes the same credential.
+1. Change `owner-lane execute` inputs to authorization, capture metadata,
+   operation plan, evidence root, and credential FD.
+2. Validate pre-capture inputs and tools, then read/close one credential FD.
+3. Derive and durably write issuance and lifecycle artifacts before network
+   access.
+4. Execute and journal admission reads; generate the admission receipt from
+   actual responses and trusted capture facts.
+5. Generate the final manifest and realized attestation after admission.
+6. Execute the prefix, reconcile exactly one PR, and generate the
+   completed-prefix receipt.
+7. Resolve strict typed suffix templates, emit construction receipts, execute
+   the suffix, and retain retirement evidence.
+8. Preserve current fixed-origin allowlisting, canonical tool verification,
+   stdin/FIFO secret transport, no-resend journal, and secret census.
+
+## Workstream 3 — Recovery and denial behavior
+
+1. Make each artifact create-only or exact-byte idempotent; conflicting bytes
+   deny without overwrite.
+2. Permit same-credential resume only within the original one-attempt and
+   replacement locks and existing request budget.
+3. On admission or construction failure, skip all remaining repository
+   mutations and execute only the inherited terminalization suffix.
+4. Preserve unknown send outcomes and permanently deny request-digest replay.
+5. Require exact create/reconcile PR agreement and refuse zero, multiple, or
+   substituted PR identities.
+
+## Workstream 4 — Contract, support, and proof refresh
+
+1. Update the owner-lane execution contract and GitHub autonomy runbook with
+   stage inputs, outputs, evidence timing, and trusted-capture limitations.
+2. Refresh the existing material inventory and authorization coverage only if
+   entrypoint identity changes.
+3. Run a full staged hermetic protocol with provider-assigned PR identity,
+   typed suffix construction, interruption, mismatch, replay, and leak cases.
+4. Refresh the existing exact-operation admission, dossier, and proof bundle
+   only after current proof passes.
+
+## Validation and completion
+
+Run schema syntax/registry checks, formatting, authorized-effects and authority
+engine tests, kernel owner-lane and lifecycle tests, shell hermetic tests,
+material/authorization coverage, support proof/live claim, dossier parity/depth,
+proposal gates, conformance, drift, rollback, and `git diff --check`.
+
+After implementation, refresh implementation-run, conformance, and drift
+receipts with exact commit/tree and current evidence. Stop before credential
+issuance or provider mutation. Landing this correction and rebasing/refreezing
+RP-00 require their own governed Change steps.

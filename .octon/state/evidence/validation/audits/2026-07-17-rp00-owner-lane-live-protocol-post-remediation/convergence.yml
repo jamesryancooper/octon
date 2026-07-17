@@ -1,0 +1,18 @@
+schema_version: "1.0"
+run_id: rp00-owner-lane-live-protocol-post-remediation-20260717T201123Z
+commit_sha: 66a226b7751822ea8becf431dafeb5b4f5900d99
+scope_hash: sha256:8984e0270c6d3c0574d964b040c4a254dbdf4737d7fd79479c6ff8621843a590
+prompt_hash: sha256:28c5cd82af76478a42daf4bab70dfa0ec90c7051696e5f1715b2287d4c9f6a3d
+params_hash: sha256:5fcad0327736759e7c6d5f27f6a0355ca50bd8bea2249cec283a0e8e183104ac
+findings_hash: sha256:b9e46d8893b407b802bc27e15dea2cfa002cf90f4f0503d42e74ff338aef35cd
+seed_unsupported: true
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: All three original critical findings are closed by direct source, contract, and hermetic denial/recovery evidence; no new medium-or-higher finding remains.

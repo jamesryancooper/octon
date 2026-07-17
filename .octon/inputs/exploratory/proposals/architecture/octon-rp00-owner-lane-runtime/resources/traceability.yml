@@ -10,9 +10,12 @@ sources:
   - source_id: "operator-direction"
     source_ref: "resources/source-context.md"
     dispositions: ["durable-fix-selected"]
+  - source_id: "live-protocol-audit"
+    source_ref: ".octon/state/evidence/validation/analysis/2026-07-17-domain-architecture-audit-rp00-owner-lane-live-protocol-20260717T182324Z.md"
+    dispositions: ["three-critical-findings", "closed-at-corrected-design-scope"]
 decisions:
   - decision_id: "OL-01"
-    source_ids: ["accepted-rp00-protocol", "owner-lane-readiness-blocker", "operator-direction"]
+    source_ids: ["accepted-rp00-protocol", "owner-lane-readiness-blocker", "operator-direction", "live-protocol-audit"]
     target_ref: "architecture/target-architecture.md"
-    acceptance_refs: ["AC-01", "AC-02", "AC-03", "AC-04", "AC-05", "AC-06", "AC-07", "AC-08", "AC-09", "AC-10", "AC-11", "AC-12"]
+    acceptance_refs: ["AC-01", "AC-02", "AC-03", "AC-04", "AC-05", "AC-06", "AC-07", "AC-08", "AC-09", "AC-10", "AC-11", "AC-12", "AC-13", "AC-14"]
 deferred: []

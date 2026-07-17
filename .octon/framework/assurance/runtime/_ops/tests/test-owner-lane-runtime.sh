@@ -11,6 +11,23 @@ trap 'rm -rf "$TMP_ROOT"' EXIT
 
 jq empty .octon/framework/constitution/contracts/authority/owner-lane-*.schema.json
 
+OWNER_LANE=.octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs
+KERNEL_MAIN=.octon/framework/engine/runtime/crates/kernel/src/main.rs
+
+rg -q 'capture_metadata: PathBuf' "$OWNER_LANE"
+rg -q 'operation_plan: PathBuf' "$OWNER_LANE"
+rg -q 'PullRequestReconcile' "$OWNER_LANE"
+rg -q 'canonical_pr_number' "$OWNER_LANE"
+rg -q 'normalize_realized_operation' "$OWNER_LANE"
+rg -q 'capture-metadata' "$KERNEL_MAIN"
+rg -q 'operation-plan' "$KERNEL_MAIN"
+
+if rg -n 'issuance_outcome: PathBuf|admission_receipt: PathBuf|manifest: PathBuf|attestation: PathBuf' \
+  "$OWNER_LANE"; then
+  echo 'owner-lane runtime still accepts observation-dependent artifacts as inputs' >&2
+  exit 1
+fi
+
 cargo test --manifest-path "$MANIFEST" -p octon_authority_engine \
   owner_lane --no-fail-fast
 cargo test --manifest-path "$MANIFEST" -p octon_kernel owner_lane --no-fail-fast
@@ -41,8 +58,7 @@ rm -f "$fifo"
 rmdir "${fifo}.used"
 [[ ! -e "$fifo" && ! -e "${fifo}.used" ]]
 
-if rg -n 'Command::new\([^)]*"gh"|ProcessCommand::new\([^)]*"gh"|ssh://' \
-  .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs; then
+if rg -n 'Command::new\([^)]*"gh"|ProcessCommand::new\([^)]*"gh"|ssh://' "$OWNER_LANE"; then
   echo 'owner-lane runtime contains a prohibited gh or SSH launch path' >&2
   exit 1
 fi

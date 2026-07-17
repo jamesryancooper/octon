@@ -1,7 +1,7 @@
 # Implementation-Grade Completeness Review
 
 proposal_id: octon-rp00-owner-lane-runtime
-reviewed_at: 2026-07-17T11:38:21Z
+reviewed_at: 2026-07-17T18:29:51Z
 reviewer: codex-primary-agent-independent-readiness-review
 verdict: pass
 unresolved_questions_count: 0
@@ -9,58 +9,60 @@ clarification_required: no
 
 ## Blockers
 
-None.
+None at proposal-design scope. The three live-runtime findings are fully
+specified by the revised target architecture and remain implementation work,
+not unresolved design questions.
 
 ## Assumptions
 
-- The accepted RP-00 protocol remains the controlling behavioral source for
-  the owner lane.
-- The precursor lands before the RP-00 candidate is regenerated.
-- A later live run supplies a fresh exact provider authorization and does not
-  infer authority from this packet or prior conversation.
+- The accepted RP-00 packet remains the behavioral consumer contract.
+- Trusted issuance-capture metadata is explicit evidence for provider facts that
+  GitHub does not expose through token introspection; endpoint success is not a
+  substitute.
+- The corrected runtime lands before RP-00 is rebased and no provider effect is
+  authorized by this packet.
 
 ## Promotion Target Coverage
 
-The manifest covers the strict artifact contracts, contract registry, typed
-effect and authority engine, kernel executor and CLI, lifecycle classification,
-material inventory/coverage, fixed askpass helper, GitHub contract/runbook, and
-hermetic integration test. It also covers the existing GitHub tuple's admission,
-dossier, and proof bundle so the exact owner-lane operation cannot borrow the
-protected-CI-only claim. New tuples, connectors, generated projections,
-provider state, and RP-00 targets are explicitly excluded.
+The revised 32-target manifest covers the contract registry, eleven strict
+owner-lane schemas, runtime spec, typed effect/authority path, staged kernel
+executor and CLI, lifecycle blocker, inventory/coverage, fixed askpass helper,
+GitHub contract/runbook, exact-operation support evidence, and hermetic tests.
+No connector, generated projection, provider state, RP-00 target, or general
+GitHub surface is included.
 
 ## Affected Artifact Coverage
 
-The file-change map assigns every declared target family to its durable owner.
-The target architecture separately covers control state, retained evidence,
-provider state, and support posture without making those outputs promotion
-targets.
+The file-change map covers independent preauthorization/operation plan,
+nonsecret capture metadata, generated issuance/lifecycle/admission/manifest/
+attestation/prefix/construction/retirement evidence, runtime recovery state,
+support proof, and the preserved frozen candidate boundary.
 
 ## Validator Coverage
 
-The validation plan includes structure, schemas, Rust, shell integration,
-effect-token bypass, manifest allowlist, secret isolation, admission, replay,
-unknown outcome, no-resend, terminalization, lifecycle blocker, inventory,
-coverage, rollback, conformance, drift, and hygiene gates.
+The validation plan covers structural gates, staged artifact order, complete
+credential tuple, crash/resume, exact PR reconciliation, typed template
+normalization, allowlisting, authority tokens, tool substitution, secret
+transport, unknown outcome, no-resend, terminalization, support proof,
+conformance, drift, rollback, and diff hygiene.
 
 ## Implementation Prompt Readiness
 
-Ready only under the fresh accepted review and strict pre-integration
-architecture receipt at the same packet digest. The implementation prompt must
-cover every promotion target, no-resend recovery, support proof, conformance,
-drift, and rollback.
+Ready only after the post-revision digest is recorded, the strict architecture
+receipt passes with zero unresolved findings, and the packet review is accepted
+with implementation authorization. The refreshed prompt must cover all 32
+targets and forbid provider effects.
 
 ## Exclusions
 
-- No provider call, credential issuance, generated publication, RP-00 target
-  edit, or external-state mutation during proposal review. Implementation may
-  update only the declared existing GitHub support admission/dossier/proof after
-  current direct fixture proof.
-- No general HTTP/GitHub executor, daemon, database, secret proxy, or ambient
-  credential fallback.
+- No credential issuance, provider call, candidate push, PR, marker, ruleset,
+  check, merge, revocation, RP-00 retry, generated publication, or external
+  mutation.
+- No general HTTP client, connector, daemon, database, secret proxy, ambient
+  credential, predicted identifier, or manifest rewrite.
 
 ## Final Route Recommendation
 
-Proceed to implementation-prompt generation and then the canonical packet
-implementation route, subject to fresh review-digest validation. Provider
-execution remains separately authorized and excluded.
+Record the revision receipt, run a fresh strict architecture review, and accept
+the packet only if all three stable findings are closed in the design. Then
+generate a fresh implementation prompt and run the inert correction.

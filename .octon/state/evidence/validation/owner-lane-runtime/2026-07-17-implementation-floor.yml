@@ -1,49 +1,42 @@
 schema_version: owner-lane-implementation-validation-v1
-validation_id: owner-lane-implementation-floor-20260717
-recorded_at: "2026-07-17T13:12:18Z"
-result: pass
+validation_id: owner-lane-implementation-floor-20260717-staged
+recorded_at: "2026-07-17T20:15:51Z"
+result: pass-qualified-local
 execution_class: inert-local-hermetic
 provider_effects_performed: false
 credential_effects_performed: false
-base_commit: 40fe9d0b4d1f41c69c4d2e3585c772c96a324023
-reviewed_packet_digest: sha256:efdbb050d9504783808c5cb1268540b70af2730f149355359c38dff109dbe991
+base_commit: 66a226b7751822ea8becf431dafeb5b4f5900d99
+reviewed_packet_digest: sha256:d714e3101fe81b5ee3dc2bd82511701764e3e472055b682d9dd66489224f46b8
+promotion_target_count: 32
+changed_promotion_target_count: 24
 passing_checks:
-  - check: proposal-standard
+  - check: proposal-entry-gates
     result: pass-with-one-artifact-catalog-warning
-  - check: architecture-proposal
+  - check: architecture-proposal-and-review
     result: pass
-  - check: pre-integration-architecture-review
+  - check: post-remediation-domain-architecture-audit
+    result: pass-qualified-local
+    closed_critical_findings: 3
+    open_medium_or_higher_findings: 0
+    findings_sha256: b9e46d8893b407b802bc27e15dea2cfa002cf90f4f0503d42e74ff338aef35cd
+  - check: owner-lane-schema-json-and-draft-2020-12-compilation
     result: pass
-  - check: implementation-authorization-review-gate
-    result: pass
-  - check: implementation-readiness
-    result: pass
-  - check: owner-lane-schema-json
-    result: pass
+    schemas: 11
   - check: cargo-format
     result: pass
-  - check: lifecycle-executor
-    result: pass
-    tests_passed: 64
-  - check: authorized-effects-crate
-    result: pass
-    tests_passed: 0
-  - check: authority-engine-crate
-    result: pass
-    tests_passed: 77
   - check: kernel-owner-lane
     result: pass
-    tests_passed: 9
+    tests_passed: 14
   - check: kernel-provider-authority
     result: pass
     tests_passed: 3
-  - check: kernel-lifecycle-program
+  - check: authority-engine-owner-lane
     result: pass
-    tests_passed: 315
-    evidence_ref: .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-lifecycle-baseline-repair.yml
+    tests_passed: 2
   - check: owner-lane-hermetic-protocol
     result: pass
     evidence_ref: .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-hermetic-proof.yml
+    evidence_sha256: abf29868b07622ce43d4016304710555680a31480a31fb00979d3d7eae726fec
   - check: material-side-effect-inventory
     result: pass
   - check: authorization-boundary-coverage
@@ -52,31 +45,28 @@ passing_checks:
     result: pass
   - check: support-target-live-claims
     result: pass
-  - check: support-dossier-parity
-    result: pass
   - check: support-dossier-evidence-depth
-    result: pass-with-authorized-historical-restoration
-  - check: historical-release-evidence-preservation
     result: pass
-    assessment: validator-generated 4-of-4 rewrite restored to the base 6-of-6 release record under explicit authorization
-  - check: live-support-review-freshness
-    result: pass
-    review_due_at: "2026-09-30T00:00:00Z"
   - check: git-diff-check
     result: pass
-  - check: proposal-implementation-conformance
-    result: pass
-    unresolved_items_count: 0
-  - check: proposal-post-implementation-drift
-    result: pass-with-one-registry-warning
-    unresolved_items_count: 0
+baseline_limited_checks:
+  - check: full-rust-workspace
+    result: base-existing-integration-assertion
+    detail: program_run_execute_routes_dispatches_child_route_and_writes_child_receipt fails identically at the base commit
+  - check: strict-clippy
+    result: base-existing-unrelated-lints
+    detail: unrelated runtime resolver, bus, and kernel paths contain the reported lints
+  - check: contract-governance
+    result: base-existing-fixture-boundary-findings
+    finding_count: 13
+    evidence_ref: .octon/state/evidence/validation/assurance/results/contract-coverage-latest.md
+    detail: the same findings reproduce at the base commit
 blocking_checks: []
-resolved_checks:
-  - blocker_id: VAL-01
-    resolution: separately authorized owning-scope repair
-    evidence_ref: .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-lifecycle-baseline-repair.yml
-  - blocker_id: SCOPE-01
-    resolution: historical release evidence restored to its base 6-of-6 content after validator execution
-  - blocker_id: GOV-01
-    resolution: authored admission and dossier review_due_at aligned to 2026-09-30 and proof digest refreshed
-remaining_live_boundary: fresh exact provider authorization and an eligible fine-grained PAT are still mandatory; this route performed neither
+resolved_findings:
+  - finding_id: RP00-OWNER-LANE-TEMPORAL-BINDING-001
+    resolution: independent pre-capture inputs and runtime construction from observed evidence
+  - finding_id: RP00-OWNER-LANE-CREDENTIAL-BINDING-002
+    resolution: full credential tuple, admission, restart, terminalization, census, and retirement bindings
+  - finding_id: RP00-OWNER-LANE-POST-PR-CONSTRUCTION-003
+    resolution: authoritative PR reconciliation and four-source typed suffix construction
+remaining_live_boundary: fresh exact provider authorization and an eligible fine-grained PAT are separately required; this route performed neither

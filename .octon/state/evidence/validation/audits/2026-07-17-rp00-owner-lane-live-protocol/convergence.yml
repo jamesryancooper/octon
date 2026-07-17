@@ -1,0 +1,18 @@
+schema_version: "1.0"
+run_id: rp00-owner-lane-live-protocol-20260717T182324Z
+commit_sha: 66a226b7751822ea8becf431dafeb5b4f5900d99
+scope_hash: sha256:f9846f7293724a06dd33233d03ffd212d77dde27853f0ff4119fbdbaf212b07c
+prompt_hash: sha256:2e7abee845309013270458920f2b68a5b59cc603a03c06d31219346e86fec018
+params_hash: sha256:5e81f7e6ffc825775c77582d182ca4d127364b58253609dcf350e595e506e8c5
+findings_hash: sha256:a1530583800a4bfe882b8c5beed6ed2cfed8fe01accdfbbf572fc73f9bd8f2c8
+seed_unsupported: true
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 3
+open_findings_at_or_above_threshold: 3
+done: true
+mode: discovery
+post_remediation: false
+convergence_required: false
+done_gate: revision-required
+rationale: Discovery is complete; remediation and post-remediation convergence remain required.

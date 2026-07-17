@@ -1703,11 +1703,8 @@ fn cmd_owner_lane(cmd: OwnerLaneCmd) -> Result<()> {
     match cmd {
         OwnerLaneCmd::Execute {
             authorization,
-            issuance_outcome,
-            lifecycle_envelope,
-            admission_receipt,
-            manifest,
-            attestation,
+            capture_metadata,
+            operation_plan,
             evidence_root,
             credential_fd,
         } => {
@@ -1721,11 +1718,8 @@ fn cmd_owner_lane(cmd: OwnerLaneCmd) -> Result<()> {
             };
             let paths = owner_lane::ArtifactPaths {
                 authorization: absolute(authorization),
-                issuance_outcome: absolute(issuance_outcome),
-                lifecycle_envelope: absolute(lifecycle_envelope),
-                admission_receipt: absolute(admission_receipt),
-                manifest: absolute(manifest),
-                attestation: absolute(attestation),
+                capture_metadata: absolute(capture_metadata),
+                operation_plan: absolute(operation_plan),
                 evidence_root: absolute(evidence_root),
             };
             let prepared = owner_lane::prepare(&ctx.cfg.repo_root, &paths)?;

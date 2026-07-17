@@ -241,9 +241,11 @@ integration_surfaces:
     status: "active"
   owner_lane_authority_contracts:
     credential_admission_authorization_schema: ".octon/framework/constitution/contracts/authority/owner-lane-credential-admission-authorization-v1.schema.json"
+    credential_capture_metadata_schema: ".octon/framework/constitution/contracts/authority/owner-lane-credential-capture-metadata-v1.schema.json"
     credential_issuance_outcome_receipt_schema: ".octon/framework/constitution/contracts/authority/owner-lane-credential-issuance-outcome-receipt-v1.schema.json"
     credential_lifecycle_envelope_schema: ".octon/framework/constitution/contracts/authority/owner-lane-credential-lifecycle-envelope-v1.schema.json"
     credential_admission_receipt_schema: ".octon/framework/constitution/contracts/authority/owner-lane-credential-admission-receipt-v1.schema.json"
+    operation_plan_schema: ".octon/framework/constitution/contracts/authority/owner-lane-operation-plan-v1.schema.json"
     operation_manifest_schema: ".octon/framework/constitution/contracts/authority/owner-lane-operation-manifest-v1.schema.json"
     attestation_schema: ".octon/framework/constitution/contracts/authority/owner-lane-attestation-v1.schema.json"
     completed_prefix_receipt_schema: ".octon/framework/constitution/contracts/authority/owner-lane-completed-prefix-receipt-v1.schema.json"

@@ -2,44 +2,62 @@
 
 ## Structural gates
 
-- proposal standard, architecture proposal, implementation-readiness, review
-  digest, contract registry, JSON Schema syntax, and `git diff --check`;
-- exact promotion-target coverage and no undeclared durable edit.
+- proposal standard, architecture proposal, strict architecture receipt,
+  accepted review, implementation readiness, reviewed digest, contract
+  registry, schema syntax, exact target coverage, and `git diff --check`;
+- verify no durable edit outside the revised promotion targets and route-owned
+  evidence/support receipts.
 
 ## Runtime gates
 
-- `cargo fmt --check` and targeted `cargo test` for authorized effects,
-  authority engine, kernel owner lane, and lifecycle program;
-- material side-effect inventory and authorization-boundary coverage validators;
-- support-target proofing, live-claim, admission/dossier parity, and evidence-
-  depth validators;
-- shell integration test with fake `curl`, `git`, `mkfifo`, clock, and filesystem
-  boundaries in a disposable root.
+- `cargo fmt --check` and targeted tests for authorized effects, authority
+  engine, kernel owner lane, and lifecycle program;
+- material side-effect inventory and authorization-boundary coverage;
+- support proof, live claim, admission/dossier parity, and evidence depth;
+- hermetic process test with fake curl, git, mkfifo, clock, filesystem, and
+  provider-assigned PR identity.
 
-## Required negative controls
+## Stage and artifact negatives
 
-- missing/forged/stale/wrong-run/wrong-scope/consumed effect token;
-- noncanonical, self-referential, stale, reordered, duplicated, skipped, or
-  allowlist-escaping manifest;
-- RFC 8785 independent-constructor mismatch, duplicate JSON key, float, or
-  integer outside the interoperable exact range;
-- external tool path/digest drift, symlink substitution, or `PATH` poisoning;
-- ambient `GH_TOKEN`, `GITHUB_TOKEN`, credential helper, SSH, or `gh` use;
-- token bytes in argv, environment, durable files, logs, receipts, or child
-  process census;
-- wrong login/id/repository/API version, incomplete pagination, unexpected
-  accepted-permissions header, or failed capability probe;
-- provider timeout before send, after send, or after mutation; no resend after
-  unknown outcome;
-- Git askpass called twice for the password, FIFO reuse, or residual FIFO;
-- authenticated revocation, second revocation request, false `401`, missing
-  prior `200` in admitted phases, local-destruction failure, or nonempty secret
-  census;
-- ordinary `missing-evidence` incorrectly converted to approval-required;
-- provider approval with wrong child, route, run, candidate, or operation digest.
+- preauthorization containing manifest/admission/attestation backreferences;
+- missing, forged, stale, wrong-run, wrong-candidate, wrong-plan, conflicting,
+  or preexisting later-phase artifact;
+- capture metadata with wrong owner, repository selection, permission order,
+  issuance count/source/time, provider expiry, local deadline, or API version;
+- lifecycle or admission artifact written before its direct inputs;
+- crash after capture, envelope, either admission probe, manifest, PR create,
+  PR reconcile, prefix receipt, template construction, merge, or revocation;
+- resume with a different credential, nonce, capture metadata, plan, evidence
+  root, request budget, or replacement-lock state.
+
+## Operation and construction negatives
+
+- noncanonical, self-referential, reordered, duplicated, skipped, or
+  allowlist-escaping plan/manifest;
+- duplicate JSON key, float, integer outside interoperable range, unknown typed
+  binding, wildcard, recursive binding, or arbitrary interpolation;
+- zero/multiple/mismatched PR reconciliation, create/reconcile disagreement,
+  predicted PR number, or unknown PR-create outcome resend;
+- normalized template mismatch, completed-prefix substitution, final-body
+  feedback into an upstream digest, or request launched before construction
+  receipt durability;
+- tool path/digest drift, symlink substitution, or PATH poisoning.
+
+## Secret, replay, and retirement negatives
+
+- ambient GH/GitHub tokens, helpers, SSH, `gh`, or token bytes in argv,
+  environment, URL, files, logs, receipts, evidence, or child census;
+- provider timeout before send, after send, or after mutation; request replay
+  after unknown outcome;
+- double askpass, FIFO reuse/residue, authenticated or duplicate revocation,
+  false terminal `401`, missing prior `200`, local destruction failure, or
+  nonempty census;
+- wrong lifecycle approval child, route, run, candidate, or operation-plan
+  digest and ordinary missing-evidence misclassification.
 
 ## Evidence
 
-Retain commands, exact commit/tree, timestamps, exit codes, full-log digests,
-redacted fixtures, token-leak census, journal transitions, rollback result, and
-direct references. Planned tests are never labeled executed.
+Retain exact commands, commit/tree, stage transitions, canonical artifact and
+request digests, timestamps, exit codes, redacted fixtures, journal lineage,
+secret census, rollback result, and direct references. Planned or historical
+tests are never labeled current execution.

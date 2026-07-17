@@ -1,0 +1,16 @@
+schema_version: "1.0"
+runs:
+  - run_id: rp00-owner-lane-live-protocol-20260717T182324Z
+    recorded_at: 2026-07-17T18:23:24Z
+    target_mode: observed
+    domain_path: .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs
+    result: revision-required
+    report: .octon/state/evidence/validation/analysis/2026-07-17-domain-architecture-audit-rp00-owner-lane-live-protocol-20260717T182324Z.md
+    bundle: .octon/state/evidence/validation/audits/2026-07-17-rp00-owner-lane-live-protocol/
+  - run_id: rp00-owner-lane-live-protocol-post-remediation-20260717T201123Z
+    recorded_at: 2026-07-17T20:11:23Z
+    target_mode: observed
+    domain_path: .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs
+    result: pass-qualified-local
+    report: .octon/state/evidence/validation/analysis/2026-07-17-domain-architecture-audit-rp00-owner-lane-live-protocol-post-remediation-20260717T201123Z.md
+    bundle: .octon/state/evidence/validation/audits/2026-07-17-rp00-owner-lane-live-protocol-post-remediation/

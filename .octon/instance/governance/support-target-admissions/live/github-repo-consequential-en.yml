@@ -40,6 +40,9 @@ operation_constraints:
     recurrence: one-shot
     authorized_effect: "AuthorizedEffect<ProviderRepositoryMutation>"
     credential_capture: inherited-fd-once
+    protocol: staged-14-operation-plan
+    pr_identity: create-plus-single-reconcile
+    suffix_construction: completed-prefix-bound-typed-templates
     general_api_client: denied
     recurring_automation: denied
 required_authority_artifacts:

@@ -1,0 +1,44 @@
+{
+  "schema_version": "git-mutation-preflight-v1",
+  "emitted_at": "2026-07-17T21:11:48Z",
+  "repo_root": "/private/tmp/octon-rp00-owner-lane-correction-20260717",
+  "git_common_dir": "/Users/jamesryancooper/Projects/octon/.git",
+  "status": "passed",
+  "blocker_class": null,
+  "current_branch": "chore/rp00-owner-lane-live-protocol",
+  "head_ref": "66a226b7751822ea8becf431dafeb5b4f5900d99",
+  "rollback_safe": true,
+  "non_authorizing": true,
+  "authority_effects": {
+    "delivery": false,
+    "landing": false,
+    "sync": false,
+    "cleanup": false,
+    "branch_deletion": false
+  },
+  "source_posture": {
+    "dirty": true,
+    "stale_against_base": false,
+    "base_ref": "origin/main"
+  },
+  "clean_worktree_route": {
+    "selected_route": "route-owned-clean-worktree",
+    "route_owned_clean_worktree_required": true,
+    "include_path_classification_ref": ".octon/state/evidence/runs/skills/closeout-change/rp00-owner-lane-live-protocol-20260717T202003Z-include-paths.yml",
+    "include_path_classification_present": true
+  },
+  "checks": {
+    "index": {
+      "requested": true,
+      "status": "passed",
+      "blocker_class": null,
+      "detail": "created and removed index lock probe"
+    },
+    "ref": {
+      "requested": true,
+      "status": "passed",
+      "blocker_class": null,
+      "detail": "created and deleted temporary ref refs/octon/preflight/20260717T211148Z-60975"
+    }
+  }
+}

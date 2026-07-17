@@ -1,0 +1,36 @@
+schema_version: "1.0"
+run_id: rp00-owner-lane-live-protocol-post-remediation-20260717T201123Z
+findings:
+  - id: RP00-OWNER-LANE-TEMPORAL-BINDING-001
+    severity: critical
+    status: closed
+    summary: Independent pre-capture inputs now precede runtime-generated observations in an acyclic staged protocol.
+    evidence:
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:39
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:104
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:124
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:1246
+    acceptance_satisfied: Authorization and operation plan are independently sealable; capture, lifecycle, admission, manifest, attestation, prefix, suffix, and retirement follow truthful event order without a digest cycle.
+  - id: RP00-OWNER-LANE-CREDENTIAL-BINDING-002
+    severity: critical
+    status: closed
+    summary: The complete intended credential tuple and trusted capture facts are strictly represented and mismatch-tested.
+    evidence:
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:707
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:742
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:757
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:3578
+    acceptance_satisfied: Owner, repository selection, public-read boundary, ordered permissions, API version, issuance source/count/time, expiry, local deadline, budgets, no-resend, and replacement locks are closed and terminalization-bound.
+  - id: RP00-OWNER-LANE-POST-PR-CONSTRUCTION-003
+    severity: critical
+    status: closed
+    summary: One authoritative reconciliation supplies the canonical PR number to four-source typed suffix construction.
+    evidence:
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:1073
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:1153
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:1192
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:1796
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:3434
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:3451
+    acceptance_satisfied: Create plus exactly one reconcile read seals completed-prefix evidence; only manifest, attestation, completed-prefix, and canonical-PR bindings may resolve; normalization precedes send and unknown outcomes never resend.
+new_findings: []

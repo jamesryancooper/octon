@@ -1462,20 +1462,14 @@ enum ProtectedCiCmd {
 
 #[derive(Subcommand)]
 enum OwnerLaneCmd {
-    /// Execute one fully bound owner-lane operation manifest.
+    /// Execute one staged owner-lane plan and generate observation evidence in order.
     Execute {
         #[arg(long)]
         authorization: PathBuf,
-        #[arg(long = "issuance-outcome")]
-        issuance_outcome: PathBuf,
-        #[arg(long = "lifecycle-envelope")]
-        lifecycle_envelope: PathBuf,
-        #[arg(long = "admission-receipt")]
-        admission_receipt: PathBuf,
-        #[arg(long)]
-        manifest: PathBuf,
-        #[arg(long)]
-        attestation: PathBuf,
+        #[arg(long = "capture-metadata")]
+        capture_metadata: PathBuf,
+        #[arg(long = "operation-plan")]
+        operation_plan: PathBuf,
         #[arg(long = "evidence-root")]
         evidence_root: PathBuf,
         /// Inherited descriptor containing exactly one fine-grained PAT line.

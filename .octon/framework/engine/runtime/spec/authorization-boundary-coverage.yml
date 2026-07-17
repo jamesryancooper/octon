@@ -281,7 +281,10 @@ paths:
     denial_reason_code: "FCR-023"
     negative_controls:
       - "missing, forged, stale, wrong-scope, or consumed token denial"
-      - "manifest canonicalization, allowlist, reorder, duplicate, and replay denial"
+      - "authorization, capture metadata, and operation-plan canonicalization, allowlist, reorder, duplicate, and replay denial"
+      - "future-artifact preauthorization and observation-before-stage denial"
+      - "zero, multiple, substituted, or create/reconcile-mismatched PR identity denial"
+      - "unknown typed binding, arbitrary interpolation, and suffix normalization denial"
       - "external tool path, digest, symlink, and PATH substitution denial"
       - "credential argv, environment, file, log, receipt, and evidence leak denial"
       - "unknown outcome resend denial"

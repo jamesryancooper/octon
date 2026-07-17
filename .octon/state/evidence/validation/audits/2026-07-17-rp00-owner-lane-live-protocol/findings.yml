@@ -1,0 +1,30 @@
+schema_version: "1.0"
+run_id: rp00-owner-lane-live-protocol-20260717T182324Z
+findings:
+  - id: RP00-OWNER-LANE-TEMPORAL-BINDING-001
+    severity: critical
+    status: open
+    summary: Pre-capture validation requires post-admission evidence and a manifest-bound pre-issuance authorization.
+    evidence:
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:391
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:506
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/architecture/implementation-plan.md:28
+    acceptance: Preauthorization, capture, admission, manifest sealing, and mutation eligibility occur in truthful event order without a digest cycle.
+  - id: RP00-OWNER-LANE-CREDENTIAL-BINDING-002
+    severity: critical
+    status: open
+    summary: The sealed credential tuple omits required scope, permission, and lifetime facts.
+    evidence:
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:70
+      - .octon/framework/constitution/contracts/authority/owner-lane-credential-admission-authorization-v1.schema.json
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/architecture/acceptance-criteria.md:50
+    acceptance: Every intended and observed credential fact is strictly represented, mismatch-tested, and terminalization-bound.
+  - id: RP00-OWNER-LANE-POST-PR-CONSTRUCTION-003
+    severity: critical
+    status: open
+    summary: Fixed manifest operations cannot lawfully bind the provider-assigned PR number.
+    evidence:
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:732
+      - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:1490
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/architecture/acceptance-criteria.md:107
+    acceptance: A completed-prefix receipt supplies the sole post-prefix provider binding to strict templates without upstream mutation or resend.

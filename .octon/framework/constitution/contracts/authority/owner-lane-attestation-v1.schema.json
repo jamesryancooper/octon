@@ -4,10 +4,13 @@
   "title": "Owner-lane attestation v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "run_id", "repository", "base_sha", "candidate_sha", "candidate_tree", "principal", "accepted_review_digest", "attested", "recorded_at"],
+  "required": ["schema_version", "run_id", "manifest_digest", "authorization_digest", "admission_digest", "repository", "base_sha", "candidate_sha", "candidate_tree", "principal", "accepted_review_digest", "attested", "recorded_at"],
   "properties": {
     "schema_version": {"const": "owner-lane-attestation-v1"},
     "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"},
+    "manifest_digest": {"$ref": "#/$defs/digest"},
+    "authorization_digest": {"$ref": "#/$defs/digest"},
+    "admission_digest": {"$ref": "#/$defs/digest"},
     "repository": {"const": "jamesryancooper/octon"},
     "base_sha": {"$ref": "#/$defs/gitSha"},
     "candidate_sha": {"$ref": "#/$defs/gitSha"},
@@ -20,6 +23,6 @@
   "$defs": {
     "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
     "gitSha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
-    "principal": {"type": "object", "additionalProperties": false, "required": ["login", "id"], "properties": {"login": {"type": "string", "minLength": 1}, "id": {"type": "integer", "minimum": 1, "maximum": 9007199254740991}}}
+    "principal": {"type": "object", "additionalProperties": false, "required": ["login", "id"], "properties": {"login": {"const": "jamesryancooper"}, "id": {"const": 800837}}}
   }
 }

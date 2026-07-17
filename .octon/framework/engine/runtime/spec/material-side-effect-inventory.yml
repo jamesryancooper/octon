@@ -104,6 +104,7 @@ classes:
       - "github://repo/jamesryancooper/octon/**"
     examples:
       - "exact RP-00 owner-lane provider cutover"
+      - "staged 14-operation owner-lane plan with create/reconcile PR binding"
       - "closed Git HTTPS candidate push"
       - "same-credential retirement"
     required_boundary: ".octon/framework/engine/runtime/spec/owner-lane-execution-v1.md"
