@@ -14,3 +14,10 @@ runs:
     result: pass-qualified-local
     report: .octon/state/evidence/validation/analysis/2026-07-17-domain-architecture-audit-rp00-owner-lane-live-protocol-post-remediation-20260717T201123Z.md
     bundle: .octon/state/evidence/validation/audits/2026-07-17-rp00-owner-lane-live-protocol-post-remediation/
+  - run_id: architecture-migration-program-collision-ledger-pre-integration-20260717T223229Z
+    recorded_at: 2026-07-17T22:32:29Z
+    target_mode: observed
+    domain_path: .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program
+    result: pass-qualified-local
+    report: .octon/state/evidence/validation/analysis/2026-07-17-domain-architecture-audit-architecture-migration-program-collision-ledger-pre-integration-20260717T223229Z.md
+    bundle: .octon/state/evidence/validation/audits/2026-07-17-architecture-migration-program-collision-ledger-pre-integration/

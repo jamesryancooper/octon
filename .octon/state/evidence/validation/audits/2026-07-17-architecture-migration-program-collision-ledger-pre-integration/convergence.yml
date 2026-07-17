@@ -1,0 +1,17 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-collision-ledger-pre-integration-20260717T223229Z
+commit_sha: ab6cb8ff1306e8df7705c39a421f11fc0e7aa28f
+scope_hash: sha256:e4e4ccebaa0b34e5ef29210f61e0a10047205c7023627dc62f11c77a0d99b20f
+prompt_hash: sha256:40bf007b221e8a86b11d660cdf4f7262f09c5b2e654c636791449870a2d2e0f1
+params_hash: sha256:19447dbb1fd5827cf1916625828a293ff88fe4f5ecf8f6d020b7fb56991b71b5
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: All three correction findings are closed; three controlled structure passes converge on the same 120-record acyclic collision projection with no new medium-or-higher finding.

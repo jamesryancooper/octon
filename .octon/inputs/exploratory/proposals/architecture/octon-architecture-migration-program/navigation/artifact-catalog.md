@@ -37,6 +37,7 @@
 - `support/profile-selection-receipt.md`
 - `support/operator-decision-acceptance-receipt.md`
 - `support/program-creation.md`
+- `support/pre-integration-architecture-review.yml`
 - `support/proposal-review.md`
 - `support/implementation-grade-completeness-review.md`
 - `support/implementation-conformance-review.md`
