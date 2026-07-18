@@ -35,3 +35,10 @@ runs:
     result: pass-qualified-local
     report: .octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-containment-pre-integration-20260718T034847Z.md
     bundle: .octon/state/evidence/validation/audits/2026-07-18-architecture-migration-containment-pre-integration/
+  - run_id: architecture-migration-canonical-authority-pre-integration-20260718T133931Z
+    recorded_at: 2026-07-18T13:39:31Z
+    target_mode: observed
+    domain_path: .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority
+    result: revision-required
+    report: .octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-canonical-authority-pre-integration-20260718T133931Z.md
+    bundle: .octon/state/evidence/validation/audits/2026-07-18-architecture-migration-canonical-authority-pre-integration/

@@ -1,0 +1,43 @@
+schema_version: "1.0"
+run_id: architecture-migration-canonical-authority-pre-integration-20260718T133931Z
+findings:
+  - id: RP01-LAUNCH-DOMINANCE-SCOPE-001
+    severity: critical
+    status: open
+    summary: RP-01's exact durable scope omits current candidate-launch call sites required for exact final-guard dominance and bypass removal.
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/architecture/acceptance-criteria.md:6
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/architecture/implementation-plan.md:10
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/proposal.yml:7
+      - .octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1856
+      - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs:254
+      - .octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs:434
+    acceptance_criteria:
+      - Every candidate-launch site is enumerated and distinguished from utility subprocesses.
+      - Exact RP-01 or trusted integration ownership covers every guard invocation and bypass removal.
+      - Child targets, parent registry, collision ledger, and static/dynamic dominance proof agree.
+  - id: RP01-IMPLEMENTATION-EVIDENCE-CYCLE-002
+    severity: high
+    status: open
+    summary: The packet requires exact-implementation UE-001/UE-002 evidence before implementation authorization, creating a circular lifecycle gate.
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/architecture/acceptance-criteria.md:20
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/support/implementation-grade-completeness-review.md:9
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/architecture/validation-plan.md:8
+    acceptance_criteria:
+      - Design completeness and candidate implementation authorization do not require future dynamic proof.
+      - UE-001/UE-002 bind the exact authorized implementation and gate conformance, completion, and promotion.
+      - Planned or parent evidence cannot substitute for dynamically executed results.
+  - id: RP01-PARENT-SCOPE-EQUALITY-003
+    severity: high
+    status: closed
+    summary: The ordered 19-entry child promotion-target list exactly equals the parent registry's RP-01 write-scope list.
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/proposal.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+    acceptance_criteria:
+      - Ordered child and parent target lists have an empty diff.
+      - Any revision that adds invocation scope updates both surfaces and the collision ledger atomically.
+new_findings:
+  - RP01-LAUNCH-DOMINANCE-SCOPE-001
+  - RP01-IMPLEMENTATION-EVIDENCE-CYCLE-002
