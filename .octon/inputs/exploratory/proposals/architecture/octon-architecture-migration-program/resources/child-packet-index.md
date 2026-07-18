@@ -34,6 +34,11 @@ provider-result classification, reconciliation, recovery, and cleanup; and
 RP-14 owns equal-floor Solo Local proof. RP-02 and RP-09 through RP-13 retain
 their existing scopes.
 
+The RP-03 design review census adds
+`authority_engine/src/implementation/policy.rs` only for post-decision calls
+into the transactional persistence adapter. RP-01 retains policy meaning and
+integrates first; RP-03 follows through its existing RP-01 verification gate.
+
 The registry write scopes now include the containment helpers in RP-00,
 conditional cleanup primitive in RP-05, and canonical default-work-unit policy
 sources in RP-06. These are future promotion targets only; the draft revision

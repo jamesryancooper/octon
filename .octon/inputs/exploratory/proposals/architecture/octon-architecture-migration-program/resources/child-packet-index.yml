@@ -146,6 +146,7 @@ children:
       - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
       - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/records.rs"
       - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/runtime_state.rs"
+      - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs"
       - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs"
       - ".octon/framework/engine/runtime/spec/run-journal-v1.md"
       - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
@@ -686,14 +687,14 @@ children:
       - ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md"
 write_scope_collision_ledger:
   schema_version: octon-program-write-scope-collision-ledger-v1
-  registry_write_scopes_digest: sha256:eaf1d367a23bdddfd34b9fdfb5810539a328cbb22a9f505d084a41839e573719
+  registry_write_scopes_digest: sha256:26a598d86b78f3c1e2c017ece75778a760be80c65337980ef218cf46daa94e09
   derived_counts:
     child_count: 15
-    scope_entries: 416
+    scope_entries: 417
     unique_paths: 343
-    exact_records: 117
+    exact_records: 118
     directory_prefix_records: 5
-    total_records: 122
+    total_records: 123
   records:
     - collision_id: WSC-001
       participants:
@@ -2543,3 +2544,18 @@ write_scope_collision_ledger:
         ordered_child_ids:
           - octon-architecture-migration-canonical-authority
           - octon-architecture-migration-harness-factory
+    - collision_id: WSC-131
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs
+          contribution: canonical policy-decision and authority semantics only within .octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs; preserve octon-architecture-migration-transactional-runtime-store persistence integration authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-transactional-runtime-store
+          write_scope: .octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs
+          contribution: post-decision calls into the separately owned transactional persistence adapter only; preserve octon-architecture-migration-canonical-authority policy meaning and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-transactional-runtime-store
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-transactional-runtime-store

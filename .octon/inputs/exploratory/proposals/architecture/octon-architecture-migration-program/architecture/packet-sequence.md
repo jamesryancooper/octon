@@ -34,8 +34,9 @@ RP-12 + RP-13 → RP-14 optional-claim proof and full program closeout
 - RP-13 `octon-architecture-migration-bounded-child-agents`
 - RP-14 `octon-architecture-migration-solo-dogfood-promotion`
 
-RP-01 freezes authority/guard semantics before RP-03 changes persistence; they
-must not mutate that interface concurrently. RP-01/RP-02 remain DAG peers after
+RP-01 freezes authority/guard and `policy.rs` decision semantics before RP-03
+adds post-decision persistence calls; they must not mutate that interface or
+policy meaning concurrently. RP-01/RP-02 remain DAG peers after
 RP-00, but their exact `lifecycle_executor/src/codex.rs` contributions serialize
 under the program integration lock with RP-01 guard invocation first, then RP-02
 isolation; RP-11 integrates its adapter/Harness slice only after both. All other
