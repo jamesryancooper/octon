@@ -30,11 +30,12 @@
 | RP11-AC-011 | Compiler and adapter integration creates no scheduler, policy engine, authority source, runtime store, provider verifier/publisher, recovery controller, effect executor, or child semantics. | Architecture/source-ownership review and process/store/symbol census. |
 | RP11-AC-012 | A compile or adapter failure preserves candidate work and immutable inputs, fails only affected launch closed, gives a concise repair reason, and never falls back to direct provider dispatch. | Fault-injection, rollback rehearsal, and operator-output fixtures. |
 | RP11-AC-013 | Every manifest promotion target and shared registry/code edit is covered by an exclusive entry/symbol owner; RP-06/RP-08/RP-13/RP-14 boundaries remain intact. | Program ownership matrix and diff-to-owner audit. |
+| RP11-AC-014 | All four RP-01 candidate-launch seams carry one registry-resolved RP-11 prepared handle and one same-path RP-01 consuming guard; non-candidate utility subprocesses remain explicitly partitioned and cannot be reclassified silently. | Immutable-tree census parity, static raw-spawn negatives, and four-seam dynamic fitness tests. |
 
 ## Proof Obligations
 
-Passing RP11-AC-001 through RP11-AC-004 and RP11-AC-010 through
-RP11-AC-012 satisfies PO-FD-020 and gate PG-11-HARNESS-BINDING. Passing
+Passing RP11-AC-001 through RP11-AC-004, RP11-AC-010 through RP11-AC-012,
+and RP11-AC-014 satisfies PO-FD-020 and gate PG-11-HARNESS-BINDING. Passing
 RP11-AC-005 through RP11-AC-009 supplies RP-11's component contribution to
 PO-FD-023 and PG-14-PROVIDER-CONFORMANCE. It does not satisfy integrated
 provider equivalence, which remains RP-14-owned after RP-06, RP-08, and RP-13

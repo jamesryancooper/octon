@@ -67,7 +67,7 @@ observations are projections or retained evidence, never authority.
 
 ## Current Gate
 
-The packet is `in-review`. Independent review requires exact compiler,
-pre-spawn binding, and adapter lifecycle mechanisms plus a non-circular
-implementation-evidence order. UE-010 and UE-011 remain future implementation
-proof and cannot be treated as evidence that already exists.
+The corrected packet remains `in-review`. It selects exact JCS/SHA-256 graph,
+digest, pre-spawn, four-seam census, and adapter state-machine mechanisms and
+separates source-entry checks from future UE-010/UE-011 completion proof.
+Parent scope reconciliation and fresh independent re-review are next.

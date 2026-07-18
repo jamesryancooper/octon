@@ -6,7 +6,9 @@ This plan describes later implementation. It does not authorize it.
 
 1. Verify exact exit receipts/digests for RP-01, RP-02, and RP-10.
 2. Capture the current Harness/route/resolver/compiler, authorization consumer,
-   adapter manifest/schema, and provider-dispatch call graph.
+   adapter manifest/schema, and provider-dispatch call graph; freeze parity
+   with all four RP-01 candidate-launch seams and the non-candidate utility
+   partition.
 3. Assign every shared registry entry and `lifecycle_executor` symbol to one
    packet owner; reserve child-specific additions for RP-13.
 4. Record the compiler, schema set, precedence table, and adapter conformance
@@ -54,6 +56,8 @@ closed-graph coverage.
 4. Eliminate re-resolution or discretionary defaults between check and spawn.
 5. Deny any changed/stale/wrong/widened binding and require a fresh compile and
    authorization.
+6. Record `consumed-no-confirmed-spawn` on failure after guard consumption and
+   `unknown` on lost spawn response; never reuse, retry, or switch adapters.
 
 Exit: the complete launch-denial and compile-to-spawn race matrix passes.
 

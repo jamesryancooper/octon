@@ -120,6 +120,9 @@ files_expected_to_change:
   - ".octon/framework/assurance/runtime/_ops/scripts/validate-agent-node-model-call-contract.sh"
   - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
   - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh"
+  - ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs"
 contracts_affected:
   - "task-specific-execution-harness-v1, full input/source binding"
   - "task-specific-execution-harness-compile-receipt-v1, compiler/source/effective digest binding"
@@ -269,7 +272,7 @@ unresolved_evidence:
   - "UE-010"
   - "UE-011"
 entry_criteria:
-  - "RP-01, RP-02, and RP-10 exit evidence exists at exact dependency digests."
+  - "Accepted RP-01, RP-02, and RP-10 packet digests are frozen by the RP-11 design receipt; their exact implemented interfaces must verify before RP-11 source work."
   - "ED-006 is reflected in the serialization and conformance design."
   - "Current Harness, route, resolver, adapter, authorization-consumer, and provider call paths are inventoried at the implementation commit."
 exit_criteria:
@@ -295,5 +298,5 @@ proof_produced:
       RP-08, and RP-13 specializations.
 authoritative_promotion_requirements:
   - "accepted proposal and passing pre-integration architecture review"
-  - "dependency exits and exclusive shared-symbol/entry assignment"
+  - "dependency implementation verification and exclusive shared-symbol/entry assignment before source work"
   - "retained UE-010 and RP-11 component portion of UE-011 dynamic proof"

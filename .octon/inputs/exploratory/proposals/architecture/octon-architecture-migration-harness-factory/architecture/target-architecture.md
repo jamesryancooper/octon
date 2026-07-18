@@ -106,6 +106,34 @@ authorization/guard binding expected at launch. A receipt with an unknown
 source, unverified transitive reference, or different compiler identity is not
 launchable.
 
+## Selected Encoding, Graph, and Digest Mechanisms
+
+All digested compiler documents use RFC 8785 JCS JSON over UTF-8 NFC strings,
+strict schemas, no unknown fields, and SHA-256. Each digest has a fixed domain
+prefix `octon:rp11:<document-kind>:v1\0` before the JCS bytes; source-node,
+source-graph, effective-manifest, compiler-identity, compile-request, and
+receipt-body domains are distinct. Lists whose order is semantically supplied
+retain that validated order. Set-like lists sort by their schema-declared key.
+
+The closed source graph is a DAG. Nodes are unique by `(source_role,
+canonical_id, immutable_ref, schema_id, schema_version, content_digest)`;
+edges are unique by `(parent_node_key, child_node_key, edge_role)`. A Kahn
+topological sort selects zero-indegree nodes by precedence rank, source role
+enum, canonical ID, immutable ref, and digest. Duplicate keys with different
+bytes, cycles, missing parents, undeclared optional absence, or a second valid
+ordering deny compilation. Repository paths are root-relative POSIX NFC paths
+opened from the canonical root with no-follow traversal; pre/post `fstat`
+identity and byte digest must agree. Non-file sources require an immutable
+owner ref and exact retained bytes. The compiler reads no source not already
+named by the admitted compile request.
+
+The deterministic receipt body binds the compile-request, compiler/schema-set/
+precedence, source-graph, effective-manifest, project/mission/run/attempt,
+adapter, isolation, and RP-01 guard-template digests. `recorded_at`, host,
+process, and observation fields live only in a non-digested evidence envelope.
+The mechanisms and dependency digests are recorded in
+`resources/harness-compiler-adapter-design-and-dependency-receipt.yml`.
+
 ## Authorization and Immediate Spawn Binding
 
 RP-11 adds binding fields and a pre-spawn revalidation call to the existing
@@ -125,6 +153,17 @@ revalidates their exact digests and adapter declaration, compares the compiled
 bytes, and atomically consumes the one-shot guard for that binding. Any change
 between compile, authorization, and spawn denies and requires a fresh compile
 and authorization. There is no authorized-but-later-recompiled window.
+
+The implementation holds verified no-follow source handles through the final
+comparison when the source type permits it; otherwise it reopens only the
+exact immutable owner ref and verifies identity plus bytes. Under the RP-01
+serialized final-guard transaction it compares every receipt binding and
+consumes the one-shot guard. No repository, policy, adapter, environment, or
+provider discovery occurs between successful consumption and the same lexical
+path's `spawn`. A crash or spawn error after consumption records
+`consumed-no-confirmed-spawn`, never reuses the guard, and requires a fresh
+attempt. A lost spawn response is `UNKNOWN` and routes to RP-08 reconciliation;
+RP-11 does not claim cross-process atomicity or retry the launch.
 
 ## Generic Executor Adapter
 
@@ -147,6 +186,32 @@ adapter identity, and produces typed results that canonical owners interpret.
 The adapter owns provider protocol translation only. It is not a scheduler,
 policy engine, verifier, publisher, evidence authority, recovery controller,
 or child runtime.
+
+Every adapter operation carries `(run_id, attempt_id, adapter_id,
+adapter_version, prepared_handle_id, operation_id, idempotency_key)`. The
+prepared handle is the domain-separated digest of the exact receipt and
+adapter declaration, is single-attempt/single-adapter, expires after 60
+seconds unless the Run Contract is stricter, and contains no grant. Its
+monotonic states are `prepared -> launch-attempting -> running -> terminal ->
+retired`; failure before launch is `prepare-failed`, and an unconfirmed launch
+is `unknown`, which is terminal for RP-11 retry purposes. Duplicate calls with
+the same key return the retained outcome; a different key or parameters for an
+existing operation deny. Prepare and launch acknowledgement each have a
+30-second ceiling, observe has a 10-second call ceiling, cancel acknowledgement
+has 10 seconds, and retire has 30 seconds. A timeout never implies provider
+termination. Usage dimensions are monotonic observations with measured,
+estimated, or unsupported provenance. Cancel, unknown, and retirement failure
+never authorize relaunch, adapter switching, or evidence deletion.
+
+The RP-01 census identifies four current candidate-launch seams: kernel
+pipeline, kernel workflow stage, lifecycle provider, and lifecycle workflow
+leaf. RP-11 routes their admitted model/host execution through the same strict
+registry/trait while RP-01 retains the final consuming guard in each lexical
+spawn path. `authorization.rs` runtime admission is a non-candidate control
+subprocess and remains outside adapter dispatch. The remaining RP-01 closed-
+world utility partition likewise stays governed by its owning effect boundary.
+Static fitness fails any candidate spawn lacking both the RP-01 guard and an
+RP-11 registry-resolved prepared handle; dynamic tests exercise all four seams.
 
 ## Implementation and Specialization Split
 

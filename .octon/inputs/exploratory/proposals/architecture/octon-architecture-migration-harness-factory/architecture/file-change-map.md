@@ -1,6 +1,6 @@
 # File Change Map
 
-The manifest declares 38 exhaustive `.octon/**` promotion targets. A directory
+The manifest declares 41 exhaustive `.octon/**` promotion targets. A directory
 target permits only the RP-11 entries/files described below, not semantic
 ownership of the whole directory.
 
@@ -44,6 +44,9 @@ ownership of the whole directory.
 | 36 | `.octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh` | Deny direct provider dispatch, authority-shaped projections, and missing bindings. | Static/dynamic assurance only. |
 | 37 | `.octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh` | Exercise strict manifest and six-operation conformance/bypass fixtures. | Generic component tests only. |
 | 38 | `.octon/state/evidence/validation/proposals/octon-architecture-migration-harness-factory/` | Retain exact compiler, invalidation, binding, adapter, rollback, and review evidence. | Evidence owner writes bounded records; no raw secrets or authority. |
+| 39 | `.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs` | Route admitted managed model launches through the exact generic adapter registry/prepared handle. | RP-01 retains final same-path guard; pipeline prompt/budget semantics remain existing-owner state. |
+| 40 | `.octon/framework/engine/runtime/crates/kernel/src/workflow.rs` | Route admitted managed workflow-stage model launches through the same adapter seam. | RP-01 retains final guard; workflow/stage semantics and RP-13 child semantics remain outside RP-11. |
+| 41 | `.octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs` | Bind admitted host workflow-leaf execution to a strict host-adapter identity and prepared handle. | RP-01 retains final guard; workflow resolution/evidence remain existing-owner state. |
 
 ## Affected Outputs, Not Promotion Targets
 
@@ -61,5 +64,6 @@ canonical owners. They cannot be edited as substitute source truth.
 
 The trusted integration lane serializes registry, policy, resolver, assurance,
 and lifecycle-executor edits. Physical-file overlap never implies semantic
-ownership: RP-11 changes only the exact entries/symbols above, RP-01 retains
-authority semantics, and RP-06/RP-08/RP-13 retain specializations.
+ownership: RP-11 changes only the exact entries/symbols above, RP-01 integrates
+its guard first at all four shared candidate seams, and RP-06/RP-08/RP-13
+retain specializations.
