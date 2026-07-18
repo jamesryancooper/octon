@@ -1,0 +1,65 @@
+schema_version: "octon-trust-activation-design-and-dependency-receipt-v1"
+receipt_id: "rp09-trust-activation-authority-evidence-order-20260718"
+verdict: "pass-for-design-selection"
+proof_state: "selected-not-installed-not-activated"
+review_findings: ["RP09-EXACT-ACTIVATION-MECHANISMS-001", "RP09-AUTHORITY-INTEGRATION-BOUNDARY-002", "RP09-IMPLEMENTATION-EVIDENCE-CYCLE-003"]
+frozen_dependencies:
+  rp01: {proposal_id: "octon-architecture-migration-canonical-authority", packet_digest: "sha256:c5369b2c9d6c1e8addafb2b7851d4609709affe0dbd7a443359d0b21761313a8", role: "sole activation-authority issuer and monotonic authority-epoch semantics"}
+  rp06: {proposal_id: "octon-architecture-migration-verification-publication", packet_digest: "sha256:1ebf5b95ddc1a85dfa149e543813ff9a2ccc32994d540eb471330a6257966f60", role: "exact candidate verdict, route, landed proof, and provider identities"}
+  rp07: {proposal_id: "octon-architecture-migration-signed-evidence", packet_digest: "sha256:87fbcceec1ea8956e96335808aef37a9c91b91793328a31d92b1c058703aaf08", role: "signed current-head evidence, reserve, and completeness"}
+  rp08: {proposal_id: "octon-architecture-migration-recovery-class-b", packet_digest: "sha256:e33cc5d1b1da806f3df10690ce169dac7e0fed2f318a65ce14741948db426e35", role: "unknown reconciliation, honest attribution, health status, and bounded rollback effect recovery"}
+dependency_drift_rule: "any digest or verified interface change denies source entry or activation and routes to the owning packet; a candidate cannot refresh a dependency"
+trust_inventory:
+  encoding: "RFC 8785 JSON Canonicalization Scheme with UTF-8, repository-relative NFC paths, and SHA-256"
+  closure_algorithm: "seed all authority, policy, launcher, broker, verifier, store/migration, signer/head, harness compiler, provider adapter, activator, health, rollback, build, package-lock, generator, and generated-source roots; recursively include build/runtime dependencies and owning generator inputs; sort by canonical path"
+  entry_fields: ["path", "kind", "mode", "size", "sha256", "owner", "authority_role", "generator_source_digest", "dependency_refs"]
+  inventory_digest: "sha256 of canonical inventory document; candidate inventory is classified only by the installed prior version against its frozen closure rules"
+  uncertainty_rule: "missing ownership, unresolved generator input, dynamic load, external tool drift, unclassified provider dependency, symlink, or closure ambiguity classifies trust-bearing and denies ordinary activation"
+  census_gate: "complete current path/symbol/tool/provider census is a source-entry preflight and is retained without claiming candidate implementation proof"
+content_addressed_install:
+  version_digest: "sha256 of RFC-8785 canonical version manifest containing every file path/kind/mode/size/SHA-256, inventory digest, dependency/tool/provider digests, build receipt, and source commit"
+  root: "$OCTON_HOME/versions/sha256-<64-lower-hex>/"
+  staging: "$OCTON_HOME/versions/.staging/<operation-id>/ on the same filesystem; O_NOFOLLOW/openat-style traversal; no symlink, hardlink, device, socket, FIFO, absolute path, dot-dot, ownership surprise, or extended-attribute authority"
+  commit: "write files with canonical 0444/0555 modes, fsync each file and staging directories, verify complete manifest and signatures with installed prior version, rename staging to final absent digest directory, fsync versions directory"
+  collision_rule: "existing digest directory must match byte-for-byte manifest; mismatch quarantines both references and denies"
+  activation_effect: "install creates immutable inert bytes only and never writes selector, epoch, authority, provider, or active state"
+  capacity_gate: "free space before staging must exceed two times artifact bytes plus 512 MiB; failure preserves prior active and deletes only uncommitted staging through separately authorized cleanup"
+selector_protocol:
+  root: "$OCTON_HOME/control/evolution/"
+  slots: ["active-selector-a-v1.json", "active-selector-b-v1.json"]
+  record: ["schema_version", "generation", "authority_epoch", "active_version_digest", "prior_version_digest", "activation_envelope_digest", "trust_inventory_digest", "health_profile_digest", "written_by_prior_version_digest", "record_sha256"]
+  write: "installed prior version writes the lower-generation/inactive slot to a same-directory temp, fsyncs file, renames over that slot, and fsyncs directory; generation is prior+1 and epoch must be exactly authorized"
+  read: "validate both canonical records and hashes; choose the highest valid generation whose RP-01 envelope and referenced immutable versions verify; equal-generation disagreement, epoch regression, missing referenced version, or two invalid slots disables activation and boots the pre-registered recovery version"
+  atomicity: "a crash before durable rename leaves the prior slot authoritative; a crash after durable rename makes the new complete slot authoritative; no pointer/symlink or mixed file tree participates"
+  writers: "only installed-prior-version selector code through the RP-01-authorized activation handle; candidate and new version have no selector write handle during their own activation"
+activation_authority_integration:
+  schema_target: ".octon/framework/constitution/contracts/authority/activation-authority-v1.schema.json"
+  semantic_owner: "RP-01 canonical authority"
+  rp09_contribution: "strict consumer-binding schema projection and negative fixtures only; no issuer, default, widening, renewal, epoch increment, signature, or authorization decision"
+  required_fields: ["schema_version", "authority_id", "issuer_id", "issuer_version_digest", "issuer_authority_epoch", "subject_version_digest", "trust_inventory_digest", "scope_paths", "not_before", "expires_at", "activation_attempts_max", "health_profile_digest", "rollback_version_digest", "provider_identity_digests", "nonce", "issuer_signature"]
+  exact_constraints: {activation_attempts_max: 1, subject_versions: 1, rollback_versions: 1, wildcard_scope: false, implicit_defaults: false, candidate_issuance: false, rp09_issuance: false}
+  consume_order: "parse strict schema, verify RP-01 issuer/version/signature/current epoch/revocation/time, compare exact subject/inventory/scope/provider/health/rollback digests, consume once through RP-01, then permit one selector generation"
+  mismatch_rule: "missing, unknown, stale, expired, revoked, reused, wrong-version, wrong-epoch, wrong-scope, wrong-provider, wrong-health, or wrong-rollback envelope denies with no inert-artifact deletion"
+epoch_zero_bootstrap:
+  inventory: "one RFC-8785 semantic inventory using the same closure algorithm, signed and content-addressed outside candidate control"
+  anchor: "one-time human-approved RP-01 bootstrap receipt binds repository, installed version digest, inventory digest, epoch 0, trusted issuer/signature key identity, exact platform, and recovery version digest"
+  storage: "candidate-inaccessible RP-01 authority store plus RP-07 signed checkpoint; proposal files and selector slots are not the trust anchor"
+  repeat_rule: "bootstrap is valid only when no authority epoch exists; any repeat, replacement, loss, or disagreement requires a new explicit human recovery decision and safe-automatic activation remains disabled"
+health_and_rollback:
+  pre_switch_canary: "installed prior version launches candidate once in read-only/effect-denied isolation and requires manifest/schema/signature, inventory closure, resolver/tool, store read-only compatibility, verifier self-test, and rollback-version self-test to pass"
+  profile: {window_seconds: 600, probe_interval_seconds: 10, required_consecutive_successes: 60, critical_failures_allowed: 0, ordinary_consecutive_failure_trigger: 3, probe_timeout_seconds: 5}
+  critical_failures: ["authority/epoch/signature mismatch", "selector disagreement", "store migration/write incompatibility", "broker/verifier/signer failure", "unexpected effect attempt", "candidate escape or credential access", "rollback-version verification failure"]
+  rollback_trigger: "one critical failure, three consecutive ordinary probe failures, reboot without a healthy receipt, or 600-second window expiry without 60 successes"
+  rollback_deadline: "installed prior recovery launcher writes the next selector generation back to the exact pre-registered certified version and publishes status within 30 seconds of trigger; failure leaves effects disabled and enters manual recovery"
+  certification: "new version becomes certified only after the complete signed health window and selector/epoch reconciliation; landing or selector switch alone is not certification"
+retention_and_recovery:
+  pins: ["active version", "pre-registered rollback version", "latest three certified versions", "any version referenced by unresolved activation/rollback evidence"]
+  deletion: "never part of activation; a separate authorized maintenance action may remove only unpinned immutable versions after signed reachability proof"
+  reboot: "recovery launcher validates both selector slots, RP-01 epoch/envelope, RP-07 head, and referenced manifests before enabling effects"
+  disk_full: "staging fails before selector; selector-slot reserve is preallocated by the trusted installer and activation refuses when two durable slots plus one temp cannot be guaranteed"
+implementation_entry:
+  authorization: "accepted digest-bound proposal and strict architecture review authorize creation of only this exact design; safe-automatic activation remains disabled"
+  source_gate: ["RP-01/RP-06/RP-07/RP-08 exact implementation verification and interface checks", "complete semantic closure/tool/provider/platform census", "filesystem atomic-rename/fsync, capacity, code-signature, process-isolation, reboot, and recovery preflight on the admitted platform", "shared-target integration lease"]
+  activation_gate: ["UE-001/009/015 at the exact candidate commit", "candidate-widening, wrong-envelope, indirect closure, selector tear, reboot, disk-full, health, revoked rollback, and provider drift matrices", "signed conformance, rollback, and drift receipts plus later promotion acceptance"]
+  claim_rule: "inert install may be implemented and proved before safe-automatic activation; no selector switch, epoch advance, or automatic-activation claim exists until every activation gate passes"
+evidence_boundary: "This receipt selects a design only; it creates no inventory, install, selector, epoch, bootstrap anchor, activation authority, health result, provider observation, rollback, implementation, promotion, or proof."

@@ -19,7 +19,11 @@ operator_decisions:
   - id: "ROD-003"
     status: "accepted"
     relationship: "bound input; no remaining operator choice"
-engineering_defaults: []
+engineering_defaults:
+  - "RFC-8785 JSON/SHA-256 semantic closure and version manifests"
+  - "same-filesystem immutable content-addressed install and two-slot monotonic selector journal"
+  - "600-second/60-success health window, one-critical/three-ordinary rollback trigger, and 30-second rollback target"
+  - "RP-01-only strict single-use activation-authority envelope; RP-09 is consumer/schema projection only"
 safe_intermediate_states: ["SI-07"]
 dependencies:
   logical: ["RP-06", "RP-07", "RP-08"]

@@ -2,6 +2,8 @@
 
 - The semantic inventory closes over every direct/indirect trust surface and
   conservative classification treats uncertainty as trust-bearing.
+- The inventory/version manifest uses exact RFC-8785 JSON/SHA-256 closure and
+  inert install uses the selected immutable same-filesystem commit protocol.
 - The installed previous version alone classifies and verifies a candidate;
   candidate changes to classifier, verifier, activator, health, rollback, build,
   or provider rules cannot authorize themselves.
@@ -15,6 +17,9 @@
 - Every install/switch/health/receipt/reboot/disk-full kill point leaves one
   recoverable selector; failure automatically retains/restores the prior
   certified version.
+- Two selector slots recover by highest valid monotonic generation, and the
+  600-second/60-success health profile triggers prior-version rollback/status
+  within 30 seconds on one critical or three consecutive ordinary failures.
 - UE-001, UE-009, and UE-015 pass, FD-017/FD-018 gates pass, and the accepted
   ROD-003 boundary is bound before any activation claim.
 - SI-07 operates with inert source landing; safe-automatic remains disabled and

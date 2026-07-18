@@ -33,3 +33,26 @@ RP-08 recovery; it does not redefine them.
 only by RP-01 authority. RP-09 consumes that envelope and cannot mint, widen,
 substitute, or self-satisfy it; activation fails closed when its RP-01 issuer,
 version, epoch, or scope binding is absent or mismatched.
+
+## Exact Selected Mechanisms
+
+`resources/trust-activation-design-and-dependency-receipt.yml` freezes the
+RP-01/RP-06/RP-07/RP-08 packet digests and selects RFC-8785 canonical JSON plus
+SHA-256 for semantic inventory/version manifests; an immutable same-filesystem
+`$OCTON_HOME/versions/sha256-<digest>/` install; and two alternating checksummed
+selector records whose highest valid monotonic generation is active. Candidate
+code has no selector or activation-authority writer.
+
+Epoch zero uses the same closure algorithm and one one-time, human-approved
+RP-01 bootstrap receipt stored outside candidate/selector state. The prior
+installed version performs a read-only/effect-denied canary, then requires 60
+successful ten-second probes over 600 seconds. One critical or three
+consecutive ordinary failures trigger exact prior-version rollback and status
+within 30 seconds; failure keeps effects disabled. Active, rollback, latest
+three certified, and unresolved-evidence versions remain pinned.
+
+The RP-09-owned `activation-authority-v1` file is only the strict wire schema
+projection for an RP-01-issued envelope. It has no defaults, wildcard scope,
+issuer, epoch advancement, renewal, or authorization behavior. A selector
+generation requires one current, unrevoked, single-use envelope matching exact
+issuer/version/epoch/subject/inventory/scope/provider/health/rollback digests.
