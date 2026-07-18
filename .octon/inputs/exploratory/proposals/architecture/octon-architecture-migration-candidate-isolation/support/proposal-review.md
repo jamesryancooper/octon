@@ -1,83 +1,98 @@
-review_id: octon-architecture-migration-candidate-isolation-review-20260718T144600Z
-reviewed_at: 2026-07-18T14:46:00Z
+review_id: octon-architecture-migration-candidate-isolation-review-20260718T151500Z
+reviewed_at: 2026-07-18T15:15:00Z
 reviewer: octon-proposal-lifecycle-review-packet
-verdict: revision-required
-implementation_prompt_authorized: no
-reviewed_packet_digest: sha256:e697d8725340af95058f08f8f287c9a3632f52c34cbe89e3088f3a8df42d8a43
-open_blocking_findings_count: 2
-prior_review_id: none
-final_route: revise-packet
-final_route_target: octon-architecture-migration-candidate-isolation
+verdict: accepted
+implementation_prompt_authorized: yes
+reviewed_packet_digest: sha256:3228da9b1a70c687878a2fd32324cd1fd8729360113024fae48221d66923cada
+open_blocking_findings_count: 0
+prior_review_id: octon-architecture-migration-candidate-isolation-review-20260718T144600Z
+final_route: review-packet
+final_route_target: octon-architecture-migration-transactional-runtime-store
 
 # Proposal Review
 
 ## Review Basis
 
-Reviewed all 22 RP-02 files at commit
-`85e0afe0ff3af8574d5ea82ad5f1f38d6abd6dc8`, stable packet digest
-`sha256:e697d8725340af95058f08f8f287c9a3632f52c34cbe89e3088f3a8df42d8a43`,
-and a fresh deep independent architecture audit. Cross-surface review covered
-the parent registry, source ownership, collision serialization, RP-01's frozen
-guard-invocation slice, current lifecycle launchers, isolation contracts,
-provider/session posture, proof sequencing, rollback, and operator boundaries.
+Reviewed all 26 RP-02 packet files at commit
+`9c958ad4d609347377795c82249127117999eee6`, accepted-state packet digest
+`sha256:3228da9b1a70c687878a2fd32324cd1fd8729360113024fae48221d66923cada`,
+and a fresh deep post-remediation architecture audit. Cross-surface review
+covered the selected ED-001 design, exact integration symbols, parent target
+equality, source ownership and collisions, RP-01's frozen guard seam,
+credential/effect separation, evidence ordering, rollback, and operator
+boundaries.
 
 ## Approved Promotion Targets
 
-The packet's ordered 17-target list exactly equals the parent RP-02 registry
-entry. The target families are coherent, and shared lifecycle-executor and
-Harness surfaces have explicit symbol-level exclusions for RP-01 and RP-11.
-Target equality does not by itself approve the incomplete mechanism design.
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/auto.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/candidate_isolation.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs`
+- `.octon/framework/engine/runtime/adapters/host/macos-candidate.yml`
+- `.octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md`
+- `.octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json`
+- `.octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json`
+- `.octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json`
+- `.octon/framework/assurance/runtime/_ops/scripts/validate-candidate-isolation.sh`
+- `.octon/framework/assurance/runtime/_ops/tests/test-candidate-isolation.sh`
+- `.octon/framework/assurance/runtime/_ops/fixtures/candidate-isolation/`
+- `.octon/state/evidence/validation/proposals/octon-architecture-migration-candidate-isolation/`
+
+The ordered list exactly equals the parent RP-02 registry entry.
+`CandidateIsolationRunner` owns preparation, relay, native spawn, exact export,
+and retirement; existing shared files expose only named integration slices.
+RP-01 guard, RP-04 effect/credential, RP-06 route, and RP-11 generic-adapter
+semantics remain excluded.
 
 ## Exclusions
 
-- No candidate implementation, sandbox, provider session, credential access,
-  process launch, Git export, publication, promotion, cleanup, or host mutation.
-- No RP-01 authority semantics, RP-04 credential/effect brokerage, RP-06 route
-  selection, or RP-11 generic adapter ownership.
-- No planned UE-003, canary matrix, or useful-task result is treated as proof.
+- No implementation, native sandbox application, relay/provider session,
+  credential access or acquisition, candidate process, Git export,
+  publication, promotion, cleanup, or host mutation.
+- No support for secondary providers, Intel macOS, Linux production, Windows,
+  VMs, direct provider egress, RP-04 effects, or ambient credential fallback.
+- No planned UE-003, positive task, canary, rollback, or conformance result is
+  treated as executed evidence.
 
 ## Blocking Findings
 
-### RP02-ED001-MECHANISM-001 — high
+None.
 
-ED-001 is still a mechanism class rather than an implementable design. The
-packet requires an exact macOS/hardware floor, native enforcement mechanism and
-profile identity, primary-provider client/version binding, and short-lived or
-non-exportable session attachment/retirement protocol, but selects none. The
-file map consequently cannot assign exact preparation, enforcement, session,
-and denial checks to symbols and fixtures. Revise the packet to pin a repo-
-verifiable implementation default or fail closed if no such default is
-supported; do not invent provider capability.
-
-### RP02-IMPLEMENTATION-EVIDENCE-CYCLE-002 — high
-
-The completeness receipt and several entry/acceptance statements make UE-003
-and dependency exit proof prerequisites to implementation-prompt
-authorization. Those dynamic results require the exact RP-02 implementation
-to exist and therefore form a circular gate. Separate complete-design
-authorization from later proof: UE-003 and the full positive/negative matrix
-must remain mandatory before conformance, completion, cutover, or promotion,
-while RP-00 verification remains an implementation-entry dependency.
+- `RP02-ED001-MECHANISM-001` is closed: the packet selects an exact narrow
+  native/profile/client/relay mechanism, assigns symbols and static/dynamic
+  fitness, and denies every unavailable or unproved tuple without invention.
+- `RP02-IMPLEMENTATION-EVIDENCE-CYCLE-002` is closed: complete-design
+  acceptance may authorize creation of an exact implementation, while RP-00
+  verification and exact preflight gate candidate launch and UE-003 gates
+  conformance, completion, cutover, support claims, and promotion.
 
 ## Nonblocking Findings
 
-- RP-00 is accepted but not implemented or verified; its verification receipt
-  remains a future RP-02 implementation-entry dependency.
-- RP-01 now freezes `consume_candidate_launch_guard` and allocates RP-02's
-  subsequent isolation/launch slice, closing the earlier shared-interface
-  uncertainty at proposal-design level.
-- Future evidence and several new promotion targets are absent as expected
-  before implementation.
+- RP-00 implementation/verification remains a future implementation-entry
+  dependency.
+- The observed shell Codex wrapper cannot resolve its native executable; a
+  future run must provide a working exact-digest client or deny before launch.
+- `/usr/bin/sandbox-exec` enforcement, profile behavior, relay usefulness, and
+  every adversarial result remain unverified until tested against the exact
+  authorized implementation.
+- Future retained-evidence and new promotion targets are absent as expected.
 
 ## Validation Evidence
 
-The packet-standard, implementation-readiness, architecture, review-digest,
-parent-structure, target-equality, and artifact-catalog checks are structurally
-sound. The completeness receipt truthfully fails, the architecture audit has
-two high blockers, and no strict authorization is granted.
+Proposal-standard validation passes with only expected future-target warnings.
+Completeness and architecture validators pass. Ordered parent/child target
+equality is exact at 17. Parent structure passes with 122 complete acyclic
+collisions. Three controlled post-remediation audit passes converge with zero
+medium-or-higher findings. Strict proposal-review and architecture-receipt
+gates pass at the accepted digest.
 
 ## Final Route Recommendation
 
-Keep RP-02 `in-review` and run `revise-packet` to close the exact ED-001 design
-and evidence-sequencing findings. Then run a fresh independent review. Do not
-implement RP-02.
+Keep RP-02 accepted and explicitly authorize generation/execution of its
+future exact implementation prompt only through the program DAG after RP-00's
+verification gate passes. Continue now to independent review of RP-03. Do not
+implement RP-02 in this pre-implementation lifecycle sequence.

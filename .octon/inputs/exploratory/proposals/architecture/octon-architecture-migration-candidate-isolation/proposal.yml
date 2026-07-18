@@ -28,7 +28,7 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/tests/test-candidate-isolation.sh"
   - ".octon/framework/assurance/runtime/_ops/fixtures/candidate-isolation/"
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-candidate-isolation/"
-status: "in-review"
+status: "accepted"
 change_profile: "atomic"
 release_state: "pre-1.0"
 owner: "octon-maintainers"

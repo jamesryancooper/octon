@@ -1,0 +1,30 @@
+schema_version: "1.0"
+run_id: architecture-migration-candidate-isolation-post-remediation-20260718T151500Z
+target_mode: observed
+scope_roots:
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation
+excluded_roots: []
+total_files: 26
+scanned_files: 26
+summarized_sampled_files: 0
+excluded_files: 0
+unaccounted_files: 0
+direct_reviewed_surfaces:
+  - proposal.yml
+  - architecture-proposal.yml
+  - README.md
+  - navigation/
+  - architecture/
+  - resources/
+  - support/
+cross_surface_evidence:
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/write-scope-collision-ledger.yml
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/resources/candidate-launch-census.yml
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/auto.rs
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs
+note: Full observed post-remediation review with exact ED-001, scope, ownership, security, proof-ordering, and parent-coordination cross-checks.

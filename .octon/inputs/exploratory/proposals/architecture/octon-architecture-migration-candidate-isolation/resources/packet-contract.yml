@@ -4,10 +4,10 @@ logical_packet_id: "RP-02"
 workgroup_id: "RWG-02"
 proposal_id: "octon-architecture-migration-candidate-isolation"
 title: "Credentialless Native Candidate Isolation"
-status: "in-review"
+status: "accepted"
 authority_posture:
   proposal_is_authority: false
-  implementation_authorized: false
+  implementation_authorized: true
   runtime_implemented: false
   support_claim_created: false
 purpose: >-

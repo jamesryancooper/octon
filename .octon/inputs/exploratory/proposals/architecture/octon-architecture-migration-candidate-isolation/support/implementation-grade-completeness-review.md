@@ -19,8 +19,8 @@ The initial review's two findings are corrected at the packet level:
   create their test subject. They remain mandatory at implementation entry or
   before conformance, completion, cutover, support claim, and promotion.
 
-Fresh independent re-review and proposal acceptance remain separate lifecycle
-gates, not missing packet design. RP-00 verification, a working exact client,
+Fresh independent re-review and proposal acceptance pass as separate lifecycle
+gates. RP-00 verification, a working exact client,
 authenticated upstream transport availability, and all dynamic proof remain
 future implementation gates and are not represented as executed.
 
@@ -77,8 +77,8 @@ All runtime/provider/adversarial results remain `planned-not-executed`.
 
 ## Implementation Prompt Readiness
 
-Ready after a fresh accepted proposal review and passing pre-integration
-architecture receipt. A future exact implementation prompt must require RP-00
+Ready. The fresh accepted proposal review and pre-integration architecture
+receipt pass at the final digest. A future exact implementation prompt must require RP-00
 verification and exact host/client/upstream/fixture preflight before candidate
 launch, and must require UE-003 and every positive/negative result against its
 exact implementation commit before conformance, completion, cutover, support
@@ -98,7 +98,6 @@ claim, or promotion.
 
 ## Final Route Recommendation
 
-Run a fresh independent RP-02 architecture/proposal re-review at the corrected
-digest. If it passes, accept RP-02 and explicitly authorize only its future
-exact implementation prompt through the program DAG. Do not implement RP-02
-in this lifecycle sequence.
+Keep RP-02 accepted and authorize only its future exact implementation prompt
+through the program DAG after dependency gates pass. Continue to RP-03 review.
+Do not implement RP-02 in this lifecycle sequence.

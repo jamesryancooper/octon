@@ -1,0 +1,18 @@
+schema_version: "1.0"
+run_id: architecture-migration-candidate-isolation-post-remediation-20260718T151500Z
+commit_sha: 9c958ad4d609347377795c82249127117999eee6
+scope_hash: sha256:3228da9b1a70c687878a2fd32324cd1fd8729360113024fae48221d66923cada
+prompt_hash: sha256:1eae14c4e469709cee9b60bafca81a4e713a5b2776f4f75c97bd87587de9a623
+findings_hash: sha256:257af7a0e15ff6f526f0454ec2f835b4a848a9643bf2fed183907fe14d4ff490
+params_hash: sha256:ea9bd0865016876009b0cc1d1f84374973a335567d9f339b4c180c73ebc24e54
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: Three evaluation passes converge; both prior blockers and parent scope equality are closed with no new medium-or-higher finding.

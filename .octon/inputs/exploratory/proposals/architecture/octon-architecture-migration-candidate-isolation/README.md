@@ -1,6 +1,6 @@
 # Credentialless Native Candidate Isolation
 
-This is the in-review RP-02 architecture proposal for
+This is the accepted RP-02 architecture proposal for
 `octon-architecture-migration-candidate-isolation`. It is temporary,
 non-authoritative, and does not authorize or perform candidate execution.
 
@@ -14,7 +14,7 @@ second execution runtime.
 
 ## Lifecycle State
 
-- status: `in-review`
+- status: `accepted`
 - proposal kind: `architecture`
 - promotion scope: `octon-internal`
 - change profile: `atomic`
@@ -26,9 +26,11 @@ The packet selects ED-001's exact engineering default in
 `resources/engineering-disposition-ed001.yml`: arm64 macOS 26/Darwin 25,
 root-owned `/usr/bin/sandbox-exec` with a digest-bound default-deny SBPL profile,
 an exact-digest OpenAI Codex CLI, and a launcher-owned one-run loopback
-capability relay. An unavailable or unproved tuple denies without ambient
+capability relay. Independent post-remediation review accepts the design and
+authorizes creation of its future exact implementation only through the
+program DAG. An unavailable or unproved tuple denies without ambient
 credentials, direct provider egress, or effect-broker fallback. The design is
-ready for independent re-review, not implementation.
+ready for later implementation orchestration, but no implementation has begun.
 
 ## Reading Order
 

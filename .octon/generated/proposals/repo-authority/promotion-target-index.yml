@@ -21,7 +21,7 @@
     "mode": "source-digest-bound",
     "source_digest_bound": true
   },
-  "generated_at": "deterministic-from-source-digests:sha256:465689c1b6415cb081ff5f4ba2d8024d188fa33ae5fe8243ff1eeaa0cd9e6cae",
+  "generated_at": "deterministic-from-source-digests:sha256:11ade3c8bc7bd91d3f0a8006d53733869b0a3d9d16a5447f3c00b6f4457aab32",
   "producer": {
     "name": "generate-repo-authority-write-scope-index.sh",
     "version": "repo-authority-write-scope-index-v1"
@@ -398,8 +398,8 @@
       "proposal_id": "octon-architecture-migration-candidate-isolation",
       "proposal_kind": "architecture",
       "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/proposal.yml",
-      "proposal_sha256": "sha256:c22e5941c55fb18f2199fd7c2af9942858ca0a33e420eca1fe9ceb4a2fada53b",
-      "status": "in-review",
+      "proposal_sha256": "sha256:a7b6068f3482d4317f2259ec68dae16d313ee9ceefe83e303293b92e7bf19f79",
+      "status": "accepted",
       "target_count": 17,
       "targets": [
         {
@@ -4938,7 +4938,7 @@
       "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/proposal.yml",
       "artifact_role": "active-proposal-manifest",
       "required": false,
-      "sha256": "sha256:c22e5941c55fb18f2199fd7c2af9942858ca0a33e420eca1fe9ceb4a2fada53b",
+      "sha256": "sha256:a7b6068f3482d4317f2259ec68dae16d313ee9ceefe83e303293b92e7bf19f79",
       "source_class": "non-authoritative-proposal-input"
     },
     {
