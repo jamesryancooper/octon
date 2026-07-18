@@ -39,6 +39,7 @@
 - `support/program-creation.md`
 - `support/pre-integration-architecture-review.yml`
 - `support/proposal-review.md`
+- `support/program-implementation-orchestration-prompt.md`
 - `support/implementation-grade-completeness-review.md`
 - `support/implementation-conformance-review.md`
 - `support/post-implementation-drift-churn-review.md`

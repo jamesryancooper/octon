@@ -1,28 +1,29 @@
 # Proposal Review Receipt
 
-review_id: octon-architecture-migration-program-review-20260718T184642Z
-reviewed_at: 2026-07-18T18:46:42Z
+review_id: octon-architecture-migration-program-review-20260718T190314Z
+reviewed_at: 2026-07-18T19:03:14Z
 reviewer: octon-proposal-lifecycle-review-program
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:b0c3971bf5b8f94ac8115722a5e048b6b73d97bc6b74e48b7b6ca3a69cf7ae99
+reviewed_packet_digest: sha256:34dc10786ecb4c63060ab3718acc00ad820c0a424d08910c9475054c5e52959e
 open_blocking_findings_count: 0
-prior_review_id: octon-architecture-migration-program-review-20260718T183837Z
-final_route: generate-program-implementation-orchestration-prompt
+prior_review_id: octon-architecture-migration-program-review-20260718T184642Z
+final_route: run-program-implementation-orchestration
 final_route_target: support/program-implementation-orchestration-prompt.md
 
 ## Review Basis
 
-Independently reviewed all 53 parent files from lifecycle base
-`220f565475` at final accepted packet digest
-`sha256:b0c3971bf5b8f94ac8115722a5e048b6b73d97bc6b74e48b7b6ca3a69cf7ae99`.
+Independently reviewed the final accepted parent, the catalogued canonical
+orchestration prompt, and all 53 digest-bearing parent files from lifecycle base
+`02712e6e45` at prompt-bearing packet digest
+`sha256:34dc10786ecb4c63060ab3718acc00ad820c0a424d08910c9475054c5e52959e`.
 The review covers the fixed 15-child/30-edge DAG, 420 ordered write scopes, 343
 unique paths, 126-record collision ledger, exact child target parity, ownership
 and serialization, dependency gates, cutover/resting states, rollback/recovery,
 source lineage, operator and evidence boundaries, and all final child readiness
 evidence.
 
-The accepted-state architecture review passes with zero unresolved blockers.
+The prompt-catalog architecture review passes with zero unresolved blockers.
 The lifecycle-state and final-readiness contract findings are closed. All
 fifteen required, non-deferred children hold fresh accepted
 implementation-authorizing reviews, passing completeness receipts, and strict
@@ -61,6 +62,8 @@ security, evidence-order, or operator-boundary blocker remains.
   closeout, and archive remain future child-owned lifecycle evidence.
 - The parent aggregate evidence target is truthfully absent before
   implementation. Its absence is expected and is not proposal evidence.
+- The generated prompt is a non-authoritative operational aid and has not been
+  executed.
 
 ## Validation Evidence
 
@@ -69,31 +72,32 @@ security, evidence-order, or operator-boundary blocker remains.
 - Program child readiness: pass, `errors=0 warnings=0`.
 - Parent proposal standard, implementation readiness, and architecture proposal:
   pass; the standard warning is only the absent future aggregate target.
-- Strict parent implementation-authorization gate: required to pass at this
-  accepted digest before prompt generation.
+- Strict parent implementation-authorization and child-readiness gates: pass at
+  the final prompt-bearing digest before separate execution.
 - Strict architectural receipt: pass, fresh digest, zero unresolved blockers.
 - Proposal registry and repo-authority owning-generator checks: pass.
 - Final accepted packet digest reproduced exactly.
 
 ## Child Authority Preservation
 
-This review authorizes generation of the canonical parent-local orchestration
-prompt only. The prompt must follow the accepted DAG and revalidate each exact
-child authority before implementation. Every child retains its target,
+This review confirms the generated canonical parent-local orchestration prompt
+may be executed only through a separate authorization. The prompt follows the
+accepted DAG and must revalidate each exact child authority before
+implementation. Every child retains its target,
 semantic, implementation, proof, promotion, conformance, drift, closeout,
 archive, and terminal authority. Parent evidence cannot satisfy a child receipt.
 
 ## Minimality And Boundary Receipt
 
-The accepted-state delta contains only the lifecycle transition, truthful
-readiness wording, current completeness metadata, review/audit receipts, and
-owner-generated discovery projections. No child, target, DAG edge, dependency
-gate, scope, ownership partition, collision record, policy, provider interface,
-credential boundary, or runtime behavior changed.
+The final digest delta adds only the catalog entry for the generated,
+digest-excluded operational aid. The prompt, readiness validation, and support
+receipts add no child, target, DAG edge, dependency gate, scope, ownership
+partition, collision record, policy, provider interface, credential boundary,
+or runtime behavior.
 
 ## Final Route Recommendation
 
-Run the strict parent implementation-authorization and program child-readiness
-gates at this exact digest. If both pass, invoke the canonical
-`octon-proposal-lifecycle-generate-program-orchestration-prompt` skill to
-generate and validate the parent-local digest-bound prompt. Do not execute it.
+Separately execute
+`support/program-implementation-orchestration-prompt.md` through the canonical
+program implementation-orchestration lifecycle. Re-run every entry gate and
+stop on drift. This generation/review action does not execute implementation.
