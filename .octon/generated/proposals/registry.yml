@@ -6,7 +6,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-bounded-child-agents"
     title: "Bounded Mission Child Agents"
-    status: "in-review"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
       - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md"

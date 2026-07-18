@@ -6,8 +6,8 @@ clarification_required: no
 
 ## Blockers
 
-None in the corrected design. Fresh independent proposal and strict
-architecture re-review remain required before acceptance.
+None. Fresh independent proposal and strict architecture re-review pass at the
+accepted packet digest.
 
 ## Assumptions Made
 
@@ -30,7 +30,7 @@ tests, and target-owned evidence without granting runtime-output ownership.
 ## Affected Artifact Coverage
 
 The packet covers canonical identity/digests, strict typed intersection,
-one-shot guard timing, exact provisional limits/enforcement classes, fixed role
+one-shot guard timing, exact selected limits/enforcement classes, fixed role
 templates, CAS lifecycle, cancel/unknown handoff, output reconciliation,
 ordered idempotent retirement, permanent compact tombstones, replacement,
 rollback, and ProgramChild separation.
@@ -44,10 +44,11 @@ executed and gate completion, use, or promotion.
 
 ## Implementation Prompt Readiness
 
-Ready after accepted re-review. A future exact prompt must verify dependency
-interfaces and current shared symbols/writers before edits, keep launch
-disabled until every hard/provider gate passes, and require dynamic evidence
-against the exact implementation before completion or promotion.
+Authorized for future exact implementation prompting at the accepted digest. A
+future prompt must verify dependency interfaces and current shared
+symbols/writers before edits, keep launch disabled until every hard/provider
+gate passes, and require dynamic evidence against the exact implementation
+before completion or promotion.
 
 ## Exclusions
 
@@ -58,5 +59,6 @@ against the exact implementation before completion or promotion.
 
 ## Final Route Recommendation
 
-Independently re-review RP-13 and accept only at a fresh digest with zero
-blockers. Do not implement, enable, or launch bounded children in this sequence.
+Keep RP-13 accepted at the reviewed digest and route it only through the parent
+DAG's future implementation orchestration. Do not implement, enable, or launch
+bounded children in this sequence.

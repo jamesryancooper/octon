@@ -1,0 +1,4 @@
+schema_version: "1.0"
+surfaces: ["canonical documents", "child identity and CAS lifecycle", "scope and one-shot guard", "local and provider-hard limits", "provider mapping and scheduler reuse", "cancel, unknown, and recovery", "retirement and non-reuse", "dependency, collision ownership, and evidence order"]
+files_scanned: 27
+coverage_status: complete-for-post-remediation-review
