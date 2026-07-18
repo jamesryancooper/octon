@@ -1,6 +1,6 @@
 # Private Signed Extension Supply Chain
 
-This is the in-review RP-12 architecture proposal for
+This is the accepted RP-12 architecture proposal for
 `octon-architecture-migration-extension-supply-chain`. It is a temporary,
 non-authoritative implementation aid. It does not authorize an import,
 extension selection, capability grant, network source, signer, activation,
@@ -65,8 +65,8 @@ receipts keep distinct authority roles; none becomes execution authority.
 
 ## Current Gate
 
-The corrected packet remains `in-review`. It encodes exact ROD-004 signature,
-source, archive, payload-tree, retention, import-CAS, publication-commit,
-rotation/recovery, revocation, restore, and bounded-limit mechanisms. UE-012
-remains future completion proof. Fresh independent re-review is next; the
-source allowlist remains empty and no signer or private release is admitted.
+The corrected packet is `accepted` and implementation-prompt authorized at its
+fresh digest. It encodes exact ROD-004 signature, source, archive, payload-tree,
+retention, import-CAS, publication-commit, rotation/recovery, revocation,
+restore, and bounded-limit mechanisms. UE-012 remains future completion proof;
+the source allowlist remains empty and no signer or private release is admitted.

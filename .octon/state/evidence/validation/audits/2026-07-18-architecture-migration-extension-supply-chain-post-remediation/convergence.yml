@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-extension-supply-chain-post-remediation-20260718T174000Z
+commit_sha: 81e32c8b6d
+scope_hash: sha256:8fab57e23160c152925b5b454bfa3a8a5068b50064e8958b7a802520d087d816
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: accepted
+rationale: Three passes agree both findings are closed and exact parent/child scope is coherent.

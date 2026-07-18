@@ -6,8 +6,8 @@ clarification_required: no
 
 ## Blockers
 
-None in the corrected design. Fresh independent proposal and strict
-architecture re-review remain required before acceptance.
+None. Fresh independent proposal and strict architecture re-review passed at
+the accepted packet digest.
 
 ## Assumptions Made
 
@@ -42,10 +42,10 @@ not-executed and gate completion/use/promotion.
 
 ## Implementation Prompt Readiness
 
-Ready after accepted re-review. A future exact prompt must verify dependency
-interfaces and current writers before edits, preserve the empty initial
-allowlist, and require all dynamic proof against the exact implementation
-before completion or promotion.
+Authorized for future exact implementation prompting at the accepted digest.
+That prompt must verify dependency interfaces and current writers before edits,
+preserve the empty initial allowlist, and require all dynamic proof against the
+exact implementation before completion or promotion.
 
 ## Exclusions
 
@@ -57,5 +57,6 @@ before completion or promotion.
 
 ## Final Route Recommendation
 
-Independently re-review RP-12 and accept only at a fresh digest with zero
-blockers. Do not implement or admit private extension material in this sequence.
+Keep RP-12 accepted at the reviewed digest and route it only through the parent
+DAG's future implementation orchestration. Do not implement or admit private
+extension material in this sequence.

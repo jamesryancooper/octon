@@ -1,28 +1,28 @@
 schema_version: "architectural-review-support-receipt-v1"
-receipt_id: "octon-architecture-migration-extension-supply-chain-architecture-review-20260718T173026Z"
+receipt_id: "octon-architecture-migration-extension-supply-chain-post-remediation-architecture-review-20260718T174000Z"
 proposal_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-extension-supply-chain"
-packet_digest: "sha256:446df32865bf7f66fd3fa4b7f7f2e40be93f591257ff61ae04d598232a47f99a"
+packet_digest: "sha256:8fab57e23160c152925b5b454bfa3a8a5068b50064e8958b7a802520d087d816"
 review_mode: "pre-integration-architecture-review"
-verdict: "fail"
-unresolved_count: 2
-blockers: ["RP12-EXACT-SUPPLY-CHAIN-MECHANISMS-001", "RP12-IMPLEMENTATION-EVIDENCE-CYCLE-002"]
+verdict: "pass"
+unresolved_count: 0
+blockers: []
 non_authority_classification: "retained-evidence-only"
-recorded_at: "2026-07-18T17:30:26Z"
-evidence_refs: [".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-extension-supply-chain-20260718T173026Z.md", ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-extension-supply-chain-20260718T173026Z.md", ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-extension-supply-chain/bundle.yml"]
-validator_refs: ["validate-proposal-review-gate.sh --package RP-12 --print-digest", "validate-proposal-standard.sh --package RP-12 --skip-registry-check", "validate-architecture-proposal.sh --package RP-12", "validate-proposal-program-structure.sh --package parent"]
+recorded_at: "2026-07-18T17:40:00Z"
+evidence_refs: [".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-extension-supply-chain-post-remediation-20260718T174000Z.md", ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-extension-supply-chain-post-remediation-20260718T174000Z.md", ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-extension-supply-chain-post-remediation/bundle.yml", ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-extension-supply-chain/support/revisions/rp12-supply-chain-mechanisms-evidence-order-20260718.md"]
+validator_refs: ["validate-proposal-review-gate.sh --package RP-12 --print-digest", "validate-proposal-standard.sh --package RP-12", "validate-proposal-implementation-readiness.sh --package RP-12", "validate-architecture-proposal.sh --package RP-12", "validate-proposal-program-structure.sh --package parent", "validate-architectural-review-receipts.sh --mode pre-integration-architecture-review --require-pass"]
 mode_specific_coverage:
-  review_charter: "Independent closed-book pre-integration review of RP-12."
-  external_tool_integrity: "Sources, signers, networks, archives, and publishers were observed as design surfaces only."
+  review_charter: "Independent post-remediation review of exact RP-12 trust, import, generation, revocation, restore, and evidence design."
+  external_tool_integrity: "Sources, signers, keys, credentials, networks, archives, and publishers remained uninvoked design surfaces."
   system_job: "Make private extensions authentic, pinned, revocable, recoverable, and non-authoritative."
-  current_reality: "Current provenance hashes are not mandatory private-release signatures; no hostile proof exists."
-  authority_boundaries: "Import may write availability/evidence only; selection, publication, Harness, and grants remain separate."
-  dependency_and_concurrency: "RP-07/RP-11 packets are accepted but exact source-entry interfaces are not frozen locally."
-  failure_and_recovery: "Restore is current revalidation, but exact commit/concurrency and interruption mechanisms are unspecified."
-  security_and_credentials: "Initial deny posture is right; cryptographic profile, safe extraction, and key records need selection."
-  evidence_and_validation: "UE-012 is future implementation proof and currently forms a circular gate."
-  contracts_and_compatibility: "Target coverage is exhaustive, but envelope/tree/source/generation identities remain discretionary."
-  operability_and_observability: "One-command UX is bounded; exact status and failure transaction state depend on selected mechanisms."
-  sequencing_and_migration: "DAG position is correct; source entry and completion proof must be separated."
-  prior_finding_disposition: "No prior RP-12 review."
-  final_self_challenge: "Forged key, mutable ref, archive escape, dependency substitution, split generation, revoke race, and proof inflation challenged."
-  verdict_basis: "Two high-severity locally correctable blockers remain."
+  current_reality: "The initial source/key state remains empty; no RP-12 implementation or hostile dynamic proof exists."
+  authority_boundaries: "Import may write retained bytes, availability, quarantine, and evidence only; desired selection, grants, publication, Harness, and execution stay separate."
+  dependency_and_concurrency: "Accepted RP-07/RP-11 packet digests are frozen; exact interfaces, current writers, and integration lease gate source entry."
+  failure_and_recovery: "No-replace retention, lock/CAS availability, commit-last generation, current-rule restore, and fail-disabled recovery are exact."
+  security_and_credentials: "P-256/JCS signature, epoch rotation/loss recovery, immutable sources, safe archive bounds, and empty initial allowlist deny ambient widening."
+  evidence_and_validation: "UE-012 and dynamic matrices follow implementation and cannot gate proposal existence or be claimed now."
+  contracts_and_compatibility: "Envelope, source, payload-tree, retention, availability, and generation identities are exact and parent scope is exhaustive."
+  operability_and_observability: "Lock owner records, quarantine, exact receipts, commit markers, and typed failure states support bounded diagnosis."
+  sequencing_and_migration: "RP-07 and RP-11 interfaces verify before source work; dynamic proof gates completion and downstream use."
+  prior_finding_disposition: "Both RP12 findings close without parent scope change or source/signer admission."
+  final_self_challenge: "Forged key, mutable ref, archive escape, dependency substitution, CAS race, split generation, revoke race, unsafe restore, and proof inflation challenged."
+  verdict_basis: "All required lenses converge with zero unresolved architecture blockers at the final digest."

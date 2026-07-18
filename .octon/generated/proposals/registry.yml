@@ -145,7 +145,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-extension-supply-chain"
     title: "Private Signed Extension Supply Chain"
-    status: "in-review"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/engine/governance/extensions/README.md"
       - ".octon/framework/engine/governance/extensions/boundary-contract.md"

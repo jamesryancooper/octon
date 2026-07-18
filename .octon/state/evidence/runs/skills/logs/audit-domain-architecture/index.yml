@@ -313,3 +313,12 @@ runs:
     metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 2, medium: 0, low: 0, recommendations: 2}
     report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-extension-supply-chain-20260718T173026Z.md
     log: ../../audit-domain-architecture/architecture-migration-extension-supply-chain-20260718T173026Z.md
+  - id: "architecture-migration-extension-supply-chain-post-remediation-20260718T174000Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-extension-supply-chain"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 26, critical: 0, high: 0, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-extension-supply-chain-post-remediation-20260718T174000Z.md
+    log: ../../audit-domain-architecture/architecture-migration-extension-supply-chain-post-remediation-20260718T174000Z.md
