@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-bounded-child-agents-20260718T174614Z
+commit_sha: 8bd2b9369b
+scope_hash: sha256:46443cb62e34b0d6bce4936a8206dd43349e90751db878db2814640c87205950
+seeds: [17, 29, 43]
+result_vector: [revision-required, revision-required, revision-required]
+stable: true
+union_blocking_findings: 2
+open_findings_at_or_above_threshold: 2
+done: true
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: revision-required
+rationale: Three passes agree exact mechanisms/limits and non-circular evidence order are missing.

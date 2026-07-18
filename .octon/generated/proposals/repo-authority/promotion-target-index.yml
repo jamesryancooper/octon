@@ -21,7 +21,7 @@
     "mode": "source-digest-bound",
     "source_digest_bound": true
   },
-  "generated_at": "deterministic-from-source-digests:sha256:dcabea49fa75be4a5a7cc64f52d85b8f3e67ebdffe040bdc94b48d1b6c5a80ef",
+  "generated_at": "deterministic-from-source-digests:sha256:402f844f36b4e2b3621746e00de7d71996adf1b6555f50bb4f1c2ab689985064",
   "producer": {
     "name": "generate-repo-authority-write-scope-index.sh",
     "version": "repo-authority-write-scope-index-v1"
@@ -33,8 +33,8 @@
       "proposal_id": "octon-architecture-migration-bounded-child-agents",
       "proposal_kind": "architecture",
       "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-bounded-child-agents/proposal.yml",
-      "proposal_sha256": "sha256:257969715f1c2e4c8e7483e13c1f820ac30e8e28214934a8e487d1a9daa3eaf5",
-      "status": "draft",
+      "proposal_sha256": "sha256:206bf36dd85a05d6877a46a697c5d97f9087333bc8ce12c62b88f20bf291b365",
+      "status": "in-review",
       "target_count": 44,
       "targets": [
         {
@@ -4963,7 +4963,7 @@
       "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-bounded-child-agents/proposal.yml",
       "artifact_role": "active-proposal-manifest",
       "required": false,
-      "sha256": "sha256:257969715f1c2e4c8e7483e13c1f820ac30e8e28214934a8e487d1a9daa3eaf5",
+      "sha256": "sha256:206bf36dd85a05d6877a46a697c5d97f9087333bc8ce12c62b88f20bf291b365",
       "source_class": "non-authoritative-proposal-input"
     },
     {
