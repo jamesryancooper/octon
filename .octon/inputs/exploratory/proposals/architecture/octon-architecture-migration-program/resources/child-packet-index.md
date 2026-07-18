@@ -41,7 +41,7 @@ integrates first; RP-03 follows through its existing RP-01 verification gate.
 
 The registry write scopes now include the containment helpers in RP-00,
 conditional cleanup primitive in RP-05, and canonical default-work-unit policy
-sources in RP-06. These are future promotion targets only; the draft revision
+sources in RP-06. These are future promotion targets only; the proposal revision
 does not edit or authorize them.
 
 ## RP-01 Launch-Dominance Scope Overlay

@@ -13,7 +13,7 @@ consequential effects controlled, verifiable, recoverable, and maintainable.
 
 ## Publication Decision Incorporated by This Revision
 
-This draft program now recommends `brokered-class-b-no-pr` as the default
+This proposal program specifies `brokered-class-b-no-pr` as the default
 publication topology for deterministically eligible Class B work. `branch-no-pr`
 remains only a compatibility route label. Class A remains local and
 credentialless; valid review-required or deterministically preclassified

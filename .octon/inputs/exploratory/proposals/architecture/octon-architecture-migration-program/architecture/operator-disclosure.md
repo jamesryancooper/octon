@@ -16,8 +16,10 @@ later evidence-gated promotion acceptances, not current design choices.
 
 No operator is asked to approve unverifiable mechanics, maintain a second control
 plane, reconsider an accepted intake decision, or accept proposal prose as
-authority. RP-00 is the first later review; the parent and all children remain
-`draft`.
+authority. All fifteen child proposals now hold fresh accepted reviews. RP-00
+is the first implementation node in the accepted DAG, but implementation remains
+separately authorized and has not begun. Parent acceptance and strict program
+readiness remain proposal-lifecycle gates, never runtime or proof authority.
 
 The one-screen route view exposes `O`, `S`, `V`, `Q` when applicable, frozen
 route, operation/attempt, validation, provider outcome, landed proof, local-main

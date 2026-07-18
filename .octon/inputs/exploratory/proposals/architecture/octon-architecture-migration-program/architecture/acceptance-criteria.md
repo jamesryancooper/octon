@@ -2,8 +2,11 @@
 
 - Exactly one parent and fifteen sibling children exist at the fixed paths; no
   nested child directory or sixteenth packet exists.
-- All manifests are draft/architecture/octon-internal/atomic/pre-1.0 and point
-  to this parent; the parent and registry use `gated-parallel`.
+- All sixteen manifests are architecture/octon-internal/atomic/pre-1.0 and point
+  to this parent; the parent and registry use `gated-parallel`. Before program
+  prompt generation, all fifteen required, non-deferred children and the parent
+  have fresh accepted reviews with explicit implementation authorization, zero
+  blockers, and passing strict architecture receipts where applicable.
 - The parent related list, YAML/Markdown indexes, and sequence contain exactly
   the same fifteen proposal IDs; the fixed dependency DAG is acyclic and exact.
 - FD-001–024, RF-001–033, PO-FD-001–024 and gates, UE-001–015,
@@ -38,8 +41,17 @@
 - Every child specifies safe/prohibited states, rollback, recovery, proof,
   retained evidence, support-claim effect, operator experience, and unsupported
   remainder without claiming execution.
-- Base and architecture validators pass for all sixteen packets; draft
-  readiness/child/review authorization gates remain honestly future-gated.
+- Base, architecture, completeness, digest-freshness, and strict review gates
+  pass for all sixteen packets. Program structure, exact scope/collision parity,
+  child readiness, and the strict parent implementation-authorization gate pass
+  before prompt generation. Implementation, provider proof, promotion,
+  conformance, drift, and closeout remain honestly future-gated.
+- The canonical parent-local implementation-orchestration prompt is generated
+  only after those strict gates pass, binds the final parent and child authority
+  state, follows the accepted DAG, and requires a future
+  `support/program-implementation-orchestration-run.md` with `verdict`,
+  `implemented_at`, `promotion_evidence_count`, and
+  `child_authority_preserved`. Prompt generation is not implementation.
 - The generated proposal registry is refreshed only by its owning generator.
 - Revision 2 remains byte-for-byte unchanged, retained as predecessor lineage,
   and absent from the child registry and parent related list.

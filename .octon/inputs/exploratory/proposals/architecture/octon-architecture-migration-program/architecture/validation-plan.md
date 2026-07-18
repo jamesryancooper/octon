@@ -1,15 +1,21 @@
 # Program Validation Plan
 
-Creation validation runs the base, architecture, and implementation-readiness
-validators for the parent and all fifteen children; program structure,
-child-readiness, draft review, architectural review receipt, registry freshness,
-YAML/catalog, DAG, identifier coverage, target-family, Revision 2 digest, and
-write-allowlist checks complete the floor.
+Lifecycle validation preserves the creation-time base, architecture, and
+implementation-readiness floor for the parent and all fifteen children. Final
+pre-implementation validation additionally requires fresh accepted child and
+parent reviews, strict architecture receipts, program structure and
+child-readiness, exact scope/collision parity, registry and repo-authority
+generator freshness, YAML/catalog/digest integrity, the fixed DAG, identifier
+coverage, target-family constraints, Revision 2 lineage, and write-boundary
+checks.
 
-Structural success is distinct from lifecycle readiness. Draft completeness,
-accepted review, strict architecture authorization, implementation, provider,
-adversarial, fault, dogfood, support promotion, conformance, and archive gates
-are expected to remain blocked. The validation report records exact commands,
+Structural success is distinct from lifecycle readiness. At the final proposal
+floor, completeness, fresh accepted review, strict architecture authorization,
+and program child readiness must pass before the canonical digest-bound prompt
+is generated. Implementation, provider, adversarial, fault, dogfood, support
+promotion, conformance, drift, closeout, and archive evidence remain future and
+must not be required before implementation is authorized to exist or
+represented as already executed. The validation report records exact commands,
 exit meaning, and limitations without manufacturing receipts.
 
 Future proof uses only the evidence classifications declared by reconciliation:
