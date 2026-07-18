@@ -1,0 +1,27 @@
+schema_version: "1.0"
+run_id: architecture-migration-candidate-isolation-20260718T144600Z
+target_mode: observed
+scope_roots:
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation
+excluded_roots: []
+total_files: 22
+scanned_files: 22
+summarized_sampled_files: 0
+excluded_files: 0
+unaccounted_files: 0
+direct_reviewed_surfaces:
+  - proposal.yml
+  - architecture-proposal.yml
+  - README.md
+  - navigation/
+  - architecture/
+  - resources/
+  - support/
+cross_surface_evidence:
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/write-scope-collision-ledger.yml
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/resources/candidate-launch-census.yml
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs
+note: Full observed packet review with provider-session, native-isolation, exact-scope, proof-ordering, and parent-coordination cross-checks.
