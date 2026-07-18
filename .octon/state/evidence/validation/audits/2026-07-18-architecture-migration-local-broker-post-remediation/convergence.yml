@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-local-broker-post-remediation-20260718T154447Z
+commit_sha: a991624d0960b44dc90e89eba245396c52d35c91
+scope_hash: sha256:83e8a4bfcc5d2e65146b3561c5e9b858b6933af7fc81ea5b282246c2d3c50b93
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: Three passes agree that exact ED-002 selection, ED-007 census, evidence ordering, scope parity, and fail-closed boundaries close every blocker.

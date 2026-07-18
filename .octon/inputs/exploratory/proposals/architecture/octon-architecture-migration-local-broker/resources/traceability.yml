@@ -97,4 +97,4 @@ coverage_status:
   implementation_proof_complete: false
   operator_decisions_complete: true
   engineering_dispositions_complete: true
-  architecture_review_complete: false
+  architecture_review_complete: true

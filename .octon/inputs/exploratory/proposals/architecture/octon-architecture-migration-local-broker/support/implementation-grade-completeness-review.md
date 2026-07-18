@@ -67,8 +67,8 @@ planned-not-executed.
 
 ## Implementation Prompt Readiness
 
-Ready after a fresh accepted proposal review and strict pre-integration
-architecture receipt. A future exact prompt must enforce dependency and
+Ready. The fresh accepted proposal review and strict pre-integration
+architecture receipt pass at the final digest. A future exact prompt must enforce dependency and
 platform entry gates before source work, and every exact-commit dynamic result
 before conformance, completion, cutover, support, or promotion.
 
@@ -84,7 +84,6 @@ before conformance, completion, cutover, support, or promotion.
 
 ## Final Route Recommendation
 
-Run a fresh independent architecture/proposal re-review at the corrected
-digest. If it passes, accept RP-04 and authorize only its future exact
-implementation prompt through the program DAG. Do not implement RP-04 in this
-lifecycle sequence.
+Keep RP-04 accepted and authorize only its future exact implementation prompt
+through the program DAG after dependency and platform entry gates pass.
+Continue to RP-05 review. Do not implement RP-04 in this lifecycle sequence.
