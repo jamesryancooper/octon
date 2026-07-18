@@ -61,13 +61,13 @@ operator_decisions: []
 engineering_dispositions:
   - disposition_id: "ED-001"
     ownership: "consumed-RP-02-prerequisite"
-    state: "unproved"
+    state: "future-implementation-entry-proof"
   - disposition_id: "ED-002"
     ownership: "primary-broker-mechanism"
-    state: "mechanism-not-selected-or-proved"
+    state: "design-selected-not-installed-not-executed"
   - disposition_id: "ED-007"
     ownership: "RP-04-workflow-and-visible-surface-audit-slice"
-    state: "audit-not-run"
+    state: "proposal-surface-census-closed-runtime-proof-pending"
 dependencies:
   - "octon-architecture-migration-canonical-authority"
   - "octon-architecture-migration-candidate-isolation"
@@ -96,5 +96,5 @@ coverage_status:
   identifiers_mapped: true
   implementation_proof_complete: false
   operator_decisions_complete: true
-  engineering_dispositions_complete: false
+  engineering_dispositions_complete: true
   architecture_review_complete: false

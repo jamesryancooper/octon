@@ -2,21 +2,26 @@
 
 ## Target State: SI-04 Supervised Broker with One Scratch Effect
 
-One signed/pinned local broker executable runs as a supervised macOS user
-service outside the candidate sandbox. It owns one versioned IPC endpoint,
-Keychain credential access, the sole normal RP-03 database write connection,
-and a closed effect-adapter registry. The minimum vertical contains only a
-disposable scratch adapter; no remote worker or production publication exists.
+One signed/pinned local broker executable runs as the root-installed launchd
+Mach service `com.octon.local-broker.v1`, under a dedicated non-login `_octon`
+runtime identity outside the candidate sandbox. Root-owned installed files and
+mutual XPC code-signing requirements protect the service boundary from same-UID
+replacement. The broker owns System Keychain credential access, the sole normal
+RP-03 database write connection, and a closed effect-adapter registry. The
+minimum vertical contains only a disposable scratch adapter; no remote worker
+or production publication exists.
 
 ## Process and Identity Boundary
 
-The exact mechanism is selected by the future ED-002 Design and Dependency
-Receipt, but it must provide all of these independent checks:
+`resources/broker-ipc-keychain-design-and-dependency-receipt.yml` selects the
+exact macOS 26.5.2 mechanism:
 
-- launch-service-managed endpoint and single-instance lifecycle;
-- broker binary/config/protocol identity and code-signing requirement;
-- client process/application identity from an OS-authenticated property such
-  as audit token or equivalent, not a caller assertion;
+- root-owned LaunchDaemon, dedicated `_octon` identity, launchd MachServices
+  endpoint, and single-instance lifecycle;
+- both peers apply `xpc_connection_set_peer_code_signing_requirement` before
+  activation, binding identifiers, installation Team ID, and enrolled cdhash;
+- setup derives signing facts through Security.framework and stores only their
+  digests/requirements in root-owned configuration;
 - endpoint ownership/mode as defense in depth, never the sole check;
 - mutual protocol version and challenge/nonce binding, bounded request size,
   monotonic expiry, and connection/request replay defense;
@@ -25,9 +30,10 @@ Receipt, but it must provide all of these independent checks:
 - fail-closed behavior when code identity, signing, time, endpoint, or service
   state is unverifiable.
 
-Same UID is necessary for a user service but never sufficient to authorize a
-request. The candidate cannot access the endpoint or impersonate the trusted
-kernel client.
+Same UID, endpoint reachability, or executing an untrusted copy is never
+sufficient. Unsigned/ad-hoc binaries, wrong requirements, an unsupported host,
+or missing signing identity block setup. The candidate cannot satisfy the
+trusted kernel-client requirement or the RP-01/RP-03 operation binding.
 
 ## Authority and Operation Flow
 
@@ -69,11 +75,15 @@ the closed adapter interface.
 
 ## Credential Custody and Enrollment
 
-- Durable provider credentials are stored only in macOS Keychain under access
-  control bound to the admitted broker identity/mechanism.
-- Setup receives secret material through a secure interactive/OS enrollment
-  channel, never argv, environment, repository file, SQLite field, log, error,
-  receipt, crash report, or retained test artifact.
+- Durable provider credentials are non-synchronizing generic-password items in
+  the macOS System Keychain under a SecAccess ACL restricted to the exact
+  installed signed broker. The dedicated `_octon` identity and root-owned
+  installation prevent candidate or same-user replacement/access. The pinned
+  SecAccess mechanism is re-opened for design review if macOS removes or changes
+  its observed behavior.
+- Setup receives secret material through a root-owned no-echo inherited pipe,
+  never argv, environment, repository file, SQLite field, log, error, receipt,
+  crash report, or retained test artifact.
 - The store keeps only credential identifier/class/provider/project, access
   policy digest, creation/rotation status, and non-secret health metadata.
 - Broker memory holds the minimum value for the minimum duration and applies

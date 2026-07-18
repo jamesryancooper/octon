@@ -9,6 +9,14 @@ access-policy digest without secret, store schema/epoch/high-water, operation/
 attempt/handle identities, scratch target, commands, times, exits, retained
 redacted logs/digests, and evidence classification.
 
+Proposal acceptance authorizes creation of only the accepted exact design.
+Before source changes, implementation entry must prove RP-01/RP-02/RP-03
+verification, ED-001, exact Cargo resolution, SDK symbols, signing identity,
+root-owned installation, dedicated account, System Keychain ACL, and disposable
+fixture preflights. All matrices below run against the exact implementation and
+gate conformance, completion, cutover, support, or promotion; none gates the
+proposal's permission to create its test subject.
+
 ## Structural Proposal Validation
 
 - `validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-local-broker`

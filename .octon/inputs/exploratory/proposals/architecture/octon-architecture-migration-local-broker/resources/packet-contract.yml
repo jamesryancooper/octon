@@ -121,10 +121,10 @@ trust_boundary_changes:
   - "broker consumes but cannot create/widen authority or author verifier verdicts"
   - "outage blocks the affected consequence without ambient fallback"
 migration_preconditions:
-  - "RP-01/RP-02/RP-03 accepted implementations and exit evidence"
-  - "ED-001 useful primary-provider session and candidate negatives proved"
-  - "ED-002 Broker IPC/Keychain Design and Dependency Receipt passes"
-  - "ED-007 workflow/visible-surface audit passes"
+  - "RP-01/RP-02/RP-03 proposal designs accepted; their exact implementation verification gates RP-04 source entry"
+  - "ED-001 useful primary-provider session and candidate negatives gate RP-04 source entry"
+  - "ED-002 Broker IPC/Keychain Design and Dependency Receipt selects the exact macOS 26.5.2 mechanism"
+  - "ED-007 workflow/visible-surface census closes proposal ownership; exact runtime cardinality remains future proof"
   - "accepted proposal, passing completeness gate, and architecture review"
   - "sentinel credentials and disposable scratch targets only"
 migration_steps:
@@ -235,10 +235,10 @@ blocking_findings:
   cross_references:
     - "RF-004"
 entry_criteria:
-  - "RP-01/RP-02/RP-03 exit"
-  - "ED-001 useful provider session proved"
-  - "ED-002 exact mechanism/dependency receipt passes"
-  - "ED-007 surface audit passes"
+  - "accepted RP-04 proposal and digest-fresh architecture review authorize creation only"
+  - "before source changes, RP-01/RP-02/RP-03 implementation verification and ED-001 pass"
+  - "exact ED-002 Cargo/SDK/signing/install/Keychain/fixture preflight passes"
+  - "ED-007 static surface census is fresh"
 exit_criteria:
   - "only broker holds durable credentials and the normal DB write connection"
   - "forged/replayed/same-UID/wrong-identity requests deny"
@@ -263,7 +263,7 @@ unresolved_evidence:
     ownership: "shared-with-RP-02"
     current_state: "unresolved"
 authoritative_promotion_requirements:
-  - "ED-001 proof and passing ED-002/ED-007 receipts"
+  - "ED-001 proof and passing exact-implementation ED-002/ED-007 evidence"
   - "accepted proposal and independent architecture review"
   - "implemented supervised broker, IPC identity, Keychain custody, sole writer, lifecycle UX, and scratch adapter"
   - "direct IPC, credential, handle, writer, crash, repair, rollback, and burden proof"

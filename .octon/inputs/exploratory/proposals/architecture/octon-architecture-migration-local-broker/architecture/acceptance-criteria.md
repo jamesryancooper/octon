@@ -1,19 +1,18 @@
 # Acceptance Criteria
 
-These are future implementation gates. Packet creation satisfies none of the
-broker, IPC, Keychain, store-writer, scratch-effect, or recovery proof.
+AC-01 and AC-02 bind proposal design. All broker, IPC, Keychain, store-writer,
+scratch-effect, and recovery results remain future implementation proof.
 
 ## Entry and Design
 
-- **AC-00:** The three canonical dependencies exit: RP-01 authority/guard
-  semantics are frozen, RP-02 useful credentialless isolation passes, and
-  RP-03 one-store/writer APIs and recovery primitives pass.
-- **AC-01:** ED-001 evidence is bound and ED-002 resolves to exact pinned macOS,
-  launch-service, IPC/application-identity, Keychain, code-signing, protocol,
-  and dependency mechanisms.
-- **AC-02:** A Broker IPC/Keychain Design and Dependency Receipt passes and the
-  ED-007 audit proves one `octon broker` concept with no redundant normal-path
-  workflow or command surface.
+- **AC-00:** RP-01, RP-02, and RP-03 proposal designs are accepted. Their exact
+  implementation verification plus ED-001 useful-session proof gate RP-04
+  implementation entry rather than proposal authorization.
+- **AC-01:** The ED-002 receipt selects the exact macOS 26.5.2 root-owned
+  LaunchDaemon, dedicated identity, XPC peer requirements, System Keychain ACL,
+  signing, replay, handle, enrollment, and dependency mechanisms.
+- **AC-02:** The ED-007 census assigns every current surface and preserves one
+  `octon broker` concept with no redundant normal-path workflow or command.
 
 ## Identity, IPC, and Authority
 

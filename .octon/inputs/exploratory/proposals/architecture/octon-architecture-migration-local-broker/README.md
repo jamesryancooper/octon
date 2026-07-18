@@ -36,11 +36,13 @@ operation, or perform an effect.
   - `octon-architecture-migration-candidate-isolation`
   - `octon-architecture-migration-transactional-runtime-store`
 
-The packet is ready for operator reading, not implementation. ED-002's exact
-IPC/application-identity, launch service, Keychain access-control, code-signing,
-and dependency choices require a passing Design and Dependency Receipt. ED-001
-useful isolation and the three child dependencies must be proved; ED-007's
-visible-surface audit, proposal acceptance, and independent review must pass.
+The corrected packet is ready for independent re-review, not implementation.
+The ED-002 receipt selects the exact macOS 26.5.2 root-owned launchd/XPC peer-
+requirement, dedicated identity, System Keychain ACL, signing, enrollment,
+replay, HMAC-handle, and dependency posture. The ED-007 census assigns every
+current visible/helper/workflow surface and retains one `octon broker` concept.
+ED-001, dependency implementation verification, exact platform preflight, and
+all dynamic attacks remain future implementation gates.
 
 ## Normal Solo-Builder Experience
 

@@ -6,23 +6,23 @@ an effect.
 
 ## Workstream 0 — Freeze Dependencies and Mechanisms
 
-1. Bind accepted/implemented RP-01, RP-02, and RP-03 contracts and exact
-   integration symbols.
-2. Bind ED-001 proof and apply ED-002 to one pinned macOS support tuple.
-3. Complete ED-007 audit of existing broker-named helpers, workflows, CLI, and
-   visible surfaces; retain `policy-grant-broker.sh` as a non-RP-04 helper or
-   route any rename/retirement through its owner, never repurpose it.
+1. Bind the accepted RP-01, RP-02, and RP-03 designs; their exact implementation
+   verification remains a future implementation-entry gate.
+2. Bind the selected ED-002 macOS 26.5.2 mechanism from
+   `resources/broker-ipc-keychain-design-and-dependency-receipt.yml`.
+3. Enforce the closed ED-007 census in
+   `resources/workflow-visible-surface-census.yml`; preserve
+   `policy-grant-broker.sh` under RP-01 and expose exactly one `octon broker`
+   normal command concept.
 4. Use only sentinel credentials and disposable scratch targets.
 
 ## Broker IPC/Keychain Design and Dependency Gate
 
-Before code changes, retain an independently reviewed Design and Dependency
-Receipt covering:
+Before code changes, revalidate the selected Design and Dependency Receipt:
 
-- launchd LaunchAgent/service and socket/XPC activation alternatives;
-- peer audit-token/application/code-signing identity, mutual authentication,
-  designated requirements, downgrade/replay/time behavior, and same-user
-  threat limits;
+- root-owned LaunchDaemon/dedicated account and XPC MachServices activation;
+- mutual XPC peer code-signing requirements, installed identifiers/Team ID/
+  cdhash, downgrade/replay/time behavior, and same-user threat limits;
 - Keychain item/access-control/enrollment/rotation/revocation mechanism and
   proof that candidate/wrong binaries cannot export the credential;
 - operation-handle nonce/MAC/randomness, key custody, lifetime, binding,
@@ -36,9 +36,12 @@ Receipt covering:
 - prototypes for wrong/same-UID identity, Keychain canaries, launch restart,
   single instance, store writer, and scratch effect.
 
-The draft selects no IPC, Keychain, crypto, code-signing, or macOS FFI crate.
-A failing gate returns to engineering design; it does not create an operator
-decision unless the accepted boundary itself must change.
+The design selects explicit libxpc/Security/CoreFoundation FFI plus pinned
+`libc`, `hmac`, `sha2`, and `zeroize` dependencies. Exact Cargo resolution,
+framework symbols, signing identity, System Keychain ACL behavior, root-owned
+installation, and attack preflight gate source implementation. A failing gate
+returns to engineering design; it does not silently select a socket, peer-UID,
+ambient-credential, or direct-effect fallback.
 
 ## Workstream 1 — Broker Core and Protocol
 
@@ -113,7 +116,7 @@ decision unless the accepted boundary itself must change.
 
 ## Dependency Discipline
 
-Only the future reviewed macOS IPC/identity, Keychain, cryptographic-handle, and
+Only the selected macOS IPC/identity, Keychain, cryptographic-handle, and
 already-approved RP-03 store dependencies may enter. Any extra daemon,
 database, remote worker, credential helper, generic plugin host, network
 service, or workflow requires packet revision and completeness review. The

@@ -7,7 +7,7 @@ change only at allocated integration symbols after their owners approve.
 
 | Durable promotion target | Current assumption | Required RP-04 change | Ownership and rationale |
 | --- | --- | --- | --- |
-| `.octon/framework/engine/runtime/crates/Cargo.toml` | Workspace has no local_broker member or reviewed macOS IPC/Keychain dependencies. | Register the crate and only dependencies accepted by the future Design and Dependency Receipt. | RP-04 dependency gate; no remote service stack. |
+| `.octon/framework/engine/runtime/crates/Cargo.toml` | Workspace has no local_broker member or resolved broker dependencies. | Register the crate and only dependencies selected by `resources/broker-ipc-keychain-design-and-dependency-receipt.yml` after exact entry preflight. | RP-04 dependency gate; no remote service stack. |
 | `.octon/framework/engine/runtime/crates/Cargo.lock` | No broker dependency graph is locked. | Lock exact accepted transitive/native inputs and verify review identity. | Derived durable lock. |
 | `.octon/framework/engine/runtime/crates/local_broker/Cargo.toml` | Broker crate is absent. | Define one library/binary, closed features, RP-01/RP-03 clients, and test-only scratch support. | Planned new RP-04 crate. |
 | `.octon/framework/engine/runtime/crates/local_broker/src/main.rs` | No broker executable entrypoint exists. | Start only after config/identity/store/Keychain/adapter readiness and run the bounded service loop. | RP-04 process owner. |

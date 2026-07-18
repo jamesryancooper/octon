@@ -1,0 +1,77 @@
+schema_version: "octon-broker-ipc-keychain-design-and-dependency-receipt-v1"
+receipt_id: "rp04-ed002-design-20260718"
+verdict: "pass-for-design-selection"
+proof_state: "selected-not-installed-not-executed"
+decision_owner: "RP-04"
+engineering_disposition_ref: "ED-002"
+support_tuple:
+  architecture: "arm64"
+  product: "macOS 26.5.2"
+  build: "25F84"
+  sdk: "MacOSX26.5.sdk"
+  minimum_runtime: "macOS 26.0"
+  unsupported_host_rule: "deny setup and implementation entry; do not fall back to a Unix socket, peer UID, ambient credential, or direct effect"
+service:
+  class: "root-installed LaunchDaemon running as dedicated non-login _octon broker identity"
+  label: "com.octon.local-broker.v1"
+  endpoint: "launchd MachServices entry com.octon.local-broker.v1"
+  plist_install_path: "/Library/LaunchDaemons/com.octon.local-broker.plist"
+  broker_install_path: "/Library/PrivilegedHelperTools/com.octon.local-broker"
+  client_install_path: "/usr/local/libexec/octon/octon"
+  ownership: "root:wheel installed files; plist 0644; executables 0755; none group/world writable"
+  runtime_identity: "_octon dedicated non-login account with no home, shell, interactive login, or project access"
+  supervision: "launchd Mach activation, one label/instance/endpoint, ProcessType=Background, throttle/crash-loop fail-closed, graceful SIGTERM drain"
+ipc:
+  framework: "libxpc from the macOS SDK via explicit Rust extern-C FFI; no socket fallback"
+  listener_api: "xpc_connection_create_mach_service with XPC_CONNECTION_MACH_SERVICE_LISTENER"
+  client_api: "xpc_connection_create_mach_service"
+  mutual_identity: "both listener and client call xpc_connection_set_peer_code_signing_requirement before activation/message handling"
+  broker_requirement: "identifier com.octon.local-broker and anchor apple generic and certificate leaf[subject.OU] = <installation-team-id> and cdhash H\"<enrolled-broker-cdhash>\""
+  client_requirement: "identifier com.octon.kernel and anchor apple generic and certificate leaf[subject.OU] = <installation-team-id> and cdhash H\"<enrolled-client-cdhash>\""
+  requirement_binding: "setup obtains signing facts with SecCodeCopySigningInformation, writes only digests/requirements into root-owned config, and revalidates before readiness"
+  ad_hoc_or_unsigned: "prohibited; a missing trusted signing identity blocks setup rather than weakening peer authentication"
+  wire: "XPC dictionary mapped to local-broker-ipc-request/response-v1 schemas; unknown keys deny"
+  maximum_message_bytes: 65536
+  request_deadline_seconds: 30
+  replay_fields: ["protocol_version", "request_id", "client_identity_digest", "nonce_256", "issued_monotonic_ns", "deadline_monotonic_ns", "operation_tuple_digest"]
+  replay_rule: "random 256-bit nonce and request id are inserted into RP-03 T1 uniqueness state before any Keychain read; duplicate, reordered, expired, downgraded, or reconnect replay denies"
+keychain:
+  store: "macOS System Keychain generic-password item"
+  service: "com.octon.local-broker.credentials.v1"
+  account_binding: "provider/project/account/adapter digest; one item per exact binding"
+  synchronizable: false
+  exportable_copy: false
+  access: "macOS SecAccess ACL restricted to the exact installed signed broker application; _octon service identity is the sole accessor"
+  defense_in_depth: "System Keychain plus dedicated service account and root-owned installed binary/config; same-user and candidate processes have neither ACL admission nor filesystem replacement rights"
+  api_posture: "SecItem and SecAccess APIs from Security.framework; the deprecated SecAccess surface is permitted only on the pinned macOS 26 tuple and its absence or behavioral drift reopens ED-002"
+  enrollment: "octon broker setup accepts a credential only through a root-owned no-echo pipe inherited by the installer; never argv, environment, disk, SQLite, log, receipt, or project Git"
+  lifecycle: "typed enroll/rotate/revoke/delete; deletion requires no pending attempt and an explicit protected admin action"
+operation_handle:
+  construction: "random 256-bit handle id plus HMAC-SHA256 over operation/attempt/epoch/client/adapter/scope/tuple/expiry/single-use fields"
+  key: "random 256-bit per-start broker-memory key obtained from getentropy; never persisted, returned, logged, or placed in Keychain"
+  lifetime_seconds: 30
+  custody: "broker memory only; zeroized after consume or shutdown"
+  atomicity: "handle state is created by RP-03 T1 and consumed transactionally immediately before the closed adapter call"
+  authority: "derivative replay barrier only; cannot mint, widen, renew, replace, or survive authority/store epoch change"
+dependencies:
+  system_frameworks: ["xpc", "Security", "CoreFoundation"]
+  rust:
+    - {crate: "libc", version: "=0.2.186", source: "crates.io", purpose: "macOS C types, getentropy, and process primitives"}
+    - {crate: "hmac", version: "=0.12.1", source: "crates.io/RustCrypto", purpose: "HMAC-SHA256 operation handles"}
+    - {crate: "sha2", version: "=0.10.9", source: "existing workspace lock", purpose: "SHA-256 digest and HMAC primitive"}
+    - {crate: "zeroize", version: "=1.8.2", source: "crates.io/RustCrypto", purpose: "best-effort secret and handle-key zeroization"}
+  no_wrapper_crate: "XPC/Security symbols use a small audited macOS-only FFI module so peer-requirement and ACL semantics remain explicit"
+  lock_rule: "exact Cargo.lock checksum, full transitive graph, license, advisory, MSRV, framework symbol, code-signing, and link proof gate implementation entry"
+  failure_rule: "resolution, compile, link, requirement, ACL, signing, enrollment, or same-user negative failure returns to design review"
+implementation_entry:
+  - "RP-01/RP-02/RP-03 implementation verification gates pass"
+  - "exact signing identity is available without acquiring credentials in this proposal lifecycle"
+  - "Cargo resolution/checksums/licenses/advisories/MSRV and macOS symbols pass"
+  - "root-owned install, dedicated account, System Keychain ACL, capacity, and disposable fixture preflights pass"
+completion_evidence:
+  - "exact-commit mutual code-signing, same-UID, replacement, replay, and downgrade attack matrix"
+  - "candidate/wrong-binary/direct-Keychain/export canary matrix"
+  - "single service/endpoint/store-writer/effect-host census"
+  - "T1/handle/credential/effect/T2 crash and restart matrix"
+  - "scratch effect, setup/status/doctor/repair/upgrade/uninstall, rollback, UE-003, conformance, and drift proof"
+evidence_boundary: "This receipt selects a design. It does not install, sign, enroll, resolve dependencies, create a Keychain item, open XPC, run a service, or prove an attack result."
