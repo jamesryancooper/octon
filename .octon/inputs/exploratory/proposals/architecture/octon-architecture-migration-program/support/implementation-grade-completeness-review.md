@@ -3,19 +3,20 @@
 verdict: pass
 unresolved_questions_count: 0
 clarification_required: no
-reviewed_at: 2026-07-18T17:24:15Z
-reviewer: octon-proposal-lifecycle-review-program
-source_review_id: octon-architecture-migration-program-review-20260717T224709Z
+reviewed_at: 2026-07-18T18:29:24Z
+reviewer: octon-proposal-lifecycle-revise-program
+source_review_id: octon-architecture-migration-program-review-20260718T172415Z
 
 ## Blockers
 
 None for parent proposal completeness. The parent coordination architecture is
-fully specified, all six ROD lineages are settled or operator-accepted, and the
-fresh corrected-design Pre-Integration Architecture Review finds zero
-unresolved architecture blockers. Child review,
-readiness, implementation, provider proof, promotion, and closeout remain
-separately enforced lifecycle gates; their future state does not make this
-parent proposal incomplete.
+fully specified, all six ROD lineages are settled or operator-accepted, and all
+fifteen required, non-deferred children now have fresh accepted reviews,
+explicit implementation-prompt authorization, passing completeness receipts,
+and passing strict architecture receipts where applicable. The canonical child
+readiness gate passes with zero errors and warnings. Child implementation,
+provider proof, promotion, and closeout remain separately enforced lifecycle
+gates; none has been performed by this reconciliation.
 
 ## Assumptions
 
@@ -23,7 +24,7 @@ parent proposal incomplete.
   fifteen sibling child proposals and never satisfies child-owned receipts.
 - The fixed child DAG, refreshed 126-record collision ledger, source ownership,
   safe-state model, rollback/recovery boundaries, and aggregate closeout rules
-  preserve the same authority split after the RP-11 scope correction.
+  preserve the same authority split at the final accepted child digests.
 - Provider-native expected-old CAS, sealed source-ref operations, protected-PR
   tuple binding, `S -> Q` equivalence, post-land verification, conditional
   cleanup, recovery, and equal-floor Solo Local measurements remain future
@@ -61,15 +62,17 @@ parent proposal incomplete.
 - `validate-proposal-review-gate.sh --package <parent> --print-digest`
 - `validate-proposal-program-child-readiness.sh --package <parent>` remains the
   separate child-owned readiness gate before program prompt generation.
-- A fresh strict Pre-Integration Architecture Review receipt at the revised
-  packet digest remains required before parent acceptance.
+- A fresh strict Pre-Integration Architecture Review receipt at this revised
+  parent digest remains required before parent acceptance and program prompt
+  generation.
 
 ## Implementation Prompt Readiness
 
-The accepted parent proposal is complete and digest-bound. This receipt does
-not itself authorize an implementation prompt. Program prompt
-generation remains blocked until every required, non-deferred child has its own
-fresh accepted review and readiness evidence.
+The revised parent proposal is implementation-grade complete, and its child
+readiness prerequisite is satisfied. This receipt does not itself authorize an
+implementation prompt. Program prompt generation remains blocked until the
+distinct independent program re-review accepts this exact parent digest and
+the strict parent gate passes.
 
 ## Exclusions
 
@@ -82,6 +85,7 @@ fresh accepted review and readiness evidence.
 
 ## Final Route Recommendation
 
-Keep the parent accepted at the reviewed digest. Continue RP-11 re-review and
-the remaining child lifecycles; only after independent child-readiness passes
-may the program orchestration-prompt route be considered.
+Run the distinct independent `review-program` action at the reconciled parent
+digest. If it passes, accept the parent and run the final strict readiness floor
+before generating—but never executing—the canonical program orchestration
+prompt.

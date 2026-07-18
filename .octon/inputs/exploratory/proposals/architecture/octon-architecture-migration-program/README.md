@@ -26,8 +26,12 @@ This is planned architecture, not current authority. RP-00 containment disables
 unsafe writers, Octon `direct-main`, and current autonomous no-PR effects while
 preserving route classification and work. Production no-PR remains disabled
 until RP-05 through RP-08 prove the complete safety spine. The fixed fifteen-
-child graph is unchanged. The accepted parent now records RP-11's exact
-41-target scope and a complete 126-record collision ledger.
+child graph is unchanged. All fifteen required children are now independently
+accepted at fresh implementation-authorizing digests. The reconciled parent
+retains 420 exact child scope entries, 343 unique paths, the 30-edge DAG, and a
+complete 126-record collision ledger. It is `in-review` for the final independent
+program architecture review; no implementation-orchestration prompt is
+authorized until that review accepts this exact parent digest.
 
 ## Reading Order
 
@@ -44,5 +48,7 @@ child graph is unchanged. The accepted parent now records RP-11's exact
 11. `resources/operator-reading-order.md`
 12. `architecture/program-closeout-plan.md`
 
-Child lifecycle state remains child-owned. This parent scope reconciliation
-does not implement, authorize, promote, archive, or replace any child receipt.
+Child lifecycle state remains child-owned. This final readiness reconciliation
+does not implement, promote, archive, or replace any child receipt. It only
+records that the canonical child-readiness gate passes over the current child
+packets and routes this parent to its separate digest-bound re-review.
