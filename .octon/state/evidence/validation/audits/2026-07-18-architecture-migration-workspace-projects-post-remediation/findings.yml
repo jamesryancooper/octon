@@ -1,0 +1,6 @@
+schema_version: "1.0"
+run_id: architecture-migration-workspace-projects-post-remediation-20260718T170259Z
+findings:
+  - {id: RP10-EXACT-PROJECT-MECHANISMS-001, severity: high, status: closed, summary: "Exact identity, records, boundaries, correction, snapshot, index, and inbox mechanisms selected."}
+  - {id: RP10-IMPLEMENTATION-EVIDENCE-CYCLE-002, severity: high, status: closed, summary: "Authorization, entry gates, RP-10 proof, and RP-11 UE-010 closure are ordered without a cycle."}
+new_findings: []

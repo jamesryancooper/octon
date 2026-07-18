@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-workspace-projects-post-remediation-20260718T170259Z
+commit_sha: 8e5a731805
+scope_hash: sha256:149a717d53ef17879bd6a38793d6f90291dae752433743a485e58d09b4ae38cc
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: Three passes agree exact project mechanisms and proof order close all blockers.

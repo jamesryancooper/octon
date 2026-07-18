@@ -1,56 +1,65 @@
-review_id: octon-architecture-migration-workspace-projects-review-20260718T165727Z
-reviewed_at: 2026-07-18T16:57:27Z
+review_id: octon-architecture-migration-workspace-projects-review-20260718T170259Z
+reviewed_at: 2026-07-18T17:02:59Z
 reviewer: octon-proposal-lifecycle-review-packet
-verdict: revision-required
-implementation_prompt_authorized: no
-reviewed_packet_digest: sha256:25b560755e296209840aa284f2ba4c04298dc70456f8aea7ec76ec57abaab67f
-open_blocking_findings_count: 2
-prior_review_id: none
-final_route: revise-packet
-final_route_target: octon-architecture-migration-workspace-projects
+verdict: accepted
+implementation_prompt_authorized: yes
+reviewed_packet_digest: sha256:149a717d53ef17879bd6a38793d6f90291dae752433743a485e58d09b4ae38cc
+open_blocking_findings_count: 0
+prior_review_id: octon-architecture-migration-workspace-projects-review-20260718T165727Z
+final_route: review-packet
+final_route_target: octon-architecture-migration-harness-factory
 
-# RP-10 Independent Proposal Review
+# Accepted RP-10 Proposal Review
 
 ## Review Basis
 
-Reviewed all 22 pre-review packet files, accepted RP-01 boundary, ED-005,
-project/profile/mission/Harness ownership, and exact 16-target parent parity.
+Independently reviewed all 26 packet files at lifecycle base `8e5a731805` and
+final digest `sha256:149a717d53ef17879bd6a38793d6f90291dae752433743a485e58d09b4ae38cc`,
+including exact mechanisms, RP-01/RP-11 boundaries, proof order, rollback, and
+16-target parent parity.
 
 ## Approved Promotion Targets
 
-None while revision is required. All 16 proposed targets match the parent.
+- `.octon/framework/engine/runtime/spec/workspace-project-v1.schema.json`
+- `.octon/framework/constitution/contracts/runtime/workspace-project-v1.schema.json`
+- `.octon/framework/engine/runtime/spec/project-profile-v1.schema.json`
+- `.octon/framework/constitution/contracts/runtime/project-profile-v1.schema.json`
+- `.octon/framework/constitution/contracts/runtime/family.yml`
+- `.octon/framework/constitution/contracts/registry.yml`
+- `.octon/framework/cognition/_meta/architecture/contract-registry.yml`
+- `.octon/instance/locality/projects/`
+- `.octon/instance/locality/project-profile.yml`
+- `.octon/instance/governance/engagements/path-families.yml`
+- `.octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs`
+- `.octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs`
+- `.octon/framework/engine/runtime/crates/kernel/src/main.rs`
+- `.octon/framework/assurance/runtime/_ops/scripts/validate-engagement-change-package-compiler.sh`
+- `.octon/framework/assurance/runtime/_ops/tests/test-engagement-change-package-compiler.sh`
+- `.octon/state/evidence/validation/proposals/octon-architecture-migration-workspace-projects/`
+
+These are future implementation/evidence targets only; none is created or
+modified by this receipt.
 
 ## Blocking Findings
 
-### RP10-EXACT-PROJECT-MECHANISMS-001 — high
-
-The packet leaves project ID generation/adoption, repository identity, storage
-layout, revision/pointer format, path normalization and overlap resolution,
-inference/correction precedence, refresh receipts, run snapshot binding,
-location-index recovery, and inbox pagination/freshness to implementation. One
-exact reversible design receipt must select these mechanisms and limits.
-
-### RP10-IMPLEMENTATION-EVIDENCE-CYCLE-002 — high
-
-RP-01 implementation exit, UE-010, two-project dynamic proof, and integrated
-program ownership are prerequisites to proposal authorization. Freeze the
-accepted RP-01 packet/interface and exact RP-10 design now; dependency
-implementation and current consumer census gate source entry, while UE-010 and
-dynamic proof gate completion, downstream RP-11 exit, or promotion.
+None. Both prior blockers close through exact UUIDv7/JCS record mechanisms,
+path/fingerprint/adoption/overlap/correction rules, immutable run snapshots,
+non-authoritative index/inbox limits, and corrected RP-01 entry/UE-010
+completion ordering.
 
 ## Nonblocking Findings
 
-- Project metadata is consistently identifying/narrowing and never authority.
-- Active-run snapshot immutability, correction preservation, scoped ambiguity,
-  read-only inbox, rollback, and RP-11 ownership are coherent.
-- No operator or product decision is open; exact target parity holds.
+- RP-01 implementation verification, consumer/writer census, filesystem
+  preflight, and integration lease remain future source gates.
+- Dynamic two-project and authority-negative proof remain future completion
+  evidence; RP-11 retains deterministic compile/launch UE-010 closure.
 
 ## Exclusions
 
-No project record, Profile change, registry/pointer, inference, mission state,
-inbox, implementation, publication, promotion, archive, or cleanup occurred.
+No ID, record, Profile, pointer, snapshot, index, inbox output, mission state,
+implementation, publication, promotion, archive, or cleanup occurred.
 
 ## Final Route Recommendation
 
-Keep RP-10 in review, select exact project mechanisms and evidence order, then
-independently re-review. Do not implement RP-10.
+Keep RP-10 accepted. Authorize only future exact DAG-ordered implementation
+after entry gates. Continue to RP-11 review; do not implement RP-10 now.

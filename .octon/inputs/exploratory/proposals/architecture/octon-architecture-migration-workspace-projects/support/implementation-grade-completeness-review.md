@@ -6,8 +6,8 @@ clarification_required: no
 
 ## Blockers
 
-None at proposal-design scope. Fresh independent proposal and strict
-architecture re-review must bind the corrected digest before acceptance.
+None. Fresh independent proposal and strict architecture receipts pass at the
+accepted digest.
 
 ## Assumptions Made
 
@@ -40,7 +40,7 @@ not-executed and gate completion/downstream use.
 
 ## Implementation Prompt Readiness
 
-Ready for independent re-review. A future exact prompt must enforce RP-01 and
+Ready. A future exact prompt must enforce RP-01 and
 consumer/writer preflight before source work and dynamic project non-authority/
 snapshot/inbox proof before completion or RP-11 exit.
 
@@ -54,5 +54,5 @@ snapshot/inbox proof before completion or RP-11 exit.
 
 ## Final Route Recommendation
 
-Keep RP-10 in review and run fresh independent proposal and architecture
-re-review. Do not implement in this sequence.
+Keep RP-10 accepted and authorize only future exact implementation through the
+program DAG. Continue to RP-11 review. Do not implement in this sequence.

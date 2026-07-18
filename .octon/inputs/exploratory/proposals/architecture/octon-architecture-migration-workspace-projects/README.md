@@ -1,6 +1,6 @@
 # Minimal Workspace Projects
 
-This is the in-review RP-10 architecture proposal for
+This is the accepted RP-10 architecture proposal for
 `octon-architecture-migration-workspace-projects`. It is a temporary,
 non-authoritative implementation aid. It does not authorize implementation,
 execution, capability grants, project access, or support promotion.
@@ -60,7 +60,8 @@ Host-provider configuration and `.github/**` are outside this packet.
 
 ## Current Gate
 
-The corrected packet is `in-review`. Its exact design freezes the accepted
+The accepted packet's exact design freezes the accepted
 RP-01 digest and project identity, record, inference/correction, boundary,
 snapshot, index, inbox, and evidence-order mechanisms. UE-010 remains future
-dynamic proof. Fresh independent re-review is next.
+dynamic proof. Independent proposal and architecture re-review pass at the
+accepted digest.
