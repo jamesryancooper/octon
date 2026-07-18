@@ -4,10 +4,10 @@ logical_packet_id: "RP-00"
 workgroup_id: "RWG-00"
 proposal_id: "octon-architecture-migration-containment"
 title: "Containment, Baseline, and Claim Correction"
-status: "draft"
+status: "accepted"
 authority_posture:
   proposal_is_authority: false
-  implementation_authorized: false
+  implementation_authorized: true
   runtime_implemented: false
   support_claim_created: false
 purpose: "Create a safe, complete, and truthful boundary before privileged implementation."

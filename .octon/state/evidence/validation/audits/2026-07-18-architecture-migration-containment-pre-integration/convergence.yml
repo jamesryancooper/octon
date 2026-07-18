@@ -1,0 +1,19 @@
+schema_version: "1.0"
+run_id: architecture-migration-containment-pre-integration-20260718T034847Z
+commit_sha: 207473774e6ccb464e9f3eb572a8014c76c39ac6
+scope_hash: sha256:178ca73dcfa74289b9ef4937c73b52e3759494650d3aefdc226e13219921c1c0
+prompt_hash: sha256:f05d52330c372537c6fae64cd9a757dd2ea7e8d0bf29bbdd7ce0faff0b37868c
+findings_hash: sha256:1fa6c9a1da660ec0f332d4cad824d06d4b533202df5077cbe26336db26605ef2
+params_hash: sha256:92dd9596e623df1394dd1871a7e76375e267b90508affa6acd9b80069f63cee5
+seed: "17,29,43"
+system_fingerprint: "Darwin-arm64"
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: false
+convergence_required: false
+done_gate: pass-qualified-local
+rationale: Three controlled packet-standard passes converge on zero errors and the same expected future evidence-root warning; the full review finds no open medium-or-higher issue.
