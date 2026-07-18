@@ -20,8 +20,9 @@ invariants:
   - "Candidate-controlled material can never select or modify the evaluator, policy, configuration, revocation state, or final guard."
   - "Missing, stale, revoked, widened, substituted, or consumed authority denies."
 planned_durable_source_ownership:
-  semantic_owner: "RP-01 owns authority and guard semantics at named modules/symbols."
-  shared_integration: "Shared launcher and registry files are serialized through the parent trusted integration lane."
+  semantic_owner: "RP-01 owns authority and CandidateLaunchDescriptor/consume_candidate_launch_guard semantics in lifecycle_executor::authorization."
+  guard_invocation_owner: "RP-01 owns only the exact consuming-guard invocation and raw bypass removal in the four files/symbols enumerated by resources/candidate-launch-census.yml."
+  shared_integration: "Shared launcher and registry files are serialized through the parent trusted integration lane; RP-01 does not absorb their command construction, workflow, isolation, Harness, effect, persistence, or budget semantics."
   excluded: "RP-03 owns persistence; RP-02 isolation; RP-04 credentials/effects; RP-11 Harness; RP-13 child budgets."
 proposal_lifecycle_ownership: "RP-01 owns its own review, implementation, proof, conformance, promotion, and closeout receipts."
 retained_evidence_ownership: ".octon/state/evidence/validation/proposals/octon-architecture-migration-canonical-authority/"
@@ -30,7 +31,12 @@ files_expected_to_change:
   - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/{api,execution,effects,policy,records}.rs"
   - ".octon/framework/engine/runtime/crates/policy_engine/**"
   - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs"
   - ".octon/framework/engine/runtime/spec/{execution-authorization-v1.md,policy-interface-v1.md,authorization-boundary-coverage*}"
+  - ".octon/framework/assurance/runtime/_ops/{scripts/validate-authorization-boundary-coverage.sh,tests/test-authorization-boundary-coverage.sh,tests/test-authorization-boundary-negative-controls.sh,tests/test-material-side-effect-coverage-fixtures.sh}"
 contracts_affected: ["grant-bundle-v2", "revocation-v1", "execution authorization", "policy interface"]
 schemas_affected: ["grant-bundle-v2.schema.json", "revocation-v1.schema.json", "authorization-boundary-coverage-v1.schema.json"]
 workflows_and_generated_projections_affected:
@@ -53,7 +59,7 @@ deprecations_and_retirements:
   - "Retire legacy authority writers and direct launch bypasses only after census and proof."
 rollback_strategy: "Disable launch and select only a previously certified authority package; otherwise stay fail-closed."
 recovery_strategy: "Preserve candidate work and denial evidence, restore certified package identity, revalidate epoch/revocation, then reconsider launch."
-validation_plan: ["static spawn census", "typed scope matrix", "substitution/revocation matrix", "N-way guard consumption", "crash fault injection", "SI-01 operability"]
+validation_plan: ["closed-world candidate spawn census", "raw candidate spawn negative control", "four-seam dynamic guard dominance", "typed scope matrix", "substitution/revocation matrix", "N-way guard consumption", "crash fault injection", "SI-01 operability"]
 adversarial_tests: ["wrong evaluator/policy/config", "wrong repo/candidate/Harness", "path-ref-URI widening", "stale/revoked/consumed grant", "direct spawn attempt"]
 fault_injection: ["crash before guard", "crash during consumption", "crash before spawn", "concurrent consumers"]
 evidence_to_retain: ["interface digest", "spawn census", "negative matrix", "concurrency/fault receipts", "SI-01 receipt", "rollback rehearsal"]
@@ -73,8 +79,8 @@ operator_decisions:
     activation_boundary: "Safe automatic activation remains disabled and unclaimed until proof and later promotion acceptance."
 blocking_findings: ["RF-001", "RF-002", "RF-003"]
 unresolved_evidence: ["UE-001", "UE-002"]
-entry_criteria: ["RP-00 accepted, implemented, and containment proof current", "accepted ROD-003 boundary bound"]
-exit_criteria: ["FD-003/FD-004 proof gates pass", "UE-001/UE-002 resolved", "SI-01 and rollback pass", "frozen handoff accepted by RP-03"]
+entry_criteria: ["RP-00 accepted, implemented, and containment proof current", "accepted ROD-003 boundary bound", "RP-01 packet accepted with explicit authorization to create an exact implementation candidate"]
+exit_criteria: ["FD-003/FD-004 proof gates pass against the authorized exact implementation commit", "UE-001/UE-002 resolved before implementation completion or conformance", "SI-01 and rollback pass", "frozen handoff accepted by RP-03"]
 proof_produced: ["PG-01-AUTHORITY-DOMINANCE", "PG-01-LAUNCH-GUARDS"]
 authoritative_promotion_requirements:
   - "Accepted packet and bound ROD-003 baseline, implementation authorization, exact-commit dynamic/adversarial evidence, conformance review, and promotion receipts."

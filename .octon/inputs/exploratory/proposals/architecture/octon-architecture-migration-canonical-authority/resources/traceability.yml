@@ -10,6 +10,9 @@ proof_obligations:
   - id: "PO-FD-004"
     gate: "PG-01-LAUNCH-GUARDS"
 unresolved_evidence: ["UE-001", "UE-002"]
+evidence_sequence:
+  candidate_implementation_authorization: "accepted packet plus fresh digest-bound review authorizes creation of the exact candidate"
+  post_authorization_proof: "UE-001/UE-002 execute against that exact commit and block conformance, completion, cutover, and promotion"
 operator_decisions:
   - id: "ROD-003"
     status: "accepted"
@@ -22,6 +25,7 @@ dependencies:
 cross_packet_handoffs:
   - "Frozen semantic interface to RP-03."
   - "Guard API to RP-02, RP-04, RP-06, RP-10, and RP-11 consumers without transferring semantic ownership."
+  - "Guard invocation in the four census-owned launch seams; shared-file serialization preserves RP-02 isolation and RP-11 adapter ownership."
 brokered_no_pr_compatibility:
   findings: ["BNP-F-002", "BNP-F-011"]
   prior_audit_lineage: ["GIT-ENF-002", "GIT-ENF-014"]

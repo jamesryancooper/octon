@@ -15,6 +15,7 @@
 - `architecture/rollback-plan.md`
 - `architecture/operator-disclosure.md`
 - `resources/source-context.md`
+- `resources/candidate-launch-census.yml`
 - `resources/packet-contract.yml`
 - `resources/traceability.yml`
 - `support/proposal-creation.md`
@@ -24,3 +25,4 @@
 - `support/proposal-review.md`
 - `support/implementation-conformance-review.md`
 - `support/post-implementation-drift-churn-review.md`
+- `support/revisions/rp01-launch-dominance-evidence-cycle-20260718.md`
