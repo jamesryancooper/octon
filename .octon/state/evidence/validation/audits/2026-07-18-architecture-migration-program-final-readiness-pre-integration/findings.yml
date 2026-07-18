@@ -1,0 +1,25 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-final-readiness-pre-integration-20260718T183515Z
+findings:
+  - id: PROGRAM-LIFECYCLE-STATE-TRUTH-001
+    severity: high
+    status: open
+    summary: Current parent source artifacts still claim the parent and children are drafts after all fifteen children became accepted.
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/README.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/target-architecture.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/operator-disclosure.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.md
+    acceptance_required: Replace current-state draft assertions with accepted-proposal/non-authoritative-unimplemented truth while retaining historical creation receipts unchanged.
+  - id: PROGRAM-FINAL-READINESS-GATE-CONTRACT-002
+    severity: high
+    status: open
+    summary: Acceptance and validation source contracts still describe the draft creation floor instead of the final strict pre-implementation gate.
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/acceptance-criteria.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/validation-plan.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/program-charter.md
+    acceptance_required: Define 15/15 fresh child acceptance, fresh parent acceptance, strict child/parent gates, and digest-bound prompt generation as the final floor without treating implementation proof as preauthorization evidence.
+new_findings:
+  - PROGRAM-LIFECYCLE-STATE-TRUTH-001
+  - PROGRAM-FINAL-READINESS-GATE-CONTRACT-002

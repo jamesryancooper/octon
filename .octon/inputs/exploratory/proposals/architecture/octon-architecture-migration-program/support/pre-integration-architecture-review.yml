@@ -1,28 +1,34 @@
 schema_version: "architectural-review-support-receipt-v1"
-receipt_id: "octon-architecture-migration-program-rp11-scope-pre-integration-architecture-review-20260718T172415Z"
+receipt_id: "octon-architecture-migration-program-final-readiness-pre-integration-architecture-review-20260718T183515Z"
 proposal_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program"
-packet_digest: "sha256:440729088e2f453f3d1124c9e075dd9788baafc585364e02b13d2f62d199da3c"
+packet_digest: "sha256:a6703ea861be9369340b5951adc21f8ad2113cc6d3681d4ac1c449eeb98b12df"
 review_mode: "pre-integration-architecture-review"
-verdict: "pass"
-unresolved_count: 0
-blockers: []
+verdict: "fail"
+unresolved_count: 2
+blockers:
+  - id: "PROGRAM-LIFECYCLE-STATE-TRUTH-001"
+    severity: "high"
+    summary: "Current parent source artifacts still claim that the parent and children are drafts, contradicting the live accepted child state."
+  - id: "PROGRAM-FINAL-READINESS-GATE-CONTRACT-002"
+    severity: "high"
+    summary: "The current acceptance and validation contracts still describe draft creation gates instead of the final strict parent/child readiness and prompt-generation boundary."
 non_authority_classification: "retained-evidence-only"
-recorded_at: "2026-07-18T17:24:15Z"
-evidence_refs: [".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-program-rp11-scope-pre-integration-20260718T172415Z.md", ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-program-rp11-scope-pre-integration-20260718T172415Z.md", ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-program-rp11-scope-pre-integration/bundle.yml", ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/support/revisions/revision-20260718T171947Z.md"]
-validator_refs: ["validate-proposal-review-gate.sh --package parent --print-digest", "validate-proposal-program-structure.sh --package parent", "validate-proposal-standard.sh --package parent", "validate-proposal-implementation-readiness.sh --package parent", "validate-architecture-proposal.sh --package parent", "validate-architectural-review-receipts.sh --mode pre-integration-architecture-review --require-pass"]
+recorded_at: "2026-07-18T18:35:15Z"
+evidence_refs: [".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-program-final-readiness-pre-integration-20260718T183515Z.md", ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-program-final-readiness-pre-integration-20260718T183515Z.md", ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-program-final-readiness-pre-integration/bundle.yml", ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/support/revisions/revision-20260718T182924Z.md"]
+validator_refs: ["validate-proposal-review-gate.sh --package parent --print-digest", "validate-proposal-program-structure.sh --package parent", "validate-proposal-program-child-readiness.sh --package parent", "validate-proposal-standard.sh --package parent", "generate-proposal-registry.sh --check", "generate-repo-authority-write-scope-index.sh --check", "rg current parent lifecycle statements"]
 mode_specific_coverage:
-  review_charter: "Current-digest parent acceptance gate after RP-11 candidate-seam scope reconciliation."
+  review_charter: "Final current-digest program acceptance gate after all required children reached fresh accepted state."
   external_tool_integrity: "No provider, credential, GitHub, or runtime tool was invoked or mutated."
   system_job: "Coordinate fifteen child lifecycles without acquiring child implementation or proof authority."
-  current_reality: "Parent sources contain 420 scopes and 126 complete collision records; RP-11 remains independently in review."
-  authority_boundaries: "RP-01 owns final guards; RP-11 owns only prepared-handle and generic adapter integration."
-  dependency_and_concurrency: "RP-11 depends on RP-01 and RP-02, so shared seams serialize acyclically in exact order."
+  current_reality: "All fifteen children are accepted and child-readiness passes, but current parent source still contains draft-only lifecycle assertions."
+  authority_boundaries: "Parent owns coordination and readiness aggregation only; all child implementation, proof, promotion, and terminal authority remains child-owned."
+  dependency_and_concurrency: "The 15-child/30-edge DAG and 126 collision records remain complete and acyclic."
   failure_and_recovery: "Missing receipts, scope drift, ledger gaps, cycles, and stale bindings fail closed and preserve work."
   security_and_credentials: "No credential/provider surface changed; child adapter design remains non-authoritative."
-  evidence_and_validation: "Exact target parity, digest, structure, collision, generator, standard, readiness, and strict receipt checks cover the revision."
+  evidence_and_validation: "Exact target parity, digest, structure, collision, generator, child-readiness, current-source truth, and receipt checks cover the review."
   contracts_and_compatibility: "The v2 child registry and v1 collision ledger preserve the fixed DAG and child ownership."
-  operability_and_observability: "Parent and child receipts remain distinct; dynamic proof is still future child evidence."
-  sequencing_and_migration: "RP-01 guard integrates before RP-11 on three added seams; RP-02 remains between them on codex.rs."
-  prior_finding_disposition: "RP11 parent-scope reconciliation is closed; child design proof remains child-owned."
-  final_self_challenge: "Guard takeover, hidden spawn, cyclic serialization, proof inflation, child substitution, and target drift challenged."
-  verdict_basis: "All required lenses converge with zero unresolved parent architecture blockers."
+  operability_and_observability: "Parent and child receipts remain distinct, but operator-facing lifecycle statements must reflect the live gate state."
+  sequencing_and_migration: "Final parent acceptance precedes strict readiness validation and prompt generation; implementation remains separately gated."
+  prior_finding_disposition: "All prior scope, ownership, collision, and child-design findings are closed; this review found two new parent truthfulness blockers."
+  final_self_challenge: "Stale lifecycle prose, circular proof gates, prompt preauthorization, child substitution, target drift, hidden scope, and unsafe effects were challenged."
+  verdict_basis: "Architecture and ownership are coherent, but two current-source lifecycle/gate contradictions block final parent acceptance."

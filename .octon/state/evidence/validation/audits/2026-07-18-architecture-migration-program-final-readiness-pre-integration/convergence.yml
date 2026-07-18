@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-final-readiness-pre-integration-20260718T183515Z
+commit_sha: 91940edf99
+scope_hash: sha256:a6703ea861be9369340b5951adc21f8ad2113cc6d3681d4ac1c449eeb98b12df
+seeds: [17, 29, 43]
+result_vector: [revision-required, revision-required, revision-required]
+stable: true
+union_blocking_findings: 2
+open_findings_at_or_above_threshold: 2
+done: true
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: correction-required
+rationale: Three passes agree the architecture graph is coherent and the same two stale current-source lifecycle/gate assertions block final acceptance.
