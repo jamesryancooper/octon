@@ -1,0 +1,7 @@
+schema_version: "1.0"
+run_id: architecture-migration-self-development-trust-activation-20260718T164719Z
+findings:
+  - {id: RP09-EXACT-ACTIVATION-MECHANISMS-001, severity: high, status: open, summary: "Inventory, install, selector, health, rollback, retention, and bootstrap mechanisms are not exact."}
+  - {id: RP09-AUTHORITY-INTEGRATION-BOUNDARY-002, severity: high, status: open, summary: "RP-01 issuance and RP-09 schema/consumer contributions are not mechanically separated."}
+  - {id: RP09-IMPLEMENTATION-EVIDENCE-CYCLE-003, severity: high, status: open, summary: "Future dependency and dynamic proof gate proposal authorization circularly."}
+new_findings: [RP09-EXACT-ACTIVATION-MECHANISMS-001, RP09-AUTHORITY-INTEGRATION-BOUNDARY-002, RP09-IMPLEMENTATION-EVIDENCE-CYCLE-003]

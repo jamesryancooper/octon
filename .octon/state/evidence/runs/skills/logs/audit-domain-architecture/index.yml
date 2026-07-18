@@ -241,3 +241,12 @@ runs:
     metrics: {surfaces_mapped: 7, files_scanned: 26, critical: 0, high: 0, medium: 0, low: 0, recommendations: 3}
     report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-recovery-class-b-post-remediation-20260718T164403Z.md
     log: ../../audit-domain-architecture/architecture-migration-recovery-class-b-post-remediation-20260718T164403Z.md
+  - id: "architecture-migration-self-development-trust-activation-20260718T164719Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-self-development-trust-activation"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 3, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-self-development-trust-activation-20260718T164719Z.md
+    log: ../../audit-domain-architecture/architecture-migration-self-development-trust-activation-20260718T164719Z.md

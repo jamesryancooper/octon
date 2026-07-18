@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-self-development-trust-activation-20260718T164719Z
+commit_sha: a4531d8175
+scope_hash: sha256:a25c502c18b59b4d56f00ed7179a00999f4af282a79e5e977904c58475837a58
+seeds: [17, 29, 43]
+result_vector: [fail, fail, fail]
+stable: true
+union_blocking_findings: 3
+open_findings_at_or_above_threshold: 3
+done: true
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: revision-required
+rationale: Three passes agree that exact activation, authority, and evidence-order corrections are required.
