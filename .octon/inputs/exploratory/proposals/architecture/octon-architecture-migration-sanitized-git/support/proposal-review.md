@@ -1,60 +1,66 @@
-review_id: octon-architecture-migration-sanitized-git-review-20260718T154957Z
-reviewed_at: 2026-07-18T15:49:57Z
+review_id: octon-architecture-migration-sanitized-git-review-20260718T155842Z
+reviewed_at: 2026-07-18T15:58:42Z
 reviewer: octon-proposal-lifecycle-review-packet
-verdict: revision-required
-implementation_prompt_authorized: no
-reviewed_packet_digest: sha256:e414ecd50eeb68a1e4b74acdef088ff7601c29206a3e4f098c85583c2c8a2165
-open_blocking_findings_count: 2
-prior_review_id: none
-final_route: revise-packet
-final_route_target: octon-architecture-migration-sanitized-git
+verdict: accepted
+implementation_prompt_authorized: yes
+reviewed_packet_digest: sha256:d2299fa953ec57c1842ff41371d7dfca7bf00297ba627e9a8c70c328f700efc0
+open_blocking_findings_count: 0
+prior_review_id: octon-architecture-migration-sanitized-git-review-20260718T154957Z
+final_route: review-packet
+final_route_target: octon-architecture-migration-verification-publication
 
-# RP-05 Independent Proposal Review
+# Accepted RP-05 Proposal Review
 
 ## Review Basis
 
-Reviewed all 22 packet files, accepted RP-04 interface, parent scope, current
-Git 2.51.1, closed ref-operation design, hostile-surface matrix, failure and
-rollback posture, and proposal-versus-implementation evidence order.
+Independently reviewed all 26 packet files at lifecycle base `586f372698` and
+final digest `sha256:d2299fa953ec57c1842ff41371d7dfca7bf00297ba627e9a8c70c328f700efc0`.
+The review covers the exact ED-003 Git/provider mechanism, evidence order,
+security and credential boundaries, failure/UNKNOWN behavior, rollback,
+12-target parent parity, and post-remediation architecture audit.
 
 ## Approved Promotion Targets
 
-None while revision is required. All 12 proposed targets match the parent.
+- `.octon/framework/engine/runtime/crates/local_broker/src/adapters/git/`
+- `.octon/framework/engine/runtime/crates/authorized_effects/`
+- `.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml`
+- `.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml`
+- `.octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh`
+- `.octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh`
+- `.octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh`
+- `.octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh`
+- `.octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md`
+- `.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml`
+- `.octon/framework/assurance/runtime/_ops/tests/sanitized-git/`
+- `.octon/state/evidence/validation/proposals/octon-architecture-migration-sanitized-git/`
+
+These are future implementation/evidence targets only; none is created or
+modified by this receipt.
 
 ## Blocking Findings
 
-### RP05-ED003-MECHANISM-001 — high
-
-ED-003 names a GitHub App and expected-old CAS but does not select the exact
-Git transport, advertised-ref/authorized-old binding, non-force send behavior,
-credential handoff, isolated environment/config, object-import format and
-validation, source/create/delete/mirror commands, tool identity, or outcome
-observation semantics. The packet needs one exact design receipt that shows how
-Git receive-pack provides server-side expected-old comparison without allowing
-non-fast-forward or candidate-controlled execution.
-
-### RP05-IMPLEMENTATION-EVIDENCE-CYCLE-002 — high
-
-UE-005, scratch-provider CAS feasibility, hostile Git sentinels, and RP-04
-implemented exit are required before proposal authorization, although those
-tests require the authorized adapter. Accepted design may authorize creation;
-RP-04 implementation verification and exact Git/provider preflight gate source
-entry; UE-005 and dynamic evidence gate completion or promotion.
+None. `RP05-ED003-MECHANISM-001` is closed by the exact closed adapter design.
+`RP05-IMPLEMENTATION-EVIDENCE-CYCLE-002` is closed by separating accepted
+design authorization, implementation entry, and post-implementation proof.
+Failure of exact Git/provider preflight or any hostile/race negative reopens
+the relevant gate and cannot widen the adapter.
 
 ## Nonblocking Findings
 
-- Ownership, 12-target parent parity, rollback, route freeze, and proof limits
-  are otherwise coherent.
-- Provider ruleset/App availability remains a future fail-closed preflight;
-  unavailable true CAS keeps production publication disabled.
+- RP-04 implementation verification and Git/tool/provider/App/ruleset/TLS/
+  scratch preflight remain future source-entry gates.
+- UE-005, all hostile Git/race/outage/attribution results, conformance, and
+  drift remain planned-not-executed.
+- Absent promotion targets are expected because implementation has not begun.
 
 ## Exclusions
 
-No Git/provider/credential/repository/ref/object, implementation, publication,
-promotion, archive, cleanup, or generated effect occurred. No planned test is
-represented as proof.
+- No Git/provider command, request, credential, object import, App/ruleset,
+  ref, publication, promotion, archive, cleanup, or implementation occurred.
+- No broker-core, authority, store, verdict, routing, retry, PR-policy, or
+  GitHub workflow authority transfers to RP-05.
 
 ## Final Route Recommendation
 
-Keep RP-05 in review, select ED-003 exactly, correct evidence order, and then
-independently re-review. Do not implement RP-05 now.
+Keep RP-05 accepted. Authorize only its future exact DAG-ordered implementation
+after entry gates pass. Continue to RP-06 review; do not implement RP-05 now.

@@ -1,0 +1,6 @@
+schema_version: "1.0"
+run_id: architecture-migration-sanitized-git-post-remediation-20260718T155842Z
+findings:
+  - {id: RP05-ED003-MECHANISM-001, severity: high, status: closed, summary: "Exact tool, transport, credential, object import, ref CAS, and observation mechanism selected with fail-closed entry gates."}
+  - {id: RP05-IMPLEMENTATION-EVIDENCE-CYCLE-002, severity: high, status: closed, summary: "Design authorization, implementation entry, and post-implementation proof are correctly separated."}
+new_findings: []

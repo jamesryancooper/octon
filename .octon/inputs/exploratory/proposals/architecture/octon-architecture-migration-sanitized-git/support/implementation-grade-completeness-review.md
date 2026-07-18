@@ -59,9 +59,10 @@ All dynamic results remain planned-not-executed.
 
 ## Implementation Prompt Readiness
 
-Ready for independent re-review. A fresh accepted proposal review and strict
-pre-integration architecture receipt must bind the corrected digest before any
-implementation prompt may be generated.
+Ready. The fresh accepted proposal review and strict pre-integration
+architecture receipt pass at the final digest. A future exact prompt must
+enforce every source-entry gate before changes and every dynamic result before
+completion, enablement, support, or promotion.
 
 ## Exclusions
 
@@ -73,6 +74,6 @@ implementation prompt may be generated.
 
 ## Final Route Recommendation
 
-Keep RP-05 in-review and run a fresh independent proposal and architecture
-re-review at the corrected digest. If accepted, authorize only future exact
-implementation through the program DAG. Do not implement in this sequence.
+Keep RP-05 accepted and authorize only future exact implementation through the
+program DAG after RP-04 verification and the exact provider/tool preflight
+pass. Continue to RP-06 review. Do not implement in this sequence.

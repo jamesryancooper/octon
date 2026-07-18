@@ -1,6 +1,6 @@
 # Sanitized Privileged Git Adapter
 
-This is the in-review RP-05 architecture child of
+This is the accepted RP-05 architecture child of
 octon-architecture-migration-program. It is a temporary, non-authoritative
 implementation aid. It does not implement, authorize, or promote Git effects.
 
@@ -27,9 +27,9 @@ authorizes cleanup, implements PR policy, or becomes a generic Git service.
 
 The corrected packet selects an exact Git 2.51.1 Smart HTTP/receive-pack,
 force-with-lease expected-old, independent ancestry, quarantined object import,
-GitHub App credential-pipe, and observation design. It is ready for independent
-re-review; no Git command, provider request, credential, or ref mutation has
-occurred.
+GitHub App credential-pipe, and observation design. Independent proposal and
+architecture re-review pass at the accepted digest; no Git command, provider
+request, credential, or ref mutation has occurred.
 
 ## Boundary
 

@@ -22,7 +22,7 @@ promotion_targets:
   - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
   - ".octon/framework/assurance/runtime/_ops/tests/sanitized-git/"
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-sanitized-git/"
-status: "in-review"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: >-
