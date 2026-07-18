@@ -25,8 +25,9 @@ candidate. A technical failure or `UNKNOWN` effect never becomes a PR fallback.
 This is planned architecture, not current authority. RP-00 containment disables
 unsafe writers, Octon `direct-main`, and current autonomous no-PR effects while
 preserving route classification and work. Production no-PR remains disabled
-until RP-05 through RP-08 prove the complete safety spine. The fixed fifteen-child
-graph is unchanged and every proposal remains `draft`.
+until RP-05 through RP-08 prove the complete safety spine. The fixed fifteen-
+child graph is unchanged. The parent is temporarily `in-review` while RP-11's
+41-target scope and collision records receive a fresh digest-bound review.
 
 ## Reading Order
 
@@ -43,6 +44,5 @@ graph is unchanged and every proposal remains `draft`.
 11. `resources/operator-reading-order.md`
 12. `architecture/program-closeout-plan.md`
 
-RP-00 is the recommended first packet for later review and acceptance. Every
-child remains `draft`; acceptance, implementation, proof, promotion, and
-archive happen later through each child's own lifecycle.
+Child lifecycle state remains child-owned. This parent scope reconciliation
+does not implement, authorize, promote, archive, or replace any child receipt.

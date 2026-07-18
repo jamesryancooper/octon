@@ -3,7 +3,7 @@
 verdict: pass
 unresolved_questions_count: 0
 clarification_required: no
-reviewed_at: 2026-07-18T15:21:31Z
+reviewed_at: 2026-07-18T17:19:47Z
 reviewer: octon-proposal-lifecycle-revise-program
 source_review_id: octon-architecture-migration-program-review-20260717T224709Z
 
@@ -22,9 +22,9 @@ parent proposal incomplete.
 
 - The parent remains a non-authoritative gated-parallel coordinator over exactly
   fifteen sibling child proposals and never satisfies child-owned receipts.
-- The fixed child DAG, 123-record collision ledger, source ownership, safe-state
-  model, rollback/recovery boundaries, and aggregate closeout rules remain
-  unchanged by this receipt refresh.
+- The fixed child DAG, refreshed 126-record collision ledger, source ownership,
+  safe-state model, rollback/recovery boundaries, and aggregate closeout rules
+  preserve the same authority split after the RP-11 scope correction.
 - Provider-native expected-old CAS, sealed source-ref operations, protected-PR
   tuple binding, `S -> Q` equivalence, post-land verification, conditional
   cleanup, recovery, and equal-floor Solo Local measurements remain future
@@ -48,8 +48,8 @@ parent proposal incomplete.
   sequence, child contract, collision ledger, ownership/risk/traceability
   registers, rollback/recovery material, closeout plan, artifact catalog, and
   parent support receipts cover the complete coordination surface.
-- The registry retains 15 required children, 30 dependency edges, 417 write-scope
-  entries, 343 unique paths, and 123 complete collision records whose aggregate
+- The registry retains 15 required children, 30 dependency edges, 420 write-scope
+  entries, 343 unique paths, and 126 complete collision records whose aggregate
   dependency-plus-serialization graph is acyclic.
 
 ## Validator Coverage

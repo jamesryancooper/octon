@@ -524,6 +524,9 @@ children:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
       - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh"
       - ".octon/state/evidence/validation/proposals/octon-architecture-migration-harness-factory/"
+      - ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
+      - ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs"
     required_metadata: ["change_profile"]
     source_lineage_refs:
       - ".octon/inputs/exploratory/reviews/architecture-migration/reconciliations/architecture-migration-reconciliation-20260712T032411Z-10c3ff/reconciliation/reconciled-proposal-packet-map.yml"
@@ -687,14 +690,14 @@ children:
       - ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md"
 write_scope_collision_ledger:
   schema_version: octon-program-write-scope-collision-ledger-v1
-  registry_write_scopes_digest: sha256:26a598d86b78f3c1e2c017ece75778a760be80c65337980ef218cf46daa94e09
+  registry_write_scopes_digest: sha256:f662fecb3c3ec65fc603527622a04ac659307af928da26b3f3934b005ab125b2
   derived_counts:
     child_count: 15
-    scope_entries: 417
+    scope_entries: 420
     unique_paths: 343
-    exact_records: 118
+    exact_records: 121
     directory_prefix_records: 5
-    total_records: 123
+    total_records: 126
   records:
     - collision_id: WSC-001
       participants:
@@ -2559,3 +2562,48 @@ write_scope_collision_ledger:
         ordered_child_ids:
           - octon-architecture-migration-canonical-authority
           - octon-architecture-migration-transactional-runtime-store
+    - collision_id: WSC-132
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/pipeline.rs
+          contribution: exact final candidate-guard invocation and raw bypass removal only within .octon/framework/engine/runtime/crates/kernel/src/pipeline.rs; preserve octon-architecture-migration-harness-factory generic adapter semantics and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/pipeline.rs
+          contribution: registry-resolved prepared-handle and generic model-adapter dispatch only within .octon/framework/engine/runtime/crates/kernel/src/pipeline.rs; preserve octon-architecture-migration-canonical-authority guard semantics and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-133
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/workflow.rs
+          contribution: exact final candidate-guard invocation and raw bypass removal only within .octon/framework/engine/runtime/crates/kernel/src/workflow.rs; preserve octon-architecture-migration-harness-factory generic adapter semantics and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/kernel/src/workflow.rs
+          contribution: registry-resolved prepared-handle and generic model-adapter dispatch only within .octon/framework/engine/runtime/crates/kernel/src/workflow.rs; preserve octon-architecture-migration-canonical-authority guard semantics and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-harness-factory
+    - collision_id: WSC-134
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs
+          contribution: exact final candidate-guard invocation and raw bypass removal only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs; preserve octon-architecture-migration-harness-factory generic adapter semantics and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs
+          contribution: registry-resolved prepared-handle and generic host-adapter dispatch only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs; preserve octon-architecture-migration-canonical-authority guard semantics and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-harness-factory

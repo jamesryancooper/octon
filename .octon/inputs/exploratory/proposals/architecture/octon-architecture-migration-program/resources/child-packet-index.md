@@ -51,3 +51,11 @@ slice at the four candidate-launch seams named by its reviewed census, plus the
 three exact fitness-test targets. The DAG is unchanged. The sole new physical
 collision is `lifecycle_executor/src/codex.rs`, serialized RP-01, RP-02, then
 RP-11 without transferring isolation or Harness/adapter semantics.
+
+The RP-11 design review closes the generic adapter boundary over all four
+accepted RP-01 candidate-launch seams. RP-11 therefore adds only
+`kernel/src/pipeline.rs`, `kernel/src/workflow.rs`, and
+`lifecycle_executor/src/workflow_leaf.rs` to its write scope for exact
+registry-resolved prepared-handle/model-or-host-adapter integration. RP-01
+retains final guard ownership at each seam and integrates first; the 15-child
+DAG and dependency edges are unchanged.
