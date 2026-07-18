@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-final-readiness-post-remediation-20260718T184402Z
+commit_sha: bef795591e
+scope_hash: sha256:b68a5bf2593e304f511d26780dfa66100ee5a1e779f39f1276ebeaa593714056
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: accepted
+rationale: Three passes agree both final parent truthfulness findings are closed and the unchanged architecture remains coherent and acyclic.
