@@ -13,13 +13,15 @@ activates the governed store epoch through durable sources.
 1. `proposal.yml`
 2. `architecture-proposal.yml`
 3. `resources/packet-contract.yml`
-4. `architecture/target-architecture.md`
-5. `architecture/acceptance-criteria.md`
-6. `architecture/implementation-plan.md`
-7. supporting architecture and resource documents
-8. `navigation/artifact-catalog.md`
-9. `.octon/generated/proposals/registry.yml`
-10. `README.md`
+4. `resources/sqlite-design-and-dependency-receipt.yml`
+5. `resources/writer-state-census.yml`
+6. `architecture/target-architecture.md`
+7. `architecture/acceptance-criteria.md`
+8. `architecture/implementation-plan.md`
+9. supporting architecture and resource documents
+10. `navigation/artifact-catalog.md`
+11. `.octon/generated/proposals/registry.yml`
+12. `README.md`
 
 ## Durable Ownership Split
 
@@ -42,8 +44,8 @@ activates the governed store epoch through durable sources.
   through the recovery procedure.
 - Retained evidence proves migration and behavior but cannot advance store
   state or authorize an effect.
-- `.octon/generated/proposals/registry.yml` remains discovery-only and is not
-  edited by this delegated child-authoring task.
+- `.octon/generated/proposals/registry.yml` remains discovery-only and changes
+  only through its canonical owning generator.
 
 ## Conflict and Failure Rules
 

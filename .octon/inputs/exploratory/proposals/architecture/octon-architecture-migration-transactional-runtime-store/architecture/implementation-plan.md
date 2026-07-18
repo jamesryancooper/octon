@@ -1,25 +1,27 @@
 # Implementation Plan
 
-This plan becomes executable only after proposal acceptance and the entry
-gates above. It does not authorize database creation, migration, or effects.
+This plan becomes executable only after proposal acceptance and a separately
+generated exact implementation prompt. RP-01 verification, Cargo lock review,
+and census refresh gate implementation entry. It does not authorize database
+creation, migration, or effects.
 
 ## Workstream 0 — Freeze Policy and Physical Design
 
 1. Bind RP-01's frozen versioned authority/guard semantics and exact shared
    symbol ownership.
-2. Bind accepted ROD-001 evidence/recovery invariants; separately record
-   conservative reversible engineering defaults for store path, backup
-   mechanism/cadence/generations, and physical terminal reserve.
-3. Refresh the exhaustive writer/state/source inventory from RP-00 and bind an
-   exact clean repository and control-state baseline.
+2. Consume accepted ROD-001 invariants and the reversible defaults selected in
+   `resources/sqlite-design-and-dependency-receipt.yml`.
+3. Refresh `resources/writer-state-census.yml` at the exact implementation
+   baseline, bind the clean repository/control-state baseline, and fail on any
+   new or unmatched production writer.
 4. Select the one canonical operation/attempt/journal model and prohibit
    provider-specific outcome policy in RP-03.
 
 ## SQLite Design and Dependency Gate
 
-Before code changes, compare the smallest credible SQLite integration options,
-including pinned/bundled versus platform linkage, and retain a reviewed SQLite
-Design and Dependency Receipt with:
+The reviewed design receipt selects `rusqlite =0.40.1`, default features off,
+`bundled/backup/hooks/limits`, and bundled SQLite 3.53.2. Before source code
+changes, the implementation resolves and reviews:
 
 - crate/library, exact version, source, checksum, license, feature flags,
   transitive/native dependencies, Rust/toolchain/MSRV, and supported macOS;
@@ -30,11 +32,12 @@ Design and Dependency Receipt with:
   posture, update cadence, operational burden, and removal/rollback path;
 - reasons the choice preserves one embedded store without a new daemon or
   alternate writer; and
-- direct prototype evidence for concurrent transactions, backup/restore,
-  corruption detection, WAL recovery, and constrained volume.
+- future exact-implementation evidence for concurrent transactions,
+  backup/restore, corruption detection, WAL recovery, and constrained volume.
 
-No SQLite dependency is selected by this draft. A failing receipt returns the
-packet to design review rather than silently adding a library.
+Dependency resolution, checksums, build, advisory, or MSRV failure blocks
+implementation and returns to design review rather than selecting another
+library. Dynamic prototype proof follows implementation authorization.
 
 ## Workstream 1 — Schema and Transaction API
 
@@ -71,13 +74,14 @@ packet to design review rather than silently adding a library.
 
 ## Workstream 4 — Backup, Restore, Capacity, and Repair
 
-1. Implement a conservative provisional backup cadence/generation consistent
-   with the ROD-001 recovery tolerance, then measure and adjust it through
+1. Implement the selected pre/post-migration and 100-commit-or-15-minute backup
+   trigger with three certified generations plus the required pre-schema/epoch
+   generation, then measure and adjust it through
    restore certification rather than treating the mechanism or value as a new
    operator architecture choice.
 2. Enforce epoch/high-water anti-resurrection checks and post-effect recovery
    rules.
-3. Implement the conservative provisional physical terminal reserve and bounded
+3. Implement the provisional 64 MiB `F_PREALLOCATE` physical terminal reserve and bounded
    payload-pointer behavior without a lease service; prove and tune the value
    within the ROD-001 disk/risk envelope.
 4. Add corruption diagnosis and forward-repair primitives with fail-closed

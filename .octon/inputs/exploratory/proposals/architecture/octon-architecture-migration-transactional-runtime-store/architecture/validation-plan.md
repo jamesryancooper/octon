@@ -7,6 +7,10 @@ SQLite library/engine/compile options, schema and migration digests, macOS and
 filesystem, store path/class, authority epoch/high-water, ROD-001 policy,
 commands, times, exit codes, fault point, retained logs/digests, and evidence
 classification. Scratch state contains no production credential or effect.
+Complete design acceptance may authorize the implementation before these
+dynamic results exist; RP-01 verification, exact Cargo lock review, and census
+refresh gate entry, and all dynamic results gate conformance, completion,
+cutover, support claims, and promotion.
 
 ## Structural Proposal Validation
 
@@ -17,6 +21,10 @@ classification. Scratch state contains no production credential or effect.
 
 ## Schema and Ownership Matrix
 
+- validate `resources/writer-state-census.yml` against the exact baseline and
+  reject every new/unmatched production writer or destination family;
+- verify `rusqlite =0.40.1`, feature allow/deny lists, Cargo checksum and
+  transitives, bundled SQLite 3.53.2 compile options, MSRV, and license;
 - migration checksum/order, foreign keys, uniqueness/check constraints, schema
   downgrade/upgrade refusal, and application-state invariants;
 - exhaustive state-row coverage against the RP-00 writer/state inventory;

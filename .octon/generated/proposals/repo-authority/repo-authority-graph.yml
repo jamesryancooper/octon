@@ -53,7 +53,7 @@
     "mode": "source-digest-bound",
     "source_digest_bound": true
   },
-  "generated_at": "deterministic-from-source-digests:sha256:11ade3c8bc7bd91d3f0a8006d53733869b0a3d9d16a5447f3c00b6f4457aab32",
+  "generated_at": "deterministic-from-source-digests:sha256:5db7a833d6a3c8c9b2d191e5209a07a98096a0299cd890d7d76ebff4af4890d0",
   "path_rules": [
     {
       "authored_authority": true,
@@ -229,7 +229,7 @@
       "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store/proposal.yml",
       "artifact_role": "active-proposal-manifest",
       "required": false,
-      "sha256": "sha256:71ba0487ec6e98bd0d756cf248f2b6b3bf7f930c6b32f44d07357dac0886ce9f",
+      "sha256": "sha256:6f52b6549e132394e40f9e841002fae3e66bf03ba9aba011f369494be55a5eab",
       "source_class": "non-authoritative-proposal-input"
     },
     {

@@ -70,8 +70,10 @@ operator_decisions:
     accepted_posture: "Bounded local raw evidence outside Git; longer-lived signed receipts/checkpoints/rollback references; terminal reserve; no unsigned fallback; deny the dependent transition and preserve work when recovery evidence is not guaranteed."
     remaining_work: "Bind accepted invariants and complete engineering mechanism/default records and proof; no operator disposition remains."
 engineering_dispositions:
-  - disposition: "Select store path, backup mechanism, provisional cadence/generations, and physical reserve implementation/size with conservative reversible defaults."
+  - disposition: "Selected in resources/sqlite-design-and-dependency-receipt.yml: rusqlite =0.40.1 bundled SQLite, exact store/backup/reserve defaults."
     proof_rule: "Measure constrained-volume and restore behavior and adjust without weakening terminal evidence or anti-resurrection invariants."
+  - disposition: "Production writer/state census closed in resources/writer-state-census.yml; refresh must reject unmatched writers."
+    proof_rule: "Static/dynamic single-writer and legacy-write negative controls run after exact implementation authorization."
 dependencies:
   - "octon-architecture-migration-canonical-authority"
 safe_state: "SI-03"
@@ -85,8 +87,8 @@ authority_boundary:
 coverage_status:
   identifiers_mapped: true
   implementation_proof_complete: false
-  operator_decisions_complete: false
-  dependency_design_complete: false
+  operator_decisions_complete: true
+  dependency_design_complete: true
   architecture_review_complete: false
 brokered_no_pr_compatibility:
   findings: ["BNP-F-002", "BNP-F-011"]

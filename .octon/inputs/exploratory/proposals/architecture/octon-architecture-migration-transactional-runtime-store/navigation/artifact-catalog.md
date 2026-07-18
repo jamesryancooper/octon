@@ -25,6 +25,8 @@
 - `resources/source-context.md` — bounded repository, intake, reconciliation, and predecessor lineage.
 - `resources/packet-contract.yml` — machine-readable RP-03 contract.
 - `resources/traceability.yml` — decision, finding, proof, evidence, and operator-decision map.
+- `resources/sqlite-design-and-dependency-receipt.yml` — selected SQLite dependency, physical design, reversible ROD-001 defaults, and evidence order.
+- `resources/writer-state-census.yml` — immutable-baseline consequential writer/state inventory and cutover disposition.
 
 ## Support Receipts
 
@@ -32,6 +34,7 @@
 - `support/proposal-creation.md` — canonical direct-template fallback creation receipt.
 - `support/proposal-review.md` — digest-bound independent proposal review.
 - `support/pre-integration-architecture-review.yml` — subtype architecture review receipt.
+- `support/revisions/rp03-store-census-evidence-cycle-20260718.md` — correction receipt for the initial review findings.
 - `support/implementation-grade-completeness-review.md` — truthful draft readiness gate.
 - `support/implementation-conformance-review.md` — future implementation conformance gate.
 - `support/post-implementation-drift-churn-review.md` — future closeout drift gate.

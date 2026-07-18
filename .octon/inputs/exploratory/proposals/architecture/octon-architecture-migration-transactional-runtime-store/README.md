@@ -6,9 +6,9 @@ the frozen RP-01 authority and guard semantics, defines durable operation and
 attempt transitions around external effects, migrates legacy file state, and
 demotes those files to read-only projections or payload pointers.
 
-Packet creation is planning only. It does not create a database, import state,
-change an authority epoch, perform an effect, select a SQLite dependency, or
-authorize implementation.
+Packet revision is planning only. It does not create a database, import state,
+change an authority epoch, perform an effect, resolve/install a SQLite
+dependency, or authorize implementation.
 
 ## Intended Outcome
 
@@ -33,17 +33,19 @@ authorize implementation.
 - parent program: `octon-architecture-migration-program`
 - dependency: `octon-architecture-migration-canonical-authority`
 
-The packet is ready for operator reading, not implementation. ROD-001 is
+The packet binds ROD-001 and is ready for independent re-review, not
+implementation. ROD-001 is
 operator-accepted: raw evidence stays bounded/local/outside project Git;
 longer-lived signed receipts, checkpoints, and rollback references are retained;
 terminal reserve and no-unsigned-fallback behavior remain mandatory; and
 uncertain recovery evidence denies the dependent transition while preserving
-work. Store path, backup mechanism, and provisional cadence, generations, and
-reserve values still require conservative, reversible engineering defaults
-with measurement-and-adjustment proof. The
-exact SQLite library/linkage/features need a reviewed dependency receipt;
-RP-01's semantic interface must be frozen; proposal acceptance and independent
-architecture review must also pass.
+work. `resources/sqlite-design-and-dependency-receipt.yml` selects
+`rusqlite =0.40.1` with bundled SQLite, exact features, store/backup paths,
+online-backup protocol, measurement-adjusted cadence/generations, and a
+preallocated terminal reserve. `resources/writer-state-census.yml` classifies
+every current production writer/destination family and adds the missing shared
+`policy.rs` integration target. RP-01's accepted design freezes the semantic
+handoff; its verification remains a future implementation-entry dependency.
 
 ## Normal Solo-Builder Experience
 

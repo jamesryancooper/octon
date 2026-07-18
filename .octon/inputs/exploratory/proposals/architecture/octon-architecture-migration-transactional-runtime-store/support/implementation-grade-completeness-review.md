@@ -1,101 +1,87 @@
 # Implementation-Grade Completeness Review
 
-verdict: fail
+verdict: pass
 unresolved_questions_count: 0
 clarification_required: no
-reviewed_at: 2026-07-12
+reviewed_at: 2026-07-18
 
 ## Blockers
 
-- ROD-001 is operator-accepted. Its bounded-local-raw, longer-lived-signed-
-  recovery-reference, terminal-reserve, no-unsigned-fallback, and deny/preserve-
-  work invariants are not yet bound into a reviewed design. Store path, backup
-  mechanism, and provisional cadence/generations and reserve values remain
-  engineering defaults that must be conservative, reversible, measured, and
-  directly proved.
-- No reviewed SQLite Design and Dependency Receipt selects the library,
-  version, linkage, features, engine/compile options, migration/backup APIs,
-  platform support, maintenance burden, and rollback.
-- RP-01's versioned authority/revocation/guard semantics and shared
-  persistence interfaces are not frozen for RP-03 implementation.
-- The physical writer/state inventory and exact cutover baseline have not been
-  refreshed for implementation.
-- No independent pre-integration architecture review receipt exists.
-- The packet is `draft` and has not received human proposal acceptance.
+None for proposal-design completeness.
+
+ROD-001's accepted bounded posture is bound. The reviewed design receipt
+selects `rusqlite =0.40.1`, default features off,
+`bundled/backup/hooks/limits`, bundled SQLite 3.53.2, one blocking writer,
+exact store/backup/reserve paths, connection/migration/online-backup rules,
+provisional 100-commit-or-15-minute backup cadence, three generations plus the
+pre-schema/epoch generation, a 64 MiB measured-adjustable physical terminal
+reserve, and restore-only live rollback. No dependency is installed or proved.
+
+The immutable-baseline census classifies all current production writer and
+destination families and adds the missing shared `policy.rs` persistence
+integration target. New/unmatched writers fail validation.
+
+The evidence cycle is corrected: design acceptance may authorize creation of
+the exact implementation. RP-01 verification, Cargo lock/checksum/transitive/
+MSRV review, fresh census, and physical preflight gate entry. UE-004 and all
+dynamic proof gate conformance, completion, cutover, support, and promotion.
+
+Fresh independent re-review and parent reconciliation of the added target are
+separate lifecycle gates. No implementation evidence is claimed.
 
 ## Assumptions Made
 
-- The intake controls accepted operator-intent lineage while remaining
-  non-authoritative pending promotion; the fixed reconciliation controls the
-  packet boundary, engineering refinement, and proof sequence.
-- One embedded SQLite/WAL store and runtime_bus mutation API remain fixed; the
-  operator owns recovery/data-loss and disk-use tolerance plus any
-  non-reversible override. Engineering selects and proves the location,
-  backup/reserve mechanism, and provisional measurement-adjusted values without
-  reopening that boundary.
-- The recommended engineering baseline uses local platform application data,
-  preallocated physical terminal headroom, bounded raw evidence, and certified
-  backup generations, subject to the narrowed ROD-001 risk tolerances.
-- SQLite integration is an engineering choice gated by proof; no library or
-  bundled/platform linkage is selected by this proposal draft.
-- RP-03 owns generic durable state only. RP-08 owns provider classification and
-  reconciliation; RP-07 owns signed retention/capacity completion.
+- ROD-001 has no remaining operator decision; provisional values are reversible
+  engineering defaults measured and adjusted without weakening invariants.
+- Bundled SQLite avoids host-library drift; an exact resolution/build failure
+  returns to design review rather than silently selecting an alternative.
+- One runtime_bus blocking writer thread owns the sole mutation connection;
+  readers and replay are mechanically read-only.
+- RP-01 semantics, RP-04 effects, RP-07 signed retention, and RP-08 provider
+  reconciliation remain outside RP-03.
 
 ## Promotion Target Coverage
 
-The manifest enumerates the runtime workspace dependency surfaces, runtime_bus
-store modules/migrations, replay_store, allocated authority_engine persistence
-seams, runtime and constitutional contracts/schemas, retention bindings,
-existing/new assurance validators and fixtures, and the packet evidence root.
-The file-change map assigns each target and marks planned new paths.
-
-Coverage cannot pass until accepted ROD-001 invariants are bound, the
-engineering-default record and SQLite dependency/design choice fix the physical
-mechanism, and independent review confirms symbol-level ownership
-with RP-01, RP-04, RP-07, and RP-08 without a missing writer or hidden state
-surface.
+The revised 42-target list covers workspace dependencies, runtime_bus store/
+schema/transactions/migrations/projections/recovery, replay, allocated
+authority persistence seams including the newly discovered `policy.rs` choke
+point, contracts, validators, fixtures, and evidence. The child currently
+differs from the 41-target parent entry by exactly `policy.rs`; the next
+canonical action is a separate parent reconciliation.
 
 ## Affected Artifact Coverage
 
-The packet separately maps the live DB/WAL/locks/backups/host high-water,
-legacy state data, generated and read-only projections, raw/detail payloads,
-future broker, signed evidence, and provider reconciliation as affected but
-excluded surfaces. Host database state and imported operator data are not
-misrepresented as repository promotion targets.
+DB/WAL/SHM/locks/backups/reserve, legacy control state, evidence payloads,
+generated projections, provider/broker state, and operator data are explicitly
+classified as ephemeral/host/affected surfaces, not proposal authority or
+promotion artifacts.
 
 ## Validator Coverage
 
-The validation plan covers schema/migrations/constraints, writer census,
-N-way races, every T1/external/T2/outbox kill point, migration/parity/cutover,
-projection non-authority, ENOSPC/physical reserve, backup/restore/corruption,
-epoch/high-water/no-resurrection, rollback, conformance, and drift. No future
-database, migration, transaction, fault, recovery, or burden result is
-represented as executed.
+Validators cover schema/constraints, exact dependency/compile options, writer
+census, N-way races, T1/external/T2/outbox kill points, import/parity/cutover,
+projection non-authority, ENOSPC/reserve, backup/restore/corruption, epoch/high-
+water/no-resurrection, rollback, conformance, and drift. All dynamic results
+remain planned-not-executed.
 
 ## Implementation Prompt Readiness
 
-Not ready. An implementation prompt must not be generated or executed until
-accepted ROD-001 invariants are bound and the engineering-default record is complete,
-the SQLite Design and Dependency Receipt passes, RP-01's interface is frozen,
-the writer/state inventory is refreshed, and proposal
-acceptance plus independent architecture review are complete.
+Ready after parent scope reconciliation and a fresh accepted proposal and
+architecture review. The future prompt must enforce RP-01/Cargo/census/
+physical preflight before source work or candidate effects and exact-commit
+dynamic proof before completion or promotion.
 
 ## Exclusions
 
-- No provider-specific outcome classification, causal attribution,
-  reconciliation, retry, or universal exactly-once claim.
-- No broker, credentials, IPC, provider adapter, signed evidence, retention
-  policy, verifier, publisher, or full Class B behavior.
-- No remote database, generic project metadata database, ORM control plane,
-  second journal, dual writer, or file-authority fallback.
-- No live control-state import, production effect, or raw/detail project-Git
-  retention expansion during proposal authoring.
+- No provider-specific outcome/retry/reconciliation or exactly-once claim.
+- No broker, credential, provider adapter, signed retention completion,
+  verifier, publisher, remote DB, ORM, second journal, file-authority fallback,
+  or live control-state import.
+- No dependency installation, database creation, migration, backup, authority
+  epoch, production effect, publication, promotion, archive, or cleanup.
 
 ## Final Route Recommendation
 
-Keep the manifest `draft`. Bind accepted ROD-001 invariants, record and review
-conservative engineering defaults, complete and review the SQLite design/
-dependency prototype, freeze RP-01 interfaces, refresh the
-writer/state inventory, and obtain independent proposal review. Then revise if
-needed and rerun completeness and pre-integration gates. Do not implement from
-this failing receipt.
+Run separate `revise-program`/`review-program` actions for the added `policy.rs`
+scope, then independently re-review and accept RP-03 if the final digest and
+all strict gates pass. Do not implement RP-03.
