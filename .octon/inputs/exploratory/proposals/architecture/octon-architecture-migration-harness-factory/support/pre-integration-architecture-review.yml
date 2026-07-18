@@ -1,0 +1,28 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "octon-architecture-migration-harness-factory-architecture-review-20260718T170726Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-harness-factory"
+packet_digest: "sha256:bf7123fe99b8985a8f0fb03dd4801ed593a72b27bbe5bb45aa70e5d0a272622c"
+review_mode: "pre-integration-architecture-review"
+verdict: "fail"
+unresolved_count: 2
+blockers: ["RP11-EXACT-COMPILER-ADAPTER-MECHANISMS-001", "RP11-IMPLEMENTATION-EVIDENCE-CYCLE-002"]
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-18T17:07:26Z"
+evidence_refs: [".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-harness-factory-20260718T170726Z.md", ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-harness-factory-20260718T170726Z.md", ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-harness-factory/bundle.yml"]
+validator_refs: ["validate-proposal-review-gate.sh --package RP-11 --print-digest", "validate-proposal-standard.sh --package RP-11 --skip-registry-check", "validate-architecture-proposal.sh --package RP-11", "validate-proposal-program-structure.sh --package parent"]
+mode_specific_coverage:
+  review_charter: "Independent closed-book review of RP-11 before implementation integration."
+  external_tool_integrity: "Provider and compiler behaviors are design inputs only; none was invoked."
+  system_job: "Compile the complete admitted run envelope and dispatch through one provider-neutral seam."
+  current_reality: "Current lifecycle executor still matches executor names and contains direct provider process launch."
+  authority_boundaries: "RP-01 remains final authority/guard; compiler and adapter outputs cannot authorize."
+  dependency_and_concurrency: "Accepted dependency packets are available, but exact digest/interface entry gates are not recorded locally."
+  failure_and_recovery: "Failure classes exist, but prepared-handle transitions and unknown/cancel/retire timing are underspecified."
+  security_and_credentials: "No credential/provider mutation is proposed; exact ref capture and path handling need selection."
+  evidence_and_validation: "UE-010/UE-011 are future implementation proof and currently form a circular authorization gate."
+  contracts_and_compatibility: "Contract targets are complete, but canonical encoding/digest domains remain discretionary."
+  operability_and_observability: "Typed observations are planned; lifecycle terminal and timeout semantics need exact limits."
+  sequencing_and_migration: "DAG position is correct; source entry and completion proof must be separated."
+  prior_finding_disposition: "No prior RP-11 review."
+  final_self_challenge: "TOCTOU, raw spawn, stale handle, duplicate launch, lost response, cancel race, malformed usage, and proof inflation challenged."
+  verdict_basis: "Two high-severity correctable blockers remain at the reviewed digest."

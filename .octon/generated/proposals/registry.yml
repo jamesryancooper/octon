@@ -205,7 +205,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-harness-factory"
     title: "Deterministic Harness Factory and Generic Executor Adapter"
-    status: "draft"
+    status: "in-review"
     promotion_targets:
       - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md"
       - ".octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json"

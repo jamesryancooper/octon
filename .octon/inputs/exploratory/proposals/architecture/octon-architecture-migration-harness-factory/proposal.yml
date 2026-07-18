@@ -48,7 +48,7 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
   - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh"
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-harness-factory/"
-status: "draft"
+status: "in-review"
 change_profile: "atomic"
 release_state: "pre-1.0"
 parent_program: "octon-architecture-migration-program"

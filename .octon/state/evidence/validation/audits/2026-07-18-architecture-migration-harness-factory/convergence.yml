@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-harness-factory-20260718T170726Z
+commit_sha: a061f84a86
+scope_hash: sha256:bf7123fe99b8985a8f0fb03dd4801ed593a72b27bbe5bb45aa70e5d0a272622c
+seeds: [17, 29, 43]
+result_vector: [fail, fail, fail]
+stable: true
+union_blocking_findings: 2
+open_findings_at_or_above_threshold: 2
+done: true
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: revision-required
+rationale: Three passes agree exact compiler/adapter mechanisms and evidence order require revision.

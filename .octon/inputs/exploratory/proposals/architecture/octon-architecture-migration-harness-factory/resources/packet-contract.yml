@@ -78,7 +78,7 @@ proposal_lifecycle_ownership:
   manifests:
     - "proposal.yml"
     - "architecture-proposal.yml"
-  status: "draft"
+  status: "in-review"
   authority: "proposal-local and non-authoritative"
 retained_evidence_ownership:
   root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-harness-factory/"

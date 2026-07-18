@@ -1,6 +1,6 @@
 # Deterministic Harness Factory and Generic Executor Adapter
 
-This is the draft RP-11 architecture proposal for
+This is the in-review RP-11 architecture proposal for
 `octon-architecture-migration-harness-factory`. It is a temporary,
 non-authoritative implementation aid. It does not authorize implementation,
 execution, provider access, capability grants, publication, or support
@@ -67,7 +67,7 @@ observations are projections or retained evidence, never authority.
 
 ## Current Gate
 
-The packet remains `draft`. Structural validation does not make it accepted or
-implementation-ready. Dependency exits, stable-digest architecture review,
-UE-010 and UE-011 dynamic proof, and later implementation receipts remain
-future gates.
+The packet is `in-review`. Independent review requires exact compiler,
+pre-spawn binding, and adapter lifecycle mechanisms plus a non-circular
+implementation-evidence order. UE-010 and UE-011 remain future implementation
+proof and cannot be treated as evidence that already exists.
