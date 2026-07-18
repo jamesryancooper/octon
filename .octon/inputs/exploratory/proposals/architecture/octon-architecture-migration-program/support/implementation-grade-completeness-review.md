@@ -3,9 +3,9 @@
 verdict: pass
 unresolved_questions_count: 0
 clarification_required: no
-reviewed_at: 2026-07-18T18:40:19Z
-reviewer: octon-proposal-lifecycle-revise-program
-source_review_id: octon-architecture-migration-program-review-20260718T183837Z
+reviewed_at: 2026-07-18T18:46:42Z
+reviewer: octon-proposal-lifecycle-review-program
+source_review_id: octon-architecture-migration-program-review-20260718T184642Z
 
 ## Blockers
 
@@ -68,30 +68,28 @@ proof before authorization.
 - `validate-proposal-review-gate.sh --package <parent> --print-digest`
 - `validate-proposal-program-child-readiness.sh --package <parent>` remains the
   separate child-owned readiness gate before program prompt generation.
-- A fresh strict Pre-Integration Architecture Review receipt at this revised
-  parent digest remains required before parent acceptance and program prompt
-  generation.
+- The fresh strict Pre-Integration Architecture Review receipt at the accepted
+  parent digest passes with zero unresolved blockers.
 
 ## Implementation Prompt Readiness
 
-The revised parent proposal is implementation-grade complete, and its child
-readiness prerequisite is satisfied. This receipt does not itself authorize an
-implementation prompt. Program prompt generation remains blocked until the
-distinct independent program re-review accepts this corrected parent digest and
-the strict parent gate passes.
+The accepted parent proposal is implementation-grade complete, its child
+readiness prerequisite is satisfied, and the distinct accepted review explicitly
+authorizes canonical program prompt generation. This receipt does not itself
+authorize or perform implementation. Prompt generation may proceed only after
+the strict parent authorization and child-readiness gates pass at the accepted
+digest.
 
 ## Exclusions
 
-- No parent acceptance, child review, child status, implementation, validation,
-  proof, promotion, provider mutation, publication, support/trust activation,
-  closeout, archive, cleanup, Git, GitHub, or external-system effect is performed
-  or authorized by this receipt.
+- No child review/status, implementation, dynamic proof, promotion, provider
+  mutation, publication, support/trust activation, closeout, archive, cleanup,
+  GitHub, or external-system effect is performed or authorized by this receipt.
 - No child manifest, receipt, promotion target, validation verdict, archive
   metadata, runtime truth, or generated-effective authority is changed.
 
 ## Final Route Recommendation
 
-Run the distinct independent `review-program` action at the reconciled parent
-digest. If it passes, accept the parent and run the final strict readiness floor
-before generating—but never executing—the canonical program orchestration
-prompt.
+Run the final strict parent and child-readiness floor at the accepted digest.
+If both gates pass, generate and validate—but do not execute—the canonical
+program implementation-orchestration prompt.

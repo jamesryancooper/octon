@@ -1,0 +1,14 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-final-acceptance-20260718T184642Z
+findings:
+  - id: PROGRAM-LIFECYCLE-STATE-TRUTH-001
+    severity: high
+    status: closed
+    summary: Accepted-state wording remains truthful about non-authoritative, unimplemented proposal state.
+    acceptance_satisfied: Historical creation, current acceptance, prompt authorization, and future implementation are distinct.
+  - id: PROGRAM-FINAL-READINESS-GATE-CONTRACT-002
+    severity: high
+    status: closed
+    summary: The final gate contract remains strict and noncircular at the accepted digest.
+    acceptance_satisfied: Parent/child readiness precede prompt generation; implementation and proof remain future.
+new_findings: []

@@ -53,7 +53,7 @@
     "mode": "source-digest-bound",
     "source_digest_bound": true
   },
-  "generated_at": "deterministic-from-source-digests:sha256:7f4b5c43366e4fb8cdbcaf7160fef3eece1cc3e74f0012b7a9560add11c527b8",
+  "generated_at": "deterministic-from-source-digests:sha256:e8e89f67a48d828778bdc74f4adc6f9e0dbc2e96b6843cafebbf4bffb71808a8",
   "path_rules": [
     {
       "authored_authority": true,
@@ -187,7 +187,7 @@
       "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/proposal.yml",
       "artifact_role": "active-proposal-manifest",
       "required": false,
-      "sha256": "sha256:426713b68efea72cb91d593a5805cddc448f2925b1ebbedaf6980acd12aadc04",
+      "sha256": "sha256:a9045f63791b6dba40aff5958e33afae35bf4687ae2cd8b5af6932c85f94af5d",
       "source_class": "non-authoritative-proposal-input"
     },
     {

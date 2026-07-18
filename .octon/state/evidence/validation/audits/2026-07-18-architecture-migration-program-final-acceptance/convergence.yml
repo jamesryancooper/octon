@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-final-acceptance-20260718T184642Z
+commit_sha: 220f565475
+scope_hash: sha256:b0c3971bf5b8f94ac8115722a5e048b6b73d97bc6b74e48b7b6ca3a69cf7ae99
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: accepted
+rationale: Three passes agree the accepted-state lifecycle delta preserves the corrected architecture and introduces no blocker.

@@ -29,9 +29,10 @@ until RP-05 through RP-08 prove the complete safety spine. The fixed fifteen-
 child graph is unchanged. All fifteen required children are now independently
 accepted at fresh implementation-authorizing digests. The reconciled parent
 retains 420 exact child scope entries, 343 unique paths, the 30-edge DAG, and a
-complete 126-record collision ledger. It is `in-review` for the final independent
-program architecture review; no implementation-orchestration prompt is
-authorized until that review accepts this exact parent digest.
+complete 126-record collision ledger. The parent is accepted at a fresh strict
+architecture review with zero blockers. Canonical digest-bound implementation-
+orchestration prompt generation is authorized only after the strict parent and
+child-readiness gates pass; implementation itself remains a separate action.
 
 ## Reading Order
 
