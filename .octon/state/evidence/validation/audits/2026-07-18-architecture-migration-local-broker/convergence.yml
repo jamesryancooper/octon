@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-local-broker-20260718T153501Z
+commit_sha: 3948ce913ceee32598a7e8397a091c662b33e7b0
+scope_hash: sha256:4ffedf17bf81c9cece8e8227d6a3c48184c655ab0529454cd519190ca9f6381c
+seeds: [17, 29, 43]
+result_vector: [revision-required, revision-required, revision-required]
+stable: true
+union_blocking_findings: 3
+open_findings_at_or_above_threshold: 3
+done: true
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: revision-required
+rationale: All passes identify the same mechanism, surface-census, and evidence-order blockers.

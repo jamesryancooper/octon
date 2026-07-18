@@ -33,3 +33,5 @@
 - `support/implementation-grade-completeness-review.md` — truthful draft readiness gate.
 - `support/implementation-conformance-review.md` — future implementation conformance gate.
 - `support/post-implementation-drift-churn-review.md` — future closeout drift gate.
+- `support/proposal-review.md` — current digest-bound independent proposal review.
+- `support/pre-integration-architecture-review.yml` — current strict architecture review receipt.

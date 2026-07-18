@@ -1,0 +1,7 @@
+schema_version: "1.0"
+run_id: architecture-migration-local-broker-20260718T153501Z
+findings:
+  - {id: RP04-ED002-MECHANISM-001, severity: high, status: open, summary: "Exact macOS service, IPC identity, signing, Keychain, protocol, handle, and dependency mechanisms are absent."}
+  - {id: RP04-ED007-SURFACE-CENSUS-002, severity: high, status: open, summary: "Current broker/effect/credential/CLI/workflow surfaces lack exhaustive dispositions and symbol ownership."}
+  - {id: RP04-IMPLEMENTATION-EVIDENCE-CYCLE-003, severity: high, status: open, summary: "Proposal authorization is circularly gated on proof requiring an implementation."}
+new_findings: [RP04-ED002-MECHANISM-001, RP04-ED007-SURFACE-CENSUS-002, RP04-IMPLEMENTATION-EVIDENCE-CYCLE-003]

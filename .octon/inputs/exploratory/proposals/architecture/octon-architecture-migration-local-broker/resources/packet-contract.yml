@@ -4,7 +4,7 @@ logical_packet_id: "RP-04"
 workgroup_id: "RWG-04"
 proposal_id: "octon-architecture-migration-local-broker"
 title: "Supervised Local Broker and Credential Custody"
-status: "draft"
+status: "in-review"
 authority_posture:
   proposal_is_authority: false
   implementation_authorized: false

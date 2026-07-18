@@ -1,6 +1,6 @@
 # Supervised Local Broker and Credential Custody
 
-This is the draft RP-04 architecture proposal for Octon's one unattended local
+This is the in-review RP-04 architecture proposal for Octon's one unattended local
 privilege boundary. A supervised macOS broker validates RP-01 authority,
 operates outside the RP-02 candidate boundary, holds durable credentials in
 Keychain, is the sole normal RP-03 store writer and effect-adapter host, and
@@ -27,7 +27,7 @@ operation, or perform an effect.
 
 ## Packet Status
 
-- proposal status: `draft`
+- proposal status: `in-review`
 - release state: `pre-1.0`
 - change profile: `atomic`
 - parent program: `octon-architecture-migration-program`
