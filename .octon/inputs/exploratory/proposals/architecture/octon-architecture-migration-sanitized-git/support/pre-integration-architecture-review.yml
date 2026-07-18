@@ -1,0 +1,31 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "octon-architecture-migration-sanitized-git-architecture-review-20260718T154957Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-sanitized-git"
+packet_digest: "sha256:e414ecd50eeb68a1e4b74acdef088ff7601c29206a3e4f098c85583c2c8a2165"
+review_mode: "pre-integration-architecture-review"
+verdict: "fail"
+unresolved_count: 2
+blockers: ["RP05-ED003-MECHANISM-001", "RP05-IMPLEMENTATION-EVIDENCE-CYCLE-002"]
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-18T15:49:57Z"
+evidence_refs:
+  - ".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-sanitized-git-20260718T154957Z.md"
+  - ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-sanitized-git-20260718T154957Z.md"
+  - ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-sanitized-git/bundle.yml"
+validator_refs: ["validate-proposal-review-gate.sh --print-digest", "validate-proposal-standard.sh", "validate-proposal-implementation-readiness.sh", "validate-architecture-proposal.sh"]
+mode_specific_coverage:
+  review_charter: "Independent pre-integration RP-05 review."
+  external_tool_integrity: "Git and GitHub were treated as external tools and not mutated."
+  system_job: "Closed non-executing Git/ref primitives inside the broker."
+  current_reality: "No adapter or provider proof exists."
+  authority_boundaries: "RP-05 excludes route, verdict, recovery, credentials, and generic Git."
+  dependency_and_concurrency: "Expected-old races are specified but mechanism is not exact."
+  failure_and_recovery: "Unknown/outage preserves work and route."
+  security_and_credentials: "Hostile surfaces are enumerated but exact invocation is missing."
+  evidence_and_validation: "Evidence order is circular."
+  contracts_and_compatibility: "Wire/effect contracts exist; tool/provider tuple is missing."
+  operability_and_observability: "No routine command concept is added."
+  sequencing_and_migration: "Design may authorize creation; proof stays downstream."
+  prior_finding_disposition: "Two new blockers open."
+  final_self_challenge: "Race, force, config execution, credential escape, attribution, fallback, and proof inflation challenged."
+  verdict_basis: "Two high findings require revision."

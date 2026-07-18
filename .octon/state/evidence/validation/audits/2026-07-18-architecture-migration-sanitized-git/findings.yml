@@ -1,0 +1,6 @@
+schema_version: "1.0"
+run_id: architecture-migration-sanitized-git-20260718T154957Z
+findings:
+  - {id: RP05-ED003-MECHANISM-001, severity: high, status: open, summary: "Exact Git/provider CAS, import, credential, and invocation mechanism absent."}
+  - {id: RP05-IMPLEMENTATION-EVIDENCE-CYCLE-002, severity: high, status: open, summary: "Proposal authorization is circularly gated on implementation proof."}
+new_findings: [RP05-ED003-MECHANISM-001, RP05-IMPLEMENTATION-EVIDENCE-CYCLE-002]

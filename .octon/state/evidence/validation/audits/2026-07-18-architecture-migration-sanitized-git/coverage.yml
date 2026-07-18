@@ -1,0 +1,9 @@
+schema_version: "1.0"
+run_id: architecture-migration-sanitized-git-20260718T154957Z
+target_mode: observed
+scope_roots: [.octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-sanitized-git]
+excluded_roots: []
+total_files: 22
+scanned_files: 22
+excluded_files: 0
+unaccounted_files: 0

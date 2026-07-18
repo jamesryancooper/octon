@@ -1,0 +1,11 @@
+schema_version: "1.0"
+run_id: architecture-migration-sanitized-git-20260718T154957Z
+commit_sha: 9a67d64a1a
+scope_hash: sha256:e414ecd50eeb68a1e4b74acdef088ff7601c29206a3e4f098c85583c2c8a2165
+seeds: [17, 29, 43]
+result_vector: [revision-required, revision-required, revision-required]
+stable: true
+union_blocking_findings: 2
+open_findings_at_or_above_threshold: 2
+done: true
+done_gate: revision-required

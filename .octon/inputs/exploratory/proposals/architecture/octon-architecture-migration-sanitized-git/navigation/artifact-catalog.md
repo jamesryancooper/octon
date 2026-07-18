@@ -27,6 +27,8 @@
 + `support/implementation-grade-completeness-review.md`
 + `support/implementation-conformance-review.md`
 + `support/post-implementation-drift-churn-review.md`
++ `support/proposal-review.md`
++ `support/pre-integration-architecture-review.yml`
 
 This catalog is inventory only. The manifests remain the proposal-local
 lifecycle sources.

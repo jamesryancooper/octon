@@ -1,6 +1,6 @@
 # Sanitized Privileged Git Adapter
 
-This is the draft RP-05 architecture child of
+This is the in-review RP-05 architecture child of
 octon-architecture-migration-program. It is a temporary, non-authoritative
 implementation aid. It does not implement, authorize, or promote Git effects.
 

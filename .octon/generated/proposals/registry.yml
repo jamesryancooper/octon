@@ -353,7 +353,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-sanitized-git"
     title: "Sanitized Privileged Git Adapter"
-    status: "draft"
+    status: "in-review"
     promotion_targets:
       - ".octon/framework/engine/runtime/crates/local_broker/src/adapters/git/"
       - ".octon/framework/engine/runtime/crates/authorized_effects/"
