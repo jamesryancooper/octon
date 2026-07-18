@@ -1,61 +1,90 @@
-review_id: octon-architecture-migration-harness-factory-review-20260718T170726Z
-reviewed_at: 2026-07-18T17:07:26Z
+review_id: octon-architecture-migration-harness-factory-review-20260718T172643Z
+reviewed_at: 2026-07-18T17:26:43Z
 reviewer: octon-proposal-lifecycle-review-packet
-verdict: revision-required
-implementation_prompt_authorized: no
-reviewed_packet_digest: sha256:bf7123fe99b8985a8f0fb03dd4801ed593a72b27bbe5bb45aa70e5d0a272622c
-open_blocking_findings_count: 2
-prior_review_id: none
-final_route: revise-packet
-final_route_target: octon-architecture-migration-harness-factory
+verdict: accepted
+implementation_prompt_authorized: yes
+reviewed_packet_digest: sha256:be1761195fc652673c8c3d9412f7d24ac794225a449fa1fc2ed9e5bdeddfe1c2
+open_blocking_findings_count: 0
+prior_review_id: octon-architecture-migration-harness-factory-review-20260718T170726Z
+final_route: review-packet
+final_route_target: octon-architecture-migration-extension-supply-chain
 
-# RP-11 Independent Proposal Review
+# Accepted RP-11 Proposal Review
 
 ## Review Basis
 
-Reviewed all 22 pre-review packet files, the accepted RP-01/RP-02/RP-10
-interfaces, current lifecycle-executor dispatch and spawn seams, ED-006, and
-exact 38-target parent parity.
+Independently reviewed all 26 packet files at lifecycle base `4505171b4f`,
+final digest `sha256:be1761195fc652673c8c3d9412f7d24ac794225a449fa1fc2ed9e5bdeddfe1c2`,
+and the accepted parent 41-target/126-collision reconciliation.
 
 ## Approved Promotion Targets
 
-None while revision is required. All 38 proposed targets match the parent.
+- `.octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.md`
+- `.octon/framework/engine/runtime/spec/task-specific-execution-harness-v1.schema.json`
+- `.octon/framework/engine/runtime/spec/task-specific-execution-harness-compile-receipt-v1.schema.json`
+- `.octon/framework/constitution/contracts/runtime/task-specific-execution-harness-v1.schema.json`
+- `.octon/framework/constitution/contracts/runtime/task-specific-execution-harness-compile-receipt-v1.schema.json`
+- `.octon/framework/constitution/contracts/runtime/family.yml`
+- `.octon/framework/constitution/contracts/registry.yml`
+- `.octon/framework/cognition/_meta/architecture/contract-registry.yml`
+- `.octon/framework/engine/runtime/spec/executor-profile-v1.schema.json`
+- `.octon/framework/constitution/contracts/adapters/model-adapter-v1.schema.json`
+- `.octon/framework/constitution/contracts/adapters/host-adapter-v1.schema.json`
+- `.octon/framework/constitution/contracts/adapters/adapter-conformance-v1.schema.json`
+- `.octon/framework/constitution/contracts/adapters/family.yml`
+- `.octon/framework/engine/runtime/adapters/model/repo-local-governed.yml`
+- `.octon/framework/engine/runtime/adapters/model/frontier-governed.yml`
+- `.octon/framework/engine/runtime/adapters/host/`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/context_pack.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/generated.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/input_binding.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/result.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/observer.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/auto.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/mock.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs`
+- `.octon/framework/engine/runtime/crates/runtime_resolver/src/handles.rs`
+- `.octon/framework/engine/runtime/crates/runtime_resolver/src/lib.rs`
+- `.octon/instance/governance/policies/model-call-routing.yml`
+- `.octon/framework/assurance/runtime/_ops/scripts/validate-workflow-statechart-harness.sh`
+- `.octon/framework/assurance/runtime/_ops/scripts/validate-agent-node-model-call-contract.sh`
+- `.octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh`
+- `.octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh`
+- `.octon/state/evidence/validation/proposals/octon-architecture-migration-harness-factory/`
+- `.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs`
+- `.octon/framework/engine/runtime/crates/kernel/src/workflow.rs`
+- `.octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs`
+
+These are future implementation/evidence targets only; none was modified as
+runtime by this receipt.
 
 ## Blocking Findings
 
-### RP11-EXACT-COMPILER-ADAPTER-MECHANISMS-001 — high
-
-The packet defines the right boundary but leaves the canonical document
-encoding, closed-graph ordering, digest domains, path/ref capture, compile
-receipt identity, compile-to-spawn race closure, prepared-handle state
-machine, lifecycle idempotency, timeout/cancel/unknown rules, and raw-spawn
-census to implementation discretion. Select one exact reversible mechanism
-set and distinguish candidate provider launch from non-candidate utility
-subprocesses so the sole generic seam and RP-01 guard dominance are testable.
-
-### RP11-IMPLEMENTATION-EVIDENCE-CYCLE-002 — high
-
-The completeness gate treats dependency implementation exits, UE-010/UE-011,
-dynamic conformance, and integrated program proof as prerequisites to proposal
-authorization. Freeze the three accepted dependency packet digests and exact
-RP-11 design now; dependency implementation verification and current consumer/
-spawn census gate source entry, while UE-010/UE-011 and dynamic conformance
-gate implementation completion, downstream claim use, or promotion.
+None. Both prior blockers close through exact JCS/SHA-256 graph/digest and
+source-capture mechanisms, honest guard/spawn failure semantics, the bounded
+adapter state machine, four-seam RP-01/RP-11 fitness ownership, frozen
+dependency digests, and non-circular evidence order.
 
 ## Nonblocking Findings
 
-- Compiler and adapter outputs remain non-authoritative throughout.
-- RP-01 authority, RP-02 isolation, RP-06 publication, RP-08 recovery/effects,
-  RP-10 project data, RP-13 child semantics, and RP-14 promotion stay separate.
-- No new product or constitutional decision is required; exact target parity
-  and dependency ordering hold.
+- Dependency implementation verification and the current source/spawn census
+  remain future source-entry gates.
+- UE-010, UE-011 component conformance, four-seam dynamics, and rollback/drift
+  remain future completion evidence against the exact implementation.
 
 ## Exclusions
 
-No compiler, schema, adapter, provider call, launch, authorization, runtime
-state, evidence proof, publication, promotion, archive, or cleanup occurred.
+No compiler, schema, adapter, provider process, launch, authorization, runtime
+state, implementation proof, publication, promotion, archive, or cleanup
+occurred.
 
 ## Final Route Recommendation
 
-Keep RP-11 in review, select exact compiler/adapter mechanisms and evidence
-order, then independently re-review. Do not implement RP-11.
+Keep RP-11 accepted. Authorize only future exact DAG-ordered implementation
+after entry gates. Continue to RP-12 review; do not implement RP-11 now.

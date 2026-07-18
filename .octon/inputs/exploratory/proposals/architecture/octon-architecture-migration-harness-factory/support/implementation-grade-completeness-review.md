@@ -6,8 +6,8 @@ clarification_required: no
 
 ## Blockers
 
-None in the corrected design. Fresh independent proposal and strict
-architecture re-review remain required before acceptance.
+None. Fresh independent proposal and strict architecture receipts pass at the
+accepted, parent-reconciled digest.
 
 ## Assumptions Made
 
@@ -45,7 +45,7 @@ gate completion/downstream claim use.
 
 ## Implementation Prompt Readiness
 
-Ready after accepted re-review. A future exact prompt must verify dependency
+Ready. A future exact prompt must verify dependency
 implementation/interface digests and current source/spawn census before edits,
 then require all dynamic proof against the exact implementation before
 completion or promotion.
@@ -60,6 +60,5 @@ completion or promotion.
 
 ## Final Route Recommendation
 
-Reconcile the parent 41-target scope and collision ledger, independently
-re-review RP-11, and accept only at a fresh digest with zero blockers. Do not
-implement in this sequence.
+Keep RP-11 accepted and authorize only future exact implementation through the
+program DAG. Continue to RP-12 review. Do not implement in this sequence.

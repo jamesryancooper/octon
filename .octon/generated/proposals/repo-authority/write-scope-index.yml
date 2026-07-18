@@ -23,7 +23,7 @@
     "mode": "source-digest-bound",
     "source_digest_bound": true
   },
-  "generated_at": "deterministic-from-source-digests:sha256:69ef6cf2e144a87fb95816758bbed0731d153f83b69e332a2b22723e2346e9dd",
+  "generated_at": "deterministic-from-source-digests:sha256:fb9643b2b9e899d68010cc930223ba42760a293e44b56e7d6838f2bb3188f263",
   "producer": {
     "name": "generate-repo-authority-write-scope-index.sh",
     "version": "repo-authority-write-scope-index-v1"
@@ -82,7 +82,7 @@
       "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-harness-factory/proposal.yml",
       "artifact_role": "active-proposal-manifest",
       "required": false,
-      "sha256": "sha256:6834e4741fae559b9276187a3965eb02b40f4f06c6657d06c00ba1434ce408d5",
+      "sha256": "sha256:8b476aab1800d3a442ee0a7f4321429425803a04dc23c1efbf33a4824fb54420",
       "source_class": "non-authoritative-proposal-input"
     },
     {

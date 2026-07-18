@@ -51,7 +51,7 @@ promotion_targets:
   - ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
   - ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
   - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs"
-status: "in-review"
+status: "accepted"
 change_profile: "atomic"
 release_state: "pre-1.0"
 parent_program: "octon-architecture-migration-program"

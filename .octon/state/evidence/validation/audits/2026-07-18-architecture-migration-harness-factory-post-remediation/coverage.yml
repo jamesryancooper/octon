@@ -1,0 +1,4 @@
+schema_version: "1.0"
+surfaces: ["canonical documents", "source DAG", "receipt and pre-spawn binding", "adapter lifecycle", "four candidate seams", "dependency and collision ownership", "evidence order and rollback"]
+files_scanned: 26
+coverage_status: complete-for-post-remediation-review

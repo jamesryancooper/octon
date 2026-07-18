@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-harness-factory-post-remediation-20260718T172643Z
+commit_sha: 4505171b4f
+scope_hash: sha256:be1761195fc652673c8c3d9412f7d24ac794225a449fa1fc2ed9e5bdeddfe1c2
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: accepted
+rationale: Three passes agree both findings are closed and exact parent/child scope is coherent.

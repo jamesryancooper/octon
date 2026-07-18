@@ -1,6 +1,6 @@
 # Deterministic Harness Factory and Generic Executor Adapter
 
-This is the in-review RP-11 architecture proposal for
+This is the accepted RP-11 architecture proposal for
 `octon-architecture-migration-harness-factory`. It is a temporary,
 non-authoritative implementation aid. It does not authorize implementation,
 execution, provider access, capability grants, publication, or support
@@ -67,7 +67,8 @@ observations are projections or retained evidence, never authority.
 
 ## Current Gate
 
-The corrected packet remains `in-review`. It selects exact JCS/SHA-256 graph,
+The accepted packet selects exact JCS/SHA-256 graph,
 digest, pre-spawn, four-seam census, and adapter state-machine mechanisms and
 separates source-entry checks from future UE-010/UE-011 completion proof.
-Parent scope reconciliation and fresh independent re-review are next.
+Independent proposal and strict architecture re-review pass at the final
+parent-reconciled digest.
