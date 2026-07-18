@@ -89,7 +89,7 @@ coverage_status:
   implementation_proof_complete: false
   operator_decisions_complete: true
   dependency_design_complete: true
-  architecture_review_complete: false
+  architecture_review_complete: true
 brokered_no_pr_compatibility:
   findings: ["BNP-F-002", "BNP-F-011"]
   prior_audit_lineage: ["GIT-ENF-002", "GIT-ENF-014", "GIT-LC-009"]

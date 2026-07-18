@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-transactional-runtime-store-post-remediation-20260718T152817Z
+commit_sha: e916bcaa5d07ad938fb628813fa8c836591ab074
+scope_hash: sha256:2a8dc33d9df0b96d431198be9935ecaace428fe8714aa220bcb3b62ea1e4288d
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: Three independent lens passes agree that the selected dependency design, 12-family census, evidence order, 42-target parity, and ownership boundaries close all recorded blockers without implementation claims.

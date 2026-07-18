@@ -438,7 +438,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store"
     title: "Transactional Runtime Store and State Migration"
-    status: "in-review"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/engine/runtime/crates/Cargo.toml"
       - ".octon/framework/engine/runtime/crates/Cargo.lock"

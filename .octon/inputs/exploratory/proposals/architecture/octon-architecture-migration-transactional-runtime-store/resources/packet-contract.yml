@@ -4,10 +4,10 @@ logical_packet_id: "RP-03"
 workgroup_id: "RWG-03"
 proposal_id: "octon-architecture-migration-transactional-runtime-store"
 title: "Transactional Runtime Store and State Migration"
-status: "in-review"
+status: "accepted"
 authority_posture:
   proposal_is_authority: false
-  implementation_authorized: false
+  implementation_authorized: true
   runtime_implemented: false
   support_claim_created: false
 purpose: >-

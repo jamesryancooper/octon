@@ -1,0 +1,27 @@
+schema_version: "1.0"
+run_id: architecture-migration-transactional-runtime-store-post-remediation-20260718T152817Z
+findings:
+  - id: RP03-SQLITE-DESIGN-DEPENDENCY-001
+    severity: high
+    status: closed
+    summary: SQLite dependency and reversible engineering defaults are exact enough for implementation authorization.
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store/resources/sqlite-design-and-dependency-receipt.yml
+    acceptance_satisfied: Exact crate/version/features/linkage, store profile, backup, reserve, migration, rollback, and fail-closed resolution rules are selected without claiming installation.
+  - id: RP03-WRITER-STATE-CENSUS-002
+    severity: high
+    status: closed
+    summary: Every current production writer and destination family has an owned migration disposition.
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store/resources/writer-state-census.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+    acceptance_satisfied: Twelve families are classified; unmatched writers deny; policy.rs is target-reconciled with RP-01-first serialization.
+  - id: RP03-IMPLEMENTATION-EVIDENCE-CYCLE-003
+    severity: high
+    status: closed
+    summary: Proposal authorization and post-implementation proof are no longer circular.
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store/architecture/acceptance-criteria.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store/architecture/validation-plan.md
+    acceptance_satisfied: Design review authorizes creation; exact dependency/census/preflight gate entry; UE-004 and dynamic proof gate completion and promotion.
+new_findings: []

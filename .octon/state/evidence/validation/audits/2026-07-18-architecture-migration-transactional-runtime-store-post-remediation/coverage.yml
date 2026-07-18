@@ -1,0 +1,13 @@
+schema_version: "1.0"
+run_id: architecture-migration-transactional-runtime-store-post-remediation-20260718T152817Z
+target_mode: observed
+scope_roots:
+  - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store
+excluded_roots: []
+total_files: 27
+scanned_files: 27
+summarized_sampled_files: 0
+excluded_files: 0
+unaccounted_files: 0
+direct_reviewed_surfaces: [proposal.yml, architecture-proposal.yml, README.md, navigation/, architecture/, resources/, support/]
+note: Full post-remediation proposal review; proposed runtime targets were inspected only to confirm census addressability and were not modified.

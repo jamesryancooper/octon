@@ -1,6 +1,6 @@
 # Transactional Runtime Store and State Migration
 
-This is the in-review RP-03 architecture proposal for moving consequential Octon
+This is the accepted RP-03 architecture proposal for moving consequential Octon
 runtime authority state into one SQLite/WAL schema and write path. It consumes
 the frozen RP-01 authority and guard semantics, defines durable operation and
 attempt transitions around external effects, migrates legacy file state, and
@@ -27,14 +27,15 @@ dependency, or authorize implementation.
 
 ## Packet Status
 
-- proposal status: `in-review`
+- proposal status: `accepted`
 - release state: `pre-1.0`
 - change profile: `atomic`
 - parent program: `octon-architecture-migration-program`
 - dependency: `octon-architecture-migration-canonical-authority`
 
-The packet binds ROD-001 and is ready for independent re-review, not
-implementation. ROD-001 is
+The packet binds ROD-001, passes independent post-remediation architecture and
+proposal review, and authorizes only creation of its future exact implementation
+through the program DAG. No implementation has begun. ROD-001 is
 operator-accepted: raw evidence stays bounded/local/outside project Git;
 longer-lived signed receipts, checkpoints, and rollback references are retained;
 terminal reserve and no-unsigned-fallback behavior remain mandatory; and

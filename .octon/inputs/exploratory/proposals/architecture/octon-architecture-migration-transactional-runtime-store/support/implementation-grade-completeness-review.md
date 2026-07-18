@@ -26,8 +26,8 @@ the exact implementation. RP-01 verification, Cargo lock/checksum/transitive/
 MSRV review, fresh census, and physical preflight gate entry. UE-004 and all
 dynamic proof gate conformance, completion, cutover, support, and promotion.
 
-Fresh independent re-review and parent reconciliation of the added target are
-separate lifecycle gates. No implementation evidence is claimed.
+Fresh independent re-review and parent reconciliation of the added target pass
+as separate lifecycle gates. No implementation evidence is claimed.
 
 ## Assumptions Made
 
@@ -45,9 +45,9 @@ separate lifecycle gates. No implementation evidence is claimed.
 The revised 42-target list covers workspace dependencies, runtime_bus store/
 schema/transactions/migrations/projections/recovery, replay, allocated
 authority persistence seams including the newly discovered `policy.rs` choke
-point, contracts, validators, fixtures, and evidence. The child currently
-differs from the 41-target parent entry by exactly `policy.rs`; the next
-canonical action is a separate parent reconciliation.
+point, contracts, validators, fixtures, and evidence. The accepted parent entry
+contains the identical ordered 42-target list, including `policy.rs` with
+RP-01-then-RP-03 dependency serialization.
 
 ## Affected Artifact Coverage
 
@@ -66,8 +66,8 @@ remain planned-not-executed.
 
 ## Implementation Prompt Readiness
 
-Ready after parent scope reconciliation and a fresh accepted proposal and
-architecture review. The future prompt must enforce RP-01/Cargo/census/
+Ready. Parent scope reconciliation and the fresh accepted proposal and
+architecture reviews pass at the final digest. The future prompt must enforce RP-01/Cargo/census/
 physical preflight before source work or candidate effects and exact-commit
 dynamic proof before completion or promotion.
 
@@ -82,6 +82,6 @@ dynamic proof before completion or promotion.
 
 ## Final Route Recommendation
 
-Run separate `revise-program`/`review-program` actions for the added `policy.rs`
-scope, then independently re-review and accept RP-03 if the final digest and
-all strict gates pass. Do not implement RP-03.
+Keep RP-03 accepted and authorize only its future exact implementation prompt
+through the program DAG after dependency gates pass. Continue to RP-04 review.
+Do not implement RP-03 in this lifecycle sequence.
