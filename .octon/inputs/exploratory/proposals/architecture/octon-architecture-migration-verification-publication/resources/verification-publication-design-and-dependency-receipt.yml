@@ -1,0 +1,67 @@
+schema_version: "octon-verification-publication-design-and-dependency-receipt-v1"
+receipt_id: "rp06-ed004-provider-projection-20260718"
+verdict: "pass-for-design-selection"
+proof_state: "selected-not-configured-not-executed"
+engineering_disposition_ref: "ED-004"
+provider_basis:
+  kind: "GitHub Enterprise Cloud repository with rulesets, merge queue, Actions, Checks API, and two distinct GitHub Apps"
+  documentation_observed_at: "2026-07-18"
+  refs:
+    - "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets"
+    - "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue"
+    - "https://docs.github.com/en/graphql/reference/pulls#enqueuepullrequest"
+    - "https://docs.github.com/en/rest/guides/using-the-rest-api-to-interact-with-checks"
+    - "https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows"
+  drift_rule: "feature, plan, API, ruleset, App, environment, or event incompatibility disables automated protected-PR merge and reopens design; no check-then-merge fallback"
+verifier_execution:
+  source: ".octon/framework/engine/runtime/adapters/host/github-control-plane/verifier/"
+  projections: [".github/workflows/octon-exact-verifier.yml"]
+  triggers: ["pull_request_target for opened/synchronize/reopened/ready_for_review", "merge_group checks_requested"]
+  source_identity: "workflow and verifier launcher are loaded only from the protected default branch and bound by repository id, workflow path, workflow blob SHA-256, run id/attempt, event, base ref/SHA, head ref/SHA, and immutable policy digest"
+  compute_job: "fresh macos-26 runner; permissions contents:read only; no secrets, id-token, App token, cache, service, or writable shared state; RP-02 launcher treats exact S as data and runs the frozen harness under its denied-by-default sandbox"
+  handoff: "one schema-validated <=64 KiB canonical JSON result artifact containing no archive or executable content, bound to run/job/S/O/harness/policy/result digests; emitter downloads by exact run/artifact id on a fresh runner and rejects any extra file, path, size, media type, or digest"
+  emitter_job: "fresh runner; never checks out or executes S; protected environment admits only default-branch and gh-readonly-queue refs; fixed base-owned emitter validates the result then creates one Check Run"
+  forbidden: ["candidate workflow/action/script execution outside RP-02", "candidate cache", "candidate artifact extraction", "pull_request_target checkout of S", "third-party action without full commit pin", "context-name-only trust"]
+verifier_identity:
+  app_role: "octon-verifier GitHub App installation"
+  permissions: {metadata: read, contents: read, checks: write, pull_requests: read, actions: read}
+  forbidden_permissions: ["contents:write", "administration", "workflows:write", "deployments:write", "packages:write", "secrets", "members", "webhooks:write"]
+  credential: "App private key is an environment secret exposed only to the emitter job; operation-scoped installation token is minted after result validation and expires immediately after one Check Run"
+  check: {name: "octon/exact-verdict", expected_source: "exact octon-verifier App id and installation id", sha: "exact S or merge_group SHA", external_id: "digest of complete V tuple", output: "redacted route/result summary only"}
+  ruleset_binding: "required status check selects the octon-verifier App as expected source; any other actor/integration or duplicate/conflicting accepted name denies"
+  publisher_separation: "verifier App has no PR/ref/merge permission; publisher App has no checks:write, verdict key, or verifier environment access"
+verdict_transport:
+  schema: ".octon/framework/engine/runtime/spec/exact-sha-verdict-v1.schema.json"
+  signature_boundary: "RP-06 implements and tests the RP-07 role-signature verification interface with fixtures; RP-07 later supplies the live non-exportable key and terminal evidence chain before production enablement"
+  authority: "Check Run and workflow metadata are authenticated observations; only the complete schema-valid, role-signed V consumed with RP-01/RP-03 state is authoritative"
+route_policy:
+  source: ".octon/instance/governance/policies/change-publication.yml"
+  settled_rule: "typed ROD-002 A/B/C model; eligible Class B defaults to brokered-class-b-no-pr; deterministic review/protected-scope/high-contention selects protected PR; Class C requires stronger control or denial; invalid, collision, ATTEMPTING, or UNKNOWN never switch route"
+  projection: "default-work-unit route text consumes the canonical policy digest and cannot redefine it"
+protected_pr:
+  source_ref: "RP-05 expected-absent/expected-tip CAS only; each mutation separately T1-bound"
+  pr_create_update: "publisher App pull_requests:write only; exact repository, PR node id, source ref/S, base ref/O, policy, reviews, conversations, draft/conflict/mergeability, checks, and freshness observations bound before enqueue"
+  publisher_app_permissions: {metadata: read, contents: read, pull_requests: write}
+  publisher_forbidden: ["checks:write", "administration", "workflows:write", "contents:write", "verifier secret/key access"]
+  queue_request: "GraphQL enqueuePullRequest(pullRequestId, expectedHeadOid=S, jump=false); omission of expectedHeadOid is statically forbidden"
+  queue_rules: {required: true, grouping_strategy: "ALLGREEN", merge_method: "SQUASH", min_entries_to_merge: 1, max_entries_to_merge: 1, required_checks: ["octon/exact-verdict on merge_group SHA plus canonical substantive checks"], bypass_actors: []}
+  concurrency: "GitHub constructs merge_group against current base and merges only after the required checks on that group; head/base/check drift removes or fails the entry and requires a fresh tuple"
+  direct_merge: "REST/GraphQL direct merge and check-then-merge are unreachable; if merge queue cannot enforce the selected configuration, automated merge stays disabled and candidate work is preserved"
+  landed_proof: "observe provider association and final Q, independently prove S-to-Q tree/patch equivalence and exact target movement, then hand landed facts to RP-08"
+workflow_projection:
+  source_root: ".octon/framework/engine/runtime/adapters/host/github-control-plane/projections/"
+  files: ["manifest.yml", "templates/octon-exact-verifier.yml", "templates/octon-protected-publication.yml", "publish-workflow-projections.sh", "validate-workflow-projections.sh", "workflow-projection-receipt-v1.schema.json"]
+  output_allowlist: [".github/workflows/octon-exact-verifier.yml", ".github/workflows/octon-protected-publication.yml"]
+  publisher_gate: "RP-01-authorized repo-local publication token bound to source digest, exact output list/digests, repository, commit, publisher identity, and expiry"
+  behavior: "render in private temp, parse YAML, validate triggers/permissions/action pins/no candidate execution, compare output allowlist, atomically replace outputs, and write target-owned receipt; prune only outputs declared by the prior valid receipt"
+  direct_edit_rule: "any output without a fresh source/output/publisher receipt, or any direct edit, fails drift validation and disables the affected route"
+workflow_census_ref: "resources/workflow-surface-census.yml"
+implementation_entry:
+  - "RP-01/RP-03/RP-05 exact implementation verification and frozen interfaces pass"
+  - "GitHub plan/features, App ids/permissions, environment protections, ruleset/merge queue, Actions image/tool/action pins, disposable repository, and RP-02 runner feasibility pass"
+  - "production route remains disabled; scratch credentials and provider mutations require separate implementation authorization"
+completion_evidence:
+  - "UE-006 candidate mutation, artifact/parser, identity, duplicate check, tuple, expiry, revocation, and permission attacks"
+  - "UE-015 provider/ruleset/App/environment/check producer/secret consumer refresh"
+  - "merge-group head/base/check/review/ruleset races, lost enqueue/result, S-to-Q, rollback, conformance, and drift"
+evidence_boundary: "This receipt selects a design only; it does not create an App, secret, environment, ruleset, queue, workflow, check, PR, credential, provider call, route, or implementation."

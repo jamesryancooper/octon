@@ -52,14 +52,14 @@ name alone is never verifier identity.
 14. resources/traceability.yml
 15. support/implementation-grade-completeness-review.md
 
-## Target-Family Blocker
+## Corrected Provider And Projection Design
 
-Current live inventories identify .github/workflows/pr-auto-merge.yml as a
-protected-CI side-effect owner, and reconciliation requires disposition of
-candidate writer/verifier workflows. This octon-internal packet cannot target
-.github/**. Workflow projection work remains blocked until an accepted
-authored .octon source or generator owns those projections and can refresh them
-with receipts. No unlisted child or mixed target is authorized.
+The corrected packet selects a two-job base-owned verifier, distinct Checks and
+publisher Apps, an App-bound required check, an ALLGREEN single-entry squash
+merge queue, and an RP-01-token-gated `.octon` projection generator. The
+42-workflow census freezes every current disposition. These are design choices
+only: no workflow, App, secret, ruleset, queue, check, PR, or provider state has
+been created or changed.
 
 ## Exit
 

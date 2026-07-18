@@ -1,6 +1,8 @@
 # Acceptance Criteria
 
-These are future proof conditions, not current claims.
+Accepted proposal review may authorize creation of only the exact design in
+`resources/verification-publication-design-and-dependency-receipt.yml`. These
+are implementation-entry and future proof conditions, not current claims.
 
 | ID | Criterion | Required proof |
 | --- | --- | --- |
@@ -36,6 +38,11 @@ settled/retired ROD-002 lineage, ED-004 conformance, PO-FD-007/010/011,
 UE-006/015, candidate-immutability, route and provider drift proof, accepted
 projection-source disposition, implementation conformance, and drift/churn
 review. It does not require another operator vote on the route model.
+
+Proposal acceptance does not wait for those runtime/provider results. RP-01/
+RP-03/RP-05 verification and exact provider/tool/App/ruleset/environment/
+runner/scratch preflight gate source entry. UE-006/015 and all dynamic results
+gate conformance, completion, projection publication, enablement, or promotion.
 
 ## Claim Limit
 

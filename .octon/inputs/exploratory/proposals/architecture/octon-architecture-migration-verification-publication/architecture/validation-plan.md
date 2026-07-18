@@ -2,8 +2,10 @@
 
 ## Evidence Posture
 
-All runtime, adversarial, provider, and projection proof is planned. This draft
-claims none as executed.
+All runtime, adversarial, provider, and projection proof is planned. This
+accepted-design candidate claims none as executed. Proposal acceptance may
+authorize creation; exact dependency/provider preflight gates source entry;
+dynamic evidence gates completion, enablement, or promotion.
 
 | Proof family | Method | Required classification |
 | --- | --- | --- |
@@ -71,6 +73,20 @@ Drift blocks or demotes the affected route.
 - Direct .github edits fail drift validation.
 - Projection receipt binds source, output, publisher, generation, and time.
 - Projection cannot mint authority or substitute for the verdict.
+- The 42-entry census is exhaustive and any add/remove/rename/digest drift
+  blocks source entry or promotion until re-dispositioned.
+
+## Exact Provider Mechanism Tests
+
+- Candidate workflow/action/cache/artifact/parser attacks never reach the
+  verifier emitter or App secret; emitter never checks out or executes `S`.
+- Required check rejects wrong App/installation, context collision, wrong SHA,
+  duplicate/conflicting tuple, and incomplete external id.
+- Enqueue omitting or racing `expectedHeadOid=S` denies; queue is ALLGREEN,
+  squash, max-one, no-bypass, and every merge-group SHA receives required
+  checks from the expected App.
+- Direct merge API, check-then-merge, feature-unavailable fallback, and
+  publisher-created verdict are statically unreachable and dynamically denied.
 
 ## Evidence To Retain
 

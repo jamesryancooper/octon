@@ -102,7 +102,7 @@ authority_class_impact:
     This packet is non-authoritative proposal input and cannot verify, route,
     publish, or admit support by itself.
 runtime_behavior_impact: >-
-  None at draft. After governed implementation, an authenticated exact-SHA
+  None before governed implementation. After implementation, an authenticated exact-SHA
   verdict and immutable predicate default eligible Class B through RP-05,
   select protected PR only before effect for valid review/high-contention work,
   and preserve/deny invalid, collided, or unknown tuples without route switching.

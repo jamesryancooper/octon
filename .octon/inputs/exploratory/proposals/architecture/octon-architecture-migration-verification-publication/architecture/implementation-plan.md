@@ -1,19 +1,19 @@
 # Implementation Plan
 
-This plan remains inactive while the proposal is draft.
+This plan remains inactive until accepted review authorizes the exact design.
 
 ## Preconditions
 
-1. RP-01, RP-03, and RP-05 exit with frozen authority, attempt, and Git
-   interfaces.
-2. Settled/retired ROD-002 lineage is encoded as the accepted deterministic
-   protected-scope, consequence, Class-B-to-PR, and irreducible-ambiguity-only
-   policy without another operator vote.
-3. ED-004 selects a provider-native App or protected external verifier identity
-   unless proof forces architecture repair.
-4. Provider configuration is refreshed read-only under UE-015.
-5. An authored .octon projection source/generator is accepted before any
-   .github workflow change.
+1. Accepted review authorizes creation of only the selected design.
+2. RP-01, RP-03, and RP-05 implementation verification freezes authority,
+   attempt, and Git interfaces before source entry.
+3. The exact GitHub features, two Apps/permissions, environment, ruleset,
+   merge queue, Actions runner/tool/action pins, RP-02 runner feasibility, and
+   disposable provider target pass preflight before source entry.
+4. Settled ROD-002 lineage is encoded only during the authorized implementation
+   as the exact typed policy selected by the design receipt; no vote reopens.
+5. Provider configuration is refreshed read-only under UE-015 during
+   implementation and again at promotion.
 6. Production autonomous publication remains disabled.
 
 ## Workstream 1 — Exact Verdict Contract
@@ -25,8 +25,13 @@ This plan remains inactive while the proposal is draft.
 
 ## Workstream 2 — Protected Verifier Identity
 
-- Deploy verifier code and policy outside candidate control.
-- Grant only required read and check-emission permissions.
+- Generate the exact base-owned `pull_request_target`/`merge_group` projection
+  from the `.octon` source; candidate content runs only in the secretless RP-02
+  compute job and the fresh emitter job never checks out or executes it.
+- Grant the verifier App only metadata/content/check/read permissions and bind
+  the required check to its exact App/installation identity.
+- Schema/size/digest-bind the one JSON handoff; deny archives, extra files,
+  cache, shared runners, candidate artifacts/actions, and context-only trust.
 - Prove candidate changes cannot alter the verifier used for that candidate.
 - Prove verifier cannot publish or call RP-05 with a mutation credential.
 
@@ -51,16 +56,27 @@ This plan remains inactive while the proposal is draft.
 
 ## Workstream 5 — Workflow Projection Ownership
 
-- Inventory candidate writer/verifier workflows and classify keep, merge,
-  project, or retire.
-- Establish templates or generation inputs under the declared .octon host
-  adapter target.
+- Consume the exhaustive 42-workflow census and fail if it drifts.
+- Implement only the exact manifest/templates/publisher/validator/receipt
+  schema selected under the declared `.octon` host-adapter target.
 - Bind source and output digests, publisher identity, receipt, and drift check.
-- Do not directly promote .github files through this packet.
-- If an authored source/generator cannot own required changes, stop on the
-  target-family-split blocker.
+- Require an RP-01 publication token bound to repository, commit, source digest,
+  output allowlist/digests, publisher, and expiry; atomically write only the two
+  allowlisted outputs and prune only prior receipted outputs.
+- Do not directly promote or edit `.github` files through this packet.
 
-## Workstream 6 — Proof And Handoff
+## Workstream 6 — Protected-PR Merge Queue
+
+- Create/update the PR with the distinct publisher App, then enqueue only with
+  `expectedHeadOid=S` and `jump=false`.
+- Require an ALLGREEN, single-entry, squash queue, no bypass actors, App-bound
+  exact-verdict and substantive checks on every `merge_group` SHA.
+- Keep direct merge APIs unreachable. Provider capability/configuration drift
+  disables automated merge and preserves candidate work.
+- Independently bind the final `Q` to the provider entry and prove `S -> Q`
+  tree/patch equivalence before landed facts leave RP-06.
+
+## Workstream 7 — Proof And Handoff
 
 - Execute PO-FD-007, PO-FD-010, PO-FD-011, UE-006, and UE-015.
 - Produce FD-023 specialization conformance for RP-14.
