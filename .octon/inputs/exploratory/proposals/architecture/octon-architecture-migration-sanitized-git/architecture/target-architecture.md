@@ -55,6 +55,22 @@ classification and cleanup lifecycle.
 
 ## Closed Git Surface
 
+`resources/git-provider-design-and-dependency-receipt.yml` selects the exact
+surface: the canonical host-tool resolver admits Git 2.51.1 by absolute path,
+version, and digest; the broker runs it under an empty HOME/XDG/config and an
+HTTPS-only protocol allowlist; a fixed askpass helper reads one short-lived
+GitHub App installation token from an inherited broker pipe; and candidate
+objects enter a quarantined bare repository through sanitized pack-objects,
+index-pack --strict, fsck, and exact reachability checks with no checkout.
+
+Target/source/delete calls use one closed refspec and explicit
+`--force-with-lease=<ref>:<authorized-old>` (or empty expected value for create)
+as the receive-pack old-value CAS. Generic force, plus/wildcard/multiple
+refspecs, non-ancestor S, and alternative transports remain unreachable.
+Independent ancestry proof runs before every target update. A new authenticated
+observation distinguishes attempt-performed, state-satisfied, rejected, and
+unknown; RP-08 retains attribution and retry policy.
+
 The broker identity denies or neutralizes all candidate-controlled execution
 and substitution surfaces, including hooks, config includes, aliases,
 credential helpers, filters, clean/smudge processes, textconv, external

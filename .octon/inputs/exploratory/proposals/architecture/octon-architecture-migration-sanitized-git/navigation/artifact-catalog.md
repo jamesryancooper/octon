@@ -22,6 +22,7 @@
 + `resources/source-context.md`
 + `resources/packet-contract.yml`
 + `resources/traceability.yml`
++ `resources/git-provider-design-and-dependency-receipt.yml`
 + `support/profile-selection-receipt.md`
 + `support/proposal-creation.md`
 + `support/implementation-grade-completeness-review.md`
@@ -29,6 +30,7 @@
 + `support/post-implementation-drift-churn-review.md`
 + `support/proposal-review.md`
 + `support/pre-integration-architecture-review.yml`
++ `support/revisions/rp05-ed003-evidence-order-20260718.md`
 
 This catalog is inventory only. The manifests remain the proposal-local
 lifecycle sources.

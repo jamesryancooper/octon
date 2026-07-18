@@ -6,6 +6,13 @@ All tests below are planned. None is represented as executed evidence by this
 draft. Results must use the reconciliation evidence classifications and retain
 proof method separately.
 
+Proposal acceptance authorizes creation of only the selected exact adapter.
+RP-04 implementation verification and exact Git/tool/provider/App/ruleset/TLS/
+scratch preflight gate source entry. UE-005 and every dynamic matrix below run
+against that implementation and gate conformance, completion, publication
+enablement, or promotion; they do not gate permission to create the test
+subject.
+
 | Proof family | Method | Required classification |
 | --- | --- | --- |
 | Contract and ownership checks | Static inspection | STATICALLY_INSPECTED |

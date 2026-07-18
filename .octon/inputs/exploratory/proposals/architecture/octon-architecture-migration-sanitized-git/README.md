@@ -25,6 +25,12 @@ fast-forward-only local mirror primitive. Every call is separately bound to an
 RP-03 operation/attempt. RP-05 never selects a route, interprets a verdict,
 authorizes cleanup, implements PR policy, or becomes a generic Git service.
 
+The corrected packet selects an exact Git 2.51.1 Smart HTTP/receive-pack,
+force-with-lease expected-old, independent ancestry, quarantined object import,
+GitHub App credential-pipe, and observation design. It is ready for independent
+re-review; no Git command, provider request, credential, or ref mutation has
+occurred.
+
 ## Boundary
 
 RP-05 owns no authority issuer, credential enrollment, store transition,

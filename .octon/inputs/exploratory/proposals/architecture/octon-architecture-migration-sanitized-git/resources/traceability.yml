@@ -53,6 +53,7 @@ engineering_dispositions:
       Single-repository GitHub App, atomic expected-old fast-forward provider
       operation, authenticated receipt when available, and explicit
       state-satisfied versus attempt-performed semantics.
+    state: "design-selected-not-configured-not-executed"
 dependencies:
   - logical_packet_id: "RP-04"
     proposal_id: "octon-architecture-migration-local-broker"

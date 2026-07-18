@@ -1,0 +1,59 @@
+schema_version: "octon-sanitized-git-design-and-dependency-receipt-v1"
+receipt_id: "rp05-ed003-git-provider-20260718"
+verdict: "pass-for-design-selection"
+proof_state: "selected-not-configured-not-executed"
+engineering_disposition_ref: "ED-003"
+tool:
+  resolver: "canonical host-tool resolver with absolute path, version, and SHA-256 evidence"
+  observed_design_baseline: {version: "git version 2.51.1", path: "/Users/jamesryancooper/.homebrew/bin/git", sha256: "d0d40cd469bdf747ec57ae7cc2b303f0fbc8387398fce51fae20a630a44a724c"}
+  hardcode_rule: "the observed path is evidence only; implementation consumes the resolver handle and denies any unapproved path/version/digest"
+provider:
+  kind: "single-repository GitHub App installation"
+  transport: "Git Smart HTTP receive-pack over https://github.com only"
+  credential: "short-lived installation access token scoped to the exact repository and Contents write; RP-04 broker custody only"
+  ruleset: "mandatory branch/ruleset posture must admit the selected App for the exact fast-forward operation while force/non-fast-forward updates remain denied"
+  feasibility_rule: "scratch-repository provider/ruleset and race proof gates implementation entry; inability to prove true expected-old behavior keeps production publication disabled"
+broker_git_state:
+  kind: "broker-owned bare repository with no worktree"
+  permissions: "dedicated broker identity only; independent from candidate and canonical repositories"
+  config: "empty system/global/local config except closed command-local -c keys; no includes, hooks, helpers, filters, attributes, alternates, submodules, or extensions"
+  environment: ["env -i", "HOME=<fresh-broker-home>", "XDG_CONFIG_HOME=<empty>", "GIT_CONFIG_NOSYSTEM=1", "GIT_CONFIG_GLOBAL=/dev/null", "GIT_TERMINAL_PROMPT=0", "GIT_ASKPASS=<root-owned-broker-helper>", "GIT_PAGER=cat", "LC_ALL=C"]
+  protocols: {allow: ["https"], deny: ["ssh", "git", "file", "ext", "ftp", "custom remote helpers"]}
+credential_handoff:
+  mechanism: "root-owned fixed askpass helper reads the operation-scoped token from one inherited broker pipe FD and writes it once to Git stdin response"
+  secret_channels_forbidden: ["argv", "environment value", "config", "URL", "file", "SQLite", "log", "trace", "receipt", "project Git"]
+  lifetime: "minimum provider duration, closed after one Git process, zeroized by broker"
+object_import:
+  exporter: "trusted launcher invokes the approved Git with explicit --git-dir and sanitized config to run pack-objects --revs --stdout for the exact S closure"
+  importer: "broker Git runs index-pack --strict --fix-thin --stdin into quarantine, then fsck --strict and exact object/type/connectivity checks before atomic object admission"
+  checkout: false
+  execution: "no hooks, filters, attributes, submodules, worktree, checkout, candidate config, helper, or transport is evaluated"
+  identity: "S and every reachable object hash are recomputed after import; missing, extra-ref, malformed, SHA-format, or object-type mismatch denies"
+ref_operations:
+  target_cas:
+    preconditions: ["advertised target equals authorized O", "merge-base --is-ancestor O S succeeds", "S is exact commit", "repository/ref identities match"]
+    command_shape: "git push --porcelain --atomic --force-with-lease=<target-ref>:<O> origin <S>:<target-ref>"
+    force_boundary: "force-with-lease is used only as explicit old-value CAS; generic --force, force-if-includes, plus refspec, non-ancestor S, multiple refs, and wildcard refspecs are statically unreachable"
+  source_create: "--force-with-lease=<source-ref>: with an empty expected value, exact S refspec, one separately T1-bound attempt"
+  source_update: "--force-with-lease=<source-ref>:<expected-tip> with exact S"
+  delete: "--force-with-lease=<source-ref>:<expected-tip> --delete after RP-08-supplied landed/cleanup authorization"
+  local_mirror: "git update-ref <local-main> <new> <old> after ancestry proof; no checkout"
+  protocol_basis: "receive-pack compares the command's old object with current server ref atomically; stale old reports rejection and cannot mutate the ref"
+observation:
+  direct: "porcelain/report-status result plus independent ls-remote at a new authenticated observation boundary"
+  states: ["attempt_performed", "state_satisfied", "rejected_precondition", "unknown"]
+  attribution: "lost response or concurrent actor can prove only observed state; RP-08 owns attribution/reconciliation and no retry occurs while UNKNOWN"
+dependencies:
+  new_rust_crates: []
+  system: ["approved Git executable and its reviewed HTTPS/TLS dependency closure"]
+  lock_rule: "tool binary/dependency/version/digest, provider App/ruleset, TLS, protocol behavior, and scratch proof are frozen before source implementation"
+implementation_entry:
+  - "RP-04 implementation verification and broker interface pass"
+  - "approved Git tool/dependency and sanitized environment preflight pass"
+  - "scratch GitHub App/repository/ruleset credential is separately authorized and true target/source/delete CAS race proof passes"
+completion_evidence:
+  - "UE-005 hostile Git sentinel and useful positive path"
+  - "advertisement-to-receive-pack target race including intervening ancestor"
+  - "object quarantine/import/fsck, credential canary, outage, lost response, and attribution matrix"
+  - "writer census, rollback, conformance, drift, and no route-switch proof"
+evidence_boundary: "This receipt selects a design only; it does not configure GitHub, acquire an App credential, run Git, import objects, contact a provider, or mutate a ref."
