@@ -32,6 +32,47 @@ signing material never enters the repository. RP-07 supplies authentic
 signer/revocation receipt and bounded retention mechanisms; RP-12 does not
 create a second signer or evidence system.
 
+## Selected ROD-004 Mechanisms
+
+The initial `extension-release` signer family has no admitted source or key.
+When an operator later authorizes configuration, public keys use P-256 SPKI,
+SHA-256 fingerprints, monotonically increasing integer epochs, and ECDSA
+P-256/SHA-256 X9.62 DER signatures with low-S verification, matching the
+accepted RP-07 local verification profile. Exactly one epoch may be `active`;
+older epochs are `verify-only` or `revoked`. Private keys remain non-exportable
+operator custody and never enter the repo. Normal rotation requires an old-key
+signature and new-key proof-of-possession over the same transition body.
+Emergency loss recovery marks the old epoch lost/revoked, binds the last RP-07-
+anchored trust-policy digest in an explicit governed repo Change, disables all
+private import/publication, then admits a proved new epoch only after recovery
+validation. There is no silent key regeneration or unsigned bridge.
+
+The signed envelope is RFC 8785 JCS JSON with UTF-8 NFC strings and no unknown
+fields. The signature covers `octon:rp12:extension-envelope:v1\0` plus the JCS
+bytes of the envelope without `signature`; the signature is unpadded base64url
+DER. Every manifest, payload tree, dependency closure, trust policy, import
+receipt body, availability entry, and generation has a distinct SHA-256 domain.
+Wall-clock fields are signed observations; trust uses key epoch and revocation
+sequence. An optional `not_after` is enforced whenever present and cannot be
+extended without a new signed envelope.
+
+Allowed source records are initially empty and later admit exactly one of:
+`local-archive` (no-follow path inside a configured operator root plus exact
+archive SHA-256), `git-commit` (normalized origin identity, full immutable
+object ID, tree digest, and no submodule/network recursion), or
+`https-artifact` (exact HTTPS URL, host, asset digest, zero cross-host redirects,
+and no ambient credentials). Every dependency has its own admitted source and
+signed envelope; transitive fetching from an undeclared source is forbidden.
+
+Archive limits are 64 MiB compressed, 256 MiB expanded, 10,000 regular files,
+32 levels, 512 UTF-8 bytes per normalized relative path, 32 MiB per file, and
+a 20:1 expansion ratio. Only regular files with normalized modes `0644` or
+`0755` are retained. Absolute/dot/dot-dot/NUL paths, symlinks, hardlinks,
+devices, FIFOs, sockets, sparse files, duplicate NFC paths, Unicode/case-fold
+aliases, and root escapes reject before materialization. The payload-tree
+digest is the JCS array sorted by NFC POSIX path of `(path, mode, byte_length,
+sha256)` under `octon:rp12:payload-tree:v1\0`.
+
 ## Canonical Signed Envelope
 
 Every private/external release has one strict canonical envelope binding:
@@ -80,6 +121,17 @@ crash before availability publication leaves only discardable staging. A
 crash after immutable release retention but before availability update leaves
 an unreferenced recovery candidate that is reverified before adoption.
 
+Staging uses a same-filesystem private directory with mode `0700`; verified
+releases publish by no-replace rename to
+`.octon/inputs/additive/.archive/extensions/sha256/<payload-digest>/` and fsync
+the file, directory, and parent. A single import/reconcile lock uses an atomic
+`mkdir` owner record; contention denies, and stale ownership requires explicit
+diagnosis rather than automatic break. Availability is RFC-8785 JSON sorted by
+its exact release key and updates only through expected-old SHA-256 CAS,
+same-directory temporary file, fsync, rename, and parent fsync. A retained
+release without a committed availability row is non-authoritative orphan state
+and must pass the full current verification flow before adoption.
+
 ## Desired, Actual, and Generated State
 
 | Layer | Canonical surface | Writer | Meaning |
@@ -119,6 +171,17 @@ generation-transition receipt, and atomically exposes one generation. A failed
 set quarantines affected releases or publishes the coherent surviving set only
 where existing policy permits; it never opportunistically selects a different
 private version.
+
+The staged generated family is immutable at
+`.octon/generated/effective/extensions/generations/sha256-<generation-digest>/`.
+The generation digest binds desired/trust-policy and availability CAS digests,
+the complete signed dependency closure, catalog, artifact map, and transition
+receipt. After file and directory fsync, `generation.lock.yml` is replaced last
+as the sole commit marker by expected-old digest CAS and parent fsync. Resolvers
+read the marker before and after the immutable family and deny unless both reads
+and every listed digest agree. A crash before marker replacement exposes
+nothing; a crash after it exposes one complete verifiable generation. Orphan
+stages are never selected and are removed only by separately authorized hygiene.
 
 ## Harness Binding
 

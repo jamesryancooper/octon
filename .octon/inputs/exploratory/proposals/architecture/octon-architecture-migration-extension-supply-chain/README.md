@@ -65,7 +65,8 @@ receipts keep distinct authority roles; none becomes execution authority.
 
 ## Current Gate
 
-The packet is `in-review`. Independent review requires one exact ROD-004
-cryptographic/import/publication mechanism set and a non-circular evidence
-order. UE-012 remains future implementation proof; no operator decision is
-open and no private source or signer is admitted by this review.
+The corrected packet remains `in-review`. It encodes exact ROD-004 signature,
+source, archive, payload-tree, retention, import-CAS, publication-commit,
+rotation/recovery, revocation, restore, and bounded-limit mechanisms. UE-012
+remains future completion proof. Fresh independent re-review is next; the
+source allowlist remains empty and no signer or private release is admitted.

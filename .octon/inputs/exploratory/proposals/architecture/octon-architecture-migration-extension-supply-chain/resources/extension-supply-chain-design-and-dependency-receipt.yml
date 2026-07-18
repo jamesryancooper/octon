@@ -1,0 +1,63 @@
+schema_version: "octon-extension-supply-chain-design-and-dependency-receipt-v1"
+receipt_id: "rp12-supply-chain-mechanisms-evidence-order-20260718"
+verdict: "pass-for-design-selection"
+proof_state: "selected-not-configured-not-implemented-not-executed"
+review_findings: ["RP12-EXACT-SUPPLY-CHAIN-MECHANISMS-001", "RP12-IMPLEMENTATION-EVIDENCE-CYCLE-002"]
+frozen_dependencies:
+  - {proposal_id: "octon-architecture-migration-signed-evidence", packet_digest: "sha256:87fbcceec1ea8956e96335808aef37a9c91b91793328a31d92b1c058703aaf08", role: "P-256 verification profile, authentic receipts, revocation/checkpoint identity, and bounded retention"}
+  - {proposal_id: "octon-architecture-migration-harness-factory", packet_digest: "sha256:be1761195fc652673c8c3d9412f7d24ac794225a449fa1fc2ed9e5bdeddfe1c2", role: "exact extension-generation input and deterministic launch binding"}
+dependency_drift_rule: "packet or implemented-interface drift denies RP-12 source entry and routes to the owner"
+initial_trust_policy:
+  signer_family_id: "extension-release"
+  active_epoch: null
+  public_key_epochs: []
+  allowed_sources: []
+  revocations: []
+  private_import: "deny"
+  capability_grants: "none created; only existing explicit grants may be checked"
+signature_profile:
+  key: "P-256 public SPKI, SHA-256 fingerprint, monotonic integer epoch; private key remains non-exportable operator custody"
+  algorithm: "ECDSA P-256/SHA-256 X9.62 DER, low-S required; unpadded base64url encoding"
+  envelope: "RFC 8785 JCS JSON, UTF-8 NFC, strict schema, signature excluded from signed body"
+  signed_bytes: "ASCII octon:rp12:extension-envelope:v1 followed by NUL and exact unsigned-envelope JCS bytes"
+  time: "signed_at is observation; optional not_after is enforced and can change only through a new signed envelope"
+rotation_and_recovery:
+  normal: "old active epoch signs transition body and new key proves possession over identical body; governed expected-old trust-policy digest update"
+  emergency: "governed repo Change marks old epoch lost/revoked, binds last RP-07-anchored trust-policy digest, disables private import/publication, and admits a proved new epoch only after recovery validation"
+  invariant: "exactly one active epoch; older epochs verify-only or revoked; no unsigned/silent regeneration bridge"
+source_profiles:
+  local_archive: "no-follow file inside configured operator root plus exact archive SHA-256"
+  git_commit: "normalized admitted origin, full immutable object ID, tree digest, no submodule or undeclared network recursion"
+  https_artifact: "exact HTTPS URL/host/asset SHA-256, no ambient credentials, zero cross-host redirects"
+  dependency_rule: "each dependency independently admitted and signed; no transitive fetch from undeclared source"
+archive_limits: {compressed_mib: 64, expanded_mib: 256, regular_files: 10000, depth: 32, path_utf8_bytes: 512, per_file_mib: 32, expansion_ratio: 20}
+archive_rules:
+  allowed: "regular files only, NFC POSIX relative paths, modes normalized to 0644 or 0755"
+  denied: ["absolute/dot/dot-dot/NUL", "symlink", "hardlink", "device/FIFO/socket", "sparse file", "duplicate NFC path", "Unicode/case-fold alias", "root escape"]
+payload_tree:
+  rows: ["NFC POSIX path", "mode", "byte_length", "sha256"]
+  order: "lexicographic NFC path"
+  digest: "SHA-256 of octon:rp12:payload-tree:v1 NUL plus RFC-8785 JCS row array"
+retention_and_availability:
+  staging: "same-filesystem private 0700 directory"
+  retained_path: ".octon/inputs/additive/.archive/extensions/sha256/<payload-digest>/"
+  publish: "no-replace rename and fsync file/directory/parent"
+  lock: "atomic mkdir owner record; contention denies; stale lock requires explicit diagnosis and is never auto-broken"
+  availability: "RFC-8785 JSON sorted by exact release key; expected-old SHA-256 CAS, same-directory temp, fsync, rename, parent fsync"
+  orphan: "retained bytes without committed availability remain non-authoritative and require full current revalidation"
+generation_publication:
+  immutable_path: ".octon/generated/effective/extensions/generations/sha256-<generation-digest>/"
+  digest_inputs: ["desired/trust-policy digest", "availability CAS digest", "signed dependency closure", "catalog", "artifact map", "transition receipt"]
+  commit_marker: "generation.lock.yml replaced last by expected-old digest CAS after generation fsync"
+  resolver: "read marker before and after immutable family; both reads and every listed digest must agree"
+  crash: "before marker exposes nothing; after marker exposes one complete generation; orphans are never selected"
+revocation_and_restore:
+  revocation_key: "monotonic sequence plus signer epoch/source/release/payload subject, effective_at, reason, prior policy digest"
+  propagation: "invalidate availability and complete dependency closure; quarantine; deny new publication/resolution/compile/launch; publish coherent disabled generation when allowed"
+  restore: "exact retained generation is fully reverified against current source/signer/revocation/content/dependency/compatibility/capability/pin rules and publishes a new generation through the same commit marker"
+  no_fallback: "failure leaves extension disabled/quarantined; no stale, unsigned, floating, or broader release selection"
+evidence_order:
+  proposal_authorization: "accepted digest-bound proposal and strict architecture review may authorize only this exact empty-allowlist design"
+  source_entry: ["RP-07/RP-11 exact implementations and interfaces verify", "current source/writer/reader census", "shared publisher/resolver integration lease", "empty initial trust policy validates"]
+  completion: ["hostile signature/source/archive/dependency matrix", "import non-authority and CAS crash/concurrency", "generation split/marker tests", "revocation/restore races", "UE-012", "rollback/conformance/drift"]
+evidence_boundary: "This receipt selects design only; it creates no source, signer/key, credential, payload, import, network request, availability, desired/active/generated state, Harness, implementation, publication, promotion, or proof."

@@ -149,8 +149,7 @@ trust_boundary_changes:
   - "Availability is separated from desired selection and active/generated publication."
   - "A generation restore is treated as a new current admission/publication, not a blind pointer rollback."
 migration_preconditions:
-  - "RP-07 signed evidence identity, revocation, bounded retention, and checkpoint interface has exited and is frozen."
-  - "RP-11 deterministic Harness accepts an exact extension generation ref/digest and has exited."
+  - "Accepted RP-07 and RP-11 packet digests are frozen by the RP-12 design receipt; their exact implemented interfaces verify before RP-12 source work."
   - "The accepted ROD-004 deny-by-default baseline is encoded; intentional later source, signer-material, pin, rotation, recovery, and admission updates use governed configuration."
   - "Every current extension raw, desired, actual, generated, resolver, and publisher writer/reader is inventoried at the implementation commit."
 migration_steps:
