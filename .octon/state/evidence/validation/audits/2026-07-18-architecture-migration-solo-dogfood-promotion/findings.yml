@@ -1,0 +1,8 @@
+schema_version: "1.0"
+findings:
+  - id: RP14-EXACT-PROOF-PROTOCOL-001
+    severity: high
+    status: open
+  - id: RP14-IMPLEMENTATION-EVIDENCE-CYCLE-002
+    severity: high
+    status: open

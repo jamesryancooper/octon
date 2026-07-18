@@ -1,0 +1,4 @@
+schema_version: "1.0"
+surfaces: ["canonical documents", "proof protocol and corpus", "measurement and burden", "provider reproduction", "evidence custody and identity", "claim adjudication and handoff", "dependency, scope, and evidence order"]
+files_scanned: 22
+coverage_status: complete-for-initial-review

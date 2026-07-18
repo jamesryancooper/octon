@@ -1,0 +1,28 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "octon-architecture-migration-solo-dogfood-promotion-architecture-review-20260718T181032Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-solo-dogfood-promotion"
+packet_digest: "sha256:a5a2d541e1b1fe2517d36d95a32498cca0093955928d2cc325662365caf41a70"
+review_mode: "pre-integration-architecture-review"
+verdict: "fail"
+unresolved_count: 2
+blockers: ["RP14-EXACT-PROOF-PROTOCOL-001", "RP14-IMPLEMENTATION-EVIDENCE-CYCLE-002"]
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-18T18:10:32Z"
+evidence_refs: [".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-solo-dogfood-promotion-20260718T181032Z.md", ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-solo-dogfood-promotion-20260718T181032Z.md", ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-solo-dogfood-promotion/bundle.yml"]
+validator_refs: ["validate-proposal-review-gate.sh --package RP-14 --print-digest", "validate-proposal-standard.sh --package RP-14 --skip-registry-check", "validate-architecture-proposal.sh --package RP-14", "validate-proposal-program-structure.sh --package parent"]
+mode_specific_coverage:
+  review_charter: "Independent closed-book pre-integration review of RP-14."
+  external_tool_integrity: "Provider, GitHub, dogfood, runtime, support, and publication surfaces were read-only design subjects and were not invoked."
+  system_job: "Independently prove integrated Solo Local outcomes and hand claim-scoped evidence to a separate promotion authority."
+  current_reality: "The target implementation, exact proof-run identity, 30-day evidence, UE resolutions, and provider reproduction do not exist."
+  authority_boundaries: "RP-14 owns only retained evidence; child semantics and downstream claim authority remain external."
+  dependency_and_concurrency: "DAG and parent scope are coherent, but exact accepted dependency digests, implemented-interface entry receipts, and proof-run input freeze are absent."
+  failure_and_recovery: "Failure-to-owner and quarantine concepts are sound; exact generation, invalidation, rerun, and partial-claim transactions remain discretionary."
+  security_and_credentials: "Credential and privileged-candidate negatives are planned; independence, evidence custody, and provider-observation integrity need exact mechanisms."
+  evidence_and_validation: "Counts and zero budgets exist, but corpus identity, timing math, result identity, aggregation, staleness, and handoff schema are incomplete."
+  contracts_and_compatibility: "The evidence-only target is correct; exact evidence-local protocol artifacts and claim-state contract are not enumerated."
+  operability_and_observability: "One-screen and burden budgets are explicit; sampling, exclusions, compaction, and truthful incomplete-run representation need selection."
+  sequencing_and_migration: "Future UE/FD proof currently blocks design authorization instead of proof-run completion and promotion."
+  prior_finding_disposition: "No prior RP-14 review."
+  final_self_challenge: "Selective corpus omission, unequal baselines, timing exclusion, percentile ambiguity, stale provider proof, producer self-attestation, partial-run promotion, evidence loss, and proof inflation challenged."
+  verdict_basis: "Two high-severity locally correctable blockers remain."

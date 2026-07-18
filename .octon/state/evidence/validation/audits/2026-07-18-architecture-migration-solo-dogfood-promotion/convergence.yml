@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-solo-dogfood-promotion-20260718T181032Z
+commit_sha: a05e5d3c7d
+scope_hash: sha256:a5a2d541e1b1fe2517d36d95a32498cca0093955928d2cc325662365caf41a70
+seeds: [17, 29, 43]
+result_vector: [fail, fail, fail]
+stable: true
+union_blocking_findings: 2
+open_findings_at_or_above_threshold: 2
+done: true
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: revision-required
+rationale: Three passes agree exact protocol mechanics and evidence ordering require revision.

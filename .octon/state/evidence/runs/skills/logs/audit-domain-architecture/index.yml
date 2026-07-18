@@ -349,3 +349,12 @@ runs:
     metrics: {surfaces_mapped: 8, files_scanned: 27, critical: 0, high: 0, medium: 0, low: 0, recommendations: 2}
     report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-bounded-child-agents-post-remediation-cycle-2-20260718T180407Z.md
     log: ../../audit-domain-architecture/architecture-migration-bounded-child-agents-post-remediation-cycle-2-20260718T180407Z.md
+  - id: "architecture-migration-solo-dogfood-promotion-20260718T181032Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-solo-dogfood-promotion"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 2, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-solo-dogfood-promotion-20260718T181032Z.md
+    log: ../../audit-domain-architecture/architecture-migration-solo-dogfood-promotion-20260718T181032Z.md

@@ -20,5 +20,7 @@
 - `support/proposal-creation.md`
 - `support/profile-selection-receipt.md`
 - `support/implementation-grade-completeness-review.md`
+- `support/proposal-review.md`
+- `support/pre-integration-architecture-review.yml`
 - `support/implementation-conformance-review.md`
 - `support/post-implementation-drift-churn-review.md`
