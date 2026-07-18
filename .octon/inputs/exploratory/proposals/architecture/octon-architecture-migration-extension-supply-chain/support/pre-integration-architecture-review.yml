@@ -1,0 +1,28 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "octon-architecture-migration-extension-supply-chain-architecture-review-20260718T173026Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-extension-supply-chain"
+packet_digest: "sha256:446df32865bf7f66fd3fa4b7f7f2e40be93f591257ff61ae04d598232a47f99a"
+review_mode: "pre-integration-architecture-review"
+verdict: "fail"
+unresolved_count: 2
+blockers: ["RP12-EXACT-SUPPLY-CHAIN-MECHANISMS-001", "RP12-IMPLEMENTATION-EVIDENCE-CYCLE-002"]
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-18T17:30:26Z"
+evidence_refs: [".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-extension-supply-chain-20260718T173026Z.md", ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-extension-supply-chain-20260718T173026Z.md", ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-extension-supply-chain/bundle.yml"]
+validator_refs: ["validate-proposal-review-gate.sh --package RP-12 --print-digest", "validate-proposal-standard.sh --package RP-12 --skip-registry-check", "validate-architecture-proposal.sh --package RP-12", "validate-proposal-program-structure.sh --package parent"]
+mode_specific_coverage:
+  review_charter: "Independent closed-book pre-integration review of RP-12."
+  external_tool_integrity: "Sources, signers, networks, archives, and publishers were observed as design surfaces only."
+  system_job: "Make private extensions authentic, pinned, revocable, recoverable, and non-authoritative."
+  current_reality: "Current provenance hashes are not mandatory private-release signatures; no hostile proof exists."
+  authority_boundaries: "Import may write availability/evidence only; selection, publication, Harness, and grants remain separate."
+  dependency_and_concurrency: "RP-07/RP-11 packets are accepted but exact source-entry interfaces are not frozen locally."
+  failure_and_recovery: "Restore is current revalidation, but exact commit/concurrency and interruption mechanisms are unspecified."
+  security_and_credentials: "Initial deny posture is right; cryptographic profile, safe extraction, and key records need selection."
+  evidence_and_validation: "UE-012 is future implementation proof and currently forms a circular gate."
+  contracts_and_compatibility: "Target coverage is exhaustive, but envelope/tree/source/generation identities remain discretionary."
+  operability_and_observability: "One-command UX is bounded; exact status and failure transaction state depend on selected mechanisms."
+  sequencing_and_migration: "DAG position is correct; source entry and completion proof must be separated."
+  prior_finding_disposition: "No prior RP-12 review."
+  final_self_challenge: "Forged key, mutable ref, archive escape, dependency substitution, split generation, revoke race, and proof inflation challenged."
+  verdict_basis: "Two high-severity locally correctable blockers remain."

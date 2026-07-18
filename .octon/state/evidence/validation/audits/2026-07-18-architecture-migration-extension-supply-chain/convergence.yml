@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-extension-supply-chain-20260718T173026Z
+commit_sha: 87b067c4e7
+scope_hash: sha256:446df32865bf7f66fd3fa4b7f7f2e40be93f591257ff61ae04d598232a47f99a
+seeds: [17, 29, 43]
+result_vector: [fail, fail, fail]
+stable: true
+union_blocking_findings: 2
+open_findings_at_or_above_threshold: 2
+done: true
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: revision-required
+rationale: Three passes agree exact supply-chain mechanisms and evidence order require revision.
