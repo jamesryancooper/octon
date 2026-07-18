@@ -1,0 +1,31 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "octon-architecture-migration-verification-publication-architecture-review-20260718T160333Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-verification-publication"
+packet_digest: "sha256:285c683b3c5dd9fa48e74bebc7fd1ea2776beaf08f921e8fb22f52979be5dd3d"
+review_mode: "pre-integration-architecture-review"
+verdict: "fail"
+unresolved_count: 4
+blockers: ["RP06-ED004-VERIFIER-MECHANISM-001", "RP06-PROJECTION-OWNERSHIP-002", "RP06-PR-MERGE-MECHANISM-003", "RP06-IMPLEMENTATION-EVIDENCE-CYCLE-004"]
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-18T16:03:33Z"
+evidence_refs:
+  - ".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-verification-publication-20260718T160333Z.md"
+  - ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-verification-publication-20260718T160333Z.md"
+  - ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-verification-publication/bundle.yml"
+validator_refs: ["validate-proposal-review-gate.sh --print-digest", "validate-proposal-standard.sh", "validate-proposal-implementation-readiness.sh", "validate-architecture-proposal.sh"]
+mode_specific_coverage:
+  review_charter: "Independent pre-integration RP-06 review."
+  external_tool_integrity: "GitHub Actions, Apps, Checks, merge, and rulesets were treated as external tools and not mutated."
+  system_job: "Candidate-immutable verification and deterministic publication specialization."
+  current_reality: "No accepted verifier, projection generator, or merge mechanism exists."
+  authority_boundaries: "RP-06 excludes authority issuance, store, broker, Git primitive, recovery, signing policy, and support."
+  dependency_and_concurrency: "Exact tuple and route freeze exist; merge concurrency mechanism is unresolved."
+  failure_and_recovery: "Invalid/UNKNOWN preserves work and forbids route switching."
+  security_and_credentials: "Identity separation is specified but exact execution and token design is missing."
+  evidence_and_validation: "Evidence order is circular and provider proof remains future."
+  contracts_and_compatibility: "Verdict/route concepts exist; provider and projection contracts are incomplete."
+  operability_and_observability: "Zero-prompt status is planned, not proved."
+  sequencing_and_migration: "Design may authorize creation; dependencies and provider preflight belong at source entry."
+  prior_finding_disposition: "Four new blockers open."
+  final_self_challenge: "Candidate control, duplicate checks, token escape, base/head races, direct workflow edits, fallback, and proof inflation challenged."
+  verdict_basis: "Four high findings require revision."

@@ -29,7 +29,7 @@ promotion_targets:
   - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
   - ".octon/framework/assurance/runtime/_ops/tests/verification-publication/"
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-verification-publication/"
-status: "draft"
+status: "in-review"
 lifecycle:
   temporary: true
   exit_expectation: >-

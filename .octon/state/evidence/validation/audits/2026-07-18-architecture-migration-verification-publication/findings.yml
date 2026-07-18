@@ -1,0 +1,8 @@
+schema_version: "1.0"
+run_id: architecture-migration-verification-publication-20260718T160333Z
+findings:
+  - {id: RP06-ED004-VERIFIER-MECHANISM-001, severity: high, status: open, summary: "Exact candidate-immutable verifier and authenticated check mechanism missing."}
+  - {id: RP06-PROJECTION-OWNERSHIP-002, severity: high, status: open, summary: "Exact workflow census and owning generator contract missing."}
+  - {id: RP06-PR-MERGE-MECHANISM-003, severity: high, status: open, summary: "Exact atomic protected-PR merge mechanism missing."}
+  - {id: RP06-IMPLEMENTATION-EVIDENCE-CYCLE-004, severity: high, status: open, summary: "Proposal authorization is circularly gated on implementation and provider proof."}
+new_findings: [RP06-ED004-VERIFIER-MECHANISM-001, RP06-PROJECTION-OWNERSHIP-002, RP06-PR-MERGE-MECHANISM-003, RP06-IMPLEMENTATION-EVIDENCE-CYCLE-004]

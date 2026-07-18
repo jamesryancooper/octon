@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-verification-publication-20260718T160333Z
+commit_sha: 707f0cdab6e367ce8ddeeff160cbbce20ddbddee
+scope_hash: sha256:285c683b3c5dd9fa48e74bebc7fd1ea2776beaf08f921e8fb22f52979be5dd3d
+seeds: [17, 29, 43]
+result_vector: [revision-required, revision-required, revision-required]
+stable: true
+union_blocking_findings: 4
+open_findings_at_or_above_threshold: 4
+done: true
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: revision-qualified-local
+rationale: Three passes agree that exact verifier, projection, merge, and evidence-order blockers remain.

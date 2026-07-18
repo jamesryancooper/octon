@@ -1,6 +1,6 @@
 # Immutable Verification and Adaptive Publication
 
-This is the draft RP-06 / RWG-06 child of
+This is the in-review RP-06 / RWG-06 child of
 octon-architecture-migration-program. It is temporary, non-authoritative, and
 not implementation or publication authorization.
 
