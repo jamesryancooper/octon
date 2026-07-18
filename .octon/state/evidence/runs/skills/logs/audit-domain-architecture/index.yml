@@ -133,3 +133,12 @@ runs:
     metrics: {surfaces_mapped: 6, files_scanned: 22, critical: 0, high: 3, medium: 0, low: 0, recommendations: 3}
     report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-transactional-runtime-store-20260718T154000Z.md
     log: ../../audit-domain-architecture/architecture-migration-transactional-runtime-store-20260718T154000Z.md
+  - id: "architecture-migration-program-rp03-scope-pre-integration-20260718T152420Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 50, critical: 0, high: 0, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-program-rp03-scope-pre-integration-20260718T152420Z.md
+    log: ../../audit-domain-architecture/architecture-migration-program-rp03-scope-pre-integration-20260718T152420Z.md

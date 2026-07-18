@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-rp03-scope-pre-integration-20260718T152420Z
+commit_sha: 4811057ab87c7c6b3df8d5f8d0105025e3358d9a
+scope_hash: sha256:70b4bd3980fa7abb4d57be32cc0ef5d6ed573f2870929b037b2543459bb36dfa
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: All structure passes converge on the same 123-record acyclic collision projection, exact RP-03 target equality, and preserved RP-01 policy authority.
