@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-rp11-scope-pre-integration-20260718T172415Z
+commit_sha: d369c6ea62
+scope_hash: sha256:440729088e2f453f3d1124c9e075dd9788baafc585364e02b13d2f62d199da3c
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: accepted
+rationale: Three passes agree parent scope, ownership, sequencing, and collision records are complete and acyclic.

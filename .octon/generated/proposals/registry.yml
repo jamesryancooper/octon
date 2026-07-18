@@ -311,7 +311,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program"
     title: "Octon Architecture Migration Program"
-    status: "in-review"
+    status: "accepted"
     promotion_targets:
       - ".octon/state/evidence/validation/proposals/octon-architecture-migration-program/"
   - id: "octon-architecture-migration-recovery-class-b"

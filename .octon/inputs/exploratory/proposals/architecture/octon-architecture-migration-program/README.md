@@ -26,8 +26,8 @@ This is planned architecture, not current authority. RP-00 containment disables
 unsafe writers, Octon `direct-main`, and current autonomous no-PR effects while
 preserving route classification and work. Production no-PR remains disabled
 until RP-05 through RP-08 prove the complete safety spine. The fixed fifteen-
-child graph is unchanged. The parent is temporarily `in-review` while RP-11's
-41-target scope and collision records receive a fresh digest-bound review.
+child graph is unchanged. The accepted parent now records RP-11's exact
+41-target scope and a complete 126-record collision ledger.
 
 ## Reading Order
 
