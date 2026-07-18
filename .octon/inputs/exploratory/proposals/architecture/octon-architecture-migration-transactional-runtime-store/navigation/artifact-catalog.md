@@ -30,6 +30,8 @@
 
 - `support/profile-selection-receipt.md` — atomic/pre-1.0 profile rationale.
 - `support/proposal-creation.md` — canonical direct-template fallback creation receipt.
+- `support/proposal-review.md` — digest-bound independent proposal review.
+- `support/pre-integration-architecture-review.yml` — subtype architecture review receipt.
 - `support/implementation-grade-completeness-review.md` — truthful draft readiness gate.
 - `support/implementation-conformance-review.md` — future implementation conformance gate.
 - `support/post-implementation-drift-churn-review.md` — future closeout drift gate.

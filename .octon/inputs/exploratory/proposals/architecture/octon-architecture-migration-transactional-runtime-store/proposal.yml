@@ -51,7 +51,7 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/tests/test-transactional-runtime-store.sh"
   - ".octon/framework/assurance/runtime/_ops/fixtures/transactional-runtime-store/"
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-transactional-runtime-store/"
-status: "draft"
+status: "in-review"
 change_profile: "atomic"
 release_state: "pre-1.0"
 owner: "octon-maintainers"

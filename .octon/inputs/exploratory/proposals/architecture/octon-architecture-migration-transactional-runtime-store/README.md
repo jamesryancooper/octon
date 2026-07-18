@@ -1,6 +1,6 @@
 # Transactional Runtime Store and State Migration
 
-This is the draft RP-03 architecture proposal for moving consequential Octon
+This is the in-review RP-03 architecture proposal for moving consequential Octon
 runtime authority state into one SQLite/WAL schema and write path. It consumes
 the frozen RP-01 authority and guard semantics, defines durable operation and
 attempt transitions around external effects, migrates legacy file state, and
@@ -27,7 +27,7 @@ authorize implementation.
 
 ## Packet Status
 
-- proposal status: `draft`
+- proposal status: `in-review`
 - release state: `pre-1.0`
 - change profile: `atomic`
 - parent program: `octon-architecture-migration-program`

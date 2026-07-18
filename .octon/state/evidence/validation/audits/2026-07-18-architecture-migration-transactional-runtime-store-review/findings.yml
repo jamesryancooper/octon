@@ -1,0 +1,16 @@
+schema_version: "1.0"
+run_id: architecture-migration-transactional-runtime-store-20260718T154000Z
+findings:
+  - id: RP03-SQLITE-DESIGN-DEPENDENCY-001
+    severity: high
+    status: open
+    summary: SQLite dependency, linkage, physical storage, backup, reserve, and rollback defaults are not selected.
+  - id: RP03-WRITER-STATE-CENSUS-002
+    severity: high
+    status: open
+    summary: No exhaustive immutable-baseline consequential state/writer census proves the single-writer cutover.
+  - id: RP03-IMPLEMENTATION-EVIDENCE-CYCLE-003
+    severity: high
+    status: open
+    summary: Prototype and dynamic exact-implementation proof circularly block authorization to create their test subject.
+new_findings: [RP03-SQLITE-DESIGN-DEPENDENCY-001, RP03-WRITER-STATE-CENSUS-002, RP03-IMPLEMENTATION-EVIDENCE-CYCLE-003]
