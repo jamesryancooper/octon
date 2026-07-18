@@ -18,8 +18,9 @@
 | RP-13 | RWG-12 | `octon-architecture-migration-bounded-child-agents` | RP-08, RP-11 |
 | RP-14 | RWG-13 | `octon-architecture-migration-solo-dogfood-promotion` | core: RP-08, RP-09, RP-10, RP-11; program closeout: RP-12, RP-13 |
 
-All children are required sibling proposals and remain draft. The parent does
-not own child receipts, targets, statuses, archives, or terminal outcomes.
+All children are required sibling proposals. Their statuses advance only
+through their own lifecycle actions; the parent does not own child receipts,
+targets, statuses, archives, or terminal outcomes.
 
 ## Brokered Publication Revision Overlay
 
@@ -37,3 +38,11 @@ The registry write scopes now include the containment helpers in RP-00,
 conditional cleanup primitive in RP-05, and canonical default-work-unit policy
 sources in RP-06. These are future promotion targets only; the draft revision
 does not edit or authorize them.
+
+## RP-01 Launch-Dominance Scope Overlay
+
+RP-01 additionally owns only the exact final guard invocation and bypass-removal
+slice at the four candidate-launch seams named by its reviewed census, plus the
+three exact fitness-test targets. The DAG is unchanged. The sole new physical
+collision is `lifecycle_executor/src/codex.rs`, serialized RP-01, RP-02, then
+RP-11 without transferring isolation or Harness/adapter semantics.

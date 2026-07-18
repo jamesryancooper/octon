@@ -3,7 +3,7 @@
 | Packet | Exclusive semantic ownership | Explicit exclusions/handoffs |
 | --- | --- | --- |
 | RP-00 | containment, hard-disable slices for unsafe current publication/cleanup entrypoints, writer/launcher/credential/trust/provider-workflow inventories, claim correction | no final route policy, broker/store/verifier implementation, or presumption that current PR is safe |
-| RP-01 | authority semantics, typed scopes, decision receipts, exact guard API | RP-03 persistence; RP-02 isolation; RP-11 Harness; RP-13 budgets |
+| RP-01 | authority semantics, typed scopes, decision receipts, exact guard API, and the final guard-invocation/bypass-removal slice at the four census-owned candidate launch seams | RP-03 persistence; RP-02 isolation; RP-04 effects/credentials; RP-11 Harness/adapter; RP-13 budgets |
 | RP-02 | candidate-isolation module/native host policy/disposable repo export | RP-01 guard; RP-11 generic adapter; RP-04 credentials |
 | RP-03 | SQLite schema/migrations, one store mutation API, T1/outbox/T2, backup/restore | RP-08 provider outcome classification; RP-07 evidence policy |
 | RP-04 | broker core, IPC, Keychain, supervision, operation handles, sole deployed writer/effect host | no authority mint/verdict; RP-05 Git; RP-07 evidence; RP-08 reconciliation |
@@ -27,6 +27,16 @@ RP-01 authorization, RP-02 isolation, RP-11 generic adapter, RP-13 child mapping
 RP-08 owns a separate credentialless `effect_reconciler` library that cannot
 open credentials, dispatch effects, or become a writer. Global Cargo/contract
 registries have one integration writer and packet-owned exact entries.
+
+## RP-01 Candidate-Launch Invocation Ownership
+
+| Exact target | RP-01-owned slice | Preserved ownership |
+| --- | --- | --- |
+| `.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs` | `run_codex`, `run_claude`, and `run_with_stdin`: invoke the exact consuming guard immediately before spawn and remove raw bypasses. | Pipeline, prompt, command construction, output, and budget semantics remain unchanged. |
+| `.octon/framework/engine/runtime/crates/kernel/src/workflow.rs` | `WorkflowExecutor::execute_stage_codex`, `WorkflowExecutor::execute_stage_claude`, and `run_command_with_stdin`: invoke the exact consuming guard immediately before spawn and remove raw bypasses. | Workflow/stage, prompt, command construction, effect, and budget semantics remain unchanged. |
+| `.octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs` | `run_with_timeout`: invoke the exact consuming guard immediately before Codex/Claude spawn and remove raw bypasses. | RP-02 retains isolation and RP-11 retains generic adapter/Harness semantics. |
+| `.octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs` | `run_workflow_command`: invoke the exact consuming guard immediately before leaf-runtime spawn and remove raw bypasses. | Workflow resolution, child identity, Harness, and evidence semantics remain unchanged. |
+| `.octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh`; `.octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh`; `.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh` | Closed census, raw-spawn rejection, and four-seam guard-dominance fitness only. | No child gains general assurance-test ownership beyond its declared proof slice. |
 
 ## Brokered Publication Responsibility Decisions
 
@@ -76,7 +86,7 @@ integration lane; they never edit the target concurrently.
 | `.octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs` | RP-10 owns project/inbox symbols, RP-08 recovery/status symbols, and RP-13 child symbols. | RP-08 and RP-10 peer symbol edits serialize; RP-13 follows RP-10 through RP-11 and integrates last. |
 | `.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs` | RP-04 owns broker registration; RP-06 owns verifier/publication registration. | RP-04, then RP-06. |
 | `.octon/framework/engine/runtime/crates/kernel/src/main.rs` | RP-04 owns broker CLI entries, RP-10 project entries, and RP-13 child entries. | RP-04/RP-10 peer entries serialize; RP-13 integrates after RP-10. |
-| `.octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs`; `.octon/framework/engine/runtime/crates/lifecycle_executor/src/auto.rs`; `.octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs`; `.octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs`; `.octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs` | RP-02 owns candidate-isolation hooks needed for its positive proof; RP-11 owns the later generic adapter boundary. | RP-02 freezes hooks; RP-11 refactors around them afterward. |
+| `.octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs`; `.octon/framework/engine/runtime/crates/lifecycle_executor/src/auto.rs`; `.octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs`; `.octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs`; `.octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs` | In `codex.rs`, RP-01 owns only exact guard invocation/bypass removal; RP-02 owns candidate-isolation hooks; RP-11 owns the later generic adapter boundary. Other listed files remain partitioned between RP-02 and RP-11. | `codex.rs`: RP-01, RP-02, then RP-11. Other listed files: RP-02, then RP-11. |
 | `.octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs` | RP-01 owns guard semantics; RP-11 owns only exact Harness-digest binding at the frozen guard API. | RP-01, then RP-11. |
 | `.octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs` | Exact exports: RP-02 isolation, RP-11 adapter, RP-13 child. | RP-02, RP-11, then RP-13. |
 | `.octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs` | RP-02 owns candidate-isolation positive cases; RP-11 owns generic adapter conformance. | RP-02 cases land first; RP-11 integrates the final suite. |

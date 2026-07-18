@@ -59,6 +59,10 @@ children:
       - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/records.rs"
       - ".octon/framework/engine/runtime/crates/policy_engine/"
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs"
+      - ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
+      - ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs"
       - ".octon/framework/engine/runtime/config/policy-interface.yml"
       - ".octon/framework/engine/runtime/config/policy.yml"
       - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
@@ -70,6 +74,9 @@ children:
       - ".octon/framework/constitution/contracts/authority/revocation-v1.schema.json"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh"
       - ".octon/state/evidence/validation/proposals/octon-architecture-migration-canonical-authority/"
     required_metadata: ["change_profile"]
     source_lineage_refs:
@@ -679,14 +686,14 @@ children:
       - ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md"
 write_scope_collision_ledger:
   schema_version: octon-program-write-scope-collision-ledger-v1
-  registry_write_scopes_digest: sha256:4e572b846a9df01180c32eb252d890a6da438be1edd2deaf3545f0c564fcb835
+  registry_write_scopes_digest: sha256:eaf1d367a23bdddfd34b9fdfb5810539a328cbb22a9f505d084a41839e573719
   derived_counts:
     child_count: 15
-    scope_entries: 409
-    unique_paths: 337
-    exact_records: 115
+    scope_entries: 416
+    unique_paths: 343
+    exact_records: 117
     directory_prefix_records: 5
-    total_records: 120
+    total_records: 122
   records:
     - collision_id: WSC-001
       participants:
@@ -2505,3 +2512,34 @@ write_scope_collision_ledger:
           - octon-architecture-migration-transactional-runtime-store
           - octon-architecture-migration-workspace-projects
         lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-129
+      participants:
+        - child_id: octon-architecture-migration-candidate-isolation
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs
+          contribution: candidate execution-isolation semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs; preserve octon-architecture-migration-canonical-authority guard-invocation and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs
+          contribution: exact final candidate-guard invocation and raw bypass removal only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs; preserve octon-architecture-migration-candidate-isolation semantic and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-candidate-isolation
+      serialization:
+        mechanism: exclusive-integration-lock
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-candidate-isolation
+        lock_id: octon-architecture-migration-program-write-scope-integration
+    - collision_id: WSC-130
+      participants:
+        - child_id: octon-architecture-migration-canonical-authority
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs
+          contribution: exact final candidate-guard invocation and raw bypass removal only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs; preserve octon-architecture-migration-harness-factory semantic and lifecycle authority and do not widen beyond this declared scope.
+        - child_id: octon-architecture-migration-harness-factory
+          write_scope: .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs
+          contribution: Harness Factory and generic adapter-family semantics only within .octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs; preserve octon-architecture-migration-canonical-authority guard-invocation and lifecycle authority and do not widen beyond this declared scope.
+      collision_kind: exact
+      integration_owner_child_id: octon-architecture-migration-harness-factory
+      serialization:
+        mechanism: dependency-order
+        ordered_child_ids:
+          - octon-architecture-migration-canonical-authority
+          - octon-architecture-migration-harness-factory
