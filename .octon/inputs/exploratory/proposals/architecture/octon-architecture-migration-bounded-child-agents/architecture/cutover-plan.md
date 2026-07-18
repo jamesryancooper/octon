@@ -8,17 +8,19 @@
 - safe default: mission child admission and launch disabled
 
 The evidence stages below are inert or fake-provider stages. They do not create
-two schedulers, two generic adapters, or two child identity models. Live child
-launch activates only when the accepted ROD-005 baseline is bound to enforceable
-provisional values and the exact contract, dependency, guard, isolation, limit,
-cancellation, reconciliation, and retirement gates agree.
+two schedulers, two generic adapters, or two child identity models. The exact
+ROD-005 values are selected in
+`resources/mission-child-design-and-dependency-receipt.yml`; live child launch
+remains disabled unless every contract, dependency, guard, isolation, limit,
+cancellation, reconciliation, and retirement gate agrees.
 
 ## Stage 0 — Configuration, Dependency, and Ownership Freeze
 
-Bind the accepted ROD-005 baseline to conservative provisional values, attach
-exact RP-08/RP-11 exit receipts, require the owning dependency's dynamic ED-001
-premise proof, and assign every shared symbol and registry entry. Keep all
-mission child launch disabled.
+Freeze the exact selected ROD-005 design receipt and accepted RP-02/RP-08/RP-11
+packet digests. Verify their exact implemented interfaces and assign every
+shared symbol and writer before RP-13 source edits. Schedule ED-001 dynamic
+proof for the isolated primary-mapping proof stage, not proposal or source-entry
+authorization. Keep all mission child launch disabled.
 
 Safe resting point: existing single-agent RP-11 execution remains available;
 no MissionChildRun can be admitted.

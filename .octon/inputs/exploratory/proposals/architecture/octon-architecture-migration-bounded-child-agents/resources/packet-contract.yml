@@ -269,7 +269,7 @@ engineering_dispositions:
   - disposition_id: "ROD-005-ENGINEERING"
     role: "configuration and proof"
     owner: "RP-13"
-    required_result: "bind enforceable provisional values and prove hard/measured/unsupported enforcement posture before launch"
+    required_result: "implement and prove the selected exact values and their hard, measured, provider-hard-required, or unsupported enforcement posture before launch"
   - disposition_id: "ED-001"
     role: "dependency premise only"
     premise: "useful non-exportable/short-lived primary-provider session, native sandbox, and independent disposable repository"

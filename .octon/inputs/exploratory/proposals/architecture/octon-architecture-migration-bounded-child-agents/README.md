@@ -70,8 +70,8 @@ persistent agent records.
 
 ## Current Gate
 
-The corrected packet remains `in-review`. It selects exact conservative
+The second corrected packet remains `in-review`. It selects exact conservative
 ROD-005 limits, canonical identity/CAS lifecycle and commit-last retirement,
-and non-circular dependency/implementation-evidence ordering. Fresh independent
-re-review is next. No operator disposition remains open and child launch stays
-disabled.
+and now aligns every cross-document dependency and implementation-evidence
+gate. Fresh independent re-review is next. No operator disposition remains open
+and child launch stays disabled.

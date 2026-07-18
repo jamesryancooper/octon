@@ -24,5 +24,6 @@
 - `support/proposal-review.md`
 - `support/pre-integration-architecture-review.yml`
 - `support/revisions/rp13-child-mechanisms-limits-evidence-order-20260718.md`
+- `support/revisions/rp13-evidence-order-alignment-cycle-2-20260718.md`
 - `support/implementation-conformance-review.md`
 - `support/post-implementation-drift-churn-review.md`
