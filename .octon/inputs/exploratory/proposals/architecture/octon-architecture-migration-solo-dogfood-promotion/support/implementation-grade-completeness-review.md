@@ -6,8 +6,8 @@ clarification_required: no
 
 ## Blockers
 
-None in the corrected proof design. Fresh independent proposal and strict
-architecture re-review remain required before acceptance.
+None. Fresh independent proposal and strict architecture re-review pass at the
+accepted packet digest.
 
 ## Assumptions
 
@@ -42,10 +42,11 @@ architecture re-review remain required before acceptance.
 
 ## Implementation Prompt Readiness
 
-- Ready after accepted re-review for an exact proof-protocol implementation
-  prompt. That prompt must implement only evidence-root protocol machinery,
-  verify future child implementations and receipts before proof execution, and
-  require all dynamic evidence against the exact run before completion.
+- Authorized for future exact proof-protocol implementation prompting at the
+  accepted digest. That prompt must implement only evidence-root protocol
+  machinery, verify future child implementations and receipts before proof
+  execution, and require all dynamic evidence against the exact run before
+  completion.
 
 ## Exclusions
 
@@ -53,10 +54,10 @@ architecture re-review remain required before acceptance.
 
 ## Final Route Recommendation
 
-- Independently re-review RP-14 and accept only at a fresh digest with zero
-  blockers. Future proof implementation/execution remains DAG-gated, and RP-14
-  support and optional-capability promotion remain separate evidence-gated
-  acceptances.
+- Keep RP-14 accepted at the reviewed digest and route it only through the
+  parent DAG's future implementation orchestration. Proof execution remains
+  entry-gated, and support and optional-capability promotion remain separate
+  evidence-gated acceptances.
 
 Decision-register correction: RP-14 consumes accepted ROD-006 only as the
 upstream no-Octon-direct-main posture. Ordinary human Git remains outside

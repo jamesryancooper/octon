@@ -13,9 +13,10 @@ surfaces remain downstream or child-owned.
 
 ## Current Gate
 
-The corrected packet remains `in-review` at its exact parent-aligned
-evidence-only scope. It now selects immutable inputs and run identities, the
+The packet is `accepted` at a fresh digest after independent proposal and strict
+architecture re-review. It selects immutable inputs and run identities, the
 paired/counterbalanced corpus, measurement and provider-freshness rules,
 bounded evidence custody, claim adjudication, and non-circular proof ordering.
-Fresh independent re-review is next. No dogfood, provider reproduction,
-implementation, claim admission, promotion, or external effect has occurred.
+Future exact proof-protocol implementation prompting is authorized only through
+the parent DAG. No dogfood, provider reproduction, implementation, claim
+admission, promotion, or external effect has occurred.

@@ -23,7 +23,7 @@
     "mode": "source-digest-bound",
     "source_digest_bound": true
   },
-  "generated_at": "deterministic-from-source-digests:sha256:7f9ac22af7ab1c17dd82d62e350de5874a62caa1507c575193495bc9587c0ef7",
+  "generated_at": "deterministic-from-source-digests:sha256:e8e89f67a48d828778bdc74f4adc6f9e0dbc2e96b6843cafebbf4bffb71808a8",
   "producer": {
     "name": "generate-repo-authority-write-scope-index.sh",
     "version": "repo-authority-write-scope-index-v1"
@@ -131,7 +131,7 @@
       "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-solo-dogfood-promotion/proposal.yml",
       "artifact_role": "active-proposal-manifest",
       "required": false,
-      "sha256": "sha256:cdfcbaba96d1cea3db815a264bc1392cea4bcac58fa7fa4c58fdab3dbd5f0d08",
+      "sha256": "sha256:98fc447b6eff3a22f0badb8c83acb6e3968e0b9c56a77d5fa6eb2e636b941fb4",
       "source_class": "non-authoritative-proposal-input"
     },
     {

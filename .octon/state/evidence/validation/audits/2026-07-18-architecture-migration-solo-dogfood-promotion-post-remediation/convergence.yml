@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-solo-dogfood-promotion-post-remediation-20260718T182126Z
+commit_sha: 7da850f0f9
+scope_hash: sha256:6ebaf19f6a0cd5e03af34ee684e3bf6c3f4501399009ddb9d156d65abe0a498d
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: accepted
+rationale: Three passes agree both findings are closed and exact parent/child scope is coherent.

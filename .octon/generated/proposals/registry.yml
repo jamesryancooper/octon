@@ -433,7 +433,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-solo-dogfood-promotion"
     title: "Solo Product Dogfood, Claim Reverification, and Promotion Handoff"
-    status: "in-review"
+    status: "accepted"
     promotion_targets:
       - ".octon/state/evidence/validation/proposals/octon-architecture-migration-solo-dogfood-promotion/"
   - id: "octon-architecture-migration-transactional-runtime-store"
