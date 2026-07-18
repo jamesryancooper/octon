@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-verification-publication-post-remediation-20260718T161411Z
+commit_sha: 4bb06db9d5c6ae580cc1f577b49df107221f8534
+scope_hash: sha256:1ebf5b95ddc1a85dfa149e543813ff9a2ccc32994d540eb471330a6257966f60
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: Three passes agree that exact verifier, projection, merge, and evidence-order designs close all four blockers.

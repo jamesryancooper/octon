@@ -487,7 +487,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-verification-publication"
     title: "Immutable Verification and Adaptive Publication"
-    status: "in-review"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/product/contracts/default-work-unit.yml"
       - ".octon/framework/product/contracts/default-work-unit.md"

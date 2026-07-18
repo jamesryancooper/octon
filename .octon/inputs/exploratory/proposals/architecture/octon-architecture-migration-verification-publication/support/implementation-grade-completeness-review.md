@@ -61,9 +61,10 @@ rollback; conformance; and post-implementation churn. Results remain planned.
 
 ## Implementation Prompt Readiness
 
-Ready for independent re-review. A fresh accepted proposal review and strict
-pre-integration architecture receipt must bind the corrected digest before an
-implementation prompt may be generated.
+Ready. The fresh accepted proposal review and strict pre-integration
+architecture receipt pass at the final digest. A future exact prompt must
+enforce all dependency/provider entry gates before source changes and all
+dynamic proof before completion, projection publication, or promotion.
 
 ## Exclusions
 
@@ -75,5 +76,5 @@ implementation prompt may be generated.
 
 ## Final Route Recommendation
 
-Keep RP-06 in-review and run a fresh independent proposal and architecture
-re-review at the corrected digest. Do not implement in this sequence.
+Keep RP-06 accepted and authorize only future exact implementation through the
+program DAG. Continue to RP-07 review. Do not implement in this sequence.

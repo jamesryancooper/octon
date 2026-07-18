@@ -1,8 +1,8 @@
 # Immutable Verification and Adaptive Publication
 
-This is the in-review RP-06 / RWG-06 child of
+This is the accepted RP-06 / RWG-06 child of
 octon-architecture-migration-program. It is temporary, non-authoritative, and
-not implementation or publication authorization.
+does not itself implement, configure, publish, or promote anything.
 
 ## Purpose
 
@@ -59,7 +59,8 @@ publisher Apps, an App-bound required check, an ALLGREEN single-entry squash
 merge queue, and an RP-01-token-gated `.octon` projection generator. The
 42-workflow census freezes every current disposition. These are design choices
 only: no workflow, App, secret, ruleset, queue, check, PR, or provider state has
-been created or changed.
+been created or changed. Independent proposal and architecture re-review pass
+at the accepted digest.
 
 ## Exit
 
