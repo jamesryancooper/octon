@@ -70,7 +70,8 @@ persistent agent records.
 
 ## Current Gate
 
-The packet is `in-review` at its frozen digest. Exact provisional ROD-005
-limits, complete identity/retirement transactions, and non-circular dependency
-and implementation-evidence ordering require correction. No operator
-disposition remains open. Child launch remains disabled.
+The corrected packet remains `in-review`. It selects exact conservative
+ROD-005 limits, canonical identity/CAS lifecycle and commit-last retirement,
+and non-circular dependency/implementation-evidence ordering. Fresh independent
+re-review is next. No operator disposition remains open and child launch stays
+disabled.

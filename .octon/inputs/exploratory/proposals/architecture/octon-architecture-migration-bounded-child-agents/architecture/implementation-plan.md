@@ -4,10 +4,12 @@ This plan describes later implementation. It does not authorize it.
 
 ## Workstream 0 — Bind Accepted Policy and Freeze Interfaces
 
-1. Bind the accepted ROD-005 baseline to the lowest useful concurrency and
-   conservative provisional wall-clock, step/attempt/retry, token, cost, and
-   evidence ceilings; invent no unsupported numbers.
-2. Verify exact RP-08/RP-11 exits and ED-001 dependency proof.
+1. Load the exact conservative ROD-005 limits and enforcement-or-disabled rules
+   from `resources/mission-child-design-and-dependency-receipt.yml`; do not
+   substitute wider or measurement-only values for declared hard bounds.
+2. Verify exact RP-02/RP-08/RP-11 implemented interfaces before source edits;
+   ED-001 dynamic proof gates live mapping completion/use rather than proposal
+   authorization or the existence of the exact implementation.
 3. Inventory ProgramChild scheduler, generic adapter, cancellation/process,
    token ledger, mission status, and recovery interfaces.
 4. Assign exact shared symbols; keep all mission child launch disabled.

@@ -1,0 +1,68 @@
+schema_version: "octon-mission-child-design-and-dependency-receipt-v1"
+receipt_id: "rp13-child-mechanisms-limits-evidence-order-20260718"
+verdict: "pass-for-design-selection"
+proof_state: "selected-disabled-not-implemented-not-executed"
+review_findings: ["RP13-EXACT-CHILD-MECHANISMS-AND-LIMITS-001", "RP13-IMPLEMENTATION-EVIDENCE-CYCLE-002"]
+frozen_dependencies:
+  - {proposal_id: "octon-architecture-migration-candidate-isolation", packet_digest: "sha256:3228da9b1a70c687878a2fd32324cd1fd8729360113024fae48221d66923cada", role: "credentialless native sandbox, independent disposable candidate, and no canonical/sibling access premise"}
+  - {proposal_id: "octon-architecture-migration-recovery-class-b", packet_digest: "sha256:e33cc5d1b1da806f3df10690ce169dac7e0fed2f318a65ce14741948db426e35", role: "unknown-outcome reconciliation, candidate preservation, cancellation, and terminal recovery"}
+  - {proposal_id: "octon-architecture-migration-harness-factory", packet_digest: "sha256:be1761195fc652673c8c3d9412f7d24ac794225a449fa1fc2ed9e5bdeddfe1c2", role: "exact Harness/guard binding and generic prepare/launch/observe/cancel/usage/retire adapter"}
+dependency_drift_rule: "packet or implemented-interface drift denies RP-13 source entry and routes to the owner; RP-13 never repairs foreign semantics"
+canonical_identity:
+  contract_bytes: "RFC 8785 JCS JSON, UTF-8 NFC, strict schema"
+  contract_digest: "SHA-256 over ASCII octon:rp13:mission-child-run:v1 followed by NUL and exact contract JCS bytes"
+  ordinal: "monotonic child_ordinal allocated by expected-old revision CAS in the existing transactional run store"
+  child_id: "mch- plus lowercase hex SHA-256 over ASCII octon:rp13:child-id:v1 NUL plus JCS array [repository_id,project_id,mission_id,parent_run_id,child_ordinal,contract_digest]"
+  attempt_id: "mca- plus lowercase hex SHA-256 over ASCII octon:rp13:attempt-id:v1 NUL plus JCS array [child_id,1,budget_digest]"
+  reuse: "ordinal, child_id, and attempt_id are never reissued; initial policy permits only attempt ordinal 1"
+scope_intersection:
+  paths: "repository-relative UTF-8 NFC POSIX component-aware containment intersection; absolute/dot/dot-dot/NUL/symlink/hardlink/case-fold alias/root escape deny"
+  sets: "exact intersection for read, write, tool, capability, provider, and output sets"
+  budgets: "minimum remaining numeric value; Boolean permission is logical AND"
+  semantic_refs: "objective and output schema must be exact parent-approved digest references"
+  deny: "missing, stale, ambiguous, incomparable, empty, or widening result; no parent default inheritance"
+initial_policy:
+  launch_enabled: false
+  max_depth: {value: 1, class: "local-hard"}
+  max_active_children_global: {value: 1, class: "local-hard"}
+  max_active_children_per_project: {value: 1, class: "local-hard"}
+  max_active_children_per_parent: {value: 1, class: "local-hard"}
+  max_steps: {value: 8, class: "local-hard"}
+  max_attempts: {value: 1, class: "local-hard"}
+  max_retries: {value: 0, class: "local-hard"}
+  wall_clock_seconds: {value: 900, class: "local-hard", starts_at: "guard-consumption"}
+  provider_cancel_grace_seconds: {value: 10, class: "local-hard"}
+  process_terminate_grace_seconds: {value: 5, class: "local-hard"}
+  max_model_visible_input_tokens: {value: 12000, class: "local-hard-preflight", basis: "existing child_dispatch_base policy class"}
+  max_generated_tokens: {value: 8000, class: "provider-hard-required"}
+  max_combined_tokens: {value: 20000, class: "provider-hard-required"}
+  max_cost_microusd: {value: 250000, class: "provider-hard-required"}
+  max_evidence_bytes: {value: 67108864, class: "local-hard", basis: "one eighth of accepted RP-07 512-MiB run quota"}
+  max_evidence_files: {value: 1024, class: "local-hard"}
+  max_nonterminal_evidence_file_bytes: {value: 8388608, class: "local-hard"}
+  max_terminal_receipt_bytes: {value: 32768, class: "local-hard", basis: "accepted RP-07 terminal payload class"}
+unsupported_rule: "if generated-token or cost prevention is absent, the mapping is unsupported and launch denies; estimates/after-the-fact usage are measurement only"
+tuning_rule: "one dimension at a time through a fresh reviewed governed configuration receipt backed by dogfood; never silently widen authority/support or reuse evidence from another identity"
+guard_and_launch:
+  preparation: "create and commit exact candidate/session identities without guard consumption"
+  issue: "RP-01/RP-11 issues exact child guard only after preparation identity commit"
+  launch: "child.rs invokes the single RP-11 final-guard seam immediately before exactly one adapter launch"
+  atomicity: "guard consumption and prepared-to-running state use the same expected-old state revision; mismatch/crash cannot create a second launch route"
+state_and_recovery:
+  storage: "existing transactional run store through frozen dependency interfaces; state contains bounded status and exact refs/digests only"
+  transition: "expected-old revision CAS plus same-transaction evidence/outbox record"
+  idempotency: "same transition digest is no-op; different digest at the same revision denies"
+  unknown: "only RP-08 may reconcile unknown; no retry, replacement, deletion, reuse, or success inference while unknown"
+retirement:
+  order: ["freeze terminal/reconciled observation", "commit bounded output/evidence disposition", "revoke guard and cancellation token", "retire provider task/session", "prove process group absent", "release locks and candidate ownership", "write compact permanent tombstone and terminal retirement outbox record last"]
+  failure: "resume the first unproved step and remain retirement_blocked; never delete required output or write a premature terminal claim"
+  tombstone: "immutable hash/lineage/resource identities only, retained for repository lifetime and never recycled"
+role_templates: ["planner", "researcher", "implementer", "tester", "adversarial-reviewer", "integrator"]
+role_rule: "templates may only narrow prompt/output/context/tools/budget; they cannot grant authority, credentials, capabilities, depth, persistence, or effects"
+evidence_order:
+  proposal_authorization: "accepted digest-bound proposal and strict architecture review may authorize only this exact launch-disabled design"
+  source_entry: ["RP-02/RP-08/RP-11 exact implementations and interfaces verify", "current scheduler/launch/state/token/evidence symbol and writer census", "shared integration ownership/lease", "selected disabled policy validates"]
+  completion: ["ED-001 useful-positive and credential/session/Git/sibling negatives", "local and provider hard-limit enforcement", "UE-013 attack/fault matrix", "mapping conformance", "cancel/unknown/retirement/reuse", "rollback/conformance/drift"]
+  promotion: "RP-14 independently reproduces only the support tuple actually proved"
+scope_effect: "all 44 targets remain exactly parent-aligned; no parent revision required"
+evidence_boundary: "This receipt selects design only; it creates no child, guard, candidate, session, provider task/process, policy activation, credential, implementation, runtime state, evidence proof, publication, promotion, or external effect."
