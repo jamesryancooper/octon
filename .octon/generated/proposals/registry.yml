@@ -513,7 +513,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-workspace-projects"
     title: "Minimal Workspace Projects"
-    status: "draft"
+    status: "in-review"
     promotion_targets:
       - ".octon/framework/engine/runtime/spec/workspace-project-v1.schema.json"
       - ".octon/framework/constitution/contracts/runtime/workspace-project-v1.schema.json"

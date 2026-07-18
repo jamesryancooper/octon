@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-workspace-projects-20260718T165727Z
+commit_sha: 4346a3b04d
+scope_hash: sha256:25b560755e296209840aa284f2ba4c04298dc70456f8aea7ec76ec57abaab67f
+seeds: [17, 29, 43]
+result_vector: [fail, fail, fail]
+stable: true
+union_blocking_findings: 2
+open_findings_at_or_above_threshold: 2
+done: true
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: revision-required
+rationale: Three passes agree exact project mechanisms and evidence order require revision.
