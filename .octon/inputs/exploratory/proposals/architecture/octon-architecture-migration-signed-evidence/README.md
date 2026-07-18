@@ -1,6 +1,6 @@
 # Signed Bounded Evidence, Capacity, and Retention
 
-This is the draft RP-07 architecture proposal for
+This is the in-review RP-07 architecture proposal for
 `octon-architecture-migration-signed-evidence`. It is a temporary,
 non-authoritative implementation aid. It does not authorize implementation,
 key creation, provider access, effect execution, publication, support
@@ -68,7 +68,7 @@ never authenticates a direct observation.
 
 ## Current Gate
 
-The packet remains `draft`. Structural validation does not make it accepted or
+The packet is `in-review`. Structural validation does not make it accepted or
 implementation-ready. ROD-001 is operator-accepted; binding its invariants and
 recording/proving conservative reversible engineering defaults, dependency
 exits, strict architecture review, UE-008 adversarial proof, parent integration,

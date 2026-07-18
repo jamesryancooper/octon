@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-signed-evidence-20260718T161703Z
+commit_sha: 3c4e291192a2045153860c5447ce5530e6091c31
+scope_hash: sha256:42273a7d2475c1eac7195c3ff97ee059e1c970659e9c78cbd136be7ad94e4805
+seeds: [17, 29, 43]
+result_vector: [revision-required, revision-required, revision-required]
+stable: true
+union_blocking_findings: 3
+open_findings_at_or_above_threshold: 3
+done: true
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: revision-qualified-local
+rationale: Three passes agree that mechanism, hosted verifier identity, and evidence-order blockers remain.

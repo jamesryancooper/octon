@@ -398,7 +398,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-signed-evidence"
     title: "Signed Bounded Evidence, Capacity, and Retention"
-    status: "draft"
+    status: "in-review"
     promotion_targets:
       - ".octon/framework/constitution/contracts/retention/family.yml"
       - ".octon/framework/constitution/contracts/retention/README.md"

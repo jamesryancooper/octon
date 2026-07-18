@@ -1,0 +1,28 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "octon-architecture-migration-signed-evidence-architecture-review-20260718T161703Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-signed-evidence"
+packet_digest: "sha256:42273a7d2475c1eac7195c3ff97ee059e1c970659e9c78cbd136be7ad94e4805"
+review_mode: "pre-integration-architecture-review"
+verdict: "fail"
+unresolved_count: 3
+blockers: ["RP07-ENGINEERING-MECHANISMS-001", "RP07-RP06-VERIFIER-IDENTITY-002", "RP07-IMPLEMENTATION-EVIDENCE-CYCLE-003"]
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-18T16:17:03Z"
+evidence_refs: [".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-signed-evidence-20260718T161703Z.md", ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-signed-evidence-20260718T161703Z.md", ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-signed-evidence/bundle.yml"]
+validator_refs: ["validate-proposal-review-gate.sh --print-digest", "validate-proposal-standard.sh", "validate-proposal-implementation-readiness.sh", "validate-architecture-proposal.sh"]
+mode_specific_coverage:
+  review_charter: "Independent pre-integration RP-07 review."
+  external_tool_integrity: "Apple Secure Enclave and GitHub/Sigstore attestation were treated as external mechanisms and not invoked."
+  system_job: "Authentic bounded evidence, anti-rollback head, reserve, retention, and compaction."
+  current_reality: "No signer, anchor, reserve, or signed evidence implementation exists."
+  authority_boundaries: "Evidence authenticates observations but cannot mint authority or causation."
+  dependency_and_concurrency: "Outbox and compaction ordering are strong; exact anchor/reserve protocols are open."
+  failure_and_recovery: "Missing evidence dependencies deny and preserve work without unsigned fallback."
+  security_and_credentials: "Role separation exists; hosted verifier key mechanism conflicts with RP-06."
+  evidence_and_validation: "UE-008 is planned and evidence order is circular."
+  contracts_and_compatibility: "Envelope/checkpoint concepts are complete; exact algorithms/providers are open."
+  operability_and_observability: "Status and bounded maintenance are planned, not proved."
+  sequencing_and_migration: "Exact design may authorize creation; downstream proof must not gate proposal existence."
+  prior_finding_disposition: "Three new blockers open."
+  final_self_challenge: "Key export, role alias, old snapshot, fork, ENOSPC, pin loss, compaction crash, and proof inflation challenged."
+  verdict_basis: "Three high findings require revision."

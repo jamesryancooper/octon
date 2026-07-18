@@ -1,0 +1,11 @@
+schema_version: "1.0"
+run_id: architecture-migration-signed-evidence-20260718T161703Z
+target_mode: observed
+scope_roots: [.octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-signed-evidence]
+excluded_roots: []
+total_files: 22
+scanned_files: 22
+summarized_sampled_files: 0
+excluded_files: 0
+unaccounted_files: 0
+direct_reviewed_surfaces: [proposal.yml, architecture-proposal.yml, README.md, navigation/, architecture/, resources/, support/]
