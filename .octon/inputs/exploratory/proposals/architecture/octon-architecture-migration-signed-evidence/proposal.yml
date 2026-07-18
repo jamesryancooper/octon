@@ -34,7 +34,7 @@ promotion_targets:
   - ".octon/framework/assurance/recovery/suites/checkpoint-fault-recovery.yml"
   - ".octon/framework/assurance/scripts/validate-evidence-retention.sh"
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-signed-evidence/"
-status: "in-review"
+status: "accepted"
 change_profile: "atomic"
 release_state: "pre-1.0"
 parent_program: "octon-architecture-migration-program"

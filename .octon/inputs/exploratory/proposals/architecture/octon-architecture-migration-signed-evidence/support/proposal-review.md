@@ -1,65 +1,76 @@
-review_id: octon-architecture-migration-signed-evidence-review-20260718T161703Z
-reviewed_at: 2026-07-18T16:17:03Z
+review_id: octon-architecture-migration-signed-evidence-review-20260718T162841Z
+reviewed_at: 2026-07-18T16:28:41Z
 reviewer: octon-proposal-lifecycle-review-packet
-verdict: revision-required
-implementation_prompt_authorized: no
-reviewed_packet_digest: sha256:42273a7d2475c1eac7195c3ff97ee059e1c970659e9c78cbd136be7ad94e4805
-open_blocking_findings_count: 3
-prior_review_id: none
-final_route: revise-packet
-final_route_target: octon-architecture-migration-signed-evidence
+verdict: accepted
+implementation_prompt_authorized: yes
+reviewed_packet_digest: sha256:87fbcceec1ea8956e96335808aef37a9c91b91793328a31d92b1c058703aaf08
+open_blocking_findings_count: 0
+prior_review_id: octon-architecture-migration-signed-evidence-review-20260718T161703Z
+final_route: review-packet
+final_route_target: octon-architecture-migration-recovery-class-b
 
-# RP-07 Independent Proposal Review
+# Accepted RP-07 Proposal Review
 
 ## Review Basis
 
-Reviewed all 22 packet files, accepted RP-03/RP-04/RP-06 interfaces, ROD-001,
-key/anchor/reserve/retention design, degraded behavior, UE-008 plan, and exact
-25-target parent parity.
+Independently reviewed the complete packet at lifecycle base `a250b1033f`,
+final digest `sha256:87fbcceec1ea8956e96335808aef37a9c91b91793328a31d92b1c058703aaf08`,
+accepted RP-03/RP-04/RP-06 interfaces, exact mechanism receipt, proof order,
+failure/rollback/security boundaries, and exact 25-target parent parity.
 
 ## Approved Promotion Targets
 
-None while revision is required. All 25 proposed targets match the parent.
+- `.octon/framework/constitution/contracts/retention/family.yml`
+- `.octon/framework/constitution/contracts/retention/README.md`
+- `.octon/framework/constitution/contracts/retention/evidence-retention-contract-v1.schema.json`
+- `.octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json`
+- `.octon/framework/constitution/contracts/retention/evidence-classification-v2.schema.json`
+- `.octon/framework/constitution/contracts/retention/run-evidence-classification-v2.schema.json`
+- `.octon/framework/constitution/contracts/retention/evidence-disclosure-tiers-v1.yml`
+- `.octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json`
+- `.octon/framework/constitution/contracts/runtime/checkpoint-v2.schema.json`
+- `.octon/framework/constitution/contracts/registry.yml`
+- `.octon/framework/engine/runtime/spec/evidence-store-v1.md`
+- `.octon/framework/engine/runtime/spec/signed-evidence-envelope-v1.schema.json`
+- `.octon/framework/engine/runtime/spec/signed-evidence-checkpoint-v1.schema.json`
+- `.octon/framework/engine/runtime/spec/evidence-capacity-retention-v1.md`
+- `.octon/framework/engine/runtime/crates/evidence_attestation/`
+- `.octon/framework/engine/runtime/crates/local_broker/src/evidence.rs`
+- `.octon/framework/engine/runtime/crates/verification_publication/src/evidence.rs`
+- `.octon/framework/engine/runtime/crates/Cargo.toml`
+- `.octon/instance/governance/policies/evidence-signing.yml`
+- `.octon/instance/governance/policies/evidence-retention.yml`
+- `.octon/framework/assurance/runtime/_ops/scripts/validate-signed-bounded-evidence.sh`
+- `.octon/framework/assurance/runtime/_ops/tests/signed-bounded-evidence/`
+- `.octon/framework/assurance/recovery/suites/checkpoint-fault-recovery.yml`
+- `.octon/framework/assurance/scripts/validate-evidence-retention.sh`
+- `.octon/state/evidence/validation/proposals/octon-architecture-migration-signed-evidence/`
+
+These are future implementation/evidence targets only; none is created or
+modified by this receipt.
 
 ## Blocking Findings
 
-### RP07-ENGINEERING-MECHANISMS-001 — high
-
-The packet leaves signer algorithms/providers, verifier attestation format,
-candidate-inaccessible anchor, physical reserve layout/commit protocol, quotas,
-retention windows, pins, backup generations, and provisional capacities open.
-These are authorized engineering dispositions, not operator decisions, but one
-exact reversible design receipt is required before implementation authorization.
-
-### RP07-RP06-VERIFIER-IDENTITY-002 — high
-
-The draft assumes a platform-Keychain-backed verifier key, while accepted
-RP-06 runs the verifier emitter on GitHub-hosted infrastructure. The packets
-need one non-circular identity contract—e.g. workflow-bound Sigstore/GitHub
-attestation for the hosted verifier plus a separate local checkpoint signer—
-without exporting a local private key or treating a Check Run as a signature.
-
-### RP07-IMPLEMENTATION-EVIDENCE-CYCLE-003 — high
-
-Dependency implementation exits, mechanism proof, UE-008, and 30-day burden
-results gate proposal authorization although they require the authorized
-implementation. Accepted exact design may authorize creation; dependency and
-platform preflight gate source entry; dynamic evidence gates completion,
-activation, or promotion.
+None. The three prior findings close through deterministic CBOR and separated
+Secure Enclave/Sigstore identities, a sole-broker System Keychain monotonic
+anchor, fixed preallocated double-header reserve slots, exact quotas/retention,
+and corrected authorization/source-entry/completion evidence ordering.
 
 ## Nonblocking Findings
 
-- ROD-001 is settled and requires no new operator vote.
-- Direct-observation limits, honest incompleteness, compaction ordering,
-  degraded behavior, ownership, rollback, and scope parity are coherent.
+- Dependency implementation and exact platform preflight remain future
+  source-entry gates.
+- UE-008, adversarial/race/recovery evidence, burden results, conformance, and
+  drift remain planned-not-executed and gate completion or promotion.
+- Whole-host, root, and Keychain rollback remain excluded and require manual
+  rebootstrap; no unsigned or unanchored fallback is authorized.
 
 ## Exclusions
 
-No key, signer, attestation, anchor, reserve, checkpoint, evidence deletion,
-provider request, implementation, publication, promotion, archive, or cleanup
-effect occurred. Planned UE-008 evidence is not current proof.
+No key, Keychain item, attestation, reserve, checkpoint, deletion,
+implementation, provider, publication, promotion, archive, or cleanup effect.
 
 ## Final Route Recommendation
 
-Keep RP-07 in review, select exact mechanisms and evidence order, align the
-hosted verifier identity, then independently re-review. Do not implement RP-07.
+Keep RP-07 accepted. Authorize only future exact DAG-ordered implementation
+after entry gates pass. Continue to RP-08 review; do not implement RP-07 now.

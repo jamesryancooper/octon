@@ -1,6 +1,6 @@
 # Signed Bounded Evidence, Capacity, and Retention
 
-This is the in-review RP-07 architecture proposal for
+This is the accepted RP-07 architecture proposal for
 `octon-architecture-migration-signed-evidence`. It is a temporary,
 non-authoritative implementation aid. It does not authorize implementation,
 key creation, provider access, effect execution, publication, support
@@ -68,12 +68,13 @@ never authenticates a direct observation.
 
 ## Current Gate
 
-The corrected packet is `in-review`. It selects exact local Secure Enclave
+The accepted packet selects exact local Secure Enclave
 signers, hosted verifier Sigstore attestations, a System Keychain monotonic
 head, preallocated double-header reserve slots, and conservative retention/
 quota defaults. These are selected-not-installed-not-executed: no key, anchor,
 reserve, attestation, checkpoint, or deletion exists. Independent re-review is
-the next gate.
+the implementation-entry gate. Independent proposal and architecture re-review
+pass at the accepted digest.
 
 The brokered publication evidence profile covers both
 `brokered-class-b-no-pr` and policy-selected protected PR. RP-07 authenticates

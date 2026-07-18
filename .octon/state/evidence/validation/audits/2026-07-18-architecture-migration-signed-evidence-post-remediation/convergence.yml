@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-signed-evidence-post-remediation-20260718T162841Z
+commit_sha: a250b1033f
+scope_hash: sha256:87fbcceec1ea8956e96335808aef37a9c91b91793328a31d92b1c058703aaf08
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: Three passes agree that exact signer, anchor, reserve, retention, and evidence-order designs close all blockers.
