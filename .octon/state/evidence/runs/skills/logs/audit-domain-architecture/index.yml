@@ -331,3 +331,12 @@ runs:
     metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 2, medium: 0, low: 0, recommendations: 2}
     report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-bounded-child-agents-20260718T174614Z.md
     log: ../../audit-domain-architecture/architecture-migration-bounded-child-agents-20260718T174614Z.md
+  - id: "architecture-migration-bounded-child-agents-post-remediation-cycle-1-20260718T175459Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-bounded-child-agents"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 26, critical: 0, high: 1, medium: 0, low: 0, recommendations: 1}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-bounded-child-agents-post-remediation-cycle-1-20260718T175459Z.md
+    log: ../../audit-domain-architecture/architecture-migration-bounded-child-agents-post-remediation-cycle-1-20260718T175459Z.md

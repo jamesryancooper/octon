@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-bounded-child-agents-post-remediation-cycle-1-20260718T175459Z
+commit_sha: d4ef5f3c87
+scope_hash: sha256:e25bed46914048919c0fd982506917054e2a4271f25d5c1157f7b7d2b3731f37
+seeds: [17, 29, 43]
+result_vector: [revision-required, revision-required, revision-required]
+stable: true
+union_blocking_findings: 1
+open_findings_at_or_above_threshold: 1
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: revision-required
+rationale: Three passes agree exact mechanisms close and one residual evidence-order blocker remains.

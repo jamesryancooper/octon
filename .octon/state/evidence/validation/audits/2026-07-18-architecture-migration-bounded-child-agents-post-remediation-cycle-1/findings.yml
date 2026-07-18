@@ -1,0 +1,6 @@
+schema_version: "1.0"
+findings:
+  - id: RP13-IMPLEMENTATION-EVIDENCE-CYCLE-002
+    severity: high
+    status: open
+    summary: Three stale cross-document statements retain part of the circular evidence gate.
