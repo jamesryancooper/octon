@@ -31,7 +31,7 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - ".octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh"
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-canonical-authority/"
-status: "in-review"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: "After acceptance, implement and independently certify the frozen authority and launch-guard interface; promote only passing durable outputs, then close out and archive this packet."

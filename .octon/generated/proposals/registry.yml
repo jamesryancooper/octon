@@ -81,7 +81,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority"
     title: "Canonical Authority and Exact Launch Guards"
-    status: "in-review"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs"
       - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
