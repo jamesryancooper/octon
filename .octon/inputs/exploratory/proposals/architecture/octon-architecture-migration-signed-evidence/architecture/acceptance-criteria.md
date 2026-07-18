@@ -1,5 +1,9 @@
 # Acceptance Criteria
 
+Accepted proposal review may authorize creation only of the exact mechanism in
+`resources/evidence-mechanism-and-dependency-receipt.yml`. The dynamic criteria
+below are future implementation evidence, not prerequisites to create it.
+
 RP-07 may exit only when every criterion is proven at an exact implementation
 commit by retained evidence under the declared packet evidence root.
 
@@ -96,3 +100,8 @@ commit by retained evidence under the declared packet evidence root.
   outage/failed/unknown/cleanup-deferred result retains a signed preserved-work
   fact; `cleaned` requires conditional proof and raw operational detail in
   project Git remains zero.
+
+RP-03/RP-04/RP-06 implementation verification and exact platform/dependency/
+Sigstore/constrained-volume preflight gate source entry. UE-008, 30-day burden,
+and all attack/fault results gate conformance, activation, completion, or
+promotion; none gates proposal acceptance or is represented as already passing.

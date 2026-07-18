@@ -118,7 +118,7 @@ operator_decisions:
     remaining_work: "Bind accepted invariants and prove/tune engineering defaults; no operator disposition remains."
 engineering_dispositions:
   - disposition_id: "RP07-ENGINEERING-DEFAULTS"
-    status: "design-and-proof-owned"
+    status: "design-selected-proof-pending"
     scope: >-
       Select signer algorithm/provider, candidate-inaccessible monotonic-anchor
       mechanism, reserve implementation, quota/retention/backup mechanisms, and
@@ -127,6 +127,7 @@ engineering_dispositions:
     acceptance: >-
       Design/Dependency Receipts plus mechanism-specific adversarial, recovery,
       compaction, key-loss/rotation, and constrained-storage proof.
+    design_receipt: "resources/evidence-mechanism-and-dependency-receipt.yml"
 dependency_coverage:
   - logical_packet_id: "RP-03"
     proposal_id: "octon-architecture-migration-transactional-runtime-store"

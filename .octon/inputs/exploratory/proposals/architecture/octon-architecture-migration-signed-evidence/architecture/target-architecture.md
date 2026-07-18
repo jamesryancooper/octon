@@ -81,6 +81,16 @@ checkpoint signer is a separately attributable signing role. Candidate access
 and silent identity aliasing across producer or checkpoint roles are forbidden;
 this does not confuse the producer's role-bound key with the checkpoint signer.
 
+The exact role mechanisms differ without weakening identity. Broker and local
+checkpoint roles use separate epoch-bound Secure Enclave P-256/SHA-256 keys;
+their private operations never leave the enclave and persistent references are
+System-Keychain ACL-bound to the installed broker. The hosted RP-06 verifier
+uses a GitHub artifact-attestation DSSE/Sigstore bundle over the canonical
+observation digest, bound to exact repository/workflow/run/event/environment/
+source identity. Independent verification checks cryptography and identity;
+the Check Run alone is not a signature. No local private key is exported to
+GitHub and no hosted key is silently aliased to the checkpoint role.
+
 ### 3. Signed Range And Terminal Checkpoints
 
 A range checkpoint binds:
@@ -115,9 +125,13 @@ It rejects decreases, equal-sequence digest changes, forks, stale expected
 heads, revoked signer epochs, and rollback attempts. The returned receipt binds
 old/new head, scope, anchor identity, monotonic sequence, checkpoint digest,
 time, and result. A DB-local row or Git history alone is insufficient. The
-Engineering selects a platform-feasible local mechanism with mechanism-specific
-proof, constrained by narrowed ROD-001 recovery and risk tolerances, while
-preserving this interface and threat boundary.
+selected mechanism is one System Keychain item per scope, accessible only to
+the installed broker/checkpoint identity. The sole broker serializes the
+scope, rereads and verifies the current checkpoint, rejects stale/fork/decrease/
+equal-digest-change requests, atomically replaces the item, rereads it, and
+emits an old/new receipt. This detects candidate, database, and evidence-volume
+rollback. Whole-host/root/Keychain rollback remains outside the solo claim and
+requires manual rebootstrap rather than stale acceptance.
 
 ### 5. Logical And Physical Terminal Capacity
 
@@ -128,18 +142,24 @@ policy for size classes, required terminal types, quotas, reserve thresholds,
 and the evidence-writer implementation that consumes that API.
 
 Physical capacity is real allocated headroom, not a free-space estimate or SQL
-row. The selected mechanism must:
+row. The selected mechanism uses 64 non-sparse 64-KiB files per project, a
+32-KiB terminal-payload ceiling, four slots per admitted operation, and a
+16-slot low-water admission stop. It must:
 
-- preallocate non-sparse, evidence-writer-exclusive terminal slots or a proven
-  equivalent before admitting consequential work;
+- preallocate and `st_blocks`-verify evidence-writer-exclusive slots using
+  `F_PREALLOCATE`, `ftruncate`, and `fsync` before admission;
 - bound the maximum canonical terminal payload per class;
-- atomically consume a slot for denial, failure, revocation, rollback, or
-  closeout even when ordinary writes return `ENOSPC`;
+- pwrite into existing blocks, fdatasync, and commit one of two alternating
+  fixed generation/digest/length/type/CRC headers even under `ENOSPC`;
 - fsync/atomically publish the terminal record and reserve ledger; and
 - replenish and verify the reserve before admitting the next consequential
   operation.
 
-When logical or physical headroom falls below policy, new dependent operations
+The ledger is reconstructed from slot headers, so no new directory entry,
+rename, truncate, sparse extension, or metadata allocation is needed under
+ENOSPC. Replenishment overwrites and signs a free generation only after a
+verified checkpoint and anchor, without punching holes. When logical or
+physical headroom falls below policy, new dependent operations
 deny before effect. Existing candidate work remains available. There is no
 standalone capacity lease, daemon, or second lifecycle.
 
@@ -155,6 +175,14 @@ in the bounded local evidence store outside project Git without exception. Only
 sanitized signed checkpoints, compact manifests, or opaque pointers may become
 project-Git evidence after classification. A pointer cannot elevate absent raw
 proof or become authority.
+
+Initial reversible defaults are 2 GiB raw per project, 512 MiB per run, 100,000
+inodes per project, 30 days for closed unpinned raw data, 365 days for signed
+checkpoints, two latest-checkpoint pins, two local backup generations, and
+daily-or-75%-quota compaction. Active, `ATTEMPTING`/`UNKNOWN`, rollback, latest
+trusted, and operator pins override age. Measurement can narrow admission or
+change values only through a new reviewed receipt; it cannot silently widen a
+support or durability claim.
 
 ### 7. Verify-Checkpoint-Anchor-Delete Compaction
 

@@ -68,11 +68,12 @@ never authenticates a direct observation.
 
 ## Current Gate
 
-The packet is `in-review`. Structural validation does not make it accepted or
-implementation-ready. ROD-001 is operator-accepted; binding its invariants and
-recording/proving conservative reversible engineering defaults, dependency
-exits, strict architecture review, UE-008 adversarial proof, parent integration,
-and post-implementation receipts remain future gates.
+The corrected packet is `in-review`. It selects exact local Secure Enclave
+signers, hosted verifier Sigstore attestations, a System Keychain monotonic
+head, preallocated double-header reserve slots, and conservative retention/
+quota defaults. These are selected-not-installed-not-executed: no key, anchor,
+reserve, attestation, checkpoint, or deletion exists. Independent re-review is
+the next gate.
 
 The brokered publication evidence profile covers both
 `brokered-class-b-no-pr` and policy-selected protected PR. RP-07 authenticates
