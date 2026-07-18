@@ -60,6 +60,7 @@ Host-provider configuration and `.github/**` are outside this packet.
 
 ## Current Gate
 
-The packet is `in-review`. The independent review identifies exact record,
-identity, inference/correction, boundary, snapshot, and evidence-order
-corrections required before acceptance. UE-010 remains future dynamic proof.
+The corrected packet is `in-review`. Its exact design freezes the accepted
+RP-01 digest and project identity, record, inference/correction, boundary,
+snapshot, index, inbox, and evidence-order mechanisms. UE-010 remains future
+dynamic proof. Fresh independent re-review is next.
