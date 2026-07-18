@@ -26,6 +26,11 @@ schema/transitions, effect execution, signatures, or trust-root activation.
 Every RP-08 decision record binds the exact versions/digests of these inputs.
 Changed or missing inputs deny; they are never refreshed mid-attempt.
 
+The exact dependency digests, GitHub support tuple, observation precedence,
+probe schedules, concurrency/run budgets, PR subeffect rules, and ROD-002
+encoding fields are frozen in
+`resources/recovery-mechanism-and-dependency-receipt.yml`.
+
 ## Class And Route Behavior
 
 | Class / condition | Behavior | Prompt posture |
@@ -98,6 +103,13 @@ an attempt-bound receipt/audit identity. Otherwise it yields
 conflicting receipt ends `manual_intervention` unless the provider evidence
 proves a safer terminal. Blind resend is prohibited.
 
+Each admitted startup performs three read-only rounds at 0, 500, and 2,000 ms
+with at most four reads per round. Provider unavailability remains `UNKNOWN`
+and schedules governed passes after 5 minutes, 15 minutes, 1 hour, then 6 hours
+capped; outage duration alone never produces manual intervention. Three fresh
+authenticated, mutually consistent conflict rounds may produce the one
+ROD-002 `manual_intervention`. Reconciliation never resends an effect.
+
 ## Policy-Selected Protected-PR Route
 
 Protected PR is a route for valid work that the immutable RP-06 predicate
@@ -167,6 +179,11 @@ RP-08 reuses mission queue/continuation and Run Contracts; it adds no scheduler
 or infinite agent loop. `continuous-operation.yml` defines bounded maintenance
 windows, concurrency, probe/retry budgets, pause/revoke behavior, status, and
 closeout. Every scheduled item creates/adopts a normal governed run.
+
+The selected limit is one operation per repository, two repositories globally,
+100 operations and 15 minutes per run, three probes per operation, and zero
+effect retries. Budget exhaustion records incomplete/`UNKNOWN` and schedules a
+later governed run; it never claims success.
 
 The proof vertical contains:
 

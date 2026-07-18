@@ -76,7 +76,8 @@ only class/route policy source.
 
 ## Current Gate
 
-The packet is `in-review`. ROD-002 is settled/retired lineage and is not an
-operator-vote gate. The independent review identifies the exact design and
-evidence-order corrections required before acceptance. UE-004/UE-007 remain
-post-implementation proof, and UE-014 remains RP-14-owned integrated proof.
+The corrected packet is `in-review`. Its exact design receipt freezes accepted
+dependency digests, provider/observation/probe/budget mechanisms, and the
+proposal-level ROD-002 encoding without reopening operator intent. UE-004/007
+remain post-implementation activation proof, and UE-014 remains RP-14-owned.
+Fresh independent re-review is the next gate.
