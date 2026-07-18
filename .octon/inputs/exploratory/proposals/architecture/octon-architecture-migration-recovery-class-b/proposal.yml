@@ -41,7 +41,7 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-autonomy-runtime-v2.sh"
   - ".octon/framework/assurance/runtime/_ops/tests/test-mission-autonomy-runtime-v2.sh"
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-recovery-class-b/"
-status: "in-review"
+status: "accepted"
 change_profile: "atomic"
 release_state: "pre-1.0"
 parent_program: "octon-architecture-migration-program"

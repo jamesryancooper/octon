@@ -1,69 +1,80 @@
-review_id: octon-architecture-migration-recovery-class-b-review-20260718T163254Z
-reviewed_at: 2026-07-18T16:32:54Z
+review_id: octon-architecture-migration-recovery-class-b-review-20260718T164403Z
+reviewed_at: 2026-07-18T16:44:03Z
 reviewer: octon-proposal-lifecycle-review-packet
-verdict: revision-required
-implementation_prompt_authorized: no
-reviewed_packet_digest: sha256:6907ee70b34895d03238b2a237c268c2e2a114fe332ad4a8dbe67ae13a1a0621
-open_blocking_findings_count: 3
-prior_review_id: none
-final_route: revise-packet
-final_route_target: octon-architecture-migration-recovery-class-b
+verdict: accepted
+implementation_prompt_authorized: yes
+reviewed_packet_digest: sha256:e33cc5d1b1da806f3df10690ce169dac7e0fed2f318a65ce14741948db426e35
+open_blocking_findings_count: 0
+prior_review_id: octon-architecture-migration-recovery-class-b-review-20260718T163254Z
+final_route: review-packet
+final_route_target: octon-architecture-migration-self-development-trust-activation
 
-# RP-08 Independent Proposal Review
+# Accepted RP-08 Proposal Review
 
 ## Review Basis
 
-Reviewed all 22 pre-review packet files, accepted RP-06 digest
-`sha256:1ebf5b95ddc1a85dfa149e543813ff9a2ccc32994d540eb471330a6257966f60`,
-accepted RP-07 digest
-`sha256:87fbcceec1ea8956e96335808aef37a9c91b91793328a31d92b1c058703aaf08`,
-the transitive RP-03/RP-05 boundaries, ROD-002/ED-003 lineage, and exact
-30-target parent parity.
+Independently reviewed all 26 packet files at lifecycle base `7905844fdc` and
+final digest `sha256:e33cc5d1b1da806f3df10690ce169dac7e0fed2f318a65ce14741948db426e35`.
+The review covers exact dependencies/mechanisms, ROD-002/ED-003, proof order,
+route/attribution/recovery/PR/cleanup boundaries, and 30-target parent parity.
 
 ## Approved Promotion Targets
 
-None while revision is required. All 30 proposed targets match the parent.
+- `.octon/framework/engine/runtime/spec/run-lifecycle-v1.md`
+- `.octon/framework/engine/runtime/spec/effect-reconciliation-v1.md`
+- `.octon/framework/engine/runtime/spec/effect-reconciliation-v1.schema.json`
+- `.octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json`
+- `.octon/framework/engine/runtime/spec/operator-read-models-v1.md`
+- `.octon/framework/engine/runtime/spec/mission-autonomy-runtime-v2.md`
+- `.octon/framework/engine/runtime/spec/mission-continuation-v1.md`
+- `.octon/framework/engine/runtime/spec/mission-runner-v1.md`
+- `.octon/framework/constitution/contracts/runtime/mission-run-ledger-v1.schema.json`
+- `.octon/framework/constitution/contracts/runtime/mission-continuation-decision-v1.schema.json`
+- `.octon/framework/constitution/contracts/runtime/mission-closeout-v1.schema.json`
+- `.octon/framework/constitution/contracts/runtime/family.yml`
+- `.octon/framework/constitution/contracts/registry.yml`
+- `.octon/framework/engine/runtime/crates/effect_reconciler/`
+- `.octon/framework/engine/runtime/crates/Cargo.toml`
+- `.octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs`
+- `.octon/framework/engine/runtime/crates/kernel/src/lifecycle_run_admission.rs`
+- `.octon/instance/governance/policies/mission-autonomy.yml`
+- `.octon/instance/governance/policies/mission-continuation.yml`
+- `.octon/instance/governance/policies/mission-closeout.yml`
+- `.octon/instance/governance/policies/continuous-operation.yml`
+- `.octon/framework/assurance/runtime/_ops/scripts/validate-effect-reconciliation.sh`
+- `.octon/framework/assurance/runtime/_ops/tests/effect-reconciliation/`
+- `.octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh`
+- `.octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh`
+- `.octon/framework/assurance/runtime/_ops/tests/test-run-health-read-model.sh`
+- `.octon/framework/assurance/runtime/_ops/scripts/test-mission-autonomy-scenarios.sh`
+- `.octon/framework/assurance/runtime/_ops/scripts/validate-mission-autonomy-runtime-v2.sh`
+- `.octon/framework/assurance/runtime/_ops/tests/test-mission-autonomy-runtime-v2.sh`
+- `.octon/state/evidence/validation/proposals/octon-architecture-migration-recovery-class-b/`
+
+These are future implementation/evidence targets only; none is created or
+modified by this receipt.
 
 ## Blocking Findings
 
-### RP08-EXACT-RECOVERY-MECHANISMS-001 — high
-
-The packet describes bounded probes, attribution precedence, provider support,
-maintenance windows, concurrency, retries, and recovery timing, but does not
-select the exact GitHub support tuple, observation precedence, probe schedule,
-budget values, or terminal/manual-intervention thresholds. One exact reversible
-design receipt is required so implementation does not make architecture choices.
-
-### RP08-ROD002-DESIGN-ENCODING-002 — high
-
-ROD-002 is correctly settled and cannot be reopened, but the packet says its
-rule must be durably encoded and proved at “design exit” without separating a
-proposal-local exact encoding design from future promoted policy. Select exact
-policy fields/values and invariants now; create and dynamically prove promoted
-policy only after implementation is authorized.
-
-### RP08-IMPLEMENTATION-EVIDENCE-CYCLE-003 — high
-
-Dependency exits, UE-004/UE-007, scratch-provider evidence, full fault matrices,
-and durable promoted-policy proof are presented as prerequisites to proposal
-authorization. Freeze accepted dependency/interface digests and an exact
-design before authorization; gate source entry on dependencies/provider
-preflight and gate activation/completion/promotion on dynamic evidence.
+None. The three prior findings close through frozen dependency digests, one
+exact provider support tuple, explicit observation precedence, bounded read-only
+reconciliation/maintenance budgets, exact PR/cleanup rules, exact proposal-
+level ROD-002 fields, and corrected source-entry/activation evidence ordering.
 
 ## Nonblocking Findings
 
-- Frozen-route, no-retry-while-unknown, attribution, PR-subeffect, cleanup,
-  degraded-mode, rollback, evidence, and authority boundaries are coherent.
-- UE-014 correctly remains RP-14-owned and no new operator choice is open.
-- Exact parent/child scope parity holds.
+- Dependency implementations, provider/App/ruleset/API/tool feasibility, and a
+  separately authorized disposable target remain future source-entry gates.
+- UE-004/007 and route/fault/PR/cleanup/rollback evidence remain future
+  activation/completion gates; UE-014 remains RP-14-owned.
+- Missing future targets are expected because implementation has not begun.
 
 ## Exclusions
 
-No effect, provider request, scratch target, credential, publication,
-implementation, promotion, archive, or cleanup occurred. Planned UE evidence
-is not current proof.
+No provider call, credential, scratch target, policy, effect, status,
+implementation, publication, promotion, archive, or cleanup occurred.
 
 ## Final Route Recommendation
 
-Keep RP-08 in review, select exact recovery and policy encoding mechanisms,
-correct evidence order, and independently re-review. Do not implement RP-08.
+Keep RP-08 accepted. Authorize only future exact DAG-ordered implementation
+after entry gates pass. Continue to RP-09 review; do not implement RP-08 now.

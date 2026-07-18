@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-recovery-class-b-post-remediation-20260718T164403Z
+commit_sha: 7905844fdc
+scope_hash: sha256:e33cc5d1b1da806f3df10690ce169dac7e0fed2f318a65ce14741948db426e35
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: Three passes agree that exact recovery/ROD mechanisms and proof order close all blockers.

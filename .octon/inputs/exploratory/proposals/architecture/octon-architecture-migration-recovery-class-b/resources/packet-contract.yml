@@ -77,7 +77,7 @@ planned_durable_source_ownership:
   complete_two_project_30_day_product_proof: "RP-14"
 proposal_lifecycle_ownership:
   manifests: ["proposal.yml", "architecture-proposal.yml"]
-  status: "in-review"
+  status: "accepted"
   authority: "proposal-local and non-authoritative"
 retained_evidence_ownership:
   root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-recovery-class-b/"
