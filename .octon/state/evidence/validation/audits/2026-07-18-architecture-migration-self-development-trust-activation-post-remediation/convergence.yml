@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-self-development-trust-activation-post-remediation-20260718T165437Z
+commit_sha: 0a52f1b012
+scope_hash: sha256:f98f8ff4844427e9174c6b89c991ce3c275531854e0f09afcb69ed241369887c
+seeds: [17, 29, 43]
+result_vector: [pass, pass, pass]
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: Three passes agree that exact activation/authority mechanisms and proof order close all blockers.

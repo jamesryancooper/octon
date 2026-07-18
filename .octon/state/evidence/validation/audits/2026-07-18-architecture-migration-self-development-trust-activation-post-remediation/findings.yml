@@ -1,0 +1,7 @@
+schema_version: "1.0"
+run_id: architecture-migration-self-development-trust-activation-post-remediation-20260718T165437Z
+findings:
+  - {id: RP09-EXACT-ACTIVATION-MECHANISMS-001, severity: high, status: closed, summary: "Exact inventory, install, selector, health, rollback, retention, capacity, and bootstrap selected."}
+  - {id: RP09-AUTHORITY-INTEGRATION-BOUNDARY-002, severity: high, status: closed, summary: "RP-01-only issuer and strict RP-09 consumer/schema contribution are mechanically separated."}
+  - {id: RP09-IMPLEMENTATION-EVIDENCE-CYCLE-003, severity: high, status: closed, summary: "Authorization, source-entry, and activation proof are ordered without a cycle."}
+new_findings: []

@@ -1,28 +1,28 @@
 schema_version: "architectural-review-support-receipt-v1"
-receipt_id: "octon-architecture-migration-self-development-trust-activation-architecture-review-20260718T164719Z"
+receipt_id: "octon-architecture-migration-self-development-trust-activation-post-remediation-architecture-review-20260718T165437Z"
 proposal_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-self-development-trust-activation"
-packet_digest: "sha256:a25c502c18b59b4d56f00ed7179a00999f4af282a79e5e977904c58475837a58"
+packet_digest: "sha256:f98f8ff4844427e9174c6b89c991ce3c275531854e0f09afcb69ed241369887c"
 review_mode: "pre-integration-architecture-review"
-verdict: "fail"
-unresolved_count: 3
-blockers: ["RP09-EXACT-ACTIVATION-MECHANISMS-001", "RP09-AUTHORITY-INTEGRATION-BOUNDARY-002", "RP09-IMPLEMENTATION-EVIDENCE-CYCLE-003"]
+verdict: "pass"
+unresolved_count: 0
+blockers: []
 non_authority_classification: "retained-evidence-only"
-recorded_at: "2026-07-18T16:47:19Z"
-evidence_refs: [".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-self-development-trust-activation-20260718T164719Z.md", ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-self-development-trust-activation-20260718T164719Z.md", ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-self-development-trust-activation/bundle.yml"]
-validator_refs: ["validate-proposal-review-gate.sh --print-digest", "validate-proposal-standard.sh", "validate-proposal-implementation-readiness.sh", "validate-architecture-proposal.sh", "validate-proposal-program-structure.sh"]
+recorded_at: "2026-07-18T16:54:37Z"
+evidence_refs: [".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-self-development-trust-activation-post-remediation-20260718T165437Z.md", ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-self-development-trust-activation-post-remediation-20260718T165437Z.md", ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-self-development-trust-activation-post-remediation/bundle.yml", ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-self-development-trust-activation/support/revisions/rp09-trust-activation-authority-evidence-order-20260718.md"]
+validator_refs: ["validate-proposal-review-gate.sh --package RP-09 --print-digest", "validate-proposal-standard.sh --package RP-09", "validate-proposal-implementation-readiness.sh --package RP-09", "validate-architecture-proposal.sh --package RP-09", "validate-proposal-program-structure.sh --package parent", "validate-architectural-review-receipts.sh --mode pre-integration-architecture-review --require-pass"]
 mode_specific_coverage:
-  review_charter: "Independent pre-integration RP-09 review."
-  external_tool_integrity: "Host/provider/install mechanisms were treated as uninvoked external inputs."
-  system_job: "Land self-change inert and activate trust roots only through installed-prior-version verification."
-  current_reality: "No trust inventory, inert install, selector, activation, health, or rollback implementation exists."
-  authority_boundaries: "RP-01 issuance is stated but RP-09 schema contribution/consumer boundary is not exact."
-  dependency_and_concurrency: "One-selector intent is strong; exact atomic selection and crash protocol are open."
-  failure_and_recovery: "Fault set is broad but health/rollback thresholds and retention are unspecified."
-  security_and_credentials: "Candidate self-certification is prohibited; exact install/tool closure is open."
-  evidence_and_validation: "UE-001/009/015 are planned but evidence order is circular."
-  contracts_and_compatibility: "Schema families are named; exact inventory/selector/authority fields are open."
-  operability_and_observability: "Inert/active/rollback status is planned without exact timing/canary mechanics."
-  sequencing_and_migration: "Exact design may authorize creation; future proof cannot gate proposal existence."
-  prior_finding_disposition: "Three new blockers open."
-  final_self_challenge: "Indirect build/provider changes, candidate widening, selector tear, reboot, disk full, health false positive, revoked rollback, and proof inflation challenged."
-  verdict_basis: "Three high findings require revision."
+  review_charter: "Independent post-remediation review of exact RP-09 design and authority boundary."
+  external_tool_integrity: "Filesystem/tool/provider/bootstrap mechanisms are selected inputs, not invoked or mutated."
+  system_job: "Land trust changes inert and activate only through installed-prior-version verification."
+  current_reality: "No inventory, install, selector, bootstrap, activation, health, or rollback runtime state exists."
+  authority_boundaries: "RP-01 is sole issuer/epoch owner; RP-09 is a strict consumer/schema projection with no defaults."
+  dependency_and_concurrency: "Frozen digests and two-slot monotonic selector leave one recoverable active generation."
+  failure_and_recovery: "Exact staging, fsync, slot, reboot, disk-full, health, pin, and rollback rules fail closed."
+  security_and_credentials: "Prior-version closure, effect-denied canary, no candidate selector handle, and strict envelope prevent self-certification."
+  evidence_and_validation: "UE/provider/fault proof follows authorization and gates activation, not proposal existence."
+  contracts_and_compatibility: "Exact JCS manifests and RP-01 envelope fields close semantic ambiguity without authority transfer."
+  operability_and_observability: "Selected 600-second health and 30-second rollback profiles are bounded and explicit."
+  sequencing_and_migration: "Acceptance authorizes inert creation; entry preflight gates source; dynamic proof gates activation/promotion."
+  prior_finding_disposition: "All three RP09 findings are closed."
+  final_self_challenge: "Indirect closure, candidate widening, slot tear, reboot, disk full, health false positive, revoked rollback, bootstrap replay, and proof inflation challenged."
+  verdict_basis: "All required lenses converge with zero unresolved architecture blockers at the final digest."

@@ -372,7 +372,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-self-development-trust-activation"
     title: "Safe Self-Development and Trust-Root Activation"
-    status: "in-review"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs"
       - ".octon/framework/engine/runtime/spec/promotion-runtime-v1.md"
