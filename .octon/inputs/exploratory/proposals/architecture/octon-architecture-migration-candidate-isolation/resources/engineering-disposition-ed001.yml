@@ -1,0 +1,138 @@
+schema_version: "octon-engineering-disposition-v1"
+disposition_id: "ED-001"
+owner: "RP-02"
+state: "design-selected-proof-pending"
+selected_default: "native-macos-seatbelt-plus-loopback-capability-relay-v1"
+operator_decision_required: false
+support_envelope:
+  operating_system:
+    product: "macOS"
+    minimum_product_version: "26.0"
+    darwin_major: 25
+    architectures: ["arm64"]
+    observed_design_baseline:
+      product_version: "26.5.2"
+      build: "25F84"
+      architecture: "arm64"
+    admission_rule: >-
+      The implementation records the exact product version, build, architecture,
+      and kernel identity; every unlisted OS family, Darwin major, architecture,
+      or unproved build is denied rather than inferred compatible.
+  enforcement:
+    executable: "/usr/bin/sandbox-exec"
+    profile_language: "SBPL"
+    profile_source: ".octon/framework/engine/runtime/adapters/host/macos-candidate.yml"
+    posture: "default-deny"
+    application_order: "after repository/env/fd preparation and before primary-provider exec"
+    identity_binding:
+      - "root ownership and non-candidate-writability of /usr/bin/sandbox-exec"
+      - "exact executable SHA-256"
+      - "rendered profile SHA-256"
+      - "exact allowlisted executable and filesystem roots"
+      - "exact loopback relay address and port"
+    unsupported_behavior: "deny launch before provider contact"
+  provider_client:
+    family: "OpenAI Codex CLI"
+    selection: "absolute-path-only"
+    identity_binding:
+      - "regular executable not writable by the candidate identity"
+      - "exact absolute executable path"
+      - "exact executable SHA-256"
+      - "exact reported client version"
+    version_policy: "no range admission; every exact binary identity requires its own proof tuple"
+    missing_or_broken_behavior: "deny launch before session creation"
+  provider_session:
+    mechanism: "loopback-capability-relay-v1"
+    topology: >-
+      A trusted launcher-owned relay runs outside the candidate sandbox and
+      process group. The candidate client can reach only the relay's exact
+      127.0.0.1 address/ephemeral port; direct provider egress and every other
+      loopback destination are denied by the rendered profile.
+    upstream_auth: >-
+      The relay consumes a pre-existing authenticated primary-provider
+      transport from trusted host context. RP-02 neither enrolls, copies,
+      persists, logs, nor returns durable credential material.
+    candidate_capability:
+      form: "random 256-bit one-run bearer"
+      readable_by_candidate: true
+      durable_provider_credential: false
+      bindings:
+        - "run id"
+        - "candidate process-group id"
+        - "provider and model"
+        - "request and token budgets"
+        - "exact relay listener"
+      lifetime: "not longer than the candidate deadline"
+      concurrency: 1
+      revocation: "atomic at every success, failure, cancellation, timeout, or relay fault"
+      reuse: "prohibited"
+    effect_boundary: >-
+      The relay accepts model-inference protocol only, exposes no Git,
+      publication, credential, provider-administration, or RP-04 broker
+      operation, and is not an effect-broker compatibility path.
+    unavailable_behavior: "deny without ambient token, direct provider, or RP-04 fallback"
+implementation_symbols:
+  candidate_isolation_rs:
+    types:
+      - "CandidateIsolationSpec"
+      - "CandidateIsolationRunner"
+      - "PreparedCandidate"
+      - "CandidateProviderRelay"
+      - "ExactCommitExport"
+      - "RetirementReceipt"
+    methods:
+      - "CandidateIsolationRunner::prepare"
+      - "CandidateIsolationRunner::start_relay"
+      - "CandidateIsolationRunner::apply_native_policy_and_spawn"
+      - "CandidateIsolationRunner::export_exact_commit"
+      - "CandidateIsolationRunner::retire"
+  existing_integration_slices:
+    - file: ".octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs"
+      symbol: "execute_real"
+      slice: "consume the prepared RP-02 runner after the frozen RP-01 guard"
+    - file: ".octon/framework/engine/runtime/crates/lifecycle_executor/src/auto.rs"
+      symbol: "resolve_executor"
+      slice: "return only the absolute exact-digest primary client admitted by RP-02"
+    - file: ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs"
+      symbol: "run_with_timeout"
+      slice: "replace ambient spawn with CandidateIsolationRunner::apply_native_policy_and_spawn"
+    - file: ".octon/framework/engine/runtime/crates/lifecycle_executor/src/claude.rs"
+      symbol: "execute_claude"
+      slice: "deny because no secondary-provider tuple is admitted"
+    - file: ".octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs"
+      symbol: "LifecycleRouteExecutionRequest"
+      slice: "carry only the versioned isolation binding, never authority or credential material"
+fitness_requirements:
+  static:
+    - "every primary-provider candidate spawn flows through apply_native_policy_and_spawn"
+    - "no ambient PATH resolution, HOME, credential variable, linked worktree, or direct provider endpoint is reachable"
+    - "the rendered profile is default-deny and names one exact relay listener"
+    - "the relay protocol surface contains inference operations only"
+  dynamic:
+    - "useful primary-provider task against the exact tuple"
+    - "full durable credential, host, Git, FD, process, IPC, filesystem, and network denial matrix"
+    - "direct provider and non-relay loopback connections deny"
+    - "token expiry, revocation, concurrency, cancellation, crash, cleanup, quarantine, and non-reuse"
+evidence_order:
+  design_authorization: >-
+    This selected mechanism and complete packet may be reviewed and accepted
+    before an implementation exists.
+  implementation_entry: >-
+    RP-00 verification, the frozen RP-01 interface, an exact working client,
+    an available authenticated upstream transport, sentinel fixtures, and the
+    exact host tuple must pass before any candidate launch.
+  completion_and_promotion: >-
+    UE-003 and every static/dynamic fitness result must pass against the exact
+    authorized implementation commit before conformance, implementation
+    completion, cutover, support claim, or promotion.
+unsupported_remainder:
+  - "Intel macOS, Darwin majors other than 25, Linux, Windows, and VMs"
+  - "secondary providers"
+  - "direct provider egress from the candidate"
+  - "ambient or durable candidate-readable provider credentials"
+  - "provider administration, privileged effects, RP-04 broker access, and publication"
+escalation_condition: >-
+  Escalate only after an authorized implementation demonstrates that this
+  exact default cannot complete the useful-positive and credential-negative
+  envelope. Until then the route remains disabled; no product or
+  constitutional decision is invented.

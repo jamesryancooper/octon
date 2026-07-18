@@ -4,7 +4,7 @@ logical_packet_id: "RP-02"
 workgroup_id: "RWG-02"
 proposal_id: "octon-architecture-migration-candidate-isolation"
 title: "Credentialless Native Candidate Isolation"
-status: "draft"
+status: "in-review"
 authority_posture:
   proposal_is_authority: false
   implementation_authorized: false
@@ -22,7 +22,7 @@ problem_statement: >-
 scope:
   - "native macOS candidate sandbox and pinned support tuple"
   - "fresh allowed environment and HOME with closed inherited file descriptors"
-  - "useful provider-native non-exportable or short-lived primary-provider session"
+  - "useful one-run inference-only primary-provider relay capability with upstream authentication outside candidate state"
   - "independent disposable repository and object database"
   - "filesystem, process, IPC, network, credential, host, and Git boundaries"
   - "non-executing export of the exact candidate commit"
@@ -45,7 +45,7 @@ dependencies:
   - "octon-architecture-migration-containment"
 planned_durable_source_ownership:
   - "candidate isolation preparation, execution, cancellation, and cleanup module"
-  - "primary-provider candidate environment and session binding"
+  - "primary-provider candidate environment and loopback-capability-relay-v1 binding"
   - "independent candidate repository and non-executing commit-export boundary"
   - "native macOS candidate host profile and isolation assurance fixtures"
 source_ownership_exclusions:
@@ -80,34 +80,34 @@ workflows_and_generated_projections_affected:
   generated_proposal_registry: ".octon/generated/proposals/registry.yml"
   rule: "generated views remain non-authoritative and change only through their owning routes"
 provider_configuration_observed:
-  - "primary-provider client and native session class/version without secret values"
-  - "allowed provider and explicitly declared task destinations"
-  - "session issue, expiry, revocation, and reuse behavior"
+  - "absolute OpenAI Codex CLI path, digest, and reported version without secret values"
+  - "pre-existing authenticated upstream transport availability without credential value"
+  - "exact loopback relay listener plus one-run capability issue, expiry, revocation, and reuse behavior"
 technical_identities_affected:
   - "candidate process and process-group identity"
   - "disposable workspace, HOME, repository, object-store, and commit identity"
-  - "provider client and short-lived or non-exportable session identity"
+  - "provider client, inference relay, and one-run capability identity"
 trust_boundary_changes:
   - "candidate execution leaves canonical repo_root and inherited HOME/env context"
   - "candidate repository shares no common directory, refs, objects, config, hooks, index, or worktree state with canonical Git"
   - "candidate cannot read durable credentials, broker IPC, or parent file descriptors"
-  - "filesystem, process, IPC, executable, and network access become explicit allowlists"
+  - "filesystem, process, IPC, executable, and network access become explicit allowlists; candidate network is one exact relay listener only"
   - "only the exact candidate commit crosses the non-executing export boundary"
 migration_preconditions:
   - "octon-architecture-migration-containment exits with fresh evidence"
-  - "ED-001 exact provider-session and native-sandbox mechanism applied"
+  - "ED-001 selected default materialized from resources/engineering-disposition-ed001.yml"
   - "RP-01 launch/guard interface frozen and shared symbols allocated"
   - "accepted proposal, passing completeness gate, and architecture review"
   - "sentinel credentials and disposable provider/project fixtures"
 migration_steps:
-  - "pin macOS, provider client, session class, and sandbox profile"
+  - "pin arm64 macOS 26/Darwin 25, /usr/bin/sandbox-exec, rendered SBPL, and exact Codex CLI identities"
   - "materialize an independent disposable repository and object database"
   - "construct fresh environment/HOME and close inherited file descriptors"
   - "apply filesystem, process, IPC, executable, and network policy before launch"
-  - "run a useful task through a candidate-unreadable provider session"
+  - "start an inference-only loopback relay outside the sandbox, issue one run/model/budget/listener/deadline-bound capability, and run a useful task"
   - "prove credential, host, Git, process, FD, filesystem, and network denials"
   - "export the exact commit without trusted candidate-controlled execution"
-  - "cancel or retire the process, session, workspace, HOME, and repository without reuse"
+  - "revoke/retire the relay capability, relay, process, workspace, HOME, and repository without reuse"
 safe_intermediate_states:
   - state_id: "SI-02"
     description: >-
@@ -119,6 +119,7 @@ prohibited_intermediate_states:
   - "candidate-readable durable token, credential file, Keychain item, helper, or agent socket"
   - "linked worktree or shared canonical common directory, refs, objects, config, hooks, or index"
   - "ambient environment, HOME, inherited parent descriptors, or broad egress"
+  - "direct provider egress or any loopback destination other than the exact one-run inference relay"
   - "broker IPC, privileged provider effect, or canonical Git mutation"
   - "trusted execution of candidate-controlled hooks, filters, helpers, drivers, or checkout behavior during export"
 compatibility_bridges:
@@ -129,6 +130,7 @@ compatibility_bridges:
     - "canonical-repository launcher fallback"
     - "linked-worktree-only isolation"
     - "effect-broker dependency for the initial provider session"
+    - "direct provider endpoint or ambient provider credential fallback"
 deprecations_and_retirements:
   - "ambient canonical-repository execution leaves the supported primary-provider candidate route"
   - "candidate workspace, HOME, repository, session, and identity are retired or quarantined after every run"
@@ -138,11 +140,11 @@ rollback_strategy: >-
   credentials or canonical-repository execution as a supported fallback, and
   require a fresh RP-06 decision before any later protected PR.
 recovery_strategy: >-
-  Terminate the full process group, expire/revoke the provider session,
+  Terminate the full process group, revoke the one-run capability and relay,
   quarantine uncertain candidate state, retain redacted evidence, and repair
   forward from the contained route without reusing identities.
 validation_plan:
-  - "useful primary-provider positive task on the exact admitted tuple"
+  - "useful primary-provider positive task through the exact one-run relay tuple"
   - "environment, Keychain, SSH agent, helper, parent-FD, and host credential canaries"
   - "filesystem, process, IPC, executable, and network escape matrix"
   - "canonical Git read/mutation and repository-independence matrix"
@@ -154,12 +156,13 @@ adversarial_tests:
   - "malicious Git includes, hooks, helpers, filters, drivers, alternates, submodules, and transports"
   - "parent/sibling process observation, signal, debug, and file-descriptor probes"
   - "loopback privilege service, metadata endpoint, arbitrary egress, and broker IPC probes"
+  - "direct provider, alternate loopback listener, wrong/expired/reused bearer, second client, wrong run/model/budget, and relay crash probes"
 fault_injection:
   - "kill before and after repository creation, session attachment, task, commit, export, and cleanup"
   - "provider expiry, denial, timeout, rate limit, and lost response"
   - "disk full, permission loss, descendant escape attempt, and cleanup failure"
 evidence_to_retain:
-  - "redacted admitted-tuple and sandbox-profile identity"
+  - "redacted host/client/sandbox-exec/profile/relay admitted-tuple identity"
   - "independent repository and exact commit identity"
   - "positive task and complete negative-canary results"
   - "FD/process coverage, export, cleanup, quarantine, and non-reuse receipts"
@@ -179,6 +182,16 @@ must_not_run_concurrently_with:
 operator_decisions: []
 engineering_dispositions:
   - "ED-001"
+engineering_default:
+  ref: "resources/engineering-disposition-ed001.yml"
+  selected_default: "native-macos-seatbelt-plus-loopback-capability-relay-v1"
+  design_state: "selected-proof-pending"
+  host_floor: "arm64 macOS 26 / Darwin 25"
+  sandbox: "root-owned exact-digest /usr/bin/sandbox-exec plus rendered default-deny SBPL"
+  provider_client: "absolute exact-digest/version OpenAI Codex CLI"
+  provider_session: "inference-only loopback-capability-relay-v1 with a random 256-bit one-run bearer"
+  implementation_entry: "RP-00 verification plus exact working host/client/upstream/fixture preflight"
+  completion_gate: "UE-003 and every positive/negative result against the exact authorized implementation"
 blocking_findings:
   owned:
     - "RF-004"
@@ -186,8 +199,9 @@ blocking_findings:
   cross_references:
     - "RF-025"
 entry_criteria:
-  - "RP-00 exits"
-  - "ED-001 applied to an exact primary-provider session and native sandbox mechanism"
+  - "design acceptance and implementation-prompt authorization"
+  - "before candidate launch, RP-00 verification passes"
+  - "before candidate launch, ED-001 exact host/client/upstream/relay tuple preflight passes"
 exit_criteria:
   - "useful primary supported-provider task succeeds"
   - "no durable credential or canonical Git/host access"
@@ -207,7 +221,7 @@ unresolved_evidence:
     ownership: "shared-with-RP-04"
     current_state: "unresolved"
 authoritative_promotion_requirements:
-  - "ED-001 mechanism selection and exact support-tuple pinning"
+  - "ED-001 design selection from resources/engineering-disposition-ed001.yml"
   - "accepted proposal and independent architecture review"
   - "implemented durable contracts, isolation module, host profile, and validators"
   - "useful positive proof plus every negative and lifecycle proof"
@@ -218,3 +232,15 @@ unsupported_remainder:
   - "credential broker, privileged IPC, and provider effects"
   - "sanitized privileged Git, immutable verification, and autonomous publication"
   - "generic adapters, signed evidence, recovery, trust activation, projects, harness factory, extensions, child agents, and final product proof"
+evidence_order:
+  proposal_design_authorization: >-
+    The exact ED-001 design, complete packet, accepted proposal review, and
+    passing architecture review authorize creation of an implementation
+    candidate without claiming dynamic proof.
+  implementation_entry: >-
+    RP-00 verification, frozen RP-01 integration, and exact working
+    host/client/upstream/relay/fixture preflight pass before candidate launch.
+  implementation_completion: >-
+    UE-003 and every positive, negative, rollback, conformance, and drift result
+    pass against the exact authorized implementation before completion,
+    cutover, support claim, promotion, or archive.
