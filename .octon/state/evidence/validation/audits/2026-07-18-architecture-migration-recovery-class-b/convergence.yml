@@ -1,0 +1,15 @@
+schema_version: "1.0"
+run_id: architecture-migration-recovery-class-b-20260718T163254Z
+commit_sha: 65a7c26e4a
+scope_hash: sha256:6907ee70b34895d03238b2a237c268c2e2a114fe332ad4a8dbe67ae13a1a0621
+seeds: [17, 29, 43]
+result_vector: [fail, fail, fail]
+stable: true
+union_blocking_findings: 3
+open_findings_at_or_above_threshold: 3
+done: true
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: revision-required
+rationale: Three passes agree that exact mechanisms and corrected proof order are required.

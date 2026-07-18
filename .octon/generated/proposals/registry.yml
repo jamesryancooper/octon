@@ -316,7 +316,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-recovery-class-b"
     title: "Recovery, Reconciliation, and Complete Class B Vertical"
-    status: "draft"
+    status: "in-review"
     promotion_targets:
       - ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
       - ".octon/framework/engine/runtime/spec/effect-reconciliation-v1.md"

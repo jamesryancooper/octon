@@ -1,0 +1,28 @@
+schema_version: "architectural-review-support-receipt-v1"
+receipt_id: "octon-architecture-migration-recovery-class-b-architecture-review-20260718T163254Z"
+proposal_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-recovery-class-b"
+packet_digest: "sha256:6907ee70b34895d03238b2a237c268c2e2a114fe332ad4a8dbe67ae13a1a0621"
+review_mode: "pre-integration-architecture-review"
+verdict: "fail"
+unresolved_count: 3
+blockers: ["RP08-EXACT-RECOVERY-MECHANISMS-001", "RP08-ROD002-DESIGN-ENCODING-002", "RP08-IMPLEMENTATION-EVIDENCE-CYCLE-003"]
+non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-18T16:32:54Z"
+evidence_refs: [".octon/state/evidence/runs/skills/audit-domain-architecture/architecture-migration-recovery-class-b-20260718T163254Z.md", ".octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-recovery-class-b-20260718T163254Z.md", ".octon/state/evidence/validation/audits/2026-07-18-architecture-migration-recovery-class-b/bundle.yml"]
+validator_refs: ["validate-proposal-review-gate.sh --print-digest", "validate-proposal-standard.sh", "validate-proposal-implementation-readiness.sh", "validate-architecture-proposal.sh", "validate-proposal-program-structure.sh"]
+mode_specific_coverage:
+  review_charter: "Independent pre-integration RP-08 review."
+  external_tool_integrity: "GitHub/provider mechanisms were treated as uninvoked external inputs."
+  system_job: "Reconcile unknown provider effects and prove a complete bounded Class B vertical."
+  current_reality: "No RP-08 implementation, scratch effect, or dynamic recovery proof exists."
+  authority_boundaries: "RP-03/05/06/07 ownership is preserved; status and evidence remain non-authority."
+  dependency_and_concurrency: "Route freeze and no-retry rules are strong; exact probe/budget mechanisms are open."
+  failure_and_recovery: "Fault coverage is broad but terminal thresholds and budgets are not exact."
+  security_and_credentials: "Broker confinement and no ambient credential fallback are explicit."
+  evidence_and_validation: "UE-004/007 are planned but evidence order is circular."
+  contracts_and_compatibility: "Outcome vocabulary is exact; ROD-002 promoted encoding is not yet separated from design."
+  operability_and_observability: "Status fields are coherent; maintenance/probe budgets are unspecified."
+  sequencing_and_migration: "Exact design may authorize creation; future proof cannot gate proposal existence."
+  prior_finding_disposition: "Three new blockers open."
+  final_self_challenge: "Lost response, equality-without-causation, concurrent actor, route switch, PR unknown, cleanup race, outage, and proof inflation challenged."
+  verdict_basis: "Three high findings require revision."

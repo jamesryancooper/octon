@@ -1,0 +1,7 @@
+schema_version: "1.0"
+run_id: architecture-migration-recovery-class-b-20260718T163254Z
+findings:
+  - {id: RP08-EXACT-RECOVERY-MECHANISMS-001, severity: high, status: open, summary: "Exact provider, observation-precedence, probe, threshold, and maintenance budgets are not selected."}
+  - {id: RP08-ROD002-DESIGN-ENCODING-002, severity: high, status: open, summary: "Settled ROD-002 design encoding is conflated with future promoted policy proof."}
+  - {id: RP08-IMPLEMENTATION-EVIDENCE-CYCLE-003, severity: high, status: open, summary: "Future dependencies and dynamic proof gate proposal authorization circularly."}
+new_findings: [RP08-EXACT-RECOVERY-MECHANISMS-001, RP08-ROD002-DESIGN-ENCODING-002, RP08-IMPLEMENTATION-EVIDENCE-CYCLE-003]
