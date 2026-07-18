@@ -35,3 +35,20 @@
 - Signed-extension, child-agent, secondary-provider, and safe-automatic claims
   are promoted only when their specific dependencies and proof pass; otherwise
   they remain disabled and unclaimed.
+- The protocol, corpus, environment, provider snapshots, implementation commit,
+  mission attempts, evidence manifest, and handoff use the exact identities in
+  the selected protocol receipt; committed generations are immutable and reruns
+  preserve prior failure or stale evidence under new identities.
+- All ten mission pairs and ten supervised baselines are retained. Durations use
+  monotonic intervals, p50/p95 use nearest-rank over complete observations, the
+  no-PR p50 is strictly lower and p95 no greater than the paired PR comparison,
+  and missing or invalid observations fail every dependent claim.
+- The burden window has thirty complete consecutive 24-hour intervals; provider
+  snapshots satisfy start/end 24-hour freshness and the seven-day handoff
+  window; drift marks affected claims stale rather than silently refreshing.
+- Every zero budget is exactly zero, every claim is an all-of predicate result,
+  secret/custody/quota checks pass, and `generation-complete.yml` plus the
+  expected-old generation-index update occur only after manifest verification.
+- `promotion-handoff.yml` contains every required protocol field and remains
+  retained non-authority; no support, provider, policy, or promotion state is
+  changed by RP-14.

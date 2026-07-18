@@ -6,7 +6,8 @@ problem_statement: "Component proof cannot by itself demonstrate autonomous solo
 current_repository_state: ["Reconciled budgets and component proof plans exist; the target implementation and integrated dogfood evidence do not."]
 current_evidence:
   classification: "UNVERIFIED"
-  limits: "All RP-14 proof is planned; no implementation outcome is represented by this draft."
+  limits: "All RP-14 proof is planned; no implementation outcome is represented by this proposal."
+selected_protocol: "resources/solo-dogfood-proof-protocol-receipt.yml freezes exact packet inputs, identities, corpus, measurement, provider freshness, custody, claim adjudication, invalidation, evidence layout, and entry/completion order"
 accepted_decisions: ["FD-001", "FD-024", "FD-023 integrated-promotion-proof split"]
 target_state: ["Exact-commit independent dogfood and provider reproduction produce a complete truthful claim map and separate promotion handoff."]
 scope: ["fresh setup", "two projects", "twenty missions", "thirty-day burden", "fault/recovery", "provider drift", "claim map", "promotion handoff"]
@@ -20,14 +21,14 @@ planned_durable_source_ownership:
 proposal_lifecycle_ownership: "RP-14 owns its proof review and receipts; each child and downstream promoter retain their authority."
 retained_evidence_ownership: ".octon/state/evidence/validation/proposals/octon-architecture-migration-solo-dogfood-promotion/"
 components_affected: ["proof protocol only; all product components are read-only proof subjects"]
-files_expected_to_change: ["retained RP-14 evidence files only"]
+files_expected_to_change: ["retained RP-14 protocol/index and immutable generation-local input, result, metric, claim, handoff, manifest, and completion files only"]
 contracts_affected: ["acceptance matrix and claim-handoff format as evidence-local protocol, not runtime authority"]
 schemas_affected: []
 workflows_and_generated_projections_affected: ["Observed/read-only; no RP-14 ownership."]
 provider_configuration_observed: ["Exact current provider settings and behavior are recorded point-in-time and never mutated."]
 technical_identities_affected: ["implementation commit", "child receipt digests", "provider identity/version", "support tuple", "test corpus", "evidence generation"]
 trust_boundary_changes: ["None; independent proof and promotion remain separate from producers and authority owners."]
-migration_preconditions: ["RP-08", "RP-09", "RP-10", "RP-11", "frozen exact-commit child evidence"]
+migration_preconditions: ["accepted RP-14 packet authorizes the exact proof-only protocol", "RP-08/RP-09/RP-10/RP-11 exact implementation/conformance/drift/promotion receipts", "optional RP-12/RP-13 receipts for their lanes", "clean exact commit", "frozen current writers, policy, Harness, retention, corpus, provider, support tuple, and environment"]
 migration_steps: ["admit inputs", "freeze protocol", "dogfood", "fault test", "observe burden", "reproduce provider", "challenge", "handoff"]
 safe_intermediate_states:
   - id: "SI-08"
@@ -37,7 +38,7 @@ compatibility_bridges: ["None; comparisons are proof inputs, not production rout
 deprecations_and_retirements: ["RP-14 verifies child-owned retirement evidence but performs no retirement."]
 rollback_strategy: "Invalidate/quarantine only affected proof generation and withdraw dependent handoff; child owners roll back features."
 recovery_strategy: "Preserve evidence and candidate work, restore frozen protocol inputs, rerun exact-commit proof, and keep failed claims demoted."
-validation_plan: ["fresh setup", "two-project onboarding", "20-mission equal-floor no-PR/PR corpus", "route confusion matrix", "exact CAS and S-to-Q", "fault/recovery/preservation/mirror/cleanup matrix", "30-day burden", "provider reproduction", "claim-map audit"]
+validation_plan: ["exact protocol and identity recomputation", "fresh setup", "two-project paired/counterbalanced 20-attempt equal-floor corpus plus 10 supervised baselines", "route confusion matrix", "exact CAS and S-to-Q", "fault/recovery/preservation/mirror/cleanup matrix", "30 consecutive burden intervals", "provider start/end reproduction and drift", "custody/manifest/commit-last checks", "all-of claim-map and non-authoritative handoff audit"]
 adversarial_tests: ["selective omission", "stale child receipt", "producer self-attestation", "optional leakage", "false escalation", "unsafe fallback", "raw evidence growth"]
 fault_injection: ["broker outage", "provider lost/duplicate response", "store/signer/verifier outage", "publication block", "reboot", "provider drift"]
 evidence_to_retain: ["protocol", "environment", "mission results", "fault results", "burden metrics", "provider observations", "claim map", "accepted upstream RP-00 ROD-006 no-direct-main lineage", "handoff"]
@@ -55,8 +56,8 @@ operator_decisions:
     relationship_to_rp14: "Consumed upstream only; final support wording and optional-capability promotion use existing evidence gates."
 blocking_findings: ["RF-017", "RF-019", "RF-027", "RF-033"]
 unresolved_evidence: ["UE-011", "UE-014", "UE-015"]
-entry_criteria: ["Core children pass their own gates", "protocol and provider snapshot frozen"]
-exit_criteria: ["All budgets adjudicated", "FD-001/023/024 gates pass", "UE-011/014/015 resolved", "accepted upstream RP-00 ROD-006 posture bound", "optional claims accurately gated"]
+entry_criteria: ["RP-14 accepted at the exact selected protocol", "core child exact implementation/interface/receipt gates pass", "current writer census and clean read-only commit pass", "protocol, corpus, environment, retention, support tuple, and provider start snapshot frozen"]
+exit_criteria: ["All exact-run predicates and zero budgets adjudicated", "FD-001/023/024 gates pass", "UE-011/014/015 resolved", "provider end snapshot and freshness pass", "manifest and commit-last generation pass", "accepted upstream RP-00 ROD-006 posture bound", "optional claims accurately gated", "handoff remains separately authorized non-authority"]
 proof_produced: ["PG-14-SOLO-BUDGETS", "PG-14-PROVIDER-CONFORMANCE", "PG-14-COMPLETE-VERTICAL"]
 authoritative_promotion_requirements: ["Independent proof, downstream owner review/authorization, claim-scoped admission changes, and current provider refresh; accepted ROD-006 supplies only the upstream no-Octon-direct-main posture."]
 brokered_no_pr_revision:

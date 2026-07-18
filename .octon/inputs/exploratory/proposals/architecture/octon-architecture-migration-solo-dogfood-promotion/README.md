@@ -13,7 +13,9 @@ surfaces remain downstream or child-owned.
 
 ## Current Gate
 
-The packet is `in-review` at its exact parent-aligned evidence-only scope. The
-initial independent review requires revision before future proof-run prompting;
-no dogfood, provider reproduction, implementation, claim admission, promotion,
-or external effect has occurred.
+The corrected packet remains `in-review` at its exact parent-aligned
+evidence-only scope. It now selects immutable inputs and run identities, the
+paired/counterbalanced corpus, measurement and provider-freshness rules,
+bounded evidence custody, claim adjudication, and non-circular proof ordering.
+Fresh independent re-review is next. No dogfood, provider reproduction,
+implementation, claim admission, promotion, or external effect has occurred.

@@ -17,10 +17,12 @@
 - `resources/source-context.md`
 - `resources/packet-contract.yml`
 - `resources/traceability.yml`
+- `resources/solo-dogfood-proof-protocol-receipt.yml`
 - `support/proposal-creation.md`
 - `support/profile-selection-receipt.md`
 - `support/implementation-grade-completeness-review.md`
 - `support/proposal-review.md`
 - `support/pre-integration-architecture-review.yml`
+- `support/revisions/rp14-proof-protocol-evidence-order-20260718.md`
 - `support/implementation-conformance-review.md`
 - `support/post-implementation-drift-churn-review.md`

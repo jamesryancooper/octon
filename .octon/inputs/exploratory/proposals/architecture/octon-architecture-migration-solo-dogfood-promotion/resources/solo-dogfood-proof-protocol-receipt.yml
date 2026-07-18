@@ -1,0 +1,87 @@
+schema_version: "octon-solo-dogfood-proof-protocol-receipt-v1"
+receipt_id: "rp14-proof-protocol-evidence-order-20260718"
+verdict: "pass-for-design-selection"
+proof_state: "selected-not-implemented-not-executed"
+review_findings: ["RP14-EXACT-PROOF-PROTOCOL-001", "RP14-IMPLEMENTATION-EVIDENCE-CYCLE-002"]
+frozen_packet_inputs:
+  - {logical_packet_id: "RP-08", proposal_id: "octon-architecture-migration-recovery-class-b", packet_digest: "sha256:e33cc5d1b1da806f3df10690ce169dac7e0fed2f318a65ce14741948db426e35", role: "recovery, unknown truth, preservation, and terminal state"}
+  - {logical_packet_id: "RP-09", proposal_id: "octon-architecture-migration-self-development-trust-activation", packet_digest: "sha256:f98f8ff4844427e9174c6b89c991ce3c275531854e0f09afcb69ed241369887c", role: "self-development trust activation and claim-scoped safety"}
+  - {logical_packet_id: "RP-10", proposal_id: "octon-architecture-migration-workspace-projects", packet_digest: "sha256:149a717d53ef17879bd6a38793d6f90291dae752433743a485e58d09b4ae38cc", role: "two-project identity, onboarding, and lifecycle"}
+  - {logical_packet_id: "RP-11", proposal_id: "octon-architecture-migration-harness-factory", packet_digest: "sha256:be1761195fc652673c8c3d9412f7d24ac794225a449fa1fc2ed9e5bdeddfe1c2", role: "Harness and generic provider conformance"}
+  - {logical_packet_id: "RP-12", proposal_id: "octon-architecture-migration-extension-supply-chain", packet_digest: "sha256:8fab57e23160c152925b5b454bfa3a8a5068b50064e8958b7a802520d087d816", role: "optional signed-extension claim lane and program closeout"}
+  - {logical_packet_id: "RP-13", proposal_id: "octon-architecture-migration-bounded-child-agents", packet_digest: "sha256:100cb5178e4c441b71bf16c183aa290469b01daa083a6047d2e2c7663e5e0707", role: "optional bounded-child claim lane and program closeout"}
+dependency_drift_rule: "packet drift before source entry routes to the packet owner; implementation, interface, conformance, or promotion-receipt drift after entry invalidates the affected proof generation"
+canonical_identity:
+  bytes: "RFC 8785 JCS JSON, UTF-8 NFC, repository-relative POSIX paths, SHA-256"
+  protocol_digest: "SHA-256 over ASCII octon:rp14:protocol:v1 followed by NUL and the exact protocol input manifest JCS bytes"
+  generation_ordinal: "one plus the greatest committed ordinal in generation-index.yml, allocated by expected-old index-digest compare-and-swap"
+  run_id: "rp14- plus lowercase hex SHA-256 over ASCII octon:rp14:run:v1 NUL plus JCS array [implementation_commit,protocol_digest,corpus_digest,environment_digest,provider_start_snapshot_digest,generation_ordinal]"
+  mission_attempt_id: "r14m- plus lowercase hex SHA-256 over ASCII octon:rp14:mission:v1 NUL plus JCS array [run_id,mission_spec_id,project_slot,route_lane,1]"
+  rewrite_rule: "a committed generation is immutable; rerun uses a new ordinal and run_id and never overwrites or deletes prior failure evidence"
+entry_order:
+  proposal_authorization: "accepted digest-bound packet and passing strict architecture review authorize only this exact proof-only protocol"
+  proof_source_entry:
+    - "RP-08/RP-09/RP-10/RP-11 exact implementation-run, implementation-conformance, drift, and promotion receipts pass at one implementation commit"
+    - "current RP-14 evidence-root writer census confirms RP-14 is the sole proof-generation writer"
+    - "clean worktree and read-only proof-subject enforcement bind the exact implementation commit"
+    - "current evidence-retention policy, Harness, route policy, provider identity, and support tuples are digest-frozen"
+  optional_lane_entry: "RP-12 or RP-13 claim lanes remain disabled until that packet's exact implementation, conformance, drift, and promotion receipts pass; all fifteen child terminal outcomes remain mandatory for program closeout"
+  completion: "UE-011, UE-014, UE-015, FD-001, FD-023, FD-024, dogfood, fault, burden, provider, claim-map, conformance, and drift results must be produced against the exact run identity"
+  promotion: "a separate downstream owner may admit only a fresh passing claim tuple; RP-14 cannot mutate support or promotion state"
+corpus:
+  project_slots: 2
+  canonical_mission_specs: 10
+  mission_attempts: 20
+  class_strata: {class_a_specs: 5, eligible_class_b_specs: 5}
+  pairing: "each mission specification runs once in brokered-no-pr and once in protected-pr-comparison over two fresh project clones from the same base-tree digest"
+  counterbalance: "odd mission numbers use no-pr in project A and PR comparison in project B; even numbers reverse the assignment"
+  equal_floor: "each pair freezes identical objective, base tree, Harness digest, substantive checks, provider mapping, limits, expected paths, and evidence classification; only route lane differs"
+  supervised_baseline: "one separately identified supervised execution per canonical mission specification uses the same objective, base tree, Harness, and checks and is excluded from the twenty autonomous attempt count"
+  no_warmup_exclusion: "all ten pairs are reported; retry, replacement, omission, or post-hoc corpus editing is forbidden"
+  route_fault_matrix: ["false eligible A/B to PR", "review-required bypass", "invalid to PR", "collision to PR", "UNKNOWN to PR", "route-policy mismatch"]
+  system_fault_matrix: ["broker outage", "lost provider response", "duplicate provider response", "store outage", "signer/verifier outage", "publication block", "reboot", "expected-old CAS race", "candidate credential exposure", "privileged candidate-head execution", "closed-unmerged deletion", "false cleaned", "pre-land local-main mirror"]
+measurement:
+  clock: "monotonic nanoseconds for durations plus UTC wall timestamps for correlation; negative, missing, or nonmonotonic intervals fail the affected claim"
+  end_to_end: "accepted work-request event through preserved terminal route receipt, including checks and provider queue"
+  mediated: "end_to_end minus only exact event-delimited substantive-check duration and provider-queue duration; both excluded durations remain reported"
+  percentile: "nearest-rank over ascending complete observations: value at ceil(p*n), one-indexed; report n, p50, and p95"
+  route_speed_gate: "paired brokered-no-pr p50 end-to-end is strictly lower than protected-PR-comparison p50 and its p95 is no greater"
+  autonomy_gate: "at least 18 of 20 autonomous attempts pass; all 20 retain results and satisfy every zero-budget predicate"
+  human_time_gate: "autonomous intervention median is at most 120 seconds and at most 50 percent of the paired supervised-baseline median"
+  setup_gates: {fresh_install_seconds_max: 900, project_onboarding_seconds_max_each: 300}
+  burden_window: "thirty consecutive 24-hour UTC intervals beginning at run start, with one boundary sample per interval and event-timed administration records"
+  burden_gates: {monthly_administration_seconds_max: 900, proposal_administration_seconds_max_per_packet: 1800, proposal_administration_fraction_of_implementation_human_time_max: 0.10}
+  missing_sample_rule: "missing setup, mission, fault, daily, provider, or custody evidence fails every dependent claim; it is never imputed or averaged away"
+zero_budgets: ["unauthorized effects", "routine prompts for eligible Class A/B", "false eligible A/B to PR", "review-required bypass", "invalid/collision/UNKNOWN to PR", "candidate credentials", "privileged candidate-head execution", "closed-unmerged deletion", "false cleaned", "raw operational evidence in project Git", "pre-land local-main mutation", "lost preserved candidate work"]
+provider_reproduction:
+  start_snapshot: "read-only provider identity, version, endpoint class, capability tuple, adapter/conformance digest, and configuration digest captured within 24 hours before the first mission"
+  end_snapshot: "same fields captured within 24 hours before finalization after the 30-day window"
+  lanes: "generic RP-11 primary mapping plus only dependency-admitted RP-12/RP-13 specializations; unadmitted optional lanes are disabled and unclaimed"
+  freshness: "provider claims expire seven days after the end observation and immediately on observed identity, capability, adapter, policy, or configuration drift"
+  drift_rule: "drift marks affected results stale from the first attributable observation and requires a new generation; RP-14 never changes provider configuration"
+independence_and_custody:
+  independence: "clean exact-commit proof worktree, read-only proof subjects, evidence-root-only writes, frozen predicates before execution, and no reuse of producer verdicts as RP-14 conclusions"
+  raw_locality: "prompts, transcripts, provider logs, bulky fixtures, and secrets stay in the bounded local evidence store outside project Git; only normalized redacted records and content digests enter the RP-14 root"
+  secret_rule: "credential/session/key/authorization material or a failed secret scan blocks generation commit"
+  raw_quota: "current implemented RP-07 policy, never wider than 512 MiB per run and 30 days for closed unpinned raw data"
+  retained_quota: {bytes: 67108864, files: 2048, max_nonterminal_file_bytes: 8388608, max_terminal_file_bytes: 32768}
+  overflow_rule: "quota pressure fails affected completeness claims; required evidence is never silently truncated"
+retained_layout:
+  root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-solo-dogfood-promotion/"
+  root_files: ["protocol.yml", "generation-index.yml"]
+  generation_files: ["inputs.json", "corpus.json", "environment.json", "mission-results.ndjson", "fault-results.ndjson", "burden-samples.ndjson", "provider-reproduction.json", "metrics.json", "claim-map.yml", "promotion-handoff.yml", "evidence-manifest.json", "generation-complete.yml"]
+  manifest: "sorted relative path, byte length, media type, classification, and SHA-256 for every retained generation file except generation-complete.yml"
+  commit_order: "write and validate bounded files, write evidence-manifest.json, verify every digest and secret/classification rule, write generation-complete.yml last, then compare-and-advance generation-index.yml"
+claim_adjudication:
+  states: ["unclaimed", "disabled", "demonstrated", "limited", "failed", "stale"]
+  unclaimed: "no claim tuple was declared before protocol freeze"
+  disabled: "a declared optional tuple lacks an admitted exact dependency or is policy-disabled; no positive claim is emitted"
+  demonstrated: "every required predicate and zero-budget control passes with complete fresh exact-run evidence"
+  limited: "every predicate for an explicitly declared narrower tuple passes and excluded capabilities are named; limited never masks a failed required predicate"
+  failed: "any required predicate, zero-budget control, completeness, custody, or integrity check fails after execution begins"
+  stale: "implementation, packet, interface, policy, Harness, corpus, protocol, provider, support-tuple, or evidence-manifest identity drifts"
+  aggregation: "logical all-of by claim; no averaging, aggregate success, parent summary, or optional claim can override a failed or missing required predicate"
+handoff_required_fields: ["schema_version", "handoff_id", "run_id", "claim_id", "claim_state", "support_tuple", "implementation_commit", "packet_digests", "protocol_digest", "corpus_digest", "provider_snapshot_digests", "evidence_manifest_digest", "predicate_results", "zero_budget_results", "limitations", "expires_at", "downstream_owner", "non_authority"]
+handoff_rule: "promotion-handoff.yml is retained evidence only; missing downstream review/authorization leaves all support and promotion state unchanged"
+scope_effect: "the sole parent-aligned evidence-root target is unchanged; no parent revision or collision-ledger change is required"
+evidence_boundary: "This receipt selects a future proof protocol only; it runs no mission, provider call, fault, implementation, support admission, publication, promotion, archive, cleanup, or external effect."
