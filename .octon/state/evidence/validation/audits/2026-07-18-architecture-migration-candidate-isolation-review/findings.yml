@@ -5,6 +5,7 @@ findings:
     severity: high
     status: open
     summary: ED-001 names a mechanism class but does not pin an implementable native-isolation and provider-session tuple.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/architecture/acceptance-criteria.md
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/architecture/implementation-plan.md
@@ -14,6 +15,7 @@ findings:
     severity: high
     status: open
     summary: UE-003 and dependency implementation proof circularly block authorization to create their exact implementation subject.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/resources/packet-contract.yml
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/architecture/acceptance-criteria.md

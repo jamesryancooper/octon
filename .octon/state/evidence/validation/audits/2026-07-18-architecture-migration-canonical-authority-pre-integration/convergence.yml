@@ -11,7 +11,7 @@ result_vector: [revision-required, revision-required, revision-required]
 stable: true
 union_blocking_findings: 2
 open_findings_at_or_above_threshold: 2
-done: true
+done: false
 mode: convergence
 post_remediation: false
 convergence_required: false

@@ -5,6 +5,7 @@ findings:
     severity: high
     status: closed
     summary: ED-001 now selects a narrow exact native enforcement, client identity, and one-run inference-relay design.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/resources/engineering-disposition-ed001.yml
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/architecture/file-change-map.md
@@ -14,6 +15,7 @@ findings:
     severity: high
     status: closed
     summary: Proposal-design authorization, implementation entry, and exact-implementation proof are now distinct gates.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/architecture/acceptance-criteria.md
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/resources/packet-contract.yml
@@ -23,6 +25,7 @@ findings:
     severity: high
     status: closed
     summary: The ordered 17-target child list exactly equals the parent RP-02 registry scope.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/proposal.yml
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml

@@ -5,6 +5,7 @@ findings:
     severity: high
     status: closed
     summary: SQLite dependency and reversible engineering defaults are exact enough for implementation authorization.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store/resources/sqlite-design-and-dependency-receipt.yml
     acceptance_satisfied: Exact crate/version/features/linkage, store profile, backup, reserve, migration, rollback, and fail-closed resolution rules are selected without claiming installation.
@@ -12,6 +13,7 @@ findings:
     severity: high
     status: closed
     summary: Every current production writer and destination family has an owned migration disposition.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store/resources/writer-state-census.yml
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
@@ -20,6 +22,7 @@ findings:
     severity: high
     status: closed
     summary: Proposal authorization and post-implementation proof are no longer circular.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store/architecture/acceptance-criteria.md
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store/architecture/validation-plan.md

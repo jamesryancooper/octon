@@ -1,4 +1,5 @@
 schema_version: "1.0"
 surfaces: ["canonical documents", "identity and scope", "guard and scheduling", "resource enforcement", "provider mapping", "cancel and unknown recovery", "retirement and evidence order"]
 files_scanned: 22
+unaccounted_files: 0
 coverage_status: complete-for-pre-integration-review

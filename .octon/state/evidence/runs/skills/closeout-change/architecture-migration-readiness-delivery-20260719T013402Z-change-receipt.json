@@ -35,7 +35,14 @@
     "parent_digest": "sha256:34dc10786ecb4c63060ab3718acc00ad820c0a424d08910c9475054c5e52959e",
     "prompt_digest": "sha256:88910ab3a3cc4465d4a2b186ac1426abbb7942078817b427e20b9f5108b13015",
     "excluded_main_worktree_status_digest": "sha256:8dda3af26f2cff5ad6f43862f1063954a91d848f73bfd353daace279690f8c13",
-    "excluded_main_worktree_status_entry_count": 1891
+    "excluded_main_worktree_status_entry_count": 1891,
+    "delivery_remediation": {
+      "kind": "retained-audit-contract-normalization",
+      "changed_audit_files": 69,
+      "proposal_content_changed": false,
+      "implementation_started": false,
+      "evidence_ref": ".octon/state/evidence/validation/analysis/2026-07-19-architecture-migration-readiness-audit-convergence-remediation.md"
+    }
   },
   "source_branch_ref": "chore/architecture-migration-readiness",
   "remote_branch_ref": "origin/chore/architecture-migration-readiness",
@@ -66,7 +73,8 @@
     "validate-change-closeout-lifecycle-alignment.sh: pass, errors=0",
     "validate-hosted-no-pr-landing.sh: pass",
     "validate-closeout-worktree-wrapper.sh: pass",
-    "validate-git-github-workflow-alignment.sh: pass"
+    "validate-git-github-workflow-alignment.sh: pass",
+    "validate-audit-convergence-contract.sh after delivery remediation: pass, errors=0 warnings=0"
   ],
   "review_evidence_refs": [
     ".octon/state/evidence/runs/skills/closeout-pr/architecture-migration-readiness-delivery-20260719T014836Z-publishable-evidence-receipt.json"

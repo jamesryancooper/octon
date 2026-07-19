@@ -4,13 +4,18 @@ commit_sha: 85e0afe0ff3af8574d5ea82ad5f1f38d6abd6dc8
 scope_hash: sha256:e697d8725340af95058f08f8f287c9a3632f52c34cbe89e3088f3a8df42d8a43
 prompt_hash: sha256:66a103fbd49139462ca2c60c1b38901a6cb56950da5bedeb8cbde8c36f7fbbd7
 findings_hash: sha256:73434098f1a3c57945c9bec8fde146d3a6e4917168e341ebb08f62017231505d
+findings_artifact_sha256: sha256:78693772c856d42f077b5606972bbd9af5c452227428bbb71f292722ada5ed36
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
 params_hash: sha256:c1f858b51bd8a34173c4aeefab6b3eaf2a81315db9e6970c172aae66927329ad
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [revision-required, revision-required, revision-required]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 2
 open_findings_at_or_above_threshold: 2
-done: true
+done: false
 mode: convergence
 post_remediation: false
 convergence_required: true

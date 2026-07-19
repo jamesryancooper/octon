@@ -4,3 +4,4 @@ findings:
     severity: high
     status: open
     summary: Three stale cross-document statements retain part of the circular evidence gate.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."

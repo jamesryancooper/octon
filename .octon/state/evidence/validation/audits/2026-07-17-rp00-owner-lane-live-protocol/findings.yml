@@ -5,6 +5,7 @@ findings:
     severity: critical
     status: open
     summary: Pre-capture validation requires post-admission evidence and a manifest-bound pre-issuance authorization.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:391
       - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:506
@@ -14,6 +15,7 @@ findings:
     severity: critical
     status: open
     summary: The sealed credential tuple omits required scope, permission, and lifetime facts.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:70
       - .octon/framework/constitution/contracts/authority/owner-lane-credential-admission-authorization-v1.schema.json
@@ -23,6 +25,7 @@ findings:
     severity: critical
     status: open
     summary: Fixed manifest operations cannot lawfully bind the provider-assigned PR number.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:732
       - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:1490

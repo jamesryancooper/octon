@@ -5,6 +5,7 @@ findings:
     severity: critical
     status: closed
     summary: RP-01 now carries an exhaustive candidate-launch census and exact guard-invocation ownership for every current candidate spawn seam.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/resources/candidate-launch-census.yml
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/architecture/file-change-map.md
@@ -14,6 +15,7 @@ findings:
     severity: high
     status: closed
     summary: Design completeness and exact candidate authorization now precede mandatory exact-commit UE-001/UE-002 proof.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/architecture/acceptance-criteria.md
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/architecture/validation-plan.md
@@ -23,6 +25,7 @@ findings:
     severity: high
     status: closed
     summary: The ordered 26-entry child target list exactly equals the parent registry's RP-01 scope list.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/proposal.yml
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml

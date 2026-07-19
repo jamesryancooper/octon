@@ -2,8 +2,19 @@ schema_version: "1.0"
 run_id: architecture-migration-transactional-runtime-store-post-remediation-20260718T152817Z
 commit_sha: e916bcaa5d07ad938fb628813fa8c836591ab074
 scope_hash: sha256:2a8dc33d9df0b96d431198be9935ecaace428fe8714aa220bcb3b62ea1e4288d
+prompt_hash: sha256:d72d57f96075bcdbc28ca283e6a25f8b719f117ce0ae6dc2ad7027e36595e177
+prompt_hash_basis: commands.md
+findings_hash: sha256:966f31c3c0d55106ab2e436a431631100344d4d51f1db49403fce2c59e027fcb
+findings_artifact_sha256: sha256:966f31c3c0d55106ab2e436a431631100344d4d51f1db49403fce2c59e027fcb
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
+findings_hash_basis: findings.yml
+params_hash: sha256:6b7af4f561e4bb785ae816c5fd1c97e7ebda8dc91f4d0c670d5fe80357695bde
+params_hash_basis: bundle.yml
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 0
 open_findings_at_or_above_threshold: 0

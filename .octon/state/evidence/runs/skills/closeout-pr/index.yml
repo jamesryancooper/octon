@@ -9,3 +9,11 @@ runs:
     report: .octon/state/evidence/validation/analysis/2026-07-19-pr-closeout-architecture-migration-readiness-delivery-20260719T014836Z.md
     run_log: .octon/state/evidence/runs/skills/closeout-pr/architecture-migration-readiness-delivery-20260719T014836Z.md
     publishable_evidence_receipt: .octon/state/evidence/runs/skills/closeout-pr/architecture-migration-readiness-delivery-20260719T014836Z-publishable-evidence-receipt.json
+  - run_id: architecture-migration-readiness-delivery-audit-convergence-remediation-20260719T020242Z
+    recorded_at: 2026-07-19T02:02:42Z
+    change_id: architecture-migration-readiness-delivery
+    pr_number: 627
+    pr_url: https://github.com/jamesryancooper/octon/pull/627
+    lifecycle_outcome: published
+    report: .octon/state/evidence/validation/analysis/2026-07-19-architecture-migration-readiness-audit-convergence-remediation.md
+    run_log: .octon/state/evidence/runs/skills/closeout-pr/architecture-migration-readiness-delivery-audit-convergence-remediation-20260719T020242Z.md

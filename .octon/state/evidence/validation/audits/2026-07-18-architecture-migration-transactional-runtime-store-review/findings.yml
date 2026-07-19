@@ -5,12 +5,15 @@ findings:
     severity: high
     status: open
     summary: SQLite dependency, linkage, physical storage, backup, reserve, and rollback defaults are not selected.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
   - id: RP03-WRITER-STATE-CENSUS-002
     severity: high
     status: open
     summary: No exhaustive immutable-baseline consequential state/writer census proves the single-writer cutover.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
   - id: RP03-IMPLEMENTATION-EVIDENCE-CYCLE-003
     severity: high
     status: open
     summary: Prototype and dynamic exact-implementation proof circularly block authorization to create their test subject.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
 new_findings: [RP03-SQLITE-DESIGN-DEPENDENCY-001, RP03-WRITER-STATE-CENSUS-002, RP03-IMPLEMENTATION-EVIDENCE-CYCLE-003]

@@ -8,4 +8,5 @@ surfaces:
   - dependencies-ownership-and-dag
   - failure-rollback-and-operator-boundaries
 files_scanned: 22
+unaccounted_files: 0
 coverage_status: complete-for-pre-integration-review

@@ -2,8 +2,17 @@ schema_version: "1.0"
 run_id: architecture-migration-program-rp11-scope-pre-integration-20260718T172415Z
 commit_sha: d369c6ea62
 scope_hash: sha256:440729088e2f453f3d1124c9e075dd9788baafc585364e02b13d2f62d199da3c
+prompt_hash: sha256:dd000a63965b00532de937cde7d03b96051b02d6f0275aeea9428b1e79fbedae
+prompt_hash_basis: commands.md
+findings_hash: sha256:764af5b59abfe0b41ee87cef60dff98bb667f6bfcdcf6ce87bf667ff327a0029
+findings_hash_basis: findings.yml
+params_hash: sha256:ceff347d7c5a193bf0aa26eec2e5ca73375dfcdac39085ef3a0acfbae8b31871
+params_hash_basis: bundle.yml
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 0
 open_findings_at_or_above_threshold: 0

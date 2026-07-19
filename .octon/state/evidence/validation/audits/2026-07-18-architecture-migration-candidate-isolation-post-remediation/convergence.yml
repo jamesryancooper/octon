@@ -4,9 +4,14 @@ commit_sha: 9c958ad4d609347377795c82249127117999eee6
 scope_hash: sha256:3228da9b1a70c687878a2fd32324cd1fd8729360113024fae48221d66923cada
 prompt_hash: sha256:1eae14c4e469709cee9b60bafca81a4e713a5b2776f4f75c97bd87587de9a623
 findings_hash: sha256:257af7a0e15ff6f526f0454ec2f835b4a848a9643bf2fed183907fe14d4ff490
+findings_artifact_sha256: sha256:28114200c2e94e090b778a5e3aead79eb0e13dd2dee1946e99ade76a2e35b81e
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
 params_hash: sha256:ea9bd0865016876009b0cc1d1f84374973a335567d9f339b4c180c73ebc24e54
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 0
 open_findings_at_or_above_threshold: 0

@@ -5,6 +5,7 @@ findings:
     severity: critical
     status: closed
     summary: The registry carries an exact typed record for every derived write-scope collision.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/support/revisions/revision-20260718T194500Z.md
@@ -13,6 +14,7 @@ findings:
     severity: high
     status: closed
     summary: Dependency and exclusive-lock collision orders form one acyclic aggregate graph.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/packet-sequence.md
@@ -21,6 +23,7 @@ findings:
     severity: high
     status: closed
     summary: Parent coordination does not transfer child semantic or lifecycle authority.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/child-packet-contract.md
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md
@@ -29,6 +32,7 @@ findings:
     severity: high
     status: closed
     summary: Parent proposal completeness remains separate from child lifecycle readiness and program orchestration.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/support/implementation-grade-completeness-review.md
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/child-packet-contract.md
@@ -37,6 +41,7 @@ findings:
     severity: critical
     status: closed
     summary: RP-01 launch-dominance scope exactly matches the child manifest, parent registry, ownership map, and collision ledger.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/proposal.yml
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/resources/candidate-launch-census.yml

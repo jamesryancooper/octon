@@ -1,4 +1,5 @@
 schema_version: "1.0"
 surfaces: ["trust and signatures", "source identity and import", "safe extraction", "desired/actual/generated writers", "publication and Harness binding", "revocation and restore", "evidence order and rollback"]
 files_scanned: 22
+unaccounted_files: 0
 coverage_status: complete-for-pre-integration-review

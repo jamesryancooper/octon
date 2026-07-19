@@ -2,10 +2,17 @@ schema_version: "1.0"
 run_id: architecture-migration-program-completeness-refresh-pre-integration-20260718T031557Z
 commit_sha: afe54be659f3c6de45e54ac82220dbfc5070f0b0
 scope_hash: sha256:b48dd5c1b73d27e320430f5f0fc4bdb30121e6a4e8e55f1ca0644de5ed862fe2
+findings_hash: sha256:3bfc281593e5b339165641f366ee58afdc8e2a57a9ab570a780dcb02ee8a50e2
+findings_artifact_sha256: sha256:3bfc281593e5b339165641f366ee58afdc8e2a57a9ab570a780dcb02ee8a50e2
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
+findings_hash_basis: findings.yml
 prompt_hash: sha256:40bf007b221e8a86b11d660cdf4f7262f09c5b2e654c636791449870a2d2e0f1
 params_hash: sha256:19447dbb1fd5827cf1916625828a293ff88fe4f5ecf8f6d020b7fb56991b71b5
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 0
 open_findings_at_or_above_threshold: 0

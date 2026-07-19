@@ -4,7 +4,9 @@ findings:
     severity: high
     status: open
     summary: Exact reversible child mechanisms and provisional ROD-005 enforcement values are not selected.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
   - id: RP13-IMPLEMENTATION-EVIDENCE-CYCLE-002
     severity: high
     status: open
     summary: Future dependency and implementation proof circularly gates proposal authorization.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."

@@ -5,6 +5,7 @@ findings:
     severity: high
     status: open
     summary: Current parent source artifacts still claim the parent and children are drafts after all fifteen children became accepted.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/README.md
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/target-architecture.md
@@ -15,6 +16,7 @@ findings:
     severity: high
     status: open
     summary: Acceptance and validation source contracts still describe the draft creation floor instead of the final strict pre-implementation gate.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/acceptance-criteria.md
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/validation-plan.md

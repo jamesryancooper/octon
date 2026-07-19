@@ -2,12 +2,21 @@ schema_version: "1.0"
 run_id: architecture-migration-extension-supply-chain-20260718T173026Z
 commit_sha: 87b067c4e7
 scope_hash: sha256:446df32865bf7f66fd3fa4b7f7f2e40be93f591257ff61ae04d598232a47f99a
+prompt_hash: sha256:b3379209b9806c439a567c47d7f049beb55e20d0dd4254fd212147c04b170023
+prompt_hash_basis: commands.md
+findings_hash: sha256:4ac18fe500b26d2feee5fdec95a5df1da58febdeda3ab2111025ea6b11141015
+findings_hash_basis: findings.yml
+params_hash: sha256:924905314274ac7930912135f8cd1a7a5d71b46bb678442b7895cff6d5f21431
+params_hash_basis: bundle.yml
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [fail, fail, fail]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 2
 open_findings_at_or_above_threshold: 2
-done: true
+done: false
 mode: convergence
 post_remediation: false
 convergence_required: true

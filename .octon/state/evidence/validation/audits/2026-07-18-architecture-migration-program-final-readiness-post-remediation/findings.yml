@@ -5,6 +5,7 @@ findings:
     severity: high
     status: closed
     summary: Current sources distinguish accepted child proposal state from historical draft creation and unimplemented runtime authority.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/README.md
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/target-architecture.md
@@ -14,6 +15,7 @@ findings:
     severity: high
     status: closed
     summary: Acceptance and validation sources now define the strict final pre-implementation gate and correct evidence cycle.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/acceptance-criteria.md
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/validation-plan.md

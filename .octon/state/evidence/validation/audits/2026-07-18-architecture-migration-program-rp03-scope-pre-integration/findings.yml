@@ -5,6 +5,7 @@ findings:
     severity: critical
     status: closed
     summary: RP-03 child and parent target lists agree exactly after the writer census.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store/proposal.yml
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
@@ -13,6 +14,7 @@ findings:
     severity: critical
     status: closed
     summary: policy.rs ownership separates policy meaning from persistence integration.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
@@ -21,6 +23,7 @@ findings:
     severity: high
     status: closed
     summary: The registry carries an exact typed record for every derived write-scope collision.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
     acceptance_satisfied: All 123 collisions have participants, contributions, an owner, and valid serialization.
@@ -28,6 +31,7 @@ findings:
     severity: high
     status: closed
     summary: Parent acceptance does not inflate planned RP-03 implementation proof.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/child-packet-contract.md
       - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/support/implementation-grade-completeness-review.md

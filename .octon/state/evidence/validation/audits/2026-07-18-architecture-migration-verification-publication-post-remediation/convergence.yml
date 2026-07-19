@@ -2,8 +2,17 @@ schema_version: "1.0"
 run_id: architecture-migration-verification-publication-post-remediation-20260718T161411Z
 commit_sha: 4bb06db9d5c6ae580cc1f577b49df107221f8534
 scope_hash: sha256:1ebf5b95ddc1a85dfa149e543813ff9a2ccc32994d540eb471330a6257966f60
+prompt_hash: sha256:4b64d1519f2ef75dfe846b525abcab6991e21119a259c2a9e54c2811adb4bba1
+prompt_hash_basis: commands.md
+findings_hash: sha256:7d29265d6e5bcb595b8892cb99363e5f4aa83fad1edaffb2972fe4ee79cbf9cd
+findings_hash_basis: findings.yml
+params_hash: sha256:c9515370465e84231f9088a03a97417d71f68b52fb702e60bd62ae55f3078d25
+params_hash_basis: bundle.yml
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 0
 open_findings_at_or_above_threshold: 0

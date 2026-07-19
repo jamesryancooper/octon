@@ -2,8 +2,17 @@ schema_version: "1.0"
 run_id: architecture-migration-workspace-projects-post-remediation-20260718T170259Z
 commit_sha: 8e5a731805
 scope_hash: sha256:149a717d53ef17879bd6a38793d6f90291dae752433743a485e58d09b4ae38cc
+prompt_hash: sha256:fa5234572f55418b609533685f40f90ebbcf2b66ce980a63124b536e96cc79c3
+prompt_hash_basis: commands.md
+findings_hash: sha256:6323861c4660d56fd3324556b53b56860db1651cc4fd78e79d2f8db5f82c2351
+findings_hash_basis: findings.yml
+params_hash: sha256:21decf568b343b343ffdafc2aedb3fd6a220206c9278d27f38d46fd64fc02568
+params_hash_basis: bundle.yml
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 0
 open_findings_at_or_above_threshold: 0

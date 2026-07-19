@@ -2,12 +2,23 @@ schema_version: "1.0"
 run_id: architecture-migration-bounded-child-agents-20260718T174614Z
 commit_sha: 8bd2b9369b
 scope_hash: sha256:46443cb62e34b0d6bce4936a8206dd43349e90751db878db2814640c87205950
+prompt_hash: sha256:d23545bd8e4836d642c1c64f43cb3de78b6b43add923999938e58bd4e83c52ae
+prompt_hash_basis: commands.md
+findings_hash: sha256:9fa742b194ca048282c5097f67d2a2aee6aba009d55a86a3962cddddcd8ac983
+findings_artifact_sha256: sha256:9fa742b194ca048282c5097f67d2a2aee6aba009d55a86a3962cddddcd8ac983
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
+findings_hash_basis: findings.yml
+params_hash: sha256:44e2172e7d25b1701e4bd461c7b9e17be606b4b29b5cc45798c07a0000eb87e5
+params_hash_basis: bundle.yml
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [revision-required, revision-required, revision-required]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 2
 open_findings_at_or_above_threshold: 2
-done: true
+done: false
 mode: convergence
 post_remediation: false
 convergence_required: true

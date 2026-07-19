@@ -1,4 +1,5 @@
 schema_version: "1.0"
 surfaces: ["canonical documents", "selected limits", "identity and scope", "guard and CAS lifecycle", "unknown and recovery", "retirement", "cross-document evidence order"]
 files_scanned: 26
+unaccounted_files: 0
 coverage_status: complete-for-first-post-remediation-review

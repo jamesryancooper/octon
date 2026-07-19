@@ -2,12 +2,21 @@ schema_version: "1.0"
 run_id: architecture-migration-self-development-trust-activation-20260718T164719Z
 commit_sha: a4531d8175
 scope_hash: sha256:a25c502c18b59b4d56f00ed7179a00999f4af282a79e5e977904c58475837a58
+prompt_hash: sha256:2b02faf7a9642a7bc662898fc720cfbecefb79540202bf1770365a8f6e7050bf
+prompt_hash_basis: commands.md
+findings_hash: sha256:287f658d1a83023f8c7481fbbff6dc459434f491f22d5abff18d978a035eee32
+findings_hash_basis: findings.yml
+params_hash: sha256:145173f5d6226653ffa6100dd076555f930eb7c4e2f3c1ff153e78c67421625a
+params_hash_basis: bundle.yml
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [fail, fail, fail]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 3
 open_findings_at_or_above_threshold: 3
-done: true
+done: false
 mode: convergence
 post_remediation: false
 convergence_required: true

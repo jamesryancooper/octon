@@ -2,8 +2,17 @@ schema_version: "1.0"
 run_id: architecture-migration-solo-dogfood-promotion-post-remediation-20260718T182126Z
 commit_sha: 7da850f0f9
 scope_hash: sha256:6ebaf19f6a0cd5e03af34ee684e3bf6c3f4501399009ddb9d156d65abe0a498d
+prompt_hash: sha256:270cdae9cf1473c3e4411cbf0b5c7b98c6e7faada5e4b7478ea5d6221a41a0b2
+prompt_hash_basis: commands.md
+findings_hash: sha256:764af5b59abfe0b41ee87cef60dff98bb667f6bfcdcf6ce87bf667ff327a0029
+findings_hash_basis: findings.yml
+params_hash: sha256:088a03f150f2637435b4dbc1bf39bd84e8904abb5d0259e76d88ecfbe7ea56d4
+params_hash_basis: bundle.yml
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 0
 open_findings_at_or_above_threshold: 0

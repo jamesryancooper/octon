@@ -2,12 +2,21 @@ schema_version: "1.0"
 run_id: architecture-migration-local-broker-20260718T153501Z
 commit_sha: 3948ce913ceee32598a7e8397a091c662b33e7b0
 scope_hash: sha256:4ffedf17bf81c9cece8e8227d6a3c48184c655ab0529454cd519190ca9f6381c
+prompt_hash: sha256:639833ed2d4167a9cb0ff9e71286b13d6e7b002b44b2201fbcb72b5634077eb0
+prompt_hash_basis: commands.md
+findings_hash: sha256:7ce0b70d3855149222189e2c1d5e88e16aaba403faf20358ad7ab8f04e7dcace
+findings_hash_basis: findings.yml
+params_hash: sha256:3cbcda6024c4d5115bd8602c05fce304d7147ebc5710987b56edaf33a3a1c3fa
+params_hash_basis: bundle.yml
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [revision-required, revision-required, revision-required]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 3
 open_findings_at_or_above_threshold: 3
-done: true
+done: false
 mode: convergence
 post_remediation: false
 convergence_required: true

@@ -2,12 +2,21 @@ schema_version: "1.0"
 run_id: architecture-migration-harness-factory-20260718T170726Z
 commit_sha: a061f84a86
 scope_hash: sha256:bf7123fe99b8985a8f0fb03dd4801ed593a72b27bbe5bb45aa70e5d0a272622c
+prompt_hash: sha256:ed8e69e6e0c550f59de69e2d6aeb834a146a85688443bcded55dbf45e9dda16a
+prompt_hash_basis: commands.md
+findings_hash: sha256:df118c342b503ae7ac21486f0e8c0f3faefbc2427b31f9c24b152d7c17cd2ff1
+findings_hash_basis: findings.yml
+params_hash: sha256:86ee83cf85957813fe276330a71123d2931a76e8185f81652ab2200db2d43a13
+params_hash_basis: bundle.yml
 seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
 result_vector: [fail, fail, fail]
+fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 2
 open_findings_at_or_above_threshold: 2
-done: true
+done: false
 mode: convergence
 post_remediation: false
 convergence_required: true

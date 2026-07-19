@@ -1,4 +1,5 @@
 schema_version: "1.0"
 surfaces: ["parent packet and lifecycle truth", "child registry and DAG", "exact child target parity", "source ownership", "collision ledger", "cutover and rollback", "child authority and evidence order", "generated projections"]
 files_scanned: 52
+unaccounted_files: 0
 coverage_status: complete-for-parent-final-pre-integration-review
