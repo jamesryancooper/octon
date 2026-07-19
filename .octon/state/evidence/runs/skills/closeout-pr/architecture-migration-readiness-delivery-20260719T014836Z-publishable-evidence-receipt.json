@@ -1,0 +1,94 @@
+{
+  "schema_version": "publishable-evidence-receipt-v1",
+  "receipt_id": "architecture-migration-readiness-delivery-20260719T014836Z",
+  "receipt_mode": "claim",
+  "created_at": "2026-07-19T01:48:36Z",
+  "issuer_ref": "closeout-pr",
+  "disclosure_tier": "repo-publishable",
+  "evidence_tier_ref": "repo_publishable_evidence",
+  "claim_scope": {
+    "claim_id": "architecture-migration-readiness-pr-publication",
+    "claim_type": "closeout",
+    "statement": "The exact accepted pre-implementation candidate passed the final local readiness floor and was published as draft PR 627 without implementation or direct-main mutation.",
+    "applies_to": [
+      "chore/architecture-migration-readiness@b03ab127efc52974a6fd77ab162067e956cc9f8d",
+      "https://github.com/jamesryancooper/octon/pull/627"
+    ]
+  },
+  "source_summary": {
+    "summary": "Compact disclosure of exact candidate identity, local validator outcomes, draft PR identity, and authority boundaries; full local command output is not published as this receipt.",
+    "source_refs": [
+      "accepted-readiness@872bf42d836b45ffa1c7c59637115554047f18f3",
+      "delivery-head@b03ab127efc52974a6fd77ab162067e956cc9f8d",
+      "draft-pr-627"
+    ],
+    "raw_evidence_published": false
+  },
+  "validation_summary": {
+    "verdict": "pass",
+    "commands_or_checks": [
+      "parent strict implementation-authorization gate: errors=0 warnings=0",
+      "program child-readiness gate: errors=0 warnings=0",
+      "parent and 15-child package floor: 80/80 passed",
+      "program structure, DAG, scope, and collision ledger: errors=0 warnings=0",
+      "proposal-registry and repo-authority owning-generator checks: errors=0",
+      "live readiness projection: errors=0 warnings=2",
+      "prompt bundle resolver: fresh and safe_to_run",
+      "prompt contract: 15 children and required parent fields passed",
+      "git diff --check and clean delivery worktree: passed"
+    ],
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-readiness-delivery-20260719T013402Z.md"
+    ]
+  },
+  "redactions": {
+    "status": "not-required",
+    "summary": "No secret, credential, private provider payload, or raw local command log is included.",
+    "redacted_fields": []
+  },
+  "limitations": [
+    {
+      "limitation_id": "hosted-gates-pending",
+      "description": "GitHub checks, review conversations, and protected merge eligibility are evaluated after this publication receipt.",
+      "impact": "This receipt proves draft publication and local readiness only; it does not prove ready or landed state."
+    },
+    {
+      "limitation_id": "implementation-not-started",
+      "description": "No child or program implementation receipt exists.",
+      "impact": "The receipt cannot be used as implementation, promotion, archive, or runtime evidence."
+    }
+  ],
+  "local_evidence_refs": [
+    {
+      "ref_kind": "logical-id",
+      "ref": "local-validator-summary:architecture-migration-readiness-delivery-20260719T013402Z",
+      "digest_algorithm": "sha256",
+      "digest": "sha256:80ee8bf8a737157ad0260332d259a815bf4a37d519612acd5d62f05a5fd01e89",
+      "raw_evidence_not_published": true,
+      "description": "Digest of the compact closeout-change validator and candidate summary; full command streams remain local."
+    }
+  ],
+  "outcome": {
+    "result": "pass",
+    "summary": "Local pre-publication readiness passed and one draft PR was created at the exact delivery head.",
+    "decided_at": "2026-07-19T01:48:36Z"
+  },
+  "rollback_or_discard": {
+    "posture": "branch-retained-revert-after-landing",
+    "trigger": "A hosted gate fails irreducibly or the landed Change must be reversed.",
+    "instructions": "Retain the branch without landing while open. After landing, revert the recorded squash commit through a new protected-main PR."
+  },
+  "authority_boundaries": {
+    "raw_inputs_not_authority": true,
+    "generated_outputs_not_authority": true,
+    "proposal_paths_not_authority": true,
+    "host_state_not_authority": true,
+    "parent_program_evidence_not_substitute": true
+  },
+  "concision": {
+    "declared_receipt_size_bytes": 4287,
+    "warning_threshold_bytes": 65536,
+    "failure_threshold_bytes": 262144,
+    "size_exception_authorized": false
+  }
+}
