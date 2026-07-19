@@ -14,6 +14,7 @@ publication, retained evidence, or host-projection authority.
 | `plans/*.md` | Advisory implementation, migration, checklist, backlog, and assessment plans |
 | `syntheses/*.md` | Research synthesis documents |
 | `reports/<report-id>/` | Multi-file non-authoritative report sets |
+| `reviews/<review-family>/<review-id>/` | Non-authoritative review packets and retained raw review evidence |
 
 Top-level `drafts/`, `packages/`, and root-level staged declarations are
 retired. Use `syntheses/` for synthesis outputs and `reports/` for multi-file

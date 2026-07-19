@@ -1,6 +1,6 @@
 {
   "schema_version": "run-health-read-model-index-v1",
-  "generated_at": "2026-07-08T18:49:20Z",
+  "generated_at": "2026-07-19T03:53:55Z",
   "authority": {
     "classification": "generated_read_model_non_authoritative",
     "may_authorize": false,
@@ -5266,6 +5266,21 @@
       "run_id": "repo-shell-supported-scenario-workflow-20260413-v4-stage-inline",
       "health_ref": ".octon/generated/cognition/projections/materialized/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/health.yml",
       "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "rp00-owner-lane-promotion-20260717-workflow",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/rp00-owner-lane-promotion-20260717-workflow/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "rp00-owner-lane-promotion-20260717-workflow-promote-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/rp00-owner-lane-promotion-20260717-workflow-promote-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "rp00-owner-lane-promotion-20260717-workflow-validate-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/rp00-owner-lane-promotion-20260717-workflow-validate-proposal/health.yml",
+      "status": "stale"
     },
     {
       "run_id": "run-wave3-runtime-bridge-20260327",

@@ -31,7 +31,7 @@ check "state machine denies publication and cleanup" yq -e '.containment.publica
 check "closeout skill excludes Git effect tools" bash -c '! grep -Eq "Bash\(git (add|commit|push|checkout|merge)" "$1"' _ "$SKILL"
 check "closeout skill carries publication stop" grep -Fq 'RP00_CONTAINMENT_PUBLICATION_DISABLED' "$SKILL"
 check "closeout skill carries cleanup stop" grep -Fq 'RP00_CONTAINMENT_CLEANUP_DISABLED' "$SKILL"
-check "workflow is evidence-only" yq -e '.side_effect_class == "evidence-only" and .constraints.fail_closed == true' "$WORKFLOW"
+check "workflow is read-only" yq -e '.side_effect_class == "read_only" and .constraints.fail_closed == true' "$WORKFLOW"
 check "policy default matches lifecycle" yq -e '.closeout_defaults.target_lifecycle_outcome.unspecified_closeout_request == "preserved"' "$POLICY"
 
 if [[ -n "$RECEIPT" ]]; then

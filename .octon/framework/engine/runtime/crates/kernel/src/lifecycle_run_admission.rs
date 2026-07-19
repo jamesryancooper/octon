@@ -674,7 +674,7 @@ mod tests {
             std::thread::current().id()
         ));
         let _ = fs::remove_dir_all(&root);
-        let target = root.join(".octon/inputs/exploratory/proposals/architecture/example");
+        let target = root.join("proposal-target");
         fs::create_dir_all(&target).unwrap();
         let proof = json!({
             "declared_write_scope": [
@@ -691,7 +691,7 @@ mod tests {
             scope,
             vec![
                 ".octon/framework/example.rs".to_string(),
-                ".octon/inputs/exploratory/proposals/architecture/example".to_string(),
+                "proposal-target".to_string(),
                 "receipt:implementation-run".to_string()
             ]
         );
@@ -705,7 +705,7 @@ mod tests {
             std::thread::current().id()
         ));
         let _ = fs::remove_dir_all(&root);
-        let target = root.join(".octon/inputs/exploratory/proposals/architecture/example");
+        let target = root.join("proposal-target");
         fs::create_dir_all(&target).unwrap();
         let proof = json!({
             "declared_write_scope": [target.display().to_string()]
@@ -727,7 +727,7 @@ mod tests {
             std::thread::current().id()
         ));
         let _ = fs::remove_dir_all(&root);
-        let target = root.join(".octon/inputs/exploratory/proposals/architecture/example");
+        let target = root.join("proposal-target");
         fs::create_dir_all(&target).unwrap();
         let proof = json!({
             "declared_write_scope": [

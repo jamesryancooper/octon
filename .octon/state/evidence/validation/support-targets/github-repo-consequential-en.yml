@@ -12,7 +12,7 @@ claim_effect: admitted-live-claim
 support_target_ref: .octon/instance/governance/support-targets.yml
 admission_ref: .octon/instance/governance/support-target-admissions/live/github-repo-consequential-en.yml
 support_dossier_ref: .octon/instance/governance/support-dossiers/live/github-repo-consequential-en/dossier.yml
-generated_at: "2026-07-17T00:00:00Z"
+generated_at: "2026-07-19T03:27:02Z"
 freshness:
   status: current
   reviewed_at: "2026-07-17T00:00:00Z"
@@ -24,7 +24,7 @@ execution:
   replay_ref: .octon/state/evidence/runs/protected-ci-1776956405637-68212/replay/manifest.yml
 input_digests:
   support_targets_sha256: 3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
-  support_dossier_sha256: 629f7a9c243e5cb79757a6e6177aaf74c1c07a03ba25deeac0f8dfac66150c5a
+  support_dossier_sha256: f5414f7c5faa14c89f39a130c4b0cd3610c33ea9b1aed1f7266e85f856c0995c
 output_digests:
   primary_run_card_sha256: b09e61ff6eab15ac4132a8e13f1afd83545f446acd04fc3769260810026d53a5
   owner_lane_hermetic_proof_sha256: abf29868b07622ce43d4016304710555680a31480a31fb00979d3d7eae726fec
@@ -67,7 +67,6 @@ scenario_evidence:
     - .octon/state/evidence/runs/protected-ci-1776956405637-68212/replay/manifest.yml
   representative_run_refs:
     - .octon/state/control/execution/runs/protected-ci-1776956405637-68212/run-contract.yml
-    - .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-hermetic-proof.yml
   negative_control_refs:
     - .octon/instance/governance/exclusions/action-classes.yml
     - .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/support-universe-coverage.yml
@@ -87,7 +86,7 @@ disclosure_evidence:
   proof_plane_coverage_ref: .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/proof-plane-coverage.yml
 sufficiency:
   minimum_retained_runs: 1
-  current_retained_runs: 2
+  current_retained_runs: 1
   status: qualified
   notes:
     - Narrow live claim is limited to token-enforced protected-CI merge and the exact rp00-owner-lane-cutover operation; broader API-client and frontier GitHub surfaces remain unadmitted.

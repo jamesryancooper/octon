@@ -1,75 +1,21 @@
 # /proposal-program-delivery
 
-Run the canonical proposal program delivery workflow for an accepted proposal
-program.
-
-This command is a thin routing surface for
-`.octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml`.
-It coordinates target-owned child lifecycles and emits an aggregate delivery
-receipt. It does not replace child receipts, archive packets, delete residue,
-publish generated outputs by hand, stage, commit, push, create pull requests, or
-clean up branches.
-
-The route enforces `execution_order_policy` before continuation:
-`child-before-parent-delivery` is canonical, and any non-canonical requested
-order requires a retained, target-bound
-`proposal-program-delivery-order-override-receipt-v1`. The route also requires
-a retained delivery-readiness preflight before expensive child continuation,
-parent delivery, Git mutation, publication checks, landing, sync, cleanup, or
-branch deletion.
-
-Runner handoff continuation is allowed only after the retained readiness
-evidence validates. `target_outcome`, PR policy, stash policy, order policy,
-operator grant context, runner handoff refs, include-path classification, and
-retained preflight refs are profile-bound or workflow-evidence-bound inputs.
-Runner handoff refs and readiness projections are not child packet, archive,
-generated-publication, cleanup, Change, branch, final sync, or terminal proof
-authority.
+Coordinate an accepted proposal program to `implemented` or `archive-ready`
+while RP-00 containment is active.
 
 ## Usage
 
 ```text
-/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>
+/proposal-program-delivery target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>
 ```
 
-Use `/proposal-program-clean-delivery` when the operator needs to start or
-resume the proposal-program lifecycle runner with route execution enabled and
-`target_outcome=cleaned` bound as a request. That wrapper can produce the
-delivery handoff input, but it does not satisfy this workflow's profile,
-readiness preflight, child receipt validation, Change closeout, cleanup, sync,
-or terminal-proof requirements.
+All inputs are required. Resume may satisfy `profile` or `run-id` only through fresh, target-bound
+evidence from the same delivery run. The canonical child-
+before-parent order and target-owned child receipts remain mandatory.
 
-## Required Inputs
-
-- `target`: repo-relative path to the accepted proposal program.
-- `outcome`: delivery target outcome. Use `cleaned` for clean delivery; the
-  requested outcome is not itself evidence of landing, sync, cleanup, branch
-  cleanup, terminal proof, or a final cleaned state.
-- `profile`: required `proposal-program-delivery-profile-v1` profile path.
-- `run-id`: required delivery run identifier for retained evidence paths.
-
-Resume may satisfy `profile` or `run-id` only through fresh, target-bound
-workflow evidence from the prior delivery attempt. Proposal-local support
-files, generated prompts, generated outputs, dashboards, host/tool/chat state,
-model memory, parent summaries, aggregate delivery receipts, and delivery
-evidence indexes do not satisfy these admission inputs.
-
-## Outputs
-
-- A delivery evidence bundle under `.octon/state/evidence/runs/workflows/`.
-- A delivery summary under `.octon/state/evidence/validation/analysis/`.
-- A `proposal-program-delivery-receipt-v1` aggregate receipt that names the
-  retained delivery evidence index by path and validator posture without
-  embedding the index digest.
-- A validated compact `proposal-program-delivery-evidence-index-v1` retained
-  index.
-
-The receipt may report `cleaned` only when target-owned implementation
-receipts, source receipt refs and digests, publication freshness, packet
-closeout, archive handoff, Change closeout, landing proof, branch cleanup
-authorization, final sync proof, terminal proof, worktree hygiene,
-clean-worktree route selection, include-path classification when source
-posture is dirty or stale, and any required lifecycle postmortem threshold
-evidence all pass. Otherwise it reports the highest evidence-backed outcome
-with the blocker class, downgrade rationale, excluded evidence classes, and
-next owning lifecycle.
+`direct-main`, hosted `branch-no-pr`, landing, sync, cleanup,
+`landed`/`synced`/`cleaned`, and omitted/default effectful requests stop before
+dispatch with `RP00_CONTAINMENT_PUBLICATION_DISABLED`. Exact child and parent
+work is preserved. The wrapper performs no Git/GitHub, provider, publication,
+archive relocation, final-sync, branch-cleanup, or residue-deletion effect.
+RP-06/RP-08 remain the later publication/cleanup owners.

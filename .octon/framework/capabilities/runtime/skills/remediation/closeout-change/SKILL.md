@@ -11,7 +11,7 @@ metadata:
   created: "2026-05-01"
   updated: "2026-07-14"
 skill_sets: [executor, collaborator, guardian, integrator]
-capabilities: [stateful, safety-bounded, self-validating]
+capabilities: [external-dependent, stateful, safety-bounded, self-validating]
 allowed-tools: Read Glob Grep Edit Bash(git status *) Bash(git diff *) Bash(git rev-parse *) Bash(git branch --show-current) Bash(git worktree list *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
@@ -73,6 +73,12 @@ If landing is already independently established, record `landed` only as a
 read-only observation with the exact landed ref, `cleanup_status: deferred`,
 the rollback handle, and `RP00_CONTAINMENT_CLEANUP_DISABLED`. Never perform
 that landing or report `cleaned`, `synced`, or autonomous publication success.
+
+`cleaned` is route-bound to separately authorized cleanup evidence and is not
+available during SI-00 containment.
+
+Hosted or shared closeout claims also require publishable evidence receipt refs from the owning closeout route.
+Do not claim hosted/shared closeout from raw local logs or local-private evidence.
 
 ## Authority Boundaries
 

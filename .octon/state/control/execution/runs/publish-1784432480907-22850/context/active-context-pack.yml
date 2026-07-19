@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/publish-1784432480907-22850/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/publish-1784432480907-22850/context/context-pack.json
+context_pack_sha256: sha256:93cb7dac14fdd1d0f8f5142f212de2193130e161221a0ffc33605e9d6116946f
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/publish-1784432480907-22850/context/model-visible-context.json
+model_visible_context_sha256: sha256:bfbc89efe7c99016cc44cb2a566d29df2ec1d3546de15dd8c63ec55b1899e86e
+receipt_sha256: sha256:7f123582995b96d70a9bc2d9f6000a8ef3e70579be04dca846d739aa2de9cfd9
+run_id: publish-1784432480907-22850
+schema_version: active-context-pack-v1
+updated_at: 2026-07-19T03:41:20.92581Z
+validity_state: valid

@@ -8,7 +8,7 @@ metadata:
   created: "2026-05-21"
   updated: "2026-07-14"
 skill_sets: [collaborator, guardian, specialist]
-capabilities: [safety-bounded, self-validating]
+capabilities: [external-dependent, safety-bounded, self-validating]
 allowed-tools: Read Glob Grep Bash(git status *) Bash(git diff *) Bash(git rev-parse *) Bash(git branch *) Bash(git ls-files *) Bash(bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh *) Bash(bash .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
@@ -28,6 +28,7 @@ worktree without delegating an effect. The default is always `preserved`;
 5. Emit a `closeout-worktree-report-v1` with
    `direct_material_actions_performed: false`,
    `repo_hygiene_cleanup_actions_performed: false`, `cleaned_claim: false`, and
+   `repo_hygiene_cleanup_ref: none`, plus
    `worktree_terminal_state: nonterminal` or a preservation-only disposition.
 
 An omitted target defaults to `preserved`, never `cleaned`. Direct-main,
@@ -41,3 +42,8 @@ GitHub mutation helper, a publisher, or an archive route. Do not stage, commit,
 push, land, merge, fetch for mutation, checkout, reset, restore, delete, prune,
 clean, remove worktrees, or mutate refs. Classification and compatibility
 receipts never authorize current effects. Name RP-06/RP-08 as later owners.
+
+If a pre-existing delegated repo-hygiene receipt is observed, record its exact
+`repo_hygiene_cleanup_ref` without treating it as wrapper cleanup authority.
+The wrapper validator checks delegated repo-hygiene cleanup evidence while
+still requiring `repo_hygiene_cleanup_actions_performed: false`.

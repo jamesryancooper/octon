@@ -142,6 +142,7 @@ check_active_surface_legacy_terms() {
         --glob '!**/.octon/generated/**' \
         --glob '!**/.octon/inputs/exploratory/proposals/.archive/**' \
         --glob '!**/.octon/inputs/exploratory/ideation/**' \
+        --glob '!**/.octon/inputs/exploratory/reviews/**/evidence/**' \
         --glob '!**/.octon/state/evidence/runs/**' \
         --glob '!**/.octon/state/control/capabilities/**' \
         --glob '!**/.octon/generated/.tmp/capabilities/**' \
@@ -155,7 +156,7 @@ check_active_surface_legacy_terms() {
       grep -RInEi --binary-files=without-match \
         "$pattern" \
         "$REPO_ROOT/.octon" 2>/dev/null \
-        | grep -Ev '/\.octon/generated/|/\.octon/inputs/exploratory/proposals/\.archive/|/\.octon/inputs/exploratory/ideation/|/\.octon/state/evidence/runs/|/\.octon/state/control/capabilities/|/\.octon/generated/\.tmp/capabilities/|/\.octon/framework/capabilities/_ops/tests/|/\.octon/framework/cognition/_ops/principles/scripts/lint-principles-governance\.sh|/\.octon/framework/cognition/_ops/principles/scripts/test-principles-governance-lint-fixtures\.sh|/validate-ra-acp-migration\.sh' || true
+        | grep -Ev '/\.octon/generated/|/\.octon/inputs/exploratory/proposals/\.archive/|/\.octon/inputs/exploratory/ideation/|/\.octon/inputs/exploratory/reviews/.*/evidence/|/\.octon/state/evidence/runs/|/\.octon/state/control/capabilities/|/\.octon/generated/\.tmp/capabilities/|/\.octon/framework/capabilities/_ops/tests/|/\.octon/framework/cognition/_ops/principles/scripts/lint-principles-governance\.sh|/\.octon/framework/cognition/_ops/principles/scripts/test-principles-governance-lint-fixtures\.sh|/validate-ra-acp-migration\.sh' || true
     fi
   )"
 

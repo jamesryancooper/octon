@@ -62,8 +62,8 @@ packet.
 9b. **Self-governance regression check.** Enumerate the routine operations
    affected by the change (publication, policy-mode selection in permitted
    contexts, role/intent binding, local dev/test flows) and prove none of
-   them requires a human approval step that did not exist before the ambient
-   variables were removed.
+   them gains a new manual coordination gate after the ambient variables are
+   removed.
 10. **Non-authority and no-publication checks (packet lifecycle).**
     `validate-proposal-standard.sh --package <this packet>
     --skip-registry-check` and `validate-architecture-proposal.sh --package

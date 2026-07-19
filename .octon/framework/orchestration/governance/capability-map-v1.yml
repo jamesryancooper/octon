@@ -139,6 +139,48 @@ workflows:
     required_contracts:
       - "delegation-boundaries-v1"
 
+  - workflow_id: "validate-proposal"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "promote-proposal"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "verify-implementation-conformance"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "verify-governed-mechanism-integration"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "proposal-packet-terminal-closeout"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "proposal-packet-delivery"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "proposal-program-delivery"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
   - workflow_id: "create-migration-proposal"
     classification: "role-mediated"
     autonomous_allowed: false
@@ -146,6 +188,72 @@ workflows:
       - "delegation-boundaries-v1"
 
   - workflow_id: "create-policy-proposal"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "create-architecture-proposal"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "process-incoming-intake"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "lifecycle-postmortem"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "fixture-retention-closeout"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "closeout"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "audit-post-implementation-drift"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "archive-proposal"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "audit-migration-proposal"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "audit-policy-proposal"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "audit-architecture-proposal"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "bootstrap-doctor"
     classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
@@ -279,6 +387,18 @@ workflows:
       - "delegation-boundaries-v1"
 
   - workflow_id: "handle-security-issue"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "run-repo-shell-supported-scenario"
+    classification: "role-mediated"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "repo-consequential-preflight"
     classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:

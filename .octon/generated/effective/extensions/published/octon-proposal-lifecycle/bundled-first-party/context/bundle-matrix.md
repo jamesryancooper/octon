@@ -1,5 +1,13 @@
 # Bundle Matrix
 
+## RP-00 Containment Override
+
+Current delivery admission is limited to `implemented` or `archive-ready` with
+`route=stage-only`. Effectful/default requests fail with
+`RP00_CONTAINMENT_PUBLICATION_DISABLED` and exact work is preserved. Historical
+landing/sync/cleanup vocabulary below is compatibility context only and cannot
+authorize current dispatch.
+
 ## Packet Lifecycle Routes
 
 | Route | Prompt set | Command | Skill |
@@ -35,16 +43,14 @@ target-owned packet receipts without replacing them. Implementation, promotion,
 packet closeout, terminal closeout, archive relocation, Change closeout, branch
 cleanup, repo hygiene cleanup, and generated publication freshness remain owned
 by their canonical lifecycles and publisher scripts.
-The command requires `target`, `outcome`, `route=branch-no-pr`, `profile`, and
-`run-id` before admission unless a future accepted workflow adds a named
-preflight derivation with retained evidence and negative controls.
+The command requires `target`, `outcome`, `route=stage-only`, `profile`, and
+`run-id` before admission.
 
 ## Workflow-Backed Program Delivery Routes
 
 | Route | Workflow | Command | Skill |
 | --- | --- | --- | --- |
 | `proposal-program-delivery` | `proposal-program-delivery` | `proposal-program-delivery`; alias `octon-proposal-run-program-delivery` | `proposal-program-delivery` |
-| `proposal-program-clean-delivery` | n/a - runner wrapper | `proposal-program-clean-delivery`; alias `octon-proposal-run-program-clean-delivery` | `octon-proposal-lifecycle-run-program-lifecycle` |
 
 `proposal-program-delivery` is a workflow-backed route, not a prompt bundle. It
 emits an aggregate `proposal-program-delivery-receipt-v1` receipt that cites
@@ -54,7 +60,7 @@ publication freshness remain owned by their canonical lifecycles and publisher
 scripts.
 The optional operator-facing command alias is
 `octon-proposal-run-program-delivery` with display label
-`Run Program to Clean Delivery`. It delegates to `proposal-program-delivery`
+`Run Program Contained Delivery`. It delegates to `proposal-program-delivery`
 and does not create an independent workflow, lifecycle mode, closeout, archive,
 cleanup, Git mutation, branch cleanup, generated publication, receipt schema,
 profile schema, or terminal proof rule.
@@ -62,14 +68,9 @@ The workflow requires target program path, target outcome, profile path, and
 delivery run id before admission unless a future accepted workflow adds a named
 preflight derivation with retained evidence and negative controls.
 
-`proposal-program-clean-delivery` is an operator wrapper around the existing
-proposal-program lifecycle runner. It first expands to `octon lifecycle
-route-graph --lifecycle proposal-program --target <program> --set
-target_outcome=cleaned`, then to `octon lifecycle run --lifecycle
-proposal-program --target <program> --execute-routes --set
-target_outcome=cleaned`. The route graph is diagnostic-only and the cleaned
-target remains a request until owning delivery, closeout, archive, Change
-closeout, landing, sync, cleanup, and terminal-proof evidence passes.
+The former `proposal-program-clean-delivery` command is unregistered. Its
+source file is a denial-only compatibility surface and never dispatches the
+runner.
 
 ## Program Coordination Routes
 
@@ -102,12 +103,9 @@ the proposal program lifecycle uses
 `octon lifecycle run --lifecycle proposal-program --target
 <program-packet-path>`. They are orchestration surfaces, not dispatcher routes
 or prompt bundles. Without `--execute-routes`, they stop at a planned
-`program-route-handoff`; with `--execute-routes`, selected parent or child
-routes run through a bounded plan-execute-replan loop. One step is one parent
-route dispatch or one runnable child batch dispatch; one child batch remains
-one step regardless of `--max-child-concurrency`. Execution remains bounded by
-dependency gates, child receipts, write-scope checks, approval gates, and
-`--max-steps`.
+`program-route-handoff`. During RP-00, execution is restricted to contained
+implementation/archive-readiness coordination and never emits a publication or
+cleanup handoff.
 
 `octon lifecycle route-graph --lifecycle proposal-program --target
 <program-packet-path>` emits a non-authoritative planning read model before
@@ -120,14 +118,13 @@ not rename route ids or satisfy receipts.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Packet lifecycle runner | `proposal-packet` lifecycle | `octon-proposal-run-packet-lifecycle` | none | `octon-proposal-lifecycle-run-packet-lifecycle` | projected | projected | projected | Extension orchestration wrapper; generated host projections remain non-authority. |
 | Program lifecycle runner | `proposal-program` lifecycle | `octon-proposal-run-program-lifecycle` | none | `octon-proposal-lifecycle-run-program-lifecycle` | projected | projected | projected | Extension orchestration wrapper for the program replan loop. |
-| Program clean-delivery request | `proposal-program-clean-delivery` command | `proposal-program-clean-delivery` | `octon-proposal-run-program-clean-delivery` | `octon-proposal-lifecycle-run-program-lifecycle` | projected | alias projected | projected | Wrapper requests `target_outcome=cleaned`; it does not create delivery authority. |
 | Program delivery workflow | `proposal-program-delivery` workflow | `proposal-program-delivery` | `octon-proposal-run-program-delivery` | `proposal-program-delivery` | projected | alias projected | projected | Workflow owns aggregate delivery receipt; alias is operator vocabulary only. |
 | Packet delivery workflow | `proposal-packet-delivery` workflow | `proposal-packet-delivery` | `octon-proposal-run-packet-delivery` | `proposal-packet-delivery` | projected | alias projected | alias projected | Workflow owns aggregate packet delivery receipt; source command support is Codex-scoped. |
 | Packet terminal closeout | `proposal-packet-terminal-closeout` workflow | `proposal-packet-terminal-closeout` | none | `proposal-packet-terminal-closeout` | projected | omitted | projected | Terminal readiness is workflow-backed; Claude omission follows source host adapter support. |
 | Change closeout | `closeout-change` workflow | n/a | n/a | `closeout-change` | projected | projected | projected | Change closeout remains the singular Change route; skills are source-owned. |
-| Dirty-worktree closeout | `closeout-worktree` wrapper | n/a | n/a | `closeout-worktree` | projected | projected | projected | Wrapper partitions worktree state and delegates to Change closeout; it is not a separate work unit. |
+| Dirty-worktree closeout | `closeout-worktree` wrapper | n/a | n/a | `closeout-worktree` | projected | projected | projected | RP-00 classification/preservation only; no Change-closeout or cleanup delegation. |
 | Repo hygiene cleanup | `repo-hygiene-cleanup` skill | n/a | n/a | `repo-hygiene-cleanup` | projected | projected | projected | Cleanup deletion requires cleanup authorization; detection alone is not authority. |
-| Lifecycle residue cleanup | `cleanup-lifecycle-residue` route | `octon-proposal-cleanup-lifecycle-residue` | none | `octon-proposal-lifecycle-cleanup-lifecycle-residue` | projected | projected | projected | Non-mutating unless a separate cleanup authority explicitly authorizes deletion. |
+| Lifecycle residue cleanup | `cleanup-lifecycle-residue` route | `octon-proposal-cleanup-lifecycle-residue` | none | `octon-proposal-lifecycle-cleanup-lifecycle-residue` | projected | projected | projected | RP-00 classification/preservation only; deletion is disabled. |
 
 Projection status is source-manifest-backed. Host files under `.codex`,
 `.claude`, `.cursor`, and generated/effective projections are derived outputs;

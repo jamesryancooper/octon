@@ -14,3 +14,7 @@ perform or infer that landing.
 Always include exact candidate refs, rollback/discard posture, validation,
 retained residue, stable denial reason when applicable, and the next owner.
 Never report direct-main, cleaned, synced, or autonomous publication success.
+
+Classify local run residue using the read-only mode of
+`cleanup-local-run-artifacts.sh`; this stage must not authorize or perform its
+cleanup mode.

@@ -243,6 +243,51 @@ children:
       - ".octon/framework/example.md"
 ```
 
+## Write-Scope Collision Ledger
+
+The canonical child registry may include one top-level
+`write_scope_collision_ledger`. It is mandatory when two different children
+declare the same literal `write_scope`, or when one declared scope ends in `/`
+and is a prefix of the other. Prefix matching is path-component-aware:
+`framework/host/` collides with `framework/host/adapter.yml`, but not with
+`framework/hosted.yml`.
+
+`registry_write_scopes_digest` is the SHA-256 digest of a UTF-8,
+LF-terminated compact JSON array. The array has one row per child, sorted by
+`child_id`; each row's keys are ordered `child_id`, `dependencies`, and
+`write_scopes`; both arrays are sorted lexicographically. The collision ledger
+is excluded from this projection. A child, dependency, or write-scope change
+therefore makes the old ledger stale.
+
+Each derived collision has exactly one record with:
+
+- two distinct participants sorted by child id, each naming an exact declared
+  scope and a nonempty bounded contribution;
+- the derived `exact` or `directory-prefix` relation;
+- one participant named as physical `integration_owner_child_id`, without any
+  transfer of semantic or lifecycle authority; and
+- either dependency-consistent `dependency-order`, or an
+  `exclusive-integration-lock` with a stable `lock_id`, plus both participant
+  ids exactly once in `ordered_child_ids`.
+
+The canonical structure validator derives the complete collision set and
+requires a one-to-one ledger match, fresh projection digest, correct derived
+counts, transitive dependency agreement, peer-only lock ordering, and an
+acyclic union of dependency and serialization edges. A zero-collision program
+may omit the ledger or declare a fresh empty ledger. Prose ownership tables do
+not satisfy this contract.
+
+The Rust proposal-program controller independently parses the ledger into
+unknown-field-rejecting typed structures, recomputes the same digest and
+collision set, preserves it through non-projection mutations and canonical
+round trips, and refuses a projection-changing mutation unless the resulting
+registry has a complete valid replacement ledger. Scheduling uses the
+digest-matching `ordered_child_ids` independently of registry or candidate
+enumeration order. An exclusive-lock successor does not become runnable until
+its predecessor is terminal. Invalid or stale ledger state returns an empty
+runnable batch before dispatch. Both whole-program and child-focused planning
+run the canonical `program-structure` gate.
+
 ## Closeout
 
 Program verification convergence writes parent-local

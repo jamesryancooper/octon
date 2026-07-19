@@ -53,7 +53,7 @@ Packet-local evidence only; not authority.
     longer framed as the ordinary replacement for ambient overrides. Added
     governance-tier column to the replacement table and the disposition table;
     added acceptance criterion 4d (maximum self-governance; acceptance blocked
-    if any routine operation newly requires human approval); strengthened
+    if any routine operation loses its current autonomous eligibility); strengthened
     bootstrap validation to positive no-human-step and fail-closed
     precondition proofs; added break-glass boundary proof (9a) and
     self-governance regression check (9b); added a

@@ -75,6 +75,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - `cross_subsystem_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-cross-subsystem-coherence-audit.md`: Cross-subsystem coherence report (produced if enabled and applicable)
 - `domain_architecture_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-domain-architecture-audit-{{run_id}}.md`: Supplemental domain-architecture report (produced if enabled and applicable)
 - `architecture_readiness_audit_bundle` -> `/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for architecture-readiness recommendation and done-gate evidence
+- `architecture_readiness_audit_method_selection_record` -> `/.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/architecture-readiness-audit/routing-decision.yml`: Records the selected review method id (field method bound to naming.yml methods.catalog) and the applied lens profile (field lenses_applied bound to lens-bank.yml) through the architectural-review-routing-decision-v2 artifact in the existing architectural-review run-evidence root; descriptive run evidence only, granting the readiness output no lifecycle, acceptance, promotion, or closeout authority, and leaving the readiness verdict semantics unchanged.
 
 ## Steps
 
