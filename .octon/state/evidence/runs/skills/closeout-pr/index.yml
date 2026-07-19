@@ -1,5 +1,14 @@
 schema_version: "1.0"
 runs:
+  - run_id: external-tool-integrity-amendment-20260719T193959Z
+    recorded_at: 2026-07-19T19:39:59Z
+    change_id: external-tool-integrity-amendment
+    pr_number: 632
+    pr_url: https://github.com/jamesryancooper/octon/pull/632
+    lifecycle_outcome: published
+    report: .octon/state/evidence/validation/analysis/2026-07-19-pr-closeout-external-tool-integrity-amendment-20260719T193959Z.md
+    run_log: .octon/state/evidence/runs/skills/closeout-pr/external-tool-integrity-amendment-20260719T193959Z.md
+    publishable_evidence_receipt: .octon/state/evidence/runs/skills/closeout-pr/external-tool-integrity-amendment-20260719T193959Z-publishable-evidence-receipt.json
   - run_id: architecture-migration-readiness-delivery-20260719T014836Z
     recorded_at: 2026-07-19T01:48:36Z
     change_id: architecture-migration-readiness-delivery

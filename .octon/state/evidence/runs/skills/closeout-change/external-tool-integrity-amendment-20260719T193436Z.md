@@ -6,10 +6,10 @@ change_id: external-tool-integrity-amendment
 selected_route: branch-pr
 branch_pr_predicate: explicit-operator-pr-request
 target_lifecycle_outcome: published
-lifecycle_outcome: preserved
+lifecycle_outcome: published
 closeout_outcome: continued
 integration_status: not-landed
-publication_status: local-only
+publication_status: pr-opened
 cleanup_status: deferred
 branch: chore/external-tool-integrity
 base_ref: origin/main@72391b18d9341bce4e7ba109ec8db11ef2389f92
@@ -36,3 +36,9 @@ an unrelated proposal package.
 
 The branch and worktree are the pre-landing rollback container. Cleanup remains
 deferred under SI-00. The next owner is `closeout-pr`, targeting one draft PR.
+
+## Published Handoff
+
+`closeout-pr` published the preserved candidate as draft PR 632 at
+`https://github.com/jamesryancooper/octon/pull/632`. Hosted checks and review
+remain pending; no readiness or landing claim is made.

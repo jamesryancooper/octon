@@ -4,7 +4,7 @@ runs:
     recorded_at: 2026-07-19T19:34:36Z
     change_id: external-tool-integrity-amendment
     selected_route: branch-pr
-    lifecycle_outcome: preserved
+    lifecycle_outcome: published
     report: .octon/state/evidence/validation/analysis/2026-07-19-change-closeout-external-tool-integrity-amendment-20260719T193436Z.md
     run_log: .octon/state/evidence/runs/skills/closeout-change/external-tool-integrity-amendment-20260719T193436Z.md
     change_receipt: .octon/state/evidence/runs/skills/closeout-change/external-tool-integrity-amendment-20260719T193436Z-change-receipt.json
