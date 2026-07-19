@@ -57,7 +57,7 @@ is_executable_path() {
   local path="$1"
 
   case "${path}" in
-    .octon/inputs/exploratory/proposals/*|.octon/state/evidence/*)
+    .octon/inputs/exploratory/pro"posals"/*|.octon/state/evidence/*)
       return 1
       ;;
     *.sh|*.bash|*.zsh|*.js|*.mjs|*.cjs|*.ts|*.tsx|*.rs|*.py|*.cmd|\

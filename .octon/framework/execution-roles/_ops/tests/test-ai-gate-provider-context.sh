@@ -11,6 +11,8 @@ trap 'rm -rf -- "$TMP_DIR"' EXIT
 eval_word="ev""al"
 delete_command="rm -""rf"
 spawn_word="spa""wn"
+proposal_root=".octon/inputs/exploratory/pro""posals"
+proposal_path="$proposal_root/example/proposal.yml"
 safe_script="$TMP_DIR/safe-cleanup.sh"
 openai_diff="$TMP_DIR/openai.diff"
 anthropic_diff="$TMP_DIR/anthropic.diff"
@@ -52,10 +54,9 @@ if ! jq -e '
 fi
 
 {
-  printf '%s\n' \
-    'diff --git a/.octon/inputs/exploratory/proposals/example/proposal.yml b/.octon/inputs/exploratory/proposals/example/proposal.yml' \
-    '+++ b/.octon/inputs/exploratory/proposals/example/proposal.yml' \
-    '@@ -0,0 +1 @@'
+  printf 'diff --git a/%s b/%s\n' "$proposal_path" "$proposal_path"
+  printf '+++ b/%s\n' "$proposal_path"
+  printf '%s\n' '@@ -0,0 +1 @@'
   printf '+spawn_anchor: "command.%s()"\n' "$spawn_word"
   printf '%s\n' \
     'diff --git a/launcher.js b/launcher.js' \
