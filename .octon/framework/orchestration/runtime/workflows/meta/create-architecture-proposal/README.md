@@ -81,6 +81,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] validate-proposal-standard.sh and validate-architecture-proposal.sh pass for the scaffolded proposal
 - [ ] validate-proposal-implementation-readiness.sh ran and recorded a structural-only or implementation-grade gate outcome
 - [ ] validate-proposal-review-gate.sh ran and recorded the draft pre-integration architecture review gate state
+- [ ] external-tool integrity sections are present and no implementation route depends on modifying an external tool
 - [ ] top-level summary exists
 - [ ] final verdict is explicit
 

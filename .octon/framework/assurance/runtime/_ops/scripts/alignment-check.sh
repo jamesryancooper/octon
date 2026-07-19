@@ -246,6 +246,10 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-constitutional-family-live-model.sh"
 
   run_step \
+    "Validate external-tool integrity architecture constraint" \
+    bash "$SCRIPT_DIR/validate-external-tool-integrity.sh"
+
+  run_step \
     "Validate support-target live claims stay proof-bounded" \
     bash "$SCRIPT_DIR/validate-support-target-live-claims.sh"
 
@@ -373,6 +377,14 @@ run_workflows() {
 }
 
 run_proposal_lifecycle() {
+  run_step \
+    "Validate external-tool integrity architecture constraint" \
+    bash "$SCRIPT_DIR/validate-external-tool-integrity.sh"
+
+  run_step \
+    "Test external-tool integrity validator" \
+    bash "$SCRIPT_DIR/../tests/test-validate-external-tool-integrity.sh"
+
   run_step \
     "Validate existing lifecycle run admission" \
     bash "$SCRIPT_DIR/validate-existing-lifecycle-run-admission.sh"

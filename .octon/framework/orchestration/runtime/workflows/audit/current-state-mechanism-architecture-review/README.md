@@ -61,6 +61,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 - [ ] Mechanism index entry is present and validates
 - [ ] Receipt validates under architectural-review-support-receipt-v1
+- [ ] Current receipts classify external-tool boundaries and record external_tool_integrity coverage
 
 ## References
 

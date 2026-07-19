@@ -175,3 +175,13 @@ rules:
     condition: "An external proof artifact, attestation, certificate, compact, delegated lease, auditor, dashboard, federation peer, host label, generated trust view, or imported Octon state attempts to authorize execution, widen support claims, mutate local authority, or bypass run contracts and execution authorization."
     route: "DENY"
     adoption_status: "active"
+  - id: "FCR-039"
+    condition: >-
+      A recommendation, proposal, plan, acceptance criterion, or implementation
+      route requires forking, patching, modifying, reengineering, or maintaining
+      a private derivative of an external tool to satisfy an Octon requirement.
+    route: "DENY"
+    adoption_status: "active"
+    notes:
+      - "Redesign the solution inside Octon using supported external interfaces, or record the requirement as blocked or out of scope."
+      - "An optional upstream feature request may be recorded only as nonblocking context and may not become an Octon acceptance dependency."

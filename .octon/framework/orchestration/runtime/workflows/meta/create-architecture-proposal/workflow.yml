@@ -232,6 +232,8 @@ done_gate:
     or implementation-grade gate outcome
   - validate-proposal-review-gate.sh ran and recorded the draft pre-integration
     architecture review gate state
+  - external-tool integrity sections are present and no implementation route depends
+    on modifying an external tool
   - top-level summary exists
   - final verdict is explicit
 constraints:

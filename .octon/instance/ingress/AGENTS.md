@@ -45,6 +45,12 @@ restate the full topology registry.
     recommendations
   - agents may not authorize effects, own workflow state, schedule themselves
     indefinitely, mutate control truth, admit connectors, or close work
+- external-tool integrity:
+  - agents must treat external tools as immutable dependencies
+  - agents may use supported interfaces and external design evidence, but must
+    keep every required solution change inside Octon's architecture and code
+  - agents must not recommend forking, patching, modifying, reengineering, or
+    maintaining a private derivative of an external tool
 
 ## Read Order
 
@@ -85,6 +91,7 @@ or repo-consequential work, read:
 - `.octon/framework/execution-roles/practices/standards/repository-reconnaissance.md`
 - `.octon/framework/execution-roles/practices/standards/cleanup-pass.md`
 - `.octon/framework/execution-roles/practices/standards/dependency-discipline.md`
+- `.octon/framework/execution-roles/practices/standards/external-tool-integrity.md`
 - `.octon/framework/execution-roles/practices/standards/validation-evidence-quality.md`
 
 ## Topology Reference

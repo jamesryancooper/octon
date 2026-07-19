@@ -27,6 +27,8 @@ bounded execution plan before any stage runs.
    - accept only `rigorous` or `short`
 3. Derive `slug` from `output_slug` or the target proposal directory name.
 4. Record the expected stage set for the selected mode from the canonical workflow contract.
+5. Load `.octon/instance/governance/policies/external-tool-integrity.yml` and
+   record external-tool integrity as a fail-closed audit invariant.
 6. Persist `plan.md` with:
    - package path
    - mode
@@ -45,4 +47,5 @@ bounded execution plan before any stage runs.
 - [ ] Target package exists
 - [ ] Mode is valid
 - [ ] Canonical workflow contract exists
+- [ ] External-tool integrity policy is loaded
 - [ ] Execution plan is recorded

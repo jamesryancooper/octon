@@ -39,6 +39,7 @@ bounded verification.
 6. Ensure the summary references:
    - selected mode
    - key blockers or readiness verdict
+   - external-tool integrity result and any fail-closed disposition
    - failure classification and failed stage when applicable
    - changed files
    - workflow bundle path
@@ -56,4 +57,5 @@ bounded verification.
 - [ ] Commands log exists
 - [ ] Validation checklist exists
 - [ ] Top-level summary exists
+- [ ] External-tool integrity result is explicit
 - [ ] Final readiness verdict is explicit

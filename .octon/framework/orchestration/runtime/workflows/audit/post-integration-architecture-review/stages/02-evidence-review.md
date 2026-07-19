@@ -6,6 +6,11 @@ Compare implemented structure to the accepted proposal and current architecture
 doctrine. Preserve implementation conformance and drift/churn as hard closeout
 gates.
 
+Verify external-tool integrity: external tools remain unmodified, all required
+behavior lives in Octon-owned code, only supported interfaces are used, and no
+implemented or deferred acceptance condition depends on an upstream change or
+private derivative.
+
 Emit the selected method id and applied lens profile as run evidence: write an
 `architectural-review-report-v2` artifact (`report.yml`) carrying `method`
 (bound to the `naming.yml` methods.catalog) and `lenses_applied` (bound to

@@ -47,6 +47,15 @@ probabilistic model output. Material effects remain bound to run contracts,
 context packs, authorization grants, authorized-effect token verification, run
 journals, and retained evidence.
 
+## External Tool Integrity
+
+- `external-tool-integrity.yml`: requires all Octon needs to be solved in
+  Octon-owned architecture and code while external tools remain unmodified and
+  are used only through supported interfaces.
+
+This policy constrains recommendations and designs; it does not authorize
+execution, dependencies, connectors, support claims, or external effects.
+
 Related machine-readable posture and path-family declarations live outside this
 policy directory:
 

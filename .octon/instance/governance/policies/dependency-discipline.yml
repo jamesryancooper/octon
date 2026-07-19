@@ -6,6 +6,7 @@ authority_posture:
   subordinate_to:
     - ".octon/framework/constitution/CHARTER.md"
     - ".octon/instance/governance/policies/ai-assisted-development-discipline.yml"
+    - ".octon/instance/governance/policies/external-tool-integrity.yml"
 practice_ref: ".octon/framework/execution-roles/practices/standards/dependency-discipline.md"
 scope:
   ecosystems:
@@ -23,6 +24,9 @@ required_receipt_fields:
   - "transitive_risk"
   - "license_posture"
   - "security_posture"
+  - "supported_interface"
+  - "external_tool_unmodified"
+  - "octon_owned_integration_surface"
   - "runtime_or_tooling_classification"
   - "removal_or_retirement_path"
   - "validation_run"
@@ -40,9 +44,12 @@ review_requirements:
     - "Action pin, permissions, and workflow surface are recorded."
   shell_host_tools:
     - "Host-tool availability and fallback posture are recorded."
+    - "The tool remains unmodified and is used through a supported interface."
 forbidden_patterns:
   - "dependency-added-for-speculative-future-use"
   - "dependency-bump-mixed-with-unrelated-feature"
   - "transitive-risk-unreviewed"
   - "license-posture-unknown"
   - "security-posture-unknown"
+  - "external-tool-fork-or-patch"
+  - "upstream-change-required-for-octon-acceptance"

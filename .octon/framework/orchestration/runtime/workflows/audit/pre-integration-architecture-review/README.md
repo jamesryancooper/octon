@@ -61,6 +61,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 - [ ] validate-architectural-review-receipts.sh passes with --mode pre-integration-architecture-review --require-pass
 - [ ] Receipt records evidence refs, validator refs, unresolved count, blockers, non-authority classification, and mode-specific coverage
+- [ ] Current receipts record mode_specific_coverage.external_tool_integrity and reject external-tool modification strategies
 - [ ] Receipt packet_digest matches the reviewed architecture proposal packet
 
 ## References

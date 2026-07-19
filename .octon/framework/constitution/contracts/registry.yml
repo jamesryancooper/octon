@@ -107,6 +107,12 @@ integration_surfaces:
   governance_exclusions:
     path: ".octon/instance/governance/exclusions/**"
     status: "active"
+  external_tool_integrity_policy:
+    path: ".octon/instance/governance/policies/external-tool-integrity.yml"
+    practice_ref: ".octon/framework/execution-roles/practices/standards/external-tool-integrity.md"
+    validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-external-tool-integrity.sh"
+    rule: "External tools remain unmodified; Octon requirements are solved inside Octon through supported interfaces."
+    status: "active"
   runtime_contract_family:
     root: ".octon/framework/constitution/contracts/runtime/**"
     status: "active"

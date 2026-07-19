@@ -1,0 +1,66 @@
+schema_version: "external-tool-integrity-policy-v1"
+policy_id: "external-tool-integrity"
+owner: "Octon governance"
+status: "active"
+effective_at: "2026-07-16T14:24:00Z"
+authority_posture:
+  subordinate_to:
+    - ".octon/framework/constitution/CHARTER.md"
+    - ".octon/framework/constitution/charter.yml"
+    - ".octon/framework/constitution/obligations/fail-closed.yml"
+practice_ref: ".octon/framework/execution-roles/practices/standards/external-tool-integrity.md"
+scope:
+  applies_to:
+    - "recommendations"
+    - "architecture proposals"
+    - "design and migration proposals"
+    - "implementation and correction plans"
+    - "architecture reviews"
+    - "dependency and adapter decisions"
+    - "runtime integration"
+definitions:
+  external_tool: >-
+    Software, services, clients, CLIs, runtimes, repositories, or binaries that
+    are not authored and governed as Octon-owned code in this repository.
+  supported_interface: >-
+    A documented and intended API, CLI, protocol, configuration, extension,
+    adapter, or operating-system boundary exposed for third-party use.
+rules:
+  external_tools_are_immutable_dependencies: true
+  octon_owns_all_required_solution_changes: true
+  external_limitations_are_constraints_not_external_change_requests: true
+  supported_interfaces_only: true
+  prohibited_strategies:
+    - "fork-external-tool"
+    - "patch-external-tool"
+    - "modify-external-tool-source-or-binary"
+    - "reengineer-external-tool"
+    - "maintain-private-external-tool-derivative"
+    - "depend-on-upstream-change-for-octon-acceptance"
+    - "rely-on-undocumented-private-internals"
+  allowed_uses:
+    - "read public documentation or source to inform Octon design"
+    - "invoke documented APIs, CLIs, protocols, configuration, and extension points"
+    - "pin or select an unmodified supported version"
+    - "wrap, mediate, sandbox, constrain, or observe the tool from Octon-owned code"
+    - "replace one unmodified external tool with another when Octon contracts permit"
+    - "record an optional upstream feature request as nonblocking context"
+  impossible_requirement_route:
+    - "redesign-within-octon"
+    - "reduce-scope"
+    - "record-blocker"
+    - "decline-unsupported-requirement"
+enforcement:
+  recommendation_route: "deny-and-redesign-within-octon"
+  proposal_gate: "implementation-grade-completeness"
+  architecture_review_gate: "pre-integration-architecture-review"
+  review_receipt_coverage_key: "external_tool_integrity"
+  receipt_requirement_effective_at: "2026-07-16T14:24:00Z"
+  validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-external-tool-integrity.sh"
+  fail_closed_reason_ref: "FCR-039"
+evidence_requirements:
+  when_external_tools_are_in_scope:
+    - "identify each external tool and supported interface used"
+    - "identify the Octon-owned wrapper, adapter, policy, sandbox, or mediator"
+    - "prove no external source, binary, or private derivative is required"
+    - "prove acceptance does not depend on an upstream modification"

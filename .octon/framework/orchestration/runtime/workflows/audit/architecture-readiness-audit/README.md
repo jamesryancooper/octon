@@ -96,6 +96,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] Bounded-audit bundle exists at `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/`
 - [ ] Findings are deduplicated with stable IDs and acceptance criteria
 - [ ] Coverage and convergence metadata are present
+- [ ] Recommendations preserve external tools unmodified and place all required solution changes in Octon-owned supported-interface surfaces
 - [ ] Done-gate expression is evaluated and recorded
 - [ ] If `post_remediation=true`, done-gate is true
 

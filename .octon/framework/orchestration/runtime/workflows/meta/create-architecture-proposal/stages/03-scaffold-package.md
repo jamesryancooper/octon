@@ -26,6 +26,8 @@ against the fail-closed proposal validator stack.
    invoking `.octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --write`.
 7. Record the scaffolded package inventory so later stages can prove the exact
    on-disk shape that passed validation.
+8. Confirm the rendered architecture templates retain the External Tool
+   Boundary and External Tool Integrity sections.
 
 ## Proceed When
 
@@ -34,4 +36,5 @@ against the fail-closed proposal validator stack.
 - [ ] `.octon/generated/proposals/registry.yml` includes the scaffolded package
 - [ ] Core artifacts exist
 - [ ] Architecture required docs exist
+- [ ] External-tool boundary and integrity sections exist
 - [ ] Scaffold inventory can be captured without guesswork

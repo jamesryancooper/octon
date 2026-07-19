@@ -1,0 +1,75 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "external-tool-integrity-amendment",
+  "selected_route": "branch-pr",
+  "operator_requested_route": "branch-pr",
+  "route_transition_authority": "none",
+  "branch_pr_predicate": "explicit-operator-pr-request",
+  "branch_pr_predicate_evidence": {
+    "predicate": "explicit-operator-pr-request",
+    "requirement_ref": "operator-authorized branch-pr reconstruction continuation dated 2026-07-19",
+    "evidence_refs": [
+      ".octon/state/evidence/validation/analysis/2026-07-19-change-closeout-external-tool-integrity-amendment-20260719T193436Z.md"
+    ],
+    "branch_no_pr_rejection_reason": "The authorized next canonical action is a protected-main PR reconstruction.",
+    "operator_request_ref": "current operator task: continue to the next canonical action"
+  },
+  "target_lifecycle_outcome": "published",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "pr-publication",
+  "intent": "Reconstruct and publish only the external-tool-integrity constitutional amendment from current origin/main without importing unrelated canonical-main residue.",
+  "scope": {
+    "summary": "Seventy amendment paths plus fresh charter-audit and receipt-atomic closeout evidence; all proposal, generated, runtime-implementation, provider, credential, and unrelated residue paths are excluded.",
+    "base_ref": "origin/main@72391b18d9341bce4e7ba109ec8db11ef2389f92",
+    "candidate_digest": "sha256:88c39435049a5ab0148d49287200aa83667d98c9931c0b517bc59c189082c8ff",
+    "amendment_path_count": 70,
+    "audit_evidence_path_count": 3,
+    "collision_disposition": "Preserve the current owner-lane registry block and the already-landed constraint row; add only the missing external-tool-integrity registry binding.",
+    "excluded_worktree": "/Users/jamesryancooper/Projects/octon"
+  },
+  "source_branch_ref": "chore/external-tool-integrity",
+  "target_branch_ref": "main",
+  "remote_branch_ref": "origin/chore/external-tool-integrity",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "deferred",
+  "not_landed_reason": "Draft PR publication and all hosted gates remain owned by closeout-pr.",
+  "landing_stop_reason": "hosted_checks_pending",
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/external-tool-integrity",
+    "worktree": "/private/tmp/octon-external-tool-integrity-20260719",
+    "blocker_reason": "SI-00 retains branch and worktree rollback containers."
+  },
+  "validation_evidence_refs": [
+    "validate-external-tool-integrity.sh: errors=0",
+    "test-validate-external-tool-integrity.sh: pass with 3 negative controls",
+    "test-architectural-review-validators.sh: pass",
+    "validate-architectural-review-workflows.sh: errors=0",
+    "test-validate-proposal-review-gate.sh: 20 passed, 0 failed",
+    "test-validate-proposal-program-child-readiness.sh: 13 passed, 0 failed",
+    "test-proposal-operation-workflow-runners.sh: 11 passed, 0 failed",
+    "changed shell syntax and YAML parse: pass",
+    "git diff --check: pass"
+  ],
+  "review_evidence_refs": [
+    ".octon/state/evidence/validation/analysis/2026-07-19-charter-audit-2026-07-19-external-tool-integrity-amendment.md"
+  ],
+  "durable_history": {
+    "kind": "branch",
+    "ref": "chore/external-tool-integrity",
+    "branch": "chore/external-tool-integrity"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "origin/main@72391b18d9341bce4e7ba109ec8db11ef2389f92",
+    "instructions": "Before landing, retain the branch without integration. After a future protected squash merge, revert the landed squash commit through a new protected-main PR."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Draft PR publication and hosted checks remain for closeout-pr."
+  ],
+  "created_at": "2026-07-19T19:34:36Z",
+  "updated_at": "2026-07-19T19:34:36Z"
+}

@@ -44,6 +44,8 @@ reviewable, and recoverable.
   control-plane authority
 - treating mission continuity, generated summaries, or local operator memory as
   substitutes for durable authority and evidence
+- making Octon's architecture or delivery depend on forking, patching,
+  modifying, or reengineering an external tool
 
 ## Non-Negotiables
 
@@ -79,6 +81,10 @@ reviewable, and recoverable.
 - require adapter-backed support claims to remain bounded by explicit
   support-target declarations, governance exclusions, and adapter-conformance
   criteria
+- treat external tools as immutable dependencies: Octon may learn from them,
+  configure them, contain them, wrap them, or invoke supported interfaces, but
+  every Octon requirement must be satisfied by Octon-owned architecture and
+  code without forking, patching, modifying, or reengineering the external tool
 - require final disclosure to state the admitted claim envelope and exclude
   stage-only, unsupported, or unadmitted surfaces from live claims
 
@@ -128,6 +134,8 @@ tuple set:
   `/.octon/instance/governance/support-targets.yml`
 - governance exclusions declaration:
   `/.octon/instance/governance/exclusions/action-classes.yml`
+- external-tool integrity policy:
+  `/.octon/instance/governance/policies/external-tool-integrity.yml`
 - terminology constitution:
   `/.octon/framework/cognition/_meta/terminology/naming-constitution.md`
 - terminology glossary:

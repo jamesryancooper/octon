@@ -18,7 +18,11 @@ stages.
 3. Preserve the primary target classification as authoritative.
 4. Normalize and deduplicate findings by stable-ID rule.
 5. Preserve acceptance criteria and evidence references.
-6. Compute consolidated recommendation:
+6. Reject or block any recommendation that requires forking, patching,
+   modifying, reengineering, or maintaining a private derivative of an
+   external tool. Require supported interfaces and Octon-owned solution
+   surfaces.
+7. Compute consolidated recommendation:
    - `NOT-APPLICABLE` when the primary audit is not applicable
    - `NOT-IMPLEMENTATION-READY` when blocking findings remain
    - `CONDITIONALLY-IMPLEMENTATION-READY` when only non-blocking concerns remain
@@ -35,3 +39,4 @@ stages.
 - [ ] No duplicate stable finding IDs remain
 - [ ] Primary classification is preserved
 - [ ] Coverage summary includes stage-level accounting
+- [ ] External-tool integrity disposition is explicit

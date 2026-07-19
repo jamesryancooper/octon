@@ -27,6 +27,7 @@ Build an explicit execution plan and done-gate mode before any stage runs.
 3. Record requested supplemental stages without deciding applicability yet.
 4. Persist bounded execution plan.
 5. Record the selected review method id in run evidence (see below).
+6. Load `.octon/instance/governance/policies/external-tool-integrity.yml`.
 
 ## Method selection (advisory, non-authority)
 

@@ -3,7 +3,8 @@ title: Configure Mechanism Review
 ---
 
 Resolve `mechanism_id` in the governed cross-surface mechanism index and load
-the native Architectural Review Mechanism doctrine.
+the native Architectural Review Mechanism doctrine plus
+`.octon/instance/governance/policies/external-tool-integrity.yml`.
 
 ## Method selection (advisory, non-authority)
 

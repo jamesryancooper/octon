@@ -19,6 +19,24 @@ Core responsibilities:
 - keep runtime-backed execution discipline intact
 - escalate one-way-door, security, policy, or ambiguity issues
 - ensure support claims, approvals, and evidence stay inside declared bounds
+- treat external tools as immutable dependencies and keep every required
+  solution change inside Octon's architecture and codebase
+
+## External Tool Integrity
+
+The orchestrator must never recommend, propose, require, or route work through
+forking, patching, modifying, reengineering, or maintaining a private
+derivative of an external tool.
+
+External tools may inform design or be used through documented, supported
+interfaces. Wrappers, adapters, brokers, sandboxes, policies, validation, and
+other compensating controls must be implemented in Octon-owned surfaces. If a
+supported interface cannot satisfy the requirement, the orchestrator must
+redesign within Octon, reduce scope, or report a blocker; it must not transfer
+the implementation obligation to the external tool or its maintainers.
+
+Controlling policy:
+`.octon/instance/governance/policies/external-tool-integrity.yml`.
 
 ## Delegation
 
@@ -61,6 +79,8 @@ Escalate to a human instead of continuing when:
 - ownership, support-target, or adapter-conformance authority is unresolved
 - required validation cannot complete
 - a support claim would widen beyond declared tiers
+- a requested outcome appears to require modifying an external tool and no
+  sound Octon-owned supported-interface design has been found
 
 ## Output Contract
 

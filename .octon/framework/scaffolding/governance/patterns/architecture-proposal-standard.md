@@ -52,6 +52,11 @@ Rules:
   target architecture has landed.
 - `architecture/implementation-plan.md` must translate the target architecture
   into implementable workstreams.
+- External tools are immutable dependencies. Target architecture and
+  implementation workstreams must solve Octon requirements in Octon-owned
+  surfaces using supported external interfaces; a fork, patch, modification,
+  private derivative, reengineering effort, or required upstream change is an
+  invalid target architecture.
 - `navigation/source-of-truth-map.md` must identify the durable authorities,
   proposal-local lifecycle sources, derived projections, retained evidence
   surfaces, and boundary rules that govern the architecture change.
@@ -68,4 +73,8 @@ Architecture proposals are implementation-grade complete only when they define:
 - the migration or adoption path from current state to target state;
 - validator, fixture, and retained-evidence requirements;
 - rollback and closeout expectations;
-- artifact ownership roles and downstream reference boundaries.
+- artifact ownership roles and downstream reference boundaries;
+- an external-tool integrity assessment naming each external tool, its
+  supported interface, the Octon-owned adapter/wrapper/broker/sandbox or policy,
+  proof that the tool remains unmodified, and the blocked or reduced-scope
+  outcome if the interface is insufficient.

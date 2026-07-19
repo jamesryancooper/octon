@@ -2,6 +2,23 @@ skill: audit-charter
 updated: "2026-03-06"
 
 runs:
+  - id: "2026-07-19-external-tool-integrity-amendment"
+    charter_path: ".octon/framework/constitution/CHARTER.md"
+    status: completed
+    timestamp: "2026-07-19T19:07:09Z"
+    parameters:
+      severity_threshold: all
+      include_rewrites: true
+      include_scores: true
+    metrics:
+      contradictions_direct: 0
+      conflicts_latent: 4
+      gaps_high: 0
+      gaps_medium: 4
+      gaps_low: 2
+      normative_clauses: 17
+    report: ../../../../validation/analysis/2026-07-19-charter-audit-2026-07-19-external-tool-integrity-amendment.md
+    log: 2026-07-19-external-tool-integrity-amendment.md
   - id: "2026-03-06-octon-root-charter-rerun"
     charter_path: ".octon/framework/cognition/governance/CHARTER.md"
     status: completed

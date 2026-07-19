@@ -296,6 +296,7 @@ review_mode: "pre-integration-architecture-review"
 verdict: "pass"
 unresolved_count: 0
 non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-16T14:24:00Z"
 evidence_refs:
   - "$(child_path "$child_id")/architecture/target-architecture.md"
   - "$(child_path "$child_id")/architecture/acceptance-criteria.md"
@@ -304,6 +305,7 @@ validator_refs:
 blockers: []
 mode_specific_coverage:
   fixture: "covered"
+  external_tool_integrity: "covered: external tools remain unmodified and Octon owns all required solution changes"
 EOF
 }
 

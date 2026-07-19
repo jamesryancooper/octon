@@ -28,6 +28,9 @@ Ensure the scaffolded proposal is standard-compliant before reporting success.
 7. Record the validator outcome, implementation-grade gate outcome,
    pre-integration review gate outcome, and any follow-up work needed before the
    package is filled in.
+8. Confirm the packet identifies supported interfaces and Octon-owned
+   integration surfaces whenever external tools are in scope, and rejects
+   external-tool modification as an implementation route.
 
 ## Proceed When
 
@@ -38,3 +41,4 @@ Ensure the scaffolded proposal is standard-compliant before reporting success.
 - [ ] Manifest-bearing module requirements are satisfied
 - [ ] Registry entry is valid and synchronized
 - [ ] README wording and exit path requirements are satisfied
+- [ ] External-tool integrity posture is explicit

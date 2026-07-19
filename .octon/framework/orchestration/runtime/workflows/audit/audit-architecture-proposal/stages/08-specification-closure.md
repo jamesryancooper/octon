@@ -24,6 +24,8 @@ further package changes are required.
 2. If blockers remain:
    - run the canonical specification-closure stage prompt
    - update the target proposal directly when possible
+   - close external-tool gaps only through Octon-owned supported-interface
+     solutions; otherwise retain the blocker or reduce scope
    - update or create `support/implementation-grade-completeness-review.md`
    - persist `bundle/reports/07-specification-closure.md`
    - record a change manifest
@@ -43,6 +45,7 @@ further package changes are required.
 
 - [ ] Specification Closure output exists
 - [ ] Remaining blockers are resolved or explicitly declared absent
+- [ ] No correction depends on modifying or reengineering an external tool
 - [ ] Package delta summary is updated when files changed
 - [ ] `support/implementation-grade-completeness-review.md` exists and records
       pass, fail, or blocker status

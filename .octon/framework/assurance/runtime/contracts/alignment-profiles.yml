@@ -80,6 +80,8 @@ profiles:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-lifecycle-normalization.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-assurance-disclosure-expansion.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-constitutional-family-live-model.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-external-tool-integrity.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-validate-external-tool-integrity.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-live-claims.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-disclosure-live-roots.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-role-adapter-hardening.sh"
@@ -160,6 +162,8 @@ profiles:
     entrypoint: "run_proposal_lifecycle"
     required_paths:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-existing-lifecycle-run-admission.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-external-tool-integrity.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-validate-external-tool-integrity.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh"
