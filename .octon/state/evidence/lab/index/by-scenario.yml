@@ -1,5 +1,5 @@
 schema_version: "lab-scenario-index-v1"
-updated_at: "2026-04-13T14:46:32Z"
+updated_at: "2026-07-19T04:22:00Z"
 entries:
   - scenario_id: "hidden-check-baseline"
     authored_scenario_ref: ".octon/framework/lab/scenarios/hidden-checks/hidden-check-baseline.yml"
@@ -41,3 +41,7 @@ entries:
     retained_evidence_refs:
       - ".octon/state/evidence/lab/scenarios/scn-repo-shell-supported-20260413/scenario-proof.yml"
       - ".octon/state/evidence/lab/replays/rpl-repo-shell-supported-20260413/replay-bundle.yml"
+  - scenario_id: "owner-lane-hermetic-protocol"
+    authored_scenario_ref: ".octon/framework/lab/scenarios/packs/github/owner-lane-hermetic-protocol.yml"
+    retained_evidence_refs:
+      - ".octon/state/evidence/validation/owner-lane-runtime/2026-07-17-hermetic-proof.yml"

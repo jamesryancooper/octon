@@ -31,7 +31,7 @@ No proposal or child implementation was started.
 |---|---:|---:|
 | CRITICAL | 0 | 0 |
 | HIGH | 2 | 0 |
-| MEDIUM | 3 | 0 |
+| MEDIUM | 4 | 0 |
 | LOW | 0 | 0 |
 
 ## Findings and Disposition
@@ -74,6 +74,14 @@ Kernel lifecycle-admission tests used a literal exploratory proposal path and
 were rejected by the raw-input non-authority guard. The fixture now uses a
 neutral proposal target without changing runtime admission semantics.
 
+### LAB-SCENARIO-INDEX-006 — closed
+
+The live GitHub admission and support dossier required the existing
+`owner-lane-hermetic-protocol` proof, but the authored lab scenario registry
+and retained-evidence index did not register that scenario. The missing
+scenario definition and index binding now point to the retained hermetic proof;
+the exact unified-execution completion sequence passes.
+
 ## Validation Evidence
 
 - `validate-run-authority-ledger-coherence.sh`: pass
@@ -98,6 +106,7 @@ neutral proposal target without changing runtime admission semantics.
 - `validate-runtime-effective-state.sh`: errors=0
 - `validate-architecture-conformance.sh`: errors=0
 - UEC cutover workflow validator sequence: all commands pass
+- Unified-execution completion workflow sequence: all commands pass
 - `assert-unified-execution-closure.sh`: errors=0
 - `validate-deny-by-default.sh --all --profile strict`: 48 runtime tests pass, 0 fail
 - Harness self-containment local sequence: pass, including workflow and audit-convergence gates

@@ -18,8 +18,9 @@ affected generated publication families.
 
 ## evaluation_complete
 
-The audit identified two high and three medium findings. The separately
-authorized follow-on remediation closed all five without modifying retained
+The audit and hosted conformance follow-up identified two high and four medium
+findings. The separately authorized follow-on remediation closed all six
+without modifying retained
 review evidence, accepted proposal authority, or implementation state.
 
 ## validation_complete
