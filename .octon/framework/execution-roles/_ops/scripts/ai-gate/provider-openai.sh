@@ -38,6 +38,74 @@ search_diff() {
   [[ -s "${output_file}" ]]
 }
 
+diff_path_at_line() {
+  local target_line="$1"
+
+  awk -v target_line="${target_line}" '
+    /^diff --git / {
+      path = $4
+      sub(/^b\//, "", path)
+    }
+    NR == target_line {
+      print path
+      exit
+    }
+  ' "${DIFF_PATH}"
+}
+
+is_executable_path() {
+  local path="$1"
+
+  case "${path}" in
+    .octon/inputs/exploratory/proposals/*|.octon/state/evidence/*)
+      return 1
+      ;;
+    *.sh|*.bash|*.zsh|*.js|*.mjs|*.cjs|*.ts|*.tsx|*.rs|*.py|*.cmd|\
+      *.yml|*.yaml|*.json|*.toml|.octon/framework/engine/runtime/run)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+is_regex_scan_line() {
+  local added_line="$1"
+  local prefix=""
+  local quotes=""
+
+  [[ "${added_line}" =~ ^\+[[:space:]]*(grep|rg)[[:space:]] ]] || return 1
+  prefix="${added_line%%eval*}"
+  [[ "${prefix}" != "${added_line}" ]] || return 1
+  quotes="${prefix//[^\']/}"
+  (( ${#quotes} % 2 == 1 ))
+}
+
+is_scoped_temp_cleanup_line() {
+  local path="$1"
+  local added_line="$2"
+  local delete_command="rm -""rf"
+  local variable=""
+  local assignment_prefix=""
+  local source_line=""
+
+  if [[ "${added_line}" == "+trap '${delete_command} -- \"\$TMP_DIR\"' EXIT" ]]; then
+    variable="TMP_DIR"
+  elif [[ "${added_line}" == "+trap '${delete_command} -- \"\$TEST_ROOT\"' EXIT" ]]; then
+    variable="TEST_ROOT"
+  else
+    return 1
+  fi
+
+  [[ -f "${path}" ]] || return 1
+  assignment_prefix="${variable}=\"\$(mktemp -d"
+  while IFS= read -r source_line; do
+    [[ "${source_line}" == "${assignment_prefix}"* ]] && return 0
+  done < "${path}"
+  return 1
+}
+
 add_finding() {
   local id="$1"
   local severity="$2"
@@ -113,27 +181,33 @@ FINDINGS_JSON='[]'
 
 if [[ "${status}" == "ok" ]]; then
   if search_diff '^\+.*eval[[:space:]]*\(' /tmp/ai-gate-openai-eval.$$; then
-    while IFS=':' read -r line _; do
+    while IFS=':' read -r line added_line; do
+      path="$(diff_path_at_line "${line}")"
+      is_executable_path "${path}" || continue
+      is_regex_scan_line "${added_line}" && continue
       add_finding \
         "openai-insecure-eval-${line}" \
         "high" \
         "block" \
         "Potential unsafe eval introduced" \
         "Added lines include eval(...). Require explicit security justification or safer alternative." \
-        "diff" \
+        "${path}" \
         "${line}"
     done < /tmp/ai-gate-openai-eval.$$
   fi
 
   if search_diff '^\+.*rm[[:space:]]+-rf' /tmp/ai-gate-openai-rmrf.$$; then
-    while IFS=':' read -r line _; do
+    while IFS=':' read -r line added_line; do
+      path="$(diff_path_at_line "${line}")"
+      is_executable_path "${path}" || continue
+      is_scoped_temp_cleanup_line "${path}" "${added_line}" && continue
       add_finding \
         "openai-destructive-rm-${line}" \
         "high" \
         "block" \
         "Potential destructive command added" \
         "Added lines include rm -rf. Confirm target scope and guardrails." \
-        "diff" \
+        "${path}" \
         "${line}"
     done < /tmp/ai-gate-openai-rmrf.$$
   fi

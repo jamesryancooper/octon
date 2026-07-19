@@ -30,7 +30,7 @@ No proposal or child implementation was started.
 | Severity | Found | Open |
 |---|---:|---:|
 | CRITICAL | 0 | 0 |
-| HIGH | 2 | 0 |
+| HIGH | 3 | 0 |
 | MEDIUM | 4 | 0 |
 | LOW | 0 | 0 |
 
@@ -82,6 +82,19 @@ and retained-evidence index did not register that scenario. The missing
 scenario definition and index binding now point to the retained hermetic proof;
 the exact unified-execution completion sequence passes.
 
+### AI-GATE-DIFF-CONTEXT-007 — closed
+
+The enforced AI Review Gate scanned the complete textual PR diff without
+distinguishing executable/configuration paths from non-authoritative proposal
+data or literal scanner patterns. It therefore blocked safely scoped temporary
+cleanup traps, the scanner that detects unsafe evaluation, and inert candidate
+launch census anchors. The adapters now retain blocking coverage for command-
+bearing source and configuration, exclude only exploratory proposals and
+retained evidence from execution-pattern findings, recognize exact quoted
+`mktemp -d` cleanup traps, and report the real changed path. Regression tests
+prove that unsafe evaluation, deletion, JavaScript spawn, and workflow-YAML
+spawn cases still block.
+
 ## Validation Evidence
 
 - `validate-run-authority-ledger-coherence.sh`: pass
@@ -108,6 +121,11 @@ the exact unified-execution completion sequence passes.
 - UEC cutover workflow validator sequence: all commands pass
 - Unified-execution completion workflow sequence: all commands pass
 - `assert-unified-execution-closure.sh`: errors=0
+- `test-ai-gate-provider-context.sh`: pass; unsafe executable/configuration
+  cases block and inert/scoped cases do not
+- Exact PR-diff AI provider replay: OpenAI blockers=0; Anthropic blockers=0
+  with one non-blocking credential-pattern warning
+- `validate-execution-governance.sh`: errors=0
 - `validate-deny-by-default.sh --all --profile strict`: 48 runtime tests pass, 0 fail
 - Harness self-containment local sequence: pass, including workflow and audit-convergence gates
 - `validate-phase7-build-to-delete-institutionalization.sh`: errors=0

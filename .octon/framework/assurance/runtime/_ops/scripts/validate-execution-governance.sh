@@ -85,6 +85,7 @@ main() {
   require_file "$OCTON_DIR/framework/engine/_ops/scripts/record-authority-exception-lease.sh"
   require_file "$OCTON_DIR/framework/engine/_ops/scripts/record-authority-revocation.sh"
   require_file "$OCTON_DIR/framework/assurance/runtime/_ops/tests/test-authority-control-tooling.sh"
+  require_file "$OCTON_DIR/framework/execution-roles/_ops/tests/test-ai-gate-provider-context.sh"
   require_file "$SCRIPT_DIR/assert-protected-execution-posture.sh"
   require_file "$MATERIAL_INVENTORY"
   require_file "$AUTHORIZATION_COVERAGE"
@@ -250,6 +251,9 @@ main() {
   run_test \
     "authority control tooling writes canonical artifacts" \
     bash "$OCTON_DIR/framework/assurance/runtime/_ops/tests/test-authority-control-tooling.sh"
+  run_test \
+    "AI gate adapters distinguish executable hazards from inert context" \
+    bash "$OCTON_DIR/framework/execution-roles/_ops/tests/test-ai-gate-provider-context.sh"
 
   echo "Validation summary: errors=$errors"
   if [[ $errors -gt 0 ]]; then

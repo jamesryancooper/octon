@@ -18,17 +18,19 @@ affected generated publication families.
 
 ## evaluation_complete
 
-The audit and hosted conformance follow-up identified two high and four medium
-findings. The separately authorized follow-on remediation closed all six
-without modifying retained
-review evidence, accepted proposal authority, or implementation state.
+The audit and hosted conformance follow-up identified three high and four
+medium findings. The separately authorized follow-on remediation closed all
+seven without modifying retained review evidence, accepted proposal authority,
+or implementation state.
 
 ## validation_complete
 
 Strict source-governance validators, workflow and skill validators, UEC support
 reconciliation, all affected publication-state validators, and
 runtime-effective-state validation pass. Workflow-system audit reports zero
-blocking findings and zero scenario failures.
+blocking findings and zero scenario failures. The exact PR-diff AI provider
+replay reports zero blockers while its regression test continues to block real
+unsafe executable and workflow-configuration cases.
 
 ## report_complete
 
