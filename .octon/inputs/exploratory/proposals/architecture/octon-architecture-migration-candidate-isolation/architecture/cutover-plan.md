@@ -4,10 +4,14 @@
 
 - `octon-architecture-migration-containment` exits and its containment evidence
   is fresh for the exact integration baseline.
-- ED-001 is applied to pinned macOS, hardware architecture, provider client,
-  native sandbox, and non-exportable or short-lived provider-session forms.
-- Independent review proves the selected session is useful without making
-  durable credential material candidate-readable.
+- ED-001's design is selected as arm64 macOS 26/Darwin 25, root-owned exact-
+  digest `/usr/bin/sandbox-exec`, digest-bound default-deny SBPL, an absolute
+  exact-digest/version OpenAI Codex CLI, and
+  `loopback-capability-relay-v1`.
+- Before candidate execution, RP-00 verification passes and the exact host,
+  working client, authenticated upstream transport, relay, and fixtures pass
+  preflight. Useful-positive and credential-negative proof is deliberately
+  post-implementation and does not circularly block design authorization.
 - RP-01 freezes the authority/guard decision and immediate-launch interface;
   exact shared-file symbols are allocated to RP-02.
 - Proposal acceptance, implementation-grade completeness, and pre-integration
@@ -18,21 +22,25 @@
 
 ## Atomic Isolation Sequence
 
-1. Pin the source commit, provider/client tuple, macOS build, sandbox-profile
-   digest, and independent repository materialization recipe.
+1. Pin the source commit, absolute client path/digest/version, macOS build and
+   kernel identity, `/usr/bin/sandbox-exec` owner/digest, rendered SBPL digest,
+   relay listener, and independent repository materialization recipe.
 2. Create the candidate-only root, fresh HOME, and independent repository and
    object database; verify no canonical common directory, object alternate,
    config, hook, index, ref, or worktree link exists.
 3. Construct the explicit environment, FD, executable, filesystem, process,
    IPC, and network allowlists and apply the native sandbox before provider
    client execution.
-4. Attach the provider-native session without copying or exposing a durable
-   credential to the candidate.
+4. Start the inference-only relay outside the sandbox/process group from a
+   pre-existing authenticated upstream transport, mint one run/model/budget/
+   listener/deadline-bound 256-bit bearer, and expose only that non-durable
+   bearer to the candidate client.
 5. Run the deterministic useful task and all credential, host, Git, network,
    process, FD, and filesystem canaries.
 6. Create and identify the exact candidate commit, then export it through a
    non-executing object boundary without canonical mutation.
-7. Retire the provider session, process group, HOME, workspace, repository, and
+7. Atomically revoke the relay bearer and stop the relay at every terminal
+   path, then retire the process group, HOME, workspace, repository, and
    temporary identity; prove no reuse and no surviving descendant.
 8. Publish UE-003, PO-FD-008/PG-02-MACOS-ISOLATION, the candidate-side
    PO-FD-006 evidence, rollback drill, conformance, and drift receipts.
@@ -46,7 +54,7 @@ supported autonomous routes for the same primary-provider task.
 After the full disposable fixture passes, run one bounded non-production
 canary task. Admission remains limited to the exact proved tuple. A new macOS
 build, provider client, provider-session class, sandbox profile, executable,
-network destination, or repository materialization mechanism invalidates the
+relay protocol/listener policy, or repository materialization mechanism invalidates the
 tuple and returns the route to disabled pending fresh proof.
 
 ## Safe Resting State
@@ -56,8 +64,8 @@ credentialless native candidate route. Candidate commits may be exported for
 preservation and later RP-06 route evaluation; export itself selects no
 publication route. Protected PR is available only when RP-06 later evaluates a
 fresh valid review-required predicate, never as isolation-failure recovery.
-Candidate access to canonical Git, broker credentials, privileged IPC, or
-provider effects remains prohibited. RP-02 can safely pause there without
+Candidate direct provider egress and access to canonical Git, broker
+credentials, privileged IPC, or provider effects remains prohibited. RP-02 can safely pause there without
 waiting for RP-04.
 
 ## Handoff

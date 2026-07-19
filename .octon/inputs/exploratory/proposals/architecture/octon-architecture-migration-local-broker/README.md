@@ -1,6 +1,6 @@
 # Supervised Local Broker and Credential Custody
 
-This is the draft RP-04 architecture proposal for Octon's one unattended local
+This is the accepted RP-04 architecture proposal for Octon's one unattended local
 privilege boundary. A supervised macOS broker validates RP-01 authority,
 operates outside the RP-02 candidate boundary, holds durable credentials in
 Keychain, is the sole normal RP-03 store writer and effect-adapter host, and
@@ -27,7 +27,7 @@ operation, or perform an effect.
 
 ## Packet Status
 
-- proposal status: `draft`
+- proposal status: `accepted`
 - release state: `pre-1.0`
 - change profile: `atomic`
 - parent program: `octon-architecture-migration-program`
@@ -36,11 +36,15 @@ operation, or perform an effect.
   - `octon-architecture-migration-candidate-isolation`
   - `octon-architecture-migration-transactional-runtime-store`
 
-The packet is ready for operator reading, not implementation. ED-002's exact
-IPC/application-identity, launch service, Keychain access-control, code-signing,
-and dependency choices require a passing Design and Dependency Receipt. ED-001
-useful isolation and the three child dependencies must be proved; ED-007's
-visible-surface audit, proposal acceptance, and independent review must pass.
+The corrected packet passes independent post-remediation review and authorizes
+only creation of its future exact implementation through the program DAG; no
+implementation has begun.
+The ED-002 receipt selects the exact macOS 26.5.2 root-owned launchd/XPC peer-
+requirement, dedicated identity, System Keychain ACL, signing, enrollment,
+replay, HMAC-handle, and dependency posture. The ED-007 census assigns every
+current visible/helper/workflow surface and retains one `octon broker` concept.
+ED-001, dependency implementation verification, exact platform preflight, and
+all dynamic attacks remain future implementation gates.
 
 ## Normal Solo-Builder Experience
 

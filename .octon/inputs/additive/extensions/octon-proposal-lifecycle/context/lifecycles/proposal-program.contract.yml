@@ -4,6 +4,15 @@ owner_extension: "octon-proposal-lifecycle"
 version: "1.0.0"
 execution_strategy: "orchestrated-replan-loop"
 
+containment_policy:
+  phase: "SI-00"
+  reason_code: "RP00_CONTAINMENT_PUBLICATION_DISABLED"
+  admitted_delivery_outcomes: ["implemented", "archive-ready"]
+  required_route: "stage-only"
+  publication_effects_enabled: false
+  exact_work_preserved: true
+  compatibility_values_authorize_current_requests: false
+
 # Program route inventory is resolved from this published lifecycle contract
 # through the generated effective extension catalog. Skill files, prompt
 # bundles, proposal-local receipts, and raw additive inputs are not scheduler
@@ -43,7 +52,7 @@ delivery_modes:
         - "route legality"
         - "generated freshness"
     clean_worktree_route:
-      dirty_or_stale_source_defaults_to_route_owned_clean_worktree: true
+      dirty_or_stale_source_defaults_to_route_owned_clean_worktree: false
       include_path_classification_required_before_reconstruction_stage_commit: true
     stop_condition_taxonomy:
       - stop_id: "SC-001-authority-gap"
@@ -116,9 +125,12 @@ delivery_modes:
     supported_outcomes:
       - "implemented"
       - "archive-ready"
-      - "landed"
-      - "synced"
-      - "cleaned"
+    containment:
+      required_route: "stage-only"
+      reason_code: "RP00_CONTAINMENT_PUBLICATION_DISABLED"
+      reject_effectful_or_default_requests: true
+      publication_effects_enabled: false
+      exact_work_preserved: true
     authority_boundary:
       aggregate_receipt_only: true
       child_receipts_remain_child_owned: true
@@ -131,8 +143,8 @@ delivery_modes:
     required_handoffs:
       packet_closeout_owner: "proposal-packet-terminal-closeout"
       archive_owner: "archive-proposal"
-      change_closeout_owner: "closeout-change-or-closeout-worktree"
-      repo_hygiene_owner: "repo-hygiene-cleanup"
+      later_publication_owner: "RP-06"
+      later_cleanup_owner: "RP-08"
       generated_publication_owner: "owning-publisher-scripts"
       lifecycle_postmortem_owner: "lifecycle-postmortem"
 
@@ -331,7 +343,7 @@ program:
       generated_output_authority: "derived-only"
       raw_evidence_retained: true
   clean_delivery_continuation:
-    mode_id: "clean-delivery-continuation"
+    mode_id: "rp00-contained-delivery"
     declared_posture: "orchestrated-replan-loop"
     continuation_mode_field: "route-decision-receipt.yml#route_selection_inputs.continuation_mode"
     selected_outcome_field: "route-decision-receipt.yml#delivery_handoff.requested_target_outcome"
@@ -380,7 +392,10 @@ program:
       model_visible_context_sha256: "required"
       unsafe_resume_behavior: "fail-closed"
     delivery_handoff:
-      target_outcome_cleaned_is_request_only: true
+      admitted_target_outcomes: ["implemented", "archive-ready"]
+      required_route: "stage-only"
+      effectful_requests_denied_with: "RP00_CONTAINMENT_PUBLICATION_DISABLED"
+      handoff_emission_enabled: false
       owner: "proposal-program-delivery"
       runner_owns_landing: false
       runner_owns_sync: false
@@ -935,59 +950,7 @@ program:
     child_promotion_targets_remain_child_owned: true
 
 lifecycle_interactions:
-  emitted_profiles:
-    - profile_id: "program-child-batch-handoff"
-      interaction_kind: "follow_on_work_required"
-      receipt_schema: "lifecycle-interaction-request-v1"
-      requested_capabilities:
-        - "change-closeout"
-        - "closeout-worktree"
-      requested_lifecycle_ids:
-        - "change-closeout"
-        - "closeout-worktree"
-      requested_route_surfaces:
-        - "closeout-change"
-        - "closeout-worktree"
-      requested_atomic_unit_types:
-        - "change"
-        - "worktree"
-      requested_target_outcomes:
-        - "cleaned"
-        - "preserved"
-        - "blocked"
-      evidence_acceptance_classes:
-        - "advisory-context"
-        - "validation-evidence"
-        - "review-evidence"
-        - "rollback-context"
-        - "non-authority-only"
-      forbidden_transfer:
-        - "git-ref-mutation"
-        - "hosted-provider-authorization"
-        - "branch-cleanup-authorization"
-        - "worktree-cleanup-authorization"
-        - "repo-hygiene-deletion"
-        - "archive-authorization"
-        - "promotion-authorization"
-        - "scope-expansion"
-      return_schema: "lifecycle-interaction-return-v1"
-      expected_return_evidence:
-        - "change-receipt-v1"
-        - "closeout-worktree-report-v1"
-      required_closeout_worktree_report_fields:
-        - "proposal_program_handoff_authorization.child_id"
-        - "proposal_program_handoff_authorization.route_id"
-        - "proposal_program_handoff_authorization.classifier_output_ref"
-        - "proposal_program_handoff_authorization.classifier_output_digest"
-        - "proposal_program_handoff_authorization.authorized_foreign_fingerprint"
-        - "proposal_program_handoff_authorization.authorized_paths"
-        - "proposal_program_handoff_authorization.non_mutating"
-        - "proposal_program_handoff_authorization.preserve_and_exclude_from_child_closeout_blocking"
-        - "proposal_program_handoff_authorization.parent_summary_not_child_closeout_receipt"
-        - "proposal_program_handoff_authorization.child_closeout_authority_preserved"
-        - "proposal_program_handoff_authorization.forbidden_actions"
-      target_gate_policy: "target-owned-independent-validation"
-      non_authorizing: true
+  emitted_profiles: []
   accepted_profiles:
     - profile_id: "program-handoff-return"
       interaction_kind: "follow_on_work_required"

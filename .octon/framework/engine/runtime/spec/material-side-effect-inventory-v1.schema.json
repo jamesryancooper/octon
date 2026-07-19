@@ -4,11 +4,132 @@
   "title": "Octon Material Side-Effect Inventory v1",
   "type": "object",
   "additionalProperties": true,
-  "required": ["schema_version", "classes", "paths"],
+  "required": ["schema_version", "closed_world_discovery", "classes", "paths"],
   "properties": {
     "schema_version": {
       "type": "string",
       "const": "material-side-effect-inventory-v1"
+    },
+    "closed_world_discovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "authority",
+        "enumerator",
+        "ambient_worktree_scan",
+        "roots",
+        "additive_selection",
+        "exclusion_classes",
+        "exclusion_override",
+        "grammar_families",
+        "ambiguous_policy",
+        "normalized_key",
+        "ordering",
+        "material_sets",
+        "equality",
+        "ambiguity_exceptions"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "const": "material-effect-discovery-contract-v1"
+        },
+        "authority": {
+          "type": "string",
+          "const": ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml#closed_world_discovery"
+        },
+        "enumerator": {
+          "type": "string",
+          "const": "git ls-tree -rz --full-tree <commit>"
+        },
+        "ambient_worktree_scan": { "type": "boolean", "const": false },
+        "roots": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "additive_selection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["authority_ref", "selected", "inactive_or_quarantined"],
+          "properties": {
+            "authority_ref": { "type": "string", "minLength": 1 },
+            "selected": { "$ref": "#/$defs/setDigest" },
+            "inactive_or_quarantined": {
+              "allOf": [
+                { "$ref": "#/$defs/setDigest" },
+                {
+                  "type": "object",
+                  "required": ["disposition"],
+                  "properties": {
+                    "disposition": { "type": "string", "minLength": 1 }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "exclusion_classes": {
+          "type": "array",
+          "minItems": 8,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "exclusion_override": { "type": "string", "minLength": 1 },
+        "grammar_families": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "ambiguous_policy": { "type": "string", "minLength": 1 },
+        "normalized_key": {
+          "type": "string",
+          "const": "kind|repo-relative-posix-path|stable-anchor|grammar-id"
+        },
+        "ordering": { "type": "string", "minLength": 1 },
+        "material_sets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["writers", "launchers"],
+          "properties": {
+            "writers": { "$ref": "#/$defs/setDigest" },
+            "launchers": { "$ref": "#/$defs/setDigest" }
+          }
+        },
+        "equality": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["writers", "launchers"],
+          "properties": {
+            "writers": { "type": "string", "const": "D_w = M_w" },
+            "launchers": { "type": "string", "const": "D_l = M_l = A_l" }
+          }
+        },
+        "ambiguity_exceptions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["key", "owner", "disposition", "expires"],
+            "properties": {
+              "key": {
+                "type": "string",
+                "pattern": "^(writer|launcher)\\|\\.?(octon|github)/.+\\|[^|]+\\|[^|]+$"
+              },
+              "owner": { "type": "string", "minLength": 1 },
+              "disposition": { "type": "string", "minLength": 1 },
+              "expires": {
+                "type": "string",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+              }
+            }
+          }
+        }
+      }
     },
     "classes": {
       "type": "array",
@@ -72,9 +193,30 @@
           "token_required": { "type": "boolean" },
           "coverage_state": {
             "type": "string",
-            "enum": ["live", "stage_only", "retired", "denied"]
+            "enum": [
+              "live",
+              "stage_only",
+              "retired",
+              "denied",
+              "denied_until_connector_admission_runtime_authorization"
+            ]
           }
         }
+      }
+    }
+  },
+  "$defs": {
+    "setDigest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count", "sha256"],
+      "properties": {
+        "count": { "type": "integer", "minimum": 0 },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "disposition": { "type": "string", "minLength": 1 }
       }
     }
   }

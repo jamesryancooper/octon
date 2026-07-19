@@ -1,12 +1,17 @@
-# Stage 06: Route Closeout And Archive
+# Stage 06: Resolve Closeout Readiness And Stop Before Archive
 
-Route packet terminal closeout through the packet closeout lifecycle, then route implemented archive through the separate proposal archive lifecycle.
+Coordinate child-owned closeout and terminal-readiness evidence, then stop at
+`archive-ready`. Do not invoke archive relocation during SI-00.
 
 Required checks:
 
-- Packet closeout reports `verdict: pass`.
-- Packet closeout reports `archive_authorized: yes` before archive routing.
-- Packet closeout does not archive directly.
-- Archive relocation is followed by terminal freshness, implementation conformance, and post-implementation drift/churn validation.
-- Fresh archive mutations block Change closeout until revalidated.
-- Missing packet closeout or archive authorization emits `SC-001-authority-gap`; stale post-archive validation emits `SC-005-stale-evidence`.
+- Every child receipt remains target-owned and fresh.
+- Packet closeout/terminal-readiness evidence supports `archive-ready` without
+  treating parent summaries as child authority.
+- Exact parent and child candidate refs, worktrees, rollback handles, and
+  unrelated work remain preserved.
+- No archive relocation, Git/GitHub mutation, hosted landing, final sync,
+  cleanup, branch deletion, or generated direct publication occurs.
+- Later archive/publication requests are blocked with
+  `RP00_CONTAINMENT_PUBLICATION_DISABLED` and routed only as an operator-visible
+  next-owner recommendation.

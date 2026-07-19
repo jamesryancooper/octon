@@ -1,0 +1,24 @@
+schema_version: "1.0"
+run_id: architecture-migration-signed-evidence-20260718T161703Z
+commit_sha: 3c4e291192a2045153860c5447ce5530e6091c31
+scope_hash: sha256:42273a7d2475c1eac7195c3ff97ee059e1c970659e9c78cbd136be7ad94e4805
+prompt_hash: sha256:f6d037391518a3419842e2b39732fae4ec72bbc68c59b282fc1a57bea660a2e4
+prompt_hash_basis: commands.md
+findings_hash: sha256:cbb2472a6f644da4d492ffc8f08647fbc9f27fa0d6fb0066fd001d09247eee57
+findings_hash_basis: findings.yml
+params_hash: sha256:cb0bc3b8bad7dee1833e0487a309ab68b8f94674181fb30195b6fad88091e6e0
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [revision-required, revision-required, revision-required]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 3
+open_findings_at_or_above_threshold: 3
+done: false
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: revision-qualified-local
+rationale: Three passes agree that mechanism, hosted verifier identity, and evidence-order blockers remain.

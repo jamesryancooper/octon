@@ -1,0 +1,33 @@
+schema_version: "1.0"
+run_id: architecture-migration-candidate-isolation-post-remediation-20260718T151500Z
+findings:
+  - id: RP02-ED001-MECHANISM-001
+    severity: high
+    status: closed
+    summary: ED-001 now selects a narrow exact native enforcement, client identity, and one-run inference-relay design.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/resources/engineering-disposition-ed001.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/architecture/file-change-map.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/architecture/validation-plan.md
+    acceptance_satisfied: The design pins host floor, enforcement/profile/client/relay identity rules, exact symbols, inference-only/effect exclusions, fail-closed behavior, and static/dynamic fitness without claiming feasibility proof.
+  - id: RP02-IMPLEMENTATION-EVIDENCE-CYCLE-002
+    severity: high
+    status: closed
+    summary: Proposal-design authorization, implementation entry, and exact-implementation proof are now distinct gates.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/architecture/acceptance-criteria.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/resources/packet-contract.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/support/implementation-grade-completeness-review.md
+    acceptance_satisfied: RP-00 and exact preflight gate launch; UE-003 and all dynamic proof gate conformance, completion, cutover, support, and promotion after the implementation exists.
+  - id: RP02-PARENT-SCOPE-EQUALITY-003
+    severity: high
+    status: closed
+    summary: The ordered 17-target child list exactly equals the parent RP-02 registry scope.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/proposal.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+    acceptance_satisfied: Ordered equality has an empty diff and all related parent collision records remain complete and acyclic.
+new_findings: []

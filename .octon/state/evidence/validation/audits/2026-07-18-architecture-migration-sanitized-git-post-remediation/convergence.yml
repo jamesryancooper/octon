@@ -1,0 +1,24 @@
+schema_version: "1.0"
+run_id: architecture-migration-sanitized-git-post-remediation-20260718T155842Z
+commit_sha: 586f3726989abd895c9c311ccc3d4ce78bafeb0a
+scope_hash: sha256:d2299fa953ec57c1842ff41371d7dfca7bf00297ba627e9a8c70c328f700efc0
+prompt_hash: sha256:8930052d9ded9c785a89f56cdeb638b16e2baa988cd5654cf010d611f760a2c0
+prompt_hash_basis: commands.md
+findings_hash: sha256:ac002d63d0e4e6a1c2d27c9348b5d7fb6d55a51fc02e89be47ec4040b385934f
+findings_hash_basis: findings.yml
+params_hash: sha256:65934a87aa1ea743e5c97be8625f4aff55cd60a0ddc5fa32b388e52e52951017
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: Three passes agree that exact ED-003 selection, evidence ordering, scope parity, and fail-closed boundaries close every blocker.

@@ -24,7 +24,7 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/scripts/validate-self-evolution-runtime-v5.sh"
   - ".octon/framework/assurance/runtime/_ops/tests/test-self-development-trust-activation.sh"
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-self-development-trust-activation/"
-status: "draft"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: "After packet-specific review, binding the accepted ROD-003 boundary, implementation, adversarial activation proof, conformance, and promotion, close and archive this packet; safe-automatic activation remains unclaimed unless its separate gate passes."
@@ -42,4 +42,4 @@ dependencies:
   - "octon-architecture-migration-recovery-class-b"
 program_phase: "trust-safe-self-development"
 program_group: "RWG-09"
-explicit_runtime_non_implementation_statement: "This draft is non-authoritative and does not land, install, select, activate, roll back, or certify any Octon version or trust root."
+explicit_runtime_non_implementation_statement: "This accepted proposal remains non-runtime and does not land, install, select, activate, roll back, or certify any Octon version or trust root."

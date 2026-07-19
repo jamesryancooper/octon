@@ -54,7 +54,7 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/tests/test-mission-child-agent-contract.sh"
   - ".octon/framework/assurance/runtime/_ops/tests/test-token-budget-ledger.sh"
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-bounded-child-agents/"
-status: "draft"
+status: "accepted"
 change_profile: "atomic"
 release_state: "pre-1.0"
 parent_program: "octon-architecture-migration-program"
@@ -64,11 +64,10 @@ dependencies:
 lifecycle:
   temporary: true
   exit_expectation: >-
-    After engineering binds the accepted ROD-005 baseline to enforceable
-    provisional values, dependencies exit, operator and architecture review
-    accept the design, implementation and adversarial proof pass, durable
-    promotion completes, and conformance/drift receipts pass, archive this
-    packet without proposal-path dependencies.
+    After the selected exact ROD-005 design is implemented and proved,
+    dependencies exit, operator and architecture review accept the design,
+    adversarial proof passes, durable promotion completes, and conformance/drift
+    receipts pass, archive this packet without proposal-path dependencies.
 related_proposals:
   - "octon-architecture-migration-program"
   - "octon-architecture-migration-recovery-class-b"

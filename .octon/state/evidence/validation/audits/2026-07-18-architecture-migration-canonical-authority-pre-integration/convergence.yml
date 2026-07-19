@@ -1,0 +1,19 @@
+schema_version: "1.0"
+run_id: architecture-migration-canonical-authority-pre-integration-20260718T133931Z
+commit_sha: 7192be7d74a868bec18292ad9fe1b9fd3c311818
+scope_hash: sha256:7c10ab2255ebeaf3ae2c06d583e3255879f612a7e8f726bf72faf5b65c2a887a
+prompt_hash: sha256:5d43800884205f245058d413ad8bd9e6c5317bbcff99a07fd0875e9ba8aa52bc
+findings_hash: sha256:284a0bf3d6b436358dbbcb92561584ce875bd4accf7ffee3247e688e3718b4ef
+params_hash: sha256:395d131d8da80a46e94854ac94a66736780470fb7066d5b664126959d8c9ddb6
+seed: "17,29,43"
+system_fingerprint: "Darwin-arm64"
+result_vector: [revision-required, revision-required, revision-required]
+stable: true
+union_blocking_findings: 2
+open_findings_at_or_above_threshold: 2
+done: false
+mode: convergence
+post_remediation: false
+convergence_required: false
+done_gate: revision-required
+rationale: Three controlled packet-standard passes converge structurally, while the independent architecture review consistently finds the same two design blockers.

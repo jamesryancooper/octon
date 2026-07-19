@@ -1,0 +1,24 @@
+schema_version: "1.0"
+run_id: architecture-migration-bounded-child-agents-post-remediation-cycle-2-20260718T180407Z
+commit_sha: 3e36f86066
+scope_hash: sha256:100cb5178e4c441b71bf16c183aa290469b01daa083a6047d2e2c7663e5e0707
+prompt_hash: sha256:52ece69de37cd167457666639a22b6c48c946d45d57313e24146ba11c3b524f8
+prompt_hash_basis: commands.md
+findings_hash: sha256:764af5b59abfe0b41ee87cef60dff98bb667f6bfcdcf6ce87bf667ff327a0029
+findings_hash_basis: findings.yml
+params_hash: sha256:bb3fe81de64f720f35aed9ac95e1556a413e36400a9855184417a5b4b117fcc0
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: accepted
+rationale: Three passes agree both findings are closed and exact parent/child scope is coherent.

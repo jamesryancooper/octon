@@ -1,5 +1,9 @@
 # Proof and Handoff Checklist
 
+- [ ] The accepted packet digest and selected proof-protocol receipt are exact;
+      protocol implementation exists without claiming any dynamic result.
+- [ ] Proof-source entry verifies exact implemented child receipts, current
+      writers, clean commit, frozen current inputs, and evidence-only writes.
 - [ ] Core dependency receipts for RP-08/RP-09/RP-10/RP-11 are exact and current.
 - [ ] Optional claims remain disabled until RP-12/RP-13 receipts pass.
 - [ ] Acceptance corpus, baseline, budgets, evidence rules, and provider snapshot are frozen.
@@ -16,6 +20,8 @@
 - [ ] Each final claim disposition is accepted separately through its evidence-based promotion gate.
 - [ ] Claim map and handoff bind exact evidence; downstream authority accepts separately.
 - [ ] Full closeout verifies RP-12 and RP-13 terminal outcomes and all fifteen child lifecycles.
+- [ ] Manifest, secret/custody/quota, commit-last generation, and expected-old
+      index checks pass; every stale/failed generation remains immutable.
 
 Any unchecked claim-scoped item blocks that claim; optional failure does not
 erase a lower safe core state, but all children are required for program closeout.

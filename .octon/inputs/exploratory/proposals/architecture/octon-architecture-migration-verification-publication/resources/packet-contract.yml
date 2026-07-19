@@ -209,10 +209,10 @@ blocking_findings:
   - "RF-010"
   - "RF-024"
 entry_criteria:
-  - "RP-01/RP-03/RP-05 exit"
-  - "ED-004 verifier disposition applied"
-  - "settled/retired ROD-002 autonomy/PR policy durably encoded and traceable"
-  - "workflow target-family split resolved by accepted .octon source/generator"
+  - "accepted RP-06 design and digest-fresh architecture review authorize creation only"
+  - "RP-01/RP-03/RP-05 implementation verification gates source entry"
+  - "exact ED-004 GitHub feature/App/environment/ruleset/merge-queue/runner/scratch preflight passes before source changes"
+  - "settled ROD-002 typed policy and exact .octon workflow generator are created only during authorized implementation"
 exit_criteria:
   - "candidate cannot alter its only verdict"
   - "verifier cannot publish and publisher cannot mint a verdict"

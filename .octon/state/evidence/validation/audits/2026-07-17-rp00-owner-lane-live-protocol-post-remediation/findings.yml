@@ -5,6 +5,7 @@ findings:
     severity: critical
     status: closed
     summary: Independent pre-capture inputs now precede runtime-generated observations in an acyclic staged protocol.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:39
       - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:104
@@ -15,6 +16,7 @@ findings:
     severity: critical
     status: closed
     summary: The complete intended credential tuple and trusted capture facts are strictly represented and mismatch-tested.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:707
       - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:742
@@ -25,6 +27,7 @@ findings:
     severity: critical
     status: closed
     summary: One authoritative reconciliation supplies the canonical PR number to four-source typed suffix construction.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
     evidence:
       - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:1073
       - .octon/framework/engine/runtime/crates/kernel/src/owner_lane.rs:1153

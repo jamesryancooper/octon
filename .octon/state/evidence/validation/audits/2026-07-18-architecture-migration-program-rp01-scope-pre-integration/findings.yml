@@ -1,0 +1,51 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-rp01-scope-pre-integration-20260718T201500Z
+findings:
+  - id: PROGRAM-COLLISION-LEDGER-COMPLETENESS-001
+    severity: critical
+    status: closed
+    summary: The registry carries an exact typed record for every derived write-scope collision.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/support/revisions/revision-20260718T194500Z.md
+    acceptance_satisfied: All 122 derived collisions have one ledger record with participants, contributions, owner, and valid serialization.
+  - id: PROGRAM-COLLISION-SERIALIZATION-002
+    severity: high
+    status: closed
+    summary: Dependency and exclusive-lock collision orders form one acyclic aggregate graph.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/packet-sequence.md
+    acceptance_satisfied: The structure validator accepts 104 dependency orders and 18 exclusive integration locks with zero aggregate cycles.
+  - id: PROGRAM-CHILD-AUTHORITY-PRESERVATION-003
+    severity: high
+    status: closed
+    summary: Parent coordination does not transfer child semantic or lifecycle authority.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/child-packet-contract.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md
+    acceptance_satisfied: RP-01 owns only the guard API and census-named invocation slice; every child retains its independent lifecycle authority.
+  - id: PROGRAM-COMPLETENESS-RECEIPT-SEPARATION-004
+    severity: high
+    status: closed
+    summary: Parent proposal completeness remains separate from child lifecycle readiness and program orchestration.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/support/implementation-grade-completeness-review.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/child-packet-contract.md
+    acceptance_satisfied: Parent acceptance cannot satisfy the strict program child-readiness gate or authorize child implementation.
+  - id: PROGRAM-RP01-LAUNCH-SCOPE-005
+    severity: critical
+    status: closed
+    summary: RP-01 launch-dominance scope exactly matches the child manifest, parent registry, ownership map, and collision ledger.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/proposal.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/resources/candidate-launch-census.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md
+    acceptance_satisfied: Both ordered target lists contain the same 26 entries; the only added shared file has complete RP-01/RP-02/RP-11 serialization.
+new_findings: []

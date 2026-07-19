@@ -10,3 +10,13 @@ validation plan, and `resources/traceability.yml` before the lifecycle receipts.
 The sole durable target is RP-14's retained evidence root. Support admissions,
 HarnessCard, roadmap, release, runtime, workflow, CLI, validator, and provider
 surfaces remain downstream or child-owned.
+
+## Current Gate
+
+The packet is `accepted` at a fresh digest after independent proposal and strict
+architecture re-review. It selects immutable inputs and run identities, the
+paired/counterbalanced corpus, measurement and provider-freshness rules,
+bounded evidence custody, claim adjudication, and non-circular proof ordering.
+Future exact proof-protocol implementation prompting is authorized only through
+the parent DAG. No dogfood, provider reproduction, implementation, claim
+admission, promotion, or external effect has occurred.

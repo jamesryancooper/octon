@@ -1,0 +1,6 @@
+schema_version: "1.0"
+run_id: architecture-migration-workspace-projects-20260718T165727Z
+findings:
+  - {id: RP10-EXACT-PROJECT-MECHANISMS-001, severity: high, status: open, summary: "Identity, record, revision, boundary, correction, snapshot, index, and inbox mechanisms are not exact."}
+  - {id: RP10-IMPLEMENTATION-EVIDENCE-CYCLE-002, severity: high, status: open, summary: "Future dependency and dynamic proof gate proposal authorization circularly."}
+new_findings: [RP10-EXACT-PROJECT-MECHANISMS-001, RP10-IMPLEMENTATION-EVIDENCE-CYCLE-002]

@@ -83,19 +83,13 @@ commands:
     path: octon-proposal-run-packet-delivery.md
     summary: "Run the workflow-backed delivery wrapper for one accepted proposal packet."
     access: agent
-    argument_hint: "target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>"
+    argument_hint: "target=<proposal-packet-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>"
   - id: octon-proposal-run-program-delivery
-    display_name: "Run Program to Clean Delivery"
+    display_name: "Run Program Contained Delivery"
     path: octon-proposal-run-program-delivery.md
     summary: "Alias for the canonical proposal-program-delivery wrapper; it adds no independent lifecycle authority."
     access: agent
-    argument_hint: "target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>"
-  - id: octon-proposal-run-program-clean-delivery
-    display_name: "Program - Run Clean Delivery"
-    path: octon-proposal-run-program-clean-delivery.md
-    summary: "Alias for the canonical proposal-program-clean-delivery wrapper; previews the route graph and requests cleaned delivery through the existing proposal-program lifecycle runner."
-    access: agent
-    argument_hint: "<program-packet-path> --run-id <id> [--max-steps <n>] [--max-child-concurrency <n>] [--executor auto|codex|mock]"
+    argument_hint: "target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>"
   - id: octon-proposal-create-program
     display_name: "Program - Create"
     path: octon-proposal-create-program.md
@@ -167,4 +161,4 @@ commands:
     path: octon-proposal-run-program-lifecycle.md
     summary: "Run the governed orchestration wrapper for one proposal program; this is not a leaf route bundle."
     access: agent
-    argument_hint: "<program-packet-path> [--run-id <id>] [--executor auto|codex|claude|mock] [--execute-routes] [--invocation-authority unattended] [--max-steps <n>] [--max-child-concurrency <n>] [--max-iterations <n>] [--set target_outcome=cleaned]"
+    argument_hint: "<program-packet-path> --run-id <id> --set target_outcome=implemented|archive-ready [--executor auto|codex|claude|mock] [--execute-routes] [--max-steps <n>] [--max-child-concurrency <n>] [--max-iterations <n>]"

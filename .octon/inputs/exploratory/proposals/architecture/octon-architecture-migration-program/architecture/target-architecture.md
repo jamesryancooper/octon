@@ -5,7 +5,7 @@
 | Category | Meaning for this revision |
 | --- | --- |
 | Current authority | Accepted repository contracts, active runtime behavior, and live provider controls continue to govern. This proposal changes none of them. |
-| Planned architecture | This parent and its fifteen draft children coordinate a possible migration. Their statements are non-authoritative until separately accepted, implemented, verified, and promoted. |
+| Planned architecture | This parent coordinates fifteen children that now hold fresh accepted proposal reviews. Those receipts authorize only exact-digest implementation prompts; the planned statements remain non-authoritative until separately implemented, verified, and promoted. |
 | Recommended target | One candidate-first publication control plane in which eligible Class B defaults to `brokered-class-b-no-pr`, protected PR is selected only by immutable policy, and every invalid or raced tuple denies while preserving work. |
 
 The parent remains a lightweight gated-parallel coordinator. It is not a

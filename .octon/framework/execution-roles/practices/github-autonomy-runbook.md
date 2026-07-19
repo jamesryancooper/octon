@@ -783,3 +783,151 @@ Phase 5 (provider-agnostic AI gate):
   Push a no-op commit to mint a fresh SHA, then rerun required checks.
   Example:
   `git commit --allow-empty -m "chore(ci): refresh required-check contexts" && git push`.
+
+---
+
+## SI-00 Owner-Lane Provider Containment
+
+This section supersedes the autonomy procedures above while SI-00 is active.
+The earlier material remains historical operating context; it does not
+authorize direct-main, hosted no-PR landing, auto-merge, workflow re-enablement,
+cleanup, credential use, or any provider mutation.
+
+Repo-local implementation stops after hermetic validation. A separately
+authorized trusted operator must own every provider read or write in the
+cutover. The owner and sole one-shot operator are the same personal-repository
+principal: `jamesryancooper` / GitHub id `800837`. That equality is disclosed,
+not presented as independent isolation. An indistinguishable same-owner action
+is the accepted residual until an organization/App trust split or provider
+direct-ref compare-and-set primitive exists.
+
+### Pre-candidate containment
+
+1. Capture an exhaustive pre-state with
+   `capture-github-control-plane-snapshot.sh --repo jamesryancooper/octon
+   --base-sha <40-hex> --candidate-sha <40-hex>`. Treat endpoint, pagination,
+   JSON, workflow-state, App, environment, permission, producer, or identity
+   incompleteness as a hard stop.
+2. Disable every workflow listed in
+   `github-control-plane-contract.json#workflow_disposition/unsafe_until_rp06`,
+   cancel its queued/requested/waiting/pending/in-progress runs, and retain each
+   response plus authoritative readback. Keep those workflows disabled through
+   RP-06. Do not use their source presence as evidence of live enablement.
+3. Reobserve the complete admitted automation, App installation, deploy-key,
+   repository-scoped credential, workflow, secret-name/consumer, environment,
+   and check-run producer census. Any undeclared write-capable identity or
+   active unsafe run blocks candidate presentation.
+4. Prove the two bootstrap producers—`Validate branch naming` and
+   `PR Quality Standards`—are exact-base-bound, no-checkout, secret-free, and
+   candidate-code-free. No unavailable check may be bypassed or replaced by a
+   direct-main, hosted-no-PR, auto-merge, or unsafe-workflow fallback.
+
+### Credential start boundary
+
+Before token generation, seal an RFC-8785 canonical
+`octon-owner-lane-operation-plan-v1` and
+`octon-owner-lane-credential-admission-authorization-v1`. The plan commits the
+exact 14 operations, fixed tools, candidate, exact requests, typed templates,
+and attestation template without a credential or provider observation. The
+authorization binds the accepted review, run, candidate, plan digest,
+`github_pat_` fine-grained class, GitHub.com issuer, `jamesryancooper` resource
+owner, sole selected/write-capable repository `jamesryancooper/octon`,
+anonymous-equivalent public-read boundary, exact
+Administration/Actions/Variables/Contents/Pull requests write,
+Checks/Commit statuses read, implicit Metadata read permissions, API version
+`2026-03-10`, one-day provider lifetime, 60-minute local deadline, trusted
+capture channel, one issuance attempt, admission-probe allowlist, global
+terminalization budget, and replacement/bootstrap lock.
+
+Record exactly one issuance outcome: `proved-not-issued`,
+`exact-token-received`, or `issuance-unknown`. `proved-not-issued` may clear
+only the issuance lock for a separately authorized bootstrap. Unknown issuance
+never authorizes retry. After the one issuance attempt and before inherited-FD
+capture, seal nonsecret `octon-owner-lane-credential-capture-metadata-v1`
+against the authorization and plan. The runtime reads the credential once,
+closes the descriptor, and durably generates the issuance outcome and
+`octon-owner-lane-credential-lifecycle-envelope-v1` containing the opaque local
+handle digest plus exact Authorization-header and canonical unauthenticated
+revocation-body digests before any network request. Operators must not
+preconstruct issuance, lifecycle, admission, manifest, attestation,
+completed-prefix, construction, or retirement artifacts. Until a passing
+admission receipt exists, only the plan's sealed identity and repository reads
+and envelope-owned terminalization are legal.
+
+Repeated genuine GitHub `GET /user` observations must prove login/id equality.
+The opaque handle and local request/response transcript are not a claimed
+provider token/session fingerprint and no invented per-request actor field is
+allowed. A class, owner, repository, permission, API, expiry, deadline,
+binding, or capability mismatch immediately enters terminalization; there is
+no classic-PAT, ambient, broader, replacement, or second-token fallback.
+
+### Acyclic operation construction and bootstrap
+
+After exact admission, the runtime generates
+`octon-owner-lane-operation-manifest-v1` using strict RFC 8785 bytes, SHA-256
+domain separation, and exact bytes or closed typed templates. The manifest
+binds plan, authorization, capture metadata, issuance outcome, lifecycle
+envelope, and admission receipt, but contains neither its own digest nor a
+later realized attestation digest. Its digest realizes the owner-lane
+attestation. After workflow safing, the explicit HTTPS candidate push, and PR
+creation, perform exactly one authoritative PR reconcile read. Require exactly
+one create-consistent repository/base/head/tree/branch identity, then seal the
+completed-prefix receipt with that canonical provider-assigned PR number and
+the exact create/reconcile evidence.
+
+Resolve suffix requests only from manifest digest, attestation digest,
+completed-prefix digest, and canonical PR number typed nodes. Normalize each
+realized request back to the sealed template digest and durably write an
+`octon-owner-lane-operation-construction-receipt-v1` before send. The marker is
+the plan's typed canonical-PR issue-comment create; it is advisory, not a
+provider-enforced ruleset or merge predicate. Never resend a completed or
+outcome-unknown marker or other request. Later final-body digests never feed
+back into an upstream artifact, and this packet grants no retry after an
+unknown or terminal post-marker failure.
+
+Under the same held operator/credential lane, atomically install the
+PR-required main ruleset containing exactly `Validate branch naming` and
+`PR Quality Standards`, strict latest-base checking, linear history,
+non-fast-forward and deletion protection, and no bypass actors. Reobserve both
+successful exact-base producers. Merge only through a provider-enforced
+conditional API request whose `sha` equals the bound head, then retain the
+response and authoritative main/head/ruleset post-read. SSH push, web merge,
+manual handoff, protection weakening, changed base/head, or an unknown-outcome
+mutation retry is prohibited.
+
+### Phase-independent terminalization
+
+The lifecycle envelope—not the later manifest—owns terminalization in every
+token-present phase. Use one lifecycle-global budget:
+
+1. issue one same-token `GET /user` preprobe with a five-second connect and
+   15-second total timeout;
+2. if it returns 200, send at most one unauthenticated
+   `POST /credentials/revoke` whose canonical one-element body matches the
+   sealed digest;
+3. treat 202 as request evidence only, wait exactly five seconds after a sent
+   or outcome-unknown request, and issue exactly one post-request probe;
+4. never resend the revoke request; and
+5. accept terminal provider non-use only from a genuine same-token GitHub 401.
+
+Before admission, an initial 401 is terminal only when exact receipt and the
+lifecycle envelope bind the bytes. In admitted/later phases, a prior same-token
+200 is mandatory. Expiry metadata, a 202 response, local deletion, a different
+token, malformed header, 403/404/429/5xx, timeout, TLS/provenance uncertainty,
+or a still-valid 200 is not terminal proof.
+
+After terminal 401, close/unset/unlink the local secret, prove an empty scoped
+secret census, and emit
+`octon-owner-lane-credential-retirement-receipt-v1`. The phase-aware receipt
+must bind admission authority, issuance outcome, non-secret identity,
+lifecycle-envelope digest, consumed no-resend budget, timestamps, terminal 401,
+local destruction, and actual reached/not-reached later artifacts. It precedes
+release of the one-credential lock and every SI-00, handoff, or closeout claim.
+
+Any partial/lost issuance, post-receipt/pre-envelope failure, admission or
+construction defect, out-of-lane activity, provider uncertainty, replay,
+still-valid credential, premature local destruction, or fabricated later-phase
+field enters phase-tagged `RP00-CREDENTIAL-UNRESOLVED`. Recovery inherits the
+same-token global budget and no-resend posture. It may not merge, change
+protection, fabricate later artifacts, delete/replace the marker, issue another
+credential, start another bootstrap, claim SI-00, hand off, or close out.

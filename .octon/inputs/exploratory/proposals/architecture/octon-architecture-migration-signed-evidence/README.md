@@ -1,6 +1,6 @@
 # Signed Bounded Evidence, Capacity, and Retention
 
-This is the draft RP-07 architecture proposal for
+This is the accepted RP-07 architecture proposal for
 `octon-architecture-migration-signed-evidence`. It is a temporary,
 non-authoritative implementation aid. It does not authorize implementation,
 key creation, provider access, effect execution, publication, support
@@ -68,11 +68,13 @@ never authenticates a direct observation.
 
 ## Current Gate
 
-The packet remains `draft`. Structural validation does not make it accepted or
-implementation-ready. ROD-001 is operator-accepted; binding its invariants and
-recording/proving conservative reversible engineering defaults, dependency
-exits, strict architecture review, UE-008 adversarial proof, parent integration,
-and post-implementation receipts remain future gates.
+The accepted packet selects exact local Secure Enclave
+signers, hosted verifier Sigstore attestations, a System Keychain monotonic
+head, preallocated double-header reserve slots, and conservative retention/
+quota defaults. These are selected-not-installed-not-executed: no key, anchor,
+reserve, attestation, checkpoint, or deletion exists. Independent re-review is
+the implementation-entry gate. Independent proposal and architecture re-review
+pass at the accepted digest.
 
 The brokered publication evidence profile covers both
 `brokered-class-b-no-pr` and policy-selected protected PR. RP-07 authenticates

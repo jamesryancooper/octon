@@ -17,8 +17,12 @@
 - `resources/source-context.md` — bounded lineage and current source evidence.
 - `resources/packet-contract.yml` — machine-readable RP-02 contract.
 - `resources/traceability.yml` — FD/RF/PO/PG/UE/ED coverage.
+- `resources/engineering-disposition-ed001.yml` — exact fail-closed native-isolation and provider-session default.
 - `support/profile-selection-receipt.md` — pre-1.0 atomic profile receipt.
 - `support/proposal-creation.md` — direct-template creation fallback receipt.
+- `support/proposal-review.md` — digest-bound independent proposal review.
+- `support/pre-integration-architecture-review.yml` — subtype architecture review receipt.
+- `support/revisions/rp02-ed001-evidence-cycle-20260718.md` — correction receipt for the initial review findings.
 - `support/implementation-grade-completeness-review.md` — failing future readiness gate.
 - `support/implementation-conformance-review.md` — failing post-implementation gate.
 - `support/post-implementation-drift-churn-review.md` — failing post-conformance gate.

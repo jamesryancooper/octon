@@ -37,7 +37,7 @@ promotion_targets:
   - ".octon/instance/governance/support-target-admissions/"
   - ".octon/instance/governance/support-dossiers/"
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-containment/"
-status: "draft"
+status: "accepted"
 change_profile: "atomic"
 release_state: "pre-1.0"
 owner: "octon-maintainers"
@@ -65,10 +65,11 @@ source_lineage:
 authority_class_impact:
   framework: "May narrow Change routing, complete runtime writer and launcher inventories, and strengthen deterministic validators after acceptance."
   instance: "May narrow support declarations and disclosure claims to directly retained proof after acceptance."
-  state_control: "No control truth is changed by this draft; later containment must not mint authority from evidence or projections."
+  state_control: "No control truth is changed by acceptance; later containment must not mint authority from evidence or projections."
   state_evidence: "Later implementation retains baseline, containment, inventory, claim-correction, and burden receipts under the declared packet evidence root."
   generated: "GitHub workflows and generated support views remain derived projections and are not promotion targets."
   inputs: "This proposal, its parent, the intake, reconciliation, and Revision 2 are non-authoritative planning lineage."
 explicit_runtime_non_implementation_statement: >-
-  Creating this draft packet does not disable a route, mutate provider state,
-  correct a live claim, authorize implementation, or establish support proof.
+  Accepting this packet does not disable a route, mutate provider state,
+  correct a live claim, perform or ratify implementation, or establish support
+  proof. It authorizes only digest-bound implementation prompt generation.

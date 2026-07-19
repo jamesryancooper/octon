@@ -1,0 +1,94 @@
+schema_version: "octon-candidate-launch-census-v1"
+logical_packet_id: "RP-01"
+reviewed_tree:
+  commit: "9c6d999bf53e9166f90f0747da24513265d552e0"
+  closed_world_inventory_ref: ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml#closed_world_discovery"
+  launcher_key_count: 919
+  launcher_key_digest: "sha256:706b44172e1907469d6a4fd75ef51fc804eb09637042f57924c227755174b706"
+classification:
+  candidate_execution: >-
+    A process that executes candidate-directed model work, or an admitted
+    workflow leaf whose purpose is to dispatch that candidate work, inside an
+    Octon execution run. Command construction alone is not a launch.
+  non_candidate_utility: >-
+    A repository-owned admission, policy, validation, build, bootstrap,
+    publication, provider, Git, cleanup, service, test, or diagnostic
+    subprocess that does not execute candidate-directed work. These remain
+    governed by the material-effect inventory and their specific effect
+    boundaries, not by the RP-01 final candidate guard.
+candidate_launches:
+  - id: "CL-PIPELINE-MANAGED-EXECUTOR"
+    file: ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
+    module: "kernel::pipeline"
+    construction_symbols: ["run_codex", "run_claude"]
+    spawn_symbol: "run_with_stdin"
+    spawn_anchor: "command.spawn()"
+    executors: ["codex", "claude"]
+    rp01_ownership: "Invoke authorization::consume_candidate_launch_guard exactly once in the same lexical control path immediately before spawn; remove any raw bypass."
+    preserved_ownership: "Pipeline resolution, prompt construction, executor command construction, output capture, and budget semantics remain with their existing owners."
+    dynamic_tests: ["kernel::pipeline::tests", ".octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh"]
+  - id: "CL-WORKFLOW-STAGE-MANAGED-EXECUTOR"
+    file: ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
+    module: "kernel::workflow"
+    construction_symbols: ["WorkflowExecutor::execute_stage_codex", "WorkflowExecutor::execute_stage_claude"]
+    spawn_symbol: "run_command_with_stdin"
+    spawn_anchor: "command.spawn()"
+    executors: ["codex", "claude"]
+    rp01_ownership: "Invoke authorization::consume_candidate_launch_guard exactly once in the same lexical control path immediately before spawn; remove any raw bypass."
+    preserved_ownership: "Workflow/stage semantics, prompt construction, executor command construction, effect routing, and budget semantics remain with their existing owners."
+    dynamic_tests: ["kernel::workflow::tests", ".octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh"]
+  - id: "CL-LIFECYCLE-MANAGED-EXECUTOR"
+    file: ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs"
+    module: "lifecycle_executor::codex"
+    construction_symbols: ["execute", "execute_with_profile"]
+    spawn_symbol: "run_with_timeout"
+    spawn_anchor: "command.spawn()"
+    executors: ["codex", "claude"]
+    rp01_ownership: "Invoke authorization::consume_candidate_launch_guard exactly once in the same lexical control path immediately before spawn; remove any raw bypass."
+    preserved_ownership: "RP-02 retains candidate isolation; RP-11 retains generic adapter/Harness integration; timeout, process-group, and output semantics remain unchanged."
+    dynamic_tests: ["lifecycle_executor::codex::tests"]
+  - id: "CL-LIFECYCLE-WORKFLOW-LEAF"
+    file: ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs"
+    module: "lifecycle_executor::workflow_leaf"
+    construction_symbols: ["execute"]
+    spawn_symbol: "run_workflow_command"
+    spawn_anchor: "command.spawn()"
+    executors: ["repository-owned Octon workflow runtime"]
+    rp01_ownership: "Invoke authorization::consume_candidate_launch_guard exactly once in the same lexical control path immediately before spawn; remove any raw bypass."
+    preserved_ownership: "Workflow contract resolution, route selection, child-run identity, Harness semantics, and workflow evidence remain with their existing owners."
+    dynamic_tests: ["lifecycle_executor::workflow_leaf::tests"]
+non_candidate_dynamic_launcher_partition:
+  - files: [".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs", ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs"]
+    class: "authority/admission control helpers"
+    rationale: "They execute repository-owned ACP policy or receipt helpers and do not run candidate-directed work."
+  - files: [".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs", ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"]
+    class: "kernel service and lifecycle control"
+    rationale: "They dispatch admitted repository services, validators, or lifecycle control commands, not candidate executors."
+  - files: [".octon/framework/engine/runtime/run"]
+    class: "runtime bootstrap"
+    rationale: "It execs the repository-owned kernel binary or source build and does not itself execute candidate work."
+  - files: [".octon/framework/execution-roles/_ops/scripts/ai-gate/provider-openai.sh"]
+    class: "provider gate utility"
+    rationale: "It performs deterministic diff heuristics and emits normalized findings; it does not launch a model candidate."
+  - class: "remaining closed-world launcher keys"
+    count: 909
+    rationale: >-
+      The remaining inventory keys are statically classified repository
+      utility/control/provider/Git/build/test/publication/bootstrap launchers or
+      excluded non-runtime fixtures. D_l=M_l=A_l and exact ambiguity exceptions
+      remain mandatory, so this candidate subset does not weaken the general
+      launcher inventory.
+fitness_contract:
+  static_validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
+  positive_test: ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+  negative_test: ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
+  dynamic_test: ".octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh"
+  requirements:
+    - "The immutable-tree launcher discovery and candidate subset must cover every current candidate launch and remain digest bound."
+    - "A new raw candidate spawn outside candidate_launches fails validation."
+    - "A listed spawn without one same-path consume_candidate_launch_guard invocation fails validation."
+    - "A consuming guard outside the final lexical spawn path, a double consumption, or a command returned for later unguarded spawn fails validation."
+    - "Dynamic tests execute every listed seam and prove denial on missing, stale, widened, substituted, revoked, or consumed authority."
+evidence_posture:
+  current: "STATICALLY_INSPECTED proposal design only"
+  required_after_authorization: "UE-001/UE-002 and all fitness checks pass against the exact authorized implementation commit before conformance, completion, cutover, or promotion"

@@ -1,0 +1,87 @@
+schema_version: "octon-runtime-writer-state-census-v1"
+census_id: "rp03-writer-state-census-20260718"
+baseline_commit: "de9420eae96d99b628201cbd95ee614d9aa7c3f8"
+classification: "STATICALLY_INSPECTED"
+source_roots:
+  - ".octon/framework/engine/runtime/crates/runtime_bus/src"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src"
+  - ".octon/framework/engine/runtime/crates/replay_store/src"
+discovery_patterns:
+  - "fs::write|OpenOptions|File::create|remove_file|rename"
+  - "write_json|write_yaml|write_event|write_manifest"
+  - ".octon/state/control|.octon/state/evidence|.octon/state/continuity"
+closure_rule: "every discovered production writer/destination family has exactly one disposition; new or unowned consequential writers fail validation"
+writer_families:
+  - id: "WR-001"
+    source: "runtime_bus/src/lib.rs::{append_run_event,write_event,write_manifest}"
+    destinations: [".octon/state/control/execution/runs/{run_id}/events.ndjson", ".octon/state/control/execution/runs/{run_id}/events.manifest.yml"]
+    disposition: "import run events into canonical tables; manifest/event files become read-only projections or evidence payloads"
+    implementation_owner: "RP-03 runtime_bus store/transactions/projections"
+  - id: "WR-002"
+    source: "authority_engine/src/implementation/authority.rs::{persist_decision_artifact,persist_grant_bundle}"
+    destinations: ["authority decisions", "approval/grant bundles"]
+    disposition: "canonical authority_decisions/grants tables; files become projections"
+    implementation_owner: "RP-03 persistence slice consuming RP-01 semantics"
+  - id: "WR-003"
+    source: "authority_engine/src/implementation/runtime_state.rs::{materialize_runtime_state,materialize_run_contract_state}"
+    destinations: ["run contract", "run manifest", "runtime state", "rollback posture", "checkpoints", "retry/contamination records"]
+    disposition: "canonical runs/operations/attempts/checkpoints tables; files become projections/pointers"
+    implementation_owner: "RP-03"
+  - id: "WR-004"
+    source: "authority_engine/src/implementation/effects.rs"
+    destinations: ["operation/effect attempt state", "rollback posture"]
+    disposition: "T1/external/T2 mutation API; UNKNOWN blocks retry; RP-04 later owns send hosting"
+    implementation_owner: "RP-03 transaction boundary; RP-04 effect boundary"
+  - id: "WR-005"
+    source: "authority_engine/src/implementation/execution.rs"
+    destinations: ["execution state", "context control status", "closeout/checkpoint state"]
+    disposition: "consequential fields enter canonical tables; large/model-visible content remains evidence payload by digest"
+    implementation_owner: "RP-03 persistence slice"
+  - id: "WR-006"
+    source: "authority_engine/src/implementation/policy.rs::{write_json,write_yaml,compose_policy_receipt,write_instruction_manifest}"
+    destinations: ["policy request/decision/grant/revocation control files", "temporary ACP files", "instruction manifest"]
+    disposition: "add a path-classified choke point: consequential control writes require runtime_bus mutation API; temp/evidence writes remain non-authoritative"
+    implementation_owner: "RP-03 persistence integration slice; RP-01 retains policy semantics"
+  - id: "WR-007"
+    source: "authority_engine/src/phases/results.rs::write_authorization_phase_result"
+    destinations: ["authorization phase result receipts"]
+    disposition: "evidence payload only; never authority or a second writer"
+    implementation_owner: "RP-01 evidence semantics; no RP-03 source edit"
+  - id: "WR-008"
+    source: "replay_store/src/lib.rs"
+    destinations: ["event manifest and NDJSON references", "replay request/grant references"]
+    disposition: "read canonical store/projections; no independent consequential writer"
+    implementation_owner: "RP-03 replay_store adapter"
+  - id: "WR-009"
+    source: "authority_engine/src/implementation/runtime_state.rs"
+    destinations: [".octon/state/evidence/**", ".octon/state/continuity/**"]
+    disposition: "large/raw/detail payload or signed-reference handoff only; RP-07 owns retention/authenticity completion"
+    implementation_owner: "RP-03 pointer/schema contribution; RP-07 evidence owner"
+  - id: "WR-010"
+    source: "authority_engine tests and assurance fixtures"
+    destinations: ["temporary fixture roots"]
+    disposition: "test-only; must prove direct production writer rejection and migration parity"
+    implementation_owner: "RP-03 assurance"
+  - id: "WR-011"
+    source: "generated proposal/runtime projections"
+    destinations: [".octon/generated/**"]
+    disposition: "derived read-only projection; never imported as authority"
+    implementation_owner: "owning generators, not RP-03 store"
+  - id: "WR-012"
+    source: "inputs and retained proposal evidence"
+    destinations: [".octon/inputs/**", ".octon/state/evidence/validation/proposals/**"]
+    disposition: "non-authoritative inputs/evidence; never imported as live state"
+    implementation_owner: "proposal lifecycle only"
+promotion_scope_consequence:
+  added_target: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs"
+  rationale: "WR-006 must route consequential writes through the single mutation API while preserving RP-01 policy semantics"
+  parent_reconciliation_required: true
+fitness:
+  static:
+    - "rerun census at exact implementation baseline and reject any new unmatched production writer/destination"
+    - "reject direct mutation SQL outside runtime_bus store/transactions/migrations/recovery modules"
+    - "reject writes to legacy authority surfaces except owned projection generators"
+  dynamic:
+    - "N-way writer race and single-writer identity proof"
+    - "migration parity and legacy-writer negative controls"
+    - "every T1/external/T2, backup, checkpoint, restore, and ENOSPC crash point"

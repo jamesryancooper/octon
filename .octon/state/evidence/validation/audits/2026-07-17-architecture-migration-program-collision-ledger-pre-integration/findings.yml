@@ -1,0 +1,32 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-collision-ledger-pre-integration-20260717T223229Z
+findings:
+  - id: PROGRAM-COLLISION-LEDGER-COMPLETENESS-001
+    severity: critical
+    status: closed
+    summary: The registry now carries an exact typed record for every derived write-scope collision.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/support/revisions/revision-20260717T215508Z.md
+    acceptance_satisfied: All 120 derived collisions have a one-to-one exact or directory-prefix ledger record with participants, contributions, owner, and serialization.
+  - id: PROGRAM-COLLISION-SERIALIZATION-002
+    severity: high
+    status: closed
+    summary: Dependency and exclusive-lock collision orders form one acyclic aggregate graph.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/packet-sequence.md
+    acceptance_satisfied: The canonical structure validator accepts all 103 dependency orders and 17 exclusive integration locks with zero aggregate cycles.
+  - id: PROGRAM-CHILD-AUTHORITY-PRESERVATION-003
+    severity: high
+    status: closed
+    summary: Collision coordination does not transfer child semantic or lifecycle authority to the parent.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/child-packet-contract.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/support/revisions/revision-20260717T215508Z.md
+    acceptance_satisfied: The parent owns mirror integrity and serialization only; every child retains status, review, implementation, proof, promotion, closeout, archive, and terminal authority.
+new_findings: []

@@ -1,0 +1,26 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-rp03-scope-pre-integration-20260718T152420Z
+commit_sha: 4811057ab87c7c6b3df8d5f8d0105025e3358d9a
+scope_hash: sha256:70b4bd3980fa7abb4d57be32cc0ef5d6ed573f2870929b037b2543459bb36dfa
+prompt_hash: sha256:f0cf6a724af44b5fe7ba8f0782f278a54d90a0960ac54c36692a4dae52ec9a5a
+prompt_hash_basis: commands.md
+findings_hash: sha256:4c931ba1ed4d4671fd587b331702b5debf8b334b52c690522afce56ad8dd1116
+findings_artifact_sha256: sha256:4c931ba1ed4d4671fd587b331702b5debf8b334b52c690522afce56ad8dd1116
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
+findings_hash_basis: findings.yml
+params_hash: sha256:5ea36cddb5f6e8c2e3826dc324d4d0dabaea9387c5e496dd54b27ea2bba47508
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: All structure passes converge on the same 123-record acyclic collision projection, exact RP-03 target equality, and preserved RP-01 policy authority.

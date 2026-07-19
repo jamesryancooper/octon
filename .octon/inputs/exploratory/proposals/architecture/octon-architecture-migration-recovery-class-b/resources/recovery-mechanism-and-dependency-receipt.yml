@@ -1,0 +1,68 @@
+schema_version: "octon-recovery-class-b-design-and-dependency-receipt-v1"
+receipt_id: "rp08-recovery-mechanism-evidence-order-20260718"
+verdict: "pass-for-design-selection"
+proof_state: "selected-not-configured-not-executed"
+review_findings: ["RP08-EXACT-RECOVERY-MECHANISMS-001", "RP08-ROD002-DESIGN-ENCODING-002", "RP08-IMPLEMENTATION-EVIDENCE-CYCLE-003"]
+frozen_dependencies:
+  rp03: {proposal_id: "octon-architecture-migration-transactional-runtime-store", packet_digest: "sha256:2a8dc33d9df0b96d431198be9935ecaace428fe8714aa220bcb3b62ea1e4288d", role: "T1, outbox, T2, attempt/operation state, capacity, and sole-writer API"}
+  rp05: {proposal_id: "octon-architecture-migration-sanitized-git", packet_digest: "sha256:d2299fa953ec57c1842ff41371d7dfca7bf00297ba627e9a8c70c328f700efc0", role: "ED-003 Git Smart HTTP expected-old/source/delete CAS and authenticated observation primitive"}
+  rp06: {proposal_id: "octon-architecture-migration-verification-publication", packet_digest: "sha256:1ebf5b95ddc1a85dfa149e543813ff9a2ccc32994d540eb471330a6257966f60", role: "immutable route predicate, exact verdict, protected-PR subeffects, queue, and landed facts"}
+  rp07: {proposal_id: "octon-architecture-migration-signed-evidence", packet_digest: "sha256:87fbcceec1ea8956e96335808aef37a9c91b91793328a31d92b1c058703aaf08", role: "signed observations/checkpoints, current head, terminal reserve, completeness, and degraded evidence state"}
+dependency_drift_rule: "any digest or verified interface change denies source entry and routes to the owning packet; RP-08 never refreshes a frozen dependency mid-attempt"
+provider_support_tuple:
+  repository: "one disposable single-repository GitHub target using the accepted RP-05 publisher App and RP-06 verifier/publisher separation"
+  ref_transport: "RP-05 Git Smart HTTP receive-pack plus a fresh authenticated ls-remote observation; no REST ref-write fallback"
+  pr_transport: "RP-06 publisher-App GraphQL/REST read and mutation surfaces for exact source/base/head PR identity, enqueuePullRequest expectedHeadOid, merge-group state, and landed proof"
+  credentials: "RP-04 broker-only operation-scoped installation token; reconciler receives observations and read-only broker handles, never a token"
+  unsupported: ["multi-repository transactions", "production or trust-root targets", "provider without exact ref/PR identity and fresh authenticated reads", "direct merge", "check-then-merge", "ambient Git or GitHub credentials"]
+  feasibility_rule: "exact API/schema/permission/ruleset/queue/receipt and disposable-target preflight gate source entry; incompatibility keeps Class B disabled and reopens design"
+observation_precedence:
+  rules:
+    - {rank: 1, condition: "attempt-bound authenticated direct success or accepted Git report-status from the current broker invocation, plus independent exact desired-state observation", outcome: "attempt_performed"}
+    - {rank: 2, condition: "attempt-bound definitive rejection/no-effect evidence, plus independent exact unchanged expected state", outcome: "not_performed"}
+    - {rank: 3, condition: "independent exact desired state without attempt-bound causal evidence", outcome: "state_satisfied"}
+    - {rank: 4, condition: "attempt-bound definitive failure proving no ambiguous remote mutation", outcome: "failed"}
+    - {rank: 5, condition: "provider unavailable, response lost, evidence incomplete, observation stale, or read identity cannot be authenticated", outcome: "unknown"}
+    - {rank: 6, condition: "three fresh authenticated rounds repeat conflicting receipts, multiple matching PR identities, or divergent state that cannot be attributed or safely advanced", outcome: "manual_intervention"}
+  conflict_rule: "stronger authenticated evidence cannot be overwritten by equality alone; contradiction remains unknown until three confirming rounds, then one manual_intervention"
+  equality_rule: "state equality without attempt-bound evidence is state_satisfied, never attempt_performed"
+reconciliation_budget:
+  startup_status_target: "broker reconnect, operation scan, retry denial, and current status publication within 5 seconds on the admitted local support tuple; provider convergence is not claimed within 5 seconds"
+  immediate_rounds: {count: 3, delays_ms: [0, 500, 2000], max_read_calls_per_round: 4, mutation_calls: 0}
+  unavailable_schedule: {delays_seconds: [300, 900, 3600, 21600], cap_seconds: 21600, behavior: "remain UNKNOWN and re-enter an existing governed maintenance run; outage duration alone never becomes manual_intervention"}
+  concurrency: {per_repository: 1, global: 2, duplicate_reconciler_behavior: "RP-03 compare-and-transition makes the loser a no-op"}
+  retry_rule: "reconciliation itself never resends an effect; only not_performed may admit a new separately authorized attempt with fresh O/grant/V/policy/route"
+  terminal_threshold: "three mutually consistent authenticated conflict rounds may yield one manual_intervention; missing/unavailable evidence remains UNKNOWN"
+pr_subeffect_reconciliation:
+  source_ref: "observe exact ref tip through fresh authenticated ls-remote; desired tip without invocation evidence is state_satisfied"
+  pr_create_update: "query exact repository/base/head and stored PR node id; zero result remains unknown after lost mutation, one exact result is state_satisfied absent causal receipt, multiple results conflict to manual_intervention"
+  enqueue: "query exact PR node, expected head, queue entry, merge-group base/head, and required-check identity; drift invalidates the tuple and never triggers direct merge"
+  merge: "consume RP-06 landed proof tying PR/S/Q plus tree/patch equivalence; provider equality alone cannot prove this attempt merged"
+  cleanup: "closed-unmerged never deletes; delete uses RP-05 expected-tip CAS and any lost/failure result preserves source and reports landed/cleanup-deferred"
+continuous_operation_budget:
+  scheduler: "existing mission/Run Contract scheduler only; no new daemon or infinite loop"
+  cadence: "every 5 minutes while unresolved work exists, otherwise existing maintenance cadence"
+  run_limits: {wall_clock_seconds: 900, operations: 100, probes_per_operation: 3, concurrent_repositories: 2, concurrent_operations_per_repository: 1}
+  effect_retries: 0
+  pause_conditions: ["authority or dependency digest drift", "revocation", "store/signer/head/reserve failure", "provider identity or credential mismatch", "budget exhaustion"]
+  closeout: "budget exhaustion records bounded incomplete/UNKNOWN state and schedules the next governed run; it cannot claim success"
+rod002_encoding_design:
+  owner_targets: [".octon/instance/governance/policies/mission-autonomy.yml", ".octon/instance/governance/policies/continuous-operation.yml", ".octon/framework/engine/runtime/spec/effect-reconciliation-v1.schema.json"]
+  required_fields:
+    policy_version: "immutable semantic version and digest"
+    classification_source: "deterministic-policy"
+    ai_authorization: false
+    routine_prompt_for_admitted_a_b: false
+    ambiguity_outcome: "manual_intervention"
+    ambiguity_threshold: "three fresh authenticated conflicting rounds; never mere outage or missing evidence"
+    invalid_authority_outcome: "deny-fresh-authorization-required"
+    route_freeze: "repository/source/target/O/S/V/grant/policy/history/route frozen at T1"
+    prohibited_switches: ["collision-to-pr", "attempting-to-pr", "unknown-to-pr", "invalid-authority-to-pr", "class-c-downgrade"]
+  policy_boundary: "RP-08 encodes only settled notification/manual-intervention and reconciliation consumption; RP-06 remains sole owner of A/B/C and no-PR/protected-PR classification values"
+  design_exit: "this proposal-local exact design closes ROD-002 architecture disposition; promoted files and dynamic proof occur only during authorized implementation"
+implementation_entry:
+  authorization: "accepted digest-bound proposal and strict architecture review authorize creation of only this exact design"
+  source_gate: ["RP-03/RP-05/RP-06/RP-07 exact implementation verification and interface checks", "provider/App/ruleset/queue/API/tool and disposable-target preflight", "complete current retry/probe/PR/status/schedule writer census and shared-entry lease"]
+  activation_gate: ["UE-004 and UE-007 scratch fault/attribution matrices", "20-case immutable route matrix", "provider/dependency outage, PR subeffect, cleanup, rollback, conformance, and drift proof", "signed complete evidence at exact implementation commit"]
+  downstream_gate: "UE-014 remains RP-14-owned and cannot gate RP-08 proposal authorization"
+evidence_boundary: "This receipt selects a design only; it creates no policy, provider request, credential, scratch target, status, effect, implementation, publication, promotion, or proof result."

@@ -21,7 +21,7 @@ Preservation is not a completion claim.
 | Route policy spread | Current direct-main, branch-no-PR, and branch-PR rules do not implement one frozen A/B/C predicate | Publish one immutable typed policy and digest |
 | Invalid-authority escalation risk | Blocked routes can be mistaken for PR predicates | Deny invalid authority; PR only for valid policy-selected review |
 | Provider worker authority | Current writer workflows can act from candidate code | Exclude FD-007 from brokered Git publication; the sole RP-04-hosted RP-05 effect owns ref mutation. Any non-Git worker claim is separately gated and non-authoritative. |
-| Projection source missing | .github workflow files are live owners, with no accepted .octon generator found | Establish authored .octon source/generator before projection changes |
+| Projection source missing | 42 current workflows are frozen in `resources/workflow-surface-census.yml` | Implement the exact token-gated source/generator selected by the design receipt before projection changes |
 | Provider evidence staleness | Rules, Apps, permissions, contexts, and secrets are point-in-time | Refresh at implementation and promotion |
 
 ## Findings

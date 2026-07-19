@@ -1,0 +1,65 @@
+schema_version: "octon-workspace-project-design-and-dependency-receipt-v1"
+receipt_id: "rp10-project-mechanism-evidence-order-20260718"
+verdict: "pass-for-design-selection"
+proof_state: "selected-not-created-not-executed"
+review_findings: ["RP10-EXACT-PROJECT-MECHANISMS-001", "RP10-IMPLEMENTATION-EVIDENCE-CYCLE-002"]
+frozen_dependency:
+  proposal_id: "octon-architecture-migration-canonical-authority"
+  packet_digest: "sha256:c5369b2c9d6c1e8addafb2b7851d4609709affe0dbd7a443359d0b21761313a8"
+  role: "run admission, immutable authorization snapshot, and final guard; project data may only narrow"
+  drift_rule: "digest/interface drift denies source entry and routes to RP-01; RP-10 cannot refresh authority during a run"
+project_identity:
+  format: "prj_<lowercase RFC 9562 UUIDv7>"
+  issuer: "trusted engagement adoption code after RP-01-authorized repo change admission"
+  rule: "generated once at explicit adoption, stored in the immutable first revision, never derived from path, remote URL, display name, clone, or fork"
+  repository_fingerprint: "non-authoritative discovery tuple of repository root marker, normalized provider/repository identity when available, initial adopted HEAD, and control-root digest"
+  clone_fork_rule: "a copied ID with mismatched repository fingerprint or control-root lineage is ambiguous and blocks adoption until an explicit preserve-id relocation receipt or new-project adoption receipt is authored"
+storage:
+  root: ".octon/instance/locality/projects/"
+  files: {registry: "registry-v1.json", revisions: "revisions/<storage-key>/<revision-digest>.json", pointers: "active/<storage-key>.json"}
+  storage_key: "first 26 lowercase base32 characters of SHA-256(project_id); registry proves the full-id binding and collisions deny"
+  encoding: "RFC 8785 canonical JSON, UTF-8 NFC strings, strict schemas, SHA-256 digests, unknown fields denied"
+  revision: "immutable canonical document; revision_digest is SHA-256 of the document without revision_digest, then embedded and reverified"
+  pointer: "project_id, storage_key, revision_digest, generation, prior_revision_digest, updated_at, update_receipt_digest; exact old generation/digest required by the governed repo Change"
+  registry: "sorted project_id entries binding storage key and active pointer path; one authored registry and no runtime database"
+record_fields: ["project_id", "revision_digest", "lifecycle", "display_name", "repository_fingerprint", "boundary", "relations", "profile_ref", "profile_digest", "defaults", "continuity_refs", "field_provenance", "created_at", "supersedes"]
+boundary_and_selection:
+  path_form: "repository-root-relative POSIX NFC path; root is '.'; empty, absolute, dot, dot-dot, NUL, symlink component, mount escape, and non-canonical separator deny"
+  filesystem_check: "openat/fstatat-style no-follow traversal from the canonical repository root; case-fold and Unicode-normalization aliases are enumerated and any collision denies"
+  overlap_rule: "disjoint boundaries select directly; containment is allowed only with an explicit parent_project_id/child_project_id relation in both active revisions; then the most-specific containing boundary selects; every other overlap denies only affected selection"
+  external_path: "never a project boundary; external dependencies are descriptive refs and require separately authorized access"
+inference_and_correction:
+  precedence: ["operator-corrected locked field", "accepted prior revision field", "current source fact with matching producer/schema", "declared deterministic default"]
+  inference_inputs: ["canonical repository root", "governed engagement source facts", "existing Project Profile facts", "explicit parent/child relations"]
+  receipt: "input digests, prior revision, proposed fields/provenance, conflicts, accepted/rejected fields, output revision digest, and producer version"
+  correction: "operator correction is a governed repo Change creating a successor immutable revision with provenance=operator and locked=true for corrected fields"
+  refresh: "never rewrites a revision or clears locked fields; changed unlocked facts create a successor proposal; ambiguity emits no pointer update"
+profile_binding:
+  compatibility: ".octon/instance/locality/project-profile.yml remains the first selected read-only Profile projection until all consumers bind exact refs"
+  profile_ref: "repository-relative immutable Profile evidence/ref plus SHA-256 digest and schema version"
+  whitelist: ["project_type", "language_families", "validation_commands", "declared_source_roots", "descriptive_risk_hints"]
+  forbidden_inputs: ["authority", "grant", "capability", "credential", "provider token", "support admission", "effect route", "expanded write scope"]
+run_snapshot:
+  fields: ["project_id", "project_revision_digest", "profile_ref", "profile_digest", "boundary_digest", "captured_at", "rp01_admission_digest"]
+  writer: "RP-01-authorized run-admission integration writes once before launch; RP-10 supplies validated refs but has no authority writer"
+  immutability: "refresh, correction, relocation, profile successor, or location-index rebuild cannot alter an admitted run snapshot"
+  mismatch: "missing/stale/corrupt refs deny only new affected run admission; existing runs retain pinned bytes"
+location_index:
+  authority: "rebuildable non-authoritative continuity/read-model state"
+  key_value: "project_id -> observed canonical absolute root, repository fingerprint, active revision digest, observed_at, observer version"
+  rebuild: "scan configured repository roots, validate registry/revision/pointer chains, and emit conflicts without changing authored records"
+  failure: "missing index auto-rebuilds; index disagreement cannot select, authorize, or mutate a project"
+mission_inbox:
+  command: "octon mission inbox"
+  source: "canonical mission charter/control/continuity plus validated project snapshot refs"
+  behavior: "read-only; no resume, status transition, pointer update, inference, or repair side effect"
+  ordering: "actionable before paused before running before terminal; then updated_at descending, project_id, mission_id"
+  pagination: {page_size_default: 50, page_size_max: 100, cursor: "base64url JCS tuple of last ordering keys plus source digest", max_scanned_missions: 10000}
+  freshness: "output binds source control/continuity/project digests and observed_at; changed sources invalidate cursor and require a fresh query"
+  output: ["project_id", "display_name", "mission_id", "canonical_status", "checkpoint", "next_action", "exact_status_or_resume_command", "source_digest", "non_authority=true"]
+implementation_entry:
+  authorization: "accepted digest-bound proposal and strict architecture review authorize creation of only this exact non-authority design"
+  source_gate: ["RP-01 exact implementation verification and guard/admission interface check", "current Profile/engagement/mission/continuity/Harness consumer and writer census", "filesystem Unicode/case/symlink/mount behavior preflight", "shared registry/kernel integration lease"]
+  completion_gate: ["two-project adoption/relocation/correction/overlap/snapshot/inbox/recovery matrices", "project-metadata authority-widening negatives", "RP-11 exact compile/launch handoff for UE-010", "conformance, rollback, and drift receipts"]
+  ue010_rule: "RP-10 proves project non-authority and frozen inputs after implementation; RP-11 owns deterministic full-input compilation/launch closure; neither future proof gates RP-10 proposal existence"
+evidence_boundary: "This receipt selects a design only; it creates no ID, registry, revision, pointer, Profile, run snapshot, index, inbox output, implementation, publication, promotion, or proof."

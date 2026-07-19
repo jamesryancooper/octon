@@ -64,5 +64,5 @@ authority_boundary:
 coverage_status:
   identifiers_mapped: true
   implementation_proof_complete: false
-  operator_decisions_complete: false
-  architecture_review_complete: false
+  operator_decisions_complete: true
+  architecture_review_complete: true

@@ -47,8 +47,8 @@ This workflow covers:
 
 1. Keep one clean primary `main` worktree or clone as the integration anchor.
 2. Create one branch worktree per branch-routed Change.
-3. For eligible low-risk solo Changes, use `direct-main` on clean current
-   `main` with local validation, Change receipt evidence, and rollback.
+3. During SI-00, keep clean current `main` as a read-only integration anchor;
+   direct-main is not an admitted Octon route.
 4. Do implementation, validation, review remediation, and PR iteration for
    branch-routed work in the branch worktree, not on `main`.
 5. Open draft PRs only after Change routing selects branch-pr.
@@ -87,35 +87,24 @@ Branch-PR lane (autonomous):
    protected-main route.
 6. Let GitHub perform or accept the final merge once live rulesets, required
    checks, mergeability, and review policy are satisfied, then fetch and verify
-   `origin/main` contains the merged result. Before recording final closeout
-   evidence, clean up obsolete safe local and remote source branches, or record
-   explicit deferred-cleanup evidence, then sync local `main` to `origin/main`
-   and verify local `main`, `origin/main`, and the landed ref align.
+   `origin/main` contains the merged result. During SI-00, record cleanup as
+   deferred with `RP00_CONTAINMENT_CLEANUP_DISABLED`; do not mutate refs,
+   worktrees, or local `main` through closeout.
 
-Direct-main lane:
+Retired direct-main compatibility label:
 
-- Land only after Change routing selects `direct-main`.
-- Record durable Change receipt evidence with validation, rollback, cleanup,
-  landed-ref proof, push to `origin/main`, and verification that `origin/main`
-  contains the landed ref.
-- After post-push checks, fetch origin, sync local `main` to `origin/main`, and
-  verify local `main`, `origin/main`, and the landed ref align before declaring
-  closeout complete.
-- Do not require PR metadata.
+- Historical receipts may parse the label, but no current selector,
+  authorizer, helper, or closeout route may choose or execute it.
 
 Branch-no-PR lane:
 
 - Push the source branch and validate the exact source SHA.
 - If closeout stops at branch publication instead of hosted main landing,
   record the pushed source branch as the closeout publication evidence.
-- Land through fast-forward-only hosted update only when the provider ruleset
-  is route-neutral and permits no-PR protected-main update.
-- Record provider ruleset ref, pushed source branch, exact source SHA checks,
-  rollback, cleanup, and proof that `origin/main` equals the landed ref.
-- After hosted landing, verify required post-landing checks and closeout
-  evidence, clean up obsolete safe local and remote source branches or record
-  explicit deferred-cleanup evidence, then sync local `main` to `origin/main`
-  and verify local `main`, `origin/main`, and the landed ref align.
+- Preserve or publish the source branch only when separately authorized.
+- Hosted no-PR landing returns `RP00_CONTAINMENT_PUBLICATION_DISABLED`.
+- Cleanup returns `RP00_CONTAINMENT_CLEANUP_DISABLED` and preserves every ref
+  and worktree.
 
 Guarded lane (manual):
 
@@ -181,9 +170,8 @@ asks to finish, ship, or closeout.
 Prompt set:
 
 - **Primary `main` worktree**
-  - "This work is on the main worktree. I will first check whether it qualifies
-    for direct-main; if it needs isolation or PR-backed review, I will report
-    the route and next mutation."
+  - "This work is on the main worktree. SI-00 forbids direct-main; I will
+    preserve the candidate or isolate it on a route-owned branch."
 - **Branch worktree, no PR yet**
   - "This branch worktree looks ready for Change closeout. Should I stage,
     commit, validate, record a Change receipt, and open a draft PR only if
@@ -224,13 +212,8 @@ Ready PR status responses:
   request ready-state and merge-lane transitions plus optional cleanup
   handling. It does not prove the PR is ready; autonomous draft completion
   eligibility must be verified before requesting ready or auto-merge.
-- `git-pr-cleanup.sh` converges refs and `main` after closure, prunes safe
-  linked worktrees when possible, and prints manual follow-up steps when the
-  current or another in-use worktree cannot be removed automatically.
-- `git-branch-cleanup.sh` performs branch-route cleanup without PR metadata
-  only after containment in `origin/main`, retained rollback posture, and
-  no-open-PR safety can be proven. It refuses protected, active, unmerged, or
-  unsafe refs and syncs local `main` after cleanup unless explicitly skipped.
+- `git-pr-cleanup.sh` and `git-branch-cleanup.sh` deny before mutation during
+  SI-00. The latter may inventory in dry-run mode only.
 - `/closeout-pr` owns the full agent-driven closeout loop from current branch
   worktree through checks, conversations, ready state, and merge or explicit
   blocker.
@@ -289,7 +272,7 @@ Core guardrails that stay active with this model:
 Minimum control-plane expectations:
 
 - `main` remains Change-first and serves as the clean integration anchor.
-- Change routing selects `direct-main`, `branch-no-pr`, `branch-pr`, or
+- Change routing selects `branch-no-pr`, `branch-pr`, or
   `stage-only-escalate`; branch worktrees are route outputs, not the default
   work unit.
 - Repository variable `AUTONOMY_AUTO_MERGE_ENABLED=true`.
@@ -300,7 +283,7 @@ Minimum control-plane expectations:
   retained 2026-05-04 provider evidence. Do not claim that posture from
   repo-local projection alone; use durable evidence or strict-live validation.
 - `AI Review Gate / decision` and `PR Quality Standards` remain branch-pr
-  checks, not universal direct-main or branch-no-pr requirements.
+  checks, not branch-no-pr preservation requirements.
 - Reviewer-owned thread confirmation participates in branch-pr merge gating.
 - Codex review is advisory and not part of required checks.
 - Squash merge is the canonical merge strategy.

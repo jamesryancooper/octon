@@ -21,8 +21,9 @@ persists them and must consume the frozen versioned interface.
 6. `architecture/implementation-plan.md`
 7. `architecture/validation-plan.md`
 8. `architecture/operator-disclosure.md`
-9. `resources/traceability.yml`
-10. `support/implementation-grade-completeness-review.md`
+9. `resources/candidate-launch-census.yml`
+10. `resources/traceability.yml`
+11. `support/implementation-grade-completeness-review.md`
 
 ## Exit
 

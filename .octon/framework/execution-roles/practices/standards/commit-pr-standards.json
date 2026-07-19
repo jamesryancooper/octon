@@ -10,7 +10,6 @@
   "change": {
     "default_work_unit": "change",
     "route_ids": [
-      "direct-main",
       "branch-no-pr",
       "branch-pr",
       "stage-only-escalate"
@@ -23,11 +22,18 @@
       "branch-pr"
     ],
     "no_pr_routes": [
-      "direct-main",
       "branch-no-pr",
       "stage-only-escalate"
     ],
-    "receipt_required": true
+    "receipt_required": true,
+    "containment": {
+      "state": "SI-00",
+      "direct_main": "denied",
+      "branch_no_pr_landing": "denied",
+      "branch_cleanup": "denied",
+      "publication_denial_reason": "RP00_CONTAINMENT_PUBLICATION_DISABLED",
+      "cleanup_denial_reason": "RP00_CONTAINMENT_CLEANUP_DISABLED"
+    }
   },
   "commit": {
     "policy_doc": ".octon/framework/execution-roles/practices/commits.md",

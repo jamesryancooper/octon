@@ -1,0 +1,8 @@
+schema_version: "1.0"
+run_id: architecture-migration-verification-publication-post-remediation-20260718T161411Z
+findings:
+  - {id: RP06-ED004-VERIFIER-MECHANISM-001, severity: high, status: closed, summary: "Exact two-job verifier, App identity, token, and check binding selected."}
+  - {id: RP06-PROJECTION-OWNERSHIP-002, severity: high, status: closed, summary: "All workflows censused and exact token-gated generator selected."}
+  - {id: RP06-PR-MERGE-MECHANISM-003, severity: high, status: closed, summary: "Expected-head ALLGREEN single-entry merge queue selected without direct fallback."}
+  - {id: RP06-IMPLEMENTATION-EVIDENCE-CYCLE-004, severity: high, status: closed, summary: "Authorization, source entry, downstream RP-07, and post-implementation proof are ordered without a cycle."}
+new_findings: []

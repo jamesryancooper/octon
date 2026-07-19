@@ -1,0 +1,12 @@
+schema_version: "lab-scenario-v1"
+scenario_id: "owner-lane-hermetic-protocol"
+purpose: "Exercise the admitted GitHub owner lane through an inert, local, hermetic protocol proof before live consequential support claims rely on the lane."
+supported_planes:
+  - "structural"
+  - "functional"
+  - "behavioral"
+  - "governance"
+  - "maintainability"
+  - "recovery"
+expected_outputs:
+  - "owner-lane-hermetic-proof"

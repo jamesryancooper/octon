@@ -1,8 +1,8 @@
 # Immutable Verification and Adaptive Publication
 
-This is the draft RP-06 / RWG-06 child of
+This is the accepted RP-06 / RWG-06 child of
 octon-architecture-migration-program. It is temporary, non-authoritative, and
-not implementation or publication authorization.
+does not itself implement, configure, publish, or promote anything.
 
 ## Purpose
 
@@ -52,14 +52,15 @@ name alone is never verifier identity.
 14. resources/traceability.yml
 15. support/implementation-grade-completeness-review.md
 
-## Target-Family Blocker
+## Corrected Provider And Projection Design
 
-Current live inventories identify .github/workflows/pr-auto-merge.yml as a
-protected-CI side-effect owner, and reconciliation requires disposition of
-candidate writer/verifier workflows. This octon-internal packet cannot target
-.github/**. Workflow projection work remains blocked until an accepted
-authored .octon source or generator owns those projections and can refresh them
-with receipts. No unlisted child or mixed target is authorized.
+The corrected packet selects a two-job base-owned verifier, distinct Checks and
+publisher Apps, an App-bound required check, an ALLGREEN single-entry squash
+merge queue, and an RP-01-token-gated `.octon` projection generator. The
+42-workflow census freezes every current disposition. These are design choices
+only: no workflow, App, secret, ruleset, queue, check, PR, or provider state has
+been created or changed. Independent proposal and architecture re-review pass
+at the accepted digest.
 
 ## Exit
 

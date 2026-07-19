@@ -1,0 +1,24 @@
+schema_version: "1.0"
+run_id: architecture-migration-local-broker-post-remediation-20260718T154447Z
+commit_sha: a991624d0960b44dc90e89eba245396c52d35c91
+scope_hash: sha256:83e8a4bfcc5d2e65146b3561c5e9b858b6933af7fc81ea5b282246c2d3c50b93
+prompt_hash: sha256:e44c4d65c6adae7591ab2e268af9a3f47fdca11fd10a3ffd8df48d6f51a54a04
+prompt_hash_basis: commands.md
+findings_hash: sha256:23aad09b0c500b1d1dd2fc6a328d356ca49291a3a2ba49a2b9c9da1575370a4c
+findings_hash_basis: findings.yml
+params_hash: sha256:ff377ee071324059613c46a3f5497620c15cadfd280c68d0e1b30d552b9f9b82
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: Three passes agree that exact ED-002 selection, ED-007 census, evidence ordering, scope parity, and fail-closed boundaries close every blocker.

@@ -1,5 +1,9 @@
 schema_version: "octon-architecture-migration-traceability-v1"
 logical_packet_id: "RP-14"
+selected_protocol:
+  ref: "resources/solo-dogfood-proof-protocol-receipt.yml"
+  proof_state: "selected-not-implemented-not-executed"
+  scope_effect: "one unchanged parent-aligned evidence-root target"
 decisions:
   primary: ["FD-001", "FD-024"]
   contributions:
@@ -39,3 +43,8 @@ brokered_no_pr_revision:
   integrated_cross_findings: ["BNP-F-001", "BNP-F-002", "BNP-F-003", "BNP-F-004", "BNP-F-005", "BNP-F-006", "BNP-F-007", "BNP-F-008", "BNP-F-009", "BNP-F-010", "BNP-F-011", "BNP-F-013"]
   prior_audit_lineage: ["GIT-ENF-001", "GIT-ENF-002", "GIT-ENF-003", "GIT-ENF-004", "GIT-ENF-005", "GIT-ENF-007", "GIT-ENF-008", "GIT-ENF-009", "GIT-ENF-010", "GIT-ENF-011", "GIT-ENF-012", "GIT-ENF-014", "GIT-LC-001", "GIT-LC-002", "GIT-LC-004", "GIT-LC-006", "GIT-LC-007", "GIT-LC-008", "GIT-LC-009", "GIT-LC-010", "GIT-LC-011"]
   boundary: "proof-only; failed proof routes to the semantic owner and never mutates runtime/provider/claims"
+evidence_order:
+  proposal_authorization: "accepted packet and strict architecture review authorize the exact proof-only protocol"
+  proof_source_entry: "exact core child implementations/interfaces/receipts, current writers, clean commit, and frozen current inputs"
+  completion: "UE-011/014/015, FD-001/023/024, dogfood, fault, burden, provider, manifest, conformance, and drift proof at the exact run identity"
+  promotion: "separate downstream owner review and claim-scoped authorization; RP-14 handoff is non-authority"

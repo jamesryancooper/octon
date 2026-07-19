@@ -1,0 +1,39 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-rp03-scope-pre-integration-20260718T152420Z
+findings:
+  - id: PROGRAM-RP03-SCOPE-PARITY-001
+    severity: critical
+    status: closed
+    summary: RP-03 child and parent target lists agree exactly after the writer census.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store/proposal.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+    acceptance_satisfied: Both ordered target lists contain 42 identical entries.
+  - id: PROGRAM-RP01-RP03-AUTHORITY-002
+    severity: critical
+    status: closed
+    summary: policy.rs ownership separates policy meaning from persistence integration.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+    acceptance_satisfied: RP-01 owns decisions; RP-03 may add only a post-decision persistence-adapter call after RP-01 verification.
+  - id: PROGRAM-COLLISION-LEDGER-COMPLETENESS-003
+    severity: high
+    status: closed
+    summary: The registry carries an exact typed record for every derived write-scope collision.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+    acceptance_satisfied: All 123 collisions have participants, contributions, an owner, and valid serialization.
+  - id: PROGRAM-PROOF-SEPARATION-004
+    severity: high
+    status: closed
+    summary: Parent acceptance does not inflate planned RP-03 implementation proof.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/architecture/child-packet-contract.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/support/implementation-grade-completeness-review.md
+    acceptance_satisfied: Dependency, migration, restore, crash, capacity, and UE evidence remain future child-owned gates.
+new_findings: []

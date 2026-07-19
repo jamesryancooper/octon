@@ -1,0 +1,26 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-final-acceptance-20260718T184642Z
+commit_sha: 220f565475
+scope_hash: sha256:b0c3971bf5b8f94ac8115722a5e048b6b73d97bc6b74e48b7b6ca3a69cf7ae99
+prompt_hash: sha256:0092ba224d2b78ae82c43218fafa15aa304ef6c20d6fd1258ebb1177737ccb0a
+prompt_hash_basis: commands.md
+findings_hash: sha256:bab7da3b582154ef83c6e9fa531e410bf730b6955c9a37937feef1e5078f8296
+findings_artifact_sha256: sha256:bab7da3b582154ef83c6e9fa531e410bf730b6955c9a37937feef1e5078f8296
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
+findings_hash_basis: findings.yml
+params_hash: sha256:39f03a21839ddf61882b7335e9f6d478997ab5f8eabb5345c404c0bfd892a78b
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: accepted
+rationale: Three passes agree the accepted-state lifecycle delta preserves the corrected architecture and introduces no blocker.

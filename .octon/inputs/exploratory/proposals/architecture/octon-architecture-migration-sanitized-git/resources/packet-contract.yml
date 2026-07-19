@@ -162,8 +162,9 @@ blocking_findings:
   - "RF-023"
   - "RF-026"
 entry_criteria:
-  - "RP-04 exits"
-  - "ED-003 applied"
+  - "accepted RP-05 proposal and digest-fresh architecture review authorize creation only"
+  - "RP-04 implementation verification gates RP-05 source entry"
+  - "ED-003 exact Git/tool/provider/App/ruleset/TLS/scratch preflight passes before source changes"
 exit_criteria:
   - "exact fast-forward succeeds from broker state"
   - "all candidate extension routes deny"

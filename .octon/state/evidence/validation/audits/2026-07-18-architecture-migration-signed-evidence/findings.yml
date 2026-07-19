@@ -1,0 +1,7 @@
+schema_version: "1.0"
+run_id: architecture-migration-signed-evidence-20260718T161703Z
+findings:
+  - {id: RP07-ENGINEERING-MECHANISMS-001, severity: high, status: open, summary: "Exact signer, anchor, reserve, retention, and backup mechanisms/values missing."}
+  - {id: RP07-RP06-VERIFIER-IDENTITY-002, severity: high, status: open, summary: "Local verifier key assumption conflicts with hosted RP-06 verifier."}
+  - {id: RP07-IMPLEMENTATION-EVIDENCE-CYCLE-003, severity: high, status: open, summary: "Proposal authorization is circularly gated on implementation evidence."}
+new_findings: [RP07-ENGINEERING-MECHANISMS-001, RP07-RP06-VERIFIER-IDENTITY-002, RP07-IMPLEMENTATION-EVIDENCE-CYCLE-003]

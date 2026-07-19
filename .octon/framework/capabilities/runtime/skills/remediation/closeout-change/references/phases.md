@@ -1,63 +1,13 @@
----
-title: Closeout Change Phases
----
+# Closeout Change Phases
 
-# Phases
+1. Bind governing contracts and SI-00 containment.
+2. Inventory repository and worktree state read-only.
+3. Classify every candidate and preserve unrelated work.
+4. Select one active route and resolve generic target to `preserved`.
+5. Run non-mutating validation.
+6. Record publication or cleanup denial before any forbidden effect.
+7. Emit preserved/continued/blocked evidence and exact rollback handles.
+8. Report the next owner and stop.
 
-1. Load the default work unit policy, Change Closeout State Machine, Change
-   receipt schema, Git/worktree contract, and current repository state.
-2. Capture inventory for branch, HEAD, `main`, `origin/main`, staged,
-   unstaged, untracked, ignored, branch, remote, and worktree state.
-3. Classify residue for staged, unstaged, untracked, ignored, generated,
-   host-projection, retained evidence, release, input-surface, and branch
-   items. Detection alone is not deletion authority.
-4. Resolve Change identity from user intent, branch, commit scope, existing
-   receipt, or PR context.
-5. Evaluate route inputs: user instruction, repo state, touched paths, risk,
-   validation floor, collaboration need, protected surfaces, and continuity.
-6. Select exactly one route.
-7. Resolve the target lifecycle outcome separately from the route. If the
-   operator only asked to close out the Change and did not explicitly specify a
-   narrower target, set `target_lifecycle_outcome: cleaned` before mutating
-   hosted refs or deleting branches.
-8. For delegated worktree candidates, honor include/exclude boundaries. When
-   branch isolation is required and no candidate branch exists, create or
-   select a task branch, then stage only included paths and preserve excluded
-   residue.
-9. Select the actual lifecycle outcome separately from the route and target.
-10. Verify route-required and outcome-required evidence.
-11. For `branch-no-pr`, distinguish preservation, branch-local commit, branch
-   push, hosted no-PR landing on `main`, and cleanup. Hosted no-PR landing
-   requires preflight and governed `branch-landing-authorization-v1` evidence
-   before mutation and post-push proof that `origin/main` equals the recorded
-   `landed_ref`.
-12. For `branch-pr`, distinguish published, ready, landed, and cleaned states
-   instead of treating draft/open/ready PRs as full closeout.
-13. Complete the route-specific output or record stage-only blockers. If the
-    target outcome was `landed` or `cleaned` but the actual outcome is lower,
-    record `not_landed_reason` or `not_cleaned_reason` plus
-    `landing_stop_reason` or `cleanup_stop_reason` and report continued or
-    blocked closeout.
-14. Write or update the Change receipt and execution log. Completed or cleaned
-    claims require `stateful_closeout` evidence.
-15. Before reporting branch-based full closeout, verify the source branch
-    changes are integrated into `origin/main`, fetch origin, update local
-    `main` to that same ref, verify landed-ref containment in both refs, and
-    record cleanup completed with `branch-cleanup-authorization-v1` evidence
-    when claiming `cleaned`. Deferred cleanup is a lower actual outcome with
-    blocker evidence.
-16. Emit terminal current-state proof only after landing evidence, final sync
-    proof, cleanup authorization, cleanup disposition, rollback posture, and
-    route-owned validation proof are present. The terminal proof sink or
-    receipt path must be distinct from `landed_ref`; writing it must not mutate
-    `origin/main`, local `main`, the landed ref, or the source branch, and must
-    not require a source-branch commit after landing.
-
-For any phase that attempts or retries fetch, checkout, branch-local commit,
-branch publication, hosted landing, final sync, branch cleanup, or local or
-remote branch deletion or pruning, record permission diagnostics before retry
-when the mutation is denied or blocked. Diagnostics must identify operation
-class, current and target refs when known, expected authorization gate, likely
-sandbox, host, provider, remote, or ref-write blocker, and owning rerun route.
-They preserve the lower actual outcome until the route-owned authorization,
-helper validation, mutation, final sync, and cleanup proof requirements pass.
+No phase lands, merges, deletes, prunes, removes a worktree, syncs `main`, or
+claims a cleaned outcome.

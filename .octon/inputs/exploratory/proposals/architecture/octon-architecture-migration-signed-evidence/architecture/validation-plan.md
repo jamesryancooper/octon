@@ -1,6 +1,6 @@
 # Validation Plan
 
-## Draft Packet Checks
+## Proposal And Evidence Order
 
 Run the repository proposal validators read-only against this packet:
 
@@ -10,8 +10,11 @@ Run the repository proposal validators read-only against this packet:
 - `validate-proposal-review-gate.sh`
 - `validate-architectural-review-receipts.sh`
 
-The draft is expected to pass structural checks while implementation readiness,
-strict review authorization, conformance, and closeout remain blocked.
+Accepted design may authorize creation of only the selected mechanism. RP-03/
+RP-04/RP-06 implementation verification and exact platform/dependency/Sigstore/
+constrained-volume preflight gate source entry. UE-008 and all dynamic evidence
+gate conformance, activation, completion, or promotion; they do not gate
+permission to create the implementation and are not current proof.
 
 ## Future Contract And Static Checks
 
@@ -50,7 +53,8 @@ capacity lease service.
 
 Run signature and producer-binding fixtures for:
 
-- correct broker and verifier observations with distinct keys;
+- correct local Secure Enclave broker/checkpoint signatures and hosted verifier
+  DSSE/Sigstore attestations with exact workflow identity and subject digest;
 - payload-byte mutation, field reordering/non-canonical bytes, unknown field,
   wrong role, wrong key, revoked key, stale epoch, algorithm downgrade,
   duplicate identity, and same-key alias;

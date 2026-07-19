@@ -4,7 +4,8 @@ This plan describes later implementation. It does not authorize it.
 
 ## Workstream 0 — Freeze Entry Interfaces
 
-1. Verify RP-01 exit and record the authority/guard interface version.
+1. Verify the accepted RP-01 digest and implementation guard/admission interface
+   frozen by the exact design receipt.
 2. Refresh the Profile, engagement, mission, continuity, and Harness consumer
    inventory at the exact implementation commit.
 3. Confirm exclusive RP-10 symbol/entry ownership in shared files.
@@ -13,10 +14,10 @@ Exit: no open authority ownership or target-family ambiguity.
 
 ## Workstream 1 — Contracts and Durable Records
 
-1. Add strict runtime and constitutional Workspace Project schemas.
+1. Add strict RFC-8785 JSON/SHA-256 runtime and constitutional Workspace Project schemas.
 2. Register the contract and path roles in the runtime, constitutional, and
    topology registries.
-3. Add the instance project registry, path-safe active pointer, immutable
+3. Add the selected sorted instance project registry, generation-bound path-safe active pointer, immutable
    project revisions, and immutable Profile revisions.
 4. Clarify Project Profile binding and whitelisted projection semantics.
 
@@ -28,7 +29,7 @@ authority or unsafe paths.
 1. Extend engagement start to resolve or prepare a Workspace Project candidate.
 2. Adopt the current singleton Profile as the first project's selected Profile
    without rewriting its evidence facts.
-3. Implement deterministic inference, relocation, staleness, correction, and
+3. Implement deterministic operator-lock-first inference, relocation, staleness, correction, and
    scoped repair receipts.
 4. Implement the rebuildable location index as a non-authoritative read model.
 
@@ -51,7 +52,8 @@ Exit: RP10-AC-005 and RP10-AC-006 pass.
 1. Add project identity to mission continuity/read-model records while leaving
    mission authority and control schemas unchanged unless a separately owned
    interface change is explicitly approved.
-2. Add the read-only `octon mission inbox` command.
+2. Add the read-only `octon mission inbox` command with the selected stable
+   ordering, source-bound cursor, and 50/100/10,000 limits.
 3. Prove status/resume guidance is exact and the command causes no control
    mutation.
 

@@ -1,95 +1,58 @@
 # Change Closeout Lifecycle
 
-Change Closeout Lifecycle is Octon's route-neutral closeout feature for the
-singular default work unit: one Change. It gives operators and agents a stable
-navigation surface for the Change closeout state machine, the closeout skills,
-receipt contracts, governed branch landing and cleanup authorization, wrapper
-evidence, and repo-hygiene handoff.
+Change Closeout is the route-neutral evidence and preservation feature for one
+Change. During SI-00 it inventories exact state, classifies an active route,
+retains rollback posture, and reports the highest evidence-backed
+stage-preserving outcome.
 
-This feature page is navigation-only. The source of truth remains the linked
-contracts, skill definitions, validators, receipts, and repo-hygiene policy.
-For architecture/governance boundary detail, see
-`.octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/mechanisms/change-closeout-and-repo-hygiene.md`.
+The machine authority remains
+`.octon/framework/product/contracts/default-work-unit.yml` and
+`.octon/framework/product/contracts/change-closeout-state-machine.yml`.
 
-## Boundary
+## Current Boundary
 
-`closeout-change` closes one Change through the route selected by the default
-work unit policy. It owns material route actions for that selected Change:
-staging, committing, pushing, hosted no-PR landing, PR delegation, source branch
-cleanup, rollback or discard posture, validation evidence, and the singular
-Change receipt.
+- `direct-main` is not active.
+- `branch-no-pr` remains classifiable for branch-local work and preservation;
+  its local and hosted landing effects are disabled.
+- `branch-pr` remains available for stage-preserving PR coordination when an
+  independent PR predicate exists. The RP-00 protected-PR provider cutover is
+  separately authorized and is not a Change-closeout effect.
+- `stage-only-escalate` preserves work and reports the missing gate.
+- cleanup authorization, branch/ref deletion, worktree removal, pruning, and
+  closeout-driven sync are disabled.
 
-`closeout-worktree` is the dirty-worktree wrapper. It inventories the worktree,
-classifies residue, partitions coherent candidates, delegates each safely
-separable candidate to singular `closeout-change`, re-inventories after each
-delegation, and reports closed, retained, deferred, blocked, escalated, or
-foreign candidates. It does not stage, commit, push, land, delete, reset,
-restore, or clean residue directly.
+Historical schemas and receipts may parse retired route and success labels for
+audit compatibility. They cannot admit a current request, authorize an effect,
+or prove SI-00 success.
 
-`closeout-pr` is the PR-backed subflow. It is used only after the selected
-Change route is `branch-pr` or when work starts from an existing PR context.
+## Stable Reasons
 
-Repo hygiene owns post-closeout non-material residue management. A completed
-`cleaned` Change outcome proves the selected Change's route cleanup and required
-main alignment. It does not prove the whole repository has no retained evidence,
-generated output, control state, ignored local files, or cleanup-safe run
-residue unless repo hygiene has separately classified and disposed or retained
-that residue.
+- publication or landing: `RP00_CONTAINMENT_PUBLICATION_DISABLED`
+- cleanup or deletion: `RP00_CONTAINMENT_CLEANUP_DISABLED`
 
-## Core Guarantees
+Every independently invocable helper returns the applicable reason before Git,
+worktree, ref, remote, or provider mutation. Cleanup dry runs may inventory
+only.
 
-- The default work unit remains singular `Change`.
-- A plain closeout request defaults `target_lifecycle_outcome` to `cleaned`.
-- Actual lifecycle outcome is evidence-based and may truthfully downgrade to
-  `landed`, `published-branch`, `branch-local-complete`, `preserved`,
-  `deferred`, `blocked`, `escalated`, or `denied`.
-- `published-branch` and `branch-local-complete` are continued handoff outcomes,
-  not completed closeout.
-- Branch-based `landed` or `cleaned` claims require source integration into
-  `origin/main`, post-landing fetch, local `main` sync, landed-ref containment
-  in local `main` and `origin/main`, and final alignment evidence.
-- Hosted no-PR landing requires governed `branch-landing-authorization-v1`
-  evidence.
-- Source branch cleanup requires governed `branch-cleanup-authorization-v1`
-  evidence.
-- Proposal lifecycle handoff receipts, phase context, and lifecycle events are
-  advisory context only; they cannot select a Change route, satisfy Change
-  receipt or evidence gates, authorize hosted landing or branch cleanup, or
-  report the final lifecycle outcome.
-- Generated outputs, raw inputs, host projections, control artifacts, chat
-  state, tool availability, provider metadata, and ignored local files are not
-  closeout authority.
-- Detection never authorizes deletion.
+## Outcomes
 
-## Operator Entry Points
+Generic closeout resolves to `preserved`. Branch-local and pushed-branch
+handoff can remain continued outcomes when separately authorized. If landing
+was already independently established, closeout may observe `landed` with
+`cleanup_status: deferred`; it does not perform landing or cleanup. No current
+closeout route reports `cleaned`, `synced`, or autonomous publication success.
 
-- `/closeout-change`
-- `/closeout-worktree`
-- `/closeout-pr`
-- `closeout-change`
-- `closeout-worktree`
-- `closeout-pr`
+## Entry Points
 
-Use `closeout-change` when the scope is already one coherent Change. Use
-`closeout-worktree` when the worktree may contain multiple candidates or
-retained residue. Use `closeout-pr` only for a selected `branch-pr` route or an
-existing PR context.
+- `/closeout-change`: one Change, preservation-first
+- `/closeout-worktree`: read-only partitioning wrapper over singular Changes
+- `/closeout-pr`: PR-backed stage-preserving subflow after `branch-pr`
 
-## Repo-Hygiene Handoff
-
-After a truthful `cleaned` Change closeout, remaining residue must be treated as
-repo hygiene unless it is inside the selected Change boundary. Repo hygiene may
-classify local run/control/evidence residue, generated scratch output, durable
-evidence, active control state, manual-review artifacts, and ignored local
-files. Cleanup-safe local residue may be removed only through governed
-repo-hygiene policy and helper evidence. Generated run-health projections remain
-generator-owned and must be pruned through the run-health generator's retained
-`pruned_paths` evidence rather than through Change closeout.
+Generated outputs, raw inputs, host state, provider state, chat, and tool
+availability are not closeout authority.
 
 ## Validation
 
-Focused validation lives in the default work unit validator, Change closeout
-state machine validator, lifecycle alignment validator, closeout-worktree wrapper
-validator, hosted no-PR landing tests, wrapper orchestration tests, repo-hygiene
-validators, generated non-authority validator, run-health read-model validator,
-and product feature catalog validator.
+Focused validation lives in the default-work-unit, closeout state-machine,
+lifecycle alignment, hosted-no-PR containment, cleanup-authorization, and
+worktree-wrapper validators and their direct-invocation tests.

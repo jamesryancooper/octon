@@ -10,9 +10,12 @@ RP-00 contained baseline
      canonical Git state
   -> fresh HOME and environment allowlist are constructed
   -> inherited FDs are closed and process-group ownership is established
-  -> native macOS sandbox restricts filesystem, process, and network access
-  -> provider-native non-exportable or short-lived primary-provider session is
-     attached without readable durable secret material
+  -> root-owned /usr/bin/sandbox-exec applies the digest-bound default-deny
+     SBPL profile for the exact arm64 macOS 26/Darwin 25 tuple
+  -> an exact-digest OpenAI Codex CLI reaches only a launcher-owned loopback
+     inference relay using one random, one-run, deadline-bounded capability
+  -> the relay keeps the pre-existing upstream provider authentication outside
+     the candidate sandbox and exposes no effect or administration operation
   -> useful task runs
   -> exact candidate commit is exported through a non-executing,
      content-addressed boundary
@@ -28,8 +31,8 @@ guard-owning launch interface without redefining it.
 - **RP-01:** authority evaluator, typed scope, exact one-shot guard, and the
   structural API that immediately precedes process creation.
 - **RP-02:** workspace creation, independent Git state, environment/HOME/FD
-  scrubbing, native sandbox, candidate-safe provider session, process boundary,
-  non-executing export, cleanup, and isolation evidence.
+  scrubbing, digest-bound native sandbox, one-run inference relay capability,
+  process boundary, non-executing export, cleanup, and isolation evidence.
 - **RP-04:** credential enrollment/custody and privileged effect IPC. RP-02 is
   deliberately independent of the broker to avoid a dependency cycle.
 - **RP-06:** downstream publication-route policy. RP-02 only preserves and
@@ -48,8 +51,10 @@ guard-owning launch interface without redefining it.
    environment credentials.
 4. Only explicitly allowed environment variables, file descriptors,
    filesystem roots, network destinations, and child processes are available.
-5. Provider authentication is useful but non-exportable or short-lived and
-   independent of the future privileged effect broker.
+5. The candidate receives only a random 256-bit one-run relay capability bound
+   to its run, process group, model, budget, listener, and deadline. It never
+   receives the relay's upstream provider authentication. The relay supports
+   inference only and is independent of the future privileged effect broker.
 6. Candidate output cannot mutate canonical Git or host state; export is exact,
    content-addressed, and non-executing.
 7. The candidate never mints authority, chooses support or publication route,
@@ -61,8 +66,10 @@ guard-owning launch interface without redefining it.
 
 - If native sandbox enforcement is unavailable, automated candidate launch is
   disabled.
-- If a candidate-safe provider session is unavailable, the task does not fall
-  back to durable tokens in the candidate environment.
+- If the exact client is missing/broken, the authenticated upstream transport
+  is unavailable, or the one-run relay cannot be restricted to its exact
+  listener, launch denies before provider contact and does not fall back to
+  direct egress or durable tokens.
 - If export fails, the workspace is retained in a non-authoritative recovery
   posture until the exact commit is recovered or explicitly abandoned.
 - If cleanup fails, the workspace/session is quarantined and cannot be reused.
@@ -73,6 +80,8 @@ guard-owning launch interface without redefining it.
 - ambient HOME, environment, Keychain, SSH agent, parent FD, or Git config
   inheritance;
 - unrestricted filesystem, process, or network access;
+- direct provider egress or access to any loopback listener other than the
+  exact one-run inference relay;
 - candidate-readable durable API key or provider token;
 - candidate canonical-ref mutation or trusted-side checkout of candidate
   content during export;

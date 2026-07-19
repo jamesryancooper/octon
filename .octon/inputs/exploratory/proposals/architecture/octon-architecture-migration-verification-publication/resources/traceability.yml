@@ -97,8 +97,11 @@ target_family_split:
   affected_projection_family: ".github/**"
   promotion_target_family: ".octon/**"
   required_resolution: >-
-    Accept a durable .octon source/generator and receipted publisher before
-    any host workflow projection changes; no direct .github child target.
+    Implement the exact durable .octon source/generator and token-bound
+    receipted publisher selected by the design receipt before any host workflow
+    projection changes; no direct .github child target.
+  design_state: "selected-not-configured-not-executed"
+  census_ref: "resources/workflow-surface-census.yml"
 safe_state_transition:
   from: "SI-05 sanitized Git precondition"
   to: "SI-05 sanitized Git plus immutable verification"

@@ -4,7 +4,7 @@ workgroup_id: "RWG-09"
 purpose: "Permit inert Octon self-change landing while making trust activation prior-version-verified, atomic, healthy, and reversible."
 problem_statement: "Self-development can become same-change self-authorization unless classification, verification, activation, and rollback remain outside candidate control."
 current_repository_state: ["Evolution and promotion substrates exist but complete semantic closure and fault-proved prior-version activation are not established."]
-current_evidence: {classification: "STATICALLY_INSPECTED", limits: "Structure is observed; activation safety and provider assumptions remain unexecuted."}
+current_evidence: {classification: "STATICALLY_INSPECTED", limits: "Exact mechanisms are selected proposal-locally; activation safety and provider assumptions remain unexecuted future evidence."}
 accepted_decisions: ["FD-017", "FD-018"]
 target_state: ["Ordinary changes use normal delivery; trust changes install inert and activate only through exact prior-version verification and rollback."]
 scope: ["trust inventory", "epoch zero", "classification", "inert install", "activation envelope", "selector", "health", "rollback"]
@@ -23,7 +23,7 @@ workflows_and_generated_projections_affected: ["Release/host projections are obs
 provider_configuration_observed: ["Provider behavior is refreshed and recorded but not mutated or made authority."]
 technical_identities_affected: ["old/new version digest", "inventory digest", "epoch", "classifier/verifier identity", "provider identity", "selector generation", "rollback version"]
 trust_boundary_changes: ["Moves trust-change classification and activation proof to the installed prior version."]
-migration_preconditions: ["RP-06", "RP-07", "RP-08", "frozen RP-01 epoch semantics", "accepted ROD-003 boundary bound"]
+migration_preconditions: ["accepted frozen RP-01/RP-06/RP-07/RP-08 packet digests", "verified dependency implementations/interfaces before source entry", "accepted exact ROD-003 design bound", "safe-automatic activation disabled until dynamic proof"]
 migration_steps: ["census", "contract", "inert install", "prior-version verification", "atomic selector", "health/rollback", "proof", "cutover"]
 safe_intermediate_states: [{id: "SI-07", state: "Trust changes may land inert; activation is disabled or operator-confirmed until safe-automatic proof passes."}]
 prohibited_intermediate_states: ["candidate-HEAD authority", "same-change classifier/verifier/activator/rollback mutation", "post-merge-only prevention", "unverified rollback", "mixed active versions"]
@@ -44,7 +44,7 @@ must_not_run_concurrently_with: ["Mutation of RP-01 authority/epoch, RP-06 predi
 operator_decisions: [{id: "ROD-003", status: "accepted", decision: "Small content-addressed semantic epoch-zero inventory, one-time human trust anchor/bootstrap, and exact scope/artifact-version/time/budget/verifier/health/rollback preauthorization.", engineering_boundary: "Encoding/detection, health windows, canaries, and rollback durations remain reversible engineering/proof.", activation_boundary: "Safe automatic activation remains disabled and unclaimed until proof and later promotion acceptance."}]
 blocking_findings: ["RF-003", "RF-014", "RF-018", "RF-027"]
 unresolved_evidence: ["UE-001", "UE-009", "UE-015"]
-entry_criteria: ["Dependencies verified", "trust inventory census complete", "accepted ROD-003 boundary bound"]
+entry_criteria: ["Accepted digest-bound proposal and strict review authorize the exact design", "dependency implementations/interfaces, semantic census, filesystem/platform/tool/provider preflight, and integration lease pass before source work", "accepted ROD-003 design is bound without creating bootstrap or activation authority"]
 exit_criteria: ["FD-017/018 gates pass", "UE-001/009/015 resolved", "SI-07 and rollback pass", "safe-automatic accurately disabled or separately proved"]
 proof_produced: ["PG-09-INERT-SELF-DEVELOPMENT", "PG-09-TRUST-ACTIVATION"]
 authoritative_promotion_requirements: ["Accepted packet, bound ROD-003 baseline, prior-version exact proof, current provider observation, conformance/drift reviews, later promotion acceptance, and atomic promotion receipt."]

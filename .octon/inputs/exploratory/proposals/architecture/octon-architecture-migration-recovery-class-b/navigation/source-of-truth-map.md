@@ -25,13 +25,14 @@ policy.
 
 1. `proposal.yml`
 2. `architecture-proposal.yml`
-3. `resources/packet-contract.yml`
-4. `resources/traceability.yml`
-5. `architecture/target-architecture.md`
-6. `architecture/acceptance-criteria.md`
-7. `architecture/implementation-plan.md`
-8. remaining architecture and navigation documents
-9. `README.md`
+3. `resources/recovery-mechanism-and-dependency-receipt.yml`
+4. `resources/packet-contract.yml`
+5. `resources/traceability.yml`
+6. `architecture/target-architecture.md`
+7. `architecture/acceptance-criteria.md`
+8. `architecture/implementation-plan.md`
+9. remaining architecture and navigation documents
+10. `README.md`
 
 ## Planned Durable Ownership
 
@@ -58,6 +59,14 @@ lower route. Only a stable pre-effect review/high-contention predicate selects
 PR. Invalid, stale, revoked, raced, mismatched, collided, `ATTEMPTING`, or
 `UNKNOWN` authority/effects deny or reconcile; the frozen attempt cannot switch
 route and any new attempt requires fresh authority.
+
+## Exact Recovery Design
+
+`resources/recovery-mechanism-and-dependency-receipt.yml` freezes all four
+dependency digests and selects the provider support tuple, evidence precedence,
+probe/maintenance budgets, PR-subeffect reconciliation, and exact ROD-002
+encoding design. These selections are planned-not-installed; provider and
+dynamic proof remain future source-entry and activation gates.
 
 ## Operational Surfaces
 

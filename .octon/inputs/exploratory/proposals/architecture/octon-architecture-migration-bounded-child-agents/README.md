@@ -1,6 +1,6 @@
 # Bounded Mission Child Agents
 
-This is the draft RP-13 architecture proposal for
+This is the accepted RP-13 architecture proposal for
 `octon-architecture-migration-bounded-child-agents`. It is a temporary,
 non-authoritative implementation aid. It does not authorize child launch,
 provider access, credentials, concurrency, spend, capability grants, mission
@@ -70,8 +70,9 @@ persistent agent records.
 
 ## Current Gate
 
-The packet remains `draft`. Engineering must bind the accepted ROD-005 baseline
-to enforceable provisional values; dependency exits, stable-digest architecture
-review, UE-013 adversarial proof, and implementation receipts are future gates.
-No operator disposition remains open. The interim posture is child launch
-disabled.
+The packet is `accepted` at a fresh digest after independent proposal and strict
+architecture re-review. It selects exact conservative ROD-005 limits, canonical
+identity/CAS lifecycle and commit-last retirement, and aligned dependency and
+implementation-evidence gates. Future exact implementation prompting is
+authorized only through the parent DAG; no implementation or child launch has
+occurred, and launch stays disabled.

@@ -138,16 +138,35 @@ Provider rules, required checks, App identity/permissions, Actions defaults,
 environments, secret consumers, and relevant audit evidence are refreshed at
 implementation and promotion time under UE-015.
 
+`resources/verification-publication-design-and-dependency-receipt.yml` selects
+the exact mechanism. A default-branch-owned generated workflow handles
+`pull_request_target` and `merge_group`. A fresh secretless macOS compute job
+uses RP-02 to treat `S` as hostile data and emits one bounded canonical JSON
+result. A separate fresh emitter runner never checks out or executes `S`; only
+after schema/size/digest validation does it mint a one-operation token for the
+checks-only `octon-verifier` App. Rulesets accept `octon/exact-verdict` only
+from that exact App/installation. The distinct publisher App has PR-write but
+no checks-write or verifier-secret access.
+
+Protected PR uses GitHub's merge queue, not a direct merge API. Enqueue binds
+`expectedHeadOid=S`; the queue is required, ALLGREEN, squash-only, one entry per
+group, no bypass, and requires the exact App-produced verdict plus substantive
+checks on the `merge_group` SHA. GitHub integrates only a checked group against
+the current base. Queue removal, head/base/check/review drift, unavailable
+features, or configuration mismatch requires a fresh tuple. There is no
+check-then-merge fallback.
+
 ## Workflow Projection Source
 
-The durable source for provider workflow projections must live under the
-declared .octon host-adapter target family. It owns projection templates or
-generation inputs, verifier/publisher identity references, source digests,
-publisher identity, and freshness receipts. Directly authored .github workflow
-files cannot be the source of truth for this packet.
-
-Until that source or generator is accepted and validated, candidate
-writer/verifier workflow retirement is a target-family-split blocker.
+The exact durable source lives at
+`.octon/framework/engine/runtime/adapters/host/github-control-plane/projections/`.
+It contains a manifest, two templates, token-gated publisher, validator, and
+receipt schema. It may atomically publish only
+`.github/workflows/octon-exact-verifier.yml` and
+`.github/workflows/octon-protected-publication.yml`, with source/output digests
+and publisher identity in retained evidence. The exhaustive 42-workflow census
+defines replace/merge/preserve dispositions. Any census drift, direct output
+edit, unreceipted output, or unexpected path disables the route.
 
 ## Safe Failure
 

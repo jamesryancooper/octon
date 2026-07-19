@@ -46,10 +46,13 @@ Keychain integration, launch service, or accepted scratch-effect proof exists.
   production Git/GitHub scratch proof, or ambient fallback;
 - routine daemon babysitting and repeated setup/approval prompts.
 
-## Unresolved Engineering Inputs
+## Resolved Design Inputs
 
-ED-002 fixes the default direction but not the exact macOS IPC/audit-token/code-
-identity, launch-service/socket activation, Keychain access-control/enrollment,
-code-signing, protocol-crypto, or Rust/FFI dependency mechanisms. Those require
-a future Broker IPC/Keychain Design and Dependency Receipt. This is an
-engineering gate, not a new operator decision.
+The ED-002 receipt selects a root-owned LaunchDaemon and dedicated `_octon`
+identity, launchd XPC Mach service, mutual peer code-signing requirements,
+System Keychain ACL, exact enrollment channel, replay envelope, HMAC handle,
+and pinned Rust/system dependencies for macOS 26.5.2. The ED-007 census assigns
+every current broker/effect/credential/CLI/workflow surface. Installation,
+dependency resolution, signing availability, ACL behavior, attacks, and scratch
+effects remain future implementation-entry or completion evidence, not design
+proof.

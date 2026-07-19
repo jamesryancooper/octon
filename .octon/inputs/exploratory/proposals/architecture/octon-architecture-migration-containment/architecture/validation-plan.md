@@ -14,8 +14,10 @@ digest, evidence classification, and evidence reference.
 - `validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment` after formal review
 - `validate-architectural-review-receipts.sh` after a real independent review
 
-The first two must pass for draft structure. The later gates are expected to
-fail until their real prerequisites exist.
+The proposal, readiness, review, and strict architecture gates must all pass at
+the accepted-state digest before implementation prompt generation. Future
+implementation, provider, conformance, drift, and rollback gates remain
+independently unsatisfied until their direct evidence exists.
 
 ## Future Implementation Validators
 

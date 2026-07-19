@@ -34,9 +34,17 @@ RP-12 + RP-13 → RP-14 optional-claim proof and full program closeout
 - RP-13 `octon-architecture-migration-bounded-child-agents`
 - RP-14 `octon-architecture-migration-solo-dogfood-promotion`
 
-RP-01 freezes authority/guard semantics before RP-03 changes persistence; they
-must not mutate that interface concurrently. RP-01/RP-02 may proceed in parallel
-after RP-00. The RP-10/RP-11 non-authority product branch may proceed alongside
+RP-01 freezes authority/guard and `policy.rs` decision semantics before RP-03
+adds post-decision persistence calls; they must not mutate that interface or
+policy meaning concurrently. RP-01/RP-02 remain DAG peers after
+RP-00, but their exact `lifecycle_executor/src/codex.rs` contributions serialize
+under the program integration lock with RP-01 guard invocation first, then RP-02
+isolation; RP-11 integrates its adapter/Harness slice only after both. At the
+other three RP-01 candidate seams (`kernel/src/pipeline.rs`,
+`kernel/src/workflow.rs`, and `lifecycle_executor/src/workflow_leaf.rs`), RP-01
+guard invocation integrates first and RP-11 prepared-handle/adapter dispatch
+follows by dependency order. All other
+module-disjoint RP-01/RP-02 work may proceed in parallel. The RP-10/RP-11 non-authority product branch may proceed alongside
 the broker spine after dependencies. RP-07 authenticity/capacity precedes RP-08
 terminal recovery claims. RP-12 and RP-13 remain distinct children. The graph is
 gated-parallel, not optimistic parallel execution.

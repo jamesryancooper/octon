@@ -93,7 +93,7 @@ workflows:
     domain: change-closeout
     path: meta/closeout/
     execution_profile: core
-    summary: Resolve Change closeout route before direct-main, branch-only, PR-backed, or stage-only action.
+    summary: Resolve SI-00 Change closeout to preservation or stable pre-effect denial.
     status: active
     triggers:
       - "closeout"
@@ -716,7 +716,7 @@ workflow_group_definitions:
   meta:
     description: Operate on the harness itself (CRUD for harness components)
     path: meta/
-    members: [evaluate-harness, evaluate-ci-latency, migrate-harness, export-harness, update-harness, lifecycle-postmortem, create-workflow, evaluate-workflow, update-workflow, create-skill, create-design-proposal, create-migration-proposal, create-policy-proposal, create-architecture-proposal, validate-proposal, promote-proposal, verify-implementation-conformance, audit-post-implementation-drift, archive-proposal]
+    members: [evaluate-harness, evaluate-ci-latency, migrate-harness, export-harness, process-incoming-intake, closeout, update-harness, lifecycle-postmortem, create-workflow, evaluate-workflow, update-workflow, create-skill, create-design-proposal, create-migration-proposal, create-policy-proposal, create-architecture-proposal, validate-proposal, promote-proposal, verify-implementation-conformance, audit-post-implementation-drift, verify-governed-mechanism-integration, proposal-packet-terminal-closeout, fixture-retention-closeout, proposal-packet-delivery, proposal-program-delivery, archive-proposal]
   audit:
     description: Audit orchestration and release gates
     path: audit/

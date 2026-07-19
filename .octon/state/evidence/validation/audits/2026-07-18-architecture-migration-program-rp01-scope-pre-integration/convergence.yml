@@ -1,0 +1,24 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-rp01-scope-pre-integration-20260718T201500Z
+commit_sha: 8fa5d2aa7f3b327854b11539566a0a2234258dc1
+scope_hash: sha256:947ee968327fda502d5784daf04e5a13f94cf2c4ead61ba5fd21dde9a4e17f33
+findings_hash: sha256:1f05988f0cf1b7ac70cfc9b5a2abeee45aa34e9b9da6e427d926432945705c53
+findings_artifact_sha256: sha256:1f05988f0cf1b7ac70cfc9b5a2abeee45aa34e9b9da6e427d926432945705c53
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
+findings_hash_basis: findings.yml
+prompt_hash: sha256:479860c7be76c168099ce71da34ed9405fde8f7b05f75aaf427b415d7cd85a4f
+params_hash: sha256:6b2eeb990f8d1fb965c20a43d88f64f04ad4326207242150bf3043be5a74e286
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: All three structure passes converge on the same 122-record acyclic collision projection; exact RP-01 scope equality and child-authority preservation expose no new medium-or-higher finding.

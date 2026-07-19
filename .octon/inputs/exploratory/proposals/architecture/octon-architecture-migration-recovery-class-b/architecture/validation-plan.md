@@ -1,10 +1,10 @@
 # Validation Plan
 
-## Draft Packet Checks
+## Proposal Checks
 
-Run base, architecture, implementation-readiness, and draft review-gate
-validators. Draft structural pass is expected; implementation authorization
-must remain blocked.
+Run base, architecture, implementation-readiness, strict review/architecture,
+parent structure/scope, digest, registry-owner, and diff validators. Proposal
+acceptance authorizes only the selected design; it does not prove implementation.
 
 ## Static And Contract Checks
 
@@ -66,6 +66,10 @@ PR/no-PR publication. Assert each failure:
 
 Measure admitted broker restart/reconnect/reconcile status within five seconds
 and zero operator steps.
+
+Verify the exact 0/500/2,000-ms immediate rounds, 5m/15m/1h/6h unavailable
+schedule, one-per-repository/two-global concurrency, 100-operation/15-minute run
+limits, three probes per operation, and zero reconciliation effect retries.
 
 ## SI-06 And Continuous Operation
 

@@ -33,8 +33,9 @@ guard/scope/isolation/depth/limit/provider-mapping/retirement gap.
 - RF-025: useful credentialless provider work is unproved until the ED-001
   dependency premise passes dynamically; failure disables children.
 - RF-027: ROD-005 accepts the lowest useful concurrency and conservative,
-  adjustable Solo Local limits. Engineering binds provisional enforceable
-  values, then widens one dimension only when dogfood proves benefit.
+  adjustable Solo Local limits. The design receipt selects exact
+  enforcement-or-disabled values; implementation must encode and prove them,
+  then may widen one dimension only when dogfood proves benefit.
   Provider-child admission is proof-driven and remains disabled until the
   configuration, conformance, and existing proof gates pass.
 

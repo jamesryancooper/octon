@@ -1,6 +1,6 @@
 ---
 name: "proposal-program-delivery"
-description: "Coordinate an accepted proposal program through child packet implementation, publication freshness, packet closeout, archive handoff, Change closeout, hosted landing, final sync, branch cleanup, terminal proof, and final hygiene."
+description: "Coordinate accepted child implementation or archive readiness while RP-00 disables publication, landing, sync, and cleanup effects."
 steps:
   - id: "bind-profile"
     file: "stages/01-bind-profile.md"
@@ -46,7 +46,7 @@ _Generated README from canonical workflow `proposal-program-delivery`._
 
 ## Purpose
 
-Coordinate an accepted proposal program through child packet implementation, publication freshness, packet closeout, archive handoff, Change closeout, hosted landing, final sync, branch cleanup, terminal proof, and final hygiene.
+Coordinate accepted child implementation or archive readiness while RP-00 disables publication, landing, sync, and cleanup effects.
 
 ## Target
 
@@ -93,6 +93,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Verification Gate
 
+- [ ] only implemented or archive-ready coordination is admitted; all publication requests stop with RP00_CONTAINMENT_PUBLICATION_DISABLED
 - [ ] profile validates with validate-proposal-program-delivery-profile.sh before any delivery claim
 - [ ] admission diagnostics distinguish required delivery inputs from forbidden substitutes before expensive continuation or mutation
 - [ ] profile and workflow evidence record target_outcome, release state, order policy, PR policy, stash policy, runner handoff refs when supplied, include-path classification state, and retained preflight refs
@@ -101,13 +102,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] child packet receipts remain target-owned and parent summary evidence does not replace them
 - [ ] feature catalog drift validates with validate-feature-catalog-drift-closeout.sh before parent closeout, delivery, or cleaned claims
 - [ ] unresolved child or parent feature-catalog drift blocks completed delivery and records next owning documentation routes without replacing child receipts
-- [ ] closeout-change or closeout-worktree owns Change closeout and any hosted mutation
-- [ ] git mutation preflight passes before branch-local commit, push, hosted no-PR landing, sync, cleanup, or branch deletion
-- [ ] dirty or stale source posture selects a route-owned clean worktree with include-path classification before reconstruction, broad stage-all, staging, or commit
-- [ ] branch landing authorization exists before landed, synced, or cleaned claims
-- [ ] branch cleanup authorization exists before source branch cleanup claims
-- [ ] repo-hygiene-cleanup owns any local residue deletion
-- [ ] terminal current-state proof shows local main, origin/main, and landed ref equality
+- [ ] delivery preserves exact work and does not delegate Git mutation, hosted landing, sync, cleanup, or branch deletion
 - [ ] delivery receipt validates with validate-proposal-program-delivery-receipt.sh
 - [ ] lifecycle postmortem threshold status is recorded when repeated blocker or recovery thresholds apply
 - [ ] compact blocker-remediation receipts validate repeated fingerprint, repeated full workflow directory, file-count, and byte-count budget triggers when those triggers apply

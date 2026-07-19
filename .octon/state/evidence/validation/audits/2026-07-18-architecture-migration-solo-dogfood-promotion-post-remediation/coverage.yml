@@ -1,0 +1,5 @@
+schema_version: "1.0"
+surfaces: ["canonical documents", "proof identity and corpus", "measurement and burden", "provider reproduction and freshness", "evidence custody and immutable generation", "claim adjudication and handoff", "dependency, scope, and evidence order"]
+files_scanned: 26
+unaccounted_files: 0
+coverage_status: complete-for-post-remediation-review

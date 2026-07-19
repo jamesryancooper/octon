@@ -3,7 +3,8 @@ set -euo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../../../.." && pwd)"
 
-bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh"
+OCTON_DISCOVERY_ROOT_DIR="$ROOT_DIR" \
+  bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh"
 bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/tests/test-generated-effective-publication-live-wrapper.sh"
 bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/tests/test-publication-runtime-boundary-delegation.sh"
 bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/tests/test-protected-ci-live-wrapper.sh"

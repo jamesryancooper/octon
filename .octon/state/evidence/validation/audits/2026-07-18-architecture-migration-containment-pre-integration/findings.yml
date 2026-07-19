@@ -1,0 +1,37 @@
+schema_version: "1.0"
+run_id: architecture-migration-containment-pre-integration-20260718T034847Z
+findings:
+  - id: RP00-SCOPE-OWNERSHIP-001
+    severity: high
+    status: closed
+    summary: RP-00's declared promotion targets exactly match its parent-registry write scope and preserve later semantic owners.
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/proposal.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md
+    acceptance_criteria:
+      - The ordered 24-entry promotion-target list equals the RP-00 registry write-scope list.
+      - Shared paths retain declared later owners and serialization.
+  - id: RP00-CONTAINMENT-SAFETY-002
+    severity: critical
+    status: closed
+    summary: The design fails closed without restoring direct-main, unsafe publication, destructive cleanup, ambient credentials, or claim widening.
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/architecture/target-architecture.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/architecture/rollback-and-recovery.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/architecture/acceptance-criteria.md
+    acceptance_criteria:
+      - SI-00 preserves candidate work and keeps every unsafe route disabled through rollback and recovery.
+      - A protected PR is available only after independent selection and separate writer-boundary proof.
+  - id: RP00-CLAIM-TRUTH-003
+    severity: high
+    status: closed
+    summary: Support and disclosure claims are constrained to admitted, directly retained proof with negative controls for referenced-only evidence.
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/architecture/validation-plan.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/architecture/file-change-map.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment/resources/packet-contract.yml
+    acceptance_criteria:
+      - Future implementation may narrow claims but cannot widen them without direct admitted proof.
+      - Referenced-only evidence cannot be classified as dynamically executed.
+new_findings: []

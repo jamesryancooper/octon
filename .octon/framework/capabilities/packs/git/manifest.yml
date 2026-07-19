@@ -2,7 +2,7 @@ schema_version: "octon-capability-pack-v1"
 pack_id: "git"
 surface: "git"
 display_name: "Git Mutation Pack"
-description: "Route-aware direct-main, branch-only, PR-backed, commit, and rollback-capable git surfaces for governed Change mutation."
+description: "SI-00 route-aware branch preservation, PR coordination, commit, and rollback surfaces with direct-main, no-PR landing, and cleanup effects denied."
 runtime_surface_refs:
   - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
   - ".octon/framework/product/contracts/default-work-unit.yml"
@@ -14,3 +14,4 @@ support_target_ref: ".octon/instance/governance/support-targets.yml"
 known_limitations:
   - "Git mutation remains bounded by executor profile, support tier, and protected-ref policy."
   - "Branch and PR helpers are available only after Change route selection."
+  - "During SI-00, direct-main is not an admitted route and branch-no-PR landing or cleanup helpers deny before mutation."

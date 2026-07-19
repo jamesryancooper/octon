@@ -1,0 +1,33 @@
+schema_version: "1.0"
+run_id: architecture-migration-canonical-authority-post-remediation-20260718T210000Z
+findings:
+  - id: RP01-LAUNCH-DOMINANCE-SCOPE-001
+    severity: critical
+    status: closed
+    summary: RP-01 now carries an exhaustive candidate-launch census and exact guard-invocation ownership for every current candidate spawn seam.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/resources/candidate-launch-census.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/architecture/file-change-map.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/source-ownership-map.md
+    acceptance_satisfied: The 919-key closed-world inventory is partitioned; four candidate launch seams name exact files, modules, symbols, tests, and one final consuming-guard slice while utility subprocesses remain separately governed.
+  - id: RP01-IMPLEMENTATION-EVIDENCE-CYCLE-002
+    severity: high
+    status: closed
+    summary: Design completeness and exact candidate authorization now precede mandatory exact-commit UE-001/UE-002 proof.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/architecture/acceptance-criteria.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/architecture/validation-plan.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/support/implementation-grade-completeness-review.md
+    acceptance_satisfied: UE-001/UE-002 no longer block authorization to create their test subject, but remain required before conformance, completion, cutover, or promotion.
+  - id: RP01-PARENT-SCOPE-EQUALITY-003
+    severity: high
+    status: closed
+    summary: The ordered 26-entry child target list exactly equals the parent registry's RP-01 scope list.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority/proposal.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program/resources/child-packet-index.yml
+    acceptance_satisfied: Ordered target comparison has an empty diff and the two added shared-file collisions are complete and acyclic.
+new_findings: []

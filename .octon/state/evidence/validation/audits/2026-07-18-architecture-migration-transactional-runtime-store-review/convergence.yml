@@ -1,0 +1,23 @@
+schema_version: "1.0"
+run_id: architecture-migration-transactional-runtime-store-20260718T154000Z
+commit_sha: db439b28637e9fb7ba4a6f33a5b1288737d61e25
+scope_hash: sha256:7499c76b5840c59e435111d2ace2a35b1d1b69d560bcfde9b36b40ad27d45128
+prompt_hash: sha256:fa169f0dacb24e5582c7684b06c942344a0fe34d96191f3885564ed565d004ca
+findings_hash: sha256:1f17ee7ad80924ff464ed184864c89204b48084e67893ef1ae855d99cf3e6b9b
+findings_artifact_sha256: sha256:b2c20b764ca4a18e6590c5a6ec2824b49824f3a1209d1699a5026c46358f5134
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
+params_hash: sha256:c1f858b51bd8a34173c4aeefab6b3eaf2a81315db9e6970c172aae66927329ad
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [revision-required, revision-required, revision-required]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 3
+open_findings_at_or_above_threshold: 3
+done: false
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: fail-qualified-local
+rationale: Three passes converge on the same dependency/default, census, and evidence-ordering blockers.

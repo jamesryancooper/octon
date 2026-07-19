@@ -1,6 +1,6 @@
 schema_version: workflow-contract-v2
 name: proposal-program-delivery
-description: Coordinate an accepted proposal program through child packet implementation, publication freshness, packet closeout, archive handoff, Change closeout, hosted landing, final sync, branch cleanup, terminal proof, and final hygiene.
+description: Coordinate accepted child implementation or archive readiness while RP-00 disables publication, landing, sync, and cleanup effects.
 version: 1.0.0
 entry_mode: human
 execution_profile: core
@@ -150,14 +150,13 @@ stages:
     authorization: *repo_mutation_authorization
   - id: route-change-closeout
     asset: stages/07-route-change-closeout.md
-    kind: mutation
+    kind: verification
     consumes:
       - stage:route-closeout-and-archive
     produces:
       - stage:route-change-closeout
-    mutation_scope:
-      - workflow-scope
-    authorization: *repo_mutation_authorization
+    mutation_scope: []
+    authorization: *read_evidence_authorization
   - id: validate-cleanup-sync-proof
     asset: stages/08-validate-cleanup-sync-proof.md
     kind: verification
@@ -209,6 +208,7 @@ artifacts:
     description: Evidence-only feature-catalog-drift-receipt-v1 output validated by validate-feature-catalog-drift-closeout.sh.
 done_gate:
   checks:
+    - "only implemented or archive-ready coordination is admitted; all publication requests stop with RP00_CONTAINMENT_PUBLICATION_DISABLED"
     - "profile validates with validate-proposal-program-delivery-profile.sh before any delivery claim"
     - "admission diagnostics distinguish required delivery inputs from forbidden substitutes before expensive continuation or mutation"
     - "profile and workflow evidence record target_outcome, release state, order policy, PR policy, stash policy, runner handoff refs when supplied, include-path classification state, and retained preflight refs"
@@ -217,13 +217,7 @@ done_gate:
     - "child packet receipts remain target-owned and parent summary evidence does not replace them"
     - "feature catalog drift validates with validate-feature-catalog-drift-closeout.sh before parent closeout, delivery, or cleaned claims"
     - "unresolved child or parent feature-catalog drift blocks completed delivery and records next owning documentation routes without replacing child receipts"
-    - "closeout-change or closeout-worktree owns Change closeout and any hosted mutation"
-    - "git mutation preflight passes before branch-local commit, push, hosted no-PR landing, sync, cleanup, or branch deletion"
-    - "dirty or stale source posture selects a route-owned clean worktree with include-path classification before reconstruction, broad stage-all, staging, or commit"
-    - "branch landing authorization exists before landed, synced, or cleaned claims"
-    - "branch cleanup authorization exists before source branch cleanup claims"
-    - "repo-hygiene-cleanup owns any local residue deletion"
-    - "terminal current-state proof shows local main, origin/main, and landed ref equality"
+    - "delivery preserves exact work and does not delegate Git mutation, hosted landing, sync, cleanup, or branch deletion"
     - "delivery receipt validates with validate-proposal-program-delivery-receipt.sh"
     - "lifecycle postmortem threshold status is recorded when repeated blocker or recovery thresholds apply"
     - "compact blocker-remediation receipts validate repeated fingerprint, repeated full workflow directory, file-count, and byte-count budget triggers when those triggers apply"
@@ -245,6 +239,11 @@ constraints:
   canonical_execution_order_ref: child-before-parent-delivery
   retained_readiness_preflight_required: true
   stop_condition_taxonomy_ref: stop_condition_taxonomy
+  admitted_target_outcomes: [implemented, archive-ready]
+  required_route: stage-only
+  containment_reason_code: RP00_CONTAINMENT_PUBLICATION_DISABLED
+  publication_effects_enabled: false
+  exact_work_preserved: true
 stop_condition_taxonomy:
   - stop_id: SC-001-authority-gap
     machine_condition: target_owned_receipt_missing_for_claimed_transition
@@ -326,14 +325,14 @@ workflow:
   status: active
   purpose: >
     Coordinate an accepted proposal program through child packet implementation,
-    publication freshness, packet closeout, archive handoff, Change closeout,
-    hosted landing, final sync, branch cleanup, terminal proof, and final hygiene.
+    publication freshness, packet closeout, and archive readiness while hosted
+    landing, final sync, branch cleanup, and cleanup remain disabled.
   authority:
     aggregate_receipt_only: true
     child_receipts_remain_target_owned: true
     generated_outputs_are_non_authority: true
     runner_handoff_evidence_is_delivery_input_only: true
-    git_mutation_owner: closeout-change
+    git_mutation_owner: disabled-during-rp00
     archive_owner: proposal-archive-lifecycle
     hygiene_cleanup_owner: repo-hygiene-cleanup
   inputs:
@@ -436,10 +435,13 @@ workflow:
         - archive_blocker
         - fresh_unvalidated_archive_mutation
     - id: route-change-closeout
-      title: Route Change closeout
+      title: Enforce publication containment
       asset: stages/07-route-change-closeout.md
       required: true
       fail_closed_on:
+        - publication_effect_requested
+        - omitted_or_default_outcome
+        - direct_main_requested
         - git_index_write_denied
         - git_ref_write_denied
         - branch_no_pr_landing_without_authorization
@@ -447,7 +449,7 @@ workflow:
         - unsupported_hosted_mutation
         - dirty_or_stale_source_without_include_path_classification
     - id: validate-cleanup-sync-proof
-      title: Validate cleanup, final sync, and terminal proof
+      title: Validate preservation and absence of publication effects
       asset: stages/08-validate-cleanup-sync-proof.md
       required: true
       fail_closed_on:
@@ -483,19 +485,3 @@ workflow:
       requires:
         - packet_closeout_pass
         - archive_authorized_yes
-    landed:
-      requires:
-        - change_closeout_pass
-        - hosted_landing_evidence
-    synced:
-      requires:
-        - local_main_equals_origin_main
-        - origin_main_equals_landed_ref
-    cleaned:
-      requires:
-        - delivery_receipt_valid
-        - delivery_evidence_index_valid
-        - branch_cleanup_authorized_and_done
-        - repo_hygiene_cleanup_authorized_and_done_or_not_needed
-        - terminal_current_state_proof_pass
-        - worktree_hygiene_pass

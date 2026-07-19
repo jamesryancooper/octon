@@ -1,6 +1,6 @@
 # Containment, Baseline, and Claim Correction
 
-This is the draft RP-00 architecture proposal for
+This is the accepted RP-00 architecture proposal for
 `octon-architecture-migration-containment`. It is a temporary,
 non-authoritative implementation aid. It does not authorize or perform the
 architecture migration.
@@ -24,7 +24,7 @@ is not presumed to satisfy that condition.
 
 ## Lifecycle State
 
-- status: `draft`
+- status: `accepted`
 - proposal kind: `architecture`
 - promotion scope: `octon-internal`
 - change profile: `atomic`
@@ -32,8 +32,10 @@ is not presumed to satisfy that condition.
 - parent program: `octon-architecture-migration-program`
 - dependencies: none
 
-The packet is ready for operator reading, not implementation. ROD-006 is
-accepted; required proposal review receipts remain unresolved.
+The packet is ready for digest-bound implementation prompt generation, not
+itself implemented. ROD-006 is bound, and the proposal and pre-integration
+architecture reviews pass at the accepted-state digest. Acceptance performs no
+provider, publication, promotion, support-claim, or durable-target effect.
 
 ## Reading Order
 
@@ -51,6 +53,8 @@ accepted; required proposal review receipts remain unresolved.
 12. `architecture/operator-disclosure.md`
 13. `resources/traceability.yml`
 14. `support/implementation-grade-completeness-review.md`
+15. `support/pre-integration-architecture-review.yml`
+16. `support/proposal-review.md`
 
 ## Promotion Boundary
 

@@ -4,7 +4,9 @@ Repository constitution, current durable contracts, and current implementation
 outrank this temporary packet. Within the packet, `proposal.yml` controls
 identity and lifecycle, `architecture-proposal.yml` controls subtype identity,
 `resources/packet-contract.yml` controls the RP-01 planning boundary, and the
-architecture documents elaborate implementation and proof. The artifact
+architecture documents elaborate implementation and proof.
+`resources/candidate-launch-census.yml` controls the reviewed current-launch
+partition and exact RP-01 guard-invocation ownership. The artifact
 catalog and generated proposal registry are discovery projections only.
 
 The intake controls accepted operator-intent lineage while remaining

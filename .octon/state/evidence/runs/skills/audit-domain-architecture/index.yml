@@ -14,3 +14,31 @@ runs:
     result: pass-qualified-local
     report: .octon/state/evidence/validation/analysis/2026-07-17-domain-architecture-audit-rp00-owner-lane-live-protocol-post-remediation-20260717T201123Z.md
     bundle: .octon/state/evidence/validation/audits/2026-07-17-rp00-owner-lane-live-protocol-post-remediation/
+  - run_id: architecture-migration-program-collision-ledger-pre-integration-20260717T223229Z
+    recorded_at: 2026-07-17T22:32:29Z
+    target_mode: observed
+    domain_path: .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program
+    result: pass-qualified-local
+    report: .octon/state/evidence/validation/analysis/2026-07-17-domain-architecture-audit-architecture-migration-program-collision-ledger-pre-integration-20260717T223229Z.md
+    bundle: .octon/state/evidence/validation/audits/2026-07-17-architecture-migration-program-collision-ledger-pre-integration/
+  - run_id: architecture-migration-program-completeness-refresh-pre-integration-20260718T031557Z
+    recorded_at: 2026-07-18T03:15:57Z
+    target_mode: observed
+    domain_path: .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program
+    result: pass-qualified-local
+    report: .octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-program-completeness-refresh-pre-integration-20260718T031557Z.md
+    bundle: .octon/state/evidence/validation/audits/2026-07-18-architecture-migration-program-completeness-refresh-pre-integration/
+  - run_id: architecture-migration-containment-pre-integration-20260718T034847Z
+    recorded_at: 2026-07-18T03:48:47Z
+    target_mode: observed
+    domain_path: .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-containment
+    result: pass-qualified-local
+    report: .octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-containment-pre-integration-20260718T034847Z.md
+    bundle: .octon/state/evidence/validation/audits/2026-07-18-architecture-migration-containment-pre-integration/
+  - run_id: architecture-migration-canonical-authority-pre-integration-20260718T133931Z
+    recorded_at: 2026-07-18T13:39:31Z
+    target_mode: observed
+    domain_path: .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority
+    result: revision-required
+    report: .octon/state/evidence/validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-canonical-authority-pre-integration-20260718T133931Z.md
+    bundle: .octon/state/evidence/validation/audits/2026-07-18-architecture-migration-canonical-authority-pre-integration/

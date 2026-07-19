@@ -1,0 +1,112 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "architecture-migration-readiness-delivery",
+  "selected_route": "branch-pr",
+  "operator_requested_route": "branch-pr",
+  "route_transition_authority": "none",
+  "branch_pr_predicate": "explicit-operator-pr-request",
+  "branch_pr_predicate_evidence": {
+    "predicate": "explicit-operator-pr-request",
+    "requirement_ref": "operator-authorized protected-main PR delivery request dated 2026-07-18",
+    "evidence_refs": [
+      ".octon/state/evidence/validation/analysis/2026-07-19-change-closeout-architecture-migration-readiness-delivery-20260719T013402Z.md"
+    ],
+    "branch_no_pr_rejection_reason": "The operator explicitly required delivery through one protected-main PR.",
+    "operator_request_ref": "current operator task: continuous PR-backed Change-delivery sequence"
+  },
+  "target_lifecycle_outcome": "landed",
+  "lifecycle_outcome": "published",
+  "outcome_intent": "pr-landing",
+  "intent": "Preserve the exact accepted architecture-migration implementation-readiness candidate on a named branch and hand it to closeout-pr without executing implementation.",
+  "scope": {
+    "summary": "Exact accepted pre-implementation candidate plus receipt-atomic Change-delivery evidence; every other worktree is excluded.",
+    "touched_paths": [
+      "all 778 paths in git diff --name-only 921b991676b22151c88489bd39a2b6ff3fcd62fb...872bf42d836b45ffa1c7c59637115554047f18f3",
+      ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-readiness-delivery-20260719T013402Z-change-receipt.json",
+      ".octon/state/evidence/runs/skills/closeout-change/architecture-migration-readiness-delivery-20260719T013402Z.md",
+      ".octon/state/evidence/runs/skills/closeout-change/index.yml",
+      ".octon/state/evidence/validation/analysis/2026-07-19-change-closeout-architecture-migration-readiness-delivery-20260719T013402Z.md"
+    ],
+    "diff_refs": [
+      "origin/main@921b991676b22151c88489bd39a2b6ff3fcd62fb...accepted-readiness@872bf42d836b45ffa1c7c59637115554047f18f3",
+      "candidate patch sha256:b8382f804485d6f547199e4e22846becb02ff16a43502a467c19b953bc12c148"
+    ],
+    "accepted_tree": "a65edec8c42484a674056047a02912ed2154db3a",
+    "parent_digest": "sha256:34dc10786ecb4c63060ab3718acc00ad820c0a424d08910c9475054c5e52959e",
+    "prompt_digest": "sha256:88910ab3a3cc4465d4a2b186ac1426abbb7942078817b427e20b9f5108b13015",
+    "excluded_main_worktree_status_digest": "sha256:8dda3af26f2cff5ad6f43862f1063954a91d848f73bfd353daace279690f8c13",
+    "excluded_main_worktree_status_entry_count": 1891,
+    "delivery_remediation": {
+      "kind": "retained-audit-contract-normalization",
+      "changed_audit_files": 69,
+      "proposal_content_changed": false,
+      "implementation_started": false,
+      "evidence_ref": ".octon/state/evidence/validation/analysis/2026-07-19-architecture-migration-readiness-audit-convergence-remediation.md"
+    }
+  },
+  "source_branch_ref": "chore/architecture-migration-readiness",
+  "remote_branch_ref": "origin/chore/architecture-migration-readiness",
+  "target_branch_ref": "main",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pr-opened",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "source_ref": "b03ab127efc52974a6fd77ab162067e956cc9f8d",
+    "target_ref": "origin/main@921b991676b22151c88489bd39a2b6ff3fcd62fb",
+    "evidence_refs": [
+      "https://github.com/jamesryancooper/octon/pull/627"
+    ]
+  },
+  "not_landed_reason": "Hosted checks, review, and protected-main merge eligibility are pending.",
+  "landing_stop_reason": "hosted_checks_pending",
+  "cleanup_status": "deferred",
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/architecture-migration-readiness",
+    "worktree": "/private/tmp/octon-program-collision-ledger-correction-20260717",
+    "blocker_reason": "RP00_CONTAINMENT_CLEANUP_DISABLED; the delivery branch and worktree remain the rollback container."
+  },
+  "validation_evidence_refs": [
+    "validate-default-work-unit-alignment.sh: pass, errors=0",
+    "validate-change-closeout-state-machine.sh: pass",
+    "validate-change-closeout-lifecycle-alignment.sh: pass, errors=0",
+    "validate-hosted-no-pr-landing.sh: pass",
+    "validate-closeout-worktree-wrapper.sh: pass",
+    "validate-git-github-workflow-alignment.sh: pass",
+    "validate-audit-convergence-contract.sh after delivery remediation: pass, errors=0 warnings=0"
+  ],
+  "review_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-pr/architecture-migration-readiness-delivery-20260719T014836Z-publishable-evidence-receipt.json"
+  ],
+  "publishable_evidence_receipt_refs": [
+    {
+      "receipt_ref": ".octon/state/evidence/runs/skills/closeout-pr/architecture-migration-readiness-delivery-20260719T014836Z-publishable-evidence-receipt.json",
+      "schema_ref": ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json",
+      "disclosure_tier": "repo-publishable",
+      "claim_scope_ref": "architecture-migration-readiness-pr-publication",
+      "receipt_digest": "sha256:26112b05ab1325358e5f08e9cd83ec6e9539571e399a863652ba9ca9f23304f4",
+      "raw_evidence_not_published": true,
+      "local_evidence_digest_refs": [
+        "sha256:80ee8bf8a737157ad0260332d259a815bf4a37d519612acd5d62f05a5fd01e89"
+      ]
+    }
+  ],
+  "durable_history": {
+    "kind": "pr",
+    "ref": "627",
+    "pr_url": "https://github.com/jamesryancooper/octon/pull/627",
+    "branch": "chore/architecture-migration-readiness"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "accepted-readiness@872bf42d836b45ffa1c7c59637115554047f18f3",
+    "instructions": "Before landing, preserve the branch and omit it from main. After a protected squash merge, revert the recorded landed squash commit through a new protected-main PR."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Hosted checks, review, and protected-main merge eligibility are pending."
+  ],
+  "created_at": "2026-07-19T01:34:02Z",
+  "updated_at": "2026-07-19T01:48:36Z"
+}

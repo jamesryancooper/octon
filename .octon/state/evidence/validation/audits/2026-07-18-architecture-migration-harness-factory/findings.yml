@@ -1,0 +1,4 @@
+schema_version: "1.0"
+findings:
+  - {id: RP11-EXACT-COMPILER-ADAPTER-MECHANISMS-001, severity: high, status: open}
+  - {id: RP11-IMPLEMENTATION-EVIDENCE-CYCLE-002, severity: high, status: open}

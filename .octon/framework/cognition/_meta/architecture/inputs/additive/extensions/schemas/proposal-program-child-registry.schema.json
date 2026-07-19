@@ -32,6 +32,9 @@
       "type": "string",
       "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
     },
+    "write_scope_collision_ledger": {
+      "$ref": "#/$defs/write_scope_collision_ledger"
+    },
     "children": {
       "type": "array",
       "minItems": 1,
@@ -353,6 +356,173 @@
       "properties": {
         "write_scopes": {
           "minItems": 1
+        }
+      }
+    },
+    "write_scope_collision_ledger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "registry_write_scopes_digest",
+        "derived_counts",
+        "records"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "octon-program-write-scope-collision-ledger-v1"
+        },
+        "enforcement_state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mutation_guard": {
+          "type": "string",
+          "minLength": 1
+        },
+        "registry_projection_format": {
+          "type": "string",
+          "minLength": 1
+        },
+        "registry_write_scopes_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "derived_counts": {
+          "$ref": "#/$defs/write_scope_collision_counts"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/write_scope_collision_record"
+          }
+        }
+      }
+    },
+    "write_scope_collision_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "child_count",
+        "scope_entries",
+        "unique_paths",
+        "exact_records",
+        "directory_prefix_records",
+        "total_records"
+      ],
+      "properties": {
+        "child_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "scope_entries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unique_paths": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "exact_records": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "directory_prefix_records": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total_records": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "write_scope_collision_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "collision_id",
+        "participants",
+        "collision_kind",
+        "integration_owner_child_id",
+        "serialization"
+      ],
+      "properties": {
+        "collision_id": {
+          "type": "string",
+          "pattern": "^WSC-[0-9]{3,}$"
+        },
+        "participants": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/write_scope_collision_participant"
+          }
+        },
+        "collision_kind": {
+          "type": "string",
+          "enum": [
+            "exact",
+            "directory-prefix"
+          ]
+        },
+        "integration_owner_child_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "serialization": {
+          "$ref": "#/$defs/write_scope_collision_serialization"
+        }
+      }
+    },
+    "write_scope_collision_participant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "child_id",
+        "write_scope",
+        "contribution"
+      ],
+      "properties": {
+        "child_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "write_scope": {
+          "$ref": "#/$defs/relative_path"
+        },
+        "contribution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        }
+      }
+    },
+    "write_scope_collision_serialization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mechanism",
+        "ordered_child_ids"
+      ],
+      "properties": {
+        "mechanism": {
+          "type": "string",
+          "enum": [
+            "dependency-order",
+            "exclusive-integration-lock"
+          ]
+        },
+        "lock_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "ordered_child_ids": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
         }
       }
     }

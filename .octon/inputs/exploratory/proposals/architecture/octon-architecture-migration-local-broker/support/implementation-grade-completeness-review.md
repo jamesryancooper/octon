@@ -1,101 +1,89 @@
 # Implementation-Grade Completeness Review
 
-verdict: fail
+verdict: pass
 unresolved_questions_count: 0
 clarification_required: no
-reviewed_at: 2026-07-12
+reviewed_at: 2026-07-18
 
 ## Blockers
 
-- The canonical RP-01, RP-02, and RP-03 dependencies are draft proposals and
-  have not reached accepted/implemented exit with frozen integration evidence.
-- ED-001's useful provider-session/isolation proof is not complete.
-- ED-002 has a fixed engineering default but no exact pinned macOS launch-
-  service, IPC/application-identity, Keychain access-control/enrollment,
-  code-signing, operation-handle, protocol, or dependency mechanism.
-- No Broker IPC/Keychain Design and Dependency Receipt or prototype evidence
-  proves forged/replayed/same-UID denial, candidate Keychain denial,
-  single-instance/writer, supervision, or scratch effect.
-- ED-007's RP-04 workflow/visible-surface audit has not run; command ownership
-  and the existing `policy-grant-broker.sh` non-repurposing disposition are not
-  implementation receipts.
-- Shared RP-00/RP-01/RP-03/instance/adapter target symbols have not been
-  allocated and approved by their owners.
-- No independent pre-integration architecture review receipt exists.
-- The packet is `draft` and has not received human proposal acceptance.
+None for proposal-design completeness.
 
-These are engineering feasibility, dependency, evidence, interface, and
-lifecycle gates. The reconciliation assigns RP-04 no remaining operator
-decision, so operator clarification is not required unless ED-002 proves
-infeasible and a proposed alternative changes the accepted product or risk
-boundary.
+The ED-002 receipt selects a root-owned macOS 26.5.2 LaunchDaemon under a
+dedicated `_octon` identity, launchd XPC Mach service, mutual peer code-signing
+requirements, root-owned installed binaries/config, System Keychain ACL,
+root-owned no-echo enrollment pipe, bounded schema/replay envelope, one-shot
+HMAC-SHA256 handle, exact system frameworks, and pinned Rust dependencies. Its
+proof state is selected-not-installed-not-executed.
+
+The ED-007 census classifies ten current broker/effect/credential/store-writer/
+CLI/workflow surface families, preserves `policy-grant-broker.sh` under RP-01,
+and adds only one `octon broker` normal command concept. New or unmatched
+surfaces fail static validation.
+
+The evidence cycle is non-circular. Accepted dependency designs and this packet
+may authorize creation of the exact implementation. RP-01/RP-02/RP-03
+implementation verification, ED-001, Cargo/SDK/signing/install/Keychain/fixture
+preflight gate source entry. UE-003 and all dynamic attacks gate conformance,
+completion, cutover, support, and promotion.
 
 ## Assumptions Made
 
-- The fixed architecture-migration reconciliation remains the controlling
-  non-authoritative planning baseline.
-- ED-002's default is one macOS launch service, Keychain custody, OS/application
-  identity stronger than same UID, broker-internal one-shot operation handle,
-  and automatic restart.
-- ED-001 remains independent of the effect broker; RP-04 consumes RP-02 proof
-  and does not provide the candidate model session.
-- The operation handle is a derivative replay barrier, never authority.
-- The first RP-04 effect is reversible and disposable; production Git/provider
-  work remains excluded.
+- The exact current support tuple is arm64 macOS 26.5.2 build 25F84 with the
+  MacOSX26.5 SDK; unsupported hosts deny without a socket/peer-UID fallback.
+- A trusted non-ad-hoc signing identity is an implementation-entry dependency,
+  not acquired or assumed by this proposal revision.
+- SecAccess ACL behavior is accepted only on the pinned tuple and must be
+  dynamically proved; API removal or drift reopens ED-002.
+- RP-01 authority, RP-02 candidate/session, RP-03 store schema, RP-05 Git,
+  RP-06 verdict/route, and RP-08 reconciliation semantics remain outside RP-04.
 
 ## Promotion Target Coverage
 
-The manifest enumerates workspace dependency surfaces, the complete planned
-local_broker crate, kernel lifecycle CLI, config/launch-service/host adapter,
-authorization and inventory contracts, runtime/constitutional schemas,
-instance outage policy, existing/new validators/tests/fixtures, and the packet
-evidence root. The file-change map assigns every target and identifies planned
-new paths.
-
-Coverage cannot pass until ED-002 selects the exact mechanism/dependencies and
-independent review confirms symbol/section ownership with RP-00, RP-01, RP-03,
-RP-05, RP-08, contract owners, and instance policy owners.
+The unchanged ordered 51-target manifest exactly matches the parent registry.
+It covers workspace/lock dependencies, the complete broker crate, bounded
+kernel CLI integration, config/launchd/host declarations, authority and effect
+integration rows, runtime/constitutional contracts, narrow instance outage
+policy, validators/tests/fixtures, and the evidence root. Installed service,
+signing, Keychain, process, socket/Mach, store, and credential state remain
+affected external state rather than promotion targets.
 
 ## Affected Artifact Coverage
 
-The packet maps installed launch-service/socket/process state, code-signing and
-Keychain state, credential values, store connections, candidate/session state,
-downstream Git/verifier/reconciliation components, generated views, and the
-existing grant helper as affected but excluded surfaces. None is
-misrepresented as proposal authority or a hand-authored RP-04 runtime target.
+The file-change map and exact design receipt classify installed paths, service
+identity, endpoint, signing requirements, Keychain item/ACL, dependency graph,
+store connection, operation handles, candidate/session state, downstream
+adapters, generated views, and existing helper surfaces. Shared files allow
+only the parent-allocated bounded contributions.
 
 ## Validator Coverage
 
-The validation plan defines structural gates, IPC/application-identity attacks,
-authority/handle replay and races, full credential canaries, one instance/
-writer/effect-host census, scratch-effect and every crash boundary, restart,
-setup/status/doctor/repair/upgrade/uninstall, rollback, conformance, and drift.
-No future service, Keychain, store, effect, fault, or UX result is represented
-as executed.
+Validation covers exact dependency/SDK/signing/ACL preflight; mutual XPC peer
+requirements; same-UID/replacement/replay/version/message attacks; Keychain
+canaries; authority/handle races; one instance/endpoint/writer/accessor/effect
+host; every crash boundary; scratch effect; setup/status/doctor/repair/upgrade/
+uninstall; rollback; conformance; and drift. All dynamic results remain
+planned-not-executed.
 
 ## Implementation Prompt Readiness
 
-Not ready. An implementation prompt must not be generated or executed until
-the three dependencies exit, ED-001 proof is bound, the ED-002 Design and
-Dependency Receipt and ED-007 audit pass, shared ownership is allocated, and
-proposal acceptance plus independent architecture review complete.
+Ready. The fresh accepted proposal review and strict pre-integration
+architecture receipt pass at the final digest. A future exact prompt must enforce dependency and
+platform entry gates before source work, and every exact-commit dynamic result
+before conformance, completion, cutover, support, or promotion.
 
 ## Exclusions
 
-- No production credential/effect, sanitized Git, publication, remote worker,
-  or verifier.
-- No authority mint/renew/widen, policy mutation, broker self-approval, or
-  broker-authored verdict.
-- No second broker, writer, store, credential helper, control plane, or ambient
-  credential/direct effect fallback.
-- No provider-specific outcome classification, reconciliation, retry, or full
-  degraded-mode claim.
-- No repurposing of `policy-grant-broker.sh`.
+- No service installation, account creation, signing, credential acquisition,
+  Keychain item/ACL, XPC endpoint, dependency resolution, store connection,
+  handle, effect, provider, publication, promotion, archive, or cleanup.
+- No ambient/direct fallback, generic socket server, same-UID trust, authority
+  minting, verifier verdict, production Git/provider adapter, remote worker,
+  second broker/store/writer, or `policy-grant-broker.sh` repurposing.
+- No planned preflight, attack, scratch, recovery, or burden result is proof.
 
 ## Final Route Recommendation
 
-Keep the manifest `draft`. Complete the prerequisite packets and ED-001 proof,
-prototype/review the ED-002 mechanism and dependencies, run ED-007 audit,
-allocate shared symbols, and obtain independent proposal review. Then revise
-if needed and rerun completeness/pre-integration gates. Do not implement from
-this failing receipt.
+Keep RP-04 accepted and authorize only its future exact implementation prompt
+through the program DAG after dependency and platform entry gates pass.
+Continue to RP-05 review. Do not implement RP-04 in this lifecycle sequence.

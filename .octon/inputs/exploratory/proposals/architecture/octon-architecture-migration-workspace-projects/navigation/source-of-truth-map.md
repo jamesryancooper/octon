@@ -20,13 +20,14 @@ packet may describe future durable ownership but cannot mint that ownership.
 
 1. `proposal.yml`
 2. `architecture-proposal.yml`
-3. `resources/packet-contract.yml`
-4. `resources/traceability.yml`
-5. `architecture/target-architecture.md`
-6. `architecture/acceptance-criteria.md`
-7. `architecture/implementation-plan.md`
-8. remaining architecture and navigation documents
-9. `README.md`
+3. `resources/workspace-project-design-and-dependency-receipt.yml`
+4. `resources/packet-contract.yml`
+5. `resources/traceability.yml`
+6. `architecture/target-architecture.md`
+7. `architecture/acceptance-criteria.md`
+8. `architecture/implementation-plan.md`
+9. remaining architecture and navigation documents
+10. `README.md`
 
 ## Planned Durable Ownership
 
@@ -45,6 +46,12 @@ Shared registry files receive RP-10-owned entries through the trusted
 integration lane; RP-10 does not claim ownership of unrelated registry
 content. Kernel integration files likewise grant RP-10 ownership only over the
 project/inbox symbols introduced by this packet.
+
+The exact UUIDv7 identity, RFC-8785/SHA-256 record layout, boundary and
+correction rules, immutable run snapshot, location-index recovery, inbox
+pagination/freshness, accepted RP-01 digest, and proof order are selected in
+`resources/workspace-project-design-and-dependency-receipt.yml`. These are
+planned-not-created-not-executed.
 
 ## Derived and Operational Surfaces
 

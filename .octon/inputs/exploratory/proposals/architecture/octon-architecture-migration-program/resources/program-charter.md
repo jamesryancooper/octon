@@ -52,8 +52,16 @@ and smallest-safe-alternative analysis.
 4. Recoverable trustworthy autonomy: RP-07–RP-09.
 5. Complete bounded solo product and promotion proof: RP-12–RP-14.
 
-## Done
+## Lifecycle Milestones
 
-Program creation is done when the sixteen draft packets validate structurally,
-the registry is fresh, child authority is preserved, Revision 2 is unchanged,
-and the program is ready for operator review. This is not implementation-ready.
+The historical creation milestone was satisfied when the sixteen draft packets
+validated structurally, the registry was fresh, child authority was preserved,
+Revision 2 was unchanged, and the program became ready for operator review.
+That creation milestone alone was not implementation readiness.
+
+Pre-implementation readiness requires fresh accepted reviews for all fifteen
+required children and this parent, strict architecture receipts, exact
+scope/DAG/ownership/collision coherence, passing parent and child-readiness
+gates, and a fresh canonical digest-bound program implementation-orchestration
+prompt. Reaching that milestone authorizes only a separate future implementation
+run; it does not itself implement, prove, promote, publish, or close any child.

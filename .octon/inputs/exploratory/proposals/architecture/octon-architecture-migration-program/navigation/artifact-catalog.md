@@ -37,6 +37,9 @@
 - `support/profile-selection-receipt.md`
 - `support/operator-decision-acceptance-receipt.md`
 - `support/program-creation.md`
+- `support/pre-integration-architecture-review.yml`
+- `support/proposal-review.md`
+- `support/program-implementation-orchestration-prompt.md`
 - `support/implementation-grade-completeness-review.md`
 - `support/implementation-conformance-review.md`
 - `support/post-implementation-drift-churn-review.md`
@@ -44,3 +47,10 @@
 - `support/revisions/revision-20260712T224917Z.md`
 - `support/revisions/revision-20260713T020259Z.md`
 - `support/revisions/revision-20260713T141338Z.md`
+- `support/revisions/revision-20260717T215508Z.md`
+- `support/revisions/revision-20260718T021824Z.md`
+- `support/revisions/revision-20260718T194500Z.md`
+- `support/revisions/revision-20260718T152131Z.md`
+- `support/revisions/revision-20260718T171947Z.md`
+- `support/revisions/revision-20260718T182924Z.md`
+- `support/revisions/revision-20260718T184019Z.md`

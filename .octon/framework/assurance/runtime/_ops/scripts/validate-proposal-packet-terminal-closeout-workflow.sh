@@ -83,7 +83,9 @@ for token in \
   "validate-feature-catalog-drift-closeout.sh" \
   "archive relocation is not performed" \
   "no_git_mutation: true" \
-  "no_residue_deletion: true"; do
+  "no_residue_deletion: true" \
+  "RP00_CONTAINMENT_PUBLICATION_DISABLED" \
+  "mutation_delegated: false"; do
   grep -Fq "$token" "$WORKFLOW_PATH" "$WORKFLOW_DIR"/stages/*.md "$WORKFLOW_DIR/README.md" \
     && pass "workflow token present: $token" \
     || fail "workflow token missing: $token"
@@ -105,14 +107,18 @@ for stage_token in \
   "proposal registry" \
   "proposal artifact" \
   "runtime-effective handle" \
-  "repo-hygiene-cleanup" \
-  "closeout-worktree" \
-  "closeout-change" \
   "archive-proposal"; do
   grep -Fq "$stage_token" "$WORKFLOW_DIR"/stages/*.md "$WORKFLOW_DIR/README.md" \
     && pass "required adjacent route or validator referenced: $stage_token" \
     || fail "required adjacent route or validator missing: $stage_token"
 done
+
+if grep -Fq 'Do not delegate to `closeout-change`, `closeout-worktree`' \
+  "$WORKFLOW_DIR/stages/09-resolve-git-github-route.md"; then
+  pass "terminal Git/GitHub stage forbids effect delegation"
+else
+  fail "terminal Git/GitHub stage must forbid effect delegation"
+fi
 
 yq -e '.workflows[] | select(.id == "proposal-packet-terminal-closeout" and .path == "meta/proposal-packet-terminal-closeout/")' "$WORKFLOW_MANIFEST" >/dev/null 2>&1 \
   && pass "workflow manifest registration exists" \

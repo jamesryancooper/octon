@@ -1,16 +1,9 @@
----
-title: Closeout Change Dependencies
----
+# Closeout Change Dependencies
 
-# Dependencies
+- `.octon/framework/product/contracts/default-work-unit.yml`
+- `.octon/framework/product/contracts/change-closeout-state-machine.yml`
+- `.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml`
+- `.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh`
 
-- `git` for local status, diff, branch, commit, and rollback handle discovery.
-- Branch-only git helpers for branch-local commit, push, governed landing
-  authorization, hosted landing, governed cleanup authorization, and cleanup
-  when `branch-no-pr` selects those lifecycle outcomes.
-- `gh` only when the selected route is `branch-pr` or the task starts from an
-  existing PR.
-- Canonical policy:
-  `.octon/framework/product/contracts/default-work-unit.yml`.
-- Receipt schema:
-  `.octon/framework/product/contracts/change-receipt-v1.schema.json`.
+Historical receipt schemas are compatibility readers only. No landing or
+cleanup helper is a current effect dependency during SI-00.

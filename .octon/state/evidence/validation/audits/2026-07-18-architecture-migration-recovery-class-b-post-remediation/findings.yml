@@ -1,0 +1,7 @@
+schema_version: "1.0"
+run_id: architecture-migration-recovery-class-b-post-remediation-20260718T164403Z
+findings:
+  - {id: RP08-EXACT-RECOVERY-MECHANISMS-001, severity: high, status: closed, summary: "Exact provider, evidence, probe, concurrency, and maintenance mechanisms selected."}
+  - {id: RP08-ROD002-DESIGN-ENCODING-002, severity: high, status: closed, summary: "Exact proposal-level ROD-002 fields selected without promoted policy or predicate redefinition."}
+  - {id: RP08-IMPLEMENTATION-EVIDENCE-CYCLE-003, severity: high, status: closed, summary: "Authorization, source-entry, and activation evidence are ordered without a cycle."}
+new_findings: []

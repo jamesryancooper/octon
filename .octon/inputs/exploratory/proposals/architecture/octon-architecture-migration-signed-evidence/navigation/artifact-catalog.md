@@ -17,8 +17,12 @@
 - `resources/source-context.md`
 - `resources/packet-contract.yml`
 - `resources/traceability.yml`
+- `resources/evidence-mechanism-and-dependency-receipt.yml`
 - `support/profile-selection-receipt.md`
 - `support/proposal-creation.md`
 - `support/implementation-grade-completeness-review.md`
 - `support/implementation-conformance-review.md`
 - `support/post-implementation-drift-churn-review.md`
+- `support/proposal-review.md`
+- `support/pre-integration-architecture-review.yml`
+- `support/revisions/rp07-mechanism-identity-evidence-order-20260718.md`

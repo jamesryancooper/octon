@@ -6,7 +6,7 @@ proposal_kind: "architecture"
 promotion_scope: "octon-internal"
 promotion_targets:
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-solo-dogfood-promotion/"
-status: "draft"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: "After every claim-scoped dependency and all RP-14 proof gates pass, hand retained proof to the separately governed promotion route; close and archive this proof-only packet without modifying implementation sources."

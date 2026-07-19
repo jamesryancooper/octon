@@ -117,6 +117,29 @@ blocked, revoked, or closed mission.
 This design introduces no second control plane and no second writable runtime
 store.
 
+## Exact Selected Mechanisms
+
+`resources/workspace-project-design-and-dependency-receipt.yml` selects
+`prj_<UUIDv7>` identity assigned once by governed adoption, strict RFC-8785
+JSON/SHA-256 immutable revisions, a sorted registry and generation-bound active
+pointers under `.octon/instance/locality/projects/`, and path-independent
+repository discovery. Clone/fork or copied-ID disagreement blocks until an
+explicit relocation or new-adoption receipt; identity is never inferred from a
+path or remote alone.
+
+Boundaries are repository-relative NFC POSIX paths verified no-follow from the
+canonical root. Symlink, mount, Unicode/case alias, traversal, and unrecorded
+overlap deny. Explicit reciprocal parent/child relations permit most-specific
+selection. Operator-locked corrections outrank accepted prior facts, current
+source facts, and deterministic defaults; refresh never rewrites history or
+unlocks a correction.
+
+Run admission freezes exact project/revision/Profile/boundary/RP-01 digests
+once. The location index is rebuildable and non-authoritative. The read-only
+inbox scans at most 10,000 missions, returns 50 by default/100 maximum in a
+stable action/status/time/project/mission order, and invalidates its cursor on
+source-digest drift; it performs no mission or project write.
+
 ## Availability and Degraded Operation
 
 If the project registry is missing, corrupt, digest-mismatched, or ambiguous,

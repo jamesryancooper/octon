@@ -18,8 +18,9 @@
 | RP-13 | RWG-12 | `octon-architecture-migration-bounded-child-agents` | RP-08, RP-11 |
 | RP-14 | RWG-13 | `octon-architecture-migration-solo-dogfood-promotion` | core: RP-08, RP-09, RP-10, RP-11; program closeout: RP-12, RP-13 |
 
-All children are required sibling proposals and remain draft. The parent does
-not own child receipts, targets, statuses, archives, or terminal outcomes.
+All children are required sibling proposals. Their statuses advance only
+through their own lifecycle actions; the parent does not own child receipts,
+targets, statuses, archives, or terminal outcomes.
 
 ## Brokered Publication Revision Overlay
 
@@ -33,7 +34,28 @@ provider-result classification, reconciliation, recovery, and cleanup; and
 RP-14 owns equal-floor Solo Local proof. RP-02 and RP-09 through RP-13 retain
 their existing scopes.
 
+The RP-03 design review census adds
+`authority_engine/src/implementation/policy.rs` only for post-decision calls
+into the transactional persistence adapter. RP-01 retains policy meaning and
+integrates first; RP-03 follows through its existing RP-01 verification gate.
+
 The registry write scopes now include the containment helpers in RP-00,
 conditional cleanup primitive in RP-05, and canonical default-work-unit policy
-sources in RP-06. These are future promotion targets only; the draft revision
+sources in RP-06. These are future promotion targets only; the proposal revision
 does not edit or authorize them.
+
+## RP-01 Launch-Dominance Scope Overlay
+
+RP-01 additionally owns only the exact final guard invocation and bypass-removal
+slice at the four candidate-launch seams named by its reviewed census, plus the
+three exact fitness-test targets. The DAG is unchanged. The sole new physical
+collision is `lifecycle_executor/src/codex.rs`, serialized RP-01, RP-02, then
+RP-11 without transferring isolation or Harness/adapter semantics.
+
+The RP-11 design review closes the generic adapter boundary over all four
+accepted RP-01 candidate-launch seams. RP-11 therefore adds only
+`kernel/src/pipeline.rs`, `kernel/src/workflow.rs`, and
+`lifecycle_executor/src/workflow_leaf.rs` to its write scope for exact
+registry-resolved prepared-handle/model-or-host-adapter integration. RP-01
+retains final guard ownership at each seam and integrates first; the 15-child
+DAG and dependency edges are unchanged.

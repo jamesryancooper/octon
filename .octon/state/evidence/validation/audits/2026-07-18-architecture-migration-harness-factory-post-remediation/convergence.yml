@@ -1,0 +1,24 @@
+schema_version: "1.0"
+run_id: architecture-migration-harness-factory-post-remediation-20260718T172643Z
+commit_sha: 4505171b4f
+scope_hash: sha256:be1761195fc652673c8c3d9412f7d24ac794225a449fa1fc2ed9e5bdeddfe1c2
+prompt_hash: sha256:7d49dca6cc9c96d7f0c0039c365bf6ef8160f37b2043f8a7a9b930387f6f9a67
+prompt_hash_basis: commands.md
+findings_hash: sha256:764af5b59abfe0b41ee87cef60dff98bb667f6bfcdcf6ce87bf667ff327a0029
+findings_hash_basis: findings.yml
+params_hash: sha256:9f11d7c1a6e6d99faa0020974f101bbd81b087a4c7891732e5d983256dc2915f
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: accepted
+rationale: Three passes agree both findings are closed and exact parent/child scope is coherent.

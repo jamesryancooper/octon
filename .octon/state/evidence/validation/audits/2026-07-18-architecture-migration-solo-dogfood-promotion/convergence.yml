@@ -1,0 +1,26 @@
+schema_version: "1.0"
+run_id: architecture-migration-solo-dogfood-promotion-20260718T181032Z
+commit_sha: a05e5d3c7d
+scope_hash: sha256:a5a2d541e1b1fe2517d36d95a32498cca0093955928d2cc325662365caf41a70
+prompt_hash: sha256:0d82dd38643d902e5efe1bf14b15bedbfa7cf672d36e1feec4a3f80b47eadacc
+prompt_hash_basis: commands.md
+findings_hash: sha256:ba48537c43b7e3c6ece08386058308b5da04cb8baec69709d539edcacc29ffc3
+findings_artifact_sha256: sha256:ba48537c43b7e3c6ece08386058308b5da04cb8baec69709d539edcacc29ffc3
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
+findings_hash_basis: findings.yml
+params_hash: sha256:d08c70187486856524b0067256ba018df4b685be7336ddb2ecb20c4792baa098
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [fail, fail, fail]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 2
+open_findings_at_or_above_threshold: 2
+done: false
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: revision-required
+rationale: Three passes agree exact protocol mechanics and evidence ordering require revision.

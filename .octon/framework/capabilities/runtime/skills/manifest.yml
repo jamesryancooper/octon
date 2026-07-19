@@ -1369,13 +1369,11 @@ skills:
       - "worktree closeout"
       - "multiple change closeout"
     skill_sets:
-      - executor
       - collaborator
       - guardian
-      - integrator
+      - specialist
     capabilities:
       - external-dependent
-      - stateful
       - safety-bounded
       - self-validating
 
@@ -1535,8 +1533,8 @@ skills:
       - "proposal packet delivery"
       - "deliver proposal packet"
       - "run proposal packet delivery"
-    skill_sets: []
-    capabilities: []
+    skill_sets: [executor, integrator, guardian]
+    capabilities: [safety-bounded, self-validating]
     host_adapters:
       - codex
 
@@ -1556,8 +1554,8 @@ skills:
       - "proposal program delivery"
       - "deliver proposal program"
       - "run proposal program delivery"
-    skill_sets: []
-    capabilities: []
+    skill_sets: [executor, integrator, guardian]
+    capabilities: [safety-bounded, self-validating]
     host_adapters:
       - codex
 

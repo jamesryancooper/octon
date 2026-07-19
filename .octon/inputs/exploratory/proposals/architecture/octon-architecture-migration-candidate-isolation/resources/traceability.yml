@@ -49,6 +49,9 @@ engineering_dispositions:
   - disposition_id: "ED-001"
     owned_slice: "native macOS sandbox and useful primary-provider session"
     default_applied_in_plan: true
+    design_ref: "resources/engineering-disposition-ed001.yml"
+    design_state: "selected-proof-pending"
+    selected_default: "native-macos-seatbelt-plus-loopback-capability-relay-v1"
     dynamic_proof_complete: false
 dependencies:
   - "octon-architecture-migration-containment"
@@ -64,5 +67,5 @@ coverage_status:
   identifiers_mapped: true
   implementation_proof_complete: false
   operator_decisions_complete: true
-  engineering_dispositions_complete: false
-  architecture_review_complete: false
+  engineering_dispositions_complete: true
+  architecture_review_complete: true

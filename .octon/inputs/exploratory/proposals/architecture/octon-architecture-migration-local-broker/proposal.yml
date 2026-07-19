@@ -61,7 +61,7 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/tests/test-local-broker.sh"
   - ".octon/framework/assurance/runtime/_ops/fixtures/local-broker/"
   - ".octon/state/evidence/validation/proposals/octon-architecture-migration-local-broker/"
-status: "draft"
+status: "accepted"
 change_profile: "atomic"
 release_state: "pre-1.0"
 owner: "octon-maintainers"

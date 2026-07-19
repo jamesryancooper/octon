@@ -100,6 +100,7 @@ for token in \
   '"target_outcome"' \
   '"archive-ready"' \
   '"blocked"' \
+  '"RP00_CONTAINMENT_PUBLICATION_DISABLED"' \
   '"forbidden_authority_requests"' \
   '"validator_family_map"'; do
   grep -Fq "$token" "$SCHEMA_PATH" && pass "schema token present: $token" || fail "schema token missing: $token"
@@ -141,6 +142,24 @@ if [[ -n "$PROFILE_PATH" ]]; then
       ;;
   esac
 
+  [[ "$(scalar '.containment_policy.reason_code' "$PROFILE_PATH")" == "RP00_CONTAINMENT_PUBLICATION_DISABLED" ]] \
+    && pass "containment reason code correct" \
+    || fail "containment reason code must be RP00_CONTAINMENT_PUBLICATION_DISABLED"
+  require_bool_false '.containment_policy.publication_effects_enabled' "publication effects enabled"
+  require_bool_true '.containment_policy.exact_work_preserved' "exact work preserved"
+
+  case "$(scalar '.route_preference' "$PROFILE_PATH")" in
+    stage-only-escalate|none-closeout-only)
+      pass "route preference is contained"
+      ;;
+    *)
+      fail "RP00_CONTAINMENT_PUBLICATION_DISABLED: hosted and direct publication routes are disabled"
+      ;;
+  esac
+
+  require_bool_false '.pr_policy.allow_pr_creation' "PR creation allowed"
+  require_bool_false '.pr_policy.allow_branch_no_pr' "branch-no-PR allowed"
+
   require_array_nonempty '.expected_retained_evidence' "expected_retained_evidence"
   require_array_nonempty '.required_validators_by_target_family' "required_validators_by_target_family"
   require_array_nonempty '.publication_freshness_policy.validator_family_map' "publication_freshness_policy.validator_family_map"
@@ -149,11 +168,11 @@ if [[ -n "$PROFILE_PATH" ]]; then
   require_bool_true '.publication_freshness_policy.direct_generated_edits_forbidden' "direct generated edits forbidden"
   require_bool_true '.hygiene_policy.repo_hygiene_delegation_only' "repo hygiene delegation only"
   require_bool_true '.hygiene_policy.worktree_foreign_residue_blocks_archive_ready' "foreign worktree residue blocks archive-ready"
-  require_bool_true '.hygiene_policy.cleanup_authorization_required' "cleanup authorization required"
-  require_bool_true '.git_github_hosted_check_policy.delegate_to_closeout_routes' "Git/GitHub delegation"
+  require_bool_false '.hygiene_policy.cleanup_authorization_required' "cleanup authorization required"
+  require_bool_false '.git_github_hosted_check_policy.delegate_to_closeout_routes' "Git/GitHub delegation"
   require_bool_true '.git_github_hosted_check_policy.exact_sha_required_when_hosted' "exact SHA required when hosted"
-  require_bool_true '.git_github_hosted_check_policy.landing_authorization_required' "landing authorization required"
-  require_bool_true '.git_github_hosted_check_policy.branch_cleanup_authorization_required' "branch cleanup authorization required"
+  require_bool_false '.git_github_hosted_check_policy.landing_authorization_required' "landing authorization required"
+  require_bool_false '.git_github_hosted_check_policy.branch_cleanup_authorization_required' "branch cleanup authorization required"
   require_bool_true '.blocker_reporting.required' "blocker reporting required"
   require_array_nonempty '.blocker_reporting.allowed_blocker_classes' "allowed blocker classes"
   require_array_nonempty '.blocker_reporting.allowed_next_routes' "allowed next routes"

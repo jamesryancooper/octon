@@ -1,7 +1,8 @@
 # Acceptance Criteria
 
-These criteria authorize no implementation. They define the evidence required
-after accepted implementation.
+Accepted proposal review may authorize creation of the exact selected design.
+These criteria define implementation-entry and post-implementation evidence;
+none is represented as already passing.
 
 | ID | Criterion | Required proof |
 | --- | --- | --- |
@@ -29,7 +30,7 @@ after accepted implementation.
 
 RP-05 exits only when all criteria pass with direct retained evidence, the
 strict pre-integration architecture review and implementation authorization
-exist, RP-04 has exited, ED-003 is shown feasible, implementation conformance
+exist, RP-04 implementation verification and ED-003 provider preflight pass, implementation conformance
 passes, and post-implementation drift/churn review reports no second effect
 path or target-family violation.
 

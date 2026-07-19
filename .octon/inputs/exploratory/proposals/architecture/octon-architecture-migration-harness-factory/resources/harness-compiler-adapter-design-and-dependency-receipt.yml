@@ -1,0 +1,51 @@
+schema_version: "octon-harness-compiler-adapter-design-and-dependency-receipt-v1"
+receipt_id: "rp11-compiler-adapter-mechanisms-evidence-order-20260718"
+verdict: "pass-for-design-selection"
+proof_state: "selected-not-implemented-not-executed"
+review_findings: ["RP11-EXACT-COMPILER-ADAPTER-MECHANISMS-001", "RP11-IMPLEMENTATION-EVIDENCE-CYCLE-002"]
+frozen_dependencies:
+  - {proposal_id: "octon-architecture-migration-canonical-authority", packet_digest: "sha256:c5369b2c9d6c1e8addafb2b7851d4609709affe0dbd7a443359d0b21761313a8", role: "authority decision, final one-shot guard, and four-seam candidate-launch census"}
+  - {proposal_id: "octon-architecture-migration-candidate-isolation", packet_digest: "sha256:3228da9b1a70c687878a2fd32324cd1fd8729360113024fae48221d66923cada", role: "disposable candidate isolation and guarded spawn boundary"}
+  - {proposal_id: "octon-architecture-migration-workspace-projects", packet_digest: "sha256:149a717d53ef17879bd6a38793d6f90291dae752433743a485e58d09b4ae38cc", role: "immutable Project/Profile refs and admitted run snapshot"}
+dependency_drift_rule: "packet or implemented-interface drift denies RP-11 source entry and routes to the owning dependency; RP-11 cannot refresh authority, isolation, or project data"
+canonical_documents:
+  encoding: "RFC 8785 JCS JSON, UTF-8 NFC strings, strict schema, unknown fields denied"
+  digest: "SHA-256 over ASCII domain prefix octon:rp11:<document-kind>:v1 followed by NUL and exact JCS bytes"
+  domains: ["source-node", "source-graph", "effective-manifest", "compiler-identity", "compile-request", "compile-receipt-body", "prepared-handle"]
+  semantic_lists: "retain validated input order"
+  set_lists: "sort by schema-declared stable key before JCS"
+source_graph:
+  node_key: ["source_role", "canonical_id", "immutable_ref", "schema_id", "schema_version", "content_digest"]
+  edge_key: ["parent_node_key", "child_node_key", "edge_role"]
+  ordering: "Kahn topological sort; zero-indegree tie-break precedence rank, source-role enum, canonical ID, immutable ref, digest"
+  deny: ["cycle", "missing parent", "duplicate key with different bytes", "ambiguous ordering", "undeclared source", "undeclared optional absence", "widening"]
+  file_capture: "repository-root-relative POSIX NFC path, openat/fstatat no-follow traversal, pre/post file identity and byte digest equality"
+  non_file_capture: "owner-issued immutable ref plus retained exact bytes and schema/digest verification"
+receipt_body_fields: ["compile_request_digest", "compiler_identity_digest", "schema_set_digest", "precedence_digest", "source_graph_digest", "effective_manifest_digest", "project_id", "mission_id", "run_id", "attempt_id", "adapter_id", "adapter_version", "isolation_digest", "rp01_guard_template_digest"]
+observation_exclusion: "wall clock, host, PID, environment, provider discovery, and observation time live only outside the deterministic receipt body"
+pre_spawn_transaction:
+  revalidation: "hold verified handles where possible; otherwise reopen only exact immutable owner ref; compare identity, bytes, all receipt fields, adapter declaration, isolation, run/attempt, and guard template"
+  final_path: "under RP-01 serialization, consume the guard and call spawn in the same lexical path with no intervening discretionary I/O or resolution"
+  post_consume_failure: "record consumed-no-confirmed-spawn; never reuse guard; fresh attempt required"
+  lost_response: "record UNKNOWN; no retry or adapter switch; RP-08 reconciliation owns next state"
+  claim_limit: "at-most-once guard consumption, not cross-process atomic spawn or universal exactly-once execution"
+adapter_contract:
+  identity_tuple: ["run_id", "attempt_id", "adapter_id", "adapter_version", "prepared_handle_id", "operation_id", "idempotency_key"]
+  prepared_handle: "domain digest of exact compile receipt and adapter declaration; single run/attempt/adapter; 60-second maximum lifetime unless Run Contract is stricter"
+  states: ["prepared", "launch-attempting", "running", "terminal", "retired"]
+  exceptional_terminal: ["prepare-failed", "unknown", "cancelled", "failed", "succeeded", "retire-failed"]
+  idempotency: "same key and parameters return retained result; changed key/parameters for an existing operation deny"
+  ceilings: {prepare_seconds: 30, launch_ack_seconds: 30, observe_call_seconds: 10, cancel_ack_seconds: 10, retire_seconds: 30}
+  timeout_rule: "timeout never implies provider termination, relaunch permission, or adapter switching"
+  usage_rule: "monotonic typed dimensions with measured, estimated, or unsupported provenance"
+candidate_launch_partition:
+  candidate_seams: ["kernel::pipeline::run_with_stdin", "kernel::workflow::run_command_with_stdin", "lifecycle_executor::codex::run_with_timeout", "lifecycle_executor::workflow_leaf::run_workflow_command"]
+  rp01_owner: "one same-path consume_candidate_launch_guard invocation at each final spawn"
+  rp11_owner: "one registry-resolved prepared handle and generic model/host dispatch at each seam"
+  non_candidate_example: "lifecycle_executor::authorization owning-runtime admission helper"
+  fitness_rule: "immutable census and static/dynamic negatives reject new raw candidate spawns, missing guard, missing prepared handle, or silent reclassification"
+evidence_order:
+  proposal_authorization: "accepted digest-bound proposal and strict architecture review may authorize only this exact design"
+  source_entry: ["all three dependency implementations and exact interfaces verify", "current closed source graph and all four candidate seams match census", "shared-file integration lease is held"]
+  completion: ["byte determinism and each-input invalidation", "compile-to-spawn race and post-consumption fault matrix", "four-seam raw-bypass fitness", "primary/fake adapter lifecycle and time-limit conformance", "UE-010 and RP-11 portion of UE-011", "rollback, conformance, and drift receipts"]
+evidence_boundary: "This receipt selects proposal mechanisms only; it performs no compiler, adapter, provider, launch, authorization, runtime, publication, promotion, or proof effect."

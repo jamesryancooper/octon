@@ -1,6 +1,6 @@
 # Recovery, Reconciliation, and Complete Class B Vertical
 
-This is the draft RP-08 architecture proposal for
+This is the accepted RP-08 architecture proposal for
 `octon-architecture-migration-recovery-class-b`. It is a temporary,
 non-authoritative implementation aid. It does not authorize effects,
 publication, policy changes, support promotion, scheduling, or implementation.
@@ -76,9 +76,8 @@ only class/route policy source.
 
 ## Current Gate
 
-The packet remains `draft`. Structural validation does not make it accepted or
-implementation-ready. ROD-002 is settled/retired lineage whose accepted rules
-still require durable policy encoding and proof; it is not an operator-vote
-gate. UE-004/UE-007, dependency exits, strict review, scratch-provider proof,
-parent integration, and post-implementation receipts remain future gates.
-UE-014 remains RP-14-owned integrated proof.
+The accepted packet's exact design receipt freezes accepted
+dependency digests, provider/observation/probe/budget mechanisms, and the
+proposal-level ROD-002 encoding without reopening operator intent. UE-004/007
+remain post-implementation activation proof, and UE-014 remains RP-14-owned.
+Independent proposal and architecture re-review pass at the accepted digest.

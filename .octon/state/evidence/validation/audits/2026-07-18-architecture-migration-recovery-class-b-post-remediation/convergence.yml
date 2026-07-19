@@ -1,0 +1,24 @@
+schema_version: "1.0"
+run_id: architecture-migration-recovery-class-b-post-remediation-20260718T164403Z
+commit_sha: 7905844fdc
+scope_hash: sha256:e33cc5d1b1da806f3df10690ce169dac7e0fed2f318a65ce14741948db426e35
+prompt_hash: sha256:8dcf9579a6a3cfea2211c533f4b885c5b03e639ecf676cead641a83220945892
+prompt_hash_basis: commands.md
+findings_hash: sha256:ebd8a677dc36ffe539a0f7c0badc7e1f73109e72fca9a86156e5b46407599848
+findings_hash_basis: findings.yml
+params_hash: sha256:c6574363348751119edd29c784bffb69e23f044b6b557ceb46a0223a044acf9e
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: Three passes agree that exact recovery/ROD mechanisms and proof order close all blockers.

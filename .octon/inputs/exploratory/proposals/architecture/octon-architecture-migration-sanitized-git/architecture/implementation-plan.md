@@ -5,16 +5,19 @@ implementation gates pass.
 
 ## Preconditions
 
-1. RP-04 is implemented and verified with one broker, authenticated IPC,
-   credential custody, a frozen operation-handle API, and one scratch effect.
+1. RP-04's design is accepted. Its implemented/verified broker interface gates
+   RP-05 source entry rather than proposal authorization.
 2. RP-03 operation/attempt transitions and RP-04 broker file ownership are
    frozen for this packet.
-3. ED-003 remains the engineering default: single-repository provider
-   credential, atomic expected-old fast-forward, authenticated receipt when
-   available, and explicit state-satisfied versus attempt-performed semantics.
+3. ED-003 is selected exactly by
+   `resources/git-provider-design-and-dependency-receipt.yml`: sanitized Git
+   Smart HTTP receive-pack, explicit force-with-lease old-value CAS,
+   independent ancestry proof, GitHub App credential pipe, quarantined object
+   import, and separated observation/attribution.
 4. RP-06 exact verdict and route interface is known but not implemented by
    RP-05.
-5. A disposable repository and scratch provider target exist.
+5. Exact Git/tool/provider/App/ruleset/TLS and disposable scratch preflight
+   passes before source changes.
 6. Rollback disables the route before any consequential transition.
 
 ## Workstream 1 — Freeze Contracts And Physical Ownership
@@ -49,8 +52,9 @@ implementation gates pass.
 
 - Independently verify expected-old and proposed-new object identities.
 - Prove proposed-new descends from expected-old.
-- Select the smallest provider operation that atomically binds the server's
-  target ref to expected-old and cannot perform a non-fast-forward update.
+- Execute only the selected closed force-with-lease ref shape after the
+  independent ancestry gate; receive-pack compares the explicit old value
+  atomically and stale values deny.
 - Persist attempt intent through the RP-03/RP-04 interface before the call.
 - Return normalized observations and authenticated provider receipt material
   when available.

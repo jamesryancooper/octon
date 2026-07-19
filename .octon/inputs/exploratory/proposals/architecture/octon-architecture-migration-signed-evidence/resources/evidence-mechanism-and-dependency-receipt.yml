@@ -1,0 +1,70 @@
+schema_version: "octon-signed-evidence-mechanism-and-dependency-receipt-v1"
+receipt_id: "rp07-engineering-defaults-20260718"
+verdict: "pass-for-design-selection"
+proof_state: "selected-not-installed-not-executed"
+operator_decision_ref: "ROD-001"
+support_tuple:
+  local: "arm64 macOS 26.5.2 build 25F84 with Secure Enclave, System Keychain, APFS, and RP-04 dedicated broker identity"
+  hosted_verifier: "accepted RP-06 GitHub-hosted verifier with GitHub artifact attestation/Sigstore availability"
+  compatibility_rule: "tuple or feature drift denies activation and reopens design; no software-key, digest-only, Git-only, or unsigned fallback"
+canonical_bytes:
+  format: "RFC 8949 deterministic CBOR with shortest encodings, sorted map keys, finite schema-known fields, UTF-8 NFC, UTC integer nanoseconds, and no floats/indefinite lengths"
+  parser: "strict schema-first parser rejects duplicate/unknown keys, non-canonical re-encoding, over-limit payload, and algorithm/key/role mismatch"
+  digest: "SHA-256 over domain-separated canonical payload bytes"
+local_signers:
+  roles: ["broker-direct-observation", "checkpoint"]
+  algorithm: "ECDSA P-256 with SHA-256, X9.62 DER signature; low-S normalization required by verifier"
+  provider: "Apple Secure Enclave SecKey/CryptoKit P256 signing key, separate key per role and epoch"
+  custody: "non-exportable private operation; persistent key reference protected in System Keychain by the RP-04 installed code-signing ACL; public SPKI and epoch are retained"
+  verification: "independent Rust p256 0.13.2 verifier over canonical bytes and admitted public-key/epoch registry"
+  rotation: "new epoch signs a cross-certificate from old to new before admission; revocation denies new records but retained historic verification uses explicit signed revocation time"
+  loss: "key loss blocks signing/activation and requires operator-authorized rebootstrap from last independently verified checkpoint; never regenerate-and-continue silently"
+hosted_verifier_signer:
+  algorithm: "GitHub artifact attestation DSSE/in-toto subject digest with Sigstore signature and transparency material"
+  subject: "SHA-256 of the canonical RP-06 verdict/direct-observation payload"
+  identity_binding: ["repository id", "owner id", "workflow path/ref/digest", "run id/attempt", "event", "environment", "source/base/merge-group SHA", "RP-06 verifier App/check external id"]
+  verification_tool: {resolver: "canonical host-tool resolver", observed_version: "gh version 2.92.0", observed_path: "/Users/jamesryancooper/.homebrew/bin/gh", sha256: "582a40676acf1394fcaf1c8c8bc5bad21806bd8c864b209d37b185c2df45dc92"}
+  verification_rule: "retain the Sigstore bundle, cryptographically verify subject digest, certificate/issuer/time/transparency material and exact workflow identity; Check Run presence alone never passes"
+  private_key: "ephemeral Sigstore/GitHub signing key is not exported to the workflow or Octon; no local verifier private key crosses into GitHub"
+  availability: "missing attestation feature, bundle, root material, identity match, or independent verifier disables the RP-06 production route"
+anchor:
+  location: "System Keychain generic-password item com.octon.evidence-head.<scope>, outside project Git, RP-03 database, and evidence filesystem"
+  value: "canonical scope, sequence, checkpoint digest, signer epoch, prior-anchor digest, generation, and last receipt digest"
+  access: "RP-04 installed broker/checkpoint identity only; candidate and verifier App denied"
+  compare_and_advance: "sole broker process holds one scope lock, reads and independently verifies current value/checkpoint, rejects stale/fork/decrease/equal-digest-change, atomically SecItemUpdate replaces the item, rereads and verifies it, then emits an anchor receipt"
+  rollback_boundary: "candidate/DB/evidence-volume rollback is detected; whole-host/root/Keychain rollback remains outside the admitted solo threat claim and requires manual rebootstrap"
+physical_reserve:
+  root: "/var/db/octon/evidence/v1/reserve/<project-id>/"
+  owner_mode: "root:_octon 0750 directory; files 0640; evidence writer exclusive"
+  slot_count: 64
+  slot_bytes: 65536
+  max_terminal_payload_bytes: 32768
+  low_water_slots: 16
+  max_slots_per_admitted_operation: 4
+  allocation: "precreate fixed files; fcntl F_PREALLOCATE contiguous/non-sparse allocation plus ftruncate/fsync; verify st_blocks covers every byte before admission"
+  commit: "each preallocated slot has two fixed commit headers; pwrite payload into already allocated blocks, fdatasync, then write alternating generation/digest/length/type/CRC commit header and fdatasync; reader accepts only highest fully valid header/signature"
+  ledger: "derived by scanning fixed slot headers; no rename, directory entry, truncate, sparse extension, or new metadata allocation is needed under ENOSPC"
+  replenish: "only after verified checkpoint, anchor, and retention receipt; overwrite payload and commit a signed free generation without punching holes; below low water denies new consequential work"
+retention_defaults:
+  raw_root: "/var/db/octon/evidence/v1/raw/"
+  raw_project_quota_bytes: 2147483648
+  raw_run_quota_bytes: 536870912
+  raw_project_inode_limit: 100000
+  raw_closed_unpinned_days: 30
+  signed_checkpoint_days: 365
+  latest_checkpoint_generations_pinned: 2
+  backup_generations: 2
+  backup_root: "/var/db/octon/evidence/v1/backups/"
+  compaction_trigger: "daily or at 75% of byte/inode quota, whichever occurs first"
+  pins: ["active operation", "ATTEMPTING or UNKNOWN", "rollback required", "latest two trusted checkpoints", "explicit operator pin"]
+  tuning_rule: "values are conservative reversible initial limits; measurement may only reduce admission or adjust within ROD-001 after a new reviewed receipt, never silently widen retention/support claims"
+dependency_selection:
+  rust: ["p256 0.13.2 with ecdsa/sha256 verification only", "ciborium 0.2.2 with an RP-07 canonical encoder wrapper", "zeroize 1.8.1"]
+  apple: ["Security.framework SecKey/SecItem", "CryptoKit/Secure Enclave behavior on the exact tuple", "libc fcntl/F_PREALLOCATE, pwrite, fdatasync, fsync, stat"]
+  hosted: ["GitHub artifact attestations", "Sigstore bundle/root/transparency verification", "approved gh 2.92.0 verifier"]
+  lock_rule: "resolve and freeze exact Cargo checksums, SDK symbols, binary/dependency digests, filesystem behavior, and GitHub feature/root identity before source implementation"
+evidence_order:
+  proposal: "accepted exact design may authorize implementation creation"
+  source_entry: "RP-03/RP-04/RP-06 implementation verification plus exact SDK/Secure-Enclave/Keychain/APFS/gh/Sigstore/dependency/constrained-volume/scratch preflight"
+  completion: "UE-008 and wrong-key/forgery/rechain/snapshot/anchor/ENOSPC/reserve/compaction/pin/rotation/loss/burden proof against the exact implementation"
+evidence_boundary: "This receipt selects mechanisms and provisional values only; it creates no key, Keychain item, directory, allocation, signature, attestation, anchor, checkpoint, dependency resolution, provider request, deletion, or implementation."

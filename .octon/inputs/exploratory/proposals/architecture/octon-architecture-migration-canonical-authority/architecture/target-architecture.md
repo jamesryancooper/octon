@@ -15,6 +15,15 @@ capabilities immediately before spawn. Consumption is one-shot and at-most-once
 under concurrency. Missing, stale, widened, substituted, revoked, or already
 consumed authorization denies without a candidate-tree fallback.
 
+The frozen invocation is
+`lifecycle_executor::authorization::consume_candidate_launch_guard` over a
+versioned `CandidateLaunchDescriptor`. It is called in the same lexical control
+path immediately before `Command::spawn` by the exact helpers named in the
+candidate-launch census. Earlier admission, command construction, isolation,
+Harness compilation, budget evaluation, or effect authorization cannot stand
+in for this consuming guard. No helper may return an unguarded candidate
+`Command`, and no caller may consume a guard more than once.
+
 RP-01 owns semantic records and the guard API. RP-03 owns the later SQLite/WAL
 persistence adapter; RP-02 owns isolation mechanics; RP-04 owns credentials and
 effects; RP-11 owns Harness compilation; RP-13 owns child budgets. Shared call

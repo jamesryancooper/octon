@@ -2,191 +2,40 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../../../.." && pwd)"
-AUTH_HELPER="$ROOT_DIR/.octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-cleanup.sh"
-CLEANUP_HELPER="$ROOT_DIR/.octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh"
+AUTHORIZER="$ROOT_DIR/.octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-cleanup.sh"
+CLEANUP="$ROOT_DIR/.octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh"
+SCHEMA="$ROOT_DIR/.octon/framework/product/contracts/branch-cleanup-authorization-v1.schema.json"
+TMP_DIR="$(mktemp -d)"
+trap 'rm -rf -- "$TMP_DIR"' EXIT
 
-pass_count=0
-fail_count=0
+git -C "$TMP_DIR" init -q -b main
+git -C "$TMP_DIR" config user.email test@example.invalid
+git -C "$TMP_DIR" config user.name test
+git -C "$TMP_DIR" commit --allow-empty -qm base
+git -C "$TMP_DIR" branch candidate
+landed_ref="$(git -C "$TMP_DIR" rev-parse HEAD)"
+before_refs="$(git -C "$TMP_DIR" show-ref | LC_ALL=C sort)"
+before_worktrees="$(git -C "$TMP_DIR" worktree list --porcelain)"
 
-pass() { echo "PASS: $1"; pass_count=$((pass_count + 1)); }
-fail() { echo "FAIL: $1" >&2; fail_count=$((fail_count + 1)); }
-
-assert_success() {
-  local label="$1"
-  shift
-  if "$@"; then pass "$label"; else fail "$label"; fi
-}
-
-setup_stub_gh() {
-  local bin_dir="$1"
-  local open_count="${2:-0}"
-  mkdir -p "$bin_dir"
-  cat >"$bin_dir/gh" <<EOF
-#!/usr/bin/env bash
-if [[ "\$1" == "pr" && "\$2" == "list" ]]; then
-  printf '%s\n' "$open_count"
-  exit 0
+if (cd "$TMP_DIR" && bash "$AUTHORIZER" --branch candidate --landed-ref "$landed_ref" --retained-rollback-ref refs/heads/candidate --selected-route branch-no-pr --output "$TMP_DIR/denied.json") >"$TMP_DIR/authorize.out" 2>&1; then
+  echo "FAIL: cleanup authorizer returned approval" >&2
+  exit 1
 fi
-echo "unexpected gh invocation: \$*" >&2
-exit 2
-EOF
-  chmod +x "$bin_dir/gh"
-}
 
-setup_repo() {
-  local tmp_root="$1"
-  local repo="$tmp_root/repo"
-  git init --bare "$tmp_root/origin.git" >/dev/null
-  git clone "$tmp_root/origin.git" "$repo" >/dev/null 2>&1
-  git -C "$repo" config user.email "test@example.invalid"
-  git -C "$repo" config user.name "Octon Test"
-  printf 'base\n' >"$repo/README.md"
-  git -C "$repo" add README.md
-  git -C "$repo" commit -m "chore: base" >/dev/null
-  git -C "$repo" branch -M main
-  git -C "$repo" push origin main >/dev/null 2>&1
-  git -C "$repo" checkout -b feature/cleanup >/dev/null 2>&1
-  printf 'feature\n' >"$repo/feature.txt"
-  git -C "$repo" add feature.txt
-  git -C "$repo" commit -m "feat: cleanup fixture" >/dev/null
-  git -C "$repo" push origin feature/cleanup >/dev/null 2>&1
-  git -C "$repo" checkout main >/dev/null 2>&1
-  git -C "$repo" merge --ff-only feature/cleanup >/dev/null 2>&1
-  git -C "$repo" push origin main >/dev/null 2>&1
-  git -C "$repo" checkout feature/cleanup >/dev/null 2>&1
-  git -C "$repo" fetch origin >/dev/null 2>&1
-  printf '%s\n' "$repo"
-}
+jq -e '.authorization_result == "denied" and .denial_reason == "RP00_CONTAINMENT_CLEANUP_DISABLED" and .mutation_permitted == false and .observed_local_source_ref != null and .rollback_handles == ["refs/heads/candidate"]' "$TMP_DIR/denied.json" >/dev/null
+jq -e '.properties.authorization_result.const == "denied" and .properties.mutation_permitted.const == false' "$SCHEMA" >/dev/null
 
-case_valid_authorization_permits_cleanup() {
-  local tmp_root repo bin_dir auth landed
-  tmp_root="$(mktemp -d /private/tmp/octon-branch-cleanup.XXXXXX)"
-  trap "rm -rf '$tmp_root'" RETURN
-  bin_dir="$tmp_root/bin"
-  setup_stub_gh "$bin_dir" 0
-  repo="$(setup_repo "$tmp_root")"
-  landed="$(git -C "$repo" rev-parse HEAD)"
-  auth="$tmp_root/cleanup-auth.json"
+if (cd "$TMP_DIR" && bash "$CLEANUP" --branch candidate --landed-ref "$landed_ref" --retained-rollback-ref refs/heads/candidate --authorization "$TMP_DIR/denied.json" --confirm) >"$TMP_DIR/cleanup.out" 2>&1; then
+  echo "FAIL: cleanup mutation succeeded" >&2
+  exit 1
+fi
+grep -Fq 'RP00_CONTAINMENT_CLEANUP_DISABLED' "$TMP_DIR/cleanup.out"
 
-  (cd "$repo" && PATH="$bin_dir:$PATH" "$AUTH_HELPER" \
-    --branch feature/cleanup \
-    --landed-ref "$landed" \
-    --retained-rollback-ref "revert:$landed" \
-    --selected-route branch-no-pr \
-    --delete-remote \
-    --output "$auth" >/dev/null)
+(cd "$TMP_DIR" && bash "$CLEANUP" --branch candidate --landed-ref "$landed_ref" --retained-rollback-ref refs/heads/candidate --authorization "$TMP_DIR/denied.json" --dry-run) >"$TMP_DIR/dry.out"
+grep -Fq 'mutation_permitted=false' "$TMP_DIR/dry.out"
 
-  (cd "$repo" && PATH="$bin_dir:$PATH" "$CLEANUP_HELPER" \
-    --branch feature/cleanup \
-    --landed-ref "$landed" \
-    --retained-rollback-ref "revert:$landed" \
-    --delete-remote \
-    --authorization "$auth" \
-    --confirm >/dev/null 2>&1)
-
-  ! git -C "$repo" show-ref --verify --quiet refs/heads/feature/cleanup &&
-    [[ -z "$(git -C "$repo" ls-remote --heads origin feature/cleanup)" ]] &&
-    [[ "$(git -C "$repo" rev-parse main)" == "$(git -C "$repo" rev-parse origin/main)" ]]
-}
-
-case_cleanup_without_authorization_fails() {
-  local tmp_root repo bin_dir landed
-  tmp_root="$(mktemp -d /private/tmp/octon-branch-cleanup.XXXXXX)"
-  trap "rm -rf '$tmp_root'" RETURN
-  bin_dir="$tmp_root/bin"
-  setup_stub_gh "$bin_dir" 0
-  repo="$(setup_repo "$tmp_root")"
-  landed="$(git -C "$repo" rev-parse HEAD)"
-
-  ! (cd "$repo" && PATH="$bin_dir:$PATH" "$CLEANUP_HELPER" \
-    --branch feature/cleanup \
-    --landed-ref "$landed" \
-    --retained-rollback-ref "revert:$landed" \
-    --delete-remote \
-    --confirm >/dev/null 2>&1)
-}
-
-case_stale_authorization_fails() {
-  local tmp_root repo bin_dir auth landed
-  tmp_root="$(mktemp -d /private/tmp/octon-branch-cleanup.XXXXXX)"
-  trap "rm -rf '$tmp_root'" RETURN
-  bin_dir="$tmp_root/bin"
-  setup_stub_gh "$bin_dir" 0
-  repo="$(setup_repo "$tmp_root")"
-  landed="$(git -C "$repo" rev-parse HEAD)"
-  auth="$tmp_root/cleanup-auth.json"
-
-  (cd "$repo" && PATH="$bin_dir:$PATH" "$AUTH_HELPER" \
-    --branch feature/cleanup \
-    --landed-ref "$landed" \
-    --retained-rollback-ref "revert:$landed" \
-    --selected-route branch-no-pr \
-    --delete-remote \
-    --output "$auth" >/dev/null)
-  jq '.origin_main_ref = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"' "$auth" >"$tmp_root/stale.json"
-
-  ! (cd "$repo" && PATH="$bin_dir:$PATH" "$CLEANUP_HELPER" \
-    --branch feature/cleanup \
-    --landed-ref "$landed" \
-    --retained-rollback-ref "revert:$landed" \
-    --delete-remote \
-    --authorization "$tmp_root/stale.json" \
-    --confirm >/dev/null 2>&1)
-}
-
-case_protected_branch_authorization_fails() {
-  local tmp_root repo bin_dir landed
-  tmp_root="$(mktemp -d /private/tmp/octon-branch-cleanup.XXXXXX)"
-  trap "rm -rf '$tmp_root'" RETURN
-  bin_dir="$tmp_root/bin"
-  setup_stub_gh "$bin_dir" 0
-  repo="$(setup_repo "$tmp_root")"
-  landed="$(git -C "$repo" rev-parse HEAD)"
-
-  ! (cd "$repo" && PATH="$bin_dir:$PATH" "$AUTH_HELPER" \
-    --branch main \
-    --landed-ref "$landed" \
-    --retained-rollback-ref "revert:$landed" \
-    --selected-route branch-no-pr \
-    --output "$tmp_root/protected.json" >/dev/null 2>&1)
-}
-
-case_open_pr_authorization_fails() {
-  local tmp_root repo bin_dir landed
-  tmp_root="$(mktemp -d /private/tmp/octon-branch-cleanup.XXXXXX)"
-  trap "rm -rf '$tmp_root'" RETURN
-  bin_dir="$tmp_root/bin"
-  setup_stub_gh "$bin_dir" 1
-  repo="$(setup_repo "$tmp_root")"
-  landed="$(git -C "$repo" rev-parse HEAD)"
-
-  ! (cd "$repo" && PATH="$bin_dir:$PATH" "$AUTH_HELPER" \
-    --branch feature/cleanup \
-    --landed-ref "$landed" \
-    --retained-rollback-ref "revert:$landed" \
-    --selected-route branch-no-pr \
-    --output "$tmp_root/open-pr.json" >/dev/null 2>&1)
-}
-
-case_helpers_document_governed_rerun_path() {
-  grep -Fq "Governed rerun path" "$AUTH_HELPER" &&
-    grep -Fq "Governed rerun path" "$CLEANUP_HELPER" &&
-    grep -Fq "Do not bypass platform, sandbox, provider, or host controls" "$AUTH_HELPER" &&
-    grep -Fq "Do not bypass platform, sandbox, provider, or host controls" "$CLEANUP_HELPER"
-}
-
-main() {
-  assert_success "cleanup helpers document governed rerun path" case_helpers_document_governed_rerun_path
-  assert_success "valid cleanup authorization permits local and remote cleanup" case_valid_authorization_permits_cleanup
-  assert_success "cleanup without authorization fails closed" case_cleanup_without_authorization_fails
-  assert_success "stale cleanup authorization fails closed" case_stale_authorization_fails
-  assert_success "protected branch cleanup authorization fails" case_protected_branch_authorization_fails
-  assert_success "open PR cleanup authorization fails" case_open_pr_authorization_fails
-
-  echo
-  echo "Passed: $pass_count"
-  echo "Failed: $fail_count"
-  [[ "$fail_count" -eq 0 ]]
-}
-
-main "$@"
+after_refs="$(git -C "$TMP_DIR" show-ref | LC_ALL=C sort)"
+after_worktrees="$(git -C "$TMP_DIR" worktree list --porcelain)"
+[[ "$before_refs" == "$after_refs" ]]
+[[ "$before_worktrees" == "$after_worktrees" ]]
+echo "PASS: cleanup receipt is deny-only and candidate state survives"

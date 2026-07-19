@@ -1,0 +1,69 @@
+schema_version: "octon-design-and-dependency-receipt-v1"
+receipt_id: "rp03-sqlite-design-dependency-20260718"
+verdict: "pass-for-design-selection"
+proof_state: "selected-not-installed-not-executed"
+decision_owner: "RP-03"
+operator_decision_ref: "ROD-001"
+dependency:
+  crate: "rusqlite"
+  version: "=0.40.1"
+  default_features: false
+  features: ["bundled", "backup", "hooks", "limits"]
+  linkage: "bundled static SQLite through libsqlite3-sys"
+  transitive_design_baseline:
+    libsqlite3_sys: "0.38.1"
+    sqlite: "3.53.2"
+  source: "https://github.com/rusqlite/rusqlite"
+  license: "MIT; bundled SQLite public domain"
+  selection_basis:
+    - "synchronous transaction API matches one dedicated writer-thread design"
+    - "bundled SQLite fixes the engine rather than inheriting host SQLite drift"
+    - "backup feature exposes SQLite online backup API"
+    - "hooks and limits support connection guardrails and bounded inputs"
+  prohibited_features: ["load_extension", "vtab", "functions", "session", "sqlcipher"]
+  lock_rule: "Cargo.lock checksum and full transitive graph are reviewed after the separately authorized dependency resolution and before source implementation"
+  unsupported_behavior: "dependency resolution, checksum, license, MSRV, or build failure blocks implementation; no alternate library is inferred"
+store:
+  root: ".octon/state/control/runtime/store"
+  database: ".octon/state/control/runtime/store/runtime.sqlite3"
+  wal: ".octon/state/control/runtime/store/runtime.sqlite3-wal"
+  shm: ".octon/state/control/runtime/store/runtime.sqlite3-shm"
+  directory_mode: "0700"
+  file_mode: "0600"
+  one_writer: "one runtime_bus-owned blocking writer thread and one mutation API"
+  readers: "read-only connections; no direct mutation pragma or SQL outside store.rs/transactions.rs/migrations.rs/recovery.rs"
+connection_profile:
+  journal_mode: "WAL"
+  synchronous: "FULL"
+  foreign_keys: true
+  trusted_schema: false
+  busy_timeout_ms: 5000
+  wal_autocheckpoint_pages: 0
+  checkpoint_owner: "runtime_bus recovery/checkpoint coordinator"
+  durability_checks: ["integrity_check", "foreign_key_check", "compile_options", "schema_version", "application_id", "user_version"]
+migration:
+  api: "rusqlite Transaction with BEGIN IMMEDIATE under the sole writer"
+  format: "monotonic embedded SQL migrations with digest, predecessor version, forward function, and explicit restore-only rollback"
+  rule: "no down-migration of live authority state; restore a certified pre-migration generation and advance epoch/high-water"
+backup:
+  api: "rusqlite online backup API"
+  root: ".octon/state/control/runtime/backups"
+  publication: "write into a new generation temp directory, integrity-check, fsync file and parent, then atomic rename and signed/reference manifest handoff"
+  provisional_trigger: "before and after migration or authority-epoch change, and otherwise after 100 consequential commits or 15 minutes, whichever comes first"
+  provisional_generations: 3
+  mandatory_generation: "last certified pre-schema/epoch generation retained in addition until the next generation is certified"
+  adjustment_rule: "measure transaction rate, backup duration, storage pressure, and restore objective; tighten automatically, but widening requires reviewed ROD-001-compatible evidence"
+terminal_reserve:
+  path: ".octon/state/control/runtime/store/terminal-reserve.bin"
+  provisional_bytes: 67108864
+  mechanism: "macOS F_PREALLOCATE plus ftruncate and fsync before T1 admission"
+  measured_floor: "max(32 MiB, eight times measured p99 terminal transaction bytes), capped provisionally at 256 MiB pending reviewed adjustment"
+  use: "only UNKNOWN/terminal evidence after ENOSPC; replenish and fsync before any new T1"
+  failure: "deny T1 and preserve work if reserve cannot be established"
+rollback:
+  pre_activation: "delete only unactivated disposable store state and remain on contained legacy read path"
+  post_activation: "disable effects, restore a certified generation to a new epoch/high-water, validate, then atomically select it; never reactivate older authority in place"
+evidence_order:
+  design: "this receipt selects the dependency and reversible defaults without installing or proving them"
+  implementation_entry: "RP-01 verification, exact Cargo resolution/lock review, fresh census, host capacity, and backup/reserve preflight"
+  completion: "exact-commit concurrency, crash, migration, ENOSPC, backup/restore, corruption, anti-resurrection, conformance, and drift proof"

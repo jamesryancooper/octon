@@ -1,7 +1,8 @@
 # Acceptance Criteria
 
-These are future implementation gates. Packet creation satisfies none of the
-runtime-store, migration, concurrency, or recovery proof conditions.
+AC-00 through AC-02 are design and implementation-entry bindings. The revision
+satisfies design selection only; it satisfies none of the future runtime-store,
+migration, concurrency, or recovery proof conditions.
 
 ## Entry and Design
 
@@ -17,6 +18,14 @@ runtime-store, migration, concurrency, or recovery proof conditions.
 - **AC-02:** A reviewed SQLite Design and Dependency Receipt pins the library,
   version, source, linkage, feature flags, license, advisories, supported
   macOS/toolchain, migration/backup APIs, operational burden, and rollback.
+- **AC-02A:** The selected design is `rusqlite =0.40.1` with default features
+  off and `bundled/backup/hooks/limits`, bundled SQLite 3.53.2, one blocking
+  writer thread, the exact store/backup/reserve paths and connection profile,
+  online backup, and restore-only live rollback. Exact Cargo lock/checksum,
+  transitive, advisory, build, and MSRV proof gates implementation entry.
+- **AC-02B:** The immutable-baseline writer/state census classifies every
+  production writer/destination family; a new or unmatched consequential
+  writer fails static validation.
 
 ## Single Store and Writer
 
@@ -77,9 +86,11 @@ runtime-store, migration, concurrency, or recovery proof conditions.
 
 ## Proof and Closeout
 
-- **AC-18:** PO-FD-005 passes PG-03-SINGLE-STORE and UE-004 records concurrency,
+- **AC-18:** After exact implementation authorization, PO-FD-005 passes
+  PG-03-SINGLE-STORE and UE-004 records concurrency,
   every T1/external/T2 kill point, outbox, ENOSPC, corruption, migration, and
-  backup/restore results.
+  backup/restore results before conformance, completion, cutover, support
+  claim, or promotion.
 - **AC-19:** RP-03's FD-012 transaction and FD-013 capacity substrates are
   directly proved without claiming RP-08 reconciliation behavior or RP-07
   signed-retention/capacity completion.

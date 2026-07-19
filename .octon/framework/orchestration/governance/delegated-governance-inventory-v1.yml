@@ -351,6 +351,28 @@ inventory_entries:
       - "output summary"
       - "retained evidence when used for closeout or promotion"
     downstream_action: "Validators can support authority routing but cannot mint approvals."
+  - id: "closed-world-material-effect-discovery"
+    domain: "validators"
+    surface_refs:
+      - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml#closed_world_discovery"
+      - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml#closed_world_discovery"
+      - ".octon/framework/assurance/runtime/_ops/scripts/discover-material-effect-entrypoints.sh"
+    classification: "delegated-execution"
+    rationale: >-
+      A read-only scanner may enumerate one immutable Git tree and compare its
+      normalized writer and launcher sets with the material and authorization
+      inventories. The result is completeness evidence, never execution
+      authority.
+    required_proof:
+      - "exact commit and tree"
+      - "same-tree additive selection"
+      - "canonical normalized key set"
+      - "writer and launcher set digests"
+      - "D_w = M_w and D_l = M_l = A_l"
+      - "bounded ambiguity dispositions with owners and expiry"
+    downstream_action: >-
+      Unknown, stale, duplicate, unsupported, ambiguous, parse-failed, or
+      selection-inconsistent candidates deny validation and authorization.
   - id: "host-projections-and-github-checks"
     domain: "host-projections"
     surface_refs:

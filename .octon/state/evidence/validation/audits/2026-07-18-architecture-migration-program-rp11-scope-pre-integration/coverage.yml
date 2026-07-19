@@ -1,0 +1,5 @@
+schema_version: "1.0"
+surfaces: ["child registry and DAG", "RP-11 exact scope parity", "source ownership", "collision ledger", "rollback and safe states", "child authority", "generated projections"]
+files_scanned: 51
+unaccounted_files: 0
+coverage_status: complete-for-parent-pre-integration-review

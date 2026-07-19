@@ -22,10 +22,15 @@
 - `resources/source-context.md`
 - `resources/packet-contract.yml`
 - `resources/traceability.yml`
+- `resources/verification-publication-design-and-dependency-receipt.yml`
+- `resources/workflow-surface-census.yml`
 - `support/profile-selection-receipt.md`
 - `support/proposal-creation.md`
 - `support/implementation-grade-completeness-review.md`
 - `support/implementation-conformance-review.md`
 - `support/post-implementation-drift-churn-review.md`
+- `support/proposal-review.md`
+- `support/pre-integration-architecture-review.yml`
+- `support/revisions/rp06-provider-projection-evidence-order-20260718.md`
 
 This is inventory only. The manifests remain proposal-local lifecycle sources.

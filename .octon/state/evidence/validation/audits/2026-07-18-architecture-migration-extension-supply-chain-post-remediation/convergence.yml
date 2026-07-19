@@ -1,0 +1,24 @@
+schema_version: "1.0"
+run_id: architecture-migration-extension-supply-chain-post-remediation-20260718T174000Z
+commit_sha: 81e32c8b6d
+scope_hash: sha256:8fab57e23160c152925b5b454bfa3a8a5068b50064e8958b7a802520d087d816
+prompt_hash: sha256:6c772329bebb067f793e872fd0001a44090763e9301fba22b60e13700edecb4c
+prompt_hash_basis: commands.md
+findings_hash: sha256:764af5b59abfe0b41ee87cef60dff98bb667f6bfcdcf6ce87bf667ff327a0029
+findings_hash_basis: findings.yml
+params_hash: sha256:950dec31131f303f074785c50b09ff543ba6e86eb58796a48ba8832ec02a6db1
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: accepted
+rationale: Three passes agree both findings are closed and exact parent/child scope is coherent.

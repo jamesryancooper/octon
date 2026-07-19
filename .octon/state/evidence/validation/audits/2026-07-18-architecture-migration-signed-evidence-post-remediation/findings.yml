@@ -1,0 +1,7 @@
+schema_version: "1.0"
+run_id: architecture-migration-signed-evidence-post-remediation-20260718T162841Z
+findings:
+  - {id: RP07-ENGINEERING-MECHANISMS-001, severity: high, status: closed, summary: "Exact signing, anchor, reserve, quota, retention, and compaction mechanisms selected."}
+  - {id: RP07-RP06-VERIFIER-IDENTITY-002, severity: high, status: closed, summary: "Hosted workflow attestation and separate local checkpoint identities selected without key export."}
+  - {id: RP07-IMPLEMENTATION-EVIDENCE-CYCLE-003, severity: high, status: closed, summary: "Authorization, source-entry, and post-implementation proof are ordered without a cycle."}
+new_findings: []

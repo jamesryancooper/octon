@@ -1,6 +1,6 @@
 # Credentialless Native Candidate Isolation
 
-This is the draft RP-02 architecture proposal for
+This is the accepted RP-02 architecture proposal for
 `octon-architecture-migration-candidate-isolation`. It is temporary,
 non-authoritative, and does not authorize or perform candidate execution.
 
@@ -14,7 +14,7 @@ second execution runtime.
 
 ## Lifecycle State
 
-- status: `draft`
+- status: `accepted`
 - proposal kind: `architecture`
 - promotion scope: `octon-internal`
 - change profile: `atomic`
@@ -22,9 +22,15 @@ second execution runtime.
 - parent program: `octon-architecture-migration-program`
 - dependency: `octon-architecture-migration-containment`
 
-The packet is ready for operator reading, not implementation. The exact ED-001
-session/sandbox mechanism, independent architecture review, and proposal
-acceptance remain future gates.
+The packet selects ED-001's exact engineering default in
+`resources/engineering-disposition-ed001.yml`: arm64 macOS 26/Darwin 25,
+root-owned `/usr/bin/sandbox-exec` with a digest-bound default-deny SBPL profile,
+an exact-digest OpenAI Codex CLI, and a launcher-owned one-run loopback
+capability relay. Independent post-remediation review accepts the design and
+authorizes creation of its future exact implementation only through the
+program DAG. An unavailable or unproved tuple denies without ambient
+credentials, direct provider egress, or effect-broker fallback. The design is
+ready for later implementation orchestration, but no implementation has begun.
 
 ## Reading Order
 
@@ -32,16 +38,17 @@ acceptance remain future gates.
 2. `architecture-proposal.yml`
 3. `navigation/source-of-truth-map.md`
 4. `resources/packet-contract.yml`
-5. `architecture/current-state-gap-map.md`
-6. `architecture/target-architecture.md`
-7. `architecture/acceptance-criteria.md`
-8. `architecture/implementation-plan.md`
-9. `architecture/validation-plan.md`
-10. `architecture/cutover-plan.md`
-11. `architecture/rollback-and-recovery.md`
-12. `architecture/operator-disclosure.md`
-13. `resources/traceability.yml`
-14. `support/implementation-grade-completeness-review.md`
+5. `resources/engineering-disposition-ed001.yml`
+6. `architecture/current-state-gap-map.md`
+7. `architecture/target-architecture.md`
+8. `architecture/acceptance-criteria.md`
+9. `architecture/implementation-plan.md`
+10. `architecture/validation-plan.md`
+11. `architecture/cutover-plan.md`
+12. `architecture/rollback-and-recovery.md`
+13. `architecture/operator-disclosure.md`
+14. `resources/traceability.yml`
+15. `support/implementation-grade-completeness-review.md`
 
 ## Boundary Summary
 

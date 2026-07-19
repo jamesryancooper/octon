@@ -1454,7 +1454,7 @@ workflows:
           determinism: unique
           description: "Route decision, handoff, admission, target return validation commands, outcomes, and unresolved blockers"
   closeout:
-    version: "2.0.0"
+    version: "2.1.0"
     execution_profile: core
     commands: ["/closeout"]
     parameters: []
@@ -2034,17 +2034,16 @@ workflows:
         description: "Accepted proposal packet to deliver"
       - name: target_outcome
         type: text
-        required: false
-        default: "cleaned"
-        description: "Requested delivery outcome, normally cleaned"
+        required: true
+        description: "Contained coordination outcome: implemented or archive-ready"
       - name: profile_path
         type: file
-        required: false
-        description: "Optional proposal-packet-delivery-profile-v1 profile"
+        required: true
+        description: "Required containment-bound proposal-packet-delivery-profile-v1 profile"
       - name: delivery_run_id
         type: text
-        required: false
-        description: "Optional retained delivery run id"
+        required: true
+        description: "Required retained delivery run id"
     access: human
     depends_on:
       - workflow: verify-implementation-conformance
@@ -2056,7 +2055,7 @@ workflows:
       - workflow: proposal-packet-terminal-closeout
         condition: "required before archive-ready verdict"
       - workflow: archive-proposal
-        condition: "required before landed, synced, or cleaned verdict"
+        condition: "separate owner after archive-ready; never publication authority for this delivery run"
     io:
       inputs:
         - name: proposal_packet_root
@@ -2094,17 +2093,16 @@ workflows:
         description: "Accepted proposal program to deliver"
       - name: target_outcome
         type: text
-        required: false
-        default: "cleaned"
-        description: "Requested delivery outcome, normally cleaned"
+        required: true
+        description: "Contained coordination outcome: implemented or archive-ready"
       - name: profile_path
         type: file
-        required: false
-        description: "Optional proposal-program-delivery-profile-v1 profile"
+        required: true
+        description: "Required containment-bound proposal-program-delivery-profile-v1 profile"
       - name: delivery_run_id
         type: text
-        required: false
-        description: "Optional retained delivery run id"
+        required: true
+        description: "Required retained delivery run id"
     access: human
     depends_on:
       - workflow: verify-implementation-conformance
@@ -2114,7 +2112,7 @@ workflows:
       - workflow: proposal-packet-terminal-closeout
         condition: "required before archive-ready verdict"
       - workflow: archive-proposal
-        condition: "required before landed, synced, or cleaned verdict"
+        condition: "separate owner after archive-ready; never publication authority for this delivery run"
     io:
       inputs:
         - name: proposal_program_root

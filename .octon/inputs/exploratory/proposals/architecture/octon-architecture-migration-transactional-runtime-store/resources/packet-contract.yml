@@ -4,10 +4,10 @@ logical_packet_id: "RP-03"
 workgroup_id: "RWG-03"
 proposal_id: "octon-architecture-migration-transactional-runtime-store"
 title: "Transactional Runtime Store and State Migration"
-status: "draft"
+status: "accepted"
 authority_posture:
   proposal_is_authority: false
-  implementation_authorized: false
+  implementation_authorized: true
   runtime_implemented: false
   support_claim_created: false
 purpose: >-
@@ -194,7 +194,8 @@ must_not_run_concurrently_with:
 operator_decisions:
   - "ROD-001 accepted: bounded local raw evidence outside Git; longer-lived signed recovery references; terminal reserve; no unsigned fallback; deny and preserve work when recovery evidence is not guaranteed"
 engineering_dispositions:
-  - "Store path, backup mechanism, provisional cadence/generations, and physical reserve implementation/size use conservative reversible defaults, measurement-and-adjustment, and mechanism-specific proof."
+  - "resources/sqlite-design-and-dependency-receipt.yml selects rusqlite =0.40.1, bundled SQLite, exact features/store/backup/reserve defaults, measurement adjustment, and evidence order."
+  - "resources/writer-state-census.yml closes the production writer/destination inventory and requires fail-closed refresh."
 blocking_findings:
   owned:
     - "RF-006"
@@ -204,10 +205,10 @@ blocking_findings:
     - "RF-012"
     - "RF-017"
 entry_criteria:
-  - "RP-01 semantic interface frozen"
-  - "accepted ROD-001 invariants and separate RP-03 engineering defaults recorded"
-  - "writer/state inventory complete"
-  - "SQLite design/dependency receipt passes"
+  - "accepted design and implementation-prompt authorization"
+  - "before source implementation, RP-01 verification passes"
+  - "before source implementation, exact Cargo lock/checksum/transitive/MSRV review passes"
+  - "before source implementation, writer/state census refresh has zero unmatched production writers"
 exit_criteria:
   - "one authoritative schema, mutation API, and normal deployed writer"
   - "no dual authority or journal"
@@ -239,6 +240,10 @@ authoritative_promotion_requirements:
   - "implemented schema, single writer, migration, projections, and recovery"
   - "direct race, fault, capacity, backup/restore, rollback, and no-resurrection proof"
   - "conformance, drift/churn, promotion, and cleanup receipts"
+evidence_order:
+  proposal_design_authorization: "accepted ROD-001 binding, selected dependency/default receipt, closed census, completeness, and independent review authorize creation of an exact implementation"
+  implementation_entry: "RP-01 verification, exact Cargo resolution/lock review, fresh census, capacity/backup/reserve preflight"
+  implementation_completion: "UE-004 and all concurrency/crash/migration/ENOSPC/backup/restore/corruption/anti-resurrection proof pass against the exact implementation before conformance, completion, cutover, support, or promotion"
 unsupported_remainder:
   - "credentials, broker IPC/supervision, and privileged effect adapters"
   - "provider-specific outcome classification, reconciliation, retry, and complete Class B behavior"

@@ -1,165 +1,76 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://octon.local/framework/product/contracts/branch-cleanup-authorization-v1.schema.json",
-  "title": "Octon Branch Cleanup Authorization v1",
+  "title": "Octon SI-00 Branch Cleanup Denial Receipt v1",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema_version",
     "authorization_id",
     "authorization_result",
+    "denial_reason",
+    "containment_state",
     "selected_route",
-    "target_lifecycle_outcome",
+    "requested_target_lifecycle_outcome",
+    "actual_lifecycle_outcome",
     "remote",
     "base_branch",
     "source_branch",
-    "landed_ref",
-    "origin_main_ref",
-    "local_main_ref",
-    "local_main_synced_to_origin_main",
-    "origin_main_contains_landed_ref",
-    "local_main_contains_landed_ref",
-    "source_branch_contained_in_origin_main",
-    "source_branch_protected",
-    "open_pr_count",
+    "candidate_id",
+    "requested_landed_ref",
+    "observed_local_source_ref",
+    "observed_remote_source_ref",
+    "observed_base_ref",
     "rollback_handle",
-    "cleanup_policy_allowed",
+    "rollback_handles",
     "delete_remote_requested",
     "remove_worktrees_requested",
     "sync_main_requested",
+    "mutation_permitted",
     "host_controls_not_bypassed",
-    "runtime_safety_boundary",
     "created_at"
   ],
   "properties": {
-    "schema_version": {
-      "const": "branch-cleanup-authorization-v1"
-    },
-    "authorization_id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "authorization_result": {
-      "type": "string",
-      "enum": ["approved", "denied"]
-    },
+    "schema_version": { "const": "branch-cleanup-authorization-v1" },
+    "authorization_id": { "type": "string", "minLength": 1 },
+    "authorization_result": { "const": "denied" },
+    "denial_reason": { "const": "RP00_CONTAINMENT_CLEANUP_DISABLED" },
+    "containment_state": { "const": "SI-00" },
     "selected_route": {
       "type": "string",
       "enum": ["branch-no-pr", "branch-pr"]
     },
-    "target_lifecycle_outcome": {
-      "const": "cleaned"
-    },
-    "remote": {
-      "type": "string",
+    "requested_target_lifecycle_outcome": { "const": "cleaned" },
+    "actual_lifecycle_outcome": { "const": "preserved" },
+    "remote": { "type": "string", "minLength": 1 },
+    "base_branch": { "type": "string", "minLength": 1 },
+    "source_branch": { "type": "string", "minLength": 1 },
+    "candidate_id": { "type": "string", "minLength": 1 },
+    "requested_landed_ref": { "type": "string", "minLength": 1 },
+    "observed_local_source_ref": {
+      "type": ["string", "null"],
       "minLength": 1
     },
-    "base_branch": {
-      "type": "string",
+    "observed_remote_source_ref": {
+      "type": ["string", "null"],
       "minLength": 1
     },
-    "source_branch": {
-      "type": "string",
+    "observed_base_ref": {
+      "type": ["string", "null"],
       "minLength": 1
     },
-    "landed_ref": {
-      "type": "string",
-      "minLength": 1
+    "rollback_handle": { "type": "string", "minLength": 1 },
+    "rollback_handles": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
     },
-    "origin_main_ref": {
-      "type": "string",
-      "minLength": 1
-    },
-    "local_main_ref": {
-      "type": "string",
-      "minLength": 1
-    },
-    "local_source_ref": {
-      "type": "string",
-      "minLength": 1
-    },
-    "remote_source_ref": {
-      "type": "string",
-      "minLength": 1
-    },
-    "local_branch_exists": {
-      "type": "boolean"
-    },
-    "remote_branch_exists": {
-      "type": "boolean"
-    },
-    "local_main_synced_to_origin_main": {
-      "const": true
-    },
-    "origin_main_contains_landed_ref": {
-      "const": true
-    },
-    "local_main_contains_landed_ref": {
-      "const": true
-    },
-    "source_branch_contained_in_origin_main": {
-      "const": true
-    },
-    "source_branch_protected": {
-      "const": false
-    },
-    "open_pr_count": {
-      "const": 0
-    },
-    "rollback_handle": {
-      "type": "string",
-      "minLength": 1
-    },
-    "cleanup_policy_allowed": {
-      "const": true
-    },
-    "delete_remote_requested": {
-      "type": "boolean"
-    },
-    "remove_worktrees_requested": {
-      "type": "boolean"
-    },
-    "sync_main_requested": {
-      "type": "boolean"
-    },
-    "host_controls_not_bypassed": {
-      "const": true
-    },
-    "runtime_safety_boundary": {
-      "type": "string",
-      "minLength": 1
-    },
-    "created_at": {
-      "type": "string",
-      "minLength": 1
-    },
-    "expires_at": {
-      "type": "string",
-      "minLength": 1
-    }
-  },
-  "allOf": [
-    {
-      "if": {
-        "properties": {
-          "local_branch_exists": { "const": true }
-        },
-        "required": ["local_branch_exists"]
-      },
-      "then": {
-        "required": ["local_source_ref"]
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "remote_branch_exists": { "const": true }
-        },
-        "required": ["remote_branch_exists"]
-      },
-      "then": {
-        "required": ["remote_source_ref"]
-      }
-    }
-  ]
+    "delete_remote_requested": { "type": "boolean" },
+    "remove_worktrees_requested": { "type": "boolean" },
+    "sync_main_requested": { "type": "boolean" },
+    "mutation_permitted": { "const": false },
+    "host_controls_not_bypassed": { "const": true },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
 }

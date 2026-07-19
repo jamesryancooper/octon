@@ -160,6 +160,19 @@ EOF
   run_guard_in_fixture "$fixture_root"
 }
 
+case_ignores_retained_review_evidence_terms() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+
+  mkdir -p "$fixture_root/.octon/inputs/exploratory/reviews/example/evidence/subagents"
+  cat > "$fixture_root/.octon/inputs/exploratory/reviews/example/evidence/subagents/raw.txt" <<'EOF'
+Historical reviewer output said this route requires human approval.
+This is retained non-authoritative review evidence, not an active policy surface.
+EOF
+
+  run_guard_in_fixture "$fixture_root"
+}
+
 case_detects_tracked_temp_artifacts() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
@@ -196,6 +209,10 @@ main() {
   assert_success \
     "ra-acp migration guard ignores archived proposal lineage" \
     case_ignores_archived_proposal_terms
+
+  assert_success \
+    "ra-acp migration guard ignores retained review evidence" \
+    case_ignores_retained_review_evidence_terms
 
   assert_failure_contains \
     "ra-acp migration guard rejects tracked temp artifacts" \

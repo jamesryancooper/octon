@@ -30,7 +30,6 @@ admitted_operations:
   - rp00-owner-lane-cutover
 representative_retained_runs:
   - .octon/state/control/execution/runs/protected-ci-1776956405637-68212/run-contract.yml
-  - .octon/state/evidence/validation/owner-lane-runtime/2026-07-17-hermetic-proof.yml
 known_exclusions:
   - "api-client remains unadmitted in manifest.runtime.yml"
   - "arbitrary repositories, connectors, new support tuples, and recurring provider automation remain unadmitted"
@@ -54,7 +53,7 @@ sufficiency:
     - adversarial-or-hidden-check
     - recovery-or-replay
   minimum_retained_runs: 1
-  current_retained_runs: 2
+  current_retained_runs: 1
   evaluator_classes_required:
     - deterministic-or-authored-validator
     - hidden-check-or-replay-shadow-evaluator
@@ -85,11 +84,10 @@ sufficiency:
     - authority-disclosure-purity
   representative_run_classes_present:
     - token-enforced-runtime
-    - owner-lane-hermetic-protocol
   naturalistic_representative_run_present: false
   last_current_release_run_ref: .octon/state/evidence/disclosure/runs/protected-ci-1776956405637-68212/run-card.yml
   status: qualified
 notes:
   - Narrow live claim is limited to token-enforced protected-CI merge and the exact one-shot rp00-owner-lane-cutover operation; broader API-client and frontier GitHub surfaces remain unadmitted.
   - The representative retained run is the local token-enforced protected-CI execution path. A branch-published GitHub Actions observation of the wrapperized workflow remains the only external evidence gap.
-  - The owner-lane proof is an inert hermetic staged 14-operation run with runtime-generated artifact order, create/reconcile PR identity, typed suffix normalization, denial, replay, terminalization, and secret-census coverage; it does not authorize live credential issuance or provider mutation.
+  - The owner-lane proof remains required lab evidence for the staged 14-operation protocol, not a retained run contract; it does not authorize live credential issuance or provider mutation.

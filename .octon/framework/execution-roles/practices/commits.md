@@ -24,15 +24,14 @@ This practice is tool-agnostic. Repositories can enforce it using any local
 and CI mechanism (native Git hooks, hook frameworks, custom scripts, or
 pipeline checks).
 
-Canonical enforcement in this repository is route-aware:
+Canonical enforcement in this repository is route-aware and SI-00-contained:
 
-- direct-main Changes require local validation, a landed commit on `main`, a
-  Change receipt, and a rollback handle
 - branch-no-pr Changes require branch/checkpoint evidence, local validation or
   a recorded blocker, a Change receipt or continuation receipt, and rollback or
-  discard instructions
+  discard instructions; they may not land or clean up during SI-00
 - branch-pr Changes additionally project commit and branch evidence into PR
   checks
+- direct-main is a historical receipt label only and is not an active route
 - commit and branch checks:
   `.github/workflows/commit-and-branch-standards.yml`
 - Main-branch safety checks:
@@ -147,9 +146,9 @@ history.
 Every completed code Change needs a Change receipt or equivalent closeout
 record. The receipt ties the commit or checkpoint to intent, touched paths,
 validation evidence, review evidence or waiver, outcome, and rollback handle.
-PR metadata may project this receipt for branch-pr Changes, but direct-main and
-branch-no-pr Changes must satisfy the same durable-history intent without PR
-metadata.
+PR metadata may project this receipt for branch-pr Changes. Branch-no-pr
+Changes satisfy the same durable-history intent without PR metadata and stop
+at preservation or stage-only handoff during SI-00.
 
 ### 4. Never Commit
 

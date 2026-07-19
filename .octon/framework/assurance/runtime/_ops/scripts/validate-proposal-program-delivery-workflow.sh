@@ -101,7 +101,11 @@ if [[ -f "$WORKFLOW_PATH" ]] && yq -e '.' "$WORKFLOW_PATH" >/dev/null 2>&1; then
   require_yaml_value "$WORKFLOW_PATH" '.workflow.id' 'proposal-program-delivery' "workflow id"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.aggregate_receipt_only' 'true' "aggregate receipt only authority"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.child_receipts_remain_target_owned' 'true' "child receipts remain target-owned"
-  require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.git_mutation_owner' 'closeout-change' "Git mutation owner"
+  require_yaml_value "$WORKFLOW_PATH" '.workflow.authority.git_mutation_owner' 'disabled-during-rp00' "Git mutation disabled"
+  require_yaml_value "$WORKFLOW_PATH" '.constraints.containment_reason_code' 'RP00_CONTAINMENT_PUBLICATION_DISABLED' "containment reason code"
+  require_yaml_value "$WORKFLOW_PATH" '.constraints.required_route' 'stage-only' "required stage-only route"
+  require_yaml_value "$WORKFLOW_PATH" '.constraints.publication_effects_enabled' 'false' "publication effects disabled"
+  require_yaml_value "$WORKFLOW_PATH" '.constraints.exact_work_preserved' 'true' "exact work preserved"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.outputs[] | select(.name == "delivery_evidence_index") | .schema_ref' '.octon/framework/product/contracts/proposal-program-delivery-evidence-index-v1.schema.json' "delivery evidence index output schema"
   require_yaml_value "$WORKFLOW_PATH" '.workflow.validators.evidence_index' '.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-delivery-evidence-index.sh' "delivery evidence index validator"
   require_yaml_value "$WORKFLOW_PATH" '.inputs[] | select(.name == "profile_path") | .required' 'true' "top-level profile_path is required"
@@ -151,16 +155,13 @@ for token in \
   "validate-feature-catalog-drift-closeout.sh" \
   "unresolved child or parent feature-catalog drift blocks completed delivery" \
   "validate-proposal-program-delivery-evidence-index.sh" \
-  "closeout-change" \
-  "closeout-worktree" \
-  "repo-hygiene-cleanup" \
-  "branch landing authorization" \
-  "branch cleanup authorization" \
+  "RP00_CONTAINMENT_PUBLICATION_DISABLED" \
+  "route=stage-only" \
   "route-owned clean worktree" \
   "include-path classification" \
   "retained readiness receipt" \
   "lifecycle postmortem threshold" \
-  "terminal current-state proof" \
+  "exact" \
   "parent summary" \
   "target-owned"; do
   require_token "$README_PATH" "$token" "workflow README token: $token"
@@ -169,29 +170,29 @@ done
 require_token "$MANIFEST_PATH" "proposal-program-delivery" "workflow manifest registration"
 require_token "$REGISTRY_PATH" "proposal-program-delivery" "workflow registry registration"
 require_token "$COMMAND_PATH" "proposal-program-delivery" "command file registration"
-require_token "$COMMAND_PATH" "/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>" "command usage requires profile and run-id"
+require_token "$COMMAND_PATH" "/proposal-program-delivery target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>" "command usage requires contained inputs"
 reject_token "$COMMAND_PATH" "[profile=<profile-path>]" "command does not mark profile optional"
 reject_token "$COMMAND_PATH" "[run-id=<id>]" "command does not mark run-id optional"
 require_token "$COMMAND_PATH" 'Resume may satisfy `profile` or `run-id` only through fresh, target-bound' "command documents resume evidence for required inputs"
-require_token "$ALIAS_COMMAND_PATH" "Run Program to Clean Delivery" "additive alias display label"
-require_token "$ALIAS_COMMAND_PATH" "/octon-proposal-run-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>" "additive alias usage requires profile and run-id"
-require_token "$ALIAS_COMMAND_PATH" "/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>" "additive alias delegates to canonical command"
+require_token "$ALIAS_COMMAND_PATH" "Run Program Contained Delivery" "additive alias display label"
+require_token "$ALIAS_COMMAND_PATH" "/octon-proposal-run-program-delivery target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>" "additive alias usage requires contained inputs"
+require_token "$ALIAS_COMMAND_PATH" "/proposal-program-delivery target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>" "additive alias delegates to canonical command"
 require_token "$ALIAS_COMMAND_PATH" 'delegates to `proposal-program-delivery`' "additive alias names canonical wrapper"
 require_token "$ALIAS_COMMAND_PATH" ".octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml" "additive alias names canonical workflow"
 require_token "$ALIAS_COMMAND_PATH" 'Missing `profile` or `run-id` fails closed before mutation' "additive alias fails closed on missing inputs"
 require_token "$ALIAS_COMMAND_PATH" "does not create an independent lifecycle contract, workflow id" "additive alias denies independent authority"
 reject_token "$ALIAS_COMMAND_PATH" "[profile=<profile-path>]" "additive alias does not mark profile optional"
 reject_token "$ALIAS_COMMAND_PATH" "[run-id=<id>]" "additive alias does not mark run-id optional"
-require_yaml_value "$EXTENSION_COMMAND_MANIFEST_PATH" '.commands[] | select(.id == "octon-proposal-run-program-delivery") | .display_name' 'Run Program to Clean Delivery' "additive command manifest alias display label"
+require_yaml_value "$EXTENSION_COMMAND_MANIFEST_PATH" '.commands[] | select(.id == "octon-proposal-run-program-delivery") | .display_name' 'Run Program Contained Delivery' "additive command manifest alias display label"
 require_yaml_value "$EXTENSION_COMMAND_MANIFEST_PATH" '.commands[] | select(.id == "octon-proposal-run-program-delivery") | .path' 'octon-proposal-run-program-delivery.md' "additive command manifest alias path"
-require_yaml_value "$EXTENSION_COMMAND_MANIFEST_PATH" '.commands[] | select(.id == "octon-proposal-run-program-delivery") | .argument_hint' 'target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>' "additive command manifest alias requires profile and run-id"
+require_yaml_value "$EXTENSION_COMMAND_MANIFEST_PATH" '.commands[] | select(.id == "octon-proposal-run-program-delivery") | .argument_hint' 'target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>' "additive command manifest alias requires contained inputs"
 require_token "$COMMAND_MANIFEST_PATH" "proposal-program-delivery" "command manifest registration"
-require_token "$COMMAND_MANIFEST_PATH" "target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>" "command manifest requires profile and run-id"
+require_token "$COMMAND_MANIFEST_PATH" "target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>" "command manifest requires contained inputs"
 reject_yaml_match "$COMMAND_MANIFEST_PATH" '.commands[]? | select(.id == "octon-proposal-run-program-delivery")' "native command manifest has no extension alias"
 reject_token "$COMMAND_MANIFEST_PATH" "target=<proposal-program-path> [outcome=cleaned] [profile=<profile-path>] [run-id=<id>]" "command manifest does not mark delivery inputs optional"
 require_token "$SKILL_PATH" "proposal-program-delivery" "skill file registration"
-require_token "$SKILL_PATH" "/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>" "skill usage requires profile and run-id"
-require_token "$SKILL_PATH" "/octon-proposal-run-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>" "skill documents alias usage"
+require_token "$SKILL_PATH" "/proposal-program-delivery target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>" "skill usage requires contained inputs"
+require_token "$SKILL_PATH" "/octon-proposal-run-program-delivery target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>" "skill documents alias usage"
 require_token "$SKILL_PATH" 'The alias delegates to `proposal-program-delivery`' "skill documents alias delegation"
 require_token "$SKILL_PATH" "does not create an independent lifecycle contract" "skill denies alias authority widening"
 reject_token "$SKILL_PATH" "[profile=<profile-path>]" "skill does not mark profile optional"
@@ -207,7 +208,8 @@ require_token "$ROOT_DIR/.octon/framework/product/contracts/proposal-program-del
 require_token "$ROOT_DIR/.octon/framework/product/contracts/feature-catalog-drift-receipt-v1.schema.json" '"feature-catalog-drift-receipt-v1"' "feature catalog drift receipt schema declares version"
 require_token "$BUNDLE_MATRIX_PATH" "proposal-program-delivery" "proposal lifecycle bundle matrix hook"
 require_token "$BUNDLE_MATRIX_PATH" "octon-proposal-run-program-delivery" "proposal lifecycle bundle matrix alias hook"
-require_token "$BUNDLE_MATRIX_PATH" "Run Program to Clean Delivery" "proposal lifecycle bundle matrix alias display label"
+require_token "$BUNDLE_MATRIX_PATH" "Run Program Contained Delivery" "proposal lifecycle bundle matrix alias display label"
+require_token "$LIFECYCLE_CONTRACT_PATH" "RP00_CONTAINMENT_PUBLICATION_DISABLED" "proposal program lifecycle declares containment reason"
 require_token "$BUNDLE_MATRIX_PATH" "does not create an independent workflow, lifecycle mode" "proposal lifecycle bundle matrix denies alias authority widening"
 require_token "$BUNDLE_MATRIX_PATH" "profile path, and" "bundle matrix documents required profile path"
 require_token "$BUNDLE_MATRIX_PATH" "delivery run id before admission" "bundle matrix documents required delivery run id"

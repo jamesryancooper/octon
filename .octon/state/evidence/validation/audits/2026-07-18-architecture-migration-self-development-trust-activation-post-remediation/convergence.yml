@@ -1,0 +1,24 @@
+schema_version: "1.0"
+run_id: architecture-migration-self-development-trust-activation-post-remediation-20260718T165437Z
+commit_sha: 0a52f1b012
+scope_hash: sha256:f98f8ff4844427e9174c6b89c991ce3c275531854e0f09afcb69ed241369887c
+prompt_hash: sha256:f0671d911f3fafaa984c891162f621fa98246332e49c1f6851d2cc2094ae2e6e
+prompt_hash_basis: commands.md
+findings_hash: sha256:287fdddf978442f088f0e59aa3b10d42e90b33a01db24a5b5d60d643c3d8fb99
+findings_hash_basis: findings.yml
+params_hash: sha256:43aa032dbee71afd586a666e2157576eecf27e7a0767b03a80f33d00e9e38538
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [pass, pass, pass]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: pass-qualified-local
+rationale: Three passes agree that exact activation/authority mechanisms and proof order close all blockers.

@@ -49,6 +49,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 ## Outputs
 
 - `current_state_mechanism_architecture_review_receipt` -> `/.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/current-state-mechanism-architecture-review/support-receipt.yml`: Evidence-only current-state mechanism architecture review receipt
+- `current_state_mechanism_architecture_review_method_selection_record` -> `/.octon/state/evidence/runs/workflows/{{run_id}}/architectural-review/current-state-mechanism-architecture-review/report.yml`: Records the selected review method id (field method bound to naming.yml methods.catalog) and the applied lens profile (field lenses_applied bound to lens-bank.yml) through the architectural-review-report-v2 artifact in the existing architectural-review run-evidence root; descriptive run evidence only, granting the review output no lifecycle, acceptance, promotion, or closeout authority while the v1 support receipt stays method-free.
 
 ## Steps
 

@@ -5,12 +5,14 @@ scope_hash: sha256:f9846f7293724a06dd33233d03ffd212d77dde27853f0ff4119fbdbaf212b
 prompt_hash: sha256:2e7abee845309013270458920f2b68a5b59cc603a03c06d31219346e86fec018
 params_hash: sha256:5e81f7e6ffc825775c77582d182ca4d127364b58253609dcf350e595e506e8c5
 findings_hash: sha256:a1530583800a4bfe882b8c5beed6ed2cfed8fe01accdfbbf572fc73f9bd8f2c8
+findings_artifact_sha256: sha256:14bfb7564f97ef11345699c93ff01a6931fad9d7d88e1dc5060c860119536d17
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
 seed_unsupported: true
 fingerprint_unsupported: true
 stable: true
 union_blocking_findings: 3
 open_findings_at_or_above_threshold: 3
-done: true
+done: false
 mode: discovery
 post_remediation: false
 convergence_required: false

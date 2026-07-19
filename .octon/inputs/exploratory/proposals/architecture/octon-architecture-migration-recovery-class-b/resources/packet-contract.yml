@@ -25,9 +25,9 @@ current_evidence:
   classification: "STATICALLY_INSPECTED"
   proof_method: "static inspection and reconciled review evidence"
   limitations:
-    - "No scratch-provider full transition, race, lost-response, or attribution matrix exists."
+    - "No scratch-provider full transition, race, lost-response, or attribution matrix exists; it remains future activation evidence."
     - "No immutable 20-case A/B/C zero-prompt/PR/downgrade matrix has run."
-    - "Settled/retired ROD-002 rules are not yet durably encoded and proved; no operator vote remains pending."
+    - "The exact ROD-002 encoding design is selected proposal-locally; promoted encoding and proof remain future implementation evidence and no operator vote remains pending."
 accepted_decisions:
   - "FD-002"
   - "FD-012"
@@ -77,7 +77,7 @@ planned_durable_source_ownership:
   complete_two_project_30_day_product_proof: "RP-14"
 proposal_lifecycle_ownership:
   manifests: ["proposal.yml", "architecture-proposal.yml"]
-  status: "draft"
+  status: "accepted"
   authority: "proposal-local and non-authoritative"
 retained_evidence_ownership:
   root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-recovery-class-b/"
@@ -134,7 +134,7 @@ trust_boundary_changes:
   - "Degraded operation preserves candidates and credentials remain broker-confined."
 migration_preconditions:
   - "RP-06 and RP-07 exit at exact digests; transitive RP-03 T1/T2 and RP-05 ED-003 effect/observation are frozen."
-  - "Settled/retired ROD-002 lineage is encoded as the immutable irreducible-ambiguity-only notification/manual-intervention rule."
+  - "The accepted packet freezes exact settled/retired ROD-002 encoding fields; promoted encoding is implemented before activation."
   - "Current retry/provider/PR/status/scheduling call paths are inventoried."
   - "Accepted proposal, completeness, and strict architecture review pass."
 migration_steps:
@@ -226,7 +226,7 @@ operator_decisions:
     subject: "Autonomy risk, protected-scope, PR, and ambiguity posture"
     fixed_boundary: "Deterministic policy classifies; AI cannot authorize; invalid/stale/revoked/raced authority denies and requires fresh authorization rather than PR laundering."
     accepted_rule: "Use the frozen intake predicates; eligible Class B publishes through verified no-PR, deterministic protected PR handles review-required valid work, Class C/trust roots remain protected, agents never work directly on main, and one concise action appears only for irreducible ambiguity."
-    remaining_work: "Durably encode and prove the accepted rule by RP-08 design exit; do not request another operator vote."
+    remaining_work: "Implement and dynamically prove the selected exact encoding after proposal authorization; do not request another operator vote."
 engineering_dispositions:
   - disposition_id: "ED-003"
     relationship: "shared RP-05/RP-08"
@@ -241,8 +241,8 @@ unresolved_evidence:
   - evidence_id: "UE-014"
     ownership: "RP-14 cross-reference; RP-08 contributes SI-06 fixtures and component metrics only"
 entry_criteria:
-  - "RP-06/RP-07 exit evidence and frozen transitive RP-03/RP-05 interface digests exist."
-  - "Settled ROD-002 lineage is durably encoded and ED-003 is recorded without changing the frozen predicate/safety boundary."
+  - "Accepted RP-03/RP-05/RP-06/RP-07 packet digests are frozen in the exact design receipt; their implementations/interfaces verify before source entry."
+  - "Settled ROD-002 exact encoding design and ED-003 are recorded without changing the frozen predicate/safety boundary; promoted encoding precedes activation."
   - "Current retries, provider probes, PR routes, status generators, and schedules are inventoried."
   - "Completeness and strict review receipts pass."
 exit_criteria:

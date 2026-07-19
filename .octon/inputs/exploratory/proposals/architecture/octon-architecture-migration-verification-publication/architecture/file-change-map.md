@@ -8,7 +8,7 @@ implementation; absence is not evidence of completion.
 | .octon/framework/product/contracts/default-work-unit.yml | RP-00 owns the containment route slice; current Change routing predates the final classifier | Replace only the final publication-route subsection with a validated reference/projection of canonical `change-publication.yml`; no duplicate predicate survives | RP-06 after RP-00 | P0 | Makes one final route source explicit |
 | .octon/framework/product/contracts/default-work-unit.md | Narrative projects current routing | Align final candidate-first/no-direct-main/no-fallback semantics to the canonical publication policy | RP-06 after RP-00 | P0 | Prevents operator/policy drift |
 | .octon/framework/engine/runtime/adapters/host/github-control-plane.yml | Declares a host adapter but does not own the complete immutable-verifier and publication specialization | Bind verifier identity, exact verdict, deterministic route, PR source/create/update/merge requests/results, `S -> Q`, provider observations, projection source, and drift behavior | RP-06 | P0 | Establishes one durable specialization boundary |
-| .octon/framework/engine/runtime/adapters/host/github-control-plane/ | No accepted authored source or generator for current .github workflow projections was found | Add the minimum template/generation inputs, source/output digests, publisher identity, and freshness receipt contract | RP-06 | P0 | Resolves the target-family split before any projection change |
+| .octon/framework/engine/runtime/adapters/host/github-control-plane/ | Exact source/generator design selected, not implemented | Add the selected manifest, two templates, RP-01-token-gated publisher, validator, and receipt schema | RP-06 | P0 | Resolves the target-family split before any projection change |
 | .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs | Current command surface does not expose the reconciled route decision as one immutable operation | Add or narrow route-evaluation command integration without adding a normal command concept | RP-06 | P1 | Keeps routing inside the existing runtime surface |
 | .octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs | Request construction does not bind the complete verdict and frozen predicate digest | Build the exact typed verification/publication request from RP-01 and RP-03 identities | RP-06 consuming RP-01/RP-03 | P0 | Prevents policy or identity substitution |
 | .octon/framework/engine/runtime/crates/kernel/src/side_effects/mod.rs | Side-effect dispatch lacks the RP-06 route specialization | Dispatch only a valid route decision and exact RP-05 primitive request | RP-06 consuming RP-05 | P0 | Separates selection from physical Git execution |
@@ -38,8 +38,9 @@ implementation; absence is not evidence of completion.
 - RP-11 owns the generic executor-adapter interface; RP-06 owns only the
   verifier/publication specialization.
 - .github/** is an affected host projection family, not an octon-internal
-  promotion target. Current live workflow owners cannot be changed until the
-  planned .octon source/generator is accepted.
+  promotion target. Its 42 current workflows are censused; outputs cannot
+  change until the selected .octon source/generator is implemented and its
+  token-bound publication is separately authorized.
 
 ## Generated And Downstream Effects
 

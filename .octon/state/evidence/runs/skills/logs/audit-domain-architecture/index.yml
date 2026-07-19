@@ -1,5 +1,5 @@
 skill: audit-domain-architecture
-updated: "2026-02-22"
+updated: "2026-07-18"
 
 runs:
   - id: "2026-02-22-cognition-observed-standard"
@@ -40,3 +40,357 @@ runs:
       recommendations: 4
     report: ../../../../output/reports/2026-03-08-domain-architecture-audit-orchestration-domain-design-package-audit.md
     log: orchestration-domain-design-package-audit.md
+  - id: "architecture-migration-program-rp01-scope-pre-integration-20260718T201500Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters:
+      evidence_depth: deep
+      severity_threshold: medium
+      criteria: modularity,discoverability,coupling,operability,change-safety,testability
+      post_remediation: true
+      convergence_k: 3
+    metrics:
+      surfaces_mapped: 7
+      files_scanned: 49
+      critical: 0
+      high: 0
+      medium: 0
+      low: 0
+      recommendations: 3
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-program-rp01-scope-pre-integration-20260718T201500Z.md
+    log: ../../audit-domain-architecture/architecture-migration-program-rp01-scope-pre-integration-20260718T201500Z.md
+  - id: "architecture-migration-canonical-authority-post-remediation-20260718T210000Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-canonical-authority"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters:
+      evidence_depth: deep
+      severity_threshold: medium
+      criteria: modularity,discoverability,coupling,operability,change-safety,testability
+      post_remediation: true
+      convergence_k: 3
+    metrics:
+      surfaces_mapped: 6
+      files_scanned: 26
+      critical: 0
+      high: 0
+      medium: 0
+      low: 0
+      recommendations: 3
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-canonical-authority-post-remediation-20260718T210000Z.md
+    log: ../../audit-domain-architecture/architecture-migration-canonical-authority-post-remediation-20260718T210000Z.md
+  - id: "architecture-migration-candidate-isolation-20260718T144600Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters:
+      evidence_depth: deep
+      severity_threshold: medium
+      criteria: modularity,discoverability,coupling,operability,change-safety,testability
+      post_remediation: false
+      convergence_k: 3
+    metrics:
+      surfaces_mapped: 6
+      files_scanned: 22
+      critical: 0
+      high: 2
+      medium: 0
+      low: 0
+      recommendations: 3
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-candidate-isolation-20260718T144600Z.md
+    log: ../../audit-domain-architecture/architecture-migration-candidate-isolation-20260718T144600Z.md
+  - id: "architecture-migration-candidate-isolation-post-remediation-20260718T151500Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters:
+      evidence_depth: deep
+      severity_threshold: medium
+      criteria: modularity,discoverability,coupling,operability,change-safety,testability
+      post_remediation: true
+      convergence_k: 3
+    metrics:
+      surfaces_mapped: 6
+      files_scanned: 26
+      critical: 0
+      high: 0
+      medium: 0
+      low: 0
+      recommendations: 3
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-candidate-isolation-post-remediation-20260718T151500Z.md
+    log: ../../audit-domain-architecture/architecture-migration-candidate-isolation-post-remediation-20260718T151500Z.md
+  - id: "architecture-migration-transactional-runtime-store-20260718T154000Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 6, files_scanned: 22, critical: 0, high: 3, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-transactional-runtime-store-20260718T154000Z.md
+    log: ../../audit-domain-architecture/architecture-migration-transactional-runtime-store-20260718T154000Z.md
+  - id: "architecture-migration-program-rp03-scope-pre-integration-20260718T152420Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 50, critical: 0, high: 0, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-program-rp03-scope-pre-integration-20260718T152420Z.md
+    log: ../../audit-domain-architecture/architecture-migration-program-rp03-scope-pre-integration-20260718T152420Z.md
+  - id: "architecture-migration-transactional-runtime-store-post-remediation-20260718T152817Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-transactional-runtime-store"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 27, critical: 0, high: 0, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-transactional-runtime-store-post-remediation-20260718T152817Z.md
+    log: ../../audit-domain-architecture/architecture-migration-transactional-runtime-store-post-remediation-20260718T152817Z.md
+  - id: "architecture-migration-local-broker-20260718T153501Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-local-broker"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 3, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-local-broker-20260718T153501Z.md
+    log: ../../audit-domain-architecture/architecture-migration-local-broker-20260718T153501Z.md
+  - id: "architecture-migration-local-broker-post-remediation-20260718T154447Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-local-broker"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 27, critical: 0, high: 0, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-local-broker-post-remediation-20260718T154447Z.md
+    log: ../../audit-domain-architecture/architecture-migration-local-broker-post-remediation-20260718T154447Z.md
+  - id: "architecture-migration-sanitized-git-20260718T154957Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-sanitized-git"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 2, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-sanitized-git-20260718T154957Z.md
+    log: ../../audit-domain-architecture/architecture-migration-sanitized-git-20260718T154957Z.md
+  - id: "architecture-migration-sanitized-git-post-remediation-20260718T155842Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-sanitized-git"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 26, critical: 0, high: 0, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-sanitized-git-post-remediation-20260718T155842Z.md
+    log: ../../audit-domain-architecture/architecture-migration-sanitized-git-post-remediation-20260718T155842Z.md
+  - id: "architecture-migration-verification-publication-20260718T160333Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-verification-publication"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 4, medium: 0, low: 0, recommendations: 4}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-verification-publication-20260718T160333Z.md
+    log: ../../audit-domain-architecture/architecture-migration-verification-publication-20260718T160333Z.md
+  - id: "architecture-migration-verification-publication-post-remediation-20260718T161411Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-verification-publication"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 27, critical: 0, high: 0, medium: 0, low: 0, recommendations: 4}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-verification-publication-post-remediation-20260718T161411Z.md
+    log: ../../audit-domain-architecture/architecture-migration-verification-publication-post-remediation-20260718T161411Z.md
+  - id: "architecture-migration-signed-evidence-20260718T161703Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-signed-evidence"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 3, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-signed-evidence-20260718T161703Z.md
+    log: ../../audit-domain-architecture/architecture-migration-signed-evidence-20260718T161703Z.md
+  - id: "architecture-migration-signed-evidence-post-remediation-20260718T162841Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-signed-evidence"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 27, critical: 0, high: 0, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-signed-evidence-post-remediation-20260718T162841Z.md
+    log: ../../audit-domain-architecture/architecture-migration-signed-evidence-post-remediation-20260718T162841Z.md
+  - id: "architecture-migration-recovery-class-b-20260718T163254Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-recovery-class-b"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 3, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-recovery-class-b-20260718T163254Z.md
+    log: ../../audit-domain-architecture/architecture-migration-recovery-class-b-20260718T163254Z.md
+  - id: "architecture-migration-recovery-class-b-post-remediation-20260718T164403Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-recovery-class-b"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 26, critical: 0, high: 0, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-recovery-class-b-post-remediation-20260718T164403Z.md
+    log: ../../audit-domain-architecture/architecture-migration-recovery-class-b-post-remediation-20260718T164403Z.md
+  - id: "architecture-migration-self-development-trust-activation-20260718T164719Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-self-development-trust-activation"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 3, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-self-development-trust-activation-20260718T164719Z.md
+    log: ../../audit-domain-architecture/architecture-migration-self-development-trust-activation-20260718T164719Z.md
+  - id: "architecture-migration-self-development-trust-activation-post-remediation-20260718T165437Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-self-development-trust-activation"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 26, critical: 0, high: 0, medium: 0, low: 0, recommendations: 3}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-self-development-trust-activation-post-remediation-20260718T165437Z.md
+    log: ../../audit-domain-architecture/architecture-migration-self-development-trust-activation-post-remediation-20260718T165437Z.md
+  - id: "architecture-migration-workspace-projects-20260718T165727Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-workspace-projects"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 2, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-workspace-projects-20260718T165727Z.md
+    log: ../../audit-domain-architecture/architecture-migration-workspace-projects-20260718T165727Z.md
+  - id: "architecture-migration-workspace-projects-post-remediation-20260718T170259Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-workspace-projects"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 26, critical: 0, high: 0, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-workspace-projects-post-remediation-20260718T170259Z.md
+    log: ../../audit-domain-architecture/architecture-migration-workspace-projects-post-remediation-20260718T170259Z.md
+  - id: "architecture-migration-harness-factory-20260718T170726Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-harness-factory"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 2, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-harness-factory-20260718T170726Z.md
+    log: ../../audit-domain-architecture/architecture-migration-harness-factory-20260718T170726Z.md
+  - id: "architecture-migration-program-rp11-scope-pre-integration-20260718T172415Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 51, critical: 0, high: 0, medium: 0, low: 0, recommendations: 1}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-program-rp11-scope-pre-integration-20260718T172415Z.md
+    log: ../../audit-domain-architecture/architecture-migration-program-rp11-scope-pre-integration-20260718T172415Z.md
+  - id: "architecture-migration-harness-factory-post-remediation-20260718T172643Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-harness-factory"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 26, critical: 0, high: 0, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-harness-factory-post-remediation-20260718T172643Z.md
+    log: ../../audit-domain-architecture/architecture-migration-harness-factory-post-remediation-20260718T172643Z.md
+  - id: "architecture-migration-extension-supply-chain-20260718T173026Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-extension-supply-chain"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 2, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-extension-supply-chain-20260718T173026Z.md
+    log: ../../audit-domain-architecture/architecture-migration-extension-supply-chain-20260718T173026Z.md
+  - id: "architecture-migration-extension-supply-chain-post-remediation-20260718T174000Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-extension-supply-chain"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 26, critical: 0, high: 0, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-extension-supply-chain-post-remediation-20260718T174000Z.md
+    log: ../../audit-domain-architecture/architecture-migration-extension-supply-chain-post-remediation-20260718T174000Z.md
+  - id: "architecture-migration-bounded-child-agents-20260718T174614Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-bounded-child-agents"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 2, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-bounded-child-agents-20260718T174614Z.md
+    log: ../../audit-domain-architecture/architecture-migration-bounded-child-agents-20260718T174614Z.md
+  - id: "architecture-migration-bounded-child-agents-post-remediation-cycle-1-20260718T175459Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-bounded-child-agents"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 26, critical: 0, high: 1, medium: 0, low: 0, recommendations: 1}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-bounded-child-agents-post-remediation-cycle-1-20260718T175459Z.md
+    log: ../../audit-domain-architecture/architecture-migration-bounded-child-agents-post-remediation-cycle-1-20260718T175459Z.md
+  - id: "architecture-migration-bounded-child-agents-post-remediation-cycle-2-20260718T180407Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-bounded-child-agents"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 8, files_scanned: 27, critical: 0, high: 0, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-bounded-child-agents-post-remediation-cycle-2-20260718T180407Z.md
+    log: ../../audit-domain-architecture/architecture-migration-bounded-child-agents-post-remediation-cycle-2-20260718T180407Z.md
+  - id: "architecture-migration-solo-dogfood-promotion-20260718T181032Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-solo-dogfood-promotion"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 22, critical: 0, high: 2, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-solo-dogfood-promotion-20260718T181032Z.md
+    log: ../../audit-domain-architecture/architecture-migration-solo-dogfood-promotion-20260718T181032Z.md
+  - id: "architecture-migration-solo-dogfood-promotion-post-remediation-20260718T182126Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-solo-dogfood-promotion"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 7, files_scanned: 26, critical: 0, high: 0, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-solo-dogfood-promotion-post-remediation-20260718T182126Z.md
+    log: ../../audit-domain-architecture/architecture-migration-solo-dogfood-promotion-post-remediation-20260718T182126Z.md
+  - id: "architecture-migration-program-final-readiness-pre-integration-20260718T183515Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: false, convergence_k: 3}
+    metrics: {surfaces_mapped: 8, files_scanned: 52, critical: 0, high: 2, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-program-final-readiness-pre-integration-20260718T183515Z.md
+    log: ../../audit-domain-architecture/architecture-migration-program-final-readiness-pre-integration-20260718T183515Z.md
+  - id: "architecture-migration-program-final-readiness-post-remediation-20260718T184402Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 8, files_scanned: 53, critical: 0, high: 0, medium: 0, low: 0, recommendations: 2}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-program-final-readiness-post-remediation-20260718T184402Z.md
+    log: ../../audit-domain-architecture/architecture-migration-program-final-readiness-post-remediation-20260718T184402Z.md
+  - id: "architecture-migration-program-final-acceptance-20260718T184642Z"
+    domain_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-program"
+    mode: observed
+    status: completed
+    timestamp: "2026-07-18"
+    parameters: {evidence_depth: deep, severity_threshold: medium, criteria: "modularity,discoverability,coupling,operability,change-safety,testability", post_remediation: true, convergence_k: 3}
+    metrics: {surfaces_mapped: 8, files_scanned: 53, critical: 0, high: 0, medium: 0, low: 0, recommendations: 1}
+    report: ../../../../validation/analysis/2026-07-18-domain-architecture-audit-architecture-migration-program-final-acceptance-20260718T184642Z.md
+    log: ../../audit-domain-architecture/architecture-migration-program-final-acceptance-20260718T184642Z.md

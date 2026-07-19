@@ -2,19 +2,16 @@
 
 ## Entry Criteria
 
-- RP-08 has exited with frozen cancellation, unknown-outcome reconciliation,
-  candidate preservation, and terminal recovery semantics.
-- RP-11 has exited with frozen exact Harness/guard binding and generic adapter
-  lifecycle/conformance.
-- ED-001's useful credentialless non-exportable/short-lived provider session,
-  native sandbox, and independent disposable repository premise is dynamically
-  proved by its owner/dependency chain.
-- Engineering binds the accepted ROD-005 baseline to provisional enforceable
-  concurrency and wall-clock/step/attempt/retry/token/cost/evidence values;
-  child launch remains disabled until every value and provider mapping passes
-  the applicable conformance and proof gates.
+- Accepted RP-02, RP-08, and RP-11 packet digests and the RP-13 design receipt
+  are frozen for proposal authorization.
+- Exact dependency implementation interfaces and current shared symbol/writer
+  ownership verify before RP-13 source edits.
+- ED-001 useful credentialless isolation and local/provider hard-limit
+  enforcement prove against the exact implementation before live mapping use.
+- The selected ROD-005 configuration stays launch-disabled until all applicable
+  mapping, UE-013, and conformance gates pass.
 - Existing ProgramChild scheduler primitives and MissionChildRun-specific
-  symbols have exclusive owners.
+  symbols have exclusive owners at the implementation commit.
 
 ## Target Criteria
 

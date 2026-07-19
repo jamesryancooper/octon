@@ -65,17 +65,17 @@ if yq -e '.routes[]? | select(.route_id == "review-and-revise-program" or .route
 else
   pass "standalone program review-and-revise route is absent"
 fi
-assert_yq "dirty or stale source defaults to route-owned clean worktree" '.delivery_modes[]? | select(.mode_id == "proposal-program-delivery") | .clean_worktree_route.dirty_or_stale_source_defaults_to_route_owned_clean_worktree == true'
+assert_yq "dirty or stale source remains preserved during containment" '.delivery_modes[]? | select(.mode_id == "proposal-program-delivery") | .clean_worktree_route.dirty_or_stale_source_defaults_to_route_owned_clean_worktree == false'
 assert_yq "include-path classification required before reconstruction and commit" '.delivery_modes[]? | select(.mode_id == "proposal-program-delivery") | .clean_worktree_route.include_path_classification_required_before_reconstruction_stage_commit == true'
 assert_text "program lifecycle skill names order override receipt" "proposal-program-delivery-order-override-receipt-v1" "$SKILL"
 assert_text "program lifecycle skill names delivery-readiness preflight" "delivery-readiness preflight" "$SKILL"
 assert_text "program lifecycle skill names include-path classification" "include-path classification" "$SKILL"
-assert_text "alias command document exists with label" "Run Program to Clean Delivery" "$ALIAS_COMMAND"
-assert_text "alias command uses required inputs" "/octon-proposal-run-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>" "$ALIAS_COMMAND"
+assert_text "alias command document exists with label" "Run Program Contained Delivery" "$ALIAS_COMMAND"
+assert_text "alias command uses required inputs" "/octon-proposal-run-program-delivery target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>" "$ALIAS_COMMAND"
 assert_text "alias command delegates to canonical wrapper" 'delegates to `proposal-program-delivery`' "$ALIAS_COMMAND"
 assert_text "alias command denies independent lifecycle authority" "does not create an independent lifecycle contract" "$ALIAS_COMMAND"
 assert_text "command manifest registers operator alias" "octon-proposal-run-program-delivery" "$COMMAND_MANIFEST"
-if yq -e '.commands[]? | select(.id == "octon-proposal-run-program-delivery" and .display_name == "Run Program to Clean Delivery" and .argument_hint == "target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>")' "$COMMAND_MANIFEST" >/dev/null 2>&1; then
+if yq -e '.commands[]? | select(.id == "octon-proposal-run-program-delivery" and .display_name == "Run Program Contained Delivery" and .argument_hint == "target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>")' "$COMMAND_MANIFEST" >/dev/null 2>&1; then
   pass "command manifest registers alias with required admission inputs"
 else
   fail "command manifest registers alias with required admission inputs"

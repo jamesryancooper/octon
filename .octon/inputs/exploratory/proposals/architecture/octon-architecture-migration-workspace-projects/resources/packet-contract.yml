@@ -23,7 +23,7 @@ current_evidence:
   proof_method: "static inspection"
   limitations:
     - "No two-project dynamic migration or authority-widening test has run."
-    - "UE-010 remains unresolved until RP-10 and RP-11 are implemented."
+    - "UE-010 remains unresolved future completion evidence until RP-10 and RP-11 are implemented."
 accepted_decisions:
   - "FD-019"
 target_state:
@@ -62,7 +62,7 @@ proposal_lifecycle_ownership:
   manifests:
     - "proposal.yml"
     - "architecture-proposal.yml"
-  status: "draft"
+  status: "accepted"
   authority: "proposal-local and non-authoritative"
 retained_evidence_ownership:
   root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-workspace-projects/"
@@ -119,7 +119,7 @@ trust_boundary_changes:
   - "Only an explicit whitelist of project/Profile fields may enter later compilation."
   - "Location and inbox data become rebuildable read models rather than authority."
 migration_preconditions:
-  - "RP-01 canonical authority and launch-guard interface has exited and is frozen."
+  - "The accepted RP-01 packet digest is frozen proposal-locally; its implementation guard/admission interface verifies before source entry."
   - "ED-005 strict minimal schema and correction rules are retained."
   - "Current Project Profile and mission call paths are inventoried at implementation commit."
 migration_steps:

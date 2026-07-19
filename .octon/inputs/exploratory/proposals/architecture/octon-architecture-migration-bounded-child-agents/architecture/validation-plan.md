@@ -9,14 +9,17 @@ of FD-023.
 
 - Run proposal-standard, architecture, implementation-readiness, and review
   gates at one stable packet digest.
-- Require the accepted ROD-005 baseline bound to enforceable provisional values
-  and exact passing RP-08/RP-11 exit receipts.
-- Require the owning dependency's useful-positive and credential/session-
-  negative ED-001 proof at an exact implementation identity.
+- Verify the exact selected design receipt and accepted RP-02/RP-08/RP-11
+  packet digests.
+- Verify their implemented interfaces and current shared-symbol and writer
+  ownership before RP-13 source edits.
+- Retain ED-001, UE-013, and provider-dynamic proof as Layers 3 through 7 gates
+  for implementation completion, use, or promotion.
 - Compare all 44 targets and shared symbols against parent ownership.
 
-Required result: accepted lifecycle gates and no authority/store/recovery,
-generic adapter, isolation/session, scheduler, or sibling semantic overlap.
+Required result: accepted lifecycle gates, source-entry readiness, and no
+authority/store/recovery, generic adapter, isolation/session, scheduler, or
+sibling semantic overlap. This layer does not claim ED-001 or UE-013 proof.
 
 ## Layer 1 — Strict Contracts, Mirrors, and Policy
 

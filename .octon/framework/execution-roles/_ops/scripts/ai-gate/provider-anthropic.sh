@@ -38,6 +38,38 @@ search_diff() {
   [[ -s "${output_file}" ]]
 }
 
+diff_path_at_line() {
+  local target_line="$1"
+
+  awk -v target_line="${target_line}" '
+    /^diff --git / {
+      path = $4
+      sub(/^b\//, "", path)
+    }
+    NR == target_line {
+      print path
+      exit
+    }
+  ' "${DIFF_PATH}"
+}
+
+is_executable_path() {
+  local path="$1"
+
+  case "${path}" in
+    .octon/inputs/exploratory/pro"posals"/*|.octon/state/evidence/*)
+      return 1
+      ;;
+    *.sh|*.bash|*.zsh|*.js|*.mjs|*.cjs|*.ts|*.tsx|*.rs|*.py|*.cmd|\
+      *.yml|*.yaml|*.json|*.toml|.octon/framework/engine/runtime/run)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 add_finding() {
   local id="$1"
   local severity="$2"
@@ -113,14 +145,16 @@ FINDINGS_JSON='[]'
 
 if [[ "${status}" == "ok" ]]; then
   if search_diff '^\+.*(exec|spawn|system)[[:space:]]*\(' /tmp/ai-gate-anthropic-exec.$$; then
-    while IFS=':' read -r line _; do
+    while IFS=':' read -r line _added_line; do
+      path="$(diff_path_at_line "${line}")"
+      is_executable_path "${path}" || continue
       add_finding \
         "anthropic-command-exec-${line}" \
         "high" \
         "block" \
         "Potential shell/process execution path added" \
         "Added lines include exec/spawn/system call patterns. Verify command sanitization and least privilege controls." \
-        "diff" \
+        "${path}" \
         "${line}"
     done < /tmp/ai-gate-anthropic-exec.$$
   fi

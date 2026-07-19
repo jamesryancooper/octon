@@ -1,18 +1,16 @@
 # Implementation Plan
 
-This plan is advisory until the packet is accepted, accepted ROD-001 invariants
-are bound and the separate engineering-default record is complete, the strict
-architecture-review gate passes, and RP-03/RP-04/RP-06 exit interfaces are
-frozen.
+This plan is advisory until accepted review authorizes the exact selected
+design. RP-03/RP-04/RP-06 implementation verification and exact SDK/Secure-
+Enclave/Keychain/APFS/gh/Sigstore/dependency/constrained-volume preflight gate
+source entry; dynamic proof remains downstream.
 
 ## Workstream 1 — Design-Exit Disposition And Interface Freeze
 
-1. Bind accepted ROD-001 bounded-local-raw, longer-lived-signed-reference,
-   terminal-reserve, no-unsigned-fallback, and deny/preserve-work invariants.
-   Separately select signer algorithm/provider, monotonic-anchor mechanism,
-   reserve implementation and provisional size, quotas, retention windows, and
-   backup generations through conservative reversible engineering defaults and
-   mechanism-specific proof.
+1. Bind accepted ROD-001 invariants and consume the selected mechanism receipt:
+   local Secure Enclave P-256 roles, hosted Sigstore verifier attestation,
+   System-Keychain head, 64x64-KiB double-header reserve, and stated quota/
+   retention/backup defaults. Do not substitute weaker mechanisms.
 2. Bind exact dependency digests for RP-03 outbox/logical-reserve API, RP-04
    broker observation interface, and RP-06 verifier observation interface.
 3. Inventory every current evidence/checkpoint/retention writer and every use
@@ -20,6 +18,10 @@ frozen.
    digest-only, projection, or misleading.
 4. Assign exact shared registry entries and Cargo/module integration symbols;
    serialize overlapping changes.
+
+No key, Keychain item, reserve path, dependency, or hosted attestation is
+created during design acceptance. Those effects require the future authorized
+implementation and its platform/provider preflight.
 
 ## Workstream 2 — Contracts And Policy
 
@@ -106,7 +108,7 @@ frozen.
 ## Change Discipline
 
 - Each workstream records exact before/after contracts and retained evidence.
-- No implementation work begins from this draft.
+- No implementation work begins in this pre-implementation lifecycle sequence.
 - Any need to change RP-03 schema/transitions, RP-04 effect semantics, or RP-06
   verdict semantics routes back to the owning packet before proceeding.
 - A failure to prove the selected anchor or physical reserve blocks activation;

@@ -4,11 +4,53 @@
   "title": "Octon Authorization Boundary Coverage v1",
   "type": "object",
   "additionalProperties": true,
-  "required": ["schema_version", "paths"],
+  "required": ["schema_version", "closed_world_discovery", "paths"],
   "properties": {
     "schema_version": {
       "type": "string",
       "const": "authorization-boundary-coverage-v1"
+    },
+    "closed_world_discovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority_ref",
+        "scanner_ref",
+        "enumerator",
+        "ambient_worktree_scan",
+        "launcher_authorization_set",
+        "equality",
+        "failure_rule"
+      ],
+      "properties": {
+        "authority_ref": {
+          "type": "string",
+          "const": ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml#closed_world_discovery"
+        },
+        "scanner_ref": {
+          "type": "string",
+          "const": ".octon/framework/assurance/runtime/_ops/scripts/discover-material-effect-entrypoints.sh"
+        },
+        "enumerator": {
+          "type": "string",
+          "const": "git ls-tree -rz --full-tree <commit>"
+        },
+        "ambient_worktree_scan": { "type": "boolean", "const": false },
+        "launcher_authorization_set": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["count", "sha256"],
+          "properties": {
+            "count": { "type": "integer", "minimum": 0 },
+            "sha256": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "equality": { "type": "string", "const": "D_l = M_l = A_l" },
+        "failure_rule": { "type": "string", "minLength": 1 }
+      }
     },
     "paths": {
       "type": "array",

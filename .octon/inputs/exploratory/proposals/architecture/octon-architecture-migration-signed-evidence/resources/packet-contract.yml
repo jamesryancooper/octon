@@ -67,8 +67,8 @@ invariants:
   - "Missing or unverifiable evidence blocks success/publication honestly, preserves work, and has no unsigned, Git-only, or stale-head fallback."
 planned_durable_source_ownership:
   signed_envelope_checkpoint_and_verification: "RP-07"
-  signer_role_key_epoch_and_revocation_policy: "RP-07 after accepted ROD-001 invariant binding and engineering mechanism proof"
-  monotonic_latest_head_interface_receipts_and_policy: "RP-07 after accepted ROD-001 invariant binding and engineering mechanism proof"
+  signer_role_key_epoch_and_revocation_policy: "RP-07 exact design selected; source entry and proof remain gated"
+  monotonic_latest_head_interface_receipts_and_policy: "RP-07 System-Keychain design selected; source entry and proof remain gated"
   terminal_size_classes_physical_reserve_and_admission_threshold: "RP-07; RP-03 owns transactional reservation implementation"
   retention_quotas_pins_compaction_and_locality: "RP-07"
   broker_direct_observation_adapter: "RP-07 exact local_broker/src/evidence.rs; RP-04 owns all effect semantics"
@@ -80,7 +80,7 @@ proposal_lifecycle_ownership:
   manifests:
     - "proposal.yml"
     - "architecture-proposal.yml"
-  status: "draft"
+  status: "accepted"
   authority: "proposal-local and non-authoritative"
 retained_evidence_ownership:
   root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-signed-evidence/"
@@ -255,7 +255,7 @@ operator_decisions:
     recommended_default: "Separate platform Keychain identities; candidate-inaccessible latest head; bounded local raw evidence; preallocated terminal headroom; Git-retained signed checkpoints/pointers; no raw project-Git payloads."
     remaining_work: "Bind accepted invariants and complete engineering mechanism/default records and proof; no operator disposition remains."
 engineering_dispositions:
-  - "Select signer algorithm/provider, monotonic-anchor mechanism, reserve implementation and provisional size, quota/retention defaults, and backup mechanism/generations through conservative reversible defaults and mechanism-specific proof."
+  - "Selected by resources/evidence-mechanism-and-dependency-receipt.yml; implementation entry and mechanism-specific proof remain pending."
 blocking_findings:
   - "RF-012"
   - "RF-013"
@@ -266,8 +266,9 @@ blocking_findings:
 unresolved_evidence:
   - "UE-008"
 entry_criteria:
-  - "RP-03, RP-04, and RP-06 exit evidence exists at exact dependency digests."
-  - "Accepted ROD-001 invariants are bound without reopening the fixed no-unsigned/no-Git-substitute/no-lease boundary."
+  - "Accepted RP-07 proposal and digest-fresh architecture review authorize creation only."
+  - "RP-03, RP-04, and RP-06 implementation verification gates source entry at exact dependency digests."
+  - "Accepted ROD-001 invariants and selected mechanism remain frozen without reopening the fixed no-unsigned/no-Git-substitute/no-lease boundary."
   - "Every current evidence/checkpoint writer and signing/attestation claim is inventoried at the implementation commit."
   - "Strict packet completeness and pre-integration architecture-review receipts pass."
 exit_criteria:

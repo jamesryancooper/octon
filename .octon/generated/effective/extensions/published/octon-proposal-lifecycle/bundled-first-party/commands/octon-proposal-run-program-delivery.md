@@ -1,39 +1,22 @@
-# Run Program to Clean Delivery
-
-Run proposal program delivery through the canonical workflow-backed wrapper:
+# Run Program Contained Delivery
 
 ```text
-/octon-proposal-run-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>
+/octon-proposal-run-program-delivery target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>
 ```
 
-This operator-facing command is an alias for:
+This alias delegates to `proposal-program-delivery`:
 
 ```text
-/proposal-program-delivery target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>
+/proposal-program-delivery target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>
 ```
 
-It delegates to `proposal-program-delivery` and
+It does not create an independent lifecycle contract, workflow id, profile,
+receipt, cleanup rule, or publication authority. Missing `profile` or `run-id` fails closed before mutation.
+
+Direct-main, hosted branch-no-PR, landing, sync, cleanup,
+landed/synced/cleaned, and omitted/default effectful requests fail with
+`RP00_CONTAINMENT_PUBLICATION_DISABLED`. Exact parent and child work is
+preserved and no external or Git effect is delegated.
+
+Canonical workflow:
 `.octon/framework/orchestration/runtime/workflows/meta/proposal-program-delivery/workflow.yml`.
-
-## Required Inputs
-
-- `target`: repo-relative path to the accepted proposal program.
-- `outcome`: delivery target outcome. Use `cleaned` for clean delivery.
-- `profile`: required `proposal-program-delivery-profile-v1` profile path.
-- `run-id`: required delivery run identifier for retained evidence paths.
-
-Missing `profile` or `run-id` fails closed before mutation unless satisfied by
-fresh, target-bound workflow evidence allowed by the canonical
-`proposal-program-delivery` contract.
-
-## Authority Boundary
-
-This alias does not create an independent lifecycle contract, workflow id,
-skill authority, closeout rule, archive rule, cleanup rule, Git mutation rule,
-branch cleanup rule, generated publication rule, receipt schema, profile
-schema, terminal proof rule, or target-owned evidence substitute.
-
-Proposal-local support files, generated prompts, generated outputs, dashboards,
-host/tool/chat state, model memory, parent summaries, aggregate delivery
-receipts, and delivery evidence indexes do not satisfy delivery admission
-inputs or child-owned receipt requirements.

@@ -4,10 +4,11 @@
 
 ROD-005 accepts the lowest useful concurrency and conservative, adjustable
 wall-clock, step, attempt/retry, token, cost, and evidence ceilings for Solo
-Local. Exact values are engineering configuration, not a remaining architecture
-decision. They must be provisional, mechanically enforceable where declared
-hard, measured during dogfood, and widened one dimension at a time only when
-retained evidence proves benefit. Any later operator-defined spending or
+Local. The exact launch-disabled values and enforcement classifications are
+selected in `resources/mission-child-design-and-dependency-receipt.yml`; no
+architecture decision remains open. They must be mechanically enforced where
+declared hard, measured during dogfood, and widened one dimension at a time only
+when retained evidence proves benefit. Any later operator-defined spending or
 interruption cap is an additional governed configuration ceiling.
 
 The fixed boundary is not optional: children are temporary, credentialless,
@@ -17,10 +18,10 @@ after conformance belong to the accepted model; engineering and retained proof
 determine the supported templates, enforcement classification, and current
 provider mapping admission.
 
-Engineering must bind conservative provisional values and use measured
+Implementation must encode and prove the selected exact values and use measured
 completion, queueing, usage, evidence growth, cancellation, and recovery results
-to tune them. Until those values and every required dependency, conformance,
-and proof gate are current, child launch remains disabled.
+to tune them. Until that implementation and every required dependency,
+conformance, and proof gate are current, child launch remains disabled.
 
 ## Intended Solo Experience
 

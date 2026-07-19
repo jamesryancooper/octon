@@ -1,0 +1,26 @@
+schema_version: "1.0"
+run_id: architecture-migration-bounded-child-agents-post-remediation-cycle-1-20260718T175459Z
+commit_sha: d4ef5f3c87
+scope_hash: sha256:e25bed46914048919c0fd982506917054e2a4271f25d5c1157f7b7d2b3731f37
+prompt_hash: sha256:f91c2c9b965187f4d407c1bc05fe1c06b1ed6e58835cd47433e790f79035089e
+prompt_hash_basis: commands.md
+findings_hash: sha256:f21465dfc3fc86f7eb214d63b4ff744cb1ea6600bdc0656798b1f3aa69fcb905
+findings_artifact_sha256: sha256:f21465dfc3fc86f7eb214d63b4ff744cb1ea6600bdc0656798b1f3aa69fcb905
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
+findings_hash_basis: findings.yml
+params_hash: sha256:725acd07e29ab87a2625aa4433e92a48a6f5c65a9037beddce4793727856b95e
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [revision-required, revision-required, revision-required]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 1
+open_findings_at_or_above_threshold: 1
+done: false
+mode: convergence
+post_remediation: true
+convergence_required: true
+done_gate: revision-required
+rationale: Three passes agree exact mechanisms close and one residual evidence-order blocker remains.

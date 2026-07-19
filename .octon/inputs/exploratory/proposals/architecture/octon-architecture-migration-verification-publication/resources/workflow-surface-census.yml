@@ -1,0 +1,84 @@
+schema_version: "octon-rp06-workflow-surface-census-v1"
+census_at: "2026-07-18"
+root: ".github/workflows"
+file_count: 42
+proof_state: "statically-inspected-not-mutated"
+rp06_projection_outputs:
+  replace: ["pr-auto-merge.yml", "pr-autonomy-policy.yml"]
+  merge_or_retire_after_equivalence: ["ai-review-gate.yml", "change-route-projection.yml"]
+  preserve_non_authority_backstop: ["main-change-route-guard.yml", "main-push-safety.yml", "autonomy-release-health.yml"]
+other_effect_owners_preserved_outside_rp06: ["adr-prompt.yml", "flags-stale-report.yml", "kaizen.yaml", "pr-stale-close.yml", "pr-triage.yml", "release-please.yml"]
+validation_or_observation_preserved:
+  - "alignment-check.yml"
+  - "architecture-conformance.yml"
+  - "assurance-weight-gates.yml"
+  - "ci-efficiency-guard.yml"
+  - "ci-latency-audit.yml"
+  - "closure-certification.yml"
+  - "closure-validator-sufficiency.yml"
+  - "codex-pr-review.yml"
+  - "commit-and-branch-standards.yml"
+  - "deny-by-default-gates.yml"
+  - "dependency-review.yml"
+  - "execution-role-validate.yml"
+  - "filesystem-interfaces-perf-regression.yml"
+  - "filesystem-interfaces-runtime.yml"
+  - "filesystem-interfaces-slo-tune.yml"
+  - "harness-self-containment.yml"
+  - "pr-clean-state-enforcer.yml"
+  - "pr-quality.yml"
+  - "principles-charter-overrides-audit.yml"
+  - "principles-governance-lint.yml"
+  - "repo-hygiene.yml"
+  - "runtime-binaries.yml"
+  - "skills-validate.yml"
+  - "smoke.yml"
+  - "uec-cutover-certify.yml"
+  - "uec-cutover-validate.yml"
+  - "uec-drift-watch.yml"
+  - "unified-execution-constitution-closure.yml"
+  - "validate-unified-execution-completion.yml"
+inventory:
+  - {path: "adr-prompt.yml", sha256: "2bb493a3644bfffc62fbaff4aafb12c1f77398fe25c87e1ec4bf69abce4d0daa"}
+  - {path: "ai-review-gate.yml", sha256: "e74d9dad52531f5a9b3b4154396672d80deecf45774b724e46e37df3e3563eaf"}
+  - {path: "alignment-check.yml", sha256: "34e95e1f784db03d6283027ea5fb864456c02a0b80f1aa8375c69d76fac3eaf0"}
+  - {path: "architecture-conformance.yml", sha256: "f349596bfb71e6edca21e9e65544804369f5e0745808d6d09ee468b43341b1cb"}
+  - {path: "assurance-weight-gates.yml", sha256: "5b466c185afdbaf140b98bce4c6da3836cc0b1d9238f26b608ae99aa1d16f6fd"}
+  - {path: "autonomy-release-health.yml", sha256: "b793277bc0a4c971df0f39d73056742caa2370481b63451986cb3d3af1ac584c"}
+  - {path: "change-route-projection.yml", sha256: "f849ae892d933577b2c23d9f97fb7019c301397cb6201e1b93db4520106c6726"}
+  - {path: "ci-efficiency-guard.yml", sha256: "c8b2a03b1c5116169ec7e84e1c7508d918cdcfe5162b90b0dcad273c134c317e"}
+  - {path: "ci-latency-audit.yml", sha256: "5ebc517494b448cf60d1e8dd093d9f00e163681c58740c148d1f2fcf18966e6c"}
+  - {path: "closure-certification.yml", sha256: "5754e91e368b647014f6c33afa648e6e586479e88c12b953e2a044f87391a9b7"}
+  - {path: "closure-validator-sufficiency.yml", sha256: "9bce2d1e2509abb538251538be99c1b943b11143bbc0b7ffeae68238e498fe10"}
+  - {path: "codex-pr-review.yml", sha256: "99a7eccaf8661ef178be079976f579939c629febf7aac1c7d2f1a26db58c8269"}
+  - {path: "commit-and-branch-standards.yml", sha256: "7694ad397d75f05bf5286ba87dd8dc6460f6f6e9131696432d0b0039cfb9802a"}
+  - {path: "deny-by-default-gates.yml", sha256: "f2e270f842a75ce098f54d9e80d5a63b6bb64f41c351fd5c0a75f2ffb78e39a6"}
+  - {path: "dependency-review.yml", sha256: "c4c6ba1a7ca76e638087a2a406eaf57e556721d71a75598a258794f454235a12"}
+  - {path: "execution-role-validate.yml", sha256: "68fba4822bfa574c202653ce8fbc31a4f8ebf638c0baaa79f196e8402945042e"}
+  - {path: "filesystem-interfaces-perf-regression.yml", sha256: "88e242355116a9bfeb997279ebe06d953a023fc32a5fef6ebf2165f710d43119"}
+  - {path: "filesystem-interfaces-runtime.yml", sha256: "5ce6fddc0e6b75f5b61529248aaea8d173d0a955ae79b9e5d0ecd666149e2725"}
+  - {path: "filesystem-interfaces-slo-tune.yml", sha256: "545bf325dac3ad3b9a93eb2ee2cabccd4694aade02954830c6d404eccefd6ca6"}
+  - {path: "flags-stale-report.yml", sha256: "54b78d7f9eb29b1021c979c5017cb0c225f3a9779fa524eb623549abcfef613b"}
+  - {path: "harness-self-containment.yml", sha256: "a8424a9f2441ee7d3c82d3673fb276cdb6d37945abe0f5a173775a0bff5ae586"}
+  - {path: "kaizen.yaml", sha256: "4db7a913397a4b05a3c0813897d20735e6f893c218c76654221199c87f9db80c"}
+  - {path: "main-change-route-guard.yml", sha256: "b1bb21c289bbef66e8e19c3ce35e1240cca0120d8595bffd6a1719b037eea1c5"}
+  - {path: "main-push-safety.yml", sha256: "b6970af7e1a6799d195f3b698770bc8e27b0d636e23fc65b20d28af0d1bd563a"}
+  - {path: "pr-auto-merge.yml", sha256: "4fff2ab3c5ba847f8f7511c78668fe95ddb16f60349ff8bad332834be01e326d"}
+  - {path: "pr-autonomy-policy.yml", sha256: "87f41033ff68428d9ff66ce1ed52a101393749e1cacf679c8c615f7caaedd698"}
+  - {path: "pr-clean-state-enforcer.yml", sha256: "c4357b02ff932ab58b8310675acf09db1f93a9f3e05dd4f0508b4098c5c1a067"}
+  - {path: "pr-quality.yml", sha256: "d9dc0acb53d141f804089cdaf98814cf2b38b4104c3e3c0647b17f30ffd79d22"}
+  - {path: "pr-stale-close.yml", sha256: "087cee84e02afb3a24716530684ddbb8779f941ff32f6a1aa0890d9068dd4f4f"}
+  - {path: "pr-triage.yml", sha256: "e8f75d19b6a8512f8cc53a89fef0d9c29d29792d5b78cde8b99b00444e7d2826"}
+  - {path: "principles-charter-overrides-audit.yml", sha256: "6d083ca22f7b8e1e84e1c8aef5a13b95876545e1e6cea1ee7bb092529b355914"}
+  - {path: "principles-governance-lint.yml", sha256: "fd14f02844cdd8751f5d4972044412924d77d3d776c6eafc1796a0d373a40a8b"}
+  - {path: "release-please.yml", sha256: "2c426f76fc92935fb161e49424e5ba83e26b5beadccb5cb31e996c982c1b2412"}
+  - {path: "repo-hygiene.yml", sha256: "2b65b3376bc0ee169a467411bc284814853c67608d3b17632ead1160f36c60bc"}
+  - {path: "runtime-binaries.yml", sha256: "f5a531388fb6ffebc5ef7ad231eed2e9a391bfc170a691918dc8d93e609d38bd"}
+  - {path: "skills-validate.yml", sha256: "2a5d5a434500632c72a993fbebab5d9d93262be4425440909f17fa5eae432201"}
+  - {path: "smoke.yml", sha256: "d3bd3ecb6d6e2cfd14bb55011f4fc9be524db01ed5dff5478694e2baed09b315"}
+  - {path: "uec-cutover-certify.yml", sha256: "3818056bfe6e41aaeaafd8c41a008e143abd9d06ddadd2776ee4884850f2a889"}
+  - {path: "uec-cutover-validate.yml", sha256: "a78c3bba29e968675b8b0cb81a95196a0030694a4a8408fe3d43564b9ae28c29"}
+  - {path: "uec-drift-watch.yml", sha256: "85f1d94914ee882bc69383298c00901bf1eb6cccc30dd6a3efc1aeac1335e1a7"}
+  - {path: "unified-execution-constitution-closure.yml", sha256: "2f219b1f4bc8244c34009e9acb46a2bccec6a37bb19481b1b072002b328e74f6"}
+  - {path: "validate-unified-execution-completion.yml", sha256: "5c9b719699380b9b4db9f572d03ec9857fb0de08f6d594a804b6a5fd3c34ae5d"}
+closure_rule: "Any added, removed, renamed, or digest-changed workflow reopens census and projection disposition before RP-06 source entry or promotion."

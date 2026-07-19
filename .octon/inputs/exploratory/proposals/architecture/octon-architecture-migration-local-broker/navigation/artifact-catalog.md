@@ -25,6 +25,8 @@
 - `resources/source-context.md` — bounded repository, intake, reconciliation, and predecessor lineage.
 - `resources/packet-contract.yml` — machine-readable RP-04 contract.
 - `resources/traceability.yml` — decision, finding, proof, evidence, and engineering-disposition map.
+- `resources/broker-ipc-keychain-design-and-dependency-receipt.yml` — exact ED-002 platform, identity, custody, handle, dependency, and evidence-order selection.
+- `resources/workflow-visible-surface-census.yml` — exhaustive ED-007 command/workflow/helper ownership and disposition census.
 
 ## Support Receipts
 
@@ -33,3 +35,6 @@
 - `support/implementation-grade-completeness-review.md` — truthful draft readiness gate.
 - `support/implementation-conformance-review.md` — future implementation conformance gate.
 - `support/post-implementation-drift-churn-review.md` — future closeout drift gate.
+- `support/proposal-review.md` — current digest-bound independent proposal review.
+- `support/pre-integration-architecture-review.yml` — current strict architecture review receipt.
+- `support/revisions/rp04-ed002-ed007-evidence-order-20260718.md` — canonical correction receipt for all three review blockers.

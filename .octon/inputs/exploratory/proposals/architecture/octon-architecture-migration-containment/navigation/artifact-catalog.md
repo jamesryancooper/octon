@@ -19,6 +19,8 @@
 - `resources/traceability.yml` — FD/RF/PO/PG/ROD/ED coverage.
 - `support/profile-selection-receipt.md` — pre-1.0 atomic profile receipt.
 - `support/proposal-creation.md` — direct-template creation fallback receipt.
-- `support/implementation-grade-completeness-review.md` — failing future readiness gate.
+- `support/implementation-grade-completeness-review.md` — passing implementation-grade readiness receipt.
+- `support/pre-integration-architecture-review.yml` — strict digest-bound architecture review receipt.
+- `support/proposal-review.md` — accepted digest-bound packet review receipt.
 - `support/implementation-conformance-review.md` — failing post-implementation gate.
 - `support/post-implementation-drift-churn-review.md` — failing post-conformance gate.

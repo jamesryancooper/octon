@@ -78,6 +78,11 @@ RP-13 may later add a separately named child-specific module and mapping that
 implements or consumes this trait. It may not redefine the trait, registry,
 Harness compiler, or primary/fake component conformance owned by RP-11.
 
+The four RP-01 census seams are shared integration surfaces. RP-01 owns the
+final consuming guard at each seam; RP-11 owns only registry/prepared-handle
+consumption and provider-neutral dispatch. RP-01 integrates first, followed by
+RP-02 isolation where applicable, then RP-11 adapter integration.
+
 ## Derived and Operational Surfaces
 
 - effective Harness manifests, source manifests, compile receipts, generated

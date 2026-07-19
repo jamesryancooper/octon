@@ -1,6 +1,6 @@
 ---
 name: "closeout"
-description: "Resolve Change closeout context from the canonical default work unit policy before selecting direct-main, branch-only, PR-backed, or stage-only outputs."
+description: "Resolve SI-00 Change closeout to preservation or a stable pre-effect denial."
 steps:
   - id: "evaluate-context"
     file: "stages/01-evaluate-context.md"
@@ -22,7 +22,7 @@ _Generated README from canonical workflow `closeout`._
 
 ## Purpose
 
-Resolve Change closeout context from the canonical default work unit policy before selecting direct-main, branch-only, PR-backed, or stage-only outputs.
+Resolve SI-00 Change closeout to preservation or a stable pre-effect denial.
 
 ## Target
 
@@ -41,7 +41,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Outputs
 
-- `closeout_workflow_summary` -> `/.octon/state/evidence/validation/analysis/{{date}}-change-closeout-workflow.md`: Change closeout context resolution summary.
+- `closeout_workflow_summary` -> `/.octon/state/evidence/validation/analysis/{{date}}-change-closeout-workflow.md`: SI-00 Change preservation and denial summary.
 
 ## Steps
 
@@ -50,20 +50,13 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Verification Gate
 
-- [ ] Change route resolves from the default work unit policy
-- [ ] Target lifecycle outcome resolves before mutating hosted refs or deleting branches
-- [ ] Lifecycle outcome resolves separately from the selected route
-- [ ] direct-main, branch-no-pr, branch-pr, and stage-only-escalate contexts are distinguished
-- [ ] branch-no-pr preservation, branch-local completion, branch publication, no-PR landing, and cleanup outcomes are distinguished
-- [ ] hosted branch-no-pr landing requires provider route-neutral rules, pushed source branch, exact source SHA checks, fast-forward update, origin/main equality, rollback evidence, and cleanup disposition
-- [ ] branch-pr published, ready, landed, and cleaned outcomes are distinguished
-- [ ] PR-specific mechanics are selected only after branch-pr routing
-- [ ] branch-pr selection records branch_pr_predicate
-- [ ] route transition records authority before branch-pr reroute
-- [ ] landed and cleaned claims require route-appropriate evidence
-- [ ] completed and cleaned claims require stateful closeout evidence from the Change Closeout State Machine
-- [ ] published-branch handoff cannot be reported as completed closeout
-- [ ] ingress remains a pointer to this workflow rather than an inline closeout policy surface
+- [ ] active route is branch-no-pr, branch-pr, or stage-only-escalate
+- [ ] direct-main is denied
+- [ ] generic target resolves to preserved
+- [ ] candidate and unrelated work are preserved
+- [ ] landing/publication requests record RP00_CONTAINMENT_PUBLICATION_DISABLED before mutation
+- [ ] cleanup requests record RP00_CONTAINMENT_CLEANUP_DISABLED before mutation
+- [ ] no cleaned, synced, or autonomous publication success is reported
 
 ## References
 
@@ -74,4 +67,4 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 | Version | Changes |
 |---------|---------|
-| 2.0.0 | Generated from canonical workflow `closeout` |
+| 2.1.0 | Generated from canonical workflow `closeout` |

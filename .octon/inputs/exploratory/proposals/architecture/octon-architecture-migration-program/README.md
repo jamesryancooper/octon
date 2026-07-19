@@ -13,7 +13,7 @@ consequential effects controlled, verifiable, recoverable, and maintainable.
 
 ## Publication Decision Incorporated by This Revision
 
-This draft program now recommends `brokered-class-b-no-pr` as the default
+This proposal program specifies `brokered-class-b-no-pr` as the default
 publication topology for deterministically eligible Class B work. `branch-no-pr`
 remains only a compatibility route label. Class A remains local and
 credentialless; valid review-required or deterministically preclassified
@@ -25,8 +25,14 @@ candidate. A technical failure or `UNKNOWN` effect never becomes a PR fallback.
 This is planned architecture, not current authority. RP-00 containment disables
 unsafe writers, Octon `direct-main`, and current autonomous no-PR effects while
 preserving route classification and work. Production no-PR remains disabled
-until RP-05 through RP-08 prove the complete safety spine. The fixed fifteen-child
-graph is unchanged and every proposal remains `draft`.
+until RP-05 through RP-08 prove the complete safety spine. The fixed fifteen-
+child graph is unchanged. All fifteen required children are now independently
+accepted at fresh implementation-authorizing digests. The reconciled parent
+retains 420 exact child scope entries, 343 unique paths, the 30-edge DAG, and a
+complete 126-record collision ledger. The parent is accepted at a fresh strict
+architecture review with zero blockers. Canonical digest-bound implementation-
+orchestration prompt generation is authorized only after the strict parent and
+child-readiness gates pass; implementation itself remains a separate action.
 
 ## Reading Order
 
@@ -43,6 +49,7 @@ graph is unchanged and every proposal remains `draft`.
 11. `resources/operator-reading-order.md`
 12. `architecture/program-closeout-plan.md`
 
-RP-00 is the recommended first packet for later review and acceptance. Every
-child remains `draft`; acceptance, implementation, proof, promotion, and
-archive happen later through each child's own lifecycle.
+Child lifecycle state remains child-owned. This final readiness reconciliation
+does not implement, promote, archive, or replace any child receipt. It only
+records that the canonical child-readiness gate passes over the current child
+packets and routes this parent to its separate digest-bound re-review.

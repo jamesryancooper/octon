@@ -16,6 +16,12 @@ bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implement
 Structural success does not satisfy future architecture-review or
 implementation gates.
 
+Proposal validation also parses the exact design receipt and verifies the
+accepted RP-01 digest, UUIDv7/JCS/SHA-256 layout, no-follow path rules,
+correction precedence, immutable snapshot fields, non-authoritative index,
+read-only inbox limits, exact 16-target parity, and that future UE-010 results
+are not claimed executed.
+
 ## Future Implementation Validation
 
 ```sh

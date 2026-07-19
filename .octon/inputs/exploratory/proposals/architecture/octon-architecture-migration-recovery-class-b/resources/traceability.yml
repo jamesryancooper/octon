@@ -69,7 +69,7 @@ operator_decisions:
     status: "settled-retired-lineage"
     fixed_boundary: "Deterministic policy classifies; AI cannot authorize; invalid/stale/revoked/raced authority denies and requires fresh authorization rather than PR laundering."
     accepted_rule: "Use frozen intake predicates, zero routine A/B escalation, and one concise actionable choice only for irreducible ambiguity."
-    remaining_work: "Encode the settled rule into durable versioned policy and prove it at RP-08 design exit; no operator vote remains."
+    remaining_work: "The exact proposal-local encoding design is selected; implement and prove promoted versioned policy before activation, with no operator vote."
 engineering_dispositions:
   - disposition_id: "ED-003"
     relationship: "shared RP-05/RP-08"

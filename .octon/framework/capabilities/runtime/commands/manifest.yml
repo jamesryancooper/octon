@@ -57,7 +57,7 @@ commands:
   path: proposal-packet-terminal-closeout.md
   summary: Invoke the terminal readiness workflow for an implemented proposal packet without archiving it.
   access: agent
-  argument_hint: target=<proposal-packet-path> [outcome=archive-ready] [profile=<profile-path>] [run-id=<id>]
+  argument_hint: target=<proposal-packet-path> outcome=archive-ready route=none-closeout-only profile=<profile-path> run-id=<id>
   routing:
     selectors:
       include:
@@ -89,9 +89,9 @@ commands:
 - id: proposal-packet-delivery
   display_name: Proposal Packet Delivery
   path: proposal-packet-delivery.md
-  summary: Invoke accepted proposal packet delivery coordination without replacing target-owned lifecycles.
+  summary: Coordinate accepted packet implementation or archive readiness without publication, landing, sync, or cleanup effects.
   access: agent
-  argument_hint: target=<proposal-packet-path> outcome=cleaned route=branch-no-pr profile=<profile-path> run-id=<id>
+  argument_hint: target=<proposal-packet-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>
   routing:
     selectors:
       include:
@@ -105,26 +105,9 @@ commands:
 - id: proposal-program-delivery
   display_name: Proposal Program Delivery
   path: proposal-program-delivery.md
-  summary: Invoke accepted proposal program delivery coordination without replacing target-owned lifecycles.
+  summary: Coordinate accepted program implementation or archive readiness without publication, landing, sync, or cleanup effects.
   access: agent
-  argument_hint: target=<proposal-program-path> outcome=cleaned profile=<profile-path> run-id=<id>
-  routing:
-    selectors:
-      include:
-      - '**'
-      exclude: []
-    fingerprints:
-      tech_tags: []
-      language_tags: []
-  host_adapters:
-  - cursor
-  - codex
-- id: proposal-program-clean-delivery
-  display_name: Proposal Program Clean Delivery
-  path: proposal-program-clean-delivery.md
-  summary: Request proposal-program clean-delivery continuation by previewing the route graph and invoking the existing lifecycle runner with route execution enabled.
-  access: agent
-  argument_hint: target=<proposal-program-path> run-id=<id> [executor=auto|codex|mock] [max-steps=<n>] [max-child-concurrency=<n>]
+  argument_hint: target=<proposal-program-path> outcome=implemented|archive-ready route=stage-only profile=<profile-path> run-id=<id>
   routing:
     selectors:
       include:

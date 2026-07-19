@@ -1,12 +1,15 @@
 # Implementation Plan
 
-Advisory until accepted review, durable encoding of settled/retired ROD-002
-lineage, strict architecture review, and exact dependency exits.
+Advisory until accepted review and strict architecture review. The exact
+proposal-local ROD-002 encoding design and dependency digests are frozen in the
+recovery design receipt; promoted encoding and dynamic proof remain future
+implementation work.
 
 ## Workstream 1 — Freeze Inputs And Decisions
 
-1. Record exact RP-03/RP-05/RP-06/RP-07 interface/version/digests.
-2. Encode the accepted ROD-002 irreducible-ambiguity-only notification/manual-
+1. Verify the frozen RP-03/RP-05/RP-06/RP-07 interface/version/digests from the
+   exact design receipt before source entry.
+2. Implement the accepted ROD-002 irreducible-ambiguity-only notification/manual-
    intervention rule without modifying the RP-06 class/route predicate or
    requesting another operator vote.
 3. Apply ED-003: atomic expected-old provider operation, authenticated receipt

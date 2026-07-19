@@ -82,7 +82,7 @@ proposal_lifecycle_ownership:
   manifests:
     - "proposal.yml"
     - "architecture-proposal.yml"
-  status: "draft"
+  status: "accepted"
   authority: "proposal-local and non-authoritative"
 retained_evidence_ownership:
   root: ".octon/state/evidence/validation/proposals/octon-architecture-migration-bounded-child-agents/"
@@ -155,11 +155,9 @@ trust_boundary_changes:
   - "Child output crosses back only as candidate/evidence for parent reconciliation, never direct canonical mutation."
   - "Terminal child resources become irreversibly non-reusable after reconciliation."
 migration_preconditions:
-  - "RP-08 unknown-outcome reconciliation, cancellation, and complete Class B recovery interface has exited and is frozen."
-  - "RP-11 deterministic single-agent Harness and generic adapter interface/conformance has exited and is frozen."
-  - "The ED-001 useful credentialless short-lived/non-exportable provider session, native sandbox, and independent disposable repository premise is dynamically proved by its owner/dependency chain."
-  - "Engineering binds the accepted ROD-005 lowest-useful-concurrency baseline to conservative provisional wall-clock/step/attempt/retry/token/cost/evidence values; no unsupported numbers are invented."
-  - "Existing ProgramChild scheduler primitives are inventoried and semantically separated from MissionChildRun identity."
+  - "Accepted RP-02, RP-08, and RP-11 packet digests and the selected RP-13 mechanism receipt are frozen now; their exact implemented interfaces verify before RP-13 source edits."
+  - "The selected ROD-005 limits remain launch-disabled until local and provider hard-limit enforcement, useful credentialless ED-001 isolation, and mapping conformance pass against the exact implementation."
+  - "Existing ProgramChild scheduler, mission-child integration, launch, cancellation, state, and token/evidence symbols and writers are inventoried at the implementation commit."
 migration_steps:
   - "Encode the accepted ROD-005 baseline with enforceable provisional values and publish strict MissionChildRun/budget/provider-mapping/retirement contracts and policy."
   - "Expose only the existing scheduler primitives required for temporary mission child jobs without altering ProgramChild semantics."
@@ -265,13 +263,13 @@ accepted_configuration:
     fixed_boundary: "Temporary credentialless depth-one children, exact guard, narrower scope, terminal retirement; no persistent organization or self-recruitment."
     baseline: "Lowest useful concurrency and conservative adjustable wall-clock, step/attempt/retry, token, cost, and evidence ceilings."
     adjustment_rule: "Measure dogfood and widen one dimension only when retained evidence proves benefit."
-    numeric_values: "Engineering binds provisional enforceable values; no unsupported numbers are invented."
+    numeric_values: "The mission-child design receipt selects one active child globally/project/parent, depth one, eight steps, one attempt, zero retry, 900 seconds, 12,000 input/8,000 generated/20,000 combined tokens, 250,000 micro-USD, and 64 MiB/1,024-file evidence bounds with exact enforcement-or-disabled rules."
     future_updates: "Governed configuration, including any additional operator spending or interruption cap."
 engineering_dispositions:
   - disposition_id: "ROD-005-ENGINEERING"
     role: "configuration and proof"
     owner: "RP-13"
-    required_result: "bind enforceable provisional values and prove hard/measured/unsupported enforcement posture before launch"
+    required_result: "implement and prove the selected exact values and their hard, measured, provider-hard-required, or unsupported enforcement posture before launch"
   - disposition_id: "ED-001"
     role: "dependency premise only"
     premise: "useful non-exportable/short-lived primary-provider session, native sandbox, and independent disposable repository"
@@ -286,10 +284,10 @@ cross_referenced_findings:
 unresolved_evidence:
   - "UE-013"
 entry_criteria:
-  - "RP-08 and RP-11 exit evidence exists at exact dependency digests."
-  - "The accepted ROD-005 baseline is bound to provisional values and every declared hard limit maps to an enforcement mechanism or unsupported admission."
-  - "ED-001 premise is dynamically proved by the owning dependency chain."
-  - "Single-agent Harness and shared reconciler proof is current."
+  - "Accepted RP-02, RP-08, and RP-11 packet digests and the exact RP-13 design are frozen for proposal authorization."
+  - "Before source edits, exact dependency implementation interfaces and current shared symbols/writers verify."
+  - "Before live mapping completion or use, ED-001 useful credentialless isolation and every local/provider hard-limit mechanism pass against the exact implementation."
+  - "Before completion or promotion, single-agent Harness, shared reconciler, UE-013, and mapping-conformance proof is current."
 exit_criteria:
   - "Children are credentialless, depth one, strictly narrower, and cannot access canonical Git, siblings, persistent identity, or direct effects."
   - "Every launch consumes an exact one-shot child guard/Harness/isolation/provider/budget binding."
@@ -310,5 +308,5 @@ proof_produced:
     boundary: "child provider-mapping specialization only; RP-11 owns generic adapter and RP-14 owns integrated promotion proof"
 authoritative_promotion_requirements:
   - "accepted proposal and passing pre-integration architecture review"
-  - "accepted ROD-005 configuration, ED-001 premise, and dependency exit receipts"
+  - "exact selected ROD-005 configuration, dependency implementation receipts, and ED-001 premise proof"
   - "retained UE-013 and child provider-specialization adversarial proof"

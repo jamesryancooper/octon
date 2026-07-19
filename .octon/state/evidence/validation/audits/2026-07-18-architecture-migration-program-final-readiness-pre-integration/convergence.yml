@@ -1,0 +1,26 @@
+schema_version: "1.0"
+run_id: architecture-migration-program-final-readiness-pre-integration-20260718T183515Z
+commit_sha: 91940edf99
+scope_hash: sha256:a6703ea861be9369340b5951adc21f8ad2113cc6d3681d4ac1c449eeb98b12df
+prompt_hash: sha256:ade037514bc7789a6c7f37103730fb894057f7c0d2eec5e9a6b049a9aa36a213
+prompt_hash_basis: commands.md
+findings_hash: sha256:7a112fc138a790bf161f7cd1bdff97463db82224349093436a767570ec076f3d
+findings_artifact_sha256: sha256:7a112fc138a790bf161f7cd1bdff97463db82224349093436a767570ec076f3d
+findings_artifact_hash_basis: findings.yml-after-contract-backfill
+findings_hash_basis: findings.yml
+params_hash: sha256:91395ea52b05985713e98525bbcd151d469a1c69f56f1635a5fc8938f4bc7e71
+params_hash_basis: bundle.yml
+seeds: [17, 29, 43]
+seed: [17, 29, 43]
+seed_policy_basis: recorded-seeds-list
+result_vector: [revision-required, revision-required, revision-required]
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 2
+open_findings_at_or_above_threshold: 2
+done: false
+mode: convergence
+post_remediation: false
+convergence_required: true
+done_gate: correction-required
+rationale: Three passes agree the architecture graph is coherent and the same two stale current-source lifecycle/gate assertions block final acceptance.

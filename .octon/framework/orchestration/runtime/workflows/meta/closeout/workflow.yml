@@ -1,18 +1,16 @@
 ---
 schema_version: workflow-contract-v2
 name: closeout
-description: Resolve Change closeout context from the canonical default work unit policy before selecting direct-main, branch-only, PR-backed, or stage-only outputs.
-version: 2.0.0
+description: Resolve SI-00 Change closeout to preservation or a stable pre-effect denial.
+version: 2.1.0
 entry_mode: human
 execution_profile: core
-side_effect_class: mutating
+side_effect_class: read_only
 execution_controls:
   cancel_safe: true
 coordination_key_strategy:
   kind: workflow-target
-  source_fields:
-    - workflow_group
-    - workflow_id
+  source_fields: [workflow_group, workflow_id]
   format: workflow:{workflow_group}/{workflow_id}
 executor_interface_version: workflow-executor-v1
 policy_refs:
@@ -20,25 +18,17 @@ policy_refs:
   state_machine_ref: ".octon/framework/product/contracts/change-closeout-state-machine.yml"
   workflow_contract_ref: ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
   owner_surface_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
-  pr_subflow_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
-  governance_closeout_ref: ".octon/instance/governance/contracts/closeout-reviews.yml"
-compatibility:
-  deprecated_fallback_prompt: "Are you ready to close out this Change?"
-  retirement_register_ref: ".octon/instance/governance/retirement-register.yml"
 inputs: []
 stages:
   - id: evaluate-context
     asset: stages/01-evaluate-context.md
     kind: analysis
     consumes: []
-    produces:
-      - stage:evaluate-context
+    produces: [stage:evaluate-context]
     mutation_scope: []
     authorization:
       action_type: execute_stage
-      requested_capabilities:
-        - workflow.stage.execute
-        - evidence.write
+      requested_capabilities: [workflow.stage.execute, evidence.write]
       side_effects:
         write_repo: false
         write_evidence: true
@@ -50,31 +40,22 @@ stages:
         branch_mutation: false
       risk_tier: low
       scope:
-        read:
-          - default-work-unit-policy
-          - worktree-state
-          - pr-state
-        write:
-          - workflow-evidence
+        read: [default-work-unit-policy, worktree-state]
+        write: [workflow-evidence]
       review_requirements:
         human_approval: false
         quorum: false
         rollback_metadata: false
-      allowed_executor_profiles:
-        - read_only_analysis
+      allowed_executor_profiles: [read_only_analysis]
   - id: request-or-report
     asset: stages/02-request-or-report.md
     kind: projection
-    consumes:
-      - stage:evaluate-context
-    produces:
-      - stage:request-or-report
+    consumes: [stage:evaluate-context]
+    produces: [stage:request-or-report]
     mutation_scope: []
     authorization:
       action_type: execute_stage
-      requested_capabilities:
-        - workflow.stage.execute
-        - evidence.write
+      requested_capabilities: [workflow.stage.execute, evidence.write]
       side_effects:
         write_repo: false
         write_evidence: true
@@ -86,41 +67,31 @@ stages:
         branch_mutation: false
       risk_tier: low
       scope:
-        read:
-          - default-work-unit-policy
-          - workflow-evidence
-        write:
-          - workflow-evidence
+        read: [default-work-unit-policy, workflow-evidence]
+        write: [workflow-evidence]
       review_requirements:
         human_approval: false
         quorum: false
         rollback_metadata: false
-      allowed_executor_profiles:
-        - read_only_analysis
+      allowed_executor_profiles: [read_only_analysis]
 artifacts:
   - name: closeout_workflow_summary
     path: "/.octon/state/evidence/validation/analysis/{{date}}-change-closeout-workflow.md"
     kind: file
     format: markdown
     determinism: unique
-    description: Change closeout context resolution summary.
+    description: SI-00 Change preservation and denial summary.
 done_gate:
   checks:
-    - "Change route resolves from the default work unit policy"
-    - "Target lifecycle outcome resolves before mutating hosted refs or deleting branches"
-    - "Lifecycle outcome resolves separately from the selected route"
-    - "direct-main, branch-no-pr, branch-pr, and stage-only-escalate contexts are distinguished"
-    - "branch-no-pr preservation, branch-local completion, branch publication, no-PR landing, and cleanup outcomes are distinguished"
-    - "hosted branch-no-pr landing requires provider route-neutral rules, pushed source branch, exact source SHA checks, fast-forward update, origin/main equality, rollback evidence, and cleanup disposition"
-    - "branch-pr published, ready, landed, and cleaned outcomes are distinguished"
-    - "PR-specific mechanics are selected only after branch-pr routing"
-    - "branch-pr selection records branch_pr_predicate"
-    - "route transition records authority before branch-pr reroute"
-    - "landed and cleaned claims require route-appropriate evidence"
-    - "completed and cleaned claims require stateful closeout evidence from the Change Closeout State Machine"
-    - "published-branch handoff cannot be reported as completed closeout"
-    - "ingress remains a pointer to this workflow rather than an inline closeout policy surface"
+    - "active route is branch-no-pr, branch-pr, or stage-only-escalate"
+    - "direct-main is denied"
+    - "generic target resolves to preserved"
+    - "candidate and unrelated work are preserved"
+    - "landing/publication requests record RP00_CONTAINMENT_PUBLICATION_DISABLED before mutation"
+    - "cleanup requests record RP00_CONTAINMENT_CLEANUP_DISABLED before mutation"
+    - "no cleaned, synced, or autonomous publication success is reported"
 constraints:
   fail_closed: true
   forbid_design_packages: true
   require_relative_local_assets: true
+  forbidden_effects: [push-main, no-pr-land, merge, cleanup, delete-ref, remove-worktree, sync-main]

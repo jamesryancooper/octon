@@ -1,0 +1,12 @@
+schema_version: "1.0"
+surfaces:
+  - contracts-and-canonical-serialization
+  - complete-input-graph-and-digests
+  - authority-and-immediate-spawn-binding
+  - adapter-registry-and-lifecycle-state
+  - current-dispatch-and-subprocess-census
+  - dependencies-ownership-and-dag
+  - failure-rollback-and-operator-boundaries
+files_scanned: 22
+unaccounted_files: 0
+coverage_status: complete-for-pre-integration-review

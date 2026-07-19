@@ -88,7 +88,7 @@ validate_root_entries() {
   while IFS= read -r entry; do
     base="$(basename "$entry")"
     case "$base" in
-      README.md|ideation|proposals|plans|syntheses|reports)
+      README.md|ideation|proposals|plans|syntheses|reports|reviews)
         pass "allowed exploratory root entry: $base"
         ;;
       *)
@@ -113,6 +113,8 @@ validate_exploratory_architecture() {
     "exploratory architecture covers syntheses"
   require_text "$architecture_readme" "reports/<report-id>/" \
     "exploratory architecture covers reports"
+  require_text "$architecture_readme" "reviews/<review-family>/<review-id>/" \
+    "exploratory architecture covers reviews"
   require_text "$architecture_readme" 'governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`' \
     "exploratory architecture states governed route"
 }
@@ -266,6 +268,14 @@ validate_reports() {
   done < <(find "$EXPLORATORY_DIR/reports" -mindepth 1 -maxdepth 1 -print | sort)
 }
 
+validate_reviews() {
+  require_file "$EXPLORATORY_DIR/reviews/README.md"
+  require_text "$EXPLORATORY_DIR/reviews/README.md" "non-authoritative review material" \
+    "reviews README states non-authority boundary"
+  require_text "$EXPLORATORY_DIR/reviews/README.md" "never become runtime, policy, publication, generated" \
+    "reviews README forbids authority promotion"
+}
+
 main() {
   echo "== Exploratory Input Surface Validation =="
 
@@ -279,6 +289,7 @@ main() {
   require_dir "$EXPLORATORY_DIR/plans"
   require_dir "$EXPLORATORY_DIR/syntheses"
   require_dir "$EXPLORATORY_DIR/reports"
+  require_dir "$EXPLORATORY_DIR/reviews"
   forbid_path "$EXPLORATORY_DIR/drafts"
   forbid_path "$EXPLORATORY_DIR/packages"
 
@@ -288,6 +299,7 @@ main() {
   validate_plans
   validate_syntheses
   validate_reports
+  validate_reviews
 
   echo "Validation summary: errors=$errors"
   [[ $errors -eq 0 ]]

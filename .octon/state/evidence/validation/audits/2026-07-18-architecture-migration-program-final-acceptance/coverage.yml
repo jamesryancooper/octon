@@ -1,0 +1,5 @@
+schema_version: "1.0"
+surfaces: ["accepted lifecycle state", "prompt authorization and evidence cycle", "child registry and DAG", "scope and ownership", "collision ledger", "cutover and rollback", "child authority", "generated projections"]
+files_scanned: 53
+unaccounted_files: 0
+coverage_status: complete-for-parent-final-accepted-state-review

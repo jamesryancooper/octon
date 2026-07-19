@@ -137,7 +137,7 @@ pub(crate) fn bind_existing_lifecycle_run(
         fs::read(&manifest_path).context("proposal target manifest is required")?;
     let manifest: Value = serde_yaml::from_slice(&manifest_bytes)?;
     let scope = authorized_scope(repo_root, &target, &proof, &manifest)?;
-    reject_post_mutation(&target, &event_bytes)?;
+    reject_post_mutation(&target, &event_bytes, run_id)?;
 
     let rollback_path = resolve_repo_path_arg(repo_root, rollback_posture)?;
     let canonical_rollback_path = run_root.join("rollback-posture.yml");
@@ -184,7 +184,7 @@ pub(crate) fn bind_existing_lifecycle_run(
         "event_log_sha256": digest(&event_bytes),
         "event_tip_sha256": event_tip,
         "delegation_proof_ref": proof_ref,
-        "delegation_proof_sha256": digest(&proof_bytes),
+        "delegation_proof_authority_sha256": proof_authority_digest(repo_root, &proof)?,
         "target_manifest_ref": repo_ref(repo_root, &manifest_path)?,
         "target_manifest_sha256": digest(&manifest_bytes),
         "authorized_write_scope": scope,
@@ -288,21 +288,8 @@ fn authorized_scope(
     manifest: &Value,
 ) -> Result<Vec<String>> {
     let mut result = BTreeSet::new();
-    result.insert(repo_ref(repo_root, target)?);
-    let proof_scope = proof
-        .get("declared_write_scope")
-        .and_then(Value::as_array)
-        .ok_or_else(|| anyhow!("delegation proof has no declared write scope"))?;
-    for item in proof_scope.iter().filter_map(Value::as_str) {
-        if item.starts_with("receipt:") {
-            result.insert(item.to_string());
-            continue;
-        }
-        let path = canonical_existing(Path::new(item))?;
-        if path != canonical_existing(target)? {
-            bail!("delegation proof widens write scope outside its target");
-        }
-    }
+    let mut expected_paths = BTreeSet::new();
+    expected_paths.insert(repo_ref(repo_root, target)?);
     for item in manifest
         .get("promotion_targets")
         .and_then(Value::as_array)
@@ -313,9 +300,54 @@ fn authorized_scope(
             .as_str()
             .ok_or_else(|| anyhow!("promotion target must be a string"))?;
         let path = resolve_delegated_scope(repo_root, raw)?;
-        result.insert(repo_ref(repo_root, &path)?);
+        expected_paths.insert(repo_ref(repo_root, &path)?);
     }
+
+    let mut declared_paths = BTreeSet::new();
+    let proof_scope = proof
+        .get("declared_write_scope")
+        .and_then(Value::as_array)
+        .ok_or_else(|| anyhow!("delegation proof has no declared write scope"))?;
+    for item in proof_scope.iter().filter_map(Value::as_str) {
+        if item.starts_with("receipt:") {
+            result.insert(item.to_string());
+            continue;
+        }
+        declared_paths.insert(delegated_scope_ref(repo_root, item)?);
+    }
+    if declared_paths != expected_paths {
+        let missing = expected_paths
+            .difference(&declared_paths)
+            .cloned()
+            .collect::<Vec<_>>()
+            .join(",");
+        let extra = declared_paths
+            .difference(&expected_paths)
+            .cloned()
+            .collect::<Vec<_>>()
+            .join(",");
+        bail!(
+            "delegation proof write scope differs from lifecycle target and manifest promotion targets: missing=[{missing}] extra=[{extra}]"
+        );
+    }
+    result.extend(expected_paths);
     Ok(result.into_iter().collect())
+}
+
+fn delegated_scope_ref(repo_root: &Path, raw: &str) -> Result<String> {
+    let path = Path::new(raw);
+    if !path.is_absolute() {
+        return repo_ref(
+            repo_root,
+            &resolve_repo_ref(repo_root, raw, "delegated write scope")?,
+        );
+    }
+    let canonical_root = fs::canonicalize(repo_root)?;
+    let canonical = canonical_existing(path)?;
+    if !canonical.starts_with(&canonical_root) {
+        bail!("delegated write scope escapes repository root: {raw}");
+    }
+    repo_ref(&canonical_root, &canonical)
 }
 
 fn resolve_delegated_scope(repo_root: &Path, raw: &str) -> Result<PathBuf> {
@@ -331,9 +363,15 @@ fn resolve_delegated_scope(repo_root: &Path, raw: &str) -> Result<PathBuf> {
     Ok(canonical)
 }
 
-fn reject_post_mutation(target: &Path, events: &[u8]) -> Result<()> {
-    if target.join("support/implementation-run.md").exists() {
-        bail!("post-mutation admission denied: implementation receipt already exists");
+fn reject_post_mutation(target: &Path, events: &[u8], run_id: &str) -> Result<()> {
+    let implementation_receipt = target.join("support/implementation-run.md");
+    if implementation_receipt.is_file() {
+        let content = fs::read_to_string(&implementation_receipt)?;
+        if receipt_scalar(&content, "run_id").as_deref() == Some(run_id) {
+            bail!(
+                "post-mutation admission denied: implementation receipt already exists for current run"
+            );
+        }
     }
     let text = std::str::from_utf8(events)?;
     for line in text.lines() {
@@ -349,6 +387,110 @@ fn reject_post_mutation(target: &Path, events: &[u8]) -> Result<()> {
         }
     }
     Ok(())
+}
+
+fn receipt_scalar(content: &str, field: &str) -> Option<String> {
+    content.lines().find_map(|line| {
+        let (key, value) = line.trim().split_once(':')?;
+        (key.trim() == field).then(|| {
+            value
+                .trim()
+                .trim_matches('"')
+                .trim_matches('\'')
+                .to_string()
+        })
+    })
+}
+
+fn proof_authority_digest(repo_root: &Path, proof: &Value) -> Result<String> {
+    let mut authority = proof.clone();
+    let authority_map = authority
+        .as_object_mut()
+        .ok_or_else(|| anyhow!("delegation proof must be a mapping"))?;
+    authority_map.remove("recorded_at");
+    if let Some(binding) = authority_map
+        .get_mut("context_evidence_binding")
+        .and_then(Value::as_object_mut)
+    {
+        for (ref_field, digest_field) in [
+            ("context_pack_receipt_ref", "context_pack_receipt_sha256"),
+            ("context_pack_ref", "context_pack_sha256"),
+            ("model_visible_context_ref", "model_visible_context_sha256"),
+        ] {
+            let artifact_ref = binding
+                .get(ref_field)
+                .and_then(Value::as_str)
+                .ok_or_else(|| {
+                    anyhow!("delegation proof context binding is missing {ref_field}")
+                })?;
+            let declared_digest = binding
+                .get(digest_field)
+                .and_then(Value::as_str)
+                .ok_or_else(|| {
+                    anyhow!("delegation proof context binding is missing {digest_field}")
+                })?;
+            let artifact_path =
+                resolve_context_evidence_ref(repo_root, artifact_ref, digest_field)?;
+            let artifact_bytes = fs::read(&artifact_path).with_context(|| {
+                format!(
+                    "delegation proof context artifact is required: {}",
+                    artifact_path.display()
+                )
+            })?;
+            if digest(&artifact_bytes) != declared_digest {
+                bail!("delegation proof context artifact digest mismatch for {artifact_ref}");
+            }
+            let mut artifact: Value =
+                serde_json::from_slice(&artifact_bytes).with_context(|| {
+                    format!("delegation proof context artifact is not JSON: {artifact_ref}")
+                })?;
+            remove_observational_context_fields(&mut artifact);
+            binding.insert(
+                digest_field.to_string(),
+                Value::String(digest(&serde_json::to_vec(&artifact)?)),
+            );
+        }
+    }
+    Ok(digest(&serde_json::to_vec(&authority)?))
+}
+
+fn resolve_context_evidence_ref(repo_root: &Path, raw: &str, label: &str) -> Result<PathBuf> {
+    let path = resolve_repo_ref(repo_root, raw, label)?;
+    let canonical_root = fs::canonicalize(repo_root)?;
+    let canonical = canonical_existing(&path)?;
+    if !canonical.starts_with(&canonical_root) {
+        bail!("delegation proof context artifact escapes repository root: {raw}");
+    }
+    Ok(canonical)
+}
+
+fn remove_observational_context_fields(value: &mut Value) {
+    let Some(object) = value.as_object_mut() else {
+        return;
+    };
+    for field in [
+        "built_at",
+        "context_pack_receipt_sha256",
+        "context_pack_sha256",
+        "created_at",
+        "generated_at",
+        "model_visible_context_sha256",
+    ] {
+        object.remove(field);
+    }
+    if let Some(freshness) = object.get_mut("freshness").and_then(Value::as_object_mut) {
+        freshness.remove("generated_at");
+    }
+    if let Some(replay) = object.get_mut("replay").and_then(Value::as_object_mut) {
+        replay.remove("replay_inputs_sha256");
+    }
+    if let Some(sources) = object.get_mut("sources").and_then(Value::as_array_mut) {
+        for source in sources {
+            if let Some(source) = source.as_object_mut() {
+                source.remove("resolved_at");
+            }
+        }
+    }
 }
 
 fn validate_idempotent(
@@ -525,11 +667,90 @@ mod tests {
         assert!(resolve_repo_ref(Path::new("/repo"), "../outside", "promotion target").is_err());
     }
     #[test]
+    fn declared_scope_must_equal_target_and_manifest_promotion_targets() {
+        let root = std::env::temp_dir().join(format!(
+            "octon-admission-exact-scope-{}-{:?}",
+            std::process::id(),
+            std::thread::current().id()
+        ));
+        let _ = fs::remove_dir_all(&root);
+        let target = root.join("proposal-target");
+        fs::create_dir_all(&target).unwrap();
+        let proof = json!({
+            "declared_write_scope": [
+                target.display().to_string(),
+                "receipt:implementation-run",
+                ".octon/framework/example.rs"
+            ]
+        });
+        let manifest = json!({
+            "promotion_targets": [".octon/framework/example.rs"]
+        });
+        let scope = authorized_scope(&root, &target, &proof, &manifest).unwrap();
+        assert_eq!(
+            scope,
+            vec![
+                ".octon/framework/example.rs".to_string(),
+                "proposal-target".to_string(),
+                "receipt:implementation-run".to_string()
+            ]
+        );
+        let _ = fs::remove_dir_all(&root);
+    }
+    #[test]
+    fn omitted_manifest_promotion_target_is_denied() {
+        let root = std::env::temp_dir().join(format!(
+            "octon-admission-missing-scope-{}-{:?}",
+            std::process::id(),
+            std::thread::current().id()
+        ));
+        let _ = fs::remove_dir_all(&root);
+        let target = root.join("proposal-target");
+        fs::create_dir_all(&target).unwrap();
+        let proof = json!({
+            "declared_write_scope": [target.display().to_string()]
+        });
+        let manifest = json!({
+            "promotion_targets": [".octon/framework/example.rs"]
+        });
+        let error = authorized_scope(&root, &target, &proof, &manifest).unwrap_err();
+        assert!(error
+            .to_string()
+            .contains("missing=[.octon/framework/example.rs]"));
+        let _ = fs::remove_dir_all(&root);
+    }
+    #[test]
+    fn undeclared_non_target_scope_is_denied() {
+        let root = std::env::temp_dir().join(format!(
+            "octon-admission-extra-scope-{}-{:?}",
+            std::process::id(),
+            std::thread::current().id()
+        ));
+        let _ = fs::remove_dir_all(&root);
+        let target = root.join("proposal-target");
+        fs::create_dir_all(&target).unwrap();
+        let proof = json!({
+            "declared_write_scope": [
+                target.display().to_string(),
+                ".octon/framework/example.rs",
+                ".octon/framework/extra.rs"
+            ]
+        });
+        let manifest = json!({
+            "promotion_targets": [".octon/framework/example.rs"]
+        });
+        let error = authorized_scope(&root, &target, &proof, &manifest).unwrap_err();
+        assert!(error
+            .to_string()
+            .contains("extra=[.octon/framework/extra.rs]"));
+        let _ = fs::remove_dir_all(&root);
+    }
+    #[test]
     fn missing_rollback_posture_is_not_authority() {
         assert!(resolve_repo_path_arg(Path::new("/repo"), Path::new("/tmp/rollback.yml")).is_err());
     }
     #[test]
-    fn post_mutation_receipt_blocks_admission() {
+    fn current_run_implementation_receipt_blocks_admission() {
         let root = std::env::temp_dir().join(format!(
             "octon-post-mutation-{}-{:?}",
             std::process::id(),
@@ -537,8 +758,161 @@ mod tests {
         ));
         let _ = fs::remove_dir_all(&root);
         fs::create_dir_all(root.join("support")).unwrap();
-        fs::write(root.join("support/implementation-run.md"), "verdict: pass").unwrap();
-        assert!(reject_post_mutation(&root, b"").is_err());
+        fs::write(
+            root.join("support/implementation-run.md"),
+            "verdict: pass\nrun_id: current-run\n",
+        )
+        .unwrap();
+        assert!(reject_post_mutation(&root, b"", "current-run").is_err());
+        let _ = fs::remove_dir_all(root);
+    }
+    #[test]
+    fn prior_blocked_implementation_receipt_allows_admission() {
+        let root = std::env::temp_dir().join(format!(
+            "octon-prior-blocked-receipt-{}-{:?}",
+            std::process::id(),
+            std::thread::current().id()
+        ));
+        let _ = fs::remove_dir_all(&root);
+        fs::create_dir_all(root.join("support")).unwrap();
+        fs::write(
+            root.join("support/implementation-run.md"),
+            "verdict: blocked\nrun_id: prior-run\n",
+        )
+        .unwrap();
+        assert!(reject_post_mutation(&root, b"", "current-run").is_ok());
+        let _ = fs::remove_dir_all(root);
+    }
+    #[test]
+    fn successful_current_run_event_blocks_admission() {
+        let root = std::env::temp_dir().join(format!(
+            "octon-successful-current-event-{}-{:?}",
+            std::process::id(),
+            std::thread::current().id()
+        ));
+        let _ = fs::remove_dir_all(&root);
+        fs::create_dir_all(&root).unwrap();
+        let event = br#"{"route_id":"run-packet-implementation","event_type":"route-dispatch-finished","final_verdict":"completed"}"#;
+        assert!(reject_post_mutation(&root, event, "current-run").is_err());
+        let _ = fs::remove_dir_all(root);
+    }
+    #[test]
+    fn proof_authority_digest_ignores_only_observational_timestamp() {
+        let root = std::env::temp_dir().join(format!(
+            "octon-proof-authority-{}-{:?}",
+            std::process::id(),
+            std::thread::current().id()
+        ));
+        let _ = fs::remove_dir_all(&root);
+        fs::create_dir_all(root.join("context")).unwrap();
+        let model_ref = "context/model.json";
+        let pack_ref = "context/pack.json";
+        let receipt_ref = "context/receipt.json";
+
+        let first_model = json!({"created_at": "t1", "authority": "same"});
+        let first_model_bytes = serde_json::to_vec(&first_model).unwrap();
+        fs::write(root.join(model_ref), &first_model_bytes).unwrap();
+        let first_model_digest = digest(&first_model_bytes);
+        let first_pack = json!({
+            "generated_at": "t1",
+            "model_visible_context_sha256": first_model_digest,
+            "authority": "same"
+        });
+        let first_pack_bytes = serde_json::to_vec(&first_pack).unwrap();
+        fs::write(root.join(pack_ref), &first_pack_bytes).unwrap();
+        let first_pack_digest = digest(&first_pack_bytes);
+        let first_receipt = json!({
+            "built_at": "t1",
+            "context_pack_sha256": first_pack_digest,
+            "model_visible_context_sha256": first_model_digest,
+            "sources": [{"resolved_at": "t1", "sha256": "sha256:stable"}]
+        });
+        let first_receipt_bytes = serde_json::to_vec(&first_receipt).unwrap();
+        fs::write(root.join(receipt_ref), &first_receipt_bytes).unwrap();
+        let first = json!({
+            "schema_version": "octon-lifecycle-route-delegation-proof-v1",
+            "run_id": "run",
+            "route_id": ROUTE,
+            "declared_write_scope": ["packet"],
+            "context_evidence_binding": {
+                "context_pack_receipt_ref": receipt_ref,
+                "context_pack_receipt_sha256": digest(&first_receipt_bytes),
+                "context_pack_ref": pack_ref,
+                "context_pack_sha256": first_pack_digest,
+                "model_visible_context_ref": model_ref,
+                "model_visible_context_sha256": first_model_digest
+            },
+            "recorded_at": "2026-07-16T22:00:00Z"
+        });
+        let first_authority_digest = proof_authority_digest(&root, &first).unwrap();
+
+        let replay_model = json!({"created_at": "t2", "authority": "same"});
+        let replay_model_bytes = serde_json::to_vec(&replay_model).unwrap();
+        fs::write(root.join(model_ref), &replay_model_bytes).unwrap();
+        let replay_model_digest = digest(&replay_model_bytes);
+        let replay_pack = json!({
+            "generated_at": "t2",
+            "model_visible_context_sha256": replay_model_digest,
+            "authority": "same"
+        });
+        let replay_pack_bytes = serde_json::to_vec(&replay_pack).unwrap();
+        fs::write(root.join(pack_ref), &replay_pack_bytes).unwrap();
+        let replay_pack_digest = digest(&replay_pack_bytes);
+        let replay_receipt = json!({
+            "built_at": "t2",
+            "context_pack_sha256": replay_pack_digest,
+            "model_visible_context_sha256": replay_model_digest,
+            "sources": [{"resolved_at": "t2", "sha256": "sha256:stable"}]
+        });
+        let replay_receipt_bytes = serde_json::to_vec(&replay_receipt).unwrap();
+        fs::write(root.join(receipt_ref), &replay_receipt_bytes).unwrap();
+        let mut replay = first.clone();
+        replay["recorded_at"] = json!("2026-07-16T22:01:00Z");
+        replay["context_evidence_binding"]["context_pack_receipt_sha256"] =
+            json!(digest(&replay_receipt_bytes));
+        replay["context_evidence_binding"]["context_pack_sha256"] = json!(replay_pack_digest);
+        replay["context_evidence_binding"]["model_visible_context_sha256"] =
+            json!(replay_model_digest);
+        let replay_authority_digest = proof_authority_digest(&root, &replay).unwrap();
+        assert_eq!(first_authority_digest, replay_authority_digest);
+
+        let changed_model = json!({"created_at": "t3", "authority": "changed"});
+        let changed_model_bytes = serde_json::to_vec(&changed_model).unwrap();
+        fs::write(root.join(model_ref), &changed_model_bytes).unwrap();
+        replay["context_evidence_binding"]["model_visible_context_sha256"] =
+            json!(digest(&changed_model_bytes));
+        assert_ne!(
+            replay_authority_digest,
+            proof_authority_digest(&root, &replay).unwrap()
+        );
+        let _ = fs::remove_dir_all(root);
+    }
+    #[test]
+    fn proof_authority_digest_rejects_context_artifact_digest_mismatch() {
+        let root = std::env::temp_dir().join(format!(
+            "octon-proof-context-mismatch-{}-{:?}",
+            std::process::id(),
+            std::thread::current().id()
+        ));
+        let _ = fs::remove_dir_all(&root);
+        fs::create_dir_all(root.join("context")).unwrap();
+        for name in ["receipt.json", "pack.json", "model.json"] {
+            fs::write(root.join("context").join(name), b"{}").unwrap();
+        }
+        let proof = json!({
+            "context_evidence_binding": {
+                "context_pack_receipt_ref": "context/receipt.json",
+                "context_pack_receipt_sha256": "sha256:wrong",
+                "context_pack_ref": "context/pack.json",
+                "context_pack_sha256": digest(b"{}"),
+                "model_visible_context_ref": "context/model.json",
+                "model_visible_context_sha256": digest(b"{}")
+            }
+        });
+        assert!(proof_authority_digest(&root, &proof)
+            .unwrap_err()
+            .to_string()
+            .contains("digest mismatch"));
         let _ = fs::remove_dir_all(root);
     }
     #[test]
@@ -655,7 +1029,7 @@ mod tests {
     }
     #[test]
     fn post_target_mutation_admission_is_denied() {
-        post_mutation_receipt_blocks_admission();
+        current_run_implementation_receipt_blocks_admission();
     }
     #[test]
     fn consequential_execution_before_admission_is_denied() {

@@ -1,0 +1,26 @@
+schema_version: "1.0"
+run_id: architecture-migration-candidate-isolation-20260718T144600Z
+findings:
+  - id: RP02-ED001-MECHANISM-001
+    severity: high
+    status: open
+    summary: ED-001 names a mechanism class but does not pin an implementable native-isolation and provider-session tuple.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/architecture/acceptance-criteria.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/architecture/implementation-plan.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/support/implementation-grade-completeness-review.md
+    acceptance_required: Select exact repo-verifiable enforcement, profile, client, session attachment/retirement, symbols, and tests without inventing provider capability.
+  - id: RP02-IMPLEMENTATION-EVIDENCE-CYCLE-002
+    severity: high
+    status: open
+    summary: UE-003 and dependency implementation proof circularly block authorization to create their exact implementation subject.
+    acceptance_criteria: "The stated condition is corrected, supported by path-level evidence, and absent from an independent post-remediation audit at the same severity threshold."
+    evidence:
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/resources/packet-contract.yml
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/architecture/acceptance-criteria.md
+      - .octon/inputs/exploratory/proposals/architecture/octon-architecture-migration-candidate-isolation/support/implementation-grade-completeness-review.md
+    acceptance_required: Separate design authorization from implementation-entry and post-implementation evidence while retaining every proof gate before conformance, completion, cutover, or promotion.
+new_findings:
+  - RP02-ED001-MECHANISM-001
+  - RP02-IMPLEMENTATION-EVIDENCE-CYCLE-002

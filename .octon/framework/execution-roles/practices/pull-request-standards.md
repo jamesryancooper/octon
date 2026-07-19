@@ -123,8 +123,8 @@ control provider and CI system.
 - Use PR templates (or equivalent automation) to prompt required structure.
 - Validate required PR sections and checklist items on every PR update.
 - Enforce branch naming and commit-message conventions with automated checks.
-- Protect trunk so route-required quality checks pass before merge or
-  direct-main publication.
+- Protect trunk so route-required quality checks pass before merge. During
+  SI-00, no Octon direct-main or hosted branch-no-PR publication route exists.
 - Unresolved review conversations block merge.
 - Authors address reviewer-owned threads by pushing fixes and replying; the
   reviewer or a maintainer confirms and resolves those threads.
