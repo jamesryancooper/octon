@@ -47,11 +47,11 @@ closed_world_discovery:
   ordering: "LC_ALL=C sorted, unique, canonical LF"
   material_sets:
     writers:
-      count: 534
-      sha256: "sha256:eb32100da5e8ca6d951207299e91cc644c0c1855e7620ee25468c17ccdf3b835"
+      count: 535
+      sha256: "sha256:e5e6b6ce0a0829cfa7e5503424805c5c3b0aee69973f212274cf7af35ebbd263"
     launchers:
-      count: 919
-      sha256: "sha256:706b44172e1907469d6a4fd75ef51fc804eb09637042f57924c227755174b706"
+      count: 920
+      sha256: "sha256:1ab6d0af7ddf92c60105cbba0df697782e4e24d71c166b95f4d073116c792190"
   equality:
     writers: "D_w = M_w"
     launchers: "D_l = M_l = A_l"

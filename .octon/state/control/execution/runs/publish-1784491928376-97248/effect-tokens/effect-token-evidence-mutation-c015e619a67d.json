@@ -1,0 +1,72 @@
+{
+  "schema_version": "authorized-effect-token-v2",
+  "payload": {
+    "schema_version": "authorized-effect-token-v2",
+    "token_id": "effect-token-evidence-mutation-c015e619a67d",
+    "token_type": "AuthorizedEffect<EvidenceMutation>",
+    "effect_kind": "evidence-mutation",
+    "run_id": "publish-1784491928376-97248",
+    "request_id": "publish-1784491928376-97248",
+    "grant_id": "grant-publish-1784491928376-97248",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-publish-1784491928376-97248.yml",
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1784491928376-97248.yml",
+    "run_control_root": ".octon/state/control/execution/runs/publish-1784491928376-97248",
+    "run_evidence_root": ".octon/state/evidence/runs/publish-1784491928376-97248",
+    "lifecycle_state_ref": ".octon/state/control/execution/runs/publish-1784491928376-97248/runtime-state.yml",
+    "route_id": "runtime-route:runtime-route-bundle-publication-bypass:tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "runtime_effective_route_bundle_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+    "runtime_effective_route_bundle_sha256": "runtime-route-bundle-publication-bypass",
+    "runtime_effective_route_generation_id": "runtime-route-bundle-publication-bypass",
+    "runtime_effective_freshness_mode": "publication-bypass",
+    "runtime_effective_publication_receipt_ref": ".octon/state/evidence/validation/publication/runtime/<pending>",
+    "runtime_effective_non_authority_classification": "derived-runtime-handle",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "support_claim_effect": "publication-bypass",
+    "support_route": "allow",
+    "allowed_capability_packs": [
+      "repo",
+      "shell",
+      "git",
+      "telemetry"
+    ],
+    "scope_ref": "/private/tmp/octon-external-tool-integrity-20260719/.octon/state/evidence/validation/publication/capabilities",
+    "scope_envelope": {
+      "read": [
+        "/private/tmp/octon-external-tool-integrity-20260719"
+      ],
+      "write": [
+        "/private/tmp/octon-external-tool-integrity-20260719/.octon/generated/effective/capabilities",
+        "/private/tmp/octon-external-tool-integrity-20260719/.octon/state/evidence/validation/publication/capabilities"
+      ],
+      "executor_profile": "scoped_repo_mutation",
+      "locality_scope": null
+    },
+    "rollback_plan_ref": null,
+    "rollback_posture_ref": ".octon/state/control/execution/runs/publish-1784491928376-97248/rollback-posture.yml",
+    "approval_request_ref": null,
+    "approval_grant_refs": [],
+    "exception_lease_refs": [],
+    "budget_ref": null,
+    "budget_rule_id": null,
+    "egress_ref": null,
+    "egress_route": null,
+    "issued_at": "2026-07-19T20:12:08.922355Z",
+    "expires_at": null,
+    "single_use": false,
+    "issuer_ref": ".octon/framework/engine/runtime/crates/authority_engine",
+    "revocation_refs": [],
+    "token_record_ref": ".octon/state/control/execution/runs/publish-1784491928376-97248/effect-tokens/effect-token-evidence-mutation-c015e619a67d.json",
+    "journal_ref": ".octon/state/control/execution/runs/publish-1784491928376-97248/events.ndjson#evt-effect-token-minted-effect-token-evidence-mutation-c015e619a67d",
+    "token_digest": "sha256:718c0509199a7d080623f9806e9dff440f73a6bd694abbe6a5d25970650ac991"
+  },
+  "status": "minted",
+  "single_use": false,
+  "consumption_count": 1,
+  "issued_event_ref": ".octon/state/control/execution/runs/publish-1784491928376-97248/events.ndjson#evt-effect-token-minted-effect-token-evidence-mutation-c015e619a67d",
+  "last_event_ref": ".octon/state/control/execution/runs/publish-1784491928376-97248/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-c015e619a67d",
+  "last_consumption_receipt_ref": ".octon/state/evidence/runs/publish-1784491928376-97248/receipts/effect-tokens/effect-token-evidence-mutation-c015e619a67d/consumption-831f0f621d80.json",
+  "last_consumed_at": "2026-07-19T20:12:09.114607Z",
+  "last_consumer_api_ref": ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs::publication_internal_verify:capability-routing-evidence",
+  "last_target_scope": "/private/tmp/octon-external-tool-integrity-20260719/.octon/state/evidence/validation/publication/capabilities",
+  "rejection_reason_codes": []
+}

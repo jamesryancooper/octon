@@ -9,7 +9,7 @@ declare -a CLEANUP_DIRS=()
 cleanup() {
   local dir
   for dir in "${CLEANUP_DIRS[@]}"; do
-    [[ -n "$dir" ]] && rm -rf "$dir"
+    [[ -d "$dir" ]] && rm -r -- "$dir"
   done
 }
 trap cleanup EXIT
