@@ -1,7 +1,7 @@
 {
   "schema_version": "run-health-read-model-v1",
   "run_id": "proposal-program-delivery-terminal-closeout-20260614t064000z-workflow-stage-bind-profile",
-  "generated_at": "2026-07-19T03:53:55Z",
+  "generated_at": "2026-07-19T20:20:21Z",
   "generator": {
     "id": "generate-run-health-read-model.sh",
     "version": "1.2.0",
@@ -28,8 +28,8 @@
     "mode": "digest-bound",
     "status": "stale",
     "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:d3f39c6b48c3ca0415d81f22fce34cd96efd780d9a027f6d3f05b66fdc50b2c1",
-    "checked_at": "2026-07-19T03:53:55Z",
+    "combined_source_digest": "sha256:06f118d69a29c1f3c28cdaf472afdbc0dd9362a0658a7e8900e381a6139e3d80",
+    "checked_at": "2026-07-19T20:20:21Z",
     "expires_at": null,
     "freshness_refs": [
       ".octon/state/control/execution/runs/proposal-program-delivery-terminal-closeout-20260614t064000z-workflow-stage-bind-profile/events.manifest.yml"
@@ -166,7 +166,7 @@
     },
     "runtime_route_bundle": {
       "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:a39381e2a42df4895f20df155125dba53027d05e7a4c955dc68b555eed041b13",
+      "digest": "sha256:f616a3bc44686baac1464fdf173081e9ae8688352a3918a5a07d44a241928f53",
       "status": "present"
     },
     "pack_routes": {
