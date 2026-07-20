@@ -15,6 +15,7 @@ practice_refs:
   cleanup_pass: ".octon/framework/execution-roles/practices/standards/cleanup-pass.md"
   dependency_discipline: ".octon/framework/execution-roles/practices/standards/dependency-discipline.md"
   validation_evidence_quality: ".octon/framework/execution-roles/practices/standards/validation-evidence-quality.md"
+  external_tool_integrity: ".octon/framework/execution-roles/practices/standards/external-tool-integrity.md"
 applies_to:
   change_classes:
     - "governance"
@@ -35,6 +36,9 @@ conditional_receipts:
   dependency_change:
     required: "dependency-addition-or-removal"
     policy_ref: ".octon/instance/governance/policies/dependency-discipline.yml"
+  external_tool_in_scope:
+    required: "external-tool-integrity-compliance"
+    policy_ref: ".octon/instance/governance/policies/external-tool-integrity.yml"
   deletion_or_retirement:
     required: "deletion-safety-or-ablation"
     policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
@@ -53,6 +57,8 @@ forbidden_patterns:
   - "cleanup-without-behavior-preservation"
   - "shallow-validation-evidence"
   - "unsupported-support-claim"
+  - "external-tool-modification-strategy"
+  - "upstream-change-as-octon-acceptance-dependency"
 validation:
   maintainability_suites:
     - ".octon/framework/assurance/maintainability/suites/ai-assisted-development-minimality.yml"
@@ -64,3 +70,4 @@ routes:
   authority_boundary_violation: "deny"
   ownership_ambiguity: "escalate"
   weak_validation_evidence: "stage-only"
+  external_tool_integrity_violation: "deny"

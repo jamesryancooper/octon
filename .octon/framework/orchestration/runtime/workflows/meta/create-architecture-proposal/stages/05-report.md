@@ -36,6 +36,7 @@ authoring workflow.
    - unresolved question count
    - known exclusions
    - next canonical route
+   - external-tool integrity result
 7. If an accepted review and executable implementation prompt are generated or
    refreshed after digest-covered packet files change, rerun
    `validate-proposal-review-gate.sh --require-implementation-authorization`
@@ -54,3 +55,4 @@ authoring workflow.
 - [ ] Next authoring path is explicit
 - [ ] Report does not claim final or implementation-ready status unless the completeness gate passes
 - [ ] Post-prompt digest refresh or review-gate rerun requirement is explicit
+- [ ] Report does not recommend changing or reengineering an external tool

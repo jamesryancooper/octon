@@ -25,6 +25,7 @@ conditional_orientation:
     - .octon/framework/execution-roles/practices/standards/repository-reconnaissance.md
     - .octon/framework/execution-roles/practices/standards/cleanup-pass.md
     - .octon/framework/execution-roles/practices/standards/dependency-discipline.md
+    - .octon/framework/execution-roles/practices/standards/external-tool-integrity.md
     - .octon/framework/execution-roles/practices/standards/validation-evidence-quality.md
   continuity_repo:
     - .octon/state/continuity/repo/log.md

@@ -1,0 +1,99 @@
+{
+  "schema_version": "publishable-evidence-receipt-v1",
+  "receipt_id": "external-tool-integrity-amendment-20260719T193959Z",
+  "receipt_mode": "claim",
+  "created_at": "2026-07-19T19:39:59Z",
+  "issuer_ref": "closeout-pr",
+  "disclosure_tier": "repo-publishable",
+  "evidence_tier_ref": "repo_publishable_evidence",
+  "claim_scope": {
+    "claim_id": "external-tool-integrity-amendment-pr-publication",
+    "claim_type": "closeout",
+    "statement": "The isolated external-tool-integrity amendment passed its local validation floor and was published as draft PR 632 without importing canonical-main residue or starting the architecture-migration implementation program.",
+    "applies_to": [
+      "chore/external-tool-integrity@95ab341cc6917d20b9cc450c34f2a2000151408c",
+      "https://github.com/jamesryancooper/octon/pull/632"
+    ]
+  },
+  "source_summary": {
+    "summary": "Compact disclosure of candidate identity, local validator outcomes, independent charter audit, draft PR identity, and authority boundaries; raw local command output is not published.",
+    "source_refs": [
+      "origin/main@72391b18d9341bce4e7ba109ec8db11ef2389f92",
+      "delivery-head@95ab341cc6917d20b9cc450c34f2a2000151408c",
+      "draft-pr-632"
+    ],
+    "raw_evidence_published": false
+  },
+  "validation_summary": {
+    "verdict": "pass",
+    "commands_or_checks": [
+      "external-tool-integrity validator and negative controls: pass",
+      "architecture receipt and workflow validators: pass",
+      "proposal review-gate fixtures: 20/20 passed",
+      "proposal child-readiness fixtures: 13/13 passed",
+      "proposal operation workflow runners: 11/11 passed",
+      "alignment registry, bootstrap, context, and constitutional live-model validators: pass",
+      "changed shell syntax, YAML parse, and git diff checks: pass",
+      "closed-book charter audit: zero direct contradictions and zero high-severity gaps"
+    ],
+    "evidence_refs": [
+      ".octon/state/evidence/validation/analysis/2026-07-19-change-closeout-external-tool-integrity-amendment-20260719T193436Z.md",
+      ".octon/state/evidence/validation/analysis/2026-07-19-charter-audit-2026-07-19-external-tool-integrity-amendment.md"
+    ]
+  },
+  "redactions": {
+    "status": "not-required",
+    "summary": "No secret, credential, provider payload, private user work, or raw command log is included.",
+    "redacted_fields": []
+  },
+  "limitations": [
+    {
+      "limitation_id": "hosted-gates-pending",
+      "description": "GitHub checks, review conversations, labels, and protected merge eligibility are pending.",
+      "impact": "This receipt proves draft publication and local validation only; it does not prove ready or landed state."
+    },
+    {
+      "limitation_id": "unrelated-framing-findings",
+      "description": "The broad framing validator retains two findings in an unchanged proposal package.",
+      "impact": "Those findings are disclosed but are outside this amendment's write scope."
+    },
+    {
+      "limitation_id": "program-implementation-not-started",
+      "description": "No architecture-migration child or program implementation has started.",
+      "impact": "This receipt cannot be used as implementation, promotion, archive, or runtime evidence."
+    }
+  ],
+  "local_evidence_refs": [
+    {
+      "ref_kind": "logical-id",
+      "ref": "local-validator-summary:external-tool-integrity-amendment-20260719T193436Z",
+      "digest_algorithm": "sha256",
+      "digest": "sha256:1a29b2ac54426b2a2541a2f570c78e177c2fc282ee3f64aeed299232d1c6e4e8",
+      "raw_evidence_not_published": true,
+      "description": "Digest of the compact candidate and validator summary; raw command streams remain local."
+    }
+  ],
+  "outcome": {
+    "result": "pass",
+    "summary": "The amendment passed its local publication floor and one draft PR was created at the recorded delivery head.",
+    "decided_at": "2026-07-19T19:39:59Z"
+  },
+  "rollback_or_discard": {
+    "posture": "branch-retained-revert-after-landing",
+    "trigger": "A hosted gate fails irreducibly or the landed amendment must be reversed.",
+    "instructions": "Retain or close the branch without landing while open. After landing, revert the recorded squash commit through a new protected-main PR."
+  },
+  "authority_boundaries": {
+    "raw_inputs_not_authority": true,
+    "generated_outputs_not_authority": true,
+    "proposal_paths_not_authority": true,
+    "host_state_not_authority": true,
+    "parent_program_evidence_not_substitute": true
+  },
+  "concision": {
+    "declared_receipt_size_bytes": 4684,
+    "warning_threshold_bytes": 65536,
+    "failure_threshold_bytes": 262144,
+    "size_exception_authorized": false
+  }
+}

@@ -98,6 +98,26 @@ assert_method_recording() {
   fi
 }
 
+assert_external_tool_integrity() {
+  local dir="$1" occasion="$2"
+  local cfg="$dir/stages/01-configure.md"
+
+  if [[ -f "$cfg" ]] \
+    && rg -Fq '.octon/instance/governance/policies/external-tool-integrity.yml' "$cfg"; then
+    pass "external-tool integrity policy loaded: $occasion"
+  else
+    fail "$occasion configure stage does not load the external-tool integrity policy"
+  fi
+
+  if rg -Fqi 'external-tool integrity' "$dir"/stages/*.md \
+    && rg -Fqi 'unmodified' "$dir"/stages/*.md \
+    && rg -Fqi 'supported interface' "$dir"/stages/*.md; then
+    pass "external-tool integrity review behavior is explicit: $occasion"
+  else
+    fail "$occasion does not explicitly preserve unmodified tools through supported interfaces"
+  fi
+}
+
 if [[ "$FIXTURE_MODE" -eq 1 ]]; then
   found=0
   for workflow in "${occasions[@]}"; do
@@ -105,6 +125,7 @@ if [[ "$FIXTURE_MODE" -eq 1 ]]; then
     [[ -d "$dir" ]] || continue
     found=1
     assert_method_recording "$dir" "$workflow"
+    assert_external_tool_integrity "$dir" "$workflow"
   done
   [[ "$found" -eq 1 ]] \
     && pass "fixture root exposes at least one review occasion" \
@@ -124,6 +145,7 @@ else
     yq -e ".workflows[]? | select(.id == \"$workflow\" and .path == \"audit/$workflow/\")" "$MANIFEST" >/dev/null 2>&1 && pass "workflow manifest registers $workflow" || fail "workflow manifest registers $workflow"
     yq -e ".workflows.\"$workflow\"" "$REGISTRY" >/dev/null 2>&1 && pass "workflow registry registers $workflow" || fail "workflow registry registers $workflow"
     assert_method_recording "$dir" "$workflow"
+    assert_external_tool_integrity "$dir" "$workflow"
   done
 
   [[ ! -e "$WORKFLOW_ROOT/audit-architecture-readiness" ]] && pass "legacy audit-architecture-readiness workflow route absent" || fail "legacy audit-architecture-readiness workflow route absent"

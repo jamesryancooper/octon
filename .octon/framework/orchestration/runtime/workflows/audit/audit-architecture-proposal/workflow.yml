@@ -253,6 +253,8 @@ done_gate:
   - validate-proposal-review-gate.sh records the Pre-Integration Architecture
     Review state and fails closed for accepted or implementation-authorized
     architecture packets without a passing strict receipt
+  - External tools remain unmodified and every required solution change uses an
+    Octon-owned supported-interface surface
   - Final validation verdict is explicit
 constraints:
   fail_closed: true

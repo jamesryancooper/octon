@@ -6,6 +6,13 @@ Map authority refs, workflow refs, product refs, runtime refs, mutable control
 refs, retained evidence refs, generated refs, raw input refs, validators, owner
 boundaries, and non-authority boundaries.
 
+Apply the external-tool integrity rule to every external-tool boundary.
+Confirm the tool remains unmodified,
+integration uses a supported interface, and all required adaptation or
+enforcement is Octon-owned. Treat any external-tool fork, patch, modification,
+private derivative, reengineering effort, undocumented internal, or required
+upstream change as a blocking constitutional violation.
+
 Emit the selected method id and applied lens profile as run evidence: write an
 `architectural-review-report-v2` artifact (`report.yml`) carrying `method`
 (bound to the `naming.yml` methods.catalog) and `lenses_applied` (bound to

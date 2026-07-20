@@ -1,6 +1,6 @@
 schema_version: "octon-constitution-charter-v1"
 charter_id: "octon-harness-charter"
-version: "1.3.1-bounded-admitted-revalidation"
+version: "1.4.0-external-tool-integrity"
 owner: "Octon governance"
 purpose: >-
   Provide one explicit repo-local constitutional kernel for the Octon
@@ -11,6 +11,7 @@ non_goals:
   - "Make raw inputs authoritative for runtime or policy."
   - "Allow host UI state, chat transcripts, or generated projections to become control-plane authority."
   - "Treat continuity notes or generated summaries as substitutes for durable authority and evidence."
+  - "Make Octon's architecture or delivery depend on forking, patching, modifying, or reengineering an external tool."
 non_negotiables:
   - id: "NK-001"
     rule: "Preserve the five-class super-root: framework, instance, inputs, state, and generated."
@@ -42,6 +43,13 @@ non_negotiables:
     rule: "No surface may enter the live claim unless it is dossier-backed, runtime-backed, proof-backed, and disclosure-backed."
   - id: "NK-015"
     rule: "Final disclosure must state the admitted claim envelope and may not outstate stage-only, unsupported, or unadmitted surfaces."
+  - id: "NK-016"
+    rule: >-
+      Treat external tools as immutable dependencies. Octon may learn from
+      them, configure them, contain them, wrap them, or invoke supported
+      interfaces, but every Octon requirement must be satisfied by Octon-owned
+      architecture and code without forking, patching, modifying, or
+      reengineering the external tool.
 fail_closed_rules_ref: ".octon/framework/constitution/obligations/fail-closed.yml"
 evidence_obligations_ref: ".octon/framework/constitution/obligations/evidence.yml"
 normative_precedence_ref: ".octon/framework/constitution/precedence/normative.yml"

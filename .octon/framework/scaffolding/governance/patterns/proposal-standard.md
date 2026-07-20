@@ -198,6 +198,10 @@ Proposals move through one active lifecycle and one archive lifecycle:
 Rules:
 
 - Proposals may not claim canonical authority at any lifecycle stage.
+- Proposals may not make an Octon requirement depend on forking, patching,
+  modifying, reengineering, or maintaining a private derivative of an external
+  tool. External tools may be used only through supported interfaces and all
+  required solution changes must be owned by Octon.
 - Subtype standards define what content must exist before a proposal is
   considered review-ready or acceptance-ready.
 - Promotion into durable authority must happen before archival when
@@ -261,7 +265,10 @@ A proposal is implementation-grade complete only when:
 - no placeholder text, TODOs, stale assumptions, contradictions, or ambiguous
   target-state language remains in active proposal artifacts;
 - repo-local projections, generated outputs, retained evidence, and
-  proposal-local lifecycle-source boundaries are explicit.
+  proposal-local lifecycle-source boundaries are explicit;
+- every external tool in scope is identified with its supported interface,
+  Octon-owned adaptation or enforcement surface, unmodified posture, and
+  fail-closed outcome when the interface is insufficient.
 
 The required receipt lives at
 `support/implementation-grade-completeness-review.md` and must include:

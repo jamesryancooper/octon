@@ -5,8 +5,8 @@ closed_world_discovery:
   enumerator: "git ls-tree -rz --full-tree <commit>"
   ambient_worktree_scan: false
   launcher_authorization_set:
-    count: 919
-    sha256: "sha256:706b44172e1907469d6a4fd75ef51fc804eb09637042f57924c227755174b706"
+    count: 920
+    sha256: "sha256:1ab6d0af7ddf92c60105cbba0df697782e4e24d71c166b95f4d073116c792190"
   equality: "D_l = M_l = A_l"
   failure_rule: >-
     Unknown, stale, duplicate, ambiguous, unsupported, parse-failed, unowned,

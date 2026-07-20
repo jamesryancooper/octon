@@ -139,6 +139,7 @@ done_gate:
   checks:
     - "Receipt validates under architectural-review-support-receipt-v1"
     - "Receipt states evidence-only authority and no closeout authority"
+    - "Current receipts prove external tools remained unmodified and required solution changes remained Octon-owned"
 constraints:
   fail_closed: true
   require_relative_local_assets: true

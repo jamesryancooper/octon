@@ -272,6 +272,7 @@ proposal_path: "$proposal_rel"
 packet_digest: "$digest"
 review_mode: "pre-integration-architecture-review"
 verdict: "pass"
+recorded_at: "2026-07-16T14:24:00Z"
 evidence_refs:
   - "$proposal_rel/support/proposal-review.md"
   - "$proposal_rel/support/implementation-grade-completeness-review.md"
@@ -286,6 +287,7 @@ non_authority_classification: "retained-evidence-only"
 mode_specific_coverage:
   fixture_scope: "covered"
   authority_boundaries: "covered"
+  external_tool_integrity: "covered: external tools remain unmodified and Octon owns all required solution changes"
 EOF
 }
 

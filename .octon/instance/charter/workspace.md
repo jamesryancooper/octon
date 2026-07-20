@@ -51,6 +51,8 @@ execution unit.
   per-run execution authority
 - truthful disclosure that matches the retained support universe without a
   bounded-envelope caveat
+- Octon-owned solutions that treat external tools as unmodified dependencies
+  and integrate only through supported interfaces
 
 ## In Scope
 
@@ -65,6 +67,8 @@ execution unit.
 - unrelated product work outside the managed repository
 - silent weakening of governance, assurance, or fail-closed behavior
 - destructive or externally effectful actions without the required approval path
+- forking, patching, modifying, or reengineering an external tool to satisfy an
+  Octon requirement
 
 ## Success Signals
 

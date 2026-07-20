@@ -17,6 +17,8 @@ description: Validate architecture-readiness workflow outputs and mode-specific 
 - [ ] Coverage metadata exists and is internally consistent
 - [ ] Convergence metadata exists
 - [ ] Done-gate expression is recorded
+- [ ] Recommendation does not depend on modifying an external tool and records
+      the Octon-owned supported-interface solution or blocker
 
 ## Outcome Rules
 

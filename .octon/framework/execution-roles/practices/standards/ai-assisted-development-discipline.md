@@ -19,7 +19,9 @@ Controlling references:
 Prevent AI-assisted changes from introducing unnecessary authored surfaces,
 duplicate logic, speculative abstractions, dependency bloat, shallow validation
 evidence, generated-output authority drift, raw-input authority drift, or
-proposal-path dependency leakage.
+proposal-path dependency leakage. Prevent recommendations from transferring an
+Octon requirement into a fork, patch, modification, or reengineering effort
+against an external tool.
 
 ## Applies To
 
@@ -53,7 +55,9 @@ The selected implementation must be the smallest robust change that preserves:
 - generated and input non-authority rules;
 - support-target boundedness;
 - runtime authorization coverage;
-- rollback and closeout posture.
+- rollback and closeout posture;
+- external-tool integrity: external dependencies remain unmodified and every
+  required solution change is Octon-owned.
 
 Forbidden by default:
 
@@ -65,6 +69,15 @@ Forbidden by default:
 - dependency changes without receipt;
 - proposal-only authority;
 - cleanup mixed with behavior change unless the plan routes and validates both.
+- forking, patching, modifying, reengineering, or maintaining a private
+  derivative of an external tool;
+- making an upstream change a prerequisite for Octon acceptance or delivery;
+- relying on an undocumented external-tool internal instead of a supported
+  interface.
+
+When an external limitation is encountered, apply
+`.octon/framework/execution-roles/practices/standards/external-tool-integrity.md`:
+redesign inside Octon, reduce scope, or record a blocker.
 
 ## Required Completion Receipt
 
@@ -82,6 +95,8 @@ Anti-Bloat Receipt with:
 - cleanup pass result;
 - behavior-preservation evidence;
 - generated, input, proposal, and authority-boundary checks;
+- external-tool integrity result, including supported interfaces and Octon-owned
+  adaptation surfaces when external tools are involved;
 - remaining implementation-quality risk or `none`.
 
 ## Boundary Rule
@@ -95,4 +110,5 @@ not become direct runtime, policy, support, or closure authority.
 - `.octon/framework/execution-roles/practices/standards/repository-reconnaissance.md`
 - `.octon/framework/execution-roles/practices/standards/cleanup-pass.md`
 - `.octon/framework/execution-roles/practices/standards/dependency-discipline.md`
+- `.octon/framework/execution-roles/practices/standards/external-tool-integrity.md`
 - `.octon/framework/execution-roles/practices/standards/validation-evidence-quality.md`

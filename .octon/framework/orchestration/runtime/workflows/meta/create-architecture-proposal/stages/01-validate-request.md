@@ -18,6 +18,9 @@ under `/.octon/inputs/exploratory/proposals/architecture/`.
 4. Resolve target package path:
    `.octon/inputs/exploratory/proposals/architecture/<proposal_id>/`
 5. Stop if the target package directory already exists.
+6. Bind `.octon/instance/governance/policies/external-tool-integrity.yml` as a
+   proposal invariant: external tools remain unmodified and all required
+   solution changes belong inside Octon.
 
 ## Proceed When
 
@@ -25,3 +28,4 @@ under `/.octon/inputs/exploratory/proposals/architecture/`.
 - [ ] Package class is valid
 - [ ] Implementation targets are non-empty
 - [ ] Target package path is free
+- [ ] External-tool integrity invariant is bound

@@ -61,6 +61,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 - [ ] Receipt validates under architectural-review-support-receipt-v1
 - [ ] Receipt states evidence-only authority and no closeout authority
+- [ ] Current receipts prove external tools remained unmodified and required solution changes remained Octon-owned
 
 ## References
 

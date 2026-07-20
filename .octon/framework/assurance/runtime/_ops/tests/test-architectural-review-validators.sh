@@ -116,6 +116,7 @@ review_mode: "pre-integration-architecture-review"
 verdict: "pass"
 unresolved_count: 0
 non_authority_classification: "retained-evidence-only"
+recorded_at: "2026-07-16T14:24:00Z"
 evidence_refs:
   - "$package/architecture/target-architecture.md"
 validator_refs:
@@ -123,6 +124,7 @@ validator_refs:
 blockers: []
 mode_specific_coverage:
   fixture: "covered"
+  external_tool_integrity: "covered: external tools remain unmodified and Octon owns all required solution changes"
 EOF
   printf '%s\n' "$package"
 }
@@ -203,6 +205,21 @@ case_architecture_non_pass_receipt_fails() {
       --require-pass
 }
 
+case_external_tool_integrity_coverage_required() {
+  local package receipt
+  package="$(new_architectural_review_digest_package)"
+  receipt="$package/support/pre-integration-architecture-review.yml"
+  yq -i 'del(.mode_specific_coverage.external_tool_integrity)' "$receipt"
+
+  expect_failure \
+    "current architecture receipt missing external-tool integrity coverage" \
+    bash "$RECEIPT_VALIDATOR" \
+      --receipt "$receipt" \
+      --package "$package" \
+      --mode pre-integration-architecture-review \
+      --require-pass
+}
+
 bash "$RECEIPT_VALIDATOR" \
   --receipt "$FIXTURE_DIR/valid-pre-integration-receipt.yml" \
   --mode pre-integration-architecture-review \
@@ -261,5 +278,6 @@ case_architecture_stale_digest_diagnostic_fields
 case_architecture_digest_survives_archive_metadata_relocation
 case_architecture_missing_receipt_fails
 case_architecture_non_pass_receipt_fails
+case_external_tool_integrity_coverage_required
 
 echo "[OK] architectural review validator fixtures passed"

@@ -20,6 +20,8 @@ errors=0
 # change needs no schema bump.
 NAMING_CATALOG="$ROOT_DIR/.octon/framework/cognition/practices/methodology/architectural-review/naming.yml"
 LENS_BANK="$ROOT_DIR/.octon/framework/cognition/practices/methodology/architectural-review/lens-bank.yml"
+EXTERNAL_TOOL_INTEGRITY_EFFECTIVE_AT="2026-07-16T14:24:00Z"
+EXTERNAL_TOOL_INTEGRITY_COVERAGE_KEY="external_tool_integrity"
 
 usage() {
   cat <<'EOF'
@@ -124,7 +126,7 @@ schema_version="$(field '.schema_version')"
 # must continue to pass exactly as before.
 # ---------------------------------------------------------------------------
 validate_support_receipt() {
-  local receipt_id proposal_path packet_digest review_mode verdict unresolved_count non_authority_classification
+  local receipt_id proposal_path packet_digest review_mode verdict unresolved_count non_authority_classification recorded_at
   receipt_id="$(field '.receipt_id')"
   proposal_path="$(field '.proposal_path')"
   packet_digest="$(field '.packet_digest')"
@@ -132,6 +134,7 @@ validate_support_receipt() {
   verdict="$(field '.verdict')"
   unresolved_count="$(field '.unresolved_count')"
   non_authority_classification="$(field '.non_authority_classification')"
+  recorded_at="$(field '.recorded_at')"
 
   [[ "$schema_version" == "architectural-review-support-receipt-v1" ]] && pass "schema_version is architectural-review-support-receipt-v1" || fail "schema_version is architectural-review-support-receipt-v1"
   [[ -n "$receipt_id" ]] && pass "receipt_id present" || fail "receipt_id present"
@@ -153,6 +156,33 @@ validate_support_receipt() {
   [[ "$validator_count" -gt 0 ]] && pass "validator_refs non-empty" || fail "validator_refs non-empty"
   yq -e '.blockers | type == "!!seq"' "$RECEIPT" >/dev/null 2>&1 && pass "blockers is a list" || fail "blockers is a list"
   [[ "$coverage_count" -gt 0 ]] && pass "mode_specific_coverage non-empty" || fail "mode_specific_coverage non-empty"
+
+  if [[ -z "$recorded_at" ]]; then
+    case "$RECEIPT" in
+      */inputs/exploratory/proposals/.archive/*|*/assurance/runtime/_ops/fixtures/architectural-review/*)
+        pass "recorded_at omission is grandfathered for immutable pre-policy historical evidence"
+        ;;
+      *)
+        fail "recorded_at is required for active or newly emitted support receipts"
+        ;;
+    esac
+  elif [[ "$recorded_at" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$ ]]; then
+    pass "recorded_at is canonical UTC"
+    if [[ "$recorded_at" < "$EXTERNAL_TOOL_INTEGRITY_EFFECTIVE_AT" ]]; then
+      pass "external-tool integrity coverage requirement is not retroactive"
+    else
+      local external_tool_integrity
+      external_tool_integrity="$(field ".mode_specific_coverage.${EXTERNAL_TOOL_INTEGRITY_COVERAGE_KEY}")"
+      if [[ -n "$external_tool_integrity" ]] \
+        && ! rg -qi '(^|[^[:alnum:]_])(TODO|TBD|FIXME)([^[:alnum:]_]|$)|not reviewed|not verified|not run|pending placeholder' <<<"$external_tool_integrity"; then
+        pass "current receipt records mode_specific_coverage.${EXTERNAL_TOOL_INTEGRITY_COVERAGE_KEY}"
+      else
+        fail "current receipt records mode_specific_coverage.${EXTERNAL_TOOL_INTEGRITY_COVERAGE_KEY}"
+      fi
+    fi
+  else
+    fail "recorded_at is canonical UTC"
+  fi
 
   # Drift guard (NC-3 receipt_schema_drift): the support receipt never gains
   # method/lenses_applied. A v1 support receipt carrying either field is drift.

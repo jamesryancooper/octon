@@ -31,6 +31,9 @@ This step must run the fail-closed architecture proposal validator stack:
 - [ ] Architecture proposal validator passes
 - [ ] Implementation-readiness validator records a structural-only, blocked, or implementation-grade gate outcome
 - [ ] Proposal review gate records the Pre-Integration Architecture Review state and fails closed for accepted or implementation-authorized architecture packets without a passing strict receipt
+- [ ] Proposal and recommendations use only supported external interfaces,
+      preserve external tools unmodified, and keep every required solution
+      change in Octon-owned surfaces
 - [ ] Final readiness verdict is explicit
 
 ## Outcome Rules
@@ -39,6 +42,9 @@ This step must run the fail-closed architecture proposal validator stack:
 - Fail if the produced stage set does not match the selected mode.
 - Fail if a file-writing stage only produced recommendations.
 - Fail if a manifest-bearing package does not pass the standard validator.
+- Fail if the proposal or any workflow recommendation requires an external-tool
+  fork, patch, modification, private derivative, reengineering effort,
+  undocumented internal dependency, or upstream change.
 
 ## Actions
 

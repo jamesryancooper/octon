@@ -29,6 +29,12 @@ hard_boundaries:
   - boundary_id: governance-and-release-guard
     rule: "Do not weaken governance, bypass required validation, or perform destructive release-affecting actions without the required approvals and evidence."
     on_violation: escalate
+  - boundary_id: external-tool-integrity
+    rule: >-
+      Treat external tools as unmodified dependencies. Solve Octon requirements
+      inside Octon's architecture and codebase, using only supported external
+      interfaces for integration.
+    on_violation: deny
 tradeoff_hierarchy:
   - "Assurance"
   - "Correctness"

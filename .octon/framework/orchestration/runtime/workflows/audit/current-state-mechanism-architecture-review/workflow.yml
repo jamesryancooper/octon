@@ -139,6 +139,7 @@ done_gate:
   checks:
     - "Mechanism index entry is present and validates"
     - "Receipt validates under architectural-review-support-receipt-v1"
+    - "Current receipts classify external-tool boundaries and record external_tool_integrity coverage"
 constraints:
   fail_closed: true
   require_relative_local_assets: true

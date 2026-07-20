@@ -67,3 +67,6 @@ proposal a canonical repository authority.
   lifecycle truth stays in `proposal.yml` and `architecture-proposal.yml`.
 - Proposal operation evidence belongs under `state/evidence/**`, not inside
   the proposal packet or under `generated/**`.
+- External tools are non-authoritative, unmodified dependencies. Their
+  supported interfaces may be referenced, but all required adaptation and
+  enforcement belongs in Octon-owned durable targets.

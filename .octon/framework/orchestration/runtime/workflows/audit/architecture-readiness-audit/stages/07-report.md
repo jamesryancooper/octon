@@ -32,6 +32,9 @@ machine-checkable bounded-audit artifacts.
    retained under
    `.octon/state/evidence/runs/workflows/{run_id}/architectural-review/architecture-readiness-audit/`;
    it is descriptive run evidence only and does not change the done-gate.
+7. Record the external-tool integrity result: supported interfaces,
+   Octon-owned adaptation surfaces, unmodified dependency posture, and any
+   blocking insufficiency.
 
 ## Done-Gate Expression
 
@@ -42,3 +45,4 @@ machine-checkable bounded-audit artifacts.
 - [ ] Consolidated workflow report exists
 - [ ] Bundle contract files exist
 - [ ] Done-gate result and recommendation rationale are explicit
+- [ ] External-tool integrity result is explicit

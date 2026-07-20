@@ -37,6 +37,12 @@ discarding existing constraints prematurely.
 - Validator gate: durable changes require validators, tests, fixtures, or an
   explicit blocker with ownership.
 - Publication gate: generated outputs are refreshed by canonical scripts only.
+- External-tool integrity gate: external tools are immutable dependencies.
+  Reviews may use their documented supported interfaces as constraints, but
+  must reject any option that requires a fork, patch, modification, private
+  derivative, reengineering effort, undocumented internal, or upstream change
+  to satisfy an Octon requirement. The recommendation must place all required
+  adaptation and enforcement in Octon-owned architecture and code.
 - Kernel gate: constitutional conflicts route to Constitutional Challenge.
 
 ## Output Contract
@@ -51,6 +57,9 @@ Every native architectural review should produce:
 - failure-mode and second-order-effect analysis;
 - clean-sheet reference design;
 - option comparison and recommendation;
+- external-tool integrity assessment, including supported interfaces,
+  Octon-owned adaptation surfaces, and proof that no external modification is
+  an acceptance dependency;
 - authority, evidence, validation, publication, and rollback plan;
 - final verdict and unresolved blocker count.
 

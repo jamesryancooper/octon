@@ -3,7 +3,8 @@ title: Configure Post-Integration Architecture Review
 ---
 
 Resolve the implemented target, conformance receipt, drift/churn receipt,
-promotion evidence, and retained implementation evidence.
+promotion evidence, retained implementation evidence, and
+`.octon/instance/governance/policies/external-tool-integrity.yml`.
 
 ## Method selection (advisory, non-authority)
 

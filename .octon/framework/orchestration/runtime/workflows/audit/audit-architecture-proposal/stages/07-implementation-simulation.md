@@ -24,7 +24,11 @@ blockers or ambiguities that would prevent deterministic construction.
 3. Execute the prompt against the current packet state.
 4. Persist the report at:
    - `bundle/reports/06-implementation-simulation.md`
-5. Record whether true implementation blockers remain.
+5. Reject simulated implementation paths that transfer an Octon requirement
+   into an external-tool fork, patch, modification, reengineering effort,
+   private derivative, undocumented internal dependency, or required upstream
+   change.
+6. Record whether true implementation blockers remain.
 
 ## Output
 
@@ -35,4 +39,5 @@ blockers or ambiguities that would prevent deterministic construction.
 
 - [ ] Implementation Simulation Report exists
 - [ ] Required components, data structures, and algorithms are enumerated
+- [ ] External tools remain unmodified and all required changes are Octon-owned
 - [ ] Remaining blockers are explicit
