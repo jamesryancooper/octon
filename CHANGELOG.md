@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.105](https://github.com/jamesryancooper/octon/compare/octon-v0.6.104...octon-v0.6.105) (2026-07-20)
+
+
+### Features
+
+* **governance:** enforce external tool integrity ([#632](https://github.com/jamesryancooper/octon/issues/632)) ([2645b51](https://github.com/jamesryancooper/octon/commit/2645b51c67b21a7af3afd28404cf5bcf36d7147f))
+* **runtime:** add owner-lane provider boundary ([66a226b](https://github.com/jamesryancooper/octon/commit/66a226b7751822ea8becf431dafeb5b4f5900d99))
+
+
+### Bug Fixes
+
+* **runtime:** enforce staged owner-lane protocol ([921b991](https://github.com/jamesryancooper/octon/commit/921b991676b22151c88489bd39a2b6ff3fcd62fb))
+
 ## [0.6.104](https://github.com/jamesryancooper/octon/compare/octon-v0.6.103...octon-v0.6.104) (2026-07-11)
 
 
